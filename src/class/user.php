@@ -115,6 +115,14 @@ else throw new userexception('当前用户的更新尚未保存，不能切换�
 }
   
 /**
+* 跳转到登录页并结束程序
+*/
+public function gotoLogin() {
+    global $PAGE;
+    header('Location: user.login.' . $PAGE->bid . '?u=' . urlencode($PAGE->geturl()));
+    exit;
+}
+/**
 * 用户登陆
 */
 public function login($name,$pass,$isuid=false,$getinfo=true,$getsafety=false) {

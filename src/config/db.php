@@ -79,17 +79,17 @@ define('DB_PORT_RO','');
 /**
 * 数据库名
 */
-define('DB_NAME','test');
+define('DB_NAME','hu60org');
  
 /**
 * 数据库用户名
 */
-define('DB_USER','test');
+define('DB_USER','root');
   
 /**
 * 数据库用户密码
 */
-define('DB_PASS','test');
+define('DB_PASS','');
   
 /**
 * 数据表名前缀

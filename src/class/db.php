@@ -413,5 +413,31 @@ $data=func_get_args();
 $data=$this->pdoarray(1,$data);
 return $this->sqlexec($read_only,$sql,$data);
 }
+/**
+* 执行SQL并返回影响行数
+* 
+* 该方法不支持自动添加表名前缀，需要自行添加
+*/
+public function exec($sql) {
+if(preg_match('/^\s*SELECT\s/is',$sql)) $read_only=true;
+else $read_only=false;
+return $this->pdo($read_only)->exec($sql);
+}
+/**
+* 预处理SQL并返回结果集对象
+* 
+* 该方法不支持自动添加表名前缀，需要自行添加
+*/
+public function prepare($sql) {
+if(preg_match('/^\s*SELECT\s/is',$sql)) $read_only=true;
+else $read_only=false;
+return $this->pdo($read_only)->prepare($sql);
+}
+/**
+* 返回最后一次插入的id
+*/
+public function lastInsertId() {
+    return $this->pdo()->lastInsertId();
+}
 /*db类结束*/
 }
