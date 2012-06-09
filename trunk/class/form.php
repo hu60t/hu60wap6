@@ -259,7 +259,7 @@ static function someinput_set($set)
 if(is_array($set['size']))
  {
  if($set['size'][0]<1) $set['size'][0]=null;
- if($set['size'][1]<1) $set['size'][1]=null;
+ if($set['size'][1]<1) $set['size'][1]=null;
  }
 elseif($set['size']<0)
  unset($set['size']);
@@ -269,6 +269,7 @@ foreach($set as $n=>$v)
 //显示多输入框控件
 static function someinput_put($name,$value,$size=null)
 {
+$value=str_replace(array("\r\n","\r"),"\n",$value);
 $set=self::$someinput_set;
 if($size===null) $size=$set['size'];
 $len=mb_strlen($value,'utf-8');
@@ -298,12 +299,12 @@ $html1.=' value="';
 $html2='"/><br/>';
 }
 $html=null;
-for($i=0;$i<$page;$i++)
+for($i=0;$i<$page;$i  )
 {
 $off=$set['mei']*$i;
 $text=code::html(mb_substr($value,$off,$set['mei'],'utf-8'),true);
 if($set['isuc'] && $text!=='')
- $text.=chr(3);
+ $text="\x03$text\x03";
 if(self::$iswml)
  {
    $html.=str_replace('[]"',"0x{$i}\"",$html1).$text.$html2;
@@ -326,7 +327,9 @@ if($set['isuc'])
 $post=$post[$name];
 foreach($post as $text)
  {
-if(substr($text,-1,1)==chr(3))
+if(substr($text,0,1)=="\x03")
+ $text=substr($text,1);
+if(substr($text,-1,1)=="\x03")
  $text=substr($text,0,strlen($text)-1);
 $value.=$text;
  }
