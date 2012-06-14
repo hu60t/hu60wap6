@@ -335,7 +335,7 @@ $value.=$text;
  }
 }
 else
- $value=implode(null,$post[$name]);
+ {ksort($post[$name]);$value=implode(null,$post[$name]);}
 if($set['issymbian'])
  $value=str_replace(chr(12),"\n",$value);
 return $value;

@@ -67,7 +67,7 @@ static function gz_start($gzip=PAGE_GZIP)
 global $PAGE;
 if($gzip && strpos($_SERVER['HTTP_ACCEPT_ENCODING'],'gzip')!==false && function_exists('gzencode') && strpos(@ini_get('disable_functions'),'gzencode')===false)
  $PAGE['gzip']=$gzip;
-else
+else
  $PAGE['gzip']=false;
 require_once FUNC_DIR.'/page_gzip.php';
 ob_start('page_gzip');
@@ -86,7 +86,7 @@ if(!$new && self::$tpl!=null)
 	return self::$tpl;
 $tpl=new smarty;
 $tpl->setTemplateDir(PAGE_DIR.'/');
-$tpl->setCompileDir(TEMP_DIR.'/tplc/');
+$tpl->setCompileDir(TEMP_DIR.'/tplc');
 $tpl->setConfigDir(CONFIG_DIR.'/');
 $tpl->setCacheDir(TEMP_DIR.'/pagecache/');
 $tpl->autoload_filters=array('pre'=>array('hu60ext'));
