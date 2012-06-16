@@ -1,5 +1,5 @@
 <?php
 /*page异常类*/
-class pageexception extends exception {
+class PageException extends Exception {
 /*class end*/
  }

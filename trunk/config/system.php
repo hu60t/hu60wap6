@@ -31,3 +31,6 @@ define('USERFILE_DIR',ROOT_DIR.'/userfile');
   
 //SQLite数据库目录
 define('DB_DIR',ROOT_DIR.'/db');
+  
+//用户密码加密的密钥。第一次使用前建议修改，以后禁止修改（否则所有用户都会密码错误）！
+define('USER_PASS_KEY',"M*了\r，a\x02T§\x03天\0¥€没|什\ntj凼=p");

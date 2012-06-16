@@ -70,7 +70,7 @@ if($bid===NULL) $bid=DEFAULT_PAGE_BID;
 $path=PAGE_DIR."/$cid/$pid.$bid.php";
 if(!is_file($path))
   $path=PAGE_DIR."/$cid/$pid.php";
-else
+if(!is_file($path))
  throw new pageexception("页面 '$cid.$pid.$bid' 不存在",1404);
 $this->getMime();
 return $path;
