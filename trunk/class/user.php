@@ -4,7 +4,9 @@
 */
 class user implements ArrayAccess {
 private static $data; //用户数据缓存
+private static $setinfo; //用户配置数据缓存
 private $uid; //当前用户
+private $update=false; //
   
 /**
 * 连接数据库
@@ -16,18 +18,29 @@ private static function conn($read_only=false)
 return db::conn('user',$read_only);
 }
   
-/**
-* 加密用户的密码
-* 参数：
-*  $pass 要加密的密码
-* 返回：
-*  string 加密后的密码
-*/
+/*加密用户的密码*/
 private static function mkpass($pass)
 {
 return md5(USER_PASS_KEY.md5($pass).USER_PASS_KEY);
 }
-    
+  
+/*产生sid*/
+private static function mksid($uid,$name,$pass)
+{
+return str_shuffle(url::b64e(md5(md5($name,true).md5(microtime(),true).md5($pass,true),true))).url::b64e(pack('V',$uid));
+}
+
+/*取得用户的setinfo数据*/
+private static function getSetinfo($uid) {
+
+ }  
+/**
+* 用户登陆
+*/
+public function login($name,$pass) {
+
+ }
+  
 /**
 * 新用户注册
 * 参数：
@@ -130,12 +143,5 @@ public function offsetUnset($name)
 throw new pageexception('不能从类外部删除用户信息',503);
 }
   
-/**
-* 产生sid
-*/
-private static function mksid($uid,$name,$pass)
-{
-return str_shuffle(url::b64e(md5(md5($name,true).md5(microtime(),true).md5($pass,true),true))).url::b64e(pack('V',$uid));
-}
 /*class end*/
 }
