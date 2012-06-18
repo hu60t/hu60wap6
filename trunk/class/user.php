@@ -4,9 +4,11 @@
 */
 class user implements ArrayAccess {
 private static $data; //用户数据缓存
+private static $name; //用户名到uid的对应关系的缓存
 private static $setinfo; //用户配置数据缓存
 private $uid; //当前用户
-private $update=false; //
+private $safety; //用户安全信息缓存
+private $update=array(); //记录需要更新的信息，以便在__destruct时一同写到数据库
   
 /**
 * 连接数据库
@@ -31,7 +33,7 @@ return str_shuffle(url::b64e(md5(md5($name,true).md5(microtime(),true).md5($pass
 }
 
 /*取得用户的setinfo数据*/
-private static function getSetinfo($uid) {
+private static function getinfo($uid) {
 
  }  
 /**
@@ -46,15 +48,8 @@ public function login($name,$pass) {
 * 参数：
 * $name  用户名
 * $pass  密码
-* $safety  安全问题，一个数组，结构为array(array("问题1","回答1"),array("问题2","回答2"),array("问题3","回答3"))
 */
-public function reg($name,$pass,$safety) {
-if(mb_strlen($safety[0][0],'utf-8')<3) throw new userexception("安全问题1太短。不能少于3个字。",1);
-if(mb_strlen($safety[1][0],'utf-8')<3) throw new userexception("安全问题2太短。不能少于3个字。",2);
-if(mb_strlen($safety[2][0],'utf-8')<3) throw new userexception("安全问题3太短。不能少于3个字。",3);
-if(mb_strlen($safety[0][1],'utf-8')<3) throw new userexception("安全回答1太短。不能少于3个字",4);
-if(mb_strlen($safety[1][1],'utf-8')<3) throw new userexception("安全回答2太短。不能少于3个字",5);
-if(mb_strlen($safety[2][1],'utf-8')<3) throw new userexception("安全回答3太短。不能少于3个字",6);
+public function reg($name,$pass) {
 if(!str::匹配汉字($name,'A-Za-z0-9_\\-')) throw new userexception("用户名 \"$name\" 无效。只允许汉字、字母、数字、下划线(_)和减号(-)。",11);
 if($this->name($name)) throw new userexception("用户名 \"$name\" 已存在，请更换一个。",12);
 $pass=self::mkpass($pass);
@@ -66,47 +61,84 @@ else {
 $rs=$rs->fetch(db::num);
 $id=$rs[0]+1;
  }
-$sid=self::mksid($uid,$name,$pass);
-$safetytxt=serialize($safety);
-$db=self::conn(); //读写分离，获得一个可以写入的数据库连接
-$rs=$db->prepare('INSERT INTO '.DB_A.'user(name,pass,sid,safety,regtime,sidtime,acctime) values(?,?,?,?,?,?,?)');
-if(!$rs || !$rs->execute(array($name,$pass,$sid,$safetytxt,$time,$time,$time))) throw new userexception('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
+$sid=self::mksid($uid,$name,$pass);//实现读写分离：获得一个可以写入的数据库连接
+$db=self::conn();
+$rs=$db->prepare('INSERT INTO '.DB_A.'user(name,pass,sid,regtime,sidtime,acctime) values(?,?,?,?,?,?)');
+if(!$rs || !$rs->execute(array($name,$pass,$sid,$time,$time,$time))) throw new userexception('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
 $uid=$db->lastinsertid();
 $this->uid=$uid;
-self::$data[$uid]=array('uid'=>$uid,'name'=>$name,'pass'=>$pass,'sid'=>$sid,'safety'=>$safety,'regtime'=>$time,'sidtime'=>$time,'acctime'=>$time,'islogin'=>true);
+self::$data[$uid]=array('uid'=>$uid,'name'=>$name,'pass'=>$pass,'sid'=>$sid,'regtime'=>$time,'sidtime'=>$time,'acctime'=>$time,'islogin'=>true);
+self::$name[$name]=$uid;
 return true;
 }
   
 /**
 * 取得指定用户名的信息，并存储在属性内。之后你可以通过$obj->uid等属性访问用户信息。
-* 参数：$name 用户名
+* 参数：
+* $name 用户名
+* $getinfo=FALSE 是否同时取得setinfo信息
+*    （为了优化数据库查询，减少不必要的查询。只有在你需要它时设置它为trun）
+*     若$getinfo为假，则当访问setinfo信息时将自动重新获取。
 * 返回值：成功返回TRUE，失败（用户名不存在）返回FALSE
 */
-public function name($name) {
+public function name($name,$getinfo=false) {
+if(isset(self::$name[$name])) return TRUE;
 $db=self::conn(true);
-$rs=$db->prepare('SELECT uid,name,regtime,acctime FROM '.DB_A.'user WHERE name=?');
+$rs=$db->prepare('SELECT uid,name,regtime,acctime'.($getinfo ? ',setinfo' : '').' FROM '.DB_A.'user WHERE name=?');
 if(!$rs || !$rs->execute(array($name))) return FALSE;
 $data=$rs->fetch(db::ass);
 if(!isset($data['uid'])) return FALSE;
 $this->uid=$data['uid'];
+if($getinfo) {
+self::parsesetinfo($this->uid,$data['setinfo']);
+unset($data['setinfo']);
+ }
 self::$data[$this->uid]=$data;
+self::$name[$data['name']]=$this->uid;
 return TRUE;
  }
   
 /**
-* 取得指定uid的信息，并存储在属性内。之后你可以通过$obj->name等属性访问用户信息。
-* 参数：$uid 用户名
+* 取得指定uid的信息，并存储在属性内。之后你可以通过$obj->name等属性访问用户信息。* 参数：
+* $uid 用户ID
+* $getinfo=FALSE 是否同时取得setinfo信息
+*    （为了优化数据库查询，减少不必要的查询。只有在你需要它时设置它为trun）
+*     若$getinfo为假，则当访问setinfo信息时将自动重新获取。
+
+
 * 返回值：成功返回TRUE，失败（uid不存在）返回FALSE
 */
-public function uid($uid) {
+public function uid($uid,$getinfo=false) {
+if(isset(self::$data[$uid])) return TRUE;
 $db=self::conn(true);
-$rs=$db->prepare('SELECT uid,name,regtime,acctime FROM '.DB_A.'user WHERE uid=?');
+$rs=$db->prepare('SELECT uid,name,regtime,acctime'.($getinfo ? ',setinfo' : '').' FROM '.DB_A.'user WHERE uid=?');
 if(!$rs || !$rs->execute(array($uid))) return FALSE;
 $data=$rs->fetch(db::ass);
 if(!isset($data['uid'])) return FALSE;
 $this->uid=$data['uid'];
+if($getinfo) {
+self::parsesetinfo($this->uid,$data['setinfo']);
+unset($data['setinfo']);
+ }
 self::$data[$this->uid]=$data;
+self::$name[$data['name']]=$this->uid;
 return TRUE;
+ }
+  
+/**
+* 设置安全问题
+* 参数：
+* 
+*/
+public function setSafeQuestion($array) {
+if(mb_strlen($safety[0][0],'utf-8')<3) throw new userexception("安全问题1太短。不能少于3个字。",1);
+if(mb_strlen($safety[1][0],'utf-8')<3) throw new userexception("安全问题2太短。不能少于3个字。",2);
+if(mb_strlen($safety[2][0],'utf-8')<3) throw new userexception("安全问题3太短。不能少于3个字。",3);
+if(mb_strlen($safety[0][1],'utf-8')<3) throw new userexception("安全回答1太短。不能少于3个字",4);
+if(mb_strlen($safety[1][1],'utf-8')<3) throw new userexception("安全回答2太短。不能少于3个字",5);
+if(mb_strlen($safety[2][1],'utf-8')<3) throw new userexception("安全回答3太短。不能少于3个字",6);
+$safetytxt=serialize($safety);
+/*……*/
  }
     
 public function __isset($name)
