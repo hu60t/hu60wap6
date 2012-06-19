@@ -1,5 +1,6 @@
 {include file="tpl:comm.head" title="hu60t网站开发框架"}
 {div class="bk2"}
+<a href="user.reg.{$bid}">用户注册测试</a><br/>
 欢迎使用 hu60t网站开发框架 进行你的xhtml/wml兼容WAP应用的开发。<br/>
 <a href="http://hu60.cn/">访问hu60.cn查看相关文档</a>
 {/div}

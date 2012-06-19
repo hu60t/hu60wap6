@@ -125,7 +125,7 @@ array_splice($info,0,1);
 }
 else
 {
-$this->page['sid']=$_REQUEST['hu60_sid'] or $this->page['sid']=$_REQUEST['sid'];
+$this->page['sid']=$_COOKIE[COOKIE_A.'sid'];
 }
 $info2=explode('.',$info[0]);
 $info[0]='';

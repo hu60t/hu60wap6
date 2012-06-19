@@ -19,6 +19,8 @@ define('DEFAULT_PAGE_MIME','text/html');
 define('COOKIE_PATH','/');
 //cookie作用域名
 define('COOKIE_DOMAIN',$_SERVER['HTTP_HOST']);
+//Cookie前缀
+define('COOKIE_A','hu60_');
   
 //网页gzip压缩等级，9为最高，0关闭
 

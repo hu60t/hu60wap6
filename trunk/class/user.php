@@ -50,6 +50,7 @@ public function login($name,$pass) {
 * $pass  密码
 */
 public function reg($name,$pass) {
+if(strlen(mb_convert_encoding($name,'gbk','utf-8'))>16) throw new userexception("用户名 \"$name\" 过长。用户名最长只允许16个英文字母或8个汉字（16字节）。",13);
 if(!str::匹配汉字($name,'A-Za-z0-9_\\-')) throw new userexception("用户名 \"$name\" 无效。只允许汉字、字母、数字、下划线(_)和减号(-)。",11);
 if($this->name($name)) throw new userexception("用户名 \"$name\" 已存在，请更换一个。",12);
 $pass=self::mkpass($pass);
@@ -61,7 +62,7 @@ else {
 $rs=$rs->fetch(db::num);
 $id=$rs[0]+1;
  }
-$sid=self::mksid($uid,$name,$pass);//实现读写分离：获得一个可以写入的数据库连接
+$sid=self::mksid($id,$name,$pass);//实现读写分离：获得一个可以写入的数据库连接
 $db=self::conn();
 $rs=$db->prepare('INSERT INTO '.DB_A.'user(name,pass,sid,regtime,sidtime,acctime) values(?,?,?,?,?,?)');
 if(!$rs || !$rs->execute(array($name,$pass,$sid,$time,$time,$time))) throw new userexception('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
@@ -143,11 +144,11 @@ $safetytxt=serialize($safety);
     
 public function __isset($name)
 {
- return isset($this->data[$this->uid][$name]);
+ return isset(self::$data[$this->uid][$name]);
 }
 public function __get($name)
 {
- return $this->data[$this->uid][$name];
+ return self::$data[$this->uid][$name];
 }
 public function __set($name,$value)
 {
@@ -160,11 +161,11 @@ throw new pageexception('不能从类外部删除用户信息',503);
 /*下面是ArrayAccess接口*/
 public function offsetExists($name)
 {
-return isset($this->data[$this->uid][$name]);
+return isset(self::$data[$this->uid][$name]);
 }
 public function offsetGet($name)
 {
-return $this->data[$this->uid][$name];
+return self::$data[$this->uid][$name];
 }
 public function offsetSet($name,$value)
 {
