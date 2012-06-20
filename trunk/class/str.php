@@ -2,6 +2,16 @@
 /*str类,字符串处理类*/
 class str
 {
+private static $WEEK=array('天','一','二','三','四','五','六','日');
+/**
+* 取得数字（0-6或1-7）对应的星期汉字
+* 如果是0-6（用date('w')取得），0会得到“天”
+* 如果是1-7（用date('N')取得，7会得到“日”）
+* 所以可以自由选择使用“星期天”或“星期日”
+*/
+static function 星期($num) {
+return self::$WEEK[$num];
+ }
 static function 时间差($t)
 {
 if($t<60) return $t.'秒';
