@@ -13,8 +13,8 @@
 密&nbsp;&nbsp;&nbsp;码:{input name="pass" value=$smarty.post.pass}<br/>
 {input type="submit" name="check" value="注册"}
 {/form}
+{/div}
 {if !$msg}
-{/div}
 {div class="bk2"}
 用户名只允许汉字、字母、数字、下划线(_)和减号(-)，且最长只允许16个英文字母或8个汉字（16字节）。<br/>
 密码可以是任何内容，包括汉字和其他任何能够在手机上输入的字符。
