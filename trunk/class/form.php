@@ -179,7 +179,7 @@ foreach(self::$hidden as $n=>$x){foreach($x as $v)
   $html.='<postfield name="'.$n.'"'.self::htmlvar('value',$v).'/>';
   }}
  if($name!==null)
-  $html.='<postfield name="'.$name.self::htmlvar('value',$value).'/>';
+  $html.='<postfield name="'.$name.'"'.self::htmlvar('value',$value).'/>';
  $html.='</go></anchor>';
  self::show($html);
  }
