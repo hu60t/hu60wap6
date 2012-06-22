@@ -62,11 +62,11 @@ return $this->page['mime'];
 public function load($cid=NULL,$pid=NULL,$bid=NULL)
 {
 if($cid===NULL) $cid=$this->page['cid'];
-if($cid===NULL) $cid=DEFAULT_PAGE_CID;
+if($cid=='') $cid=DEFAULT_PAGE_CID;
 if($pid===NULL) $pid=$this->page['pid'];
-if($pid===NULL) $pid=DEFAULT_PAGE_PID;
+if($pid=='') $pid=DEFAULT_PAGE_PID;
 if($bid===NULL) $bid=$this->page['bid'];
-if($bid===NULL) $bid=DEFAULT_PAGE_BID;
+if($bid=='') $bid=DEFAULT_PAGE_BID;
 $path=PAGE_DIR."/$cid/$pid.$bid.php";
 if(!is_file($path))
   $path=PAGE_DIR."/$cid/$pid.php";
@@ -133,8 +133,7 @@ $this->page['cid']=str::word($info2[0],true);
 $this->page['pid']=str::word($info2[1],true);
 $cnt=count($info2)-1;
 if($cnt<2) $cnt=2;
-$bid=str::word($info2[$cnt],true);
-if($bid!='') self::regBid($bid);
+$this->page['bid']=str::word($info2[$cnt],true);
 array_splice($info2,0,2);
 unset($info2[$cnt-2]);
 $this->page['ext']=$info2;

@@ -12,7 +12,6 @@ private static $db_ro; //只读数据库PDO对象
   
 #返回PDO连接对象#
 static function conn($dbname,$read_only=false) {
-try {
 if(($read_only && DB_HOST!=DB_HOST_RO) || (DB_HOST=='' && DB_HOST_RO!=''))
  {$db=&self::$db_ro;
  $db_host=DB_HOST_RO;}
@@ -26,9 +25,6 @@ $db=new PDO(DB_TYPE.':dbname='.DB_NAME.';host='.$db_host,DB_USER,DB_PASS);
 if(!is_object($db)) throw new PDOException('数据库连接失败',2);
 $db->exec('set names utf8');
 return $db;
-  } catch(exception $e) {
-throw $e;
-  }
  }
 #db类结束#
 }
