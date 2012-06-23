@@ -8,7 +8,7 @@ if(!$_POST['go']) {
 if(!$_POST['check']) {
  $step=1;
  } else {
-if($_POST['name']=='') throw new userexception('用户名不能为空。');
+user::用户名检查($_POST['name']);
  $step=2;
  }
 $tpl->display('tpl:reg_step'.$step);

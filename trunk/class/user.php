@@ -20,6 +20,17 @@ private static function conn($read_only=false)
 return db::conn('user',$read_only);
 }
   
+/*
+* 检查用户名是否有效
+* 用户名只允许汉字、字母、数字、下划线(_)和减号(-)。
+*/
+public static function 用户名检查($name) {
+if($name=='') throw new userexception('用户名不能为空。',10);
+if(strlen(mb_convert_encoding($name,'gbk','utf-8'))>16) throw new userexception("用户名 \"$name\" 过长。用户名最长只允许16个英文字母或8个汉字（16字节）。",13);
+if(!str::匹配汉字($name,'A-Za-z0-9_\\-')) throw new userexception("用户名 \"$name\" 无效。只允许汉字、字母、数字、下划线(_)和减号(-)。",11);
+return TRUE;
+ }
+  
 /*加密用户的密码*/
 private static function mkpass($pass)
 {
@@ -41,6 +52,7 @@ private static function getinfo($uid) {
 */
 public function login($name,$pass) {
 
+
  }
   
 /**
@@ -50,8 +62,7 @@ public function login($name,$pass) {
 * $pass  密码
 */
 public function reg($name,$pass) {
-if(strlen(mb_convert_encoding($name,'gbk','utf-8'))>16) throw new userexception("用户名 \"$name\" 过长。用户名最长只允许16个英文字母或8个汉字（16字节）。",13);
-if(!str::匹配汉字($name,'A-Za-z0-9_\\-')) throw new userexception("用户名 \"$name\" 无效。只允许汉字、字母、数字、下划线(_)和减号(-)。",11);
+self::用户名检查($name);
 if($this->name($name)) throw new userexception("用户名 \"$name\" 已存在，请更换一个。",12);
 $pass=self::mkpass($pass);
 $time=$_SERVER['REQUEST_TIME'];
