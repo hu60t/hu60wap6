@@ -5,6 +5,7 @@ $PAGE=new page;
 $PAGE->cutPath();
 page::regBid($PAGE->bid);
 require_once SUB_DIR.'/reg_page_bid.php';
+$USER=new user;
 include $PAGE->load();
 } catch(exception $ERR) {
  include $PAGE->load('error','pageerr');

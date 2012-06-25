@@ -5,13 +5,13 @@
 class page implements ArrayAccess
 {  
 //已注册的bid
-private static $bid=array();
+protected static $bid=array();
     
 //模板引擎对象
-private $tpl=null;
+protected $tpl=null;
       
 //页面信息保存
-private $page=array();
+protected $page=array();
 
 /*取得已注册的bid信息*/
 public static function getRegbid() {

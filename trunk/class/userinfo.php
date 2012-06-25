@@ -3,18 +3,18 @@
 * 虎绿林WAP6 读取用户信息
 */
 class userinfo implements ArrayAccess {
-private static $data; //用户数据缓存
+protected static $data; //用户数据缓存
 
-private static $name; //用户名到uid对应关系的缓存
-private static $info; //用户配置数据缓存
-private $uid; //当前用户
+protected static $name; //用户名到uid对应关系的缓存
+protected static $info; //用户配置数据缓存
+protected $uid; //当前用户
   
 /**
 * 连接数据库
 * 参数：
 * $read_only  如果为true，打开一个只读的数据库连接，只允许查询；否则打开一个可读可写的连接。实现分布式应用的读写分离。
 */
-private static function conn($read_only=false)
+protected static function conn($read_only=false)
 {
 return db::conn('user',$read_only);
 }
@@ -64,7 +64,7 @@ return $set;
 }
     
 /*解析用户的info数据*/
-private static function parseinfo($uid,$info) {
+protected static function parseinfo($uid,$info) {
 $info=unserialize($info);
 if($info===NULL) $info=array();
 
@@ -94,11 +94,11 @@ if($uid!==NULL) {
 $this->uid=$uid;
 return $uid!==FALSE ? TRUE : FALSE;
  }
-static $rs;
-if(!$rs) {
+static $rs,$x_getinfo;
+if(!$rs || $getinfo!=$x_getinfo) {
 $db=self::conn(true);
 $rs=$db->prepare('SELECT `uid`,`name`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `name`=?');
-
+$x_getinfo=$getinfo;
   }
 if(!$rs || !$rs->execute(array($name))) return FALSE;
 $data=$rs->fetch(db::ass);
@@ -143,11 +143,11 @@ if($data!==NULL) {
 $this->uid=$uid;
 return $data!==FALSE ? TRUE : FALSE;
  }
-static $rs;
-if(!$rs) {
+static $rs,$x_getinfo;
+if(!$rs || $getinfo!=$x_getinfo) {
 $db=self::conn(true);
 $rs=$db->prepare('SELECT `uid`,`name`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `uid`=?');
-
+$x_getinfo=$getinfo;
   }
 if(!$rs || !$rs->execute(array($uid))) return FALSE;
 $data=$rs->fetch(db::ass);
