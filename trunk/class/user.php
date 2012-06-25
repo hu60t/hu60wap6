@@ -40,7 +40,7 @@ self::$safety[$uid]=$info;
 /**
 * 快速初始化用户登陆，并设置$user变量到模板引擎
 */
-public function start($page=null,$sid=null) {
+public function start($tpl=null,$page=null,$sid=null) {
  if($page===null) {
   global $PAGE;
   $page=$PAGE;
@@ -53,7 +53,8 @@ public function start($page=null,$sid=null) {
  } catch(userexception $e) {
   $this->err=$e;
  }
- $page->tpl()->assign('user',$user);
+ if($tpl===null) $tpl=$page->tpl();
+ $tpl->assign('user',$this);
  return $e;
 }
   
