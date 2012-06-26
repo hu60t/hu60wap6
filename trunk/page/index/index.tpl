@@ -16,4 +16,5 @@
 {div class="content"}
 本框架由<a href="http://hu60.cn/">绿虎众</a>创建，你可以打开程序根目录的license.txt查看许可证，这是一个UTF-8编码的文件。
 {/div}
+{div class="title"}hu60t报时：{/div}
 {include file="tpl:comm.foot"}

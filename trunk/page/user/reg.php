@@ -19,6 +19,7 @@ $tpl->display('tpl:reg_step'.$step);
   }
 $user=new user;
 $user->reg($_POST['name'],$_POST['pass']);
+$user->setcookie();
 $tpl->assign('user',$user);
 $tpl->display('tpl:reg_success');
    }

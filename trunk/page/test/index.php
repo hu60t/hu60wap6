@@ -1,4 +1,5 @@
 <?php
 $tpl=$PAGE->start();
-$id=str::word($PAGE['ext'][0],true);
+$USER->start($tpl);
+$id=str::word($PAGE->ext[0],true);
 $tpl->display("tpl:$id");

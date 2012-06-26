@@ -81,7 +81,9 @@ public function setCookie() {
 * $user->setinfo('b',2);
 * $user->save();
 */
-public function setinfo($index,$data) { $set=&self::$info[$this->uid];
+public function setinfo($index,$data) {
+ if(!self::$data[$this->uid]['islogin']) throw new userexception('用户未成功登陆，不能写info数据。',3503);
+ $set=&self::$info[$this->uid];
  if($set===NULL) {
   $this->getinfo();
  }
