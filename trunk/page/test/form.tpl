@@ -1,12 +1,13 @@
 {include file="tpl:comm.head" title="表单测试"}
-{div class="bk2"}百度搜索{/div wml=""}
-{div class="bk1" wml="<br/>"}
+{div class="title"}百度搜索{/div}
+{div class="content"}
 {form action="http://wap.baidu.com/s" method="get"}
 {input type="text" name="word" value=$smarty.server.HTTP_HOST}
 {input type="submit" value="百度一下"}
 {/form}
 {/div}
-{div class="bk2"}随意的表单<br/>
+{div class="title"}随意的表单{/div}
+{div class="content"}
 {form enctype="multipart/form-data"}
 {input type="textarea" value="{implode("\n",$smarty.server|code)}" name="npb"}<br/>
 {input type="checkbox" name="fts" value="a&b$c"}
@@ -20,4 +21,5 @@
 {input type="submit" value="go"}
 {/form}
 {/div}
+{div class="title"}hu60t报时:{/div}
 {include file="tpl:comm.foot"}
