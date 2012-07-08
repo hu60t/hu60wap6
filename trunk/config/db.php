@@ -9,7 +9,7 @@
 * 可以填mysql或sqlite
 * 如果有需要可以尝试下其他类型，比如填mssql
 */
-define('DB_TYPE','mysql');
+define('DB_TYPE','sqlite');
   
   
 /**

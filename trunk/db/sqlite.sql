@@ -1,2 +1,2 @@
 #创建用户表#
-CREATE TABLE `hu60_user` ( `uid` INTEGER AUTOINCREMENT PRIMARY KEY, `name` varchar(16) NOT NULL UNIQUE, `pass` char(32) NOT NULL,`sid` varchar(64) NOT NULL UNIQUE, `safety` blob, `regtime` INTEGER NOT NULL, `sidtime` INTEGER NOT NULL, `acctime` INTEGER NOT NULL, `info` blob)
+CREATE TABLE `hu60_user` ( `uid` INTEGER PRIMARY KEY AUTOINCREMENT, `name` varchar(16) NOT NULL UNIQUE, `pass` char(32) NOT NULL,`sid` varchar(64) NOT NULL UNIQUE, `safety` blob, `regtime` INTEGER NOT NULL, `sidtime` INTEGER NOT NULL, `acctime` INTEGER NOT NULL, `info` blob)
