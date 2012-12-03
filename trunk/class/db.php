@@ -1,4 +1,18 @@
 <?php
+
+/**
+* 设置一些常量
+*/
+db::$TYPE=DB_TYPE;
+db::$FILE_PATH=DB_FILE_PATH;
+db::$HOST=DB_HOST;
+db::$PORT=DB_PORT;
+db::$HOST_RO=DB_HOST_RO;
+db::$PORT_RO=DB_PORT_RO;
+db::$NAME=DB_NAME;
+db::$USER=DB_USER;
+db::$PASS=DB_PASS;
+db::$A=DB_A;
 /**
 * 数据库连接类
 * 用于快速建立一个配置好了的PDO数据库对象，减少打字。
@@ -7,6 +21,81 @@
 */
 class db
 {
+
+/**
+* 数据库配置
+*/
+/**
+* 数据库类型
+* 可以填mysql或sqlite
+*/
+static $TYPE='sqlite';
+  
+  
+/**
+* SQLite数据库配置
+* 如果你使用SQLite数据库，则需要配置以下项目
+* 不使用SQLite的用户不需要关心以下项目
+*/
+  
+/**
+* SQLite数据库文件路径
+* 该文件必须有读写权限
+*/
+static $FILE_PATH='./test.db3';
+  
+  
+/**
+* MYSQL数据库配置
+* 如果你使用MYSQL数据库则需要配置以下项目
+* 使用SQLite的用户不需要关心以下项目
+*/
+  
+/**
+* 主数据库服务器
+*/
+static $HOST='localhost';
+  
+/**
+* 主数据库服务器端口
+*/
+static $PORT='3306';
+  
+/**
+* 只读数据库服务器
+* 如果你的PHP运行在分布式平台（如新浪SAE）上，需要做读写分离，则可能需要配置该项。
+* 不需要做读写分离的用户请保持该项的值为空，否则可能无法正常使用数据库。
+*/
+static $HOST_RO='';
+  
+/**
+* 只读数据库服务器端口
+* 不使用读写分离的用户不需要关心该项
+*/
+static $PORT_RO='3306';
+  
+/**
+* 数据库名
+*/
+static $NAME='test';
+ 
+/**
+* 数据库用户名
+*/
+static $USER='root';
+  
+/**
+* 数据库用户密码
+*/
+static $PASS='';
+  
+/**
+* 数据表名前缀
+* 设置不同的表名前缀可以使你在一个MYSQL中安装多个应用而不因为表名冲突而失败
+* db类有自动补全表名前缀的功能
+*/
+static $A='';
+  
 /**
 * 记录集返回模式
 * 对应PDO里的常量，但缩短名称，方便手机输入
@@ -44,7 +133,7 @@ const col=PDO::FETCH_COLUMN;
 /**
 * 默认的记录集返回模式
 */
-const DEFAULT_FETCH_MODE=PDO::FETCH_ASSOC;
+static $DEFAULT_FETCH_MODE=PDO::FETCH_ASSOC;
   
 /**
 * 默认的PDO错误处理方式
@@ -56,7 +145,7 @@ const DEFAULT_FETCH_MODE=PDO::FETCH_ASSOC;
 * PDO::ERRMODE_EXCEPTION
 *    除了设置错误代码以外， PDO 还将抛出一个 PDOException，并设置其属性，以反映错误代码和错误信息。
 */
-const DEFAULT_ERRMODE=PDO::ERRMODE_SILENT;
+static $DEFAULT_ERRMODE=PDO::ERRMODE_SILENT;
   
 /**
 * SQLite选项
@@ -72,7 +161,7 @@ const DEFAULT_ERRMODE=PDO::ERRMODE_SILENT;
 * OFF
 *    不强制磁盘同步，由系统把更改写到文件。断电或死机后很容易损坏数据库，但是插入或更新速度比FULL提升50倍啊！
 */
-const SQLITE_SYNC='OFF';
+static $SQLITE_SYNC='OFF';
   
 /**
 * MYSQL选项
@@ -81,44 +170,200 @@ const SQLITE_SYNC='OFF';
 /**
 * 默认字符集
 */
-const DEFAULT_CHARSET='utf8';
+static $DEFAULT_CHARSET='utf8';
   
   
 /**
 * 以下是类内部使用的属性
 */
+
+protected $pdo; //临时打开的数据库PDO对象
+
+protected $rs; //当前的数据记录集对象
+public $auto_db_a=true; //自动添加表名前缀
+/**静态属性**/
 protected static $db; //PDO对象
 protected static $db_ro; //只读数据库PDO对象
-protected static $db_sqlite; //SQLite数据库的PDO对象（关联数组）
-  
+
 /**
 * 返回PDO连接对象
 */
-static function conn($dbname,$read_only=false) {
- if(DB_TYPE=='sqlite') {
-  $db=&self::$db_sqlite[$dbname];
+static function conn($read_only=false) {
+ if(self::$TYPE=='sqlite') {
+  $db=&self::$db;
   if($db) return $db;
-  $db=new PDO(DB_TYPE.':'.DB_FILE_DIR.'/'.$dbname.DB_FILE_EXT);
-  $db->exec('PRAGMA synchronous='.self::SQLITE_SYNC);
+  $db=new PDO(self::$TYPE.':'.self::$FILE_PATH);
+  $db->exec('PRAGMA synchronous='.self::$SQLITE_SYNC);
  } else {
-if(($read_only || DB_HOST=='') && DB_HOST_RO!='')
+if(($read_only || self::$HOST=='') && self::$HOST_RO!='')
  {$db=&self::$db_ro;
- $db_host=DB_HOST_RO;
- $db_port=DB_PORT_RO;}
-elseif(DB_HOST!='')
+ $db_host=self::$HOST_RO;
+ $db_port=self::$PORT_RO;}
+elseif(self::$HOST!='')
  {$db=&self::$db;
- $db_host=DB_HOST;
- $db_port=DB_PORT;}
-else throw new PDOException('数据库配置错误：DB_HOST和DB_HOST_RO都为空！',1);
+ $db_host=self::$HOST;
+ $db_port=self::$PORT;}
+else throw new PDOException('数据库配置错误：self::$HOST和self::$HOST_RO都为空！',1);
 if($db)
  return $db;
-$db=new PDO(DB_TYPE.':dbname='.DB_NAME.';host='.$db_host.';port='.$db_port,DB_USER,DB_PASS);
-$db->exec('SET NAMES '.self::DEFAULT_CHARSET); //设置默认编码
+$db=new PDO(self::$TYPE.':dbname='.self::$NAME.';host='.$db_host.';port='.$db_port,self::$USER,self::$PASS);
+$db->exec('SET NAMES '.self::$DEFAULT_CHARSET); //设置默认编码
 }
-$db->setAttribute(PDO::ATTR_ERRMODE, self::DEFAULT_ERRMODE); //设置以报错形式
-$db->setAttribute(PDO:: ATTR_DEFAULT_FETCH_MODE, self::DEFAULT_FETCH_MODE); //设置fetch时返回数据形式
+$db->setAttribute(PDO::ATTR_ERRMODE, self::$DEFAULT_ERRMODE); //设置以报错形式
+$db->setAttribute(PDO:: ATTR_DEFAULT_FETCH_MODE, self::$DEFAULT_FETCH_MODE); //设置fetch时返回数据形式
 return $db;
  }
+  
+/**
+* 为表名加前缀
+*/
+static function a($name) {
+$name=explode(',',$name);
+foreach($name as &$n) {
+$n=trim($n);
+if($n[0]==='`' or strpos($n,'.')!==false) continue;
+$n='`'.self::$A.$n.'`';
+ }
+return implode(',',$name);
+}
+  
+  
+
+
+/**
+* 以下是DB类的非静态部分
+*/
+  
+/**
+* 取得PDO对象
+*/
+public function pdo($read_only=false) {
+return $this->pdo!==NULL ? $this->pdo : self::conn($read_only);
+}
+  
+/**
+* 生成PDO预处理参数数组
+*/
+function pdoarray($exlen,$data) {
+$array=array();
+array_splice($data,0,$exlen);
+foreach($data as $d) {
+if(!is_array($d)) $array[]=$d;
+else $array=array_merge($array,$d);
+ }
+
+return $array;
+}
+
+  
+/**
+* 初始化类
+*/
+public function __construct($pdo_conn_str=NULL,$user=NULL,$pass=NULL) {
+ if($pdo_conn_str!==NULL) {
+$db=&$this->pdo;
+$db=new PDO($pdo_conn_str,$user,$pass);
+$type=strtolower(substr($pdo_conn_str,0,strpos($pdo_conn_str,':')));
+if($type==='sqlite') {
+$db->exec('PRAGMA synchronous='.self::$SQLITE_SYNC);
+  } else {
+$db->exec('SET NAMES '.self::$DEFAULT_CHARSET);
+  }
+$db->setAttribute(PDO::ATTR_ERRMODE, self::$DEFAULT_ERRMODE);
+$db->setAttribute(PDO:: ATTR_DEFAULT_FETCH_MODE, self::$DEFAULT_FETCH_MODE);
+return $db;
+ }
+return true;
+}
+
+  
+/*
+* 执行SQL（内部使用）
+*/
+protected function sqlexec($read_only,$sql,$data) {
+$db=$this->pdo($read_only);
+$rs=&$this->rs;
+if($data!==array()) {
+$rs=$db->prepare($sql);
+if(!$rs) return false;
+$rs->execute($data);
+return $rs;
+ }
+$rs=$db->query($sql);
+return $rs;
+}
+  
+/*
+* 自动加表名前缀（类内部使用）
+*/
+protected function auto_a($table) {
+if($this->auto_db_a) $table=self::a($table);
+return $table;
+}
+  
+/**
+* 查询
+*/
+public function select($name,$table,$cond='') {
+$table=$this->auto_a($table);
+$sql="SELECT $name FROM $table $cond";
+$data=$this->pdoarray(3,func_get_args());
+
+return $this->sqlexec(true,$sql,$data);
+}
+
+  
+/**
+* 更新数据
+*/
+public function update($table,$set) {
+$table=$this->auto_a($table);
+$sql="UPDATE $table SET $set";
+$data=$this->pdoarray(2,func_get_args());
+return $this->sqlexec(false,$sql,$data);
+}
+
+  
+/**
+* 删除数据
+*/
+public function delete($table,$cond='') {
+$table=$this->auto_a($table);
+$sql="DELETE FROM $table $cond";
+$data=$this->pdoarray(2,func_get_args());
+return $this->sqlexec(false,$sql,$data);
+}
+  
+/**
+* 插入数据
+*/
+public function insert($table,$value) {
+$table=explode('(',$table);
+$table[0]=$this->auto_a($table[0]);
+
+if(strpos($value,'(')===FALSE) {
+if($table[1]!='') {
+$value="VALUES($value)";
+} else {
+$table[1]="$value)";
+$value='VALUES('.str_repeat('?,',substr_count($value,',')).'?)';
+}
+}
+$sql="INSERT INTO $table[0]($table[1] $value";
+$data=$this->pdoarray(2,func_get_args());
+return $this->sqlexec(false,$sql,$data);
+}
+  
+/**
+* 执行SQL并返回结果集对象
+
+* 该方法不支持自动添加表名前缀，需要自行添加
+*/
+public function query($sql) {
+if(preg_match('/^\s*SELECT\s/is',$sql)) $read_only=true;
+else $read_only=false;
+$data=$this->pdoarray(1,func_get_args());
+return $this->sqlexec($read_only,$sql,$data);
+}
 /*db类结束*/
 }
-?>
