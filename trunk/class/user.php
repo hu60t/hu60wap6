@@ -5,7 +5,8 @@
 class user extends userinfo {
 protected static $sid; //sid到uid对应关系的缓存
 protected static $safety; //用户安全信息缓存
-protected $update=array(); //记录需要更新的信息，以便在__destruct时一同写到数据库（如果update不为空数组，则user对象禁止更换用户）
+
+protected $update=array(); //记录需要更新的信息，以便在__destruct时一同写到数据库（如果update不为空数组，则user对象禁止更换用户）
  public $err=NULL; //start()方法捕获的错误
   
 /*加密用户的密码*/
@@ -29,7 +30,8 @@ protected static function makeinfo($uid) {
 protected static function makesafety($uid) {
  return serialize(self::$safety[$uid]);
 }
-  
+
+  
 /*解析用户的safety数据*/
 protected static function parsesafety($uid,$info) {
 $info=unserialize($info);
@@ -54,10 +56,12 @@ public function start($tpl=null,$page=null,$sid=null) {
   $this->err=$e;
  }
  if($tpl===null) $tpl=$page->tpl();
+ $tpl->assign('USER',$this);
  $tpl->assign('user',$this);
  return $e;
 }
-  
+
+  
 /**
 * 设置身份验证Cookie（sid）
 */
@@ -82,17 +86,20 @@ public function setCookie() {
 * $user->save();
 */
 public function setinfo($index,$data) {
- if(!self::$data[$this->uid]['islogin']) throw new userexception('用户未成功登陆，不能写info数据。',3503);
+
+ if(!self::$data[$this->uid]['islogin']) throw new userexception('用户未成功登陆，不能写info数据。',3503);
  $set=&self::$info[$this->uid];
  if($set===NULL) {
   $this->getinfo();
- }
+
+ }
  $set=&self::$info[$this->uid];
  if($index!==null) {
   $index=explode('.',$index);
   foreach($index as $key)
    {$set=&$set[$key];}
- }
+
+ }
  if($set===$data) return NULL;
  $set=$data;
  $this->update['info']=true;
@@ -149,7 +156,8 @@ public function login($name,$pass,$isuid=false,$getinfo=true,$getsafety=false) {
  if(!$rs || !$rs->execute(array($name))) throw new PDOException('数据库查询错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
  $data=$rs->fetch(db::ass);
  if(!isset($data['uid'])) {
-  self::$data[$uid]=FALSE;  throw new userexception(($isuid ? '用户ID' : '用户名')." \"$name\" 不存在。",1404);
+  self::$data[$uid]=FALSE;
+  throw new userexception(($isuid ? '用户ID' : '用户名')." \"$name\" 不存在。",1404);
  }
  if($data['pass']!==$pass) {
   throw new userexception('密码错误。',1403);

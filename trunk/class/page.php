@@ -104,9 +104,10 @@ $tpl->setConfigDir(CONFIG_DIR);
 $tpl->setCacheDir(TEMP_DIR.'/pagecache');
 $tpl->autoload_filters=array('pre'=>array('hu60ext'));
 $tpl->setCompileId($this->page['bid']);
-if(SMARTY_COMPILE==1) $tpl->compile_check=false;
+
+if(SMARTY_COMPILE==1) $tpl->compile_check=false;
 elseif(SMARTY_COMPILE==2) $tpl->force_compile=true;
-$tpl->assign(array('page'=>$this,'cid'=>$this->page['cid'],'pid'=>$this->page['pid'],'bid'=>$this->page['bid']));
+$tpl->assign(array('PAGE'=>$this,'CID'=>$this->page['cid'],'PID'=>$this->page['pid'],'BID'=>$this->page['bid'],'page'=>$this,'cid'=>$this->page['cid'],'pid'=>$this->page['pid'],'bid'=>$this->page['bid']));
 $this->tpl=$tpl;
 return $tpl;
 }
