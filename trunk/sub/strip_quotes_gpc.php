@@ -6,10 +6,11 @@ if($_SERVER['PHP_SELF']===$_SERVER['SCRIPT_NAME'].$_SERVER['PATH_INFO']) $_SERVE
 /*加载用于去除转义字符的函数*/
 require_once FUNC_DIR.'/arrstr.php';
 /*过程：把GET,POST,COOKIE中引号被加上的反斜线去掉，并关闭在执行中的引号转义*/
-@ ini_set('magic_quotes_runtime',0);
-if(@ ini_get('magic_quotes_sybase'))
+if(!function_exists('set_magic_quotes_runtime')) return;
+if(get_magic_quotes_runtime()) set_magic_quotes_runtime(0);
+if(ini_get('magic_quotes_sybase'))
  define('STRIP_QUOTES_FUNC','strip2quote');
-elseif(@ ini_get('magic_quotes_gpc'))
+elseif(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
  define('STRIP_QUOTES_FUNC','stripslashes');
 else
  return;
