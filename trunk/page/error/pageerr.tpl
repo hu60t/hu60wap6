@@ -5,6 +5,6 @@
 {div class="content"}错误发生在 {span class="notice"}{$err->getfile()|code}{/span} 的第 {span class="notice"}{$err->getline()|code}{/span} 行{/div}
 {div class="title"}错误追踪信息：{/div}
 {div class="content"}
-{span class="notice"}{$err->getTraceAsString()|code:true}{/span}
+{span class="notice"}{$err->getTraceAsString()|code:'<br/>'}{/span}
 {/div}
 {include file="tpl:comm.foot"}

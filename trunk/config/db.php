@@ -7,7 +7,6 @@
 /**
 * 数据库类型
 * 可以填mysql或sqlite
-* 如果有需要可以尝试下其他类型，比如填mssql
 */
 define('DB_TYPE','sqlite');
   
@@ -19,20 +18,15 @@ define('DB_TYPE','sqlite');
 */
   
 /**
-* SQLite数据库路径
-* 该目录必须有读写权限
+* SQLite数据库文件路径
+* 该文件必须有读写权限
 */
-define('DB_FILE_DIR',ROOT_DIR.'/db');
-  
-/**
-* 数据库文件扩展名
-*/
-define('DB_FILE_EXT','.db3');
+define('DB_FILE_PATH',ROOT_DIR.'/db/test.db3');
   
   
 /**
 * MYSQL数据库配置
-* 如果你使用MYSQL数据库或其他类似数据库，则需要配置以下项目
+* 如果你使用MYSQL数据库则需要配置以下项目
 * 使用SQLite的用户不需要关心以下项目
 */
   

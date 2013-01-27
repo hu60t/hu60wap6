@@ -28,7 +28,8 @@ if(!isset($_SERVER['REQUEST_TIME']))
 /*程序目录的路径*/
   
 //本程序所在目录的绝对路径
-define('ROOT_DIR',dirname(__FILE__));
+
+define('ROOT_DIR', defined('__DIR__') ? __DIR__ : dirname(__FILE__));
   
 //类文件夹的绝对路径
 define('CLASS_DIR',ROOT_DIR.'/class');
