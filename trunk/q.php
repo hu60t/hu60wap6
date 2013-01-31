@@ -41,13 +41,10 @@
 * 方便在页面中进行用户登录验证，避免每个页都要重复定义。
 * 该过程还可以用于用于验证用户是否有访问权限、过滤URL等。
 */
+require_once dirname(__FILE__).'/config.inc.php';
+
   
 try {
-
-/*载入全局配置文件*/
-    require_once dirname(__FILE__).'/config.inc.php';
-
-    
 /*分析URL*/
     $PAGE=new page;
     $PAGE->cutPath();

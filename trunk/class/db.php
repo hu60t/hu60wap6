@@ -1,8 +1,5 @@
 <?php
-
-/**
-* 设置一些常量
-*/
+/*设置默认的数据库连接参数*/
 db::$TYPE=DB_TYPE;
 db::$FILE_PATH=DB_FILE_PATH;
 db::$HOST=DB_HOST;
@@ -14,19 +11,39 @@ db::$USER=DB_USER;
 db::$PASS=DB_PASS;
 db::$A=DB_A;
 /**
-* 数据库连接类
+* 数据库操作类
+* 
+* @package hu60t
+* @version 0.1.2
+* @author 老虎会游泳 <hu60.cn@gmail.com>
+* @copyright LGPLv3
+* 
 * 用于快速建立一个配置好了的PDO数据库对象，减少打字。
 * 并且用它还可以实现Mysql/SQLite兼容
 * 而且它还支持读写分离
+
+* 0.1.2
+* 现在不仅如此。
+* 目前的它还能够让PDO的预处理功能变得万分易用！
+* 它已不再是一个数据库连接类，而演变为数据库操作类。
+* 
+* <code>
+* $db=new $db;
+* $rs=$db->select('uid', 'user', 'WHERE name=? AND pass=?', $name, $pass);
+* var_dump($rs->fetch());
+* $db->insert('user', 'name,pass', $name, $pass);
+* </code>
+* 
+* 觉得方便吗？快来使用吧！
+* 
 */
 class db
 {
 
-/**
-* 数据库配置
-*/
+/*数据库配置*/
 /**
 * 数据库类型
+* 
 * 可以填mysql或sqlite
 */
 static $TYPE='sqlite';
@@ -34,12 +51,14 @@ static $TYPE='sqlite';
   
 /**
 * SQLite数据库配置
+* 
 * 如果你使用SQLite数据库，则需要配置以下项目
 * 不使用SQLite的用户不需要关心以下项目
 */
   
 /**
 * SQLite数据库文件路径
+* 
 * 该文件必须有读写权限
 */
 static $FILE_PATH='./test.db3';
@@ -47,6 +66,7 @@ static $FILE_PATH='./test.db3';
   
 /**
 * MYSQL数据库配置
+* 
 * 如果你使用MYSQL数据库则需要配置以下项目
 * 使用SQLite的用户不需要关心以下项目
 */
@@ -58,21 +78,26 @@ static $HOST='localhost';
   
 /**
 * 主数据库服务器端口
+* 
+* 留空则采用php.ini里的默认值
 */
-static $PORT='3306';
+static $PORT='';
   
 /**
-* 只读数据库服务器
+* 从数据库服务器
+* 
 * 如果你的PHP运行在分布式平台（如新浪SAE）上，需要做读写分离，则可能需要配置该项。
 * 不需要做读写分离的用户请保持该项的值为空，否则可能无法正常使用数据库。
 */
 static $HOST_RO='';
   
 /**
-* 只读数据库服务器端口
+* 从数据库服务器端口
+* 
+* 留空则采用php.ini里的默认值
 * 不使用读写分离的用户不需要关心该项
 */
-static $PORT_RO='3306';
+static $PORT_RO='';
   
 /**
 * 数据库名
@@ -91,13 +116,15 @@ static $PASS='';
   
 /**
 * 数据表名前缀
+* 
 * 设置不同的表名前缀可以使你在一个MYSQL中安装多个应用而不因为表名冲突而失败
-* db类有自动补全表名前缀的功能
+* db类的部分方法有自动补全表名前缀的功能
 */
 static $A='';
   
 /**
 * 记录集返回模式
+* 
 * 对应PDO里的常量，但缩短名称，方便手机输入
 */
 /**
@@ -137,6 +164,7 @@ static $DEFAULT_FETCH_MODE=PDO::FETCH_ASSOC;
   
 /**
 * 默认的PDO错误处理方式
+* 
 * 可选的常量有：
 * PDO::ERRMODE_SILENT
 *    只设置错误代码
@@ -147,12 +175,11 @@ static $DEFAULT_FETCH_MODE=PDO::FETCH_ASSOC;
 */
 static $DEFAULT_ERRMODE=PDO::ERRMODE_SILENT;
   
-/**
-* SQLite选项
-*/
+/*SQLite选项*/
   
 /**
 * 强制磁盘同步
+* 
 * 可选值：
 * FULL
 *    完全磁盘同步。断电或死机不会损坏数据库，但是很慢（很多时间用在等待磁盘同步）
@@ -163,9 +190,7 @@ static $DEFAULT_ERRMODE=PDO::ERRMODE_SILENT;
 */
 static $SQLITE_SYNC='OFF';
   
-/**
-* MYSQL选项
-*/
+/*MYSQL选项*/
   
 /**
 * 默认字符集
@@ -173,15 +198,13 @@ static $SQLITE_SYNC='OFF';
 static $DEFAULT_CHARSET='utf8';
   
   
-/**
-* 以下是类内部使用的属性
-*/
+/*以下是类内部使用的属性*/
 
 protected $pdo; //临时打开的数据库PDO对象
 
 protected $rs; //当前的数据记录集对象
 public $auto_db_a=true; //自动添加表名前缀
-/**静态属性**/
+/*静态属性*/
 protected static $db; //PDO对象
 protected static $db_ro; //只读数据库PDO对象
 
@@ -206,7 +229,9 @@ elseif(self::$HOST!='')
 else throw new PDOException('数据库配置错误：self::$HOST和self::$HOST_RO都为空！',1);
 if($db)
  return $db;
-$db=new PDO(self::$TYPE.':dbname='.self::$NAME.';host='.$db_host.';port='.$db_port,self::$USER,self::$PASS);
+if($db_port!='') $port=';port='.$db_port;
+else $port='';
+$db=new PDO(self::$TYPE.':dbname='.self::$NAME.';host='.$db_host.$port,self::$USER,self::$PASS);
 $db->exec('SET NAMES '.self::$DEFAULT_CHARSET); //设置默认编码
 }
 $db->setAttribute(PDO::ATTR_ERRMODE, self::$DEFAULT_ERRMODE); //设置以报错形式
@@ -230,9 +255,7 @@ return implode(',',$name);
   
 
 
-/**
-* 以下是DB类的非静态部分
-*/
+/*以下是DB类的非静态部分*/
   
 /**
 * 取得PDO对象
@@ -356,7 +379,7 @@ return $this->sqlexec(false,$sql,$data);
   
 /**
 * 执行SQL并返回结果集对象
-
+* 
 * 该方法不支持自动添加表名前缀，需要自行添加
 */
 public function query($sql) {
