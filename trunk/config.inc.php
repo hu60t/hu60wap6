@@ -91,20 +91,18 @@ define('CONFIG_DIR',ROOT_DIR.'/config');
 * 路径的结尾不包含斜杠。
 * 默认值为 ROOT_DIR.'/page'
 * 
-* hu60t可以采用MVC的方式开发，而页面(php文件)就相当于控制器(C)，模板则是视图(V)。
-* 因此该目录是控制器和默认视图的存放目录。
+* 该目录保存hu60t的页面和默认模板。
+* 页面的概念见：
+* @see PAGE::load()
+* 每个页面只有一套默认模板，但可以有很多套可选模板，
+* 可选模板则放在 TPL_DIR常量定义的目录里。
 * 
-* 为什么是“默认视图”？
-* 因为hu60t有默认模板和可选模板之分，
-* 默认模板放在 PAGE_DIR，而多套可选模板放在 TPL_DIR。
-* 
-* 之所以这样设计，是因为在hu60t中页面和默认模板经常是同一个人编辑，
-* 放在一起比较方便。
-* 而可选模板的出现，则是为了方便第三方开发模板，以及允许用户切换界面风格。
-* 
-* 在写一个页面时，一定要实现它的默认模板。
-* 默认模板可以很简单，很难看，但要能用，而且要有良好的注释，
-* 因为它是告诉第三方模板开发者怎么写模板的最好方式
+* hu60t之所以让默认模板和页面放在一起，而可选模板放在另一边，
+* 是因为默认模板在某种意义上来说不是给网站用户看的，而是给其他开发者看的。
+* 虽然一个页面可以只有可选模板而没有默认模板，
+* 但开发者在写一个页面的时最好实现它的默认模板。
+* 默认模板可以很简单，很难看，但要能用，而且最好有良好的注释，
+* 因为它是告诉第三方模板开发者怎么写模板的最好方式。
 */
 define('PAGE_DIR',ROOT_DIR.'/page');
   
@@ -167,9 +165,9 @@ define('SMARTY_DIR',CLASS_DIR.'/smarty/');
 * 该步骤对PHP5.2有用，因为它没有 $_SERVER['REQUEST_TIME_FLOAT'] 变量
 */
 if(!isset($_SERVER['REQUEST_TIME_FLOAT']))
-  $_SERVER['REQUEST_TIME_FLOAT']=microtime(true);
+    $_SERVER['REQUEST_TIME_FLOAT']=microtime(true);
 if(!isset($_SERVER['REQUEST_TIME']))
-  $_SERVER['REQUEST_TIME']=time();
+    $_SERVER['REQUEST_TIME']=time();
   
   
 /*php运行时配置*/
