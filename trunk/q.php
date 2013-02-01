@@ -49,10 +49,10 @@ try {
     $PAGE=new page;
     $PAGE->cutPath();
     page::regBid($PAGE->bid);
-
 /*载入注册bid过程*/
     require_once SUB_DIR.'/reg_page_bid.php';
-
+/*选择自定义模板*/
+    $PAGE->selectTpl();
 /*载入全局初始化过程*/
     include SUB_DIR.'/global_init.php';
 /*载入页面*/

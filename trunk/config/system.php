@@ -40,6 +40,12 @@ define('DEFAULT_LOGIN_TIMEOUT',2592000);
 /*页面默认设置*/
 
 /**
+* 首选页面模板
+* 
+* 设为 'default' 使用默认模板
+*/
+define('DEFAULT_PAGE_TPL','default');
+/**
 * 默认页面cid
 */
 define('DEFAULT_PAGE_CID','index');

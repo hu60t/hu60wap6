@@ -9,9 +9,17 @@ protected static $bid=array();
     
 //模板引擎对象
 protected $tpl=null;
+
+//已注册的自定义模板id
+protected static $tplid=array();
       
 //页面信息保存
-protected $page=array();
+protected $page=array(
+    'tpl'=>DEFAULT_PAGE_TPL,
+);
+
+//Smarty的模板路径缓存
+protected $tplCache=array();
 
 /*取得已注册的bid信息*/
 public static function getRegbid() {
@@ -33,6 +41,23 @@ if(!function_exists($func)) return false;
 self::$bid[$bid]=$func;
 return true;
 }
+
+/*取得已注册的自定义模板*/
+public static function getRegTpl() {
+return self::$tplid;
+ }
+
+/*注册自定义模板*/
+public static function regTpl($tplid) {
+return self::$tplid[$tplid]=true;
+ }
+
+/*模板是否已注册*/
+public static function isRegTpl($tplid) {
+if($tplid=='') return true;
+elseif(isset(self::$tplid[$tplid])) return true;
+else return false;
+ }
   
 /*取得当前页面的路径*/
 public function getUrl($page=array())
@@ -103,8 +128,7 @@ $tpl->setCompileDir(TEMP_DIR.'/tplc');
 $tpl->setConfigDir(CONFIG_DIR);
 $tpl->setCacheDir(TEMP_DIR.'/pagecache');
 $tpl->autoload_filters=array('pre'=>array('hu60ext'));
-$tpl->setCompileId($this->page['bid']);
-
+$tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl']);
 if(SMARTY_COMPILE==1) $tpl->compile_check=false;
 elseif(SMARTY_COMPILE==2) $tpl->force_compile=true;
 $tpl->assign(array('PAGE'=>$this,'CID'=>$this->page['cid'],'PID'=>$this->page['pid'],'BID'=>$this->page['bid'],'page'=>$this,'cid'=>$this->page['cid'],'pid'=>$this->page['pid'],'bid'=>$this->page['bid']));
@@ -151,6 +175,75 @@ $this->page['pid']=DEFAULT_PAGE_PID;
 if($_SERVER['QUERY_STRING']!='') $this->page['query_string']="?$_SERVER[QUERY_STRING]";
 else $this->page['query_string']='';
 }
+
+/**
+* 选择自定义模板
+* 
+* 如果留空(空字符串或NULL)，则尝试从Cookie（$_COOKIE[COOKIE_A.'tpl']）读取模板，
+* 如果仍然为空，则失败
+*/
+public function selectTpl($tplid=NULL) {
+        $this->tplCache=array();
+        $tplid=str::word($tplid,true);
+        if($tplid=='') {
+             $tplid=str::word($_COOKIE[COOKIE_A.'tpl'],true);
+        }
+        if($tplid!='' && self::isRegTpl($tplid)) {
+        $this->page['tpl']=$tplid;
+        if($this->tpl) {
+            $tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl']);
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/*取得Smarty模板路径*/
+public function tplPath($name,$ext='.tpl') {
+if(isset($this->tplCache[$ext][$name])) return $this->tplCache[$ext][$name];
+$info=explode('.',$name);
+if(count($info)==1)
+ {
+ 	$cid=$PAGE['cid'];
+ 	$pid=str::word($name,true);
+ 	$bid=$PAGE['bid'];
+ }
+elseif(count($info)==2)
+ {
+ 	$cid=str::word($info[0],true);
+ 	$pid=str::word($info[1],true);
+ 	$bid=$PAGE['bid'];
+ }
+ else
+ {
+ 	$cid=str::word($info[0],true);
+ 	$pid=str::word($info[1],true);
+ 	$bid=str::word($info[2],true);
+ }
+ 	if($cid=='') $cid=$this->page['cid'];
+ 	if($pid=='') $pid=$this->page['pid'];
+ 	if($bid=='') $bid=$this->page['bid'];
+  $tpl=$this->page['tpl'];
+  if($tpl != 'default') {
+      $path=TPL_DIR."/$tpl/$cid/$pid.$bid$ext";
+      if(!is_file($path))
+         $path=TPL_DIR."/$tpl/$cid/$pid$ext";
+  }
+  if($tpl == 'default' || !is_file($path))
+    $path=PAGE_DIR."/$cid/$pid.$bid$ext";
+  if(!is_file($path))
+   $path=PAGE_DIR."/$cid/$pid$ext";
+  if(!is_file($path)) {
+    if($ext=='.tpl') {$type='模板';$code=2404;}
+    elseif($ext=='.conf') {$type='配置';$code=3404;}
+    else {$type='Smarty';$code=4404;}
+    throw new pageexception("{$type}文件 \"$name\" 不存在",$code);
+  }
+ $this->tplCache[$ext][$name]=$path;
+ return $path;
+}
+
 public function __isset($name)
 {
  return isset($this->page[$name]);

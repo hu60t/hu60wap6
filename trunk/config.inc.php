@@ -105,6 +105,12 @@ define('CONFIG_DIR',ROOT_DIR.'/config');
 * 因为它是告诉第三方模板开发者怎么写模板的最好方式。
 */
 define('PAGE_DIR',ROOT_DIR.'/page');
+
+/**
+* 可选模板目录
+*/
+define('TPL_DIR', ROOT_DIR.'/tpl');
+
   
 /**
 * 临时文件存放目录

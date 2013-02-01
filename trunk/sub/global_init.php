@@ -16,4 +16,7 @@
 * 该过程的意义在于方便快捷DIY，
 * 所以，尽情使用吧！
 */
+if($PAGE->bid == 'css' && $PAGE->cid != 'css') {
+    header('Location: '.$PAGE->getUrl(array('bid'=>DEFAULT_PAGE_BID)));
+}
 $USER=new USER;

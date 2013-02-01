@@ -168,6 +168,16 @@ protected $endTags=array();
             $ok=preg_replace($k,"(\$arr=array_merge($v))?'':''",$text);
             if($ok=='') return $arr;
         }
+        return $this->parseText($text);
+    }
+  
+  
+/**
+* 解析成纯文本
+* 
+* 子类可以重载该方法以实现敏感词过滤等功能。
+*/
+    public function parseText($text) {
         return array(array(
             'type'=>'text',
             'value'=>$text
@@ -185,12 +195,13 @@ protected $endTags=array();
     public function display($ubbArray) {
          $html='';
 
-        foreach($ubbArray as $v) {
+        foreach($ubbArray as $id=>$v) {
              $type=$v['type'];
              if(!isset($this->display[$type])) {
                  if($this->skipUnknown) continue;
                  else throw new XUBBPException('未知类型：'.$type.' 类型未被定义，无法解析。请正确定义该类型的显示方案，或者使用 $xubbp->skipUnknown(TRUE) 跳过未知类型。',404);
              }
+             $v['id']=$id;
              $func=$this->display[$type];
              if(is_array($func)) {
                  if(is_object($func[0])) $html.=$func[0]->$func[1]($v,$this);
