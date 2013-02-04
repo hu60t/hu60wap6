@@ -29,6 +29,7 @@ protected $parse=array(
     '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!ies' => "\$this->parser('\\1'),\$this->newline('\\2'),\$this->parser('\\3')",
 /*time 时间*/
     '!^(.*)\[time(?:=(.*?))?\](.*)$!ies' => "\$this->parser('\\1'),\$this->time('\\2'),\$this->parser('\\3')",
+
 /*
 * 开始标记
 * 
@@ -55,5 +56,46 @@ protected $parse=array(
     '!^(.*?)\[/(color|div|span)\](.*)$!eis' => "\$this->parser('\\1'),\$this->styleEnd('\\2'),\$this->parser('\\3')",
 /*layout 布局结束*/
     '!^(.*?)\[/(b|i|u|center|left|right)\](.*)$!eis' => "\$this->parser('\\1'),\$this->layoutEnd('\\2'),\$this->parser('\\3')",
+
+/*
+* 易误匹配的标记
+* 
+* 这里的标记最后匹配，为了防止误匹配。
+* 可能会影响其他标记正常匹配的标记放在这里。
+*/
+/*urltxt 文本链接*/
+    '!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!eis' => "\$this->parser('\\1'),\$this->urltxt('\\2'),\$this->parser('\\3')",
+    '!^(.*)([a-zA-Z0-9._-]+\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$!eis' => "\$this->parser('\\1'),\$this->urltxt('\\2'),\$this->parser('\\3')",
+/*mailtxt 文本电子邮件地址*/
+    '!^(.*)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!eis' => "\$this->parser('\\1'),\$this->mailtxt('\\2'),\$this->parser('\\3')",
+/*at @消息*/
+    '!^(.*?)[@＠][@＠#＃a-zA-Z0-9_\x{4e00}-\x{9fa5}]+(.*)$!ueis' => "\$this->parser('\\1'),\$this->layoutEnd('\\2'),\$this->parser('\\3')",
+/*face 表情*/
+    '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,2})\}(.*)$!ueis' => "\$this->parser('\\1'),\$this->face('\\2'),\$this->parser('\\3')",
+    '!^(.*)《表情(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,2})》(.*)$!ueis' => "\$this->parser('\\1'),\$this->face('\\2'),\$this->parser('\\3')",
 );
+  
+/*link  链接*/
+public function link($type,$var,$var2='') {
+    if($type=='链接' || $type=='外链') {
+        $arr=explode('，',$var);
+        $url=$arr[0];
+        $title=$arr[1];
+        $type = $type=='链接' ? 'urlzh' : 'urlout';
+    } else {
+        $type='url';
+        if($var=='') {
+            $url=$var2;
+            $title='';
+        } else {
+            $url=$var;
+            $title=$var2;
+        }
+    }
+    return array(array(
+        'type'=>$type,
+        'url'=>$url,
+        'title'=>$title
+    ));
+}
 }

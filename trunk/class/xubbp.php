@@ -163,9 +163,10 @@ protected $endTags=array();
     }
     public function parser($text) {
         if($text=='') return array();
-        $arr=NULL;
+        $arr=array();
         foreach($this->parse as $k=>$v) {
             $ok=preg_replace($k,"(\$arr=array_merge($v))?'':''",$text);
+            if($ok===NULL) throw new xubbpException("正则表达式 '$k' => '$v' 错误！",500);
             if($ok=='') return $arr;
         }
         return $this->parseText($text);
