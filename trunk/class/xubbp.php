@@ -166,7 +166,8 @@ protected $endTags=array();
         $arr=array();
         foreach($this->parse as $k=>$v) {
             $ok=preg_replace($k,"(\$arr=array_merge($v))?'':''",$text);
-            if($ok===NULL) throw new xubbpException("正则表达式 '$k' => '$v' 错误！",500);
+            if($ok===NULL) throw new xubbpException("正则表达式 '$k' => '$v' 错误，解析失败！",500);
+            if($arr===NULL) throw new xubbpException("回调函数  '$k' => '$v' 返回值错误，应该返回二维数组！",501);
             if($ok=='') return $arr;
         }
         return $this->parseText($text);

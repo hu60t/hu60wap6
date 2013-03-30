@@ -98,4 +98,38 @@ public function link($type,$var,$var2='') {
         'title'=>$title
     ));
 }
+
+/*img 图片*/
+public function img($type,$var,$var2='') {
+    if($type=='缩略图') {
+        $var=explode('，',$var);
+        $opt=$var[0]; 
+        $url=$var[1];
+        preg_match_all('![0-9]+!',$opt,$opt);
+        return array(array(
+            'type' => 'thumb',
+            'src' => $url,
+            'w' => $opt[0][0],
+            'h' => $opt[0][1]
+        ));
+    } else {
+        if($type=='图片') {
+            $var=explode('，',$var);
+            $src=$var[0];
+            $alt=$var[1];
+        } elseif($var=='') {
+            $src=$var2;
+            $alt='';
+        } else {
+            $src=$var;
+            $alt=$var2;
+        }
+        return array(array(
+            'type' => $type=='img' ? 'img' : 'imgzh',
+            'src' => $src,
+            'alt' => $alt
+        ));
+    }
+
+}
 }
