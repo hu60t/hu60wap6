@@ -130,6 +130,16 @@ public function img($type,$var,$var2='') {
             'alt' => $alt
         ));
     }
-
 }
+  
+public fubction code($lang, $data) {
+    $lang = trim($lang);
+    if ($lang == '') $lang = 'php';
+    return array(array(
+        'type' => 'code',
+        'lang' => $lang,
+        'data' => $data,
+    ));
+}
+/*class end*/
 }
