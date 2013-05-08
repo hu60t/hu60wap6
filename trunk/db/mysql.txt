@@ -1,0 +1,12 @@
+create table hu60_chatlist(
+  cid int primary key auto_increment,
+  name varchar(10) not null,
+  lock bit default 0, #是否锁定。锁定聊天室不能发言
+)
+create table hu60_chat(
+  rid int primary key auto_increment, #聊天记录id
+  uid int not null,
+  cid int not null, #聊天室id
+  content blob not null,
+  time int not null,
+)

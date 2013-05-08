@@ -1,0 +1,2 @@
+CREATE TABLE `hu60_chat` ( `rid` INTEGER PRIMARY KEY AUTOINCREMENT, `uid` integer NOT NULL, `cid` integer NOT NULL, `content` blob NOT NULL, `time` INTEGER NOT NULL)
+CREATE TABLE `hu60_chatlist` ( `cid` INTEGER PRIMARY KEY AUTOINCREMENT, `name` varchar(10) NOT NULL UNIQUE, `lock` bit default 0)
