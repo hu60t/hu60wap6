@@ -6,7 +6,7 @@
 {div class="title"}
 访问测试模板：
 {/div}
-{div class="content"}
+{div class="content" class="{cycle values='tp,'}" }
 <a href="test.index.form.{$page.bid}">表单测试</a><br/>
 <a href="test.index.jump.{$page.bid}">URL跳转测试</a><br/>
 <a href="test.index.isbid.{$page.bid}">isbid测试</a>

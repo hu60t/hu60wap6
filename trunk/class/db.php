@@ -48,6 +48,14 @@ class db
 */
 static $TYPE='sqlite';
   
+/**
+* 是否启用模拟预处理
+* 
+* 默认false
+* 强烈建议false，禁用模拟预处理
+* true可能导致sql注入
+*/
+static $EMULATE_PREPARES = false;
   
 /**
 * SQLite数据库配置
@@ -235,7 +243,8 @@ $db=new PDO(self::$TYPE.':dbname='.self::$NAME.';host='.$db_host.$port,self::$US
 $db->exec('SET NAMES '.self::$DEFAULT_CHARSET); //设置默认编码
 }
 $db->setAttribute(PDO::ATTR_ERRMODE, self::$DEFAULT_ERRMODE); //设置以报错形式
-$db->setAttribute(PDO:: ATTR_DEFAULT_FETCH_MODE, self::$DEFAULT_FETCH_MODE); //设置fetch时返回数据形式
+$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, self::$DEFAULT_FETCH_MODE); //设置fetch时返回数据形式
+$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, self::$EMULATE_PREPARES); //设置是否启用模拟预处理，强烈建议false
 return $db;
  }
   
