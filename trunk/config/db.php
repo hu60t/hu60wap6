@@ -16,7 +16,7 @@
 * 
 * 可以填mysql或sqlite
 */
-define('DB_TYPE','sqlite');
+define('DB_TYPE','mysql');
   
   
 /**
@@ -93,4 +93,4 @@ define('DB_PASS','test');
 * 新的DB类部分支持自动补全表名前缀。
 * @see DB
 */
-define('DB_A','hu60_');
+define('DB_A','');
