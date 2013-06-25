@@ -10,6 +10,7 @@ db::$NAME=DB_NAME;
 db::$USER=DB_USER;
 db::$PASS=DB_PASS;
 db::$A=DB_A;
+db::$PCONNECT=DB_PCONNECT;
 /**
 * 数据库操作类
 * 
@@ -78,6 +79,13 @@ static $FILE_PATH='./test.db3';
 * 如果你使用MYSQL数据库则需要配置以下项目
 * 使用SQLite的用户不需要关心以下项目
 */
+
+/**
+* 是否启用数据库持久连接
+* 
+* 在多进程服务器（如fastcgi、php-fpm）中，使用数据库持久连接可以提升服务器性能和抗压能力
+*/
+static $PCONNECT=true;
   
 /**
 * 主数据库服务器
@@ -239,7 +247,10 @@ if($db)
  return $db;
 if($db_port!='') $port=';port='.$db_port;
 else $port='';
-$db=new PDO(self::$TYPE.':dbname='.self::$NAME.';host='.$db_host.$port,self::$USER,self::$PASS);
+$opt = array(
+  PDO::ATTR_PERSISTENT=>self::$PCONNECT,
+  ); 
+$db=new PDO(self::$TYPE.':dbname='.self::$NAME.';host='.$db_host.$port,self::$USER,self::$PASS,$opt);
 $db->exec('SET NAMES '.self::$DEFAULT_CHARSET); //设置默认编码
 }
 $db->setAttribute(PDO::ATTR_ERRMODE, self::$DEFAULT_ERRMODE); //设置以报错形式

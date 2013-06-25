@@ -132,7 +132,7 @@ public function img($type,$var,$var2='') {
     }
 }
   
-public fubction code($lang, $data) {
+public function code($lang, $data) {
     $lang = trim($lang);
     if ($lang == '') $lang = 'php';
     return array(array(
