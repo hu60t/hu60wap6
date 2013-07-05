@@ -14,7 +14,7 @@ if(!str::匹配汉字($name,'A-Za-z0-9_\\-')) throw new chatexception("聊天室
 return TRUE;
 }
 /****新建聊天室*****/
-static function newchatroom($name)
+public static function newchatroom($name)
 {
 
 self::checkName($name);
