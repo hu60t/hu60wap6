@@ -100,4 +100,4 @@ define('DB_PASS','test');
 * 新的DB类部分支持自动补全表名前缀。
 * @see DB
 */
-define('DB_A','');
+define('DB_A','hu60_');
