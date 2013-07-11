@@ -208,7 +208,7 @@ protected $endTags=array();
              if(is_array($func)) {
                  if(is_object($func[0])) $html.=$func[0]->$func[1]($v,$this);
                  elseif($func[0]=='$this') $html.=$this->$func[1]($v,$this);
-                 else $html.=$func[0]::$func[1]($v,$this);
+                 else throw new XUBBPException('因php5.2的兼容性问题，去除了对 $$class::$method 调用静态方法的支持，请使用 $object::$method（把类名字符串改成类的实例）。',503);/*$html.=$func[0]::$func[1]($v,$this);*/
              } else {
                  $html.=$func($v,$this);
              }

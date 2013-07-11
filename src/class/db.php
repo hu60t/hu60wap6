@@ -350,7 +350,8 @@ return $table;
 public function select($name,$table,$cond='') {
 $table=$this->auto_a($table);
 $sql="SELECT $name FROM $table $cond";
-$data=$this->pdoarray(3,func_get_args());
+$data=func_get_args();
+$data=$this->pdoarray(3,$data);
 
 return $this->sqlexec(true,$sql,$data);
 }
@@ -362,7 +363,8 @@ return $this->sqlexec(true,$sql,$data);
 public function update($table,$set) {
 $table=$this->auto_a($table);
 $sql="UPDATE $table SET $set";
-$data=$this->pdoarray(2,func_get_args());
+$data=func_get_args();
+$data=$this->pdoarray(2,$data);
 return $this->sqlexec(false,$sql,$data);
 }
 
@@ -373,7 +375,8 @@ return $this->sqlexec(false,$sql,$data);
 public function delete($table,$cond='') {
 $table=$this->auto_a($table);
 $sql="DELETE FROM $table $cond";
-$data=$this->pdoarray(2,func_get_args());
+$data=func_get_args();
+$data=$this->pdoarray(2,$data);
 return $this->sqlexec(false,$sql,$data);
 }
   
@@ -393,7 +396,8 @@ $value='VALUES('.str_repeat('?,',substr_count($value,',')).'?)';
 }
 }
 $sql="INSERT INTO $table[0]($table[1] $value";
-$data=$this->pdoarray(2,func_get_args());
+$data=func_get_args();
+$data=$this->pdoarray(2,$data);
 return $this->sqlexec(false,$sql,$data);
 }
   
@@ -405,7 +409,8 @@ return $this->sqlexec(false,$sql,$data);
 public function query($sql) {
 if(preg_match('/^\s*SELECT\s/is',$sql)) $read_only=true;
 else $read_only=false;
-$data=$this->pdoarray(1,func_get_args());
+$data=func_get_args();
+$data=$this->pdoarray(1,$data);
 return $this->sqlexec($read_only,$sql,$data);
 }
 /*db类结束*/
