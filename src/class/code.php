@@ -70,14 +70,14 @@ return $text;
 * 适合url的base64编码
 */
 function b64e($data) {
-    return strtr(array('+','/','='), array('-','_','.'), base64_encode($data));
+    return strtr(base64_encode($data), array('+'=>'-', '/'=>'_', '='=>'.'));
 }
     
 /**
 * 适合url的base64解码
 */
 function b64d($code) {
-    return base64_decode(strtr(array('-','_','.'), array('+','/','='), $code));
+    return base64_decode(strtr($code, array('-'=>'+', '_'=>'/', '.'=>'=')));
 }
     
 /*code类结束*/
