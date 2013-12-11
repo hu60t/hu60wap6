@@ -35,21 +35,10 @@
 * 
 *
 * 该类的使用方法：
-* 可以通过两种方式使用该类，一是直接使用，二是继承，
-* 推荐通过继承使用该类。一次继承两个或多个子类，
-* 一个用来定义你的UBB解析方案，另一些用来定义不同的显示方案。
-* 最好不要把解析和显示方案混合在一个子类里，这样看起来很混乱，
-* 而且通常需要两个显示方案，一个显示成HTML，一个显示成UBB代码，分成两个子类很方便。
-* 
-* 如果你的UBB规则很少，你也可以直接使用该类，
-* 通过 <code>$xubbp->addParse(…);</code> 添加UBB解析方案，
-*通过 <code>$xubbp->addDisplay(…);</code> 添加显示方案。
-* 具体看这两个方法的注释。
-* 
-* 继承的话就更简单了，在你的子类中定义好 $parse 和 $display 两个变量即可。
-* 两变量的格式见 @see self::$parse,self::$display
-* 
-
+* 该类本身不提供任何UBB规则，所以要使用该类，
+* 必须继承它。一套UBB方案至少要继承两个类，
+* 一个用来定义你的UBB解析方案，另一个用来把解析好的内容转换成html。
+* 最好不要把解析和显示方案混合在一个子类里，这样看起来很混乱。
 * 
 * 关于回调函数：
 * UBB的解析和显示都需要使用回调函数，
@@ -128,9 +117,7 @@ class XUBBP {
 * 
 * 格式：
 * <code>array(
-*     array('type1', 'funcName'),
-*     array('type2', array('classname1','method1')),
-*     array('type3', array('$this','method2')),
+*     array('type1', 'methodName'),
 *     …
 * );</code>
 * 
@@ -205,13 +192,7 @@ protected $endTags=array();
              }
              $v['id']=$id;
              $func=$this->display[$type];
-             if(is_array($func)) {
-                 if(is_object($func[0])) $html.=$func[0]->$func[1]($v,$this);
-                 elseif($func[0]=='$this') $html.=$this->$func[1]($v,$this);
-                 else throw new XUBBPException('因php5.2的兼容性问题，去除了对 $$class::$method 调用静态方法的支持，请使用 $object::$method（把类名字符串改成类的实例）。',503);/*$html.=$func[0]::$func[1]($v,$this);*/
-             } else {
-                 $html.=$func($v,$this);
-             }
+             $html.=$this->$func($v);
         }
         return $html;
     }
@@ -238,14 +219,7 @@ while($this->endTags) {
 $tag=array_pop($this->endTags);
 if($tag[0]!=$type) {
 array_push($this->endTags,$tag);
-$func=$tag[1];
-             if(is_array($func)) {
-                 if(is_object($func[0])) $ubbArray=array_merge($ubbArray,$func[0]->$func[1]($this));
-                 elseif($func[0]=='$this') $ubbArray=array_merge($ubbArray,$this->$func[1]($this));
-                 else $ubbArray=array_merge($ubbArray,$func[0]::$func[1]($this));
-             } else {
-                 $ubbArray=array_merge($ubbArray,$func($this));
-             }
+$func=$tag[1]; $ubbArray=array_merge($ubbArray,$this->$func());
 } else {
 return TRUE;
 }

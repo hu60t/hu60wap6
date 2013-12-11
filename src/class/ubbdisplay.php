@@ -3,16 +3,16 @@ class ubbDisplay extends XUBBP {
 /*注册显示回调函数*/
 protected $display=array(
 /*text 纯文本*/
-    'text' => array('$this','text'),
+    'text' => 'text',
 /*code 代码高亮*/
 /*link 链接*/
-    'url' => array('$this','link'),
-    'urlzh' => array('$this','link'),
-    'urlout' => array('$this','link'),
+    'url' => 'link',
+    'urlzh' => 'link',
+    'urlout' => 'link',
 /*img 图片*/
-    'img' => array('$this','img'),
-    'imgzh' => array('$this','img'),
-    'thumb' => array('$this','thumb'),
+    'img' => 'img',
+    'imgzh' => 'img',
+    'thumb' => 'thumb',
 );
   
 /*text 纯文本*/
