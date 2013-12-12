@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: text/plain; charset=utf-8');
+header('Content-Type: text/html; charset=utf-8');
 $ubb=new ubbParser;
 var_dump($data=$ubb->parse(
 <<<UBBTEXT
@@ -9,8 +9,8 @@ var_dump($data=$ubb->parse(
 [img=a.jpg]b[/img]
 《缩略图：240*320，g.cn》
 UBBTEXT
-));
+, true));
 
 $dis=new ubbDisplay();
-var_dump($dis->display($data));
+var_dump($dis->display($data, true));
 echo "\n用时:\n",microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'];

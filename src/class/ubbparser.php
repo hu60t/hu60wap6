@@ -13,22 +13,22 @@ protected $parse=array(
 * 因为[code][/code]标记里的内容（代码块）不应该进行任何UBB解析。
 */
 /*code 代码高亮*/
-    '!^(.*)\[code(?:=(.*?))?\](.*?)\[/code\](.*)$!ies' => "\$this->parser('\\1'),\$this->code('\\2','\\3'),\$this->parser('\\4')",
+    '!^(.*)\[code(?:=(.*?))?\](.*?)\[/code\](.*)$!is' => array(array(1,4), 'code', array(2,3)),
 /*link 链接*/
-    '!^(.*)\[url(?:=(.*?))?\](.*?)\[/url\](.*)$!ies' => "\$this->parser('\\1'),\$this->link('url','\\2','\\3'),\$this->parser('\\4')",
-    '!^(.*)《(链接|外链|锚)：(.*?)》(.*)$!ies' => "\$this->parser('\\1'),\$this->link('\\2','\\3'),\$this->parser('\\4')",
+    '!^(.*)\[url(?:=(.*?))?\](.*?)\[/url\](.*)$!is' => array(array(1,4), 'link', array('url',2,3)),
+    '!^(.*)《(链接|外链|锚)：(.*?)》(.*)$!is' => array(array(1,4), 'link', array(2,3)),
 /*img 图片*/
-    '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!ies' => "\$this->parser('\\1'),\$this->img('img','\\2','\\3'),\$this->parser('\\4')",
-    '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!ies' => "\$this->parser('\\1'),\$this->img('\\2','\\3'),\$this->parser('\\4')",
+    '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1,4), 'img', array('img',2,3)),
+    '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1,4), 'img', array(2,3)),
 /*copyright 版权*/
-    '!^(.*)《版权：(.*?)》(.*)$!ies' => "\$this->parser('\\1'),\$this->copyright('\\2'),\$this->parser('\\3')",
+    '!^(.*)《版权：(.*?)》(.*)$!is' => array(array(1,3), 'copyright', array(2)),
 /*battlenet 战网*/
-    '!^(.*)《战网：(.*?)》(.*)$!ies' => "\$this->parser('\\1'),\$this->battlenet('\\2'),\$this->parser('\\3')",
+    '!^(.*)《战网：(.*?)》(.*)$!is' => array(array(1,3), 'battlenet', array(2)),
 /*newline 换行*/
-    '!^(.*)\[([bh]r)\](.*)$!ies' => "\$this->parser('\\1'),\$this->newline('\\2'),\$this->parser('\\3')",
-    '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!ies' => "\$this->parser('\\1'),\$this->newline('\\2'),\$this->parser('\\3')",
+    '!^(.*)\[([bh]r)\](.*)$!is' => array(array(1,3), 'newline', array(2)),
+    '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1,3), 'newline', array(2)),
 /*time 时间*/
-    '!^(.*)\[time(?:=(.*?))?\](.*)$!ies' => "\$this->parser('\\1'),\$this->time('\\2'),\$this->parser('\\3')",
+    '!^(.*)\[time(?:=(.*?))?\](.*)$!is' => array(array(1,3), 'time', array(2)),
 
 /*
 * 开始标记
@@ -38,9 +38,9 @@ protected $parse=array(
 * 否则会出现代码嵌套错误。
 */
 /*layoutStart 布局开始*/
-    '!^(.*)\[(b|i|u|center|left|right)\](.*)$!eis' => "\$this->parser('\\1'),\$this->layoutStart('\\2'),\$this->parser('\\3')",
+    '!^(.*)\[(b|i|u|center|left|right)\](.*)$!is' => array(array(1,3), 'layoutStart', array(2)),
 /*style 样式开始*/
-    '!^(.*)\[(color|div|span)=(.*?)\](.*)$!eis' => "\$this->parser('\\1'),\$this->styleStart('\\2','\\3'),\$this->parser('\\4')",
+    '!^(.*)\[(color|div|span)=(.*?)\](.*)$!is' => array(array(1,4), 'styleStart', array(2,3)),
 /*
 * 结束标记
 * 
@@ -53,9 +53,9 @@ protected $parse=array(
 * 否则会出现嵌套错误。
 */
 /*style 样式结束*/
-    '!^(.*?)\[/(color|div|span)\](.*)$!eis' => "\$this->parser('\\1'),\$this->styleEnd('\\2'),\$this->parser('\\3')",
+    '!^(.*?)\[/(color|div|span)\](.*)$!is' => array(array(1,3), 'styleEnd', array(2)),
 /*layout 布局结束*/
-    '!^(.*?)\[/(b|i|u|center|left|right)\](.*)$!eis' => "\$this->parser('\\1'),\$this->layoutEnd('\\2'),\$this->parser('\\3')",
+    '!^(.*?)\[/(b|i|u|center|left|right)\](.*)$!is' => array(array(1,3), 'layoutEnd', array(2)),
 
 /*
 * 易误匹配的标记
@@ -64,15 +64,15 @@ protected $parse=array(
 * 可能会影响其他标记正常匹配的标记放在这里。
 */
 /*urltxt 文本链接*/
-    '!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!eis' => "\$this->parser('\\1'),\$this->urltxt('\\2'),\$this->parser('\\3')",
-    '!^(.*)([a-zA-Z0-9._-]+\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$!eis' => "\$this->parser('\\1'),\$this->urltxt('\\2'),\$this->parser('\\3')",
+    '!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is' => array(array(1,3), 'urltxt', array(2)),
+    '!^(.*)([a-zA-Z0-9._-]+\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$!is' => array(array(1,3), 'urltxt', array(2)),
 /*mailtxt 文本电子邮件地址*/
-    '!^(.*)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!eis' => "\$this->parser('\\1'),\$this->mailtxt('\\2'),\$this->parser('\\3')",
+    '!^(.*)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is' => array(array(1,3), 'mailtxt', array(2)),
 /*at @消息*/
-    '!^(.*?)[@＠][@＠#＃a-zA-Z0-9_\x{4e00}-\x{9fa5}]+(.*)$!ueis' => "\$this->parser('\\1'),\$this->layoutEnd('\\2'),\$this->parser('\\3')",
+    '!^(.*?)[@＠][@＠#＃a-zA-Z0-9_\x{4e00}-\x{9fa5}]+(.*)$!uis' => array(array(1,3), 'at', array(2)),
 /*face 表情*/
-    '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,2})\}(.*)$!ueis' => "\$this->parser('\\1'),\$this->face('\\2'),\$this->parser('\\3')",
-    '!^(.*)《表情(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,2})》(.*)$!ueis' => "\$this->parser('\\1'),\$this->face('\\2'),\$this->parser('\\3')",
+    '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,2})\}(.*)$!uis' => array(array(1,3), 'face', array(2)),
+    '!^(.*)《表情(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,2})》(.*)$!uis' => array(array(1,3), 'face', array(2)),
 );
   
 /*link  链接*/

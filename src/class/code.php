@@ -69,14 +69,14 @@ return $text;
 /**
 * 适合url的base64编码
 */
-function b64e($data) {
+static function b64e($data) {
     return strtr(base64_encode($data), array('+'=>'-', '/'=>'_', '='=>'.'));
 }
     
 /**
 * 适合url的base64解码
 */
-function b64d($code) {
+static function b64d($code) {
     return base64_decode(strtr($code, array('-'=>'+', '_'=>'/', '.'=>'=')));
 }
     

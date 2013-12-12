@@ -2,7 +2,7 @@
 /**
 * 可扩展UBB代码解析器
 * 
-* @version 0.1
+* @version 0.2
 * @author 老虎会游泳 <hu60.cn@gmail.com>
 * @copyright 该类是 hu60t 框架的一部分，使用 LGPLv3 授权
 * 
@@ -63,7 +63,7 @@
 * <code>
 * //UBB显示器
 * class myUbbDisplay extends XUBBP {
-*     private $display=array('…'=>'…','…'=>'…');
+*     private $display=array('…'=>array(……),'…'=>array(……));
 * 
 *     private function url($data) {
 *         …
@@ -128,6 +128,12 @@ class XUBBP {
 * @see self::regEndTag(),self::rmEndTag()
 */
 protected $endTags=array();
+
+/**
+* 递归解析器临时变量
+*/
+protected $tmp_parse_result = null;
+protected $tmp_parse_param = null;
   
 /**
 * 对UBB文本进行解析
@@ -144,21 +150,44 @@ protected $endTags=array();
 */
     public function parse($text,$serialize=false) {
         $arr=$this->parser($text);
+	    $this->tmp_parse_result = null;
+		$this->tmp_parse_param = null;
         $this->rmEndTag(NULL,$arr);
          if($serialize) return serialize($arr);
          else return $arr;
     }
+	
+/**
+* 递归解析文本
+*/
     public function parser($text) {
         if($text=='') return array();
-        $arr=array();
         foreach($this->parse as $k=>$v) {
-            $ok=preg_replace($k,"(\$arr=array_merge($v))?'':''",$text);
-            if($ok===NULL) throw new xubbpException("正则表达式 '$k' => '$v' 错误，解析失败！",500);
-            if($arr===NULL) throw new xubbpException("回调函数  '$k' => '$v' 返回值错误，应该返回二维数组！",501);
+		$arr=array();
+		$this->tmp_parse_result = &$arr;
+		$this->tmp_parse_param = $v;
+            $ok=preg_replace_callback($k,array($this, 'parseExec'),$text);
+            if($ok===NULL) throw new xubbpException("正则表达式 '$k' 错误，解析失败！",500);
+            if($arr===NULL) throw new xubbpException("正则表达式  '$k' 的回调函数 '$v[1]' 返回值错误，应该返回二维数组！",501);
             if($ok=='') return $arr;
         }
         return $this->parseText($text);
     }
+	
+/**
+* 使用回调函数执行递归解析
+*/
+    public function parseExec($argv) {
+	    $arr = &$this->tmp_parse_result;
+		$v = $this->tmp_parse_param;
+		$func = $v[1];
+		$param = $v[2];
+		foreach ($param as &$tmpV) {
+		    if (is_int($tmpV)) $tmpV = $argv[$tmpV];
+		}
+		$arr = array_merge($this->parser($argv[$v[0][0]]), call_user_func_array(array($this, $func), $param), $this->parser($argv[$v[0][1]]));
+		return '';
+	}
   
   
 /**
@@ -181,8 +210,9 @@ protected $endTags=array();
 * 
 * @return string 转换后的HTML代码
 */
-    public function display($ubbArray) {
-         $html='';
+    public function display($ubbArray, $serialize=false) {
+	    if ($serialize) $ubbArray = unserialize($ubbArray);
+        $html='';
 
         foreach($ubbArray as $id=>$v) {
              $type=$v['type'];
