@@ -27,6 +27,7 @@ protected $parse=array(
 /*battlenet 战网*/
     '!^(.*)《战网：(.*?)》(.*)$!is' => array(array(1,3), 'battlenet', array(2)),
 /*newline 换行*/
+    '!^(.*)(\r\n|\n|\r)(.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)\[([bh]r)\](.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1,3), 'newline', array(2)),
 
@@ -75,6 +76,7 @@ protected $parse=array(
     '!^(.*)《表情(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,2})》(.*)$!uis' => array(array(1,3), 'face', array(2)),
 );
   
+  
 /*link  链接*/
 public function link($type,$var,$var2='') {
     if($type=='链接' || $type=='外链') {
@@ -92,18 +94,21 @@ public function link($type,$var,$var2='') {
             $title=$var2;
         }
     }
+	$lenth = $this->len($url)+$this->len($title);
     if (strpos($title, '[img')!==false || strpos($title, '《图片：')!==false || strpos($title, '《缩略图：')!==false) {
         $obj = new ubbParser;
         $obj->setParse(array(
             '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1,4), 'img', array('img',2,3)),
             '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1,4), 'img', array(2,3))
-        );
+        ));
         $title = $obj->parse($title);
     }
+
     return array(array(
         'type'=>$type,
         'url'=>$url,
-        'title'=>$title
+        'title'=>$title,
+		'lenth'=>$lenth
     ));
 }
 
@@ -118,7 +123,8 @@ public function img($type,$var,$var2='') {
             'type' => 'thumb',
             'src' => $url,
             'w' => $opt[0][0],
-            'h' => $opt[0][1]
+            'h' => $opt[0][1],
+			'lenth' => $this->len($url)
         ));
     } else {
         if($type=='图片') {
@@ -135,7 +141,8 @@ public function img($type,$var,$var2='') {
         return array(array(
             'type' => $type=='img' ? 'img' : 'imgzh',
             'src' => $src,
-            'alt' => $alt
+            'alt' => $alt,
+			'lenth' => $this->len($src) + $this->len($alt)
         ));
     }
 }
@@ -147,7 +154,16 @@ public function code($lang, $data) {
         'type' => 'code',
         'lang' => $lang,
         'data' => $data,
+		'lenth' => $this->len($data)
     ));
+}
+
+public function newline($tag) {
+    return array(array(
+	    'type' => 'newline',
+		'tag' => $tag,
+		'lenth' => $this->len($tag)
+	));
 }
 /*class end*/
 }

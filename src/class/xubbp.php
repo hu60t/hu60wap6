@@ -135,6 +135,12 @@ protected $endTags=array();
 protected $tmp_parse_result = null;
 protected $tmp_parse_param = null;
   
+  
+/*len  计算utf-8字符串长度*/
+public function len($str) {
+    return mb_strlen($str,'utf-8');
+}
+
 /**
 * 对UBB文本进行解析
 * 
@@ -198,7 +204,8 @@ protected $tmp_parse_param = null;
     public function parseText($text) {
         return array(array(
             'type'=>'text',
-            'value'=>$text
+            'value'=>$text,
+			'lenth'=>$this->len($text)
         ));
     }
   
@@ -210,20 +217,26 @@ protected $tmp_parse_param = null;
 * 
 * @return string 转换后的HTML代码
 */
-    public function display($ubbArray, $serialize=false) {
-	    if ($serialize) $ubbArray = unserialize($ubbArray);
+    public function display($ubbArray, $serialize=false, $maxLen = null, $page = null) {
+	    if ($maxLen != null) {
+		    print_r($ubbArray = $this->displayPage($ubbArray, $maxLen, $page));
+		}
+	    if ($serialize)
+		    $ubbArray = unserialize($ubbArray);
+			
         $html='';
-
+        
         foreach($ubbArray as $id=>$v) {
-             $type=$v['type'];
-             if(!isset($this->display[$type])) {
-                 if($this->skipUnknown) continue;
-                 else throw new XUBBPException('未知类型：'.$type.' 类型未被定义，无法解析。请正确定义该类型的显示方案，或者使用 $xubbp->skipUnknown(TRUE) 跳过未知类型。',404);
-             }
-             $v['id']=$id;
-             $func=$this->display[$type];
-             $html.=$this->$func($v);
+            $type=$v['type'];
+            if(!isset($this->display[$type])) {
+                if($this->skipUnknown) continue;
+                else throw new XUBBPException('未知类型：'.$type.' 类型未被定义，无法解析。请正确定义该类型的显示方案，或者使用 $xubbp->skipUnknown(TRUE) 跳过未知类型。',404);
+            }
+            $v['id']=$id;
+            $func=$this->display[$type];
+			$html.=$this->$func($v);
         }
+		$this->rmEndTag(NULL,$html);
         return $html;
     }
   
@@ -261,17 +274,55 @@ array_push($this->endTags,array($type,$func));
 * 函数调用者应该返回 array() ，不要继续产生结束标记，
 * 否则会有不配对的结束标记出现。
 */
-public function rmEndTag($type,&$ubbArray) {
-while($this->endTags) {
-$tag=array_pop($this->endTags);
-if($tag[0]!=$type) {
-array_push($this->endTags,$tag);
-$func=$tag[1]; $ubbArray=array_merge($ubbArray,$this->$func());
-} else {
-return TRUE;
+public function rmEndTag($type,&$data) {
+    while($this->endTags) {
+        $tag=array_pop($this->endTags);
+        if($tag[0]!=$type) {
+            array_push($this->endTags,$tag);
+            $func=$tag[1];
+			if (is_array($data))
+                $data=array_merge($data,$this->$func());
+			else
+			    $data.=$this->$func();
+        } else {
+            return TRUE;
+        }
+    }
+    return FALSE;
 }
-}
-return FALSE;
+
+/**
+* 为UBB数组分页
+*/
+public function displayPage($ubbArray, $maxLen, $page = null) {
+    if ($maxLen < 1) $maxLen = 1;
+    if (empty($ubbArray))
+	    return array();
+	
+    $arr = array();
+	$len = 0;
+    $p = &$arr[];
+	$p = array();
+	foreach ($ubbArray as $v) {
+		if ($len >= $maxLen || ($len > 0 && $len + $v['lenth'] - maxLen >= $maxLen - $len)) { 
+		    $p = &$arr[];
+			$p = array();
+			$len = 0;
+		}
+        if ($len == 0 || $len+$v['lenth'] <= $maxLen) {
+		    $p[] = $v;
+			$len += $v['lenth'];
+		} else {
+		    throw new XUBBPException('UBB数组分页异常：遗漏元素', 501);
+		}
+	}
+	if ($page != null) {
+	    if ($page < 1)
+		    $page = 1;
+		if ($page > count($arr))
+		    $page = count($arr);
+	}
+	return $page == null ? $arr : $arr[$page-1];
 }
   
 /**
