@@ -14,6 +14,8 @@ protected $parse=array(
 */
 /*code 代码高亮*/
     '!^(.*)\[code(?:=(.*?))?\](.*?)\[/code\](.*)$!is' => array(array(1,4), 'code', array(2,3)),
+/*time 时间*/
+    '!^(.*)\[time(?:=(.*?))?\](.*)$!is' => array(array(1,3), 'time', array(2)),
 /*link 链接*/
     '!^(.*)\[url(?:=(.*?))?\](.*?)\[/url\](.*)$!is' => array(array(1,4), 'link', array('url',2,3)),
     '!^(.*)《(链接|外链|锚)：(.*?)》(.*)$!is' => array(array(1,4), 'link', array(2,3)),
@@ -27,8 +29,6 @@ protected $parse=array(
 /*newline 换行*/
     '!^(.*)\[([bh]r)\](.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1,3), 'newline', array(2)),
-/*time 时间*/
-    '!^(.*)\[time(?:=(.*?))?\](.*)$!is' => array(array(1,3), 'time', array(2)),
 
 /*
 * 开始标记
@@ -91,6 +91,14 @@ public function link($type,$var,$var2='') {
             $url=$var;
             $title=$var2;
         }
+    }
+    if (strpos($title, '[img')!==false || strpos($title, '《图片：')!==false || strpos($title, '《缩略图：')!==false) {
+        $obj = new ubbParser;
+        $obj->setParse(array(
+            '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1,4), 'img', array('img',2,3)),
+            '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1,4), 'img', array(2,3))
+        );
+        $title = $obj->parse($title);
     }
     return array(array(
         'type'=>$type,

@@ -227,9 +227,26 @@ protected $tmp_parse_param = null;
         return $html;
     }
   
-public function setopt($key,$value) {
+public function setParse($value) {
+    if (is_array($value)) {
+        $this->parse = $value;
+        return true;
+    } else
+        return false;
 }
-public function getopt($key) {
+public function getParse() {
+    return $this->parse;
+}
+
+public function setDisplay($value) {
+    if (is_array($value)) {
+        $this->display = $value;
+        return true;
+    } else
+        return false;
+}
+public function getDisplay() {
+    return $this->Display;
 }
 
 public function regEndTag($type,$func) {
