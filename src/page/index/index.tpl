@@ -1,20 +1,17 @@
-{include file="tpl:comm.head" title="hu60t网站开发框架"}
+{include file="tpl:comm.head" title="虎绿林"}
+{config_load file="conf:site.info"}
 {div class="content"}
-欢迎使用 hu60t网站开发框架 进行你的xhtml/wml兼容WAP应用的开发。<br/>
-<a href="http://hu60.cn/">访问hu60.cn查看相关文档</a>
+　　hu60.org致力于成为一个真正的非盈利性组织，它本来希望通过hu60.cn实现和平过渡。但是实践发现，这种过渡太难，几乎无法完成。<br/>
+　　于是，hu60.org放弃了过渡计划，而是决定重新开始。<br/>
+　　hu60.org将在虎绿林6程序未完成时上线，然后一点点完善，直到它具有一个我们所期待的非盈利性组织所应有的功能。<br/>
+　　hu60.org将在一开始就严格限制其中能够讨论的话题，这些话题便是这个组织当前所关注的有积极意义的话题。其他话题将被禁止，并且这种禁止显然是合理的，就像你不可能去一个环保组织的网站去大谈挂机。<br/>
+　　hu60.org希望它能继承hu60.cn创始人的美好心愿，继续为在中华大地上传播正能量而服务。因为是一个非盈利的公益组织，所以它要求它的会员拥有较高的素质和追求，它从本质上就拒绝低俗——所以一切低俗和功利的话题及会员都不会受欢迎。<br/>
+　　hu60.org希望，它能够成为一个真正高质量的、每一个话题都有意义的网站。我们邀请真诚的您帮助我们把这个希望变成现实。<br/>
+　　此外，由于精力有限，hu60.cn可能会一直保持现状，不会再更新。如果您希望访问之前的虎绿林，请访问hu60.cn，谢谢。<br/>
+<br/>
+　　在此，请允许我重复虎绿林曾经的宣言——分享阳光，树木变成森林。<br/>
+　　希望我们能够真正做到，在阳光下高质量的运行。<br/>
+　　　　　　　　　　　　————老虎会游泳　2014-01-12
 {/div}
-{div class="title"}
-访问测试模板：
-{/div}
-{div class="content" class="{cycle values='tp,'}" }
-<a href="test.index.form.{$page.bid}">表单测试</a><br/>
-<a href="test.index.jump.{$page.bid}">URL跳转测试</a><br/>
-<a href="test.index.isbid.{$page.bid}">isbid测试</a>
-{/div}
-{div class="title"}许可证：
-{/div}
-{div class="content"}
-本框架由<a href="http://hu60.cn/">绿虎众</a>创建，你可以打开程序根目录的license.txt查看许可证，这是一个UTF-8编码的文件。
-{/div}
-{div class="title"}hu60t报时：{/div}
+{div class="title"}{#CLOCK_NAME#}{/div}
 {include file="tpl:comm.foot"}

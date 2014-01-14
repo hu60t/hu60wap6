@@ -76,8 +76,32 @@ protected $parse=array(
     '!^(.*)《表情(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,2})》(.*)$!uis' => array(array(1,3), 'face', array(2)),
 );
   
+/**
+* @brief 代码高亮
+*/
+public function code($lang, $data) {
+    $lang = trim($lang);
+    if ($lang == '') $lang = 'php';
+    return array(array(
+        'type' => 'code',
+        'lang' => $lang,
+        'data' => $data,
+		'len' => $this->len($data)
+    ));
+}
+
+/**
+* @brief 时间标记
+*/
+public function time($tag) {
+    return array(array(
+        'type' => 'time',
+        'tag' => $tag,
+		'len' => $this->len($tag)
+    ));
+}
   
-/*link  链接*/
+/** @brief 链接*/
 public function link($type,$var,$var2='') {
     if($type=='链接' || $type=='外链') {
         $arr=explode('，',$var);
@@ -94,7 +118,7 @@ public function link($type,$var,$var2='') {
             $title=$var2;
         }
     }
-	$lenth = $this->len($url)+$this->len($title);
+	$len = $this->len($url)+$this->len($title);
     if (strpos($title, '[img')!==false || strpos($title, '《图片：')!==false || strpos($title, '《缩略图：')!==false) {
         $obj = new ubbParser;
         $obj->setParse(array(
@@ -108,11 +132,11 @@ public function link($type,$var,$var2='') {
         'type'=>$type,
         'url'=>$url,
         'title'=>$title,
-		'lenth'=>$lenth
+		'len'=>$len
     ));
 }
 
-/*img 图片*/
+/** @brief 图片*/
 public function img($type,$var,$var2='') {
     if($type=='缩略图') {
         $var=explode('，',$var);
@@ -124,7 +148,7 @@ public function img($type,$var,$var2='') {
             'src' => $url,
             'w' => $opt[0][0],
             'h' => $opt[0][1],
-			'lenth' => $this->len($url)
+			'len' => $this->len($url)
         ));
     } else {
         if($type=='图片') {
@@ -142,27 +166,41 @@ public function img($type,$var,$var2='') {
             'type' => $type=='img' ? 'img' : 'imgzh',
             'src' => $src,
             'alt' => $alt,
-			'lenth' => $this->len($src) + $this->len($alt)
+			'len' => $this->len($src) + $this->len($alt)
         ));
     }
 }
-  
-public function code($lang, $data) {
-    $lang = trim($lang);
-    if ($lang == '') $lang = 'php';
+
+/**
+* @brief 版权声明标记
+*/
+public function copyright($tag) {
     return array(array(
-        'type' => 'code',
-        'lang' => $lang,
-        'data' => $data,
-		'lenth' => $this->len($data)
+        'type' => 'copyright',
+        'tag' => $tag,
+		'len' => $this->len($tag)
     ));
 }
 
+/**
+* @brief 战网（魔兽世界英雄榜）链接标记
+*/
+public function battlenet($tag) {
+    return array(array(
+        'type' => 'battlenet',
+        'tag' => str_replace('＠', '@', $tag),
+		'len' => $this->len($tag)
+    ));
+}
+
+/**
+* @brief 换行
+*/
 public function newline($tag) {
     return array(array(
 	    'type' => 'newline',
 		'tag' => $tag,
-		'lenth' => $this->len($tag)
+		'len' => $this->len($tag)
 	));
 }
 /*class end*/

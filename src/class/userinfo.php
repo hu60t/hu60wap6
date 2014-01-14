@@ -181,7 +181,7 @@ throw new userexception('不能从类外部修改用户信息',503);
 }
 public function __unset($name)
 {
-throw new pageexception('不能从类外部删除用户信息',503);
+throw new userexception('不能从类外部删除用户信息',503);
 }
 /*下面是ArrayAccess接口*/
 public function offsetExists($name)
@@ -194,11 +194,11 @@ return self::$data[$this->uid][$name];
 }
 public function offsetSet($name,$value)
 {
-throw new pageexception('不能从类外部修改用户信息',503);
+throw new userexception('不能从类外部修改用户信息',503);
 }
 public function offsetUnset($name)
 {
-throw new pageexception('不能从类外部删除用户信息',503);
+throw new userexception('不能从类外部删除用户信息',503);
 }
   
 /*class end*/

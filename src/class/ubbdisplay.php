@@ -21,6 +21,12 @@ protected $display=array(
   public function text($data) {
     return code::html($data['value'],'<br/>');
   }
+  
+/*代码高亮*/
+  public function code() {
+      
+  }
+
 /*link 链接*/
   public function link($data) {
     global $PAGE;
