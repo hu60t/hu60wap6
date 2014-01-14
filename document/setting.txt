@@ -1,0 +1,12 @@
+URL中的用户sid：
+    /sid/cid.pid.bid    （URL中的sid是可省略的）
+
+自定义参数：
+    hu60中常用以点(.)分隔的自定义参数格式，如$USER->get/setinfo()、xubbp::get/setOpt()。以点分隔的参数会被保存在多维数组内，比如a.b.c.d 就是 $arr['a']['b']['c']['d']。可以一次获取或者设置一个数组，比如 $ubb->getOpt('a.b.c') 将得到包含['d']其同一级下其他成员的数组；$USER->setopt('a.b.c', array('d'=>1, 'e'=>2))。
+
+$USER->getinfo：
+    'page.css.wap'    手机版css风格
+    
+Cookie：
+    COOKIE_A . 'page_css_wap'    手机版css风格
+    COOKIE_A . 'sid'    用户sid

@@ -203,5 +203,53 @@ public function newline($tag) {
 		'len' => $this->len($tag)
 	));
 }
+
+/**
+* @brief 布局开始
+*/
+function layoutStart($tag) {
+    return array(array(
+	    'type' => 'layout',
+		'tag' => $tag,
+		'len' => $this->len($tag)
+	));
+}
+
+/**
+* @brief 布局结束
+*/
+function layoutEnd($tag) {
+    /*结束标记的tag以斜杠(/)开始*/
+    return array(array(
+	    'type' => 'layout',
+		'tag' => '/'.$tag,
+		'len' => $this->len($tag)
+	));
+}
+
+/**
+* @brief 样式开始
+*/
+function styleStart($tag, $opt) {
+    return array(array(
+	    'type' => 'style',
+		'tag' => $tag,
+		'opt' => $opt,
+		'len' => $this->len($tag.$opt)
+	));
+}
+
+/**
+* @brief 样式结束
+*/
+function styleEnd($tag, $opt) {
+    /*结束标记的tag以斜杠(/)开始*/
+    return array(array(
+	    'type' => 'style',
+		'tag' => '/'.$tag,
+		'opt' => $opt,
+		'len' => $this->len($tag.$opt)
+	));
+}
 /*class end*/
 }

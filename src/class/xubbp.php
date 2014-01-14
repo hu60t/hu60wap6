@@ -108,6 +108,7 @@
 * </code>
 */
 class XUBBP {
+
 /**
 * 显示UBB数组时是否忽略未知的类型
 * 
@@ -116,6 +117,7 @@ class XUBBP {
 * 不要直接操作该属性，使用 self::skipUnknown() 设置该属性的值。
 */
     protected $skipUnknown=FALSE;
+	
 /**
 * UBB解析器的分析规则列表
 * 
@@ -128,6 +130,7 @@ class XUBBP {
 * 数组键值的意义和具体写法见 self::addParse()
 */
     protected $parse=array();
+	
 /**
 * UBB显示器的回调函数列表
 * 
@@ -163,6 +166,11 @@ class XUBBP {
 protected $endTags=array();
 
 /**
+* 可选或自定义参数
+*/
+protected $opt = array();
+
+/**
 * 递归解析器临时变量
 */
 protected $tmp_parse_result = null;
@@ -170,7 +178,7 @@ protected $tmp_parse_param = null;
   
   
 /*len  计算utf-8字符串长度*/
-public function len($str) {
+protected function len($str) {
     return mb_strlen($str,'utf-8');
 }
 
@@ -199,7 +207,7 @@ public function len($str) {
 /**
 * 递归解析文本
 */
-    public function parser($text) {
+    protected function parser($text) {
         if($text=='') return array();
         foreach($this->parse as $k=>$v) {
 		$arr=array();
@@ -216,7 +224,7 @@ public function len($str) {
 /**
 * 使用回调函数执行递归解析
 */
-    public function parseExec($argv) {
+    protected function parseExec($argv) {
 	    $arr = &$this->tmp_parse_result;
 		$v = $this->tmp_parse_param;
 		$func = $v[1];
@@ -234,7 +242,7 @@ public function len($str) {
 * 
 * 子类可以重载该方法以实现敏感词过滤等功能。
 */
-    public function parseText($text) {
+    protected function parseText($text) {
         return array(array(
             'type'=>'text',
             'value'=>$text,
@@ -251,8 +259,8 @@ public function len($str) {
 * @return string 转换后的HTML代码
 */
     public function display($ubbArray, $serialize=false, $maxLen = null, $page = null) {
-	    if ($maxLen != null) {
-		    print_r($ubbArray = $this->displayPage($ubbArray, $maxLen, $page));
+	    if ($maxLen != null && $page != null) {
+		    $ubbArray = $this->displayPage($ubbArray, $maxLen, $page);
 		}
 	    if ($serialize)
 		    $ubbArray = unserialize($ubbArray);
@@ -273,6 +281,9 @@ public function len($str) {
         return $html;
     }
   
+/**
+* 设置解析规则
+*/
 public function setParse($value) {
     if (is_array($value)) {
         $this->parse = $value;
@@ -280,10 +291,17 @@ public function setParse($value) {
     } else
         return false;
 }
+
+/**
+* 读取解析规则
+*/
 public function getParse() {
     return $this->parse;
 }
 
+/**
+* 设置显示规则
+*/
 public function setDisplay($value) {
     if (is_array($value)) {
         $this->display = $value;
@@ -291,23 +309,67 @@ public function setDisplay($value) {
     } else
         return false;
 }
+
+/**
+* 读取显示规则
+*/
 public function getDisplay() {
     return $this->Display;
 }
 
-public function regEndTag($type,$func) {
-array_push($this->endTags,array($type,$func));
+/**
+* 读取自定义参数
+* 
+* 以点分隔的参数会被保存在多维数组内，比如  a.b.c.d 就是
+* $arr['a']['b']['c']['d']。可以一次获取一个数组，
+* 比如 $ubb->getOpt('a.b.c') 将得到包含['d']其同一级下其他
+* 成员的数组。
+*/
+public function getOpt($index = null) {
+    $set = &$this->opt;
+    $index=explode('.',$index);
+    foreach($index as $key) {
+	    $set=$set[$key];
+	}
+    return $set;
 }
 
 /**
-* 移除开始标记的回调函数注册的结束标记
+* 设置自定义参数
+* 
+* 以点分隔的参数会被保存在多维数组内，比如  a.b.c.d 就是
+* $arr['a']['b']['c']['d']。可以一次设置一个数组，
+* 比如 $ubb->setOpt('a.b.c', array('d'=>1, 'e'=>2))
+*/
+public function setOpt($index, $data) {
+    $set=&$this->opt;
+    if($index!==null) {
+        $index=explode('.',$index);
+        foreach($index as $key) {
+		    $set=&$set[$key];
+		}
+    }
+    if($set===$data) return NULL;
+    $set=$data;
+	return TRUE;
+}
+
+/**
+* 注册结束标记回调
+*/
+protected function regEndTag($type,$func) {
+    array_push($this->endTags,array($type,$func));
+}
+
+/**
+* 移除结束标记回调
 * 
 * @return 找到并成功移除返回 TRUE，未找到返回 FALSE。
 * 如果函数返回 FALSE，表明没有对应的开始标记，
 * 函数调用者应该返回 array() ，不要继续产生结束标记，
 * 否则会有不配对的结束标记出现。
 */
-public function rmEndTag($type,&$data) {
+protected function rmEndTag($type,&$data) {
     while($this->endTags) {
         $tag=array_pop($this->endTags);
         if($tag[0]!=$type) {
@@ -326,6 +388,8 @@ public function rmEndTag($type,&$data) {
 
 /**
 * 为UBB数组分页
+* 
+* @todo 对text和code等长文本内容进行拆分
 */
 public function displayPage($ubbArray, $maxLen, $page = null) {
     if ($maxLen < 1) $maxLen = 1;

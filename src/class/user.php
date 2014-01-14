@@ -91,14 +91,12 @@ public function setinfo($index,$data) {
  $set=&self::$info[$this->uid];
  if($set===NULL) {
   $this->getinfo();
-
  }
  $set=&self::$info[$this->uid];
  if($index!==null) {
   $index=explode('.',$index);
   foreach($index as $key)
    {$set=&$set[$key];}
-
  }
  if($set===$data) return NULL;
  $set=$data;

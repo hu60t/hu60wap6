@@ -1,5 +1,5 @@
 {literal}
-body { margin:0px; padding:4px; background-color:#111312; color:#717372; }
+body { max-width:800px; margin:0px auto; margin:0px; padding:4px; background-color:#111312; color:#717372; }
 p { margin:0px; padding:2px; }
 div { margin:0px; padding:2px; }
 a { text-decoration:none; color:#567756; }
