@@ -1,1 +1,10 @@
 src/temp/
+*.zip
+*.rar
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tbz
+*.tgz
+*.xz
+*.7z
