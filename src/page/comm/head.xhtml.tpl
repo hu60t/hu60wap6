@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{hu60::getmyurl()|code}{else}{$url|code}{/if}"/>{/if}
 {if $css === null}{$css="css.wap.{$smarty.get.css}.css"}{/if}
-<link rel="stylesheet" type="text/css" href="{$css|code}"/>
+<link rel="stylesheet" type="text/css" href="{$css|code}?{time()}"/>
 <title>{$title|code}</title>
 </head>
 <body>{if !$base}<div><a id="top" href="#bottom" accesskey="6"></a></div>

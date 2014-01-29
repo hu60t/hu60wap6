@@ -12,4 +12,6 @@ hr { height:1px; border:1px solid #bbdf99; border-left:none; border-right:none; 
 .content { background-color:#FFFFFF; }
 .notice { color:#ff0000; }
 .linktext { font-weight:bold; }
+.forum_list { margin:5px; border:1px solid #68995a; padding-left:5px; padding-right:5px; padding-top:3px; padding-bottom:3px; }
+.forum_list div { border-left:none; border-right:none; padding:5px; height:30px; }
 {/literal}

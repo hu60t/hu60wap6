@@ -352,7 +352,6 @@ $table=$this->auto_a($table);
 $sql="SELECT $name FROM $table $cond";
 $data=func_get_args();
 $data=$this->pdoarray(3,$data);
-
 return $this->sqlexec(true,$sql,$data);
 }
 

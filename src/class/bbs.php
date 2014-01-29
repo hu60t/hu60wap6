@@ -94,4 +94,23 @@ class bbs {
         throw $e;
     }
     }
+    
+    /**
+    * 获取版块元信息
+    */
+    public function forumMeta($forum_id, $fetch='*') {
+        $rs = $this->db->select($fetch, 'bbs_forum_meta', 'WHERE id=?', $forum_id);
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+        return $rs->fetch();
+    }
+   /**
+    * 获取子版块元信息
+    */
+    public function childForumMeta($parent_id, $fetch='*') {
+        $rs = $this->db->select($fetch, 'bbs_forum_meta', 'WHERE parent_id=? ORDER BY mtime DESC', $parent_id);
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+        return $rs->fetchAll();
+    }
 }
