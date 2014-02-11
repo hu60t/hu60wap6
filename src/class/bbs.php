@@ -42,6 +42,7 @@ class bbs {
     */
     public function newTopic($forumId, $title, $content) {
     try {
+        $time = time();
         //发帖权限检查
         $this->checkLogin();
         //版块有效性检查
@@ -65,24 +66,26 @@ class bbs {
         $ubb = new ubbparser;
         $data = $ubb->parse($content, true);
         //写主题数据
-        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid', time(), time(), $data, $this->user->uid);
+        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid', $time, $time, $data, $this->user->uid);
         if (!$rs)
             new bbsException('数据库错误，主题内容（'.DB_A.'bbs_topic_content）写入失败！', 500);
         $topic_id = $this->db->lastInsertId();
         //写主题标题
-        $rs = $this->db->insert('bbs_topic_meta', 'topic_id,title,uid', $topic_id, $title, $this->user->uid);
+        $rs = $this->db->insert('bbs_topic_meta', 'topic_id,title,uid,ctime,mtime', $topic_id, $title, $this->user->uid, $time, $time);
         if (!$rs) {
             $this->db->delete('bbs_topic_content', 'WHERE id=?', $topic_id);
             new bbsException('数据库错误，主题标题（'.DB_A.'bbs_topic_meta）写入失败！', 500);
         }
         $topic_id = $this->db->lastInsertId();
         //写版块
-        $sql = 'INSERT INTO '.DB_A.'bbs_forum_topic(forum_id,topic_id) VALUES(?,?)';
+        $sql = 'INSERT INTO '.DB_A.'bbs_forum_topic(forum_id,topic_id,ctime,mtime) VALUES(?,?,?,?)';
         $rs = $this->db->prepare($sql);
         if (!$rs)
             new bbsException('数据库错误，版块信息（'.DB_A.'bbs_forum_topic）写入失败！', 500);
         $i = 0;
         $rs->bindParam(1, $i);
+        $rs->bindParam(3, $time);
+        $rs->bindParam(4, $time);
         $rs->bindParam(2, $topic_id);
         foreach($fid as $i) {
             $rs->execute();
@@ -104,6 +107,7 @@ class bbs {
             throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
         return $rs->fetch();
     }
+    
    /**
     * 获取子版块元信息
     */
@@ -111,6 +115,57 @@ class bbs {
         $rs = $this->db->select($fetch, 'bbs_forum_meta', 'WHERE parent_id=? ORDER BY mtime DESC', $parent_id);
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+        return $rs->fetchAll();
+    }
+    
+    /**
+    * 获取版块下的帖子总数
+    */
+    public function topicCount($forum_id) {
+        $rs = $this->db->select('count(*)', 'bbs_forum_topic', 'WHERE forum_id=?', $forum_id);
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
+        $rs = $rs->fetch(db::num);
+        return $rs[0];
+    }
+    
+    /**
+    * 获取版块下的帖子id
+    */
+    public function topicList($forum_id, $page, $size) {
+        if ($size < 1)
+            $size = 10;
+        if ($page < 1)
+            $page = 1;
+        $offset = ($page-1)*$size;
+        $rs = $this->db->select('topic_id', 'bbs_forum_topic', 'WHERE forum_id=? ORDER BY mtime DESC LIMIT ?,?', $forum_id, $offset, $size);
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
+        return $rs->fetchAll();
+    }
+    
+    /**
+    * 获取帖子元信息
+    */
+    public function topicMeta($topic_id, $fetch='*') {
+        $rs = $this->db->select($fetch, 'bbs_topic_meta', 'WHERE id=?', $topic_id);
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_meta不可读', 500);
+        return $rs->fetch();
+    }
+    
+    /**
+    * 获取帖子内容
+    */
+    public function topicContent($topic_id, $page, $size, $fetch='*') {
+        if ($size < 1)
+            $size = 10;
+        if ($page < 1)
+            $page = 1;
+        $offset = ($page-1)*$size;
+        $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? ORDER BY id ASC LIMIT ?,?', $topic_id, $offset, $size);
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
         return $rs->fetchAll();
     }
 }

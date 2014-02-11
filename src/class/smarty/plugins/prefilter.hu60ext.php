@@ -6,16 +6,16 @@ global $PAGE;
 $bid=page::getRegBid();
 unset($bid[$PAGE['bid']]);
 $bid=implode('|',array_keys($bid));
-$l=preg_quote($smarty->left_delimiter);
-$r=preg_quote($smarty->right_delimiter);
+$l=preg_quote($smarty->left_delimiter, '!');
+$r=preg_quote($smarty->right_delimiter, '!');
 return preg_replace(
 //smarty能够自动把结束标记转换为标记+close，
 //所以不再需要替换成end+标记了。
  array(/*'!'.$l.'/div(.*)'.$r.'!U',
        '!'.$l.'/form(.*)'.$r.'!U',
-       '!'.$l.'/span(.*)'.$r.'!U', */
-       "!$l/?is$PAGE[bid]$r!U",
-       '!'.$l.'is('.$bid.')'.$r.'.*'.$l.'/is\\1'.$r.'!uisU'),
+       '!'.$l.'/span(.*)'.$r.'!U',*/
+       "!$l/?is$PAGE[bid]$r!sU",
+       '!'.$l.'is('.$bid.')'.$r.'.*'.$l.'/is\\1'.$r.'!sU'),
  array(/*'{enddiv\1}',
        '{endform\1}',
        '{endspan\1}',*/

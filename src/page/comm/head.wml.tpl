@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
 </head>
-<card id="{if $id}{$id}{else}main{/if}" title="{$title|code}"{if $time !== null} ontimer="{if $url === null}{hu60::getmyurl()|code}{else}{$url|code}{/if}"><timer value="{$time}0"/{/if}>
+<card id="{if $id}{$id}{else}main{/if}" title="{$title|code}"{if $time !== null} ontimer="{if $url === null}{hu60::geturl()|code}{else}{$url|code}{/if}"><timer value="{$time}0"/{/if}>
 
 {if !$no_user && is_object($user)}<p>
 {if $user->uid}

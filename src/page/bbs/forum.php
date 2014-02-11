@@ -36,7 +36,20 @@ $tpl->assign('fIndex', $fIndex);
 
 //读取子版块信息
 $childForum = $bbs->childForumMeta($fid, 'name,id');
+foreach ($childForum as &$v) {
+    $v['topic_count'] = $bbs->topicCount($v['id']);
+}
 $tpl->assign('childForum', $childForum);
+
+//获取帖子列表
+$topicList = $bbs->topicList($fid, $p, 20);
+$uinfo = new userinfo();
+foreach ($topicList as &$v) {
+    $v = $v + $bbs->topicMeta($v['topic_id'], 'title,uid,mtime as time');
+    $uinfo->uid($v['uid']);
+    $v['uname'] = $uinfo->name;
+}
+$tpl->assign('topicList', $topicList);
 
 //显示版块列表
 $tpl->display('tpl:forum');
