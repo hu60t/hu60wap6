@@ -8,9 +8,14 @@ $fid = (int)$PAGE->ext[0];
 if ($fid < 0) $fid = 0;
 $tpl->assign('fid', $fid);
 
+//获取帖子id
+$tid = (int)$PAGE->ext[1];
+$tpl->assign('tid', $tid);
+
 //获取帖子页码
-$p = (int)$PAGE->ext[1];
+$p = (int)$PAGE->ext[2];
 if ($p < 1) $p = 1;
+$tpl->assign('p', $p);
 
 //读取父版块信息
 $fIndex = array();
@@ -34,22 +39,22 @@ $fIndex[] = array(
 $fIndex = array_reverse($fIndex);
 $tpl->assign('fIndex', $fIndex);
 
-//读取子版块信息
-$childForum = $bbs->childForumMeta($fid, 'name,id,notopic');
-foreach ($childForum as &$v) {
-    $v['topic_count'] = $bbs->topicCount($v['id']);
-}
-$tpl->assign('childForum', $childForum);
+//读取帖子元信息
+$tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime', 'WHERE id=?', $fid);
+if (!$tMeta)
+    throw new bbsException('帖子 id='.$tid.' 不存在！', 2404);
+$tpl->assign('tMeta', $tMeta);
 
-//获取帖子列表
-$topicList = $bbs->topicList($fid, $p, 20);
-foreach ($topicList as &$v) {
-    $v = $v + $bbs->topicMeta($v['topic_id'], 'title,uid,mtime as time');
+//读取帖子内容
+$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content');
+foreach ($tContents as &$v) {
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);
     $v['uinfo'] = $uinfo;
 }
-$tpl->assign('topicList', $topicList);
-
-//显示版块列表
-$tpl->display('tpl:forum');
+$tpl->assign('tContents', $tContents);
+//var_dump($tContents);die;
+$ubb = new ubbdisplay();
+$tpl->assign('ubb', $ubb);
+//显示帖子
+$tpl->display('tpl:topic');

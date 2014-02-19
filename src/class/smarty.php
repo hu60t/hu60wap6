@@ -1481,9 +1481,9 @@ if (Smarty::$_CHARSET !== 'UTF-8') {
  * @package Smarty
  */
 class SmartyException extends Exception {
-    public function __construct($message) {
+    /*public function __construct($message) {
         $this->message = htmlentities($message);
-    }
+    }*/
 }
 
 /**

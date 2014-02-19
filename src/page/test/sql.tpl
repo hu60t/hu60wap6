@@ -2,7 +2,7 @@
 {div class="content"}
 {form action="test.sql.$bid" method="post"}
 {if $showdbname}SQLite数据库名:{input name="dbname" value=$smarty.post.dbname}<br/>{/if}
-SQL:{input type="textarea" name="sql" value=$sql}<br/>
+SQL:{input type="textarea" name="sql" value=$sql size=array("45","5")}<br/>
 {input type="submit" value="执行"}
 {/form}
 {/div}

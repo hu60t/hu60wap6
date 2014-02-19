@@ -11,14 +11,15 @@ $r=preg_quote($smarty->right_delimiter, '!');
 return preg_replace(
 //smarty能够自动把结束标记转换为标记+close，
 //所以不再需要替换成end+标记了。
- array(/*'!'.$l.'/div(.*)'.$r.'!U',
+//但是自动替换的结束标记不支持属性，于是wml=""属性不能正常工作，所以改回手动替换
+ array('!'.$l.'/div(.*)'.$r.'!U',
        '!'.$l.'/form(.*)'.$r.'!U',
-       '!'.$l.'/span(.*)'.$r.'!U',*/
+       '!'.$l.'/span(.*)'.$r.'!U',
        "!$l/?is$PAGE[bid]$r!sU",
        '!'.$l.'is('.$bid.')'.$r.'.*'.$l.'/is\\1'.$r.'!sU'),
- array(/*'{enddiv\1}',
-       '{endform\1}',
-       '{endspan\1}',*/
+ array('{divclose\1}',
+       '{formclose\1}',
+       '{spanclose\1}',
        '',
        '')
  ,$source);
