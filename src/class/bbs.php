@@ -117,8 +117,10 @@ class bbs {
         $data = $ubb->parse($content, true);
         //写回复数据
         $time = $_SERVER['REQUEST_TIME'];
-        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id', $time, $time, $data, $this->user->uid, $topic_id, $reply_id);
-        return true;
+        $floor = $this->db->query('SELECT max(floor) FROM '.DB_A.'bbs_topic_content WHERE topic_id=?', $topic_id);
+        $floor = $floor->fetch(db::num);
+        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor[0]+1);
+        return $rs ? true : false;
     }
     
     /**
@@ -139,6 +141,31 @@ class bbs {
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
         return $rs->fetchAll();
+    }
+    
+    /**
+    * 获取父版块元信息
+    */
+    public function fatherForumMeta($fid, $fetch='*') {
+        if (trim($fetch) != '*' && !preg_match('!(^|,)\s*parent_id\s*(,|$)!s', $fetch))
+            $fetch .= ',parrent_id';
+        $fIndex = array();
+        $parent_id = $fid;
+        if ($fid == 0) { //id为0的是根节点
+            return null;
+        } else do {
+            $meta = $this->forumMeta($parent_id, $fetch);
+            $fIndex[] = $meta;
+            if (!$meta)
+                throw new bbsException('版块 id='.$parent_id.' 不存在！', 1404);
+            $parent_id = $meta['parent_id'];
+        } while ($parent_id != 0); //遍历到父版块是根节点时结束
+        $fIndex[] = array(
+            'id' => 0,
+            'name' => '',
+        );
+        $fIndex = array_reverse($fIndex);
+        return $fIndex;
     }
     
     /**

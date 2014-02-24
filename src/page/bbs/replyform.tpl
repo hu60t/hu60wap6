@@ -1,10 +1,11 @@
 {config_load file="conf:site.info"}
+{$url="$CID.topic.$fid.$tid.$p.$BID"}
 {if $fid == 0}
     {$fName=#BBS_INDEX_NAME#}
 {else}
     {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{include file="tpl:comm.head" title="{$tMeta.title|code} - {$fName} - {#BBS_NAME#}"}
+{include file="tpl:comm.head" title="回复 - {$tMeta.title|code} - {$fName} - {#BBS_NAME#}"}
 <!--导航栏-->
 {div class="forum_list"}
     {foreach $fIndex as $forum}
@@ -15,19 +16,13 @@
 {/div}
 {div class="topic_area"}
     {div class="title"}
-        {span class="titletext"}{$tMeta.title|code}{/span}
+        {span class="titletext"}<a href="{$url|code}">{$tMeta.title|code}</a>{/span}
     {/div}
-    {foreach $tContents as $v}
-        {div class="{cycle values="content,tip"}"}
-            {$ubb->display($v.content,true)}
-            {div class="author"}
-                {if $v.floor == 0}楼主{else}{$v.floor}楼{/if}
-                {$v.uinfo.name|code} {date('Y-m-d H:i:s',$v.mtime)}
-            {/div}
-        {/div}
-    {/foreach}
     <!--发帖框-->
     {div class="tip"}
+        {if $USER->islogin && $smarty.post.go}{div class="notice"}
+            {if $err}{$err->getMessage()|code}{/if}
+        {/div}{/if}
         {if $USER->islogin}
             {form method="post" action="{$CID}.newreply.{$fid}.{$tid}.{$p}.{$BID}"}
                 {input type="textarea" name="content" value=$smarty.post.content size=array("25","3")}
@@ -35,7 +30,9 @@
                 {input type="submit" name="go" value="回复"}
             {/form}
         {else}
-            回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。
+            回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+            请自行复制您的回复内容以免数据丢失：<br/>
+            {input type="textarea" name="content" value=$smarty.post.content size=array("25","3")}
         {/if}
     {/div}
 {/div}

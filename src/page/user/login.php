@@ -2,6 +2,7 @@
 try {
 $tpl=$PAGE->start();
 $u=$_GET['u'];
+if ($u=='') $u = $_GET['url'];
 if($u=='') $u='index.index.'.$PAGE->bid;
 $tpl->assign('u',$u);
 if(!$_POST['go']) {
