@@ -167,6 +167,24 @@ class bbs {
         $fIndex = array_reverse($fIndex);
         return $fIndex;
     }
+	
+	public function newTopicForum($size = 10, $topicSize = 3) {
+        $rs = $this->db->select('id,name', 'bbs_forum_meta', 'ORDER BY mtime DESC LIMIT ?', $size);
+		if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+		$forum = $rs->fetchAll();
+		foreach ($forum as &$v) {
+		    $v['topic_count'] = $this->topicCount($v['id']);
+		    $rs = $this->db->select('topic_id', 'bbs_forum_topic', 'WHERE forum_id=? ORDER BY mtime DESC LIMIT ?', $v['id'], $topicSize);
+			if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
+			$v['topic'] = $rs->fetchAll();
+			foreach ($v['topic'] as &$vt) {
+			    $vt += $this->topicMeta($vt['topic_id']);
+				$vt['uinfo'] = new userinfo;
+				$vt['uinfo']->uid($vt['uid']);
+			}
+		}
+		return $forum;
+	}
     
     /**
     * 获取版块下的帖子总数

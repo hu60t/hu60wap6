@@ -12,7 +12,7 @@ hr { height:1px; border:1px solid #bbdf99; border-left:none; border-right:none; 
 .content { background-color:#FFFFFF; }
 .notice { color:#ff0000; }
 .linktext { font-weight:bold; }
-.forum_list { margin:5px; border:1px solid #68995a; padding-left:5px; padding-right:5px; padding-top:3px; padding-bottom:3px; }
+.forum_list, .new_topic_forum { margin:5px; border:1px solid #68995a; padding-left:5px; padding-right:5px; padding-top:3px; padding-bottom:3px; }
 .forum_list div { border-left:none; border-right:none; padding:5px; height:30px; }
 .topic_list, .topic_area { margin:5px; border:1px solid #68995a; padding-left:5px; padding-right:5px; padding-top:3px; padding-bottom:3px; }
 .topic_list div { border-left:none; border-right:none; padding:5px; height:50px; }
@@ -22,4 +22,6 @@ hr { height:1px; border:1px solid #bbdf99; border-left:none; border-right:none; 
 .titletip { position:relative; top:2px }
 .buttonbox { position:relative; top:-1px; }
 .author { color:#737373; }
+.forum_area { border:1px solid #68995a; margin: 10px 0px; background-color:#fafffa; }
+.forum_title { height:30px; margin-top: 10px; }
 {/literal}
