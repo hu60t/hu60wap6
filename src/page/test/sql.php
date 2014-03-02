@@ -1,7 +1,8 @@
 <?php
+$tpl=$PAGE->start();
+$USER->start($tpl);
 if (!$USER->islogin || $USER->uid != 1)
     die('403 Forbidden');
-$tpl=$PAGE->start();
 $sql=trim(str_replace(array(chr(12),"\xC2\xA0"),array("\n",' '),$_POST['sql']));
 if($sql != '') {
 $db2=$db=db::conn(false);
