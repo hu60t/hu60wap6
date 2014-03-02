@@ -1,9 +1,64 @@
-#创建用户表#
-CREATE TABLE `hu60_user` ( `uid` int PRIMARY KEY AUTO_INCREMENT, `name` varchar(16) NOT NULL UNIQUE, `pass` char(32) NOT NULL,`sid` varchar(64) NOT NULL UNIQUE, `safety` blob, `regtime` bigint NOT NULL, `sidtime` bigint NOT NULL, `acctime` bigint NOT NULL, `info` blob) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-#创建论坛表#
-create table hu60_bbs_forum_meta(
-  id int primary key auto_increment,
-  parent_id int not null,
-  name varchar(50) not null
-)
-CREATE TABLE `hu60_bbs_forum_meta` (   `id` int(11) NOT NULL AUTO_INCREMENT,   `parent_id` int(11) NOT NULL,   `name` varchar(50) NOT NULL,   PRIMARY KEY (`id`) ) ENGINE=MyISAM DEFAULT CHARSET=utf8
+CREATE TABLE `hu60_bbs_forum_meta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `mtime` bigint(20) DEFAULT NULL,
+  `notopic` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_bbs_forum_topic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `forum_id` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  `ctime` bigint(20) NOT NULL,
+  `mtime` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_bbs_topic_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(11) NOT NULL,
+  `ctime` bigint(20) NOT NULL,
+  `mtime` bigint(20) NOT NULL,
+  `content` text,
+  `uid` int(11) NOT NULL,
+  `reply_id` int(11) NOT NULL,
+  `floor` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_bbs_topic_meta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content_id` int(11) NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `read_count` int(11) DEFAULT '0',
+  `uid` int(11) NOT NULL,
+  `ctime` bigint(20) NOT NULL,
+  `mtime` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_token` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `lifetime` bigint(20) NOT NULL,
+  `token` char(32) NOT NULL,
+  `uid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token` (`token`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_user` (
+  `uid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(16) NOT NULL,
+  `pass` char(32) NOT NULL,
+  `sid` varchar(64) NOT NULL,
+  `safety` blob,
+  `regtime` bigint(20) NOT NULL,
+  `sidtime` bigint(20) NOT NULL,
+  `acctime` bigint(20) NOT NULL,
+  `info` blob,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `sid` (`sid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

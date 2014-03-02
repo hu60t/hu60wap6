@@ -29,7 +29,7 @@ if (!$tMeta)
 $tpl->assign('tMeta', $tMeta);
 
 //读取帖子内容
-$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content');
+$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor');
 foreach ($tContents as &$v) {
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);

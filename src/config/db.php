@@ -46,7 +46,7 @@ define('DB_FILE_PATH',ROOT_DIR.'/db/test.db3');
 * 
 * 在多进程服务器（如fastcgi、php-fpm）中，使用数据库持久连接可以提升服务器性能和抗压能力
 */
-define('DB_PCONNECT', true);
+define('DB_PCONNECT', false);
   
 /**
 * 主数据库服务器

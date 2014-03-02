@@ -1,9 +1,9 @@
 {config_load file="conf:site.info"}
 {$url="$CID.topic.$fid.$tid.$p.$BID"}
 {if $fid == 0}
-    {$fName=#BBS_INDEX_NAME#}
+{$fName=#BBS_INDEX_NAME#}
 {else}
-    {$fIndex.0.name=#BBS_INDEX_NAME#}
+{$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
 {include file="tpl:comm.head" title="回复 - {$tMeta.title|code} - {$fName} - {#BBS_NAME#}"}
 <!--导航栏-->

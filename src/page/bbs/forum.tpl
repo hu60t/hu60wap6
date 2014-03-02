@@ -1,10 +1,10 @@
 {config_load file="conf:site.info"}
 {if $fid == 0}
-    {$fName=#BBS_INDEX_NAME#}
-    {$title=#BBS_NAME#}
+{$fName=#BBS_INDEX_NAME#}
+{$title=#BBS_NAME#}
 {else}
-    {$fIndex.0.name=#BBS_INDEX_NAME#}
-    {$title="{$fName} - {#BBS_NAME#}"}
+{$fIndex.0.name=#BBS_INDEX_NAME#}
+{$title="{$fName} - {#BBS_NAME#}"}
 {/if}
 {include file="tpl:comm.head" title=$title}
 <!--导航栏-->

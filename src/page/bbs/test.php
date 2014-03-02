@@ -2,4 +2,4 @@
 $tpl = $PAGE->start();
 $USER->start($tpl);
 $bbs = new bbs($USER);
-var_dump($bbs->newTopic('1,3,5', '德鲁伊试炼', '正在进行中……'));
+var_dump($bbs->newTopic('1,3,5', '停服倒计时', '10、9、8、7、6、5、4、3、2、2、2、2、2、2、2、2、2……'));
