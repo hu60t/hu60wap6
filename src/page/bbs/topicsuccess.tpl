@@ -8,6 +8,7 @@
 {include file="tpl:comm.head" title="发帖 - {$fName} - {#BBS_NAME#}" time=3 url=$url}
 <!--导航栏-->
 {div class="forum_list"}
+    <a href="index.index.{$BID}">首页</a> &gt;
     {foreach $fIndex as $forum}
         <a href="{$CID}.forum.{$forum.id}.{$BID}">{$forum.name|code}</a>
         {if $forum.id != $fid}&gt;{/if}

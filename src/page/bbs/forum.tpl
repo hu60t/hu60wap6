@@ -8,18 +8,19 @@
 {/if}
 {include file="tpl:comm.head" title=$title}
 <!--导航栏-->
-{if $fid != 0}
-    {div class="forum_list"}
-        {foreach $fIndex as $forum}
-            {if $forum.id!=$fid}
-                <a href="{$CID}.{$PID}.{$forum.id}.{$BID}">{$forum.name|code}</a> &gt;
-            {else}
-                {$forum.name|code}
-            {/if}
-        {/foreach}
-        {if !$forum.notopic}{span class="righttext button"}<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>{/span}{/if}
-    {/div}
-{/if}
+{div class="forum_list"}
+    <a href="index.index.{$BID}">首页</a>
+	{if $fid != 0}&gt;{else}> 论坛{/if}
+    {foreach $fIndex as $forum}
+        {if $forum.id!=$fid}
+            <a href="{$CID}.{$PID}.{$forum.id}.{$BID}">{$forum.name|code}</a> &gt;
+        {else}
+            {$forum.name|code}
+        {/if}
+    {/foreach}
+    {if $fid != 0 && !$forum.notopic}{span class="righttext button"}<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>{/span}{/if}
+{/div}
+
 <!--版块列表-->
 {if $childForum}
     {div class="forum_list"}

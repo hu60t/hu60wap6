@@ -1,6 +1,7 @@
-{include file="tpl:comm.head" title="虎绿林"}
 {config_load file="conf:site.info"}
+{include file="tpl:comm.head" title=#SITE_NAME#}
 {div class="new_topic_forum"}
+    {div class="title titletext"}<a href="bbs.forum.{$BID}">{#BBS_NAME#}</a>{/div}
     {foreach $forumInfo as $forum}
         {div class="forum_area"}
 		    {div class="forum_title"}
