@@ -178,9 +178,7 @@ class bbs {
 			if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
 			$v['topic'] = $rs->fetchAll();
 			foreach ($v['topic'] as &$vt) {
-			    $topicMeta = $this->topicMeta($vt['topic_id']);
-			    if (is_array($topicMeta))
-				    $vt += $topicMeta;
+			    $vt += (array)$this->topicMeta($vt['topic_id']);
 				$vt['uinfo'] = new userinfo;
 				$vt['uinfo']->uid($vt['uid']);
 			}
