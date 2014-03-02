@@ -12,7 +12,7 @@
                 {foreach $forum['topic'] as $topic}
                     {div class="{cycle id=$topic.topic_id values="tip,content"}"}
                         {span class="titletext"}<a href="bbs.topic.{$forum.id}.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>{/span}<br/>
-                        {$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.time)} 发表
+                        {$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.mtime)} 发表
                     {/div}
                 {/foreach}
                 {/div}
