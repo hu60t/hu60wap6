@@ -27,7 +27,7 @@ $tpl->assign('childForum', $childForum);
 //获取帖子列表
 $topicList = $bbs->topicList($fid, $p, 20);
 foreach ($topicList as &$v) {
-    $v = $v + $bbs->topicMeta($v['topic_id'], 'title,uid,mtime as time');
+    $v += (array)$bbs->topicMeta($v['topic_id'], 'title,uid,mtime as time');
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);
     $v['uinfo'] = $uinfo;
