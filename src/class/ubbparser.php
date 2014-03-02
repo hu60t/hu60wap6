@@ -27,7 +27,8 @@ protected $parse=array(
 /*battlenet 战网*/
     '!^(.*)《战网：(.*?)》(.*)$!is' => array(array(1,3), 'battlenet', array(2)),
 /*newline 换行*/
-    '!^(.*)(\r\n|\n|\r)(.*)$!is' => array(array(1,3), 'newline', array(2)),
+    '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
+    '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)\[([bh]r)\](.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1,3), 'newline', array(2)),
 
