@@ -96,7 +96,7 @@ class bbs {
             $rs->execute();
         }
         //更新首个发帖版块的改动时间
-        $this->db->update('bbs_forum_meta', 'mtime=? WHERE id=?', $fid[0]);
+        $x = $this->db->update('bbs_forum_meta', 'mtime=? WHERE id=?', $time, $fid[0]);
         return $topic_id;
     } catch (exception $e) {
         throw $e;

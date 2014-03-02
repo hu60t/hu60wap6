@@ -20,7 +20,7 @@
     {if $USER->islogin && $smarty.post.go}{div class="notice"}
         {if $err}{$err->getMessage()|code}{/if}
     {/div}{/if}
-    {form method="post" action="{$CID}.newtopic.{$fid}.{$tid}.{$p}.{$BID}"}
+    {form method="post" action="{$CID}.newtopic.{$fid}.{$BID}"}
     {div class="title"}
         标题：{input type="text" name="title" value=$smarty.post.title}
     {/div}
