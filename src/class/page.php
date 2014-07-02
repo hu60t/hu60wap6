@@ -226,14 +226,18 @@ elseif(count($info)==2)
  	if($bid=='') $bid=$this->page['bid'];
   $tpl=$this->page['tpl'];
   if($tpl != 'default') {
-      $path=TPL_DIR."/$tpl/$cid/$pid.$bid$ext";
+      $path=TPL_DIR."/$tpl/$bid/$cid/$pid$ext";
       if(!is_file($path))
-         $path=TPL_DIR."/$tpl/$cid/$pid$ext";
+         $path=TPL_DIR."/$tpl/default/$cid/$pid$ext";
   }
   if($tpl == 'default' || !is_file($path))
-    $path=PAGE_DIR."/$cid/$pid.$bid$ext";
+    /*$path=PAGE_DIR."/$cid/$pid.$bid$ext";
+  if(!is_file($path))*/
+   $path=TPL_DIR."/default/$bid/$cid/$pid$ext";
+  /*if(!is_file($path))
+   $path=PAGE_DIR."/$cid/$pid$ext";*/
   if(!is_file($path))
-   $path=PAGE_DIR."/$cid/$pid$ext";
+   $path=TPL_DIR."/default/default/$cid/$pid$ext";
   if(!is_file($path)) {
     if($ext=='.tpl') {$type='模板';$code=2404;}
     elseif($ext=='.conf') {$type='配置';$code=3404;}
