@@ -18,5 +18,6 @@
 */
 if($PAGE->bid == 'css' && $PAGE->cid != 'css') {
     header('Location: '.$PAGE->getUrl(array('bid'=>DEFAULT_PAGE_BID)));
+    die;
 }
 $USER=new USER;

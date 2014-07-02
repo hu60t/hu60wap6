@@ -56,7 +56,7 @@ define('DEFAULT_PAGE_PID','index');
 /**
 * 默认页面bid
 */
-define('DEFAULT_PAGE_BID','xhtml');
+define('DEFAULT_PAGE_BID','html5');
 /**
 * 默认页面mime
 */
