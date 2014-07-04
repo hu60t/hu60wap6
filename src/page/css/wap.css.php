@@ -3,10 +3,10 @@ try {
 $tpl=$PAGE->start();
 @ini_set('default_charset',NULL);
 header('Content-type: text/css');
-$bid=str::word($PAGE->ext[1],true);
+$bid=str::word($PAGE->ext[0],true);
 if($bid=='')
   $bid='default';
-$css=str::word($PAGE->ext[0],true);
+$css=str::word($PAGE->ext[1],true);
 if($css!='') {
  setCookie(COOKIE_A.'page_css_wap',$css,$_SERVER['REQUEST_TIME']+DEFAULT_LOGIN_TIMEOUT,COOKIE_PATH,COOKIE_DOMAIN);
  $USER->start($tpl);

@@ -46,7 +46,7 @@ define('DB_FILE_PATH',ROOT_DIR.'/db/test.db3');
 * 
 * 在多进程服务器（如fastcgi、php-fpm）中，使用数据库持久连接可以提升服务器性能和抗压能力
 */
-define('DB_PCONNECT', false);
+define('DB_PCONNECT', true);
   
 /**
 * 主数据库服务器
@@ -84,12 +84,12 @@ define('DB_NAME','hu60org');
 /**
 * 数据库用户名
 */
-define('DB_USER','root');
+define('DB_USER','hu60org');
   
 /**
 * 数据库用户密码
 */
-define('DB_PASS','');
+define('DB_PASS','AydXR3JtG5hXERXq');
   
 /**
 * 数据表名前缀
