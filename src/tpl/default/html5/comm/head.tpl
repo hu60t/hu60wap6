@@ -5,11 +5,62 @@
 <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}
 {if $css === null}{$css="css.wap.{$BID}.{$smarty.get.css}.css"}{/if}
 <link rel="stylesheet" type="text/css" href="{$css|code}"/>
+<meta name='viewport' content='width=device-width' />
+<script type="text/javascript">var STYLEID = '3', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'AZW', charset = 'gbk', discuz_uid = '0', defaultstyle = '', REPORTURL = 'aHR0cDovL3dhcC53YXB2eS5jbi8=', SITEURL = 'http://wap.wapvy.cn/', JSPATH = 'data/cache/';</script>
+<script src="http://wap.wapvy.cn//template/wxd_iconfans/mobile/cr180/js/dz_common.js" type="text/javascript"></script>
+<script src="http://wap.wapvy.cn//template/wxd_iconfans/mobile/cr180/js/common.js?ai=1404525616" type="text/javascript"></script>
+<script src="http://wap.wapvy.cn//template/wxd_iconfans/mobile/cr180/js/swipe.js?ai=1404525616" type="text/javascript"></script>
+<link rel="stylesheet" href="http://wap.wapvy.cn//template/wxd_iconfans/mobile/cr180/style_symple.css" />
+
 <title>{$title|code}</title>
 </head>
-<body>{if !$base}<a id="top" href="#bottom" accesskey="6"></a>
+<body class="pg_index">
+<a id="top" href="#bottom" accesskey="6"></a>
+<div id="append_parent"></div><div id="ajaxwaitid"></div><div id="swap_content"><div class="tophd"></div><div class="hd cl"><div class="logo"><a  href="javascript:;" onclick="location.href='/'" title="手机版"><img src="/tpl/default/html5/comm/logo.png"style=""width="100"heigth="38"><span></span></a></div><div class="login">
+{if !$base}
 {if !$no_user && is_object($user)}<div class="tip">
-{if $user->uid}{$user->name|code}[{if $user->islogin}<a href="msg.list.{$bid}">内信</a>|<a href="msg.atlist.{$bid}">动态</a>|<a href="user.exit.{$bid}?u={urlencode($page->geturl())}">退出</a>{else}已掉线，<a href="user.login.{$bid}?u={urlencode($page->geturl())}">重新登陆</a>{/if}]
-{else}#旅行者#[<a href="user.login.{$bid}?u={urlencode($page->geturl())}">登陆</a>|<a href="user.reg.{$bid}?u={urlencode($page->geturl())}">注册</a>]{/if}
+{if $user->uid}
+{if $user->islogin}
+<a href="user.user.{$bid}">{$user->name|code}</a>
+<!--<a href="msg.list.{$bid}">内信</a>
+<a href="msg.atlist.{$bid}">动态</a>--!>
+<a href="user.exit.{$bid}?u={urlencode($page->geturl())}">退出</a>
+{else}
+已掉线，<a href="user.login.{$bid}?u={urlencode($page->geturl())}">重新登陆</a>
+{/if}
+
+{else}
+<a href="user.login.{$bid}?u={urlencode($page->geturl())}" title="登录" style="margin-right:10px">登录</a>
+<a href="user.reg.{$bid}?u={urlencode($page->geturl())}" title="立即注册">立即注册</a>{/if}
 </div>{/if}
 {/if}
+    </div></div>
+
+   <div id="memberuid_c" style="display:none" class="c_po">
+    <ul class="cl">
+    <li class="all">
+<a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0'">进入我的个人中心</a>
+<a  href="javascript:;" onclick="location.href='member.php?mod=logging&action=logout&formhash=8fe1598d'">退出</a>
+</li>
+    <li>
+<a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=thread&view=me'">我的帖子</a>
+</li>
+    <li>
+<a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=favorite&view=me&type=forum'">收藏的版块</a>
+</li>
+    <li>
+<a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=favorite&view=me&type=thread'">收藏的帖子</a>
+</li>
+        <li>
+<a  href="javascript:;" onclick="location.href='forum.php?cr180type=cookfid&cr180mod=cookie'">看过的版块</a>
+</li>
+    <li>
+<a  href="javascript:;" onclick="location.href='forum.php?cr180type=cooktid&cr180mod=cookie'">看过的主题</a>
+</li>
+    </ul>
+    </div>
+<div style="width:100%; padding:5px; background:#FFC; color:#f00; font-weight:bold; text-align:center" id="swap_forstyledivshow">
+<a href="/" style="color:#f00">您的浏览器不支持javaScript功能！触屏版可能无法正常工作,请点击此处切换到普通版本</a></div><script type="text/javascript">CRid('swap_forstyledivshow').style.display='none'</script>
+<div class="wp">
+        <div class="todayposts">
+        今日2<span class="pipe">|</span>会员1447<span class="pipe">|</span>在线21    </div>

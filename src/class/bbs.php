@@ -168,6 +168,40 @@ class bbs {
         return $fIndex;
     }
 	
+	public function plateForum($size = 2, $topicSize = 4) {
+        $rs = $this->db->select('id,name', 'bbs_forum_meta', 'WHERE parent_id=0 ORDER BY RAND() DESC LIMIT ?', $size);
+		if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+		$forum = $rs->fetchAll();
+		foreach ($forum as &$v) {
+		    $rs = $this->db->select('id,name', 'bbs_forum_meta', 'WHERE parent_id=? ORDER BY mtime DESC LIMIT ?', $v['id'], $topicSize);
+			if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+			$v['plate'] = $this->topicCountX($v['id']);
+if($v['plate']!=''){
+			$v['topic'] = $rs->fetchAll();
+			foreach ($v['topic'] as &$vt) {
+		    $vt['topic_count'] = $this->topicCount($vt['id']);
+				$vt['id'] = $vt['id'];
+				$vt['name'] = $vt['name'];
+			}
+}else{
+		    $v['topic_count'] = $this->topicCount($v['id']);
+				$v['id'] = $v['id'];
+				$v['name'] = $v['name'];
+}
+		}
+		return $forum;
+	}
+	public function newTopicC($size = 20) {
+		    $rs = $this->db->select('topic_id', 'bbs_forum_topic', ' ORDER BY mtime DESC LIMIT ?', $size);
+			if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
+			$topic = $rs->fetchAll();
+			foreach ($topic as &$v) {
+			    $v += (array)$this->topicMeta($v['topic_id']);
+				$v['uinfo'] = new userinfo;
+				$v['uinfo']->uid($v['uid']);
+			}
+		return $topic;
+	}
 	public function newTopicForum($size = 10, $topicSize = 3) {
         $rs = $this->db->select('id,name', 'bbs_forum_meta', 'ORDER BY mtime DESC LIMIT ?', $size);
 		if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
@@ -197,6 +231,14 @@ class bbs {
         return $rs[0];
     }
     
+
+    public function topicCountX($forum_id) {
+        $rs = $this->db->select('count(*)', 'bbs_forum_meta', 'WHERE parent_id=?', $forum_id);
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+        $rs = $rs->fetch(db::num);
+        return $rs[0];
+    }
     /**
     * 获取版块下的帖子id
     */
