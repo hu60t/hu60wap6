@@ -4,8 +4,8 @@
 */
 class userinfo implements ArrayAccess {
 protected static $data; //用户数据缓存
-
 protected static $name; //用户名到uid对应关系的缓存
+protected static $mail; //邮箱到uid对应关系的缓存
 protected static $info; //用户配置数据缓存
 protected $uid; //当前用户
   
@@ -19,6 +19,20 @@ protected static function conn($read_only=false)
 return db::conn('user',$read_only);
 }
   
+
+/**
+* 检查邮箱是否有效
+*/
+public static function checkMail($mail) { 
+    if ($mail == '') {
+        throw new userexception('邮箱不能为空。', 20);
+    }
+    if (!preg_match('/^([a-z0-9_\-\.]+)@(([a-z0-9]+[_\-]?)\.)+[a-z]{2,5}$/is', $mail)) {
+        throw new userexception('邮箱格式错误，请正确填写。', 21);
+    }
+    return TRUE;
+}
+
 /*
 * 检查用户名是否有效
 * 用户名只允许汉字、字母、数字、下划线(_)和减号(-)。
@@ -93,12 +107,14 @@ $uid=self::$name[$name];
 if($uid!==NULL) {
 $this->uid=$uid;
 return $uid!==FALSE ? TRUE : FALSE;
- }
+
+ }
 static $rs,$x_getinfo;
 if(!$rs || $getinfo!=$x_getinfo) {
 $db=self::conn(true);
-$rs=$db->prepare('SELECT `uid`,`name`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `name`=?');
-$x_getinfo=$getinfo;
+$rs=$db->prepare('SELECT `uid`,`name`,`mail`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `name`=?');
+
+$x_getinfo=$getinfo;
   }
 if(!$rs || !$rs->execute(array($name))) return FALSE;
 $data=$rs->fetch(db::ass);
@@ -116,6 +132,7 @@ unset($data['info']);
 self::$data[$this->uid]=$data;
 
 self::$name[$data['name']]=$this->uid;
+self::$mail[$data['mail']]=$this->uid;
 return TRUE;
  }
   
@@ -142,11 +159,12 @@ $data=self::$data[$uid];
 if($data!==NULL) {
 $this->uid=$uid;
 return $data!==FALSE ? TRUE : FALSE;
- }
+
+ }
 static $rs,$x_getinfo;
 if(!$rs || $getinfo!=$x_getinfo) {
 $db=self::conn(true);
-$rs=$db->prepare('SELECT `uid`,`name`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `uid`=?');
+$rs=$db->prepare('SELECT `uid`,`name`,`mail`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `uid`=?');
 $x_getinfo=$getinfo;
   }
 if(!$rs || !$rs->execute(array($uid))) return FALSE;
@@ -164,6 +182,53 @@ unset($data['info']);
 self::$data[$this->uid]=$data;
 
 self::$name[$data['name']]=$this->uid;
+self::$mail[$data['mail']]=$this->uid;
+return TRUE;
+ }
+
+/**
+* 取得指定邮箱的用户信息，并存储在属性内。之后你可以通过$obj->uid等属性访问用户信息。
+* 参数：
+* $mail 邮箱 
+* $getinfo=FALSE 是否同时取得info信息
+*    （为了优化数据库查询，减少不必要的查询。只有在你需要它时设置它为true）
+*     若$getinfo为假，则当访问info信息时将自动重新获取。
+* 返回值：成功返回TRUE，失败（用户名不存在）返回FALSE
+*/
+public function mail($mail, $getinfo=false) {
+$this->uid=NULL;
+
+try {
+self::checkmail($mail);
+  } catch(userexception $ERR) {
+return FALSE;
+  }
+$uid=self::$mail[$mail];
+if($uid!==NULL) {
+$this->uid=$uid;
+return $uid!==FALSE ? TRUE : FALSE;
+ }
+static $rs,$x_getinfo;
+if(!$rs || $getinfo!=$x_getinfo) {
+$db=self::conn(true);
+$rs=$db->prepare('SELECT `uid`,`name`,`mail`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `mail`=?');
+$x_getinfo=$getinfo;
+  }
+if(!$rs || !$rs->execute(array($name))) return FALSE;
+$data=$rs->fetch(db::ass);
+if(!isset($data['uid'])) {
+self::$mail[$mail]=FALSE;
+return FALSE;
+ }
+$this->uid=$data['uid'];
+
+if($getinfo) {
+self::parseinfo($this->uid,$data['info']);
+unset($data['info']);
+ }
+self::$data[$this->uid]=$data;
+self::$name[$data['name']]=$this->uid;
+self::$mail[$data['mail']]=$this->uid;
 return TRUE;
  }
   

@@ -1,6 +1,6 @@
 {include file="tpl:comm.head" title="用户登陆" no_user=true}
 {config_load file="conf:site.info"}
-<div class="wp"><div class="pt">
+<div class="pt">
 <div class="cr180_ptzmenu">
 <a  href="javascript:;" onclick="location.href='index.index.{$bid}'" title="首页" class="pt_z">回首页</a>
 <span class="pt_c">登录</span>

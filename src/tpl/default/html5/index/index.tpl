@@ -1,5 +1,6 @@
 {config_load file="conf:site.info"}
 {include file="tpl:comm.head" title=#SITE_NAME#}
+<div class="todayposts">今日0<span class="pipe">|</span>会员37<span class="pipe">|</span>在线1</div>
     {foreach $forumInfo as $forum}
         <div class="fl">
         <div class="bm">

@@ -21,7 +21,7 @@
 {if !$no_user && is_object($user)}<div class="tip">
 {if $user->uid}
 {if $user->islogin}
-<a href="user.user.{$bid}">{$user->name|code}</a>
+<a href="user.index.{$bid}">{$user->name|code}</a>
 <!--<a href="msg.list.{$bid}">内信</a>
 <a href="msg.atlist.{$bid}">动态</a>--!>
 <a href="user.exit.{$bid}?u={urlencode($page->geturl())}">退出</a>
@@ -35,32 +35,6 @@
 </div>{/if}
 {/if}
     </div></div>
-
-   <div id="memberuid_c" style="display:none" class="c_po">
-    <ul class="cl">
-    <li class="all">
-<a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0'">进入我的个人中心</a>
-<a  href="javascript:;" onclick="location.href='member.php?mod=logging&action=logout&formhash=8fe1598d'">退出</a>
-</li>
-    <li>
-<a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=thread&view=me'">我的帖子</a>
-</li>
-    <li>
-<a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=favorite&view=me&type=forum'">收藏的版块</a>
-</li>
-    <li>
-<a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=favorite&view=me&type=thread'">收藏的帖子</a>
-</li>
-        <li>
-<a  href="javascript:;" onclick="location.href='forum.php?cr180type=cookfid&cr180mod=cookie'">看过的版块</a>
-</li>
-    <li>
-<a  href="javascript:;" onclick="location.href='forum.php?cr180type=cooktid&cr180mod=cookie'">看过的主题</a>
-</li>
-    </ul>
-    </div>
 <div style="width:100%; padding:5px; background:#FFC; color:#f00; font-weight:bold; text-align:center" id="swap_forstyledivshow">
 <a href="/" style="color:#f00">您的浏览器不支持javaScript功能！触屏版可能无法正常工作,请点击此处切换到普通版本</a></div><script type="text/javascript">CRid('swap_forstyledivshow').style.display='none'</script>
 <div class="wp">
-        <div class="todayposts">
-        今日2<span class="pipe">|</span>会员1447<span class="pipe">|</span>在线21    </div>

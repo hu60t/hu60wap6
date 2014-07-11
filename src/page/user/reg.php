@@ -9,6 +9,7 @@ if(!$_POST['check']) {
  $step=1;
  } else {
 user::checkName($_POST['name']);
+user::checkMail($_POST['mail']);
  $step=2;
  }
 $tpl->display('tpl:reg_step'.$step);
@@ -18,7 +19,7 @@ $tpl->display('tpl:reg_step'.$step);
   throw new userexception("两次输入的密码不一致。\n请重新设置一个密码。");
   }
 $user=new user;
-$user->reg($_POST['name'],$_POST['pass']);
+$user->reg($_POST['name'],$_POST['pass'],$_POST['mail']);
 $user->setcookie();
 $tpl->assign('user',$user);
 $tpl->display('tpl:reg_success');

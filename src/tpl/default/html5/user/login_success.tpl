@@ -1,5 +1,6 @@
 {include file="tpl:comm.head" title="登陆成功"}
 {config_load file="conf:site.info"}
+<div class="forum_login">
 {div class="content"}
 嗨，{span class="notice"}{$user.name|code}{/span}，欢迎回到{#SITE_NAME#}。
 {/div}
@@ -12,5 +13,5 @@
 &nbsp;&nbsp;&nbsp;&nbsp;你还可以<a href="{$smarty.server.PHP_SELF|code}/index.index.{$bid}">点击这里返回首页</a>。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;或者<a href="{$smarty.server.PHP_SELF|code}/{$user.sid|code}/index.index.{$bid}">从这里返回首页（防掉线）</a>。
 {/div}
-{div class="title"}{#SITE_NAME#}报时：{/div}
+</div>
 {include file="tpl:comm.foot"}

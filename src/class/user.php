@@ -117,11 +117,16 @@ else throw new userexception('当前用户的更新尚未保存，不能切换�
 /**
 * 跳转到登录页并结束程序
 */
-public function gotoLogin() {
+public function gotoLogin($checkLogin = false) {
     global $PAGE;
+//var_dump($checkLogin, $this->islogin, $this->name);die;
+    if ($checkLogin && $this->islogin) {
+        return TRUE;
+    }
     header('Location: user.login.' . $PAGE->bid . '?u=' . urlencode($PAGE->geturl()));
     exit;
 }
+
 /**
 * 用户登陆
 */
@@ -144,7 +149,7 @@ public function login($name,$pass,$isuid=false,$getinfo=true,$getsafety=false) {
   }
  }
  $pass=self::mkpass($pass);
- $sql='SELECT `uid`,`name`,`pass`,`sid`,`sidtime`,`regtime`,`acctime`';
+ $sql='SELECT `uid`,`name`,`pass`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`';
  if($getinfo) {
   $sql.=',`info`';
  }
@@ -177,7 +182,8 @@ public function login($name,$pass,$isuid=false,$getinfo=true,$getsafety=false) {
   self::parsesafety($this->uid,$data['safety']);
   unset($data['safety']);
  }
- if($data['sidtime']+DEFAULT_LOGIN_TIMEOUT<$_SERVER['REQUEST_TIME']) {
+
+ if($data['sidtime']+DEFAULT_LOGIN_TIMEOUT<$_SERVER['REQUEST_TIME']) {
   $data['sid']=self::mksid($data['uid'],$data['name'],$data['pass']);
   $data['sidtime']=$_SERVER['REQUEST_TIME'];
   $this->update['sidtime']=true;
@@ -191,7 +197,8 @@ public function login($name,$pass,$isuid=false,$getinfo=true,$getsafety=false) {
  self::$sid[$data['sid']]=$this->uid;
  return TRUE;
 }
-  
+
+  
 /**
 * 通过sid登陆
 * 参数：
@@ -211,12 +218,14 @@ public function loginBySid($sid,$getinfo=true) {
   $this->uid=$uid;
   if($uid!==FALSE) return TRUE;
   else throw new userexception('sid不存在。',54);
- }
+
+ }
  static $rs,$x_getinfo;
  if(!$rs || $getinfo!=$x_getinfo) {
   $db=self::conn(true);
-  $rs=$db->prepare('SELECT `uid`,`name`,`sid`,`sidtime`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `sid`=?');
-  $x_getinfo=$getinfo;
+  $rs=$db->prepare('SELECT `uid`,`name`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`'.($getinfo ? ',`info`' : '').' FROM `'.DB_A.'user` WHERE `sid`=?');
+
+  $x_getinfo=$getinfo;
  }
  if(!$rs || !$rs->execute(array($sid))) throw new PDOException('数据库查询失败，SQL'.($rs ? '执行' : '预处理').'失败。',$rs ? 21 : 22);
  $data=$rs->fetch(db::ass);
@@ -230,7 +239,8 @@ public function loginBySid($sid,$getinfo=true) {
   unset($data['info']);
  }
  self::$name[$data['name']]=$this->uid;
- self::$sid[$data['sid']]=$this->uid;
+
+ self::$sid[$data['sid']]=$this->uid;
  if($data['sidtime']+DEFAULT_LOGIN_TIMEOUT>$_SERVER['REQUEST_TIME']) {
   $data['islogin']=true;
   $data['acctime']=$_SERVER['REQUEST_TIME'];
@@ -250,11 +260,14 @@ public function loginBySid($sid,$getinfo=true) {
 * $name  用户名
 * $pass  密码
 */
-public function reg($name,$pass) {
+public function reg($name,$pass,$mail) {
 $this->canchange();
 $this->uid=NULL;
-self::checkname($name);
+
+self::checkname($name);
 if($this->name($name)) throw new userexception("用户名 \"$name\" 已存在，请更换一个。",12);
+self::checkmail($mail);
+if($this->mail($mail)) throw new userexception("邮箱 \"$mail\" 已存在，请更换一个。",12);
 $pass=self::mkpass($pass);
 $time=$_SERVER['REQUEST_TIME'];
 $db=self::conn(true);
@@ -264,13 +277,14 @@ else {
 $rs=$rs->fetch(db::num);
 $id=$rs[0]+1;
  }
-$sid=self::mksid($id,$name,$pass);//实现读写分离：获得一个可以写入的数据库连接
+$sid=self::mksid($id,$name,$pass);
+//实现读写分离：获得一个可以写入的数据库连接
 $db=self::conn();
-$rs=$db->prepare('INSERT INTO `'.DB_A.'user`(`name`,`pass`,`sid`,`regtime`,`sidtime`,`acctime`) values(?,?,?,?,?,?)');
-if(!$rs || !$rs->execute(array($name,$pass,$sid,$time,$time,$time))) throw new PDOException('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
+$rs=$db->prepare('INSERT INTO `'.DB_A.'user`(`name`,`pass`,`sid`,`mail`,`regtime`,`sidtime`,`acctime`) values(?,?,?,?,?,?)');
+if(!$rs || !$rs->execute(array($name,$pass,$sid,$mail,$time,$time,$time))) throw new PDOException('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
 $uid=$db->lastinsertid();
 $this->uid=$uid;
-self::$data[$uid]=array('uid'=>$uid,'name'=>$name,'pass'=>$pass,'sid'=>$sid,'regtime'=>$time,'sidtime'=>$time,'acctime'=>$time,'islogin'=>true);
+self::$data[$uid]=array('uid'=>$uid,'name'=>$name,'mail'=>$mail,'pass'=>$pass,'sid'=>$sid,'regtime'=>$time,'sidtime'=>$time,'acctime'=>$time,'islogin'=>true);
 self::$name[$name]=$uid;
 self::$sid[$sid]=$uid;
 return true;
@@ -282,18 +296,30 @@ return true;
 */
 public function name($name,$getinfo=false) {
 $this->canchange();
-return parent::name($name,$getinfo);
+
+return parent::name($name,$getinfo);
  }
-  
+
+/**
+* 取得指定邮箱的用户信息
+* 若$this->update非空，则禁止操作
+*/  
+public function mail($mail,$getinfo=false) {
+$this->canchange();
+
+return parent::mail($mail,$getinfo);
+ }
 /**
 * 取得指定uid的信息，并存储在属性内。
 * 若$this->update非空，则禁止操作
 */
 public function uid($uid,$getinfo=false) {
 $this->canchange();
-return parent::uid($uid,$getinfo);
+
+return parent::uid($uid,$getinfo);
  }
-  
+
+  
 /**
 * 设置安全问题
 * 参数：
@@ -362,10 +388,18 @@ public function save() {
  if(!$rs || !$rs->execute($data)) throw new PDOException('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
  return TRUE;
 }
-  
+
+  
 public function __destruct() {
  $this->save();
  if(!empty($this->update)) throw new userexception('更新未全部写入数据库。未写入项：'.implode(',',$this->update),100);
+}
+/*
+*退出登录
+*/
+function logout(){
+	setcookie(COOKIE_A.'sid',false,time()-3000);
+	$this->info=false;
 }
   
 /*class end*/

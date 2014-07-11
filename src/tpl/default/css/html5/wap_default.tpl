@@ -83,6 +83,7 @@ body { background:#FFF;font-size:12px;font-style:normal;font-family:DroidSansFal
 .pg a { padding:2px 6px; }
 .pipe { margin:0 3px;font-size:16px;font-weight:300;color:#ddd; }
 .ft { margin:2px 0 2px 2px;padding:1px; }
+.bz { margin:2px 0 2px 2px;padding:1px; }
 .fl { overflow:hidden }
 .onboxl { width:105%; }
 .indexthreadlist li { line-height:20px;border-bottom:#ddd 1px dotted;font-size:14px; }
@@ -278,6 +279,8 @@ a.cr_login_submit { display:block;color:#fff;text-shadow:none }
 #Spost_smiley_ico_menu li { float:left;padding:2px; }
 .message_f_c { text-align:center;font-size:14px; }
 .ft { text-align:center;margin-top:10px;padding-top:10px; }
+.bz { text-align:center;margin-top:5px;padding-top:5px; font-size:12px;color:#999; }
+.bz strong{ color:#000000; }
 .ft h1,.ft p { text-align:center;font-weight:normal;padding:10px 0; }
 .ft h1 a { padding:0 10px; }
 .ft h1 a.a { font-weight:bold;color:#000 }

@@ -6,7 +6,7 @@
 {/if}
 {include file="tpl:comm.head" title="{$tMeta.title|code} - {$fName} - {#BBS_NAME#}"}
 <!--导航栏-->
-<div class="wp"><div class="pt">
+<div class="pt">
 <div class="cr180_ptzmenu">
     <a href="index.index.{$BID}">首页</a>
     {foreach $fIndex as $forum}

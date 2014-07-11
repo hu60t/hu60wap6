@@ -8,18 +8,22 @@
 {/if}
 {include file="tpl:comm.head" title=$title}
 <!--导航栏-->
-{div class="forum_list"}
-    <a href="index.index.{$BID}">首页</a>
-	{if $fid != 0}&gt;{else}> 论坛{/if}
+<div class="pt">
+<div class="cr180_ptzmenu">
+<a  href="javascript:;" onclick="location.href='index.index.{$bid}'" title="首页" class="pt_z">回首页</a>
+            <span class="pt_c">{$fName}</span>
+<span class="pt_y"><a href="{$CID}.{$PID}.{$forum.id}.{$BID}">刷新</a></span>
+</div>
+</div><!--
     {foreach $fIndex as $forum}
         {if $forum.id!=$fid}
-            <a href="{$CID}.{$PID}.{$forum.id}.{$BID}">{$forum.name|code}</a> &gt;
+            <a href="{$CID}.{$PID}.{$forum.id}.{$BID}"><</a>
         {else}
             {$forum.name|code}
         {/if}
-    {/foreach}
-    {if $fid != 0 && !$forum.notopic}{span class="righttext button"}<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>{/span}{/if}
-{/div}
+    {/foreach}--!>
+{if $fid != 0 && !$forum.notopic}<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>{/if}
+
 
 <!--版块列表-->
 {if $childForum}
@@ -34,13 +38,11 @@
 {/if}
 <!--帖子列表-->
 {if $topicList}
-    {div class="topic_list"}
+
         {foreach $topicList as $topic}
-            {div class="{cycle values="tip,content"}"}
                 {span class="titletext"}<a href="{$CID}.topic.{$fid}.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>{/span}<br/>
-                {$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.time)} 发表
-            {/div}
+                {$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.time)} 发表<br/>
         {/foreach}
-    {/div}
+
 {/if}
 {include file="tpl:comm.foot"}
