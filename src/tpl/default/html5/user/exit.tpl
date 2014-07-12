@@ -12,8 +12,9 @@
 <a href="index.index.{$bid}">返回首页</a>
 {else}
 {form action="user.exit.{$bid}" method="post"}
-清空SID,COOKIE?<br/>
-{input type="submit" name="exit" value="确定"}<a href="user.index.{$bid}">返回</a>{/form}
+{div class="cr180_login"}
+<input type="submit" name="exit"  class="cr_login_submit"  value="确定清空SID浏览器的COOKIE？" />
+<a href="user.index.{$bid}" class="cr_login_submit" style="background:#060">返回</a>
+{/div}{/form}
 {/if}
-
 {include file="tpl:comm.foot"}

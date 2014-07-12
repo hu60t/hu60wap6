@@ -280,7 +280,7 @@ $id=$rs[0]+1;
 $sid=self::mksid($id,$name,$pass);
 //实现读写分离：获得一个可以写入的数据库连接
 $db=self::conn();
-$rs=$db->prepare('INSERT INTO `'.DB_A.'user`(`name`,`pass`,`sid`,`mail`,`regtime`,`sidtime`,`acctime`) values(?,?,?,?,?,?)');
+$rs=$db->prepare('INSERT INTO `'.DB_A.'user`(`name`,`pass`,`sid`,`mail`,`regtime`,`sidtime`,`acctime`) values(?,?,?,?,?,?,?)');
 if(!$rs || !$rs->execute(array($name,$pass,$sid,$mail,$time,$time,$time))) throw new PDOException('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
 $uid=$db->lastinsertid();
 $this->uid=$uid;
@@ -398,8 +398,9 @@ public function __destruct() {
 *退出登录
 */
 function logout(){
-	setcookie(COOKIE_A.'sid',false,time()-3000);
-	$this->info=false;
+    global $PAGE;
+	setcookie(COOKIE_A.'sid',false,$_SERVER['REQUEST_TIME']+DEFAULT_LOGIN_TIMEOUT,COOKIE_PATH,COOKIE_DOMAIN);
+	header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'/user.login.'.$PAGE->bid);
 }
   
 /*class end*/

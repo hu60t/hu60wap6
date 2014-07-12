@@ -136,11 +136,29 @@ class bbs {
    /**
     * 获取子版块元信息
     */
-    public function childForumMeta($parent_id, $fetch='*') {
-        $rs = $this->db->select($fetch, 'bbs_forum_meta', 'WHERE parent_id=? ORDER BY mtime DESC', $parent_id);
-        if (!$rs)
-            throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
-        return $rs->fetchAll();
+    public function childForumMeta($id) {
+        $rs = $this->db->select('id,name', 'bbs_forum_meta', 'WHERE parent_id=? ORDER BY mtime DESC',$id);
+		if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+		$forum = $rs->fetchAll();
+		foreach ($forum as &$v) {
+		    $rs = $this->db->select('id,name', 'bbs_forum_meta', 'WHERE parent_id=? ORDER BY mtime DESC', $v['id']);
+			if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+			$v['plate'] = $this->topicCountX($v['id']);
+if($v['plate']!=''){
+			$v['topic'] = $rs->fetchAll();
+			foreach ($v['topic'] as &$vt) {
+		    $vt['topic_count'] = $this->topicCount($vt['id']);
+				$vt['id'] = $vt['id'];
+				$vt['name'] = $vt['name'];
+			}
+}else{
+		    $v['topic_count'] = $this->topicCount($v['id']);
+				$v['id'] = $v['id'];
+				$v['name'] = $v['name'];
+}
+		}
+		return $forum;
+
     }
     
     /**
@@ -242,16 +260,28 @@ if($v['plate']!=''){
     /**
     * 获取版块下的帖子id
     */
-    public function topicList($forum_id, $page, $size) {
-        if ($size < 1)
-            $size = 10;
-        if ($page < 1)
-            $page = 1;
-        $offset = ($page-1)*$size;
-        $rs = $this->db->select('topic_id', 'bbs_forum_topic', 'WHERE forum_id=? ORDER BY mtime DESC LIMIT ?,?', $forum_id, $offset, $size);
+    public function topicList($type, $forum_id, $page, $size) {
+		if($forum_id!=0){
+		$where='WHERE `forum_id`=? ';
+		}
+		if($type=='new1'){
+			$rs=$this->db->select('topic_id', 'bbs_forum_topic',$where.'ORDER BY `ctime` DESC LIMIT ?,?', $forum_id, $page, $size);
+		}else{
+			$rs=$this->db->select('topic_id', 'bbs_forum_topic',$where.'ORDER BY `mtime` DESC LIMIT ?,?', $forum_id, $page, $size);
+		}
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
         return $rs->fetchAll();
+    }
+    
+    /**
+    * 获取帖子数量信息
+    */
+    public function topicListtj($topic_id) {
+        $rs = $this->db->select('count(*)', 'bbs_forum_topic', 'WHERE forum_id=?', $topic_id)->fetch();
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_meta不可读', 500);
+        return $rs['count(*)'];
     }
     
     /**

@@ -318,5 +318,8 @@ a.cr_login_submit { display:block;color:#fff;text-shadow:none }
 .p_favorite a { margin:0 auto;display:block;width:200px;height:30px;line-height:30px;text-align:center;border:#ccc 1px solid;border-radius:2px;background:#fff;color:#333;font-size:16px;background-image:-webkit-gradient(linear,0% 0%,0% 80%,from(#fff),to(#eee)); }
 .forum_login { padding: 0px; background-color:#E3FFC8; color: #009B00; text-align:left; border: 1px dashed #33FF00; font-size: 20px; margin-top: 5px; margin-right: 8px; margin-bottom: 5px; margin-left: 8px; }
 .forum_login a {color: #FF0000;}
-
+.cr180_form { width:90%;margin:20px auto }
+.cr180_form p { margin-bottom:15px; }
+.cr180_form .crg1 { float:left;display:block;text-align:right;width:70px;margin-right:5px; }
+.cr180_form .txt { width:100%;height:30px;line-height:30px;border:#ccc 1px solid;background:#fff;font-size:14px;font-weight:bold;color:#666 }
 {/literal}
