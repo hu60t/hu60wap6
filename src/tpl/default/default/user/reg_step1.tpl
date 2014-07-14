@@ -11,6 +11,7 @@
 {form action="user.reg.{$bid}?u={urlencode($u)}" method="post"}
 用户名:{input name="name" value=$smarty.post.name}<br/>
 密&nbsp;&nbsp;&nbsp;码:{input name="pass" value=$smarty.post.pass}<br/>
+邮&nbsp;&nbsp;&nbsp;箱:{input name="mail" value=$smarty.post.mail}<br/>
 {input type="submit" name="check" value="注册"}
 {/form}
 {/div}

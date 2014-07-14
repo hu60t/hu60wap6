@@ -74,3 +74,21 @@ CREATE TABLE `hu60_msg` (
   `rtime` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_addin_chat_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `ztime` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_addin_chat_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `room` varchar(32) NOT NULL,
+  `lid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `uname` varchar(16) NOT NULL,
+  `content` blob,
+  `time` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

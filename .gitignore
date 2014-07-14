@@ -10,3 +10,4 @@ src/temp/
 *.7z
 src/config/db.php
 src/H687fsa6eFIU
+.gitignore

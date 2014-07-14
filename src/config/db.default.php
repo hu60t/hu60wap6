@@ -89,7 +89,7 @@ define('DB_USER','hu60org');
 /**
 * 数据库用户密码
 */
-define('DB_PASS','AydXR3JtG5hXERXq');
+define('DB_PASS','');
   
 /**
 * 数据表名前缀
