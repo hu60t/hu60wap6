@@ -6,11 +6,11 @@
 {if $css === null}{$css="css.wap.{$BID}.{$smarty.get.css}.css"}{/if}
 <link rel="stylesheet" type="text/css" href="{$css|code}"/>
 <meta name='viewport' content='width=device-width' />
-<script type="text/javascript">var STYLEID = '3', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'AZW', charset = 'gbk', discuz_uid = '0', defaultstyle = '', REPORTURL = 'aHR0cDovL3dhcC53YXB2eS5jbi8=', SITEURL = 'http://wap.wapvy.cn/', JSPATH = 'data/cache/';</script>
-<script src="http://wap.wapvy.cn//template/wxd_iconfans/mobile/cr180/js/dz_common.js" type="text/javascript"></script>
-<script src="http://wap.wapvy.cn//template/wxd_iconfans/mobile/cr180/js/common.js?ai=1404525616" type="text/javascript"></script>
-<script src="http://wap.wapvy.cn//template/wxd_iconfans/mobile/cr180/js/swipe.js?ai=1404525616" type="text/javascript"></script>
-<link rel="stylesheet" href="http://wap.wapvy.cn//template/wxd_iconfans/mobile/cr180/style_symple.css" />
+<script type="text/javascript">var STYLEID = '3', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'AZW', charset = 'gbk', discuz_uid = '0', defaultstyle = '', REPORTURL = 'aHR0cDovL3dhcC53YXB2eS5jbi8=', SITEURL = 'http://hu60.org/', JSPATH = 'data/cache/';</script>
+<script src="/tpl/default/css/html5/dz_common.js" type="text/javascript"></script>
+<script src="/tpl/default/css/html5/common.js?ai=1404525616" type="text/javascript"></script>
+<script src="/tpl/default/css/html5/swipe.js?ai=1404525616" type="text/javascript"></script>
+<link rel="stylesheet" href="/tpl/default/css/html5/style_symple.css" />
 
 <title>{$title|code}</title>
 </head>
@@ -35,9 +35,4 @@
 </div>{/if}
 {/if}
     </div></div>
-
-    <div id="memberuid_c" style="display:none" class="c_po">    <ul class="cl">    <li class="all"><a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0'">进入我的个人中心</a><a  href="javascript:;" onclick="location.href='member.php?mod=logging&action=logout&formhash=175795f4'">退出</a></li>    <li><a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=thread&view=me'">我的帖子</a></li>    <li><a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=favorite&view=me&type=forum'">收藏的版块</a></li>    <li><a  href="javascript:;" onclick="location.href='home.php?mod=space&uid=0&do=favorite&view=me&type=thread'">收藏的帖子</a></li>        <li><a  href="javascript:;" onclick="location.href='forum.php?cr180type=cookfid&cr180mod=cookie'">看过的版块</a></li>    <li><a  href="javascript:;" onclick="location.href='forum.php?cr180type=cooktid&cr180mod=cookie'">看过的主题</a></li>    </ul>    </div>
-
-<div style="width:100%; padding:5px; background:#FFC; color:#f00; font-weight:bold; text-align:center" id="swap_forstyledivshow">
-<a href="/" style="color:#f00">您的浏览器不支持javaScript功能！触屏版可能无法正常工作,请点击此处切换到普通版本</a></div><script type="text/javascript">CRid('swap_forstyledivshow').style.display='none'</script>
 <div class="wp">

@@ -42,8 +42,8 @@
 <div class="ft">
         {if $USER->islogin}
             {form method="post" action="{$CID}.newreply.{$fid}.{$tid}.{$p}.{$BID}"}
-<div class="cr_c_c">
-                {input class="comment_pt" style="overflow: auto" type="textarea" name="content" value=$smarty.post.content size=array("100%","7")}
+ <div class="cr180_form">
+                <textarea class="txt" name="content" style="width:100%;height:100px;">{$smarty.post.content}</textarea>
                 {input type="hidden" name="token" value=$token->token()}
                 </div><div class="o pns cl"><button type="submit" class="submit_ye" value="true" name="go" tabindex="3"><span>评论该帖子</span></button></div></form>
             {/form}

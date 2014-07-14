@@ -8,12 +8,16 @@
 {/if}
 {include file="tpl:comm.head" title=$title}
 <!--导航栏-->
-<div class="pt">
-<div class="cr180_ptzmenu">
-<a  href="javascript:;" onclick="location.href='index.index.{$bid}'" title="首页" class="pt_z">回首页</a>
-            <span class="pt_c">{$fName}</span>
+<div class="pt cr180_ptzmenu">
+ <a  href="javascript:;" onclick="location.href='index.index.{$bid}'" title="首页" class="pt_z">回首页</a>
+{$size=count($fIndex)-1}
+{foreach $fIndex as $i=>$forum}
+{if $i<$size}
+<a href="{$CID}.forum.{$forum.id}.{$BID}">{$forum.name|code}</a>
+{/if}
+{/foreach}
+&nbsp;&nbsp;{$fName}
 <span class="pt_y"><a href="{$CID}.{$PID}.{$forum.id}.{$BID}">刷新</a></span>
-</div>
 </div>
 {if $fid != 0 && !$forum.notopic}<a href="{$CID}.newtopic.{$forum.id}.{$BID}" class="cr_login_submit" style="background:#060">发帖</a>{/if}
 

@@ -356,4 +356,44 @@ if($v['plate']!=''){
         $rs = $rs->fetch(db::num);
         return $rs[0]-1;
     }
+    
+    /**
+    * 创建板块
+    */
+    public function createbk($name,$parentid,$bz){
+        $rs = $this->db->insert('bbs_forum_meta', 'parent_id,name,mtime', $parentid,$name,time());
+        if (!$rs)
+            throw new bbsException('数据库错误，主题内容（'.DB_A.'bbs_forum_meta）写入失败！', 500);
+		return true;
+	}
+    
+    /**
+    * 板块
+    */
+    public function plate($id){
+if(!$id){
+        $rs = $this->db->select('*', 'bbs_forum_meta', 'WHERE parent_id=?', 0);
+}else{
+        $rs = $this->db->select('*', 'bbs_forum_meta', ' ORDER BY mtime DESC');
+}
+                 if (!$rs)
+                      throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+        $arr = $rs->fetchAll();
+	return $arr;
+	}
+    
+    /**
+    * 板块删除修改
+    */
+    public function scxg($id,$l){
+if($l=='sc'){
+        $rs = $this->db->select('*', 'bbs_forum_meta', 'WHERE parent_id=?', $id);
+}else{
+        $rs = $this->db->select('*', 'bbs_forum_meta', 'WHERE parent_id=?', $id);
+}
+                 if (!$rs)
+                      throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+        $arr = $rs->fetch();
+	return $arr;
+	}
 }

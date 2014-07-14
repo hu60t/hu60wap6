@@ -1,6 +1,9 @@
 {config_load file="conf:site.info"}
 {include file="tpl:comm.head" title=#SITE_NAME#}
-<div class="todayposts">今日0<span class="pipe">|</span>会员37<span class="pipe">|</span>在线1</div>
+<div class="todayposts">
+<span style='position:absolute;left:0%;'><b><img src="http://www.iconpng.com/png/sleek_xp/chat.png" style="margin-top:7px;" alt="{#BBS_NAME#}"  width="20" />聊天</b></span>
+今日0<span class="pipe">|</span>会员37<span class="pipe">|</span>在线1
+<span style='position:absolute;right:0%;'><b><a href="bbs.forum.{$BID}"><img src="http://yxw.webatu.pw/images/forum/forum_new.gif" alt="{#BBS_NAME#}" style="margin-top:7px;" width="20" />{#BBS_NAME#}</a></b></span></div>
     {foreach $forumInfo as $forum}
         <div class="fl">
         <div class="bm">
@@ -38,7 +41,7 @@
                 <div>
                                 <ul>
     {foreach $newTopicC as $topic}
-                                <li><a href="bbs.topic.{$forum.id}.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>   <!--{$topic.uinfo.name|code} 发表于{date('Y-m-d H:i:s',$topic.mtime)}--!>
+                                <li><a href="bbs.topic.{$forum.id}.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>   <!--{$topic.uinfo.name|code} {date('m-d H:i',$topic.mtime)}--!>
 </li>
     {/foreach}
                                 </ul>

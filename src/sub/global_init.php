@@ -21,3 +21,5 @@ if($PAGE->bid == 'css' && $PAGE->cid != 'css') {
     die;
 }
 $USER=new USER;
+/*你看不见我看不见我*/
+define('SITE_DIR',ROOT_DIR.'/tpl/default/'.$PAGE->bid.'/site');

@@ -322,4 +322,8 @@ a.cr_login_submit { display:block;color:#fff;text-shadow:none }
 .cr180_form p { margin-bottom:15px; }
 .cr180_form .crg1 { float:left;display:block;text-align:right;width:70px;margin-right:5px; }
 .cr180_form .txt { width:100%;height:30px;line-height:30px;border:#ccc 1px solid;background:#fff;font-size:14px;font-weight:bold;color:#666 }
+.cr180_form select{ width:100%;height:30px;line-height:30px;border:#ccc 1px solid;background:#fff;font-size:14px;font-weight:bold;color:#666 }
+.cr180 { width:100%;margin:20px auto }
+.cr180 .crg1 { float:left;display:block;text-align:right;width:70px;margin-right:5px; }
+.cr180 .txt { width:100%;height:30px;line-height:30px;border:#ccc 1px solid;background:#fff;font-size:14px;font-weight:bold;color:#666 }
 {/literal}

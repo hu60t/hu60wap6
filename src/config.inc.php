@@ -170,6 +170,7 @@ define('SMARTY_DIR',CLASS_DIR.'/smarty/');
 * 设置程序开始运行的时间
 * 该步骤对PHP5.2有用，因为它没有 $_SERVER['REQUEST_TIME_FLOAT'] 变量
 */
+
 if(!isset($_SERVER['REQUEST_TIME_FLOAT']))
     $_SERVER['REQUEST_TIME_FLOAT']=microtime(true);
 if(!isset($_SERVER['REQUEST_TIME']))

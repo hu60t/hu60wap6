@@ -99,4 +99,3 @@ define('PAGE_GZIP',9);
 * 开发者应该把用户上传的文件统一写入该目录
 */
 define('USERFILE_DIR',ROOT_DIR.'/userfile');
-  

@@ -62,3 +62,15 @@ CREATE TABLE `hu60_user` (
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `sid` (`sid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_msg` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `touid` int(11) NOT NULL,
+  `byuid` int(11) NOT NULL,
+  `type` int(11) DEFAULT '1',
+  `isread` int(11) NOT NULL,
+  `content` blob,
+  `ctime` bigint(20) NOT NULL,
+  `rtime` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
