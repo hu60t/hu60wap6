@@ -53,6 +53,7 @@ CREATE TABLE `hu60_user` (
   `name` varchar(16) NOT NULL,
   `pass` char(32) NOT NULL,
   `sid` varchar(64) NOT NULL,
+  `mail` varchar(128) NULL;
   `safety` blob,
   `regtime` bigint(20) NOT NULL,
   `sidtime` bigint(20) NOT NULL,
@@ -61,4 +62,22 @@ CREATE TABLE `hu60_user` (
   PRIMARY KEY (`uid`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `sid` (`sid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_addin_chat_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `ztime` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hu60_addin_chat_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `room` varchar(32) NOT NULL,
+  `lid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `uname` varchar(16) NOT NULL,
+  `content` blob,
+  `time` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
