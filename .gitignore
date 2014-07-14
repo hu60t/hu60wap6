@@ -9,3 +9,4 @@ src/temp/
 *.xz
 *.7z
 /src/config/db.php
+.gitignore
