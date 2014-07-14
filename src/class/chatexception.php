@@ -1,5 +1,5 @@
 <?php
-/*pageÒì³£Àà*/
+/*pageå¼‚å¸¸ç±»*/
 class chatexception extends Exception {
 /*class end*/
  }
