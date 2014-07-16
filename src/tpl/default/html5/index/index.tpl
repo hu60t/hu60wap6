@@ -1,7 +1,7 @@
 {config_load file="conf:site.info"}
 {include file="tpl:comm.head" title=#SITE_NAME#}
 <div class="todayposts">
-<span style='position:absolute;left:0%;'><b><img src="http://www.iconpng.com/png/sleek_xp/chat.png" style="margin-top:7px;" alt="{#BBS_NAME#}"  width="20" />聊天</b></span>
+<span style='position:absolute;left:0%;'><b><a href="addin.chat.{$BID}"><img src="http://www.iconpng.com/png/sleek_xp/chat.png" style="margin-top:7px;" alt="{#BBS_NAME#}"  width="20" />聊天</a></b></span>
 今日0<span class="pipe">|</span>会员37<span class="pipe">|</span>在线1
 <span style='position:absolute;right:0%;'><b><a href="bbs.forum.{$BID}"><img src="http://yxw.webatu.pw/images/forum/forum_new.gif" alt="{#BBS_NAME#}" style="margin-top:7px;" width="20" />{#BBS_NAME#}</a></b></span></div>
     {foreach $forumInfo as $forum}

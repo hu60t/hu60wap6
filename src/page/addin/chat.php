@@ -30,6 +30,10 @@ $chatlist = $chat->chatlist($roomname);
 $tpl->assign('chatlist',$chatlist);
 $tpl->display("tpl:chat");
 }else{
+if($_POST[roomname]){
+$url = 'addin.chat.'.$_POST[roomname].'.'.$PAGE->bid;
+header("location:$url");
+}
 //聊天室列表
 $list = $chat->roomlist();
 $tpl->assign('list',$list);

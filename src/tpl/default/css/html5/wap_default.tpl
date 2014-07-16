@@ -326,4 +326,8 @@ a.cr_login_submit { display:block;color:#fff;text-shadow:none }
 .cr180 { width:100%;margin:20px auto }
 .cr180 .crg1 { float:left;display:block;text-align:right;width:70px;margin-right:5px; }
 .cr180 .txt { width:100%;height:30px;line-height:30px;border:#ccc 1px solid;background:#fff;font-size:14px;font-weight:bold;color:#666 }
+.i { background-color: #FFF; color: #000; padding: 4px; border-width : 1px; border-color : #E6E7E8; border-style : solid; color: #000;font-size: 17px; }
+.content { padding: 10px; color: #000; }
+.content a { color: #303030 }
+
 {/literal}

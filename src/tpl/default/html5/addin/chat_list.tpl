@@ -8,7 +8,7 @@
 </div>
 <div class="topic_area">
     <div class="cr180_form">
-    <form method="get" action="addin.chat.{$bid}"><div >
+    <form method="post" action="addin.chat.{$bid}"><div >
 <p>
 <input type="text" name="roomname" id="username_LCxiI" class="txt" placeholder="聊天室名(例如:公共聊天室)" value=""/>
 </p>
@@ -16,7 +16,6 @@
     <p><input type="submit" name="go" id="submit" class="cr_login_submit" value="快速进入" /></p>
             </div>
 	</form>    </div>
-
 <br />
         <div class="fl cl indexthreadlist">
             <div class="bm">

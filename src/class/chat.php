@@ -3,7 +3,6 @@
 * 聊天室类
 */
 class chat {
-
       protected $db;
 	  
 	/**
@@ -28,9 +27,7 @@ class chat {
     public function newchatroom($name){
         self::checkName($name);
 		$this->db->insert('addin_chat_list', 'name', $name);
-
     }
-
      /*聊天室列表*/
     public function roomlist($size=20){
         $rs = $this->db->select('*','addin_chat_list','ORDER BY `ztime`');
@@ -38,10 +35,11 @@ class chat {
             throw new chatException('数据库错误，表'.DB_A.'addin_chat_list不可读', 500);
 		$n = count($rs->fetchAll());
 		$px = $this->page($n,$size);
-		$rs = $this->db->select("*",'addin_chat_list','ORDER BY `ztime` LIMIT ?,?',$px->thispage,$px->pagesize);
+		$rs = $this->db->select("*",'addin_chat_list','ORDER BY `ztime` DESC LIMIT ?,?',$px->thispage,$px->pagesize);
 		$rs = $rs->fetchAll();
 		foreach($rs as $k=>$m){
 		$rs[$k]['ctime'] = $this->time_trun(time() - $m['ztime']);
+if($m['ztime']==0){$rs[$k]['ctime'] = '无动态';}
 		}
 		$row['row'] = $rs;
 		$row['px'] = $px->pageshow();
