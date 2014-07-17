@@ -73,8 +73,8 @@ protected $parse=array(
 /*at @消息*/
     '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9_\x{4e00}-\x{9fa5}]+)(.*)$!uis' => array(array(1,3), 'at', array(2)),
 /*face 表情*/
-    '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,2})\}(.*)$!uis' => array(array(1,3), 'face', array(2)),
-    '!^(.*)《表情(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,2})》(.*)$!uis' => array(array(1,3), 'face', array(2)),
+    '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1,3), 'face', array(2)),
+    '!^(.*)《表情(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1,3), 'face', array(2)),
 );
   
 /**
@@ -131,7 +131,7 @@ public function link($type,$var,$var2='') {
 
     return array(array(
         'type'=>$type,
-        'url'=>$url,
+        'url'=>trim($url),
         'title'=>$title,
 		'len'=>$len
     ));
@@ -146,7 +146,7 @@ public function img($type,$var,$var2='') {
         preg_match_all('![0-9]+!',$opt,$opt);
         return array(array(
             'type' => 'thumb',
-            'src' => $url,
+            'src' => trim($url),
             'w' => $opt[0][0],
             'h' => $opt[0][1],
 			'len' => $this->len($url)
@@ -165,7 +165,7 @@ public function img($type,$var,$var2='') {
         }
         return array(array(
             'type' => $type=='img' ? 'img' : 'imgzh',
-            'src' => $src,
+            'src' => trim($src),
             'alt' => $alt,
 			'len' => $this->len($src) + $this->len($alt)
         ));
@@ -178,7 +178,7 @@ public function img($type,$var,$var2='') {
 public function copyright($tag) {
     return array(array(
         'type' => 'copyright',
-        'tag' => $tag,
+        'tag' => trim($tag),
 		'len' => $this->len($tag)
     ));
 }
@@ -187,9 +187,11 @@ public function copyright($tag) {
 * @brief 战网（魔兽世界英雄榜）链接标记
 */
 public function battlenet($tag) {
+    $info = explode('@', str_replace('＠', '@', $tag));
     return array(array(
         'type' => 'battlenet',
-        'tag' => str_replace('＠', '@', $tag),
+        'name' => trim($info[0]),
+        'server' => trim($info[1]),
 		'len' => $this->len($tag)
     ));
 }
@@ -252,5 +254,66 @@ function styleEnd($tag, $opt) {
 		'len' => $this->len($tag.$opt)
 	));
 }
+
+/**
+* @brief urltxt 网址文本
+*/
+function urltxt($url) {
+    return array(array(
+        'type' => 'urltxt',
+        'url' => trim($url),
+        'len' => $this->len($url)
+    ))
+}
+
+/**
+* @brief mailtxt 电子邮箱文本
+*/
+function mailtxt($mail) {
+    return array(array(
+        'type' => 'mailtxt',
+        'mail' => trim($mail),
+        'len' => $this->len($mail)
+    ));
+}
+
+/**
+* @brief at消息
+*/
+function at($tag) {
+    $tag = str_replace('＠', '@', $tag);
+    $arr = explode('@', $tag);
+    if (count($arr) > 1) {
+        $result = array();
+        foreach ($arr as $v) {
+            $res = $this->at($v);
+            $result = array_merge($result, $res);
+        }
+        return $result;
+    }
+    global $USER;
+    //user的at方法产生at消息并返回at对象的uid
+    //会生成at信息的页面须用regAt()方法注册at消息
+    //若未注册，则不产生at消息，但uid正常返回
+    $uid = $USER->at($tag);
+    return array(array(
+        'type' => 'at',
+        'tag' => trim($tag),
+        'uid' => $uid,
+        'len' => $this->len($tag)
+    ));
+}
+
+/**
+* @brief 表情
+*/
+function face($face) {
+    return array(array(
+        'type' => 'face',
+        'face' => trim($face),
+        'len' => $this->len($face)
+    ));
+}
+
 /*class end*/
 }
