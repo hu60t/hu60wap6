@@ -152,8 +152,11 @@ protected $display=array(
           }
       } else {
           $html = '';
-          $this->rmEndTag($data['tag'], $html);
-          return $html.'</span>';
+          if ($this->rmEndTag($data['tag'], $html)) {
+              return $html.'</span>';
+          } else {
+              return '';
+          }
       }
   }
   
@@ -173,16 +176,19 @@ protected $display=array(
           }
       } else {
           $html = '';
-          $this->rmEndTag($data['tag'], $html);
-          switch ($data['tag']) {
-          case '/color':
+          if ($this->rmEndTag($data['tag'], $html)) {
+              switch ($data['tag']) {
+              case '/color':
+                  $html .= '</span>';
+              case '/div':
+                  $html .= '</div>';
+              case '/span':
               $html .= '</span>';
-          case '/div':
-              $html .= '</div>';
-          case '/span':
-              $html .= '</span>';
+              }
+              return $html;
+          } else {
+              return '';
           }
-          return $html;
       }
   }
   
