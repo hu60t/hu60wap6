@@ -199,7 +199,7 @@ protected $display=array(
 /*at消息*/
   public function at($data) {
       global $PAGE;
-      return '<a href="user.info.'.code::html($data['uid']).'.$PAGE->bid.'">'.code::html($data['tag']).'</a>';
+      return '<a href="user.info.'.code::html($data['uid']).'.'.$PAGE->bid.'">'.code::html($data['tag']).'</a>';
   }
   
 /*face 表情*/
