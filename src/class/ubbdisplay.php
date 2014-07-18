@@ -6,7 +6,6 @@ protected $display=array(
     'text' => 'text',
 /*newline 换行*/
     'newline' => 'newline',
-/*code 代码高亮*/
 /*link 链接*/
     'url' => 'link',
     'urlzh' => 'link',
@@ -17,10 +16,24 @@ protected $display=array(
     'thumb' => 'thumb',
 /*code 代码高亮*/
     'code' => 'code',
+/*time 时间标记*/
+    'time' => 'time',
 /*copyright 版权声明*/
     'copyright' => 'copyright',
 /*battlenet 战网*/
     'battlenet' => 'battlenet',
+/*layout 布局*/
+    'layout' => 'layout',
+/*style 风格*/
+    'style' => 'style',
+/*urltxt 网址文本*/
+    'urltxt' => 'urltxt',
+/*mailtxt 邮箱文本*/
+    'mailtxt' => 'mailtxt',
+/*at消息*/
+    'at' => 'at',
+/*face 表情*/
+    'face' => 'face',
 );
   
 /*text 纯文本*/
@@ -43,6 +56,9 @@ protected $display=array(
   
 /*time 时间*/
   public function time($data) {
+      if ($data['tag'] == '') {
+          $data['tag'] = 'Y-m-d H:i:s';
+      }
       return code::html(date($data['tag']));
   }
 
@@ -103,7 +119,7 @@ protected $display=array(
 /*battlenet 战网*/
   public function battlenet($data) {
       if ($data['server'] != '') {
-          return '<a href="http://www.battlenet.com.cn/wow/zh/character/'.urlencode($data['server']).'/'.urlencode($data['name']).'">'.code::html("{$data['name']}@{$data['server']}").'</a>';
+          return '<a href="http://www.battlenet.com.cn/wow/zh/character/'.urlencode($data['server']).'/'.urlencode($data['name']).'/simple">'.code::html("{$data['name']}@{$data['server']}").'</a>';
       } else {
           return '<a href="http://www.battlenet.com.cn/wow/zh/search?q='.urlencode($data['name']).'&amp;f=wowcharacter">'.code::html($data['name']).'</a>';
       }
@@ -114,9 +130,81 @@ protected $display=array(
       return '<br/>';
   }
 
-/*layout 布局开始*/
-  public function layoutStart($data) {
-      
+/*layout 布局*/
+  public function layout($data) {
+      if ($data['tag'][0] != '/') {
+          $dataEnd = $data;
+          $dataEnd['tag'] = '/'.$data['tag'];
+          $this->regEndTag('/'.$data['tag'], 'layout', $dataEnd);
+          switch ($data['tag']) {
+          case 'b':
+              return '<span style="font-weight:bold">';
+          case 'i':
+              return '<span style="font-style:italic">';
+          case 'u':
+              return '<span style="text-decoration:underline">';
+          case 'center':
+          case 'left':
+          case 'right':
+              return '<span style="text-align:'.$data['tag'].'">';
+          default:
+              return '<span>';
+          }
+      } else {
+          $html = '';
+          $this->rmEndTag($data['tag'], $html);
+          return $html.'</span>';
+      }
+  }
+  
+/*style 风格*/
+  public function style($data) {
+      if ($data['tag'][0] != '/') {
+          $dataEnd = $data;
+          $dataEnd['tag'] = '/'.$data['tag'];
+          $this->regEndTag('/'.$data['tag'], 'style', $dataEnd);
+          switch ($data['tag']) {
+          case 'color':
+              return '<span style="color:'.code::html($data['opt']).'">';
+          case 'div':
+              return '<div style="'.code::html($data['opt']).'">';
+          case 'span':
+              return '<span style="'.code::html($data['opt']).'">';
+          }
+      } else {
+          $html = '';
+          $this->rmEndTag($data['tag'], $html);
+          switch ($data['tag']) {
+          case '/color':
+              $html .= '</span>';
+          case '/div':
+              $html .= '</div>';
+          case '/span':
+              $html .= '</span>';
+          }
+          return $html;
+      }
+  }
+  
+/*urltxt 网址文本*/
+  public function urltxt($data) {
+      return '<a href="'.code::html($data['url']).'">'.code::html($data['url']).'</a>';
+  }
+
+/*mailtxt 邮箱文本*/
+  public function mailtxt($data) {
+      return '<a href="mailto:'.code::html($data['mail']).'">'.code::html($data['mail']).'</a>';
+  }
+  
+/*at消息*/
+  public function at($data) {
+      global $PAGE;
+      return '<a href="user.info.'.code::html($data['uid']).'.$PAGE->bid.'">'.code::html($data['tag']).'</a>';
+  }
+  
+/*face 表情*/
+  public function face($data) {
+      return $data['face'].'(表情图未就绪)';
   }
 }
 
