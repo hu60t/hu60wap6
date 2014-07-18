@@ -263,7 +263,7 @@ function urltxt($url) {
         'type' => 'urltxt',
         'url' => trim($url),
         'len' => $this->len($url)
-    ))
+    ));
 }
 
 /**
