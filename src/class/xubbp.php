@@ -357,8 +357,8 @@ public function setOpt($index, $data) {
 /**
 * 注册结束标记回调
 */
-protected function regEndTag($type,$func) {
-    array_push($this->endTags,array($type,$func));
+protected function regEndTag($type, $func, $data = NULL) {
+    array_push($this->endTags,array($type, $func, $data));
 }
 
 /**
@@ -376,9 +376,9 @@ protected function rmEndTag($type,&$data) {
             array_push($this->endTags,$tag);
             $func=$tag[1];
 			if (is_array($data))
-                $data=array_merge($data,$this->$func());
+                $data=array_merge($data,$this->$func($tag[2]));
 			else
-			    $data.=$this->$func();
+			    $data.=$this->$func($tag[2]);
         } else {
             return TRUE;
         }

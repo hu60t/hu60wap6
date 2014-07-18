@@ -213,7 +213,7 @@ public function newline($tag) {
 function layoutStart($tag) {
     return array(array(
 	    'type' => 'layout',
-		'tag' => $tag,
+		'tag' => strtolower($tag),
 		'len' => $this->len($tag)
 	));
 }
@@ -236,7 +236,7 @@ function layoutEnd($tag) {
 function styleStart($tag, $opt) {
     return array(array(
 	    'type' => 'style',
-		'tag' => $tag,
+		'tag' => strtolower($tag),
 		'opt' => $opt,
 		'len' => $this->len($tag.$opt)
 	));
