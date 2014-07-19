@@ -6,7 +6,7 @@ if(!$user->islogin){header('location:user.login.'.$PAGE->bid.'');}
 $msg = new msg;
 if($PAGE->ext[0] == 'outbox'){
 //发件箱
-$list = $msg->read_outbox($user->uid);
+$list = $msg->read_outbox($user->uid,$PAGE->ext[1]);
 $tpl->assign('list',$list);
 $tpl->display('tpl:outbox');
 }elseif($PAGE->ext[0] == 'send'){
@@ -23,7 +23,7 @@ $tpl->assign('msg',$xx);
 $tpl->display('tpl:view');
 }else{
 //收件箱
-$list = $msg->read_inbox($user->uid);
+$list = $msg->read_inbox($user->uid,$PAGE->ext[1]);
 $tpl->assign('list',$list);
 $tpl->display('tpl:inbox');
 }
