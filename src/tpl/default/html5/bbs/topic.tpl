@@ -4,7 +4,7 @@
 {else}
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{include file="tpl:comm.head" title="{$tMeta.title|code} - {$fName} - {#BBS_NAME#}"}
+{include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}"}
 <!--导航栏-->
 <div class="pt">
 <div class="cr180_ptzmenu">
