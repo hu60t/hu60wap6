@@ -10,7 +10,7 @@ $chat->checkroom($roomname);
 if($_POST['go'])
 {
 if(!$user->islogin)
-$err_msg = '你必须要<a href="user.login">登录</a>才能发言';
+$err_msg = '你必须要<a href="user.login.'.$PAGE->bid.'">登录</a>才能发言';
 else
 {
 if($_POST['neirong']=='')

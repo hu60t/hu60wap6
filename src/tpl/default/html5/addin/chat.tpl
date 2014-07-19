@@ -20,7 +20,7 @@
 <div class="content">
 {foreach $chatlist.row as $k}
 <div class="i">{$k.lid}. {$ubbs->display($k.content,true)}<br />
-(<a href="">{$k.uname}</a> <a href="">@Ta</a> {date("m-d h:i:s",{$k.time})})</div>
+(<a href="">{$k.uname}</a> <a href="">@Ta</a> {date("m-d H:i:s",{$k.time})})</div>
 {/foreach}
 </div>
 <div class="pt">
