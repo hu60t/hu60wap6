@@ -186,7 +186,7 @@ if($v['plate']!=''){
         return $fIndex;
     }
 	
-	public function plateForum($size = 2, $topicSize = 4) {
+	public function plateForum($size, $topicSize = 4) {
         $rs = $this->db->select('id,name', 'bbs_forum_meta', 'WHERE parent_id=0 ORDER BY RAND() DESC LIMIT ?', $size);
 		if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
 		$forum = $rs->fetchAll();
