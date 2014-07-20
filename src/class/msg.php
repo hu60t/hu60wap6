@@ -11,6 +11,14 @@ class msg {
         $this->db = new db;
     }
 	
+	/*检测是否有未读信息*/
+	public function noreadmsg($uid){
+	$rs = $this->db->select('id','msg','WHERE touid=? AND isread=0 AND type=0',$uid);
+	if(!$rs) return false;
+	$n = count($rs->fetchAll());
+	return $n;
+	}
+	
 	/*发送信息*/
 	public function send_msg($uid,$touid,$content){
 	$ctime = time();
@@ -47,7 +55,7 @@ class msg {
     /*读取指定UID收件箱信息列表*/
     public function read_inbox($uid,$type,$size=15){
 	    switch($type){case 'yes':$isread = 'AND isread=1';break;case 'no':$isread = 'AND isread=0';break;default:$isread = '';}
-        $rs = $this->db->select('*','msg','WHERE type=0 AND touid=?',$uid);
+        $rs = $this->db->select('*','msg',"WHERE type=0 AND touid=? $isread",$uid);
         if (!$rs) return false;
 		$n = count($rs->fetchAll());
 		$px = $this->page($n,$size);
@@ -60,7 +68,7 @@ class msg {
 	/*读取指定UID发件箱信息列表*/
     public function read_outbox($uid,$type,$size=15){
 	    switch($type){case 'yes':$isread = 'AND isread=1';break;case 'no':$isread = 'AND isread=0';break;default:$isread = '';}
-        $rs = $this->db->select('*','msg','WHERE type=0 AND byuid=?',$uid);
+        $rs = $this->db->select('*','msg',"WHERE type=0 AND byuid=? $isread",$uid);
         if (!$rs) return false;
 		$n = count($rs->fetchAll());
 		$px = $this->page($n,$size);

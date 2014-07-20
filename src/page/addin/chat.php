@@ -24,10 +24,12 @@ $chat->chatsay($roomname,$user->uid,$user->name,$content,time());
 }
 }
 $ubbs = new ubbdisplay();
-$tpl->assign('ubbs',$ubbs);
 $tpl->assign('err_msg',$err_msg);
-$chatlist = $chat->chatlist($roomname);
-$tpl->assign('chatlist',$chatlist);
+$list = $chat->chatlist($roomname);
+foreach($list[row] as $k=>$m){
+$list[row][$k][content] = $ubbs->display($m[content],truw);
+}
+$tpl->assign('list',$list);
 $tpl->display("tpl:chat");
 }else{
 if($_POST[roomname]){
