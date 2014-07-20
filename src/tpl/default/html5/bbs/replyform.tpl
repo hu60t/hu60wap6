@@ -5,7 +5,7 @@
 {else}
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{include file="tpl:comm.head" title="回复 - {$tMeta.title|code} - {$fName} - {#BBS_NAME#}"}
+{include file="tpl:comm.head" title="回复 - {$tMeta.title} - {$fName} - {#BBS_NAME#}"}
 <!--导航栏-->
 {div class="forum_list"}
     <a href="index.index.{$BID}">首页</a> &gt;

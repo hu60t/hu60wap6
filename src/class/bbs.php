@@ -42,6 +42,7 @@ class bbs {
     */
     public function newTopic($forumId, $title, $content) {
     try {
+        global $PAGE;
         $time = $_SERVER['REQUEST_TIME'];
         //发帖权限检查
         $this->checkLogin();
@@ -95,6 +96,10 @@ class bbs {
         foreach($fid as $i) {
             $rs->execute();
         }
+        
+        //注册at消息
+        $this->user->regAt("帖子“{$title}”中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
+        
         //更新首个发帖版块的改动时间
         $x = $this->db->update('bbs_forum_meta', 'mtime=? WHERE id=?', $time, $fid[0]);
         return $topic_id;
@@ -107,6 +112,8 @@ class bbs {
     * 新回复
     */
     public function newReply($reply_id, $content) {
+        global $PAGE;
+        
         $this->checkLogin();
         $data = $this->topicContent($reply_id, 'topic_id');
         if (!$data)
@@ -120,6 +127,11 @@ class bbs {
         $floor = $this->db->query('SELECT max(floor) FROM '.DB_A.'bbs_topic_content WHERE topic_id=?', $topic_id);
         $floor = $floor->fetch(db::num);
         $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor[0]+1);
+        
+        //注册at消息
+        $topicTitle = $this->topicMeta($topic_id, 'title');
+        $this->user->regAt("帖子“{$topicTitle['title']}”的回复中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
+        
         return $rs ? true : false;
     }
     

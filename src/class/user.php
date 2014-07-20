@@ -8,6 +8,7 @@ protected static $safety; //用户安全信息缓存
 
 protected $update=array(); //记录需要更新的信息，以便在__destruct时一同写到数据库（如果update不为空数组，则user对象禁止更换用户）
  public $err=NULL; //start()方法捕获的错误
+ protected $at = NULL; //注册的at消息元信息数组
   
 /*加密用户的密码*/
 protected static function mkpass($pass)
@@ -402,6 +403,73 @@ function logout(){
 	setcookie(COOKIE_A.'sid',false,$_SERVER['REQUEST_TIME']+DEFAULT_LOGIN_TIMEOUT,COOKIE_PATH,COOKIE_DOMAIN);
 	header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'/user.login.'.$PAGE->bid);
 }
+
+public function regAt($pos, $url, $msg) {
+    if (!$this->islogin) {
+        throw new userException('用户未登录，不能注册at消息！', 403);
+    }
+    
+    $this->at = array('pos'=>$pos, 'url'=>$url, 'msg'=>$msg);
+}
+
+public function at($tag) {
+    static $atUid = array();
+    
+    if ($this->at === NULL) {
+        return false;
+    }
+        
+    $tag = str_replace('＃', '#', trim($tag));
+    $uinfo = new userinfo;
+    if ($tag[0] == '#') {
+        $uinfo->uid(substr($tag, 1));
+    } else {
+        $uinfo->name($tag);
+    }
+    
+    if ($uinfo->uid < 1) {
+        return false;
+    }
+    
+    $uid = $uinfo->uid;
+    
+    if ($atUid[$uid]) {
+        return false;
+    }
+    
+    $atUid[$uid] = true;
+    
+    $content = <<<UBB
+{$this->name} 在 《链接：{$this->at['url']}，{$this->at['pos']}》 at你：
+[div=border:1px solid #ff0000]
+{$this->at['msg']}
+[/div]
+UBB;
+    
+    $ubb = new ubbparser;
+    $data = $ubb->parse($content, true);
+    $msg = new msg;
+    $msg->send_msg($this->uid, $uid, $data);
+}
   
 /*class end*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
