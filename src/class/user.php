@@ -414,10 +414,6 @@ public function regAt($pos, $url, $msg) {
 
 public function at($tag) {
     static $atUid = array();
-    
-    if ($this->at === NULL) {
-        return false;
-    }
         
     $tag = str_replace('＃', '#', trim($tag));
     $uinfo = new userinfo;
@@ -434,7 +430,11 @@ public function at($tag) {
     $uid = $uinfo->uid;
     
     if ($atUid[$uid]) {
-        return false;
+        return $uid;
+    }
+    
+    if ($this->at === NULL) {
+        return $uid;
     }
     
     $atUid[$uid] = true;
@@ -450,6 +450,7 @@ UBB;
     $data = $ubb->parse($content, true);
     $msg = new msg;
     $msg->send_msg($this->uid, $uid, $data);
+    return $uid;
 }
   
 /*class end*/
