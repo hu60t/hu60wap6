@@ -27,9 +27,9 @@ class msg{
      * 检测是否有未读信息
      */
      public function noreadmsg($uid,$type){
-         $rs = $this -> db -> select('id', 'msg', 'WHERE touid=? AND isread=0 AND type=?', $uid,$type);
+         $rs = $this -> db -> select('count(id)', 'msg', 'WHERE touid=? AND isread=0 AND type=?', $uid,$type);
          if(!$rs) return false;
-         $n = count($rs -> fetchAll());
+         $n = $rs['count(id)'];
          return $n;
          }
     

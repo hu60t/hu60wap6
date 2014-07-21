@@ -18,7 +18,7 @@ class chat{
      * 检查聊天室名是否有效
 聊天室名只允许汉字、字母、数字、下划线(_)和减号(-)。
      */
-     static function checkName($name){
+     public function checkName($name){
          if($name == '') throw new chatexception('聊天室名不能为空。', 10);
          if(strlen(mb_convert_encoding($name, 'gbk', 'utf-8')) > 10) throw new chatexception("聊天室名 \"$name\" 过长。聊天室名最长只允许10个英文字母或5个汉字（10字节）。", 13);
          if(!str :: 匹配汉字($name, 'A-Za-z0-9_\\-')) throw new chatexception("聊天室名 \"$name\" 无效。只允许汉字、字母、数字、下划线(_)和减号(-)。", 11);
@@ -29,7 +29,7 @@ class chat{
      * ***新建聊天室****
      */
      public function newchatroom($name){
-         self :: checkName($name);
+         $this -> checkName($name);
          $this -> db -> insert('addin_chat_list', 'name', $name);
         
          }
@@ -43,7 +43,7 @@ class chat{
              throw new chatException('数据库错误，表' . DB_A . 'addin_chat_list不可读', 500);
          $n = count($rs -> fetchAll());
          $px = $this -> page($n, $size);
-         $rs = $this -> db -> select("*", 'addin_chat_list', 'ORDER BY `ztime` LIMIT ?,?', $px -> thispage, $px -> pagesize);
+         $rs = $this -> db -> select("*", 'addin_chat_list', 'ORDER BY `ztime` DESC LIMIT ?,?', $px -> thispage, $px -> pagesize);
          $rs = $rs -> fetchAll();
          foreach($rs as $k => $m){
              $rs[$k]['ctime'] = $this -> time_trun(time() - $m['ztime']);

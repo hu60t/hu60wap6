@@ -6,13 +6,14 @@ $chat = new chat;
 if($PAGE -> ext[0]){
      $roomname = $PAGE -> ext[0];
      $tpl -> assign('roomname', $roomname);
-     $chat -> checkroom($roomname);
+	 $chat -> checkName($roomname);
      if($_POST['go'])
     {
          if(!$user -> islogin)
              $err_msg = '你必须要<a href="user.login.' . $PAGE -> bid . '">登录</a>才能发言';
          else
             {
+			 $chat -> checkroom($roomname);
              if($_POST['neirong'] == '')
                  $err_msg = '内容不能为空';
              else
