@@ -13,12 +13,12 @@
 {/foreach}
 {$list.px}
 {else}
-发件箱里空空的。
+收件箱里空空的。
 {/if}
 <hr />
 发件箱：
 <a href="msg.index.outbox.all.{$bid}">全部</a>
 <a href="msg.index.outbox.no.{$bid}">对方未读</a>
 <a href="msg.index.outbox.yes.{$bid}">对方已读</a>
-<a href="msg.index.send.{$bid}">发信</a>
+<a href="msg.index.@.{$bid}">@信息</a>
 {include file="tpl:comm.foot"}

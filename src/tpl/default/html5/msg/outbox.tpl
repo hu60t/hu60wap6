@@ -20,5 +20,5 @@
 <a href="msg.index.inbox.all.{$bid}">全部</a>
 <a href="msg.index.inbox.no.{$bid}">未读</a>
 <a href="msg.index.inbox.yes.{$bid}">已读</a>
-<a href="msg.index.send.{$bid}">发信</a>
+<a href="msg.index.@.{$bid}">@信息</a>
 {include file="tpl:comm.foot"}

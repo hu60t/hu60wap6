@@ -26,8 +26,8 @@ class msg{
     /**
      * 检测是否有未读信息
      */
-     public function noreadmsg($uid){
-         $rs = $this -> db -> select('id', 'msg', 'WHERE touid=? AND isread=0 AND type=0', $uid);
+     public function noreadmsg($uid,$type){
+         $rs = $this -> db -> select('id', 'msg', 'WHERE touid=? AND isread=0 AND type=?', $uid,$type);
          if(!$rs) return false;
          $n = count($rs -> fetchAll());
          return $n;
@@ -36,9 +36,9 @@ class msg{
     /**
      * 发送信息
      */
-     public function send_msg($uid, $touid, $content){
+     public function send_msg($uid, $type, $touid, $content){
          $ctime = time();
-         $rs = $this -> db -> insert('msg', 'touid,byuid,type,isread,content,ctime', $touid, $uid, '0', '0', $content, $ctime);
+         $rs = $this -> db -> insert('msg', 'touid,byuid,type,isread,content,ctime', $touid, $uid, $type, '0', $content, $ctime);
          if(!$rs) return false;
          return true;
          }
@@ -76,20 +76,26 @@ class msg{
     /**
      * 读取指定UID收件箱信息列表
      */
-     public function read_inbox($uid, $type, $size = 15){
-         switch($type){
+     public function read_inbox($uid, $type, $is_read, $size = 15){
+         switch($is_read){
          case 'yes':$isread = 'AND isread=1';
              break;
          case 'no':$isread = 'AND isread=0';
              break;
          default:$isread = '';
              }
-         $rs = $this -> db -> select('*', 'msg', "WHERE type=0 AND touid=? $isread", $uid);
+		 if($type=='1' && $is_read!='yes'){$isread='AND isread=0';}
+         $rs = $this -> db -> select('*', 'msg', "WHERE type=? AND touid=? $isread", $type, $uid);
          if (!$rs) return false;
          $n = count($rs -> fetchAll());
          $px = $this -> page($n, $size);
-         $rs = $this -> db -> select("*", 'msg', "WHERE type=0 AND touid=? $isread ORDER BY `ctime` DESC LIMIT ?,?", $uid, $px -> thispage, $px -> pagesize);
+         $rs = $this -> db -> select("*", 'msg', "WHERE type=? AND touid=? $isread ORDER BY `ctime` DESC LIMIT ?,?", $type, $uid, $px -> thispage, $px -> pagesize);
          $row['row'] = $rs -> fetchAll();
+		 if($type == '1' && $is_read=='no'){
+		 foreach($row['row'] as $k){
+		 $this->update_msg($uid,$k['id']);
+		 }
+		 }
          $row['px'] = $px -> pageshow();
          return $row;
          }
@@ -97,19 +103,19 @@ class msg{
     /**
      * 读取指定UID发件箱信息列表
      */
-     public function read_outbox($uid, $type, $size = 15){
-         switch($type){
+     public function read_outbox($uid, $type, $is_read, $size = 15){
+         switch($is_read){
          case 'yes':$isread = 'AND isread=1';
              break;
          case 'no':$isread = 'AND isread=0';
              break;
          default:$isread = '';
              }
-         $rs = $this -> db -> select('*', 'msg', "WHERE type=0 AND byuid=? $isread", $uid);
+         $rs = $this -> db -> select('*', 'msg', "WHERE type=? AND byuid=? $isread", $type, $uid);
          if (!$rs) return false;
          $n = count($rs -> fetchAll());
          $px = $this -> page($n, $size);
-         $rs = $this -> db -> select("*", 'msg', "WHERE type=0 AND byuid=? $isread ORDER BY `ctime` DESC LIMIT ?,?", $uid, $px -> thispage, $px -> pagesize);
+         $rs = $this -> db -> select("*", 'msg', "WHERE type=? AND byuid=? $isread ORDER BY `ctime` DESC LIMIT ?,?", $type, $uid, $px -> thispage, $px -> pagesize);
          $row['row'] = $rs -> fetchAll();
          $row['px'] = $px -> pageshow();
          return $row;

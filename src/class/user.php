@@ -449,7 +449,7 @@ UBB;
     $ubb = new ubbparser;
     $data = $ubb->parse($content, true);
     $msg = new msg;
-    $msg->send_msg($this->uid, $uid, $data);
+    $msg->send_msg($this->uid, '1', $uid, $data);
     return $uid;
 }
   
