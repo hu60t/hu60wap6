@@ -8,7 +8,7 @@
 {if $list.row}
 {foreach $list.row as $k}
 {if $k.isread==0}(未读){else}(已读){/if}来自:<a href="msg.index.send.{$k.byuid}.{$bid}">{$k.byname}</a><br />
-内容:<a href="msg.index.view.{$k.id}.{$bid}">{substr($k.content,0,18)}...</a><br />
+内容:<a href="msg.index.view.{$k.id}.{$bid}">{substr($k.content,0,18)|code}...</a><br />
 时间:{date("Y-m-d H:i:s",$k.ctime)}<hr />
 {/foreach}
 {$list.px}

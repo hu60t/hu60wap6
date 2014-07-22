@@ -41,6 +41,9 @@ if($PAGE -> ext[0] == 'outbox'){
 	 }elseif($PAGE -> ext[0] == '@'){
 	 //@信息查看
 	 $list = $msg -> read_inbox($user -> uid, '1', $PAGE -> ext[1]);
+	 foreach($list[row] as $k => $m){
+         $list[row][$k]['content'] = $ubbs -> display($m['content'], true);
+         }
 	 $tpl -> assign('list', $list);
 	 $tpl -> display('tpl:at');
      }else{

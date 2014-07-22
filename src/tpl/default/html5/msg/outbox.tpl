@@ -8,7 +8,7 @@
 {if $list.row}
 {foreach $list.row as $k}
 {if $k.isread==0}(对方未读){else}(对方已读){/if}发给:<a href="msg.index.send.{$k.touid}.{$bid}">{$k.toname}</a><br />
-内容:<a href="msg.index.view.{$k.id}.{$bid}">{substr($k.content,0,18)}...</a><br />
+内容:<a href="msg.index.view.{$k.id}.{$bid}">{substr($k.content,0,18)|code}...</a><br />
 时间:{date("Y-m-d H:i:s",$k.ctime)}<hr />
 {/foreach}
 {$list.px}
