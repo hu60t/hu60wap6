@@ -395,6 +395,8 @@ public function save() {
 public function __destruct() {
  $this->save();
  if(!empty($this->update)) throw new userexception('更新未全部写入数据库。未写入项：'.implode(',',$this->update),100);
+ //发at消息
+ $this->sendAt();
 }
 /*
 *退出登录
@@ -465,13 +467,6 @@ UBB;
     }
     
     return true;
-}
-
-/**
-* 析构方法
-*/
-public function __destruct() {
-    $this->sendAt();
 }
   
 /*class end*/
