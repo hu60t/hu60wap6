@@ -12,9 +12,15 @@
 内容:{$msg.content}<br />
 发送时间:{date("Y-m-d H:i:s",$msg.ctime)}<br />
 {if $msg.rtime}阅读时间:{date("Y-m-d H:i:s",$msg.rtime)}{/if}<hr />
+{form action="msg.index.send.{$bid}" method="post"}
+{input type="hidden" name="touid" value="{$msg.byuid}"}<br />
+回复内容:{input type="textarea" name="content" }<br />
+{input type="submit" value="确认回复"}
+{/form}
+<hr />
 发件箱：
 <a href="msg.index.outbox.all.{$bid}">全部</a>
 <a href="msg.index.outbox.no.{$bid}">对方未读</a>
 <a href="msg.index.outbox.yes.{$bid}">对方已读</a>
-<a href="msg.index.send.{$bid}">发信</a>
+<a href="msg.index.@.{$bid}">@信息</a>
 {include file="tpl:comm.foot"}
