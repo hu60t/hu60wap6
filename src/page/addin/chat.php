@@ -2,7 +2,7 @@
 $tpl = $PAGE -> start();
 $USER -> start();
 $user = $USER;
-$chat = new chat;
+$chat = new chat($USER);
 if($PAGE -> ext[0]){
      $roomname = $PAGE -> ext[0];
      $tpl -> assign('roomname', $roomname);
@@ -18,9 +18,7 @@ if($PAGE -> ext[0]){
                  $err_msg = '内容不能为空';
              else
                 {
-                 $ubb = new ubbparser;
-                 $content = $ubb -> parse($_POST['neirong'], true);
-                 $chat -> chatsay($roomname, $user -> uid, $user -> name, $content, time());
+                 $chat -> chatsay($roomname, $_POST['neirong'], time());
                  }
              }
          }

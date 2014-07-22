@@ -458,11 +458,10 @@ public function sendAt() {
 [/div]
 UBB;
     
-    $ubb = new ubbparser;
-    $data = $ubb->parse($content, true);
+
     $msg = new msg;
     foreach ($this->atUid as $i=>$uid) {
-        $msg->send_msg($this->uid,'1',$uid,$data);
+        $msg->send_msg($this->uid,'1',$uid,$content);
         unset($this->atUid[$i]);
     }
     

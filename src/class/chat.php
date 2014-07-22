@@ -5,15 +5,19 @@
 class chat{
     
      protected $db;
-    
+     protected $user;
     /**
      * 初始化
 
      * 参数：用户对象（可空）
      */
-     public function __construct(){
-         $this -> db = new db;
-         }
+     public function __construct($user = null) {
+        if (!is_object($user) or !$user->islogin)
+            $this->user = new user;
+        else
+            $this->user = $user;
+        $this->db = new db;
+    }
     /**
      * 检查聊天室名是否有效
 聊天室名只允许汉字、字母、数字、下划线(_)和减号(-)。
@@ -104,12 +108,16 @@ class chat{
     /**
      * 在指定聊天室发言
      */
-     public function chatsay($room, $uid, $uname, $content, $time){
+     public function chatsay($room, $content, $time){
+	     global $PAGE;
+		 $ubb = new ubbparser;
+         $contents = $ubb -> parse($content, true);
          $lid = $this -> db -> select('max(lid)', 'addin_chat_data', 'WHERE room=?', $room) -> fetch();
          $lid = $lid['max(lid)'] + 1;
-         $rs = $this -> db -> insert('addin_chat_data', 'room,lid,uid,uname,content,time', $room, $lid, $uid, $uname, $content, $time);
+         $rs = $this -> db -> insert('addin_chat_data', 'room,lid,uid,uname,content,time', $room, $lid, $this->user->uid, $this->user->name, $contents, $time);
          if($rs){
              $this -> db -> update('addin_chat_list', 'ztime=? WHERE name=?', $time, $room);
+			 $this -> user -> regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.{$room}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
              return true;
              }else{
              return false;

@@ -38,6 +38,8 @@ class msg{
      */
      public function send_msg($uid, $type, $touid, $content){
          $ctime = time();
+		 $ubb = new ubbparser;
+		 $content = $ubb -> parse($content, true);
          $rs = $this -> db -> insert('msg', 'touid,byuid,type,isread,content,ctime', $touid, $uid, $type, '0', $content, $ctime);
          if(!$rs) return false;
          return true;

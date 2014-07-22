@@ -7,7 +7,6 @@ if(!$user -> islogin){
      }
 $msg = new msg();
 $uinfo = new userinfo;
-$ubb = new ubbparser;
 $ubbs = new ubbdisplay();
 if($PAGE -> ext[0] == 'outbox'){
      // 发件箱
@@ -22,8 +21,7 @@ if($PAGE -> ext[0] == 'outbox'){
      }elseif($PAGE -> ext[0] == 'send'){
      // 发送信息
     if($_POST){
-         $content = $ubb -> parse($_POST['content'], true);
-         $send = $msg -> send_msg($user -> uid, '0', $_POST[touid], $content);
+         $send = $msg -> send_msg($user -> uid, '0', $_POST[touid], $_POST['content']);
          $tpl -> assign('send', $send);
          }
      $tpl -> assign('touid', $PAGE -> ext[1]);

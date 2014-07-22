@@ -22,6 +22,9 @@
 <p class="txt">
  注册时间:{date('Y年m月d日 H:i:s',$USER->regtime)}
 </p>
+<p class="txt">
+查看：<a href="msg.index.{$bid}">内信</a>/<a href="msg.index.@.{$bid}">@消息</a><br/>
+</p>
 {/div}
 {/div}
 {if $mmbt}
