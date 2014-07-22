@@ -295,7 +295,12 @@ function at($tag) {
     //user的at方法产生at消息并返回at对象的uid
     //会生成at信息的页面须用regAt()方法注册at消息
     //若未注册，则不产生at消息，但uid正常返回
-    $uid = $USER->at($tag);
+    if (!is_object($USER)) {
+        $user = new user;
+    } else {
+        $user = $USER;
+    }
+    $uid = $user->at($tag);
     return array(array(
         'type' => 'at',
         'tag' => trim($tag),

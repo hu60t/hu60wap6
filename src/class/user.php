@@ -432,7 +432,7 @@ public function at($tag) {
     
     $uid = $uinfo->uid;
     
-    if ($atUid[$uid]) {
+    if ($atUid[$uid] || !$this->islogin) {
         return $uid;
     }
     
