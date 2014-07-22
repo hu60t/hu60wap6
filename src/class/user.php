@@ -9,6 +9,7 @@ protected static $safety; //用户安全信息缓存
 protected $update=array(); //记录需要更新的信息，以便在__destruct时一同写到数据库（如果update不为空数组，则user对象禁止更换用户）
  public $err=NULL; //start()方法捕获的错误
  protected $at = NULL; //注册的at消息元信息数组
+ protected $atUid = NULL; //at消息收件人uid数组
   
 /*加密用户的密码*/
 protected static function mkpass($pass)
@@ -408,7 +409,7 @@ public function regAt($pos, $url, $msg) {
     if (!$this->islogin) {
         throw new userException('用户未登录，不能注册at消息！', 403);
     }
-    var_dump($pos);die;
+    
     $this->at = array('pos'=>$pos, 'url'=>$url, 'msg'=>$msg);
 }
 
@@ -428,16 +429,25 @@ public function at($tag) {
     }
     
     $uid = $uinfo->uid;
-    var_dump($this->uid, $uid, $data, $this->at);die; 
+    
     if ($atUid[$uid]) {
         return $uid;
     }
     
-    if ($this->at === NULL) {
-        return $uid;
+    $this->atUid[] = $uid;
+    $atUid[$uid] = true;
+    
+    if ($this->at !== NULL) {
+        $this->sendAt();
     }
     
-    $atUid[$uid] = true;
+    return $uid;
+}
+
+public function sendAt() {
+    if ($this->at === NULL) {
+        return false;
+    }
     
     $content = <<<UBB
 {$this->name} 在 《链接：{$this->at['url']}，{$this->at['pos']}》 at你：
@@ -446,12 +456,22 @@ public function at($tag) {
 [/div]
 UBB;
     
-    var_dump($this->uid, $uid, $data);die;
     $ubb = new ubbparser;
     $data = $ubb->parse($content, true);
     $msg = new msg;
-    $msg->send_msg($this->uid,'1',$uid,$data);
-    return $uid;
+    foreach ($this->atUid as $i=>$uid) {
+        $msg->send_msg($this->uid,'1',$uid,$data);
+        unset($this->atUid[$i]);
+    }
+    
+    return true;
+}
+
+/**
+* 析构方法
+*/
+public function __destruct() {
+    $this->sendAt();
 }
   
 /*class end*/
