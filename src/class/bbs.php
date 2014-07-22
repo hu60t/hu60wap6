@@ -131,7 +131,6 @@ class bbs {
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
         $this->user->regAt("帖子“{$topicTitle['title']}”的回复中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
-        
         return $rs ? true : false;
     }
     

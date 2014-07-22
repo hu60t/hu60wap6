@@ -408,7 +408,7 @@ public function regAt($pos, $url, $msg) {
     if (!$this->islogin) {
         throw new userException('用户未登录，不能注册at消息！', 403);
     }
-    
+    var_dump($pos);die;
     $this->at = array('pos'=>$pos, 'url'=>$url, 'msg'=>$msg);
 }
 
@@ -428,7 +428,7 @@ public function at($tag) {
     }
     
     $uid = $uinfo->uid;
-    
+    var_dump($this->uid, $uid, $data, $this->at);die; 
     if ($atUid[$uid]) {
         return $uid;
     }
@@ -446,6 +446,7 @@ public function at($tag) {
 [/div]
 UBB;
     
+    var_dump($this->uid, $uid, $data);die;
     $ubb = new ubbparser;
     $data = $ubb->parse($content, true);
     $msg = new msg;
