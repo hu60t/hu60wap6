@@ -21,9 +21,12 @@
 {if !$no_user && is_object($user)}<div class="tip">
 {if $user->uid}
 {if $user->islogin}
+{$MSG=msg::getInstance($USER)}
 <a href="user.index.{$bid}">{$user->name|code}</a>
-<!--<a href="msg.list.{$bid}">内信</a>
-<a href="msg.atlist.{$bid}">动态</a>--!>
+{$newMSG=$MSG->newMsg()}
+{$newATINFO=$MSG->newAtInfo()}
+{if $newMSG > 0}<a href="msg.index.inbox.no.{$bid}">{$newMSG}条新内信</a>{/if}
+{if $newATINFO > 0}<a href="msg.index.@.no.{$bid}">{$newATINFO}条新@消息</a>{/if}
 <a href="user.exit.{$bid}?u={urlencode($page->geturl())}">退出</a>
 {else}
 已掉线，<a href="user.login.{$bid}?u={urlencode($page->geturl())}">重新登陆</a>

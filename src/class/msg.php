@@ -9,6 +9,9 @@ class msg{
      */
      protected $user;
      protected $db;
+
+     const TYPE_MSG = 0;
+     const TYPE_AT_INFO = 1;
     
     /**
      * 初始化
@@ -20,19 +23,36 @@ class msg{
              $this -> user = new user;
          else
              $this -> user = $user;*/
+         $this->user = $user;
          $this -> db = new db;
-         }
+     }
+
+     /**
+      * 创建一个msg对象
+      */
+     public static function getInstance($user = null) {
+        return new msg($user);
+     }
     
     /**
      * 检测是否有未读信息
      */
      public function noreadmsg($uid,$type){
-         $rs = $this -> db -> select('count(id)', 'msg', 'WHERE touid=? AND isread=0 AND type=?', $uid,$type);
+         $rs = $this -> db -> select('count(*)', 'msg', 'WHERE touid=? AND isread=0 AND type=?', $uid,$type);
          if(!$rs) return false;
-         $n = $rs['count(id)'];
-         return $n;
-         }
-    
+         $n = $rs->fetch(db::num);
+         
+         return $n[0];
+     }
+
+     public function newMsg() {
+        return $this->noReadMsg($this->user->uid, self::TYPE_MSG);
+     }
+
+     public function newAtInfo() {
+        return $this->noReadMsg($this->user->uid, self::TYPE_AT_INFO);
+     }
+
     /**
      * 发送信息
      */
