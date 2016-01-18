@@ -29,9 +29,9 @@ class ubbEdit extends XUBBP {
         /*style 风格*/
         'style' => 'style',
         /*urltxt 网址文本*/
-        'urltxt' => 'text',
+        'urltxt' => 'urltxt',
         /*mailtxt 邮箱文本*/
-        'mailtxt' => 'text',
+        'mailtxt' => 'mailtxt',
         /*at消息*/
         'at' => 'at',
         /*face 表情*/
@@ -118,14 +118,14 @@ class ubbEdit extends XUBBP {
 
     /*copyright 版权声明*/
     public function copyright($data) {
-        return '《版权：'.code::html(data['tag']).'》';
+        return '《版权：'.code::html($data['tag']).'》';
     }
 
     /*battlenet 战网*/
     public function battlenet($data) {
         $name = code::html($data['name']);
         if ($data['server']!='') {$name.='@'.code::html($data['server']);}
-        return '《战网：'.name.'》';
+        return '《战网：'.$name.'》';
     }
 
     /*newline 换行*/
@@ -158,7 +158,17 @@ class ubbEdit extends XUBBP {
 
     /*face 表情*/
     public function face($data) {
-        return '{'.$data['face'].'}';
+        return '{'.code::html($data['face']).'}';
+    }
+
+    /*urltxt 链接文本*/
+    public function urltxt($data) {
+        return code::html($data['url']);
+    }
+
+    /*mailtxt 邮件链接文本*/
+    public function mailtxt($data) {
+        return code::html($data['mail']);
     }
 }
 

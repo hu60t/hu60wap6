@@ -69,9 +69,9 @@ protected $parse=array(
 */
 /*urltxt 文本链接*/
     '!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is' => array(array(1,3), 'urltxt', array(2)),
-    '!^(.*)([a-zA-Z0-9._-]+\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$!is' => array(array(1,3), 'urltxt', array(2)),
+    '#^(.*?)((?<!@)[a-zA-Z0-9._-]+\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$#is' => array(array(1,3), 'urltxt', array(2)),
 /*mailtxt 文本电子邮件地址*/
-    '!^(.*)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is' => array(array(1,3), 'mailtxt', array(2)),
+    '!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is' => array(array(1,3), 'mailtxt', array(2)),
 /*at @消息*/
     '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9_\x{4e00}-\x{9fa5}]+)(.*)$!uis' => array(array(1,3), 'at', array(2)),
 /*face 表情*/
