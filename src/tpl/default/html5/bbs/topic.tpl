@@ -24,7 +24,7 @@
                     <div class="cr180_postbox nos ">
                     <div id="post_2837" class="cr180_v_bmh cl">
                     <div class="cr180_avatar">
-                    <a href="" target="_blank" ><img src="http://www.wapvy.cn/uc_server/avatar.php?uid=1261&size=small" /></a>
+                    <a href="user.info.{$v.uinfo.uid}.{$BID}"><img src="http://www.wapvy.cn/uc_server/avatar.php?uid=1261&size=small" /></a>
                     </div>
                     <div class="z cr180_member_jon">
                     <a href="msg.index.send.{$v.uinfo.uid}.{$BID}" target="_blank" >{$v.uinfo.name|code}</a>
