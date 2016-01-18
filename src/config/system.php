@@ -88,7 +88,7 @@ define('COOKIE_A','hu60_');
 * 9为最高，0关闭
 * 如果用户的浏览器支持gzip压缩，该功能可以使他浏览网页节省一半多的流量，并提高网页加载速度。
 */
-define('PAGE_GZIP',9);
+define('PAGE_GZIP',0);
   
 /*目录路径*/
   

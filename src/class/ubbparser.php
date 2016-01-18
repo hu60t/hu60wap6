@@ -25,7 +25,9 @@ protected $parse=array(
 /*copyright 版权*/
     '!^(.*)《版权：(.*?)》(.*)$!is' => array(array(1,3), 'copyright', array(2)),
 /*battlenet 战网*/
-    '!^(.*)《战网：(.*?)》(.*)$!is' => array(array(1,3), 'battlenet', array(2)),
+'!^(.*)《战网：(.*?)》(.*)$!is' => array(array(1,3), 'battlenet', array(2)),
+/*tab 四个空格*/
+'!^(.*)\[tab\](.*)$!is' => array(array(1,2), 'tab', array(2)),
 /*newline 换行*/
     '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
@@ -81,7 +83,7 @@ protected $parse=array(
 * @brief 代码高亮
 */
 public function code($lang, $data) {
-    $lang = trim($lang);
+    $lang = strtolower(trim($lang));
     if ($lang == '') $lang = 'php';
     return array(array(
         'type' => 'code',
@@ -104,11 +106,11 @@ public function time($tag) {
   
 /** @brief 链接*/
 public function link($type,$var,$var2='') {
-    if($type=='链接' || $type=='外链') {
+    if($type=='链接' || $type=='外链' || $type=='锚') {
         $arr=explode('，',$var);
         $url=$arr[0];
         $title=$arr[1];
-        $type = $type=='链接' ? 'urlzh' : 'urlout';
+        $type = $type=='链接' ? 'urlzh' : ($type == '外链' ? 'urlout' : 'urlname');
     } else {
         $type='url';
         if($var=='') {
@@ -206,6 +208,15 @@ public function newline($tag) {
 		'len' => $this->len($tag)
 	));
 }
+
+/** @brief tab 四个空格 */
+public function tab($tag) {
+    return [[
+        'type' => 'tab',
+        'len' => 4
+    ]];
+}
+
 
 /**
 * @brief 布局开始

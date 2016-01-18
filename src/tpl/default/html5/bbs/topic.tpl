@@ -27,8 +27,11 @@
                     <a href="" target="_blank" ><img src="http://www.wapvy.cn/uc_server/avatar.php?uid=1261&size=small" /></a>
                     </div>
                     <div class="z cr180_member_jon">
-                    <a href="" target="_blank" >{$v.uinfo.name|code}</a>
-                    <p class="cl"><em class="dateline cus">{date('Y-m-d H:i:s',$v.mtime)}</em></p>
+                    <a href="msg.index.send.{$v.uinfo.uid}.{$BID}" target="_blank" >{$v.uinfo.name|code}</a>
+                    <p class="cl">
+                    <em class="dateline cus">{date('Y-m-d H:i:s',$v.mtime)}</em>
+                    {if $bbs->canEdit($v.uinfo.uid,true)}<a href="{$CID}.edittopic.{$fid}.{$v.topic_id}.{$v.id}.{$BID}">编辑</a>{/if}
+                    </p>
                     </div><a  class="view_author">{if $v.floor == 0}楼主{else}{$v.floor}楼{/if}</a></div>
 <div class="pbody cl">
 <div class="pbody_s1"></div>

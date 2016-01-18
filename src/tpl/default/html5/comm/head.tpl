@@ -6,10 +6,10 @@
 {if $css === null}{$css="css.wap.{$BID}.{$smarty.get.css}.css"}{/if}
 <link rel="stylesheet" type="text/css" href="{$css|code}"/>
 <meta name='viewport' content='width=device-width' />
-<script type="text/javascript">var STYLEID = '3', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'AZW', charset = 'gbk', discuz_uid = '0', defaultstyle = '', REPORTURL = 'aHR0cDovL3dhcC53YXB2eS5jbi8=', SITEURL = 'http://hu60.org/', JSPATH = 'data/cache/';</script>
-<script src="/tpl/default/css/html5/dz_common.js" type="text/javascript"></script>
+<!--script type="text/javascript">var STYLEID = '3', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'AZW', charset = 'gbk', discuz_uid = '0', defaultstyle = '', REPORTURL = 'aHR0cDovL3dhcC53YXB2eS5jbi8=', SITEURL = 'http://hu60.org/', JSPATH = 'data/cache/';</script-->
+<!--script src="/tpl/default/css/html5/dz_common.js" type="text/javascript"></script>
 <script src="/tpl/default/css/html5/common.js?ai=1404525616" type="text/javascript"></script>
-<script src="/tpl/default/css/html5/swipe.js?ai=1404525616" type="text/javascript"></script>
+<script src="/tpl/default/css/html5/swipe.js?ai=1404525616" type="text/javascript"></script-->
 <link rel="stylesheet" href="/tpl/default/css/html5/style_symple.css" />
 
 <title>{$title|code}</title>

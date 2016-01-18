@@ -31,6 +31,28 @@ class bbs {
         else
             throw new bbsException('用户未登录或掉线，请先登录。', 401);
     }
+
+    /**
+     * 检查用户是否可编辑
+     */
+    public function canEdit($ownUid, $noException = false) {
+        try {
+        $this->checkLogin();
+
+        if ($this->user->uid == $ownUid) {
+            return true;
+        } else {
+            throw new bbsException('您没有权限编辑当前楼层。', 403);
+        }
+        } catch (Exception $e) {
+            if ($noException) {
+                return false;
+            } else {
+                throw $e;
+            }
+        }
+    }
+
     
     /**
     * 发帖
@@ -133,6 +155,44 @@ class bbs {
         $this->user->regAt("帖子“{$topicTitle['title']}”的回复中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
         return $rs ? true : false;
     }
+
+    /**
+     * 更改帖子标题
+     */
+    public function updateTopicTitle($topicId, $newTitle) {
+        $title = mb_substr(trim($title), 0, 50, 'utf-8');
+
+        $sql = 'UPDATE '.DB_A.'bbs_topic_meta SET title=?,mtime=? WHERE id=?';
+
+        $ok = $this->db->query($sql, $newTitle, $_SERVER['REQUEST_TIME'], $topicId);
+
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
+
+        if ($ok->rowCount() == 0) {
+            throw new bbsException('修改失败，帖子不存在！');
+        }
+    }
+
+    /**
+     * 更改帖子/回复内容
+     */
+    public function updateTopicContent($contentId, $newContent) {
+        $ubb = new ubbparser;
+        $data = $ubb->parse($newContent, true);
+        $sql = 'UPDATE '.DB_A.'bbs_topic_content SET content=?,mtime=? WHERE id=?';
+        $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $contentId);
+        
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
+
+        if ($ok->rowCount() == 0) {
+            throw new bbsException('修改失败，楼层不存在！');
+        }
+    }
+
     
     /**
     * 获取版块元信息
@@ -220,8 +280,8 @@ if($v['plate']!=''){
 		}
 		return $forum;
 	}
-	public function newTopicC($size = 20) {
-		    $rs = $this->db->select('topic_id', 'bbs_forum_topic', ' ORDER BY mtime DESC LIMIT ?', $size);
+	public function newTopicC($size = 20, $offset=0) {
+		    $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', 'ORDER BY mtime DESC LIMIT ?,?', $offset, $size);
 			if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
 			$topic = $rs->fetchAll();
 			foreach ($topic as &$v) {
@@ -288,7 +348,7 @@ if($v['plate']!=''){
     /**
     * 获取帖子数量信息
     */
-    public function topicListtj($topic_id) {
+    public function topicListTJ($topic_id) {
         $rs = $this->db->select('count(*)', 'bbs_forum_topic', 'WHERE forum_id=?', $topic_id)->fetch();
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_meta不可读', 500);

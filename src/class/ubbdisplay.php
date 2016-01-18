@@ -6,10 +6,12 @@ protected $display=array(
     'text' => 'text',
 /*newline 换行*/
     'newline' => 'newline',
+    'tab' => 'tab',
 /*link 链接*/
     'url' => 'link',
     'urlzh' => 'link',
     'urlout' => 'link',
+    'urlname' => 'urlname',
 /*img 图片*/
     'img' => 'img',
     'imgzh' => 'img',
@@ -71,13 +73,17 @@ protected $display=array(
 	    if(trim($data['title'])=='') $data['title']=$data['url'];
 		$data['title'] = code::html($data['title']);
 	}
-    if($data['type']='urlout') $data['url']='http://'.$data['url'];
+    if($data['type']=='urlout') $data['url']='http://'.$data['url'];
     $url=$_SERVER['PHP_SELF'].'/link.url.'.$PAGE->bid.'?url64='.code::b64e($data['url']);
     return '<a href="'.code::html($url).'">'.$data['title'].'</a>';
   }
+  public function urlname($data) {
+    return '<a name="'.code::html($data['url']).'">'.code::html($data['title']).'</a>';
+  }
 /*img 图片*/
   public function img($data) {
-    $url=$_SERVER['PHP_SELF'].'/link.img.'.$PAGE->bid.'?url64='.code::b64e($url);
+      global $PAGE;
+    $url=$_SERVER['PHP_SELF'].'/link.img.'.$PAGE->bid.'?url64='.code::b64e($data['src']);
     return '<img src="'.code::html($url).'"'.($data['alt']!='' ? ' alt="'.code::html($data['alt']).'"' : '').'/>';
   }
 /*thumb 缩略图*/
@@ -128,6 +134,11 @@ protected $display=array(
 /*newline 换行*/
   public function newline($data) {
       return '<br/>';
+  }
+
+  /*tab 4em空格*/
+  public function tab($data) {
+    return '　　';
   }
 
 /*layout 布局*/
@@ -194,7 +205,8 @@ protected $display=array(
   
 /*urltxt 网址文本*/
   public function urltxt($data) {
-      return '<a href="'.code::html($data['url']).'">'.code::html($data['url']).'</a>';
+    $url=$_SERVER['PHP_SELF'].'/link.url.'.$PAGE->bid.'?url64='.code::b64e($data['url']);
+      return '<a href="'.code::html($url).'">'.code::html($data['url']).'</a>';
   }
 
 /*mailtxt 邮箱文本*/

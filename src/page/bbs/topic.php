@@ -2,15 +2,27 @@
 $tpl = $PAGE->start();
 $USER->start($tpl);
 $bbs = new bbs($USER);
+$tpl->assign('bbs', $bbs);
 
-//获取论坛id
-$fid = (int)$PAGE->ext[0];
-if ($fid < 0) $fid = 0;
-$tpl->assign('fid', $fid);
+//兼容无版块id的格式
+if (!isset($PAGE->ext[1])) {
+    //获取帖子id
+    $tid = (int)$PAGE->ext[0];
+    $tpl->assign('tid', $tid);
+    //论坛id
+    $fid = 0;
+    $tpl->assign('fid', $fid);
+} else {
 
-//获取帖子id
-$tid = (int)$PAGE->ext[1];
-$tpl->assign('tid', $tid);
+    //获取论坛id
+    $fid = (int)$PAGE->ext[0];
+    if ($fid < 0) $fid = 0;
+    $tpl->assign('fid', $fid);
+
+    //获取帖子id
+    $tid = (int)$PAGE->ext[1];
+    $tpl->assign('tid', $tid);
+}
 
 //获取帖子页码
 $p = (int)$PAGE->ext[2];
@@ -29,7 +41,7 @@ if (!$tMeta)
 $tpl->assign('tMeta', $tMeta);
 
 //读取帖子内容
-$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor');
+$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id');
 foreach ($tContents as &$v) {
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);

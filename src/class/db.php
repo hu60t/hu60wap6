@@ -211,7 +211,7 @@ static $SQLITE_SYNC='OFF';
 /**
 * 默认字符集
 */
-static $DEFAULT_CHARSET='utf8';
+static $DEFAULT_CHARSET='utf8mb4';
   
   
 /*以下是类内部使用的属性*/
