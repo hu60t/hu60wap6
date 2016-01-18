@@ -90,7 +90,7 @@ class ubbEdit extends XUBBP {
         } else {
             $html = '《锚：'.code::html($data['url']).'，'.code::html($data['title']).'》';
         }
-        return $url;
+        return $html;
     }
     /*img 图片*/
     public function img($data) {
