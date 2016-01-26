@@ -24,10 +24,20 @@ if (!isset($PAGE->ext[1])) {
     $tpl->assign('tid', $tid);
 }
 
+$pageSize = 20;
+$contentCount = $bbs->topicContentCount($tid);
+$maxPage = ceil($contentCount / $pageSize);
+$tpl->assign('maxPage', $maxPage);
+
 //获取帖子页码
 $p = (int)$PAGE->ext[2];
 if ($p < 1) $p = 1;
+if ($p > $maxPage) $p = $maxPage;
 $tpl->assign('p', $p);
+
+if ($fid == 0) {
+    $fid = $bbs->findTopicForum($tid)[0];
+}
 
 //读取父版块信息
 $fIndex = $bbs->fatherForumMeta($fid, 'id,name,parent_id,notopic');

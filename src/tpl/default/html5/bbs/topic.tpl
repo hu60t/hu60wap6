@@ -40,6 +40,13 @@
 <div id="postmessage_{$tid}" class="postmessage">{$ubb->display($v.content,true)}</div>
 </div></div></div>
     {/foreach}
+    <div>
+    {if $maxPage > 1}
+        {if $p > 1}<a href="{$cid}.{$pid}.{$fid}.{$tid}.{$p-1}.{$bid}">上一页</a>{/if}
+        {if $p < $maxPage}<a href="{$cid}.{$pid}.{$fid}.{$tid}.{$p+1}.{$bid}">下一页</a>{/if}
+    ({$p}/{$maxPage})
+    {/if}
+    </div>
     <!--发帖框-->
 <div id="Cr180return_commentform" style="display:none"></div>
 <div class="ft">

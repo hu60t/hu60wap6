@@ -1,5 +1,5 @@
 <?php
-die(i'finished');
+die('finished');
 
 $db = new db();
 

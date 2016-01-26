@@ -1,2 +1,4 @@
 /src/config/db.php
 /src/temp/
+*.swp
+/src/userfile/

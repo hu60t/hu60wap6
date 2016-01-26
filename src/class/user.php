@@ -283,7 +283,7 @@ $sid=self::mksid($id,$name,$pass);
 //实现读写分离：获得一个可以写入的数据库连接
 $db=self::conn();
 $rs=$db->prepare('INSERT INTO `'.DB_A.'user`(`name`,`pass`,`sid`,`mail`,`regtime`,`sidtime`,`acctime`) values(?,?,?,?,?,?,?)');
-if(!$rs || !$rs->execute(array($name,$pass,$sid,$mail,$time,$time,$time))) throw new PDOException('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
+if(!$rs || !$rs->execute(array($name,$pass,$sid,$mail,$time,$time,$time))) throw new PDOException('数据库写入错误，SQL'.($rs ? '执行' : '预处理').'失败。',$rs ? 21 : 22);
 $uid=$db->lastinsertid();
 $this->uid=$uid;
 self::$data[$uid]=array('uid'=>$uid,'name'=>$name,'mail'=>$mail,'pass'=>$pass,'sid'=>$sid,'regtime'=>$time,'sidtime'=>$time,'acctime'=>$time,'islogin'=>true);

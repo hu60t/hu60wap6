@@ -354,6 +354,19 @@ if($v['plate']!=''){
             throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_meta不可读', 500);
         return $rs['count(*)'];
     }
+
+    /**
+     * 获取帖子所属的版块
+     *
+     * @return 数组，所属版块的列表，可能为空
+     */
+    public function findTopicForum($tid) {
+       $rs = $this->db->select('forum_id', 'bbs_forum_topic', 'WHERE topic_id=?', $tid);
+        if (!$rs)
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
+            $result = $rs->fetchAll(db::num);
+            return array_column($result, 0);
+    }
     
     /**
     * 获取帖子元信息
@@ -418,14 +431,14 @@ if($v['plate']!=''){
     }
     
     /**
-    * 获取帖子的总楼层数（不包括楼主）
+    * 获取帖子的总楼层数（包括楼主）
     */
     public function topicContentCount($topic_id) {
         $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE topic_id=?', $topic_id);
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
         $rs = $rs->fetch(db::num);
-        return $rs[0]-1;
+        return $rs[0];
     }
     
     /**
