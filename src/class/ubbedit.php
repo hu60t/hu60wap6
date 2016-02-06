@@ -7,6 +7,7 @@ class ubbEdit extends XUBBP {
         /*newline 换行*/
         'newline' => 'newline',
         'tab' => 'tab',
+        'empty' => 'empty',
         /*link 链接*/
         'url' => 'url',
         'urlzh' => 'urlzh',
@@ -74,7 +75,7 @@ class ubbEdit extends XUBBP {
         } else {
             $html = '《链接：'.code::html($data['url']).'，'.code::html($data['title']).'》';
         }
-        return $url;
+        return $html;
     }
     public function urlout($data) {
         if ($data['title'] == '') {
@@ -82,7 +83,7 @@ class ubbEdit extends XUBBP {
         } else {
             $html = '《外链：'.code::html($data['url']).'，'.code::html($data['title']).'》';
         }
-        return $url;
+        return $html;
     }
     public function urlname($data) {
         if ($data['title'] == '') {
@@ -125,17 +126,30 @@ class ubbEdit extends XUBBP {
     public function battlenet($data) {
         $name = code::html($data['name']);
         if ($data['server']!='') {$name.='@'.code::html($data['server']);}
+        if ($data['display']!=null) {$name.="，".code::html($data['display']);}
         return '《战网：'.$name.'》';
     }
 
     /*newline 换行*/
     public function newline($data) {
-        return code::html($data['tag']);
+        $tag = $data['tag'];
+
+        // br 或 hr
+        if ($tag[1] == 'r') {
+            $tag = "[$tag]";
+        }
+
+        return code::html($tag);
     }
 
     /* [tab] */
     public function tab($data) {
         return '[tab]';
+    }
+
+    /* [empty] */
+    public function empty($data) {
+        return '[empty]';
     }
 
     /*layout 布局*/

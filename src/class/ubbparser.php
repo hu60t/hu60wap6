@@ -28,6 +28,8 @@ protected $parse=array(
 '!^(.*)《战网：(.*?)》(.*)$!is' => array(array(1,3), 'battlenet', array(2)),
 /*tab 四个空格*/
 '!^(.*)\[tab\](.*)$!is' => array(array(1,2), 'tab', array(2)),
+/*empty UBB转义*/
+'!^(.*)\[empty\](.*)$!is' => array(array(1,2), 'empty', array(2)),
 /*newline 换行*/
     '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
@@ -76,7 +78,7 @@ protected $parse=array(
     '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9_\x{4e00}-\x{9fa5}]+)(.*)$!uis' => array(array(1,3), 'at', array(2)),
 /*face 表情*/
     '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1,3), 'face', array(2)),
-    '!^(.*)《表情(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1,3), 'face', array(2)),
+    '!^(.*)《(?:表情)?(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1,3), 'face', array(2)),
 );
   
 /**
@@ -190,10 +192,12 @@ public function copyright($tag) {
 */
 public function battlenet($tag) {
     $info = explode('@', str_replace('＠', '@', $tag));
+    $name = explode('，', $info[1]);
     return array(array(
         'type' => 'battlenet',
         'name' => trim($info[0]),
-        'server' => trim($info[1]),
+        'server' => trim($name[0]),
+        'display' => trim($name[1]),
 		'len' => $this->len($tag)
     ));
 }
@@ -214,6 +218,14 @@ public function tab($tag) {
     return [[
         'type' => 'tab',
         'len' => 4
+    ]];
+}
+
+/** @brief empty UBB转义 */
+public function empty($tag) {
+    return [[
+        'type' => 'empty',
+        'len' => 0
     ]];
 }
 

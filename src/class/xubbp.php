@@ -182,6 +182,13 @@ protected function len($str) {
     return mb_strlen($str,'utf-8');
 }
 
+/*init 初始化解析器*/
+protected function init() {
+    $this->endTags = array();
+    $this->tmp_parse_result = null;
+    $this->tmp_parse_param = null;
+}
+
 /**
 * 对UBB文本进行解析
 * 
@@ -196,6 +203,7 @@ protected function len($str) {
 * @return mixed 第二个参数为TRUE时返回 string UBB数组的serialize形式，否则直接返回 array UBB数组
 */
     public function parse($text,$serialize=false) {
+        $this->init();
         $arr=$this->parser($text);
 	    $this->tmp_parse_result = null;
 		$this->tmp_parse_param = null;
@@ -214,7 +222,7 @@ protected function len($str) {
 		$this->tmp_parse_result = &$arr;
 		$this->tmp_parse_param = $v;
             $ok=preg_replace_callback($k,array($this, 'parseExec'),$text);
-            if($ok===NULL) throw new xubbpException("正则表达式 '$k' 错误，解析失败！",500);
+            if($ok===NULL) throw new xubbpException("正则表达式 '$k' 错误，解析失败！\n引起错误的文本：$text",500);
             if($arr===NULL) throw new xubbpException("正则表达式  '$k' 的回调函数 '$v[1]' 返回值错误，应该返回二维数组！",501);
             if($ok=='') return $arr;
         }
@@ -259,7 +267,9 @@ protected function len($str) {
 * @return string 转换后的HTML代码
 */
     public function display($ubbArray, $serialize=false, $maxLen = null, $page = null) {
-	    if ($maxLen != null && $page != null) {
+        $this->init();
+
+        if ($maxLen != null && $page != null) {
 		    $ubbArray = $this->displayPage($ubbArray, $maxLen, $page);
 		}
 	    if ($serialize)

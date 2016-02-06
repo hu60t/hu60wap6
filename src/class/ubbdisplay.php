@@ -7,6 +7,7 @@ protected $display=array(
 /*newline 换行*/
     'newline' => 'newline',
     'tab' => 'tab',
+    'empty' => 'empty',
 /*link 链接*/
     'url' => 'link',
     'urlzh' => 'link',
@@ -125,20 +126,37 @@ protected $display=array(
 /*battlenet 战网*/
   public function battlenet($data) {
       if ($data['server'] != '') {
-          return '<a href="http://www.battlenet.com.cn/wow/zh/character/'.urlencode($data['server']).'/'.urlencode($data['name']).'/simple">'.code::html("{$data['name']}@{$data['server']}").'</a>';
+          if ($data['display']==null) {
+              $data['display']="{$data['name']}@{$data['server']}";
+          }
+
+          return '<a href="http://www.battlenet.com.cn/wow/zh/character/'.urlencode($data['server']).'/'.urlencode($data['name']).'/simple">'.code::html($data['display']).'</a>';
       } else {
-          return '<a href="http://www.battlenet.com.cn/wow/zh/search?q='.urlencode($data['name']).'&amp;f=wowcharacter">'.code::html($data['name']).'</a>';
+          if ($data['display']==null) {
+              $data['display']="{$data['name']}";
+          }
+
+          return '<a href="http://www.battlenet.com.cn/wow/zh/search?q='.urlencode($data['name']).'&amp;f=wowcharacter">'.code::html($data['display']).'</a>';
       }
   }
   
 /*newline 换行*/
   public function newline($data) {
-      return '<br/>';
+      if (in_array($data['tag'], ['hr', '＜＜＜'])) {
+        return '<br/>--------<br/>';
+      } else {
+        return '<br/>';
+      }
   }
 
   /*tab 4em空格*/
   public function tab($data) {
     return '　　';
+  }
+
+  /*empty UBB转义*/
+  public function empty($data) {
+    return '';
   }
 
 /*layout 布局*/
