@@ -1,12 +1,15 @@
 <?php
-die('run in cli: php import_msg.php #finished');
-include '../../config.inc.php';
+if ('cli' != php_sapi_name()) {
+    die('run in shell: php import_msg.php');
+}
+include '../config.inc.php';
 $db = new db();
 
 $size = 100;
 
-$ubb = new ubbdisplay();
+$ubb = new ubbparser();
 
+try {
 for ($offset = 0; true; $offset += $size) {
     $rs = $db->query('select * from msg order by id asc limit '.$offset.','.$size);
     $datas = $rs->fetchAll(db::ass);
@@ -14,13 +17,15 @@ for ($offset = 0; true; $offset += $size) {
     if (empty($datas)) {break;}
 
     foreach ($datas as $data) {
+        $content = $ubb->parse($data['nr'],true);
+
         $newData = [
             $data['id'],
             $data['uid'],
             $data['byuid'],
             0,
             $data['read'],
-            $ubb->parse($data['nr'],true),
+            $content,
             $data['time'],
             $data['time']
         ];
@@ -32,12 +37,9 @@ for ($offset = 0; true; $offset += $size) {
     flush();
     //break;
 }
+} catch (Exception $ex) {
+    echo "id: $data[id]\nException: ".$ex->getMessage()."\n";
+    var_dump($data);
 
-function mkinfo($qianm, $lianx) {
-    return serialize(['signature' => $qianm, 'contact' => $lianx]);
 }
 
-function mkpass($pass)
-{
-return md5(USER_PASS_KEY.$pass.USER_PASS_KEY);
-}

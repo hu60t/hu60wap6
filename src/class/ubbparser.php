@@ -31,8 +31,8 @@ protected $parse=array(
 /*empty UBB转义*/
 '!^(.*)\[empty\](.*)$!is' => array(array(1,2), 'empty', array(2)),
 /*newline 换行*/
-    '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
-    '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
+#    '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
+#    '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)\[([bh]r)\](.*)$!is' => array(array(1,3), 'newline', array(2)),
     '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1,3), 'newline', array(2)),
 
@@ -71,7 +71,7 @@ protected $parse=array(
 */
 /*urltxt 文本链接*/
     '!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is' => array(array(1,3), 'urltxt', array(2)),
-    '#^(.*?)((?<!@)[a-zA-Z0-9._-]+\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$#is' => array(array(1,3), 'urltxt', array(2)),
+    #'#^(.*?)((?<!@)[a-zA-Z0-9._-]{1,255}\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$#is' => array(array(1,3), 'urltxt', array(2)),
 /*mailtxt 文本电子邮件地址*/
     '!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is' => array(array(1,3), 'mailtxt', array(2)),
 /*at @消息*/

@@ -1,5 +1,9 @@
 <?php
-die('finished');
+if ('cli' != php_sapi_name()) {
+    die('run in shell: php import_user.php');
+}
+
+include '../config.inc.php';
 
 $db = new db();
 
@@ -27,8 +31,7 @@ for ($offset = 0; true; $offset += $size) {
         $db->query('insert into hu60_user_tmp(uid,name,pass,sid,regtime,sidtime,acctime,info,regphone) values(?,?,?,?,?,?,?,?,?)', $newUser);
     }
 
-    echo $offset.'<br>';
-    flush();
+    echo $offset."\n";
     //break;
 }
 

@@ -222,7 +222,7 @@ protected function init() {
 		$this->tmp_parse_result = &$arr;
 		$this->tmp_parse_param = $v;
             $ok=preg_replace_callback($k,array($this, 'parseExec'),$text);
-            if($ok===NULL) throw new xubbpException("正则表达式 '$k' 错误，解析失败！\n引起错误的文本：$text",500);
+        if($ok===NULL) throw new xubbpException("正则表达式 '$k' 错误，解析失败！"/*."\n引起错误的文本：$text"*/,500);
             if($arr===NULL) throw new xubbpException("正则表达式  '$k' 的回调函数 '$v[1]' 返回值错误，应该返回二维数组！",501);
             if($ok=='') return $arr;
         }
