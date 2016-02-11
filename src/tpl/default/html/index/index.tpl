@@ -41,7 +41,7 @@
                 <div>
                                 <ul>
     {foreach $newTopicC as $topic}
-                                <li><a href="bbs.topic.{$forum.id}.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>   <!--{$topic.uinfo.name|code} {date('m-d H:i',$topic.mtime)}--!>
+                                <li><a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>   <!--{$topic.uinfo.name|code} {date('m-d H:i',$topic.mtime)}--!>
 </li>
     {/foreach}
 <li style="padding: 8px 0px">

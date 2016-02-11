@@ -20,8 +20,13 @@
 <span class="pt_y"><a href="{$CID}.{$PID}.{$forum.id}.{$BID}">刷新</a></span>
 </div>
 {if $fid != 0 && !$forum.notopic}<a href="{$CID}.newtopic.{$forum.id}.{$BID}" class="cr_login_submit" style="background:#060">发帖</a>{/if}
-
-
+<div>
+<form method="get" action="{$CID}.search.{$BID}">
+<input name="keywords" placeholder="搜索词" />
+<input name="username" placeholder="用户名" />
+<input type="submit" value="搜索" />
+</form>
+</div>
 <!--版块列表-->
 {if $forumInfo}
 {if $fid!=0}
@@ -73,7 +78,7 @@
                 <div>
                                 <ul>
         {foreach $topicList as $topic}
-                <li><a href="{$CID}.topic.{$fid}.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
+                <li><a href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
                 {$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.time)} 发表</li>
         {/foreach}
                                 </ul>

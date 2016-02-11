@@ -18,7 +18,7 @@
 </div>
 <div class="vt" id="th_list" style="margin-top:0">
     <div class="bm">
-        <div class="cr180_title" >
+        <div class="cr180_title" style="clear:left">
         <a  id="thread_subject" > {$tMeta.title|code}</a></div>
     {foreach $tContents as $v}
                     <div class="cr180_postbox nos ">
@@ -30,7 +30,7 @@
                     <a href="msg.index.send.{$v.uinfo.uid}.{$BID}" target="_blank" >{$v.uinfo.name|code}</a>
                     <p class="cl">
                     <em class="dateline cus">{date('Y-m-d H:i:s',$v.mtime)}</em>
-                    {if $bbs->canEdit($v.uinfo.uid,true)}<a href="{$CID}.edittopic.{$fid}.{$v.topic_id}.{$v.id}.{$BID}">编辑</a>{/if}
+                    {if $bbs->canEdit($v.uinfo.uid,true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">编辑</a>{/if}
                     </p>
                     </div><a  class="view_author">{if $v.floor == 0}楼主{else}{$v.floor}楼{/if}</a></div>
 <div class="pbody cl">
@@ -42,8 +42,8 @@
     {/foreach}
     <div>
     {if $maxPage > 1}
-        {if $p > 1}<a href="{$cid}.{$pid}.{$fid}.{$tid}.{$p-1}.{$bid}">上一页</a>{/if}
-        {if $p < $maxPage}<a href="{$cid}.{$pid}.{$fid}.{$tid}.{$p+1}.{$bid}">下一页</a>{/if}
+        {if $p > 1}<a href="{$cid}.{$pid}.{$tid}.{$p-1}.{$bid}">上一页</a>{/if}
+        {if $p < $maxPage}<a href="{$cid}.{$pid}.{$tid}.{$p+1}.{$bid}">下一页</a>{/if}
     ({$p}/{$maxPage})
     {/if}
     </div>
@@ -51,7 +51,7 @@
 <div id="Cr180return_commentform" style="display:none"></div>
 <div class="ft">
         {if $USER->islogin}
-            {form method="post" action="{$CID}.newreply.{$fid}.{$tid}.{$p}.{$BID}"}
+            {form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}"}
  <div class="cr180_form">
                 <textarea class="txt" name="content" style="width:100%;height:100px;">{$smarty.post.content}</textarea>
                 {input type="hidden" name="token" value=$token->token()}

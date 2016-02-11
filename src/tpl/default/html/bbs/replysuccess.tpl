@@ -1,5 +1,5 @@
 {config_load file="conf:site.info"}
-{$url="$CID.topic.$fid.$tid.$p.$BID"}
+{$url="$CID.topic.$topicId.$p.$BID"}
 {if $fid == 0}
 {$fName=#BBS_INDEX_NAME#}
 {else}

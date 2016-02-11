@@ -13,7 +13,7 @@
     {/foreach}
 <a  href="javascript:;" onclick="location.href='{$CID}.forum.{$forum.id}.{$BID}'" title="{$forum.name|code}" class="pt_z">{$forum.name|code}</a>
             <span class="pt_c">发帖</span>
-<span class="pt_y"><a href="{$CID}.topic.{$fid}.{$topicId}.{$BID}">返回帖子</a></span>
+<span class="pt_y"><a href="{$CID}.topic.{$topicId}.{$BID}">返回帖子</a></span>
 </div>
 </div>
     <!--编辑框-->
@@ -22,7 +22,7 @@
         {if $err}{$err->getMessage()|code}{/if}
     {/div}{/if}
 {div class="cr180_form"}
-    {form method="post" action="{$CID}.edittopic.{$fid}.{$topicId}.{$contentId}.{$BID}"}
+    {form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$BID}"}
 <div>
 {if $editTitle}
 <p>

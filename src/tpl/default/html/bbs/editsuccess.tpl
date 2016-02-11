@@ -1,11 +1,11 @@
 {config_load file="conf:site.info"}
-{$url="$CID.topic.$fid.$tid.$BID"}
+{$url="$CID.topic.$tid.$BID"}
 {if $fid == 0}
 {$fName=#BBS_INDEX_NAME#}
 {else}
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{include file="tpl:comm.head" title="发帖 - {$fName} - {#BBS_NAME#}" time=3 url=$url}
+{include file="tpl:comm.head" title="编辑楼层 - {$tMeta.title} - {#BBS_NAME#}" time=3 url=$url}
 <!--导航栏-->
 {div class="forum_list"}
     <a href="index.index.{$BID}">首页</a> &gt;
@@ -21,7 +21,7 @@
     {/div}
     <!--发帖框-->
     {div class="tip"}
-        发帖成功，3秒后进入帖子。<br/>
+        编辑成功，3秒后返回帖子。<br/>
         <a href="{$url|code}">点击立即进入</a>
     {/div}
 {/div}

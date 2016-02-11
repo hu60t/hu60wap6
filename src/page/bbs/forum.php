@@ -39,15 +39,15 @@ foreach ($topicList as &$v) {
 $x=$p+1; $s=$p-1;
 $tpl->assign('p',$start);
 if ($totalPage>"1"){
-if ($p=="1"){
-$tpl->assign('xy','<a href="bbs.forum.'.$fid.'.'.$x.'.'.$PAGE->bid.'">下一页</a>');
-}
-if ($p<$totalPage&&$p>"1"){
-$tpl->assign('xy','<a href="bbs.forum.'.$fid.'.'.$x.'.'.$PAGE->bid.'">下一页</a>');
-$tpl->assign('sy','<a href="bbs.forum.'.$fid.'.'.$s.'.'.$PAGE->bid.'">上一页</a>');
-}elseif ($p==$totalPage){
-$tpl->assign('sy','<a href="bbs.forum.'.$fid.'.'.$s.'.'.$PAGE->bid.'">上一页</a>');
-}
+    if ($p=="1"){
+        $tpl->assign('xy','<a href="bbs.forum.'.$fid.'.'.$x.'.'.$PAGE->bid.'">下一页</a>');
+    }
+    if ($p<$totalPage&&$p>"1"){
+        $tpl->assign('xy','<a href="bbs.forum.'.$fid.'.'.$x.'.'.$PAGE->bid.'">下一页</a>');
+        $tpl->assign('sy','<a href="bbs.forum.'.$fid.'.'.$s.'.'.$PAGE->bid.'">上一页</a>');
+    }elseif ($p==$totalPage){
+        $tpl->assign('sy','<a href="bbs.forum.'.$fid.'.'.$s.'.'.$PAGE->bid.'">上一页</a>');
+    }
 }
 $tpl->assign('p', $totalPage);
 $tpl->assign('yg','第'.$p.'页/'.$totalPage.'页/共'.$totalNumber.'条');

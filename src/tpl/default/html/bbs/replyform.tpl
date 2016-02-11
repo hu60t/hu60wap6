@@ -1,5 +1,5 @@
 {config_load file="conf:site.info"}
-{$url="$CID.topic.$fid.$tid.$p.$BID"}
+{$url="$CID.topic.$tid.$p.$BID"}
 {if $fid == 0}
 {$fName=#BBS_INDEX_NAME#}
 {else}
@@ -25,7 +25,7 @@
             {if $err}{$err->getMessage()|code}{/if}
         {/div}{/if}
         {if $USER->islogin}
-            {form method="post" action="{$CID}.newreply.{$fid}.{$tid}.{$p}.{$BID}"}
+            {form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}"}
                 {input type="textarea" name="content" value=$smarty.post.content size=array("25","3")}
                 {input type="hidden" name="token" value=$token->token()}
                 {input type="submit" name="go" value="回复"}

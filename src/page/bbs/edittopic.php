@@ -4,29 +4,29 @@ try {
     $USER->start($tpl);
     $bbs = new bbs($USER);
 
-//获取论坛id
-$fid = (int)$PAGE->ext[0];
-if ($fid < 0) $fid = 0;
-$tpl->assign('fid', $fid);
+    //获取帖子id
+    $tid = (int)$PAGE->ext[0];
+    $tpl->assign('topicId', $tid);
 
-//读取父版块信息
-$fIndex = $bbs->fatherForumMeta($fid, 'id,name,parent_id,notopic');
-$tpl->assign('fName', $fIndex[count($fIndex)-1]['name']);
-$tpl->assign('fIndex', $fIndex);
+    //获取论坛id
+    $fid = $bbs->findTopicForum($tid)[0];
+    $tpl->assign('fid', $fid);
+
+    //读取父版块信息
+    $fIndex = $bbs->fatherForumMeta($fid, 'id,name,parent_id,notopic');
+    $tpl->assign('fName', $fIndex[count($fIndex)-1]['name']);
+    $tpl->assign('fIndex', $fIndex);
 
     //获取内容id
-    $cid = (int)$PAGE->ext[2];
+    $cid = (int)$PAGE->ext[1];
     $tpl->assign('contentId', $cid);
-    //获取帖子id
-    $tid = (int)$PAGE->ext[1];
-    $tpl->assign('topicId', $tid);
 
     //读取帖子元信息
     $tMeta = $bbs->topicMeta($tid, 'title,uid,content_id', 'WHERE id=?', $fid);
     if (!$tMeta)
         throw new bbsException('帖子 id='.$tid.' 不存在！', 2404);
     $tpl->assign('tMeta', $tMeta);
-    
+
     //读取楼层内容
     $tContent = $bbs->topicContent($cid, 'content,uid');
     if (!$tContent)

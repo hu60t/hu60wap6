@@ -4,25 +4,9 @@ $USER->start($tpl);
 $bbs = new bbs($USER);
 $tpl->assign('bbs', $bbs);
 
-//兼容无版块id的格式
-if (!isset($PAGE->ext[1])) {
-    //获取帖子id
-    $tid = (int)$PAGE->ext[0];
-    $tpl->assign('tid', $tid);
-    //论坛id
-    $fid = 0;
-    $tpl->assign('fid', $fid);
-} else {
-
-    //获取论坛id
-    $fid = (int)$PAGE->ext[0];
-    if ($fid < 0) $fid = 0;
-    $tpl->assign('fid', $fid);
-
-    //获取帖子id
-    $tid = (int)$PAGE->ext[1];
-    $tpl->assign('tid', $tid);
-}
+//获取帖子id
+$tid = (int)$PAGE->ext[0];
+$tpl->assign('tid', $tid);
 
 $pageSize = 20;
 $contentCount = $bbs->topicContentCount($tid);
@@ -30,14 +14,13 @@ $maxPage = ceil($contentCount / $pageSize);
 $tpl->assign('maxPage', $maxPage);
 
 //获取帖子页码
-$p = (int)$PAGE->ext[2];
+$p = (int)$PAGE->ext[1];
 if ($p < 1) $p = 1;
 if ($p > $maxPage) $p = $maxPage;
 $tpl->assign('p', $p);
 
-if ($fid == 0) {
-    $fid = $bbs->findTopicForum($tid)[0];
-}
+$fid = $bbs->findTopicForum($tid)[0];
+$tpl->assign('fid', $fid);
 
 //读取父版块信息
 $fIndex = $bbs->fatherForumMeta($fid, 'id,name,parent_id,notopic');
@@ -45,7 +28,7 @@ $tpl->assign('fName', $fIndex[count($fIndex)-1]['name']);
 $tpl->assign('fIndex', $fIndex);
 
 //读取帖子元信息
-$tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime', 'WHERE id=?', $fid);
+$tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime');
 if (!$tMeta)
     throw new bbsException('帖子 id='.$tid.' 不存在！', 2404);
 $tpl->assign('tMeta', $tMeta);

@@ -479,5 +479,5 @@ if($l=='sc'){
                       throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
         $arr = $rs->fetch();
 	return $arr;
-	}
+    }
 }
