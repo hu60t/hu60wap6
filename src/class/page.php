@@ -181,6 +181,8 @@ class page implements ArrayAccess
             $this->page['cid']=DEFAULT_PAGE_CID;
         if($this->page['pid']=='')
             $this->page['pid']=DEFAULT_PAGE_PID;
+        if($this->page['bid']=='')
+            $this->page['bid']=DEFAULT_PAGE_BID;
         if($_SERVER['QUERY_STRING']!='') $this->page['query_string']="?$_SERVER[QUERY_STRING]";
         else $this->page['query_string']='';
     }
