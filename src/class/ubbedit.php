@@ -7,7 +7,7 @@ class ubbEdit extends XUBBP {
         /*newline 换行*/
         'newline' => 'newline',
         'tab' => 'tab',
-        'empty' => 'empty',
+        'empty' => 'emptyTag',
         /*link 链接*/
         'url' => 'url',
         'urlzh' => 'urlzh',
@@ -148,7 +148,7 @@ class ubbEdit extends XUBBP {
     }
 
     /* [empty] */
-    public function empty($data) {
+    public function emptyTag($data) {
         return '[empty]';
     }
 

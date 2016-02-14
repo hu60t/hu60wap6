@@ -29,7 +29,7 @@ protected $parse=array(
 /*tab 四个空格*/
 '!^(.*)\[tab\](.*)$!is' => array(array(1,2), 'tab', array(2)),
 /*empty UBB转义*/
-'!^(.*)\[empty\](.*)$!is' => array(array(1,2), 'empty', array(2)),
+'!^(.*)\[empty\](.*)$!is' => array(array(1,2), 'emptyTag', array(2)),
 /*newline 换行*/
 #    '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
 #    '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
@@ -222,7 +222,7 @@ public function tab($tag) {
 }
 
 /** @brief empty UBB转义 */
-public function empty($tag) {
+public function emptyTag($tag) {
     return [[
         'type' => 'empty',
         'len' => 0

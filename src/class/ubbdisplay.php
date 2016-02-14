@@ -7,7 +7,7 @@ protected $display=array(
 /*newline 换行*/
     'newline' => 'newline',
     'tab' => 'tab',
-    'empty' => 'empty',
+    'empty' => 'emptyTag',
 /*link 链接*/
     'url' => 'link',
     'urlzh' => 'link',
@@ -155,7 +155,7 @@ protected $display=array(
   }
 
   /*empty UBB转义*/
-  public function empty($data) {
+  public function emptyTag($data) {
     return '';
   }
 
