@@ -42,20 +42,20 @@
             </div>
             <div id="cr180_catlist_{$forum.id}_menu" class="cl onboxl">
 
-{if $forum['plate']!=''}
-                {foreach $forum['topic'] as $topic}
+{if $forum['child']!=''}
+                {foreach $forum['child'] as $topic}
                                                                 <div class="bm_c add">
                                                 <a  href="javascript:;" onclick="location.href='bbs.forum.{$topic['id']}.{$BID}'" >
                         <h1>{$topic['name']}</h1>
-                        <p class="cr_cb">一共{$topic.topic_count}主题 </p>
+                        <p class="cr_cb">一共{$BBS->topicCount($topic.id)}主题 </p>
                         </a>
                     </div>
                 {/foreach}
 {else}
-                                                                <div class="bm_c add">
-                                                <a  href="javascript:;" onclick="location.href='bbs.forum.{$forum['id']}.{$BID}'" >
+                    <div class="bm_c add">
+                        <a  href="javascript:;" onclick="location.href='bbs.forum.{$forum['id']}.{$BID}'" >
                         <h1>{$forum['name']}</h1>
-                        <p class="cr_cb">一共{$forum.topic_count}主题 </p>
+                        <p class="cr_cb">一共{$BBS->topicCount($topic.id)}主题 </p>
                         </a>
                     </div>
 {/if}

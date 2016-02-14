@@ -2,6 +2,7 @@
 $tpl = $PAGE->start();
 $USER->start($tpl);
 $bbs = new bbs($USER);
+$tpl->assign('BBS', $bbs);
 
 //获取论坛id
 $fid = (int)$PAGE->ext[0];
@@ -18,7 +19,7 @@ $tpl->assign('fName', $fIndex[count($fIndex)-1]['name']);
 $tpl->assign('fIndex', $fIndex);
 
 //读取子版块信息
-$forumInfo = $bbs->childForumMeta($fid);
+$forumInfo = $bbs->childForumMeta($fid, 'id,name', 2);
 $tpl->assign('forumInfo', $forumInfo);
 
 //获取帖子列表
