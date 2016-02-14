@@ -15,5 +15,4 @@
 */
 page::regBid('html');
 page::regBid('xhtml');
-page::regBid('wml');
 page::regTpl('default');
