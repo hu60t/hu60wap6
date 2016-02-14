@@ -128,7 +128,7 @@ class page implements ArrayAccess
         $tpl->setConfigDir(CONFIG_DIR);
         $tpl->setCacheDir(TEMP_DIR.'/pagecache');
         $tpl->autoload_filters=array('pre'=>array('hu60ext'));
-        $tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl'].'.'.$this->page['cid']);
+        $tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl']/*.'.'.$this->page['cid']*/);
         if(SMARTY_COMPILE==1) $tpl->compile_check=false;
         elseif(SMARTY_COMPILE==2) $tpl->force_compile=true;
         #$tpl->assign(array('PAGE'=>$this,'CID'=>$this->page['cid'],'PID'=>$this->page['pid'],'BID'=>$this->page['bid'],'page'=>$this,'cid'=>$this->page['cid'],'pid'=>$this->page['pid'],'bid'=>$this->page['bid']));
@@ -238,11 +238,11 @@ class page implements ArrayAccess
         if(!is_file($path)) {
             $path=TPL_DIR."/$tpl/".DEFAULT_PAGE_BID."/$cid/$pid$ext";
             $this->page['bid'] = DEFAULT_PAGE_BID;
-            /*if ($this->tpl) {
-                $this->tpl->assign('bid', DEFAULT_PAGE_BID);
-                $this->tpl->assign('BID', DEFAULT_PAGE_BID);
+            if ($this->tpl) {
+                /*$this->tpl->assign('bid', DEFAULT_PAGE_BID);
+                $this->tpl->assign('BID', DEFAULT_PAGE_BID);*/
                 $this->tpl->setCompileId(DEFAULT_PAGE_BID.'.'.$this->page['tpl']);
-            }*/
+            }
         }
         if(!is_file($path)) {
             if($ext=='.tpl') {$type='模板';$code=2404;}
