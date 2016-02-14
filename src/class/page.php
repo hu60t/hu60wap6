@@ -128,7 +128,7 @@ class page implements ArrayAccess
         $tpl->setConfigDir(CONFIG_DIR);
         $tpl->setCacheDir(TEMP_DIR.'/pagecache');
         $tpl->autoload_filters=array('pre'=>array('hu60ext'));
-        $tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl']/*.'.'.$this->page['cid']*/);
+        $tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl'].'.'.$this->page['cid']);
         if(SMARTY_COMPILE==1) $tpl->compile_check=false;
         elseif(SMARTY_COMPILE==2) $tpl->force_compile=true;
         #$tpl->assign(array('PAGE'=>$this,'CID'=>$this->page['cid'],'PID'=>$this->page['pid'],'BID'=>$this->page['bid'],'page'=>$this,'cid'=>$this->page['cid'],'pid'=>$this->page['pid'],'bid'=>$this->page['bid']));
@@ -202,7 +202,7 @@ class page implements ArrayAccess
         if($tplid!='' && self::isRegTpl($tplid)) {
             $this->page['tpl']=$tplid;
             if($this->tpl) {
-                $tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl']);
+                $tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl'].'.'.$this->page['cid']);
             }
             return true;
         } else {
@@ -243,7 +243,7 @@ class page implements ArrayAccess
             if ($this->tpl) {
                 /*$this->tpl->assign('bid', DEFAULT_PAGE_BID);
                 $this->tpl->assign('BID', DEFAULT_PAGE_BID);*/
-                $this->tpl->setCompileId(DEFAULT_PAGE_BID.'.'.$this->page['tpl']);
+                $this->tpl->setCompileId($this->page['bid'].'.'.$this->page['tpl'].'.'.$this->page['cid']);
             }
         }
         if(!is_file($path)) {
