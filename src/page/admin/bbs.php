@@ -13,11 +13,11 @@ $pid=0;
 }else{
 $pid=$_POST['parent_id'];
 }
-$ok = $bbs->createbk($_POST['name'],$pid,$_POST['bz']);
+$ok = $bbs->createForum($_POST['name'],$pid,$_POST['bz']);
     if (!$ok)
         throw new Exception('未知原因发帖失败，请重试或联系管理员');
 }
-$arr = $bbs->plate();
+$arr = $bbs->childForumMeta(0, '*', 0);
 $array['父版块']=0;
 foreach($arr as $v){
 $array['父版块：'.$v['name']]=$v['id'];

@@ -24,33 +24,23 @@ $tpl->assign('forumInfo', $forumInfo);
 //获取帖子列表
 $mode='new';
 $p=$p;
-$num=10;
-$totalNumber=$bbs->topicListtj($fid); 
-$totalPage=ceil($totalNumber/$num); 
-if (!isset($p)) { $p=1; } 
+$num=20;
+$totalNumber=$bbs->topicCount($fid);
+$totalPage=ceil($totalNumber/$num);
+
 $startCount=($p-1)*$num;
-$topicList= $bbs->topicList($mode,$fid,$startCount,$num);
+$topicList= $bbs->topicList($fid,$startCount,$num);
+
 foreach ($topicList as &$v) {
     $v += (array)$bbs->topicMeta($v['topic_id'], 'title,uid,mtime as time');
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);
     $v['uinfo'] = $uinfo;
 }
-$x=$p+1; $s=$p-1;
-$tpl->assign('p',$start);
-if ($totalPage>"1"){
-    if ($p=="1"){
-        $tpl->assign('xy','<a href="bbs.forum.'.$fid.'.'.$x.'.'.$PAGE->bid.'">下一页</a>');
-    }
-    if ($p<$totalPage&&$p>"1"){
-        $tpl->assign('xy','<a href="bbs.forum.'.$fid.'.'.$x.'.'.$PAGE->bid.'">下一页</a>');
-        $tpl->assign('sy','<a href="bbs.forum.'.$fid.'.'.$s.'.'.$PAGE->bid.'">上一页</a>');
-    }elseif ($p==$totalPage){
-        $tpl->assign('sy','<a href="bbs.forum.'.$fid.'.'.$s.'.'.$PAGE->bid.'">上一页</a>');
-    }
-}
-$tpl->assign('p', $totalPage);
-$tpl->assign('yg','第'.$p.'页/'.$totalPage.'页/共'.$totalNumber.'条');
+
+$tpl->assign('p',$p);
+$tpl->assign('pMax', $totalPage);
+$tpl->assign('topicCount', $totalNumber);
 $tpl->assign('topicList', $topicList);
 
 //显示版块列表
