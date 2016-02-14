@@ -5,6 +5,12 @@
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
 {include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}"}
+<script>
+function atAdd(uid) {
+  var nr = document.getElementById("content");
+  nr.value += "@"+uid+"，";
+}
+</script>
 <!--导航栏-->
 <div class="pt">
 <div class="cr180_ptzmenu">
@@ -28,6 +34,7 @@
                     </div>
                     <div class="z cr180_member_jon">
                     <a href="msg.index.send.{$v.uinfo.uid}.{$BID}" target="_blank" >{$v.uinfo.name|code}</a>
+					<a href="#" onclick="atAdd('{$v.uinfo.name|code}')">@Ta</a>
                     <p class="cl">
                     <em class="dateline cus">{date('Y-m-d H:i:s',$v.mtime)}</em>
                     {if $bbs->canEdit($v.uinfo.uid,true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">编辑</a>{/if}
@@ -53,7 +60,7 @@
         {if $USER->islogin}
             {form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}"}
  <div class="cr180_form">
-                <textarea class="txt" name="content" style="width:100%;height:100px;">{$smarty.post.content}</textarea>
+                <textarea class="txt" id="content" name="content" style="width:100%;height:100px;">{$smarty.post.content}</textarea>
                 {input type="hidden" name="token" value=$token->token()}
                 </div><div class="o pns cl"><button type="submit" class="submit_ye" value="true" name="go" tabindex="3"><span>评论该帖子</span></button></div></form>
             {/form}
