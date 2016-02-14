@@ -58,34 +58,30 @@ class bbs {
     * 发帖
     * 
     * 参数：
-    *     $forumId    逗号分隔论坛id
+    *     $fid        论坛id
     *     $title      帖子标题
     *     $content    帖子内容
     */
-    public function newTopic($forumId, $title, $content) {
+    public function newTopic($fid, $title, $content) {
     try {
         global $PAGE;
         $time = $_SERVER['REQUEST_TIME'];
+		
         //发帖权限检查
         $this->checkLogin();
+		
         //版块有效性检查
-        $fid = explode(',', $forumId);
-        if (count($fid) < 1)
-            throw new bbsException('请至少选择一个版块。', 400);
         $sql = 'SELECT id,name,notopic from '.DB_A.'bbs_forum_meta WHERE id=?';
         $rs = $this->db->prepare($sql);
         if (!$rs) throw new bbsException('数据库错误，论坛元数据表（'.DB_A.'bbs_forum_meta）异常！', 500);
-        $i = 0;
-        $rs->bindParam(1, $i);
-        foreach ($fid as $i)
-        {
-            $rs->execute();
-            $data = $rs->fetch();
-            if (!$data)
-                throw new bbsException('版块id'.$i.'不存在，请重新选择。', 404);
-            if ($data['notopic'])
-                throw new bbsException('版块 '.$data['name'].' 禁止发帖，请重新选择。', 403);
-        }
+        $rs->bindParam(1, $fid);
+        $rs->execute();
+        $data = $rs->fetch();
+        if (!$data)
+            throw new bbsException('版块id'.$i.'不存在，请重新选择。', 404);
+        if ($data['notopic'])
+            throw new bbsException('版块 '.$data['name'].' 禁止发帖，请重新选择。', 403);
+		
         //标题处理
         $title = mb_substr(trim($title), 0, 50, 'utf-8');
         //内容处理
@@ -110,25 +106,44 @@ class bbs {
         $rs = $this->db->prepare($sql);
         if (!$rs)
             throw new bbsException('数据库错误，版块信息（'.DB_A.'bbs_forum_topic）写入失败！', 500);
-        $i = 0;
-        $rs->bindParam(1, $i);
+
+        $rs->bindParam(1, $fid);
         $rs->bindParam(3, $time);
         $rs->bindParam(4, $time);
         $rs->bindParam(2, $topic_id);
-        foreach($fid as $i) {
-            $rs->execute();
-        }
+        $ok = $rs->execute();
+		
+		if (!$ok)
+            throw new bbsException('数据库错误，版块信息（'.DB_A.'bbs_forum_topic）写入失败！', 500);
         
         //注册at消息
         $this->user->regAt("帖子“{$title}”中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
         
-        //更新首个发帖版块的改动时间
-        $x = $this->db->update('bbs_forum_meta', 'mtime=? WHERE id=?', $time, $fid[0]);
+        //更新发帖版块的改动时间
+        $this->updateForumTime($fid);
+		
         return $topic_id;
     } catch (exception $e) {
         throw $e;
     }
     }
+	
+	/*更新发帖版块及其父版块的改动时间*/
+	protected function updateForumTime($fid) {
+		$forums = $this->fatherForumMeta($fid, 'id');
+		$sql = 'UPDATE '.DB_A.'bbs_forum_meta SET mtime=? WHERE id=?';
+        $rs = $this->db->prepare($sql);
+		$time = $_SERVER['REQUEST_TIME'];
+		
+		$rs->bindValue(1, $time);
+		
+		unset($forums[0]);
+		
+		foreach ($forums as $forum) {
+			$rs->bindValue(2, $forum['id']);
+			$rs->execute();
+		}
+	}
     
     /**
     * 新回复
@@ -236,8 +251,7 @@ if($v['plate']!=''){
     * 获取父版块元信息
     */
     public function fatherForumMeta($fid, $fetch='*') {
-        if (trim($fetch) != '*' && !preg_match('!(^|,)\s*parent_id\s*(,|$)!s', $fetch))
-            $fetch .= ',parrent_id';
+        $fetch .= ',parent_id';
         $fIndex = array();
         $parent_id = $fid;
         if ($fid == 0) { //id为0的是根节点
