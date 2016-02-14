@@ -3,7 +3,7 @@ $tpl=$PAGE->start();
 $USER->start($tpl);
 $bbs = new bbs($USER);
 
-if (!$USER->islogin || $USER->uid != 1 && $USER->uid != 2)
+if (!$USER->islogin || $USER->uid != 1)
     die('403 Forbidden');
 switch($PAGE->ext[0]){
 case 'createbk':
