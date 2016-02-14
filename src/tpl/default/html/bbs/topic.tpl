@@ -34,7 +34,7 @@ function atAdd(uid) {
                     </div>
                     <div class="z cr180_member_jon">
                     <a href="msg.index.send.{$v.uinfo.uid}.{$BID}" target="_blank" >{$v.uinfo.name|code}</a>
-					<a href="#" onclick="atAdd('{$v.uinfo.name|code}')">@Ta</a>
+					<a href="#" onclick="atAdd('{$v.uinfo.name|code}');return false">@Ta</a>
                     <p class="cl">
                     <em class="dateline cus">{date('Y-m-d H:i:s',$v.mtime)}</em>
                     {if $bbs->canEdit($v.uinfo.uid,true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">编辑</a>{/if}
