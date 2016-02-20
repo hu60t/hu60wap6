@@ -57,7 +57,9 @@ try {
     include SUB_DIR.'/global_init.php';
 /*载入页面*/
     include $PAGE->load();
-} catch(exception $ERR) {
+	
+}
+catch(exception $ERR) {
 
 /*载入错误提示页*/
     include $PAGE->load('error','pageerr');

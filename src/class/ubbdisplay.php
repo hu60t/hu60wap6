@@ -41,7 +41,11 @@ protected $display=array(
   
 /*text 纯文本*/
   public function text($data) {
-    return code::html($data['value'],'<br/>');
+	  $text = $data['value'];
+	  
+	  $text = preg_replace('/[\x{0e00}-\x{0e7f}]{10,}/u', '(为防止版面长草，过长的泰文被过滤)', $text);
+	  
+      return code::html($text, '<br/>');
   }
   
 /*代码高亮*/
