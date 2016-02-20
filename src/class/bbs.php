@@ -337,7 +337,11 @@ class bbs {
     * 获取版块下的帖子总数
     */
     public function topicCount($forum_id) {
-        $rs = $this->db->select('count(*)', 'bbs_forum_topic', 'WHERE forum_id IN ('.$this->childForumIdList($forum_id).')');
+		if ($forum_id != 0) {
+			$where = 'WHERE forum_id IN ('.$this->childForumIdList($forum_id).')';
+		}
+		
+        $rs = $this->db->select('count(*)', 'bbs_forum_topic', $where);
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
         $rs = $rs->fetch(db::num);

@@ -19,29 +19,29 @@ $tpl->assign('fName', $fIndex[count($fIndex)-1]['name']);
 $tpl->assign('fIndex', $fIndex);
 
 //读取子版块信息
-$forumInfo = $bbs->childForumMeta($fid, 'id,name', 2);
+$forumInfo = $bbs->childForumMeta($fid, 'id,name', 1);
 $tpl->assign('forumInfo', $forumInfo);
 
 if ($fid != 0) {
-//获取帖子列表
-$num=20;
-$totalNumber=$bbs->topicCount($fid);
-$totalPage=ceil($totalNumber/$num);
-
-$startCount=($p-1)*$num;
-$topicList= $bbs->topicList($fid,$startCount,$num);
-
-foreach ($topicList as &$v) {
-    $v += (array)$bbs->topicMeta($v['topic_id'], 'title,uid,mtime as time');
-    $uinfo = new userinfo();
-    $uinfo->uid($v['uid']);
-    $v['uinfo'] = $uinfo;
-}
-
-$tpl->assign('p',$p);
-$tpl->assign('pMax', $totalPage);
-$tpl->assign('topicCount', $totalNumber);
-$tpl->assign('topicList', $topicList);
+	//获取帖子列表
+	$num=20;
+	$totalNumber=$bbs->topicCount($fid);
+	$totalPage=ceil($totalNumber/$num);
+	
+	$startCount=($p-1)*$num;
+	$topicList= $bbs->topicList($fid,$startCount,$num);
+	
+	foreach ($topicList as &$v) {
+		$v += (array)$bbs->topicMeta($v['topic_id'], 'title,uid,mtime as time');
+		$uinfo = new userinfo();
+		$uinfo->uid($v['uid']);
+		$v['uinfo'] = $uinfo;
+	}
+	
+	$tpl->assign('p',$p);
+	$tpl->assign('pMax', $totalPage);
+	$tpl->assign('topicCount', $totalNumber);
+	$tpl->assign('topicList', $topicList);
 }
 
 //显示版块列表

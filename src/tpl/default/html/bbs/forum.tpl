@@ -41,24 +41,16 @@
             <span class="tit">{$forum.name|code}</span><span class="pt_y"><a  href="javascript:;" onclick="location.href='bbs.forum.{$forum['id']}.{$BID}'" >以下所有贴</a></span>
             </div>
             <div id="cr180_catlist_{$forum.id}_menu" class="cl onboxl">
-
-{if $forum['child']!=''}
-                {foreach $forum['child'] as $topic}
-                                                                <div class="bm_c add">
-                                                <a  href="javascript:;" onclick="location.href='bbs.forum.{$topic['id']}.{$BID}'" >
-                        <h1>{$topic['name']}</h1>
-                        <p class="cr_cb">一共{$BBS->topicCount($topic.id)}主题 </p>
-                        </a>
-                    </div>
-                {/foreach}
-{else}
                     <div class="bm_c add">
-                        <a  href="javascript:;" onclick="location.href='bbs.forum.{$forum['id']}.{$BID}'" >
-                        <h1>{$forum['name']}</h1>
-                        <p class="cr_cb">一共{$BBS->topicCount($topic.id)}主题 </p>
-                        </a>
+						<ol>
+                        {$newTopic=$BBS->topicList($forum.id,0,3)}
+						{foreach $newTopic as $topic}
+							{$topic=$topic+$BBS->topicMeta($topic.topic_id,'title')}
+							<li><a href="{$CID}.topic.{$tid}.{$BID}">{$topic.title|code}</a></li>
+						{/foreach}
+						</ol>
+                        <p class="cr_cb">一共{$BBS->topicCount($forum.id)}主题 </p>
                     </div>
-{/if}
                                                             </div>
         </div>
     </div>

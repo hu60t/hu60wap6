@@ -65,6 +65,40 @@ class page implements ArrayAccess
         $page+=$this->page;
         return "$page[cid].$page[pid].$page[extid]$page[bid]$page[path_info]$page[query_string]";
     }
+	
+	/*取得文件的访问路径*/
+	public function getFileUrl($path) {
+		$realPath = realpath($path);
+		
+		if (false === $realPath) {
+			throw new PageException("文件 '$path' 不存在！");
+		}
+		
+		$webRoot = realpath($_SERVER['DOCUMENT_ROOT']);
+		
+		if (false === $webRoot) {
+			throw new PageException("无法获取 \$_SERVER['DOCUMENT_ROOT'] 的绝对路径！");
+		}
+		
+		if (0 !== strpos($realPath, $webRoot)) {
+			throw new PageException("文件 '$path' 位于Web根目录外！");
+		}
+		
+		$url = substr($realPath, strlen($webRoot));
+		$url = strtr($url, '\\', '/');
+		
+		return $url;
+	}
+	
+	/*取得tpl的访问路径
+	* 
+	* 格式：bid/cid/pid.ext
+	*/
+	public function getTplUrl($path) {
+		$path = TPL_DIR.'/'.$this->page['tpl'].'/'.$path;
+		
+		return $this->getFileUrl($path);
+	}
 
     /*取得并自动修改页面的mime和bid*/
     public function getMime()
