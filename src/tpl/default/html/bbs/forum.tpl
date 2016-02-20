@@ -46,7 +46,7 @@
                         {$newTopic=$BBS->topicList($forum.id,0,3)}
 						{foreach $newTopic as $topic}
 							{$topic=$topic+$BBS->topicMeta($topic.topic_id,'title')}
-							<li><a href="{$CID}.topic.{$tid}.{$BID}">{$topic.title|code}</a></li>
+							<li><a href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a></li>
 						{/foreach}
 						</ol>
                         <p class="cr_cb">一共{$BBS->topicCount($forum.id)}主题 </p>
