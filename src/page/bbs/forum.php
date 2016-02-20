@@ -22,9 +22,8 @@ $tpl->assign('fIndex', $fIndex);
 $forumInfo = $bbs->childForumMeta($fid, 'id,name', 2);
 $tpl->assign('forumInfo', $forumInfo);
 
+if ($fid != 0) {
 //获取帖子列表
-$mode='new';
-$p=$p;
 $num=20;
 $totalNumber=$bbs->topicCount($fid);
 $totalPage=ceil($totalNumber/$num);
@@ -43,6 +42,7 @@ $tpl->assign('p',$p);
 $tpl->assign('pMax', $totalPage);
 $tpl->assign('topicCount', $totalNumber);
 $tpl->assign('topicList', $topicList);
+}
 
 //显示版块列表
 $tpl->display('tpl:forum');

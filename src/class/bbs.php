@@ -219,6 +219,9 @@ class bbs {
         return $rs->fetch();
     }
 	
+	/**
+    * 获取版块的子版块数量
+    */
 	public function childForumCount($forum_id) {
         $rs = $this->db->select('count(*)', 'bbs_forum_meta', 'WHERE parent_id=?', $forum_id);
         if (!$rs)
@@ -229,6 +232,8 @@ class bbs {
     
    /**
     * 获取子版块元信息
+	*
+	* level为0时递归获取所有子版块
     */
     public function childForumMeta($fid, $fetch = '*', $level = 1) {
 		$fetch .= ',id';
@@ -245,6 +250,34 @@ class bbs {
 		
 		return $forum;
     }
+	
+	/**
+	* 获取子版块id数组（递归获取所有子版块id，包括其自身）
+	*/
+	public function childForumId($fid, &$result = []) {
+		$result[] = (int)$fid;
+		
+		$rs = $this->db->select('id', 'bbs_forum_meta', 'WHERE parent_id=?', $fid);
+		
+		if (!$rs) {
+			throw new Exception('数据库错误，表'.DB_A.'bbs_forum_meta不可读', 500);
+		}
+		
+		$forum = $rs->fetchAll(db::num);
+		
+		foreach ($forum as $v) {
+			$this->childForumId($v[0], $result);
+		}
+		
+		return $result;
+	}
+	
+	/**
+	* 获取逗号分隔的子版块id列表
+	*/
+	protected function childForumIdList($fid) {
+		return implode(',', $this->childForumId($fid));
+	}
     
     /**
     * 获取父版块元信息
@@ -304,7 +337,7 @@ class bbs {
     * 获取版块下的帖子总数
     */
     public function topicCount($forum_id) {
-        $rs = $this->db->select('count(*)', 'bbs_forum_topic', 'WHERE forum_id=?', $forum_id);
+        $rs = $this->db->select('count(*)', 'bbs_forum_topic', 'WHERE forum_id IN ('.$this->childForumIdList($forum_id).')');
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
         $rs = $rs->fetch(db::num);
@@ -316,10 +349,10 @@ class bbs {
     */
     public function topicList($forum_id, $page, $size, $orderBy = 'mtime') {
 		if($forum_id!=0){
-			$where='WHERE `forum_id`=? ';
+			$where='WHERE `forum_id` IN ('.$this->childForumIdList($forum_id).') ';
 		}
 		
-		$rs=$this->db->select('topic_id', 'bbs_forum_topic', $where.'ORDER BY `'.$orderBy.'` DESC LIMIT ?,?', $forum_id, $page, $size);
+		$rs=$this->db->select('topic_id', 'bbs_forum_topic', $where.'ORDER BY `'.$orderBy.'` DESC LIMIT ?,?', $page, $size);
 			
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);

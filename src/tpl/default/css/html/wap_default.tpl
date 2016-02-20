@@ -119,7 +119,7 @@ body { background:#FFF;font-size:12px;font-style:normal;font-family:DroidSansFal
 .cr180_nobg2 { background:#efefef;background-image:-moz-linear-gradient(center top,#efefef,#ddd);background-image:-o-linear-gradient(to bottom,#efefef,#ddd 60%);background-image:-webkit-gradient(linear,0% 0%,0% 80%,from(#efefef),to(#ddd)); }
 .bm .bm_c,.box { border-bottom:#ccc 1px solid }
 .bm_c h1 { line-height:24px;font-weight:normal;margin-bottom:5px;font-size:16px; }
-.pt,.pt2 { height:35px;line-height:35px;background:#efefef;font-size:14px }
+.pt,.pt2 { /*height:35px;*/line-height:35px;background:#efefef;font-size:14px }
 .todayposts { line-height:34px;text-align:center }
 .cr180_mycookie { height:30px;line-height:30px;border-bottom:#aaa 1px solid;overflow:hidden;font-size:12px;position:fixed;left:0;right:0;top:0;z-index:999;box-shadow:#aaa 5px 0 10px;text-align:center }
 .cr180_mycookie a { color:#000;padding:0 10px;display:block;float:left;border-right:#ccc 1px solid }
