@@ -289,6 +289,21 @@ class page implements ArrayAccess
         $this->tplCache[$ext][$name]=$path;
         return $path;
     }
+	
+	public function getCookie($name, $default = null) {
+		$name = COOKIE_A.$name;
+		return isset($_COOKIE[$name]) ? $_COOKIE[$name] : $default;
+	}
+	
+	public function setCookie($name, $value, $time = 0) {
+		$name = COOKIE_A.$name;
+		
+		if ($time > 0 && $time < $_SERVER['REQUEST_TIME']) {
+			$time += $_SERVER['REQUEST_TIME'];
+		}
+		
+		return setCookie($name, $value, $time, COOKIE_PATH, COOKIE_DOMAIN);
+	}
 
     public function __isset($name)
     {

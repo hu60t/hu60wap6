@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}
-{if $css === null}{$css="css.wap.{$BID}.{$smarty.get.css}.css"}{/if}
+{if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->bid}/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")}{/if}
 <link rel="stylesheet" type="text/css" href="{$css|code}"/>
 <meta name='viewport' content='width=device-width' />
 <!--script type="text/javascript">var STYLEID = '3', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'AZW', charset = 'gbk', discuz_uid = '0', defaultstyle = '', REPORTURL = 'aHR0cDovL3dhcC53YXB2eS5jbi8=', SITEURL = 'http://hu60.org/', JSPATH = 'data/cache/';</script-->

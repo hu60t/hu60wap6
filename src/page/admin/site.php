@@ -18,8 +18,6 @@ break;
 default:
 if($_POST['yes'])
 {
-//$file=file_get_contents(SITE_DIR.'/info.conf');
-
 $file="
 # 这是网站的基本信息配置文件 #
   
@@ -32,7 +30,7 @@ BBS_INDEX_NAME=".$_POST['bbs_index_name']."
 #报时
 CLOCK_NAME=".$_POST['clock_name']."
 ";
-file_put_contents(SITE_DIR.'/info.conf',$file);
+file_put_contents($PAGE->tplPath('site.info' ,'.conf'),$file);
 }
 $tpl->display('tpl:site_config');
 break;
