@@ -10,6 +10,7 @@ $tpl->assign('tid', $tid);
 
 $pageSize = 20;
 $contentCount = $bbs->topicContentCount($tid);
+$tpl->assign('contentCount', $contentCount);
 $maxPage = ceil($contentCount / $pageSize);
 $tpl->assign('maxPage', $maxPage);
 
@@ -32,6 +33,9 @@ $tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime');
 if (!$tMeta)
     throw new bbsException('帖子 id='.$tid.' 不存在！', 2404);
 $tpl->assign('tMeta', $tMeta);
+
+//增加帖子点击数
+$bbs->addTopicReadCount($tid);
 
 //读取帖子内容
 $tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id');

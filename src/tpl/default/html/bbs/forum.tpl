@@ -43,9 +43,7 @@
             <div id="cr180_catlist_{$forum.id}_menu" class="cl onboxl">
                     <div class="bm_c add">
 						<ol>
-                        {$newTopic=$BBS->topicList($forum.id,0,3)}
-						{foreach $newTopic as $topic}
-							{$topic=$topic+$BBS->topicMeta($topic.topic_id,'title')}
+						{foreach $forum.newTopic as $topic}
 							<li><a href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a></li>
 						{/foreach}
 						</ol>

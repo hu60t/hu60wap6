@@ -385,6 +385,13 @@ class bbs {
             throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_meta不可读', 500);
         return $rs->fetch();
     }
+	
+	/**
+	* 增加帖子点击数
+	*/
+	public function addTopicReadCount($tid) {
+		$this->db->update('bbs_topic_meta', 'read_count=read_count+1 WHERE id=?', $tid);
+	}
     
     /**
     * 获取帖子内容
