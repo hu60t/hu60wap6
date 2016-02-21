@@ -30,7 +30,7 @@
 </div>
 <hr>
 <div>
-	<p>『<a href="bbs.forum.{$BID}">绿虎论坛</a> - 新帖|新回复|发帖|优秀源码』</p>
+	<p>『<a href="bbs.forum.{$BID}">绿虎论坛</a> - <a href="bbs.forum.0.1.{$BID}">新帖</a>|新回复|发帖|优秀源码』</p>
 	<ol style="padding-left:2em">
 		{foreach $newTopicList as $topic}
 			<li><a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a></li>

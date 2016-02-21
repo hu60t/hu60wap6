@@ -20,13 +20,15 @@ $forumInfo = $bbs->childForumMeta($fid, 'id,name', 1);
 $tpl->assignByRef('forumInfo', $forumInfo);
 
 //获取帖子列表
-if ($fid == 0) {
+if ($fid == 0 && !isset($PAGE->ext[1])) {
 	foreach ($forumInfo as &$forum) {
 		$forum['newTopic'] = $bbs->topicList($forum['id'], 0, 3);
 		foreach ($forum['newTopic'] as &$topic) {
 			$topic += $bbs->topicMeta($topic['topic_id'], 'title');
 		}
 	}
+	//显示版块列表
+	$tpl->display('tpl:forum');
 } else {
 	$num=20;
 	$totalNumber=$bbs->topicCount($fid);
@@ -52,7 +54,7 @@ if ($fid == 0) {
 	$tpl->assign('pMax', $totalPage);
 	$tpl->assign('topicCount', $totalNumber);
 	$tpl->assign('topicList', $topicList);
+	
+	//显示版块列表
+	$tpl->display('tpl:topiclist');
 }
-
-//显示版块列表
-$tpl->display('tpl:forum');
