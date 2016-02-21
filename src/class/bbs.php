@@ -168,6 +168,10 @@ class bbs {
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
         $this->user->regAt("帖子“{$topicTitle['title']}”的回复中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
+		
+		$sql = 'UPDATE '.DB_A.'bbs_topic_meta SET mtime=? WHERE id=?';
+        $this->db->query($sql, $_SERVER['REQUEST_TIME'], $topic_id);
+		
         return $rs ? true : false;
     }
 
@@ -178,7 +182,7 @@ class bbs {
         $title = mb_substr(trim($title), 0, 50, 'utf-8');
 
         $sql = 'UPDATE '.DB_A.'bbs_topic_meta SET title=?,mtime=? WHERE id=?';
-
+		
         $ok = $this->db->query($sql, $newTitle, $_SERVER['REQUEST_TIME'], $topicId);
 
         if (!$ok) {
@@ -188,6 +192,9 @@ class bbs {
         if ($ok->rowCount() == 0) {
             throw new bbsException('修改失败，帖子不存在！');
         }
+		
+		$sql = 'UPDATE '.DB_A.'bbs_forum_topic SET mtime=? WHERE topic_id=?';
+        $this->db->query($sql, $_SERVER['REQUEST_TIME'], $topicId);
     }
 
     /**
@@ -206,6 +213,9 @@ class bbs {
         if ($ok->rowCount() == 0) {
             throw new bbsException('修改失败，楼层不存在！');
         }
+		
+        $sql = 'UPDATE '.DB_A.'bbs_topic_meta SET mtime=? WHERE id = (SELECT topic_id FROM '.DB_A.'bbs_topic_content WHERE id=?)';
+        $this->db->query($sql, $_SERVER['REQUEST_TIME'], $contentId);
     }
 
     
