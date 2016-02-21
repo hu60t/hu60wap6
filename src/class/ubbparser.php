@@ -109,9 +109,10 @@ public function time($tag) {
 /** @brief 链接*/
 public function link($type,$var,$var2='') {
     if($type=='链接' || $type=='外链' || $type=='锚') {
-        $arr=explode('，',$var);
-        $url=$arr[0];
-        $title=$arr[1];
+        $var = $this->split('，', $var);
+		$url = $var[0];
+		$title = $var[1];
+		
         $type = $type=='链接' ? 'urlzh' : ($type == '外链' ? 'urlout' : 'urlname');
     } else {
         $type='url';
@@ -144,7 +145,7 @@ public function link($type,$var,$var2='') {
 /** @brief 图片*/
 public function img($type,$var,$var2='') {
     if($type=='缩略图') {
-        $var=explode('，',$var);
+        $var=$this->split('，',$var);
         $opt=$var[0]; 
         $url=$var[1];
         preg_match_all('![0-9]+!',$opt,$opt);
@@ -157,7 +158,7 @@ public function img($type,$var,$var2='') {
         ));
     } else {
         if($type=='图片') {
-            $var=explode('，',$var);
+            $var=$this->split('，',$var);
             $src=$var[0];
             $alt=$var[1];
         } elseif($var=='') {
@@ -191,8 +192,8 @@ public function copyright($tag) {
 * @brief 战网（魔兽世界英雄榜）链接标记
 */
 public function battlenet($tag) {
-    $info = explode('@', str_replace('＠', '@', $tag));
-    $name = explode('，', $info[1]);
+    $info = $this->split('@', str_replace('＠', '@', $tag));
+    $name = $this->split('，', $info[1]);
     return array(array(
         'type' => 'battlenet',
         'name' => trim($info[0]),
@@ -341,6 +342,41 @@ function face($face) {
         'face' => trim($face),
         'len' => $this->len($face)
     ));
+}
+
+/**
+* 生成at消息的XUBBP数据
+*/
+public function createAtMsg($user, $pos, $url, $msg, $serialize=false) {
+	$data = array(array(
+        'type' => 'atMsg',
+        'uid' => $user->uid,
+		'pos' => $pos,
+		'url' => $url,
+		'msg' => $msg,
+        'len' => $this->len($user->name.$pos.$url.$msg)
+    ));
+	
+	if ($serialize) {
+		$data = serialize($data);
+	}
+	
+	return $data;
+}
+
+/*按指定分隔符将字符串分成两半*/
+function split($split, $str) {
+	$pos=strpos($str, $split);
+	$data = [];
+    
+	if ($pos === false) {
+		$data[] = $str;
+	} else {
+		$data[] = substr($str, 0, $pos);
+		$data[] = substr($str, $pos + strlen($split));
+	}
+	
+	return $data;
 }
 
 /*class end*/

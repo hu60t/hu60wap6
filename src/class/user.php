@@ -451,13 +451,15 @@ public function sendAt() {
         return false;
     }
     
-    $content = <<<UBB
+	$ubb = new ubbParser();
+    $content = $ubb->createAtMsg($this, $this->at['pos'], $this->at['url'], $this->at['msg']);
+	
+/*$content = <<<UBB
 {$this->name} 在 《链接：{$this->at['url']}，{$this->at['pos']}》 at你：
 [div=border:1px solid #ff0000]
 {$this->at['msg']}
 [/div]
-UBB;
-    
+UBB;*/
 
     $msg = new msg;
     foreach ($this->atUid as $i=>$uid) {

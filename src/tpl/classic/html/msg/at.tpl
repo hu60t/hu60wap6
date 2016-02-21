@@ -5,7 +5,7 @@
 <hr />
 {if $list.row}
 {foreach $list.row as $k}
-{$k.content}<br />
+{$k.content}
 时间:{date("Y-m-d H:i:s",$k.ctime)}<hr />
 {/foreach}
 {$list.px}

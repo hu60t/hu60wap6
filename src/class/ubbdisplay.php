@@ -35,6 +35,7 @@ protected $display=array(
     'mailtxt' => 'mailtxt',
 /*at消息*/
     'at' => 'at',
+	'atMsg' => 'atMsg',
 /*face 表情*/
     'face' => 'face',
 );
@@ -201,11 +202,11 @@ protected $display=array(
           $this->regEndTag('/'.$data['tag'], 'style', $dataEnd);
           switch ($data['tag']) {
           case 'color':
-              return '<span style="color:'.code::html($data['opt']).'">';
+              return '<span style="color:'.code::html($data['opt'],false,true).'">';
           case 'div':
-              return '<div style="'.code::html($data['opt']).'">';
+              return '<div style="'.code::html($data['opt'],false,true).'">';
           case 'span':
-              return '<span style="'.code::html($data['opt']).'">';
+              return '<span style="'.code::html($data['opt'],false,true).'">';
           }
       } else {
           $html = '';
@@ -236,10 +237,28 @@ protected $display=array(
       return '<a href="mailto:'.code::html($data['mail']).'">'.code::html($data['mail']).'</a>';
   }
   
-/*at消息*/
+/*at用户名*/
   public function at($data) {
       global $PAGE;
       return '<a href="user.info.'.code::html($data['uid']).'.'.$PAGE->bid.'">@'.code::html($data['tag']).'</a>';
+  }
+  
+/*at通知信息*/
+  public function atMsg($data) {
+	  global $PAGE;
+	  
+	  $url = code::html($data['url']);
+	  $pos = code::html($data['pos']);
+	  $msg = code::html($data['msg']);
+	  $uinfo = new UserInfo();
+	  $uinfo->uid($data['uid']);
+
+return <<<HTML
+<a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 在 <a href="{$url}">{$pos}</a> at你：
+<blockquote>
+{$msg}
+</blockquote>
+HTML;
   }
   
 /*face 表情*/
