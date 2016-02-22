@@ -11,7 +11,7 @@ function atAdd(uid) {
   nr.value += "@"+uid+"，";
 }
 </script>
-{$ubb->setOpt('at.jsFunc', 'atAdd')}
+{$ok=$ubb->setOpt('at.jsFunc', 'atAdd')}
 <!--导航栏-->
 <div class="pt">
 <div class="cr180_ptzmenu">
