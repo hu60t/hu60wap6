@@ -28,10 +28,14 @@
 		{$v=array_shift($tContents)}
 		<p>标题: {$tMeta.title|code}</p>
 		<p>作者: <a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" onclick="atAdd('{$v.uinfo.name|code}');return false">@Ta</a></p>
-		<p>时间: {date('Y-m-d H:i',$tMeta.mtime)}</p>
+		<p>时间: {date('Y-m-d H:i',$v.mtime)}</p>
 		<p>点击: {$tMeta.read_count}</p>
 		<hr>
 		<div>{$ubb->display($v.content,true)}</div>
+		{if $v.uinfo.uid == $USER->uid}
+			<hr>
+			<p>[<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>|续|删|沉|移|设]</p>
+		{/if}
 	{else}
 		<p>{$tMeta.title|code}</p>
 	{/if}
@@ -41,7 +45,7 @@
 <div>
     {foreach $tContents as $v}
 		<div>{$v.floor}. {$ubb->display($v.content,true)}</div>
-		<p>(<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" onclick="atAdd('{$v.uinfo.name|code}');return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)})</p>
+		<p>(<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" onclick="atAdd('{$v.uinfo.name|code}');return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $v.uinfo.uid == $USER->uid}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{/if})</p>
 		<hr>
     {/foreach}
 </div>

@@ -28,10 +28,13 @@ try {
     $tpl->assign('tMeta', $tMeta);
 
     //读取楼层内容
-    $tContent = $bbs->topicContent($cid, 'content,uid');
+    $tContent = $bbs->topicContent($cid, 'content,uid,topic_id');
     if (!$tContent)
         throw new bbsException('楼层不存在！', 3404);
     $tpl->assign('tContent', $tContent);
+	
+	if ($tContent['topic_id'] != $tid)
+		throw new bbsException('不能编辑其他帖子的楼层！', 3403);
 
     //楼层编辑权限检查
     $bbs->canEdit($tContent['uid']);

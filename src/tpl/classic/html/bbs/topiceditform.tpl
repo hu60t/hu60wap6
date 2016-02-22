@@ -18,9 +18,9 @@
 </div>
     <!--编辑框-->
 {div class="topic_area"}
-    {if $USER->islogin && $smarty.post.go}{div class="notice"}
-        {if $err}{$err->getMessage()|code}{/if}
-    {/div}{/if}
+    {div class="notice"}
+        {if $err && $USER->islogin}{$err->getMessage()|code}{/if}
+    {/div}
 {div class="cr180_form"}
     {form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$BID}"}
 <div>

@@ -188,10 +188,11 @@ class bbs {
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
         }
-
-        if ($ok->rowCount() == 0) {
+		
+		//若未修改，则部分服务器会报错，故注释
+        /*if ($ok->rowCount() == 0) {
             throw new bbsException('修改失败，帖子不存在！');
-        }
+        }*/
 		
 		$sql = 'UPDATE '.DB_A.'bbs_forum_topic SET mtime=? WHERE topic_id=?';
         $this->db->query($sql, $_SERVER['REQUEST_TIME'], $topicId);
@@ -210,9 +211,10 @@ class bbs {
             throw new bbsException('修改失败，数据库错误');
         }
 
-        if ($ok->rowCount() == 0) {
+		//若未修改，则部分服务器会报错，故注释
+        /*if ($ok->rowCount() == 0) {
             throw new bbsException('修改失败，楼层不存在！');
-        }
+        }*/
 		
         $sql = 'UPDATE '.DB_A.'bbs_topic_meta SET mtime=? WHERE id = (SELECT topic_id FROM '.DB_A.'bbs_topic_content WHERE id=?)';
         $this->db->query($sql, $_SERVER['REQUEST_TIME'], $contentId);
