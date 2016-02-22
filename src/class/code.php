@@ -25,7 +25,7 @@ class code
 * 注：该函数可以自动根据$PAGE['bid']是否为'wml'来判断是否需要转码$为$$
 */
 static function html($str,$br=false,$NOnbsp=false)
-{
+{
 global $PAGE;
 $str=htmlspecialchars($str,ENT_QUOTES,'utf-8');
 if($br!==false)

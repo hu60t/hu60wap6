@@ -259,7 +259,7 @@ static function someinput_set($set)
 if(is_array($set['size']))
  {
  if($set['size'][0]<1) $set['size'][0]=null;
- if($set['size'][1]<1) $set['size'][1]=null;
+ if($set['size'][1]<1) $set['size'][1]=null;
  }
 elseif($set['size']<0)
  unset($set['size']);
