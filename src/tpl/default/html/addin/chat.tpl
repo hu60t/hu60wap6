@@ -3,7 +3,7 @@
 <div class="cr180_ptzmenu">
                 <a  href="javascript:;" onclick="location.href='index.index.{$bid}'" title="回首页" class="pt_z">回首页</a>
             <span class="pt_c"><a  href="javascript:;" onclick="location.href='addin.chat.{$bid}'" >切换聊天室</a>{$roomname}</span>
-<span class="pt_y"><a href="addin.chat.test.{$bid}">刷新</a></span>
+<span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?rand={time()}">刷新</a></span>
 </div>
 </div>
 {$err_msg}
