@@ -336,7 +336,7 @@ public function getDisplay() {
 * 成员的数组。
 */
 public function getOpt($index = null) {
-    $set = &$this->opt;
+    $set = $this->opt;
     $index=explode('.',$index);
     foreach($index as $key) {
 	    $set=$set[$key];

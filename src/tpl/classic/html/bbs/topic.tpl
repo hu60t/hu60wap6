@@ -12,6 +12,7 @@
 		nr.value += "@"+uid+"，";
 	}
 </script>
+{$ubb->setOpt('at.jsFunc', 'atAdd')}
 
 <!--导航栏-->
 <div class="tp">

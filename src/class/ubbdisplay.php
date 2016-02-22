@@ -240,7 +240,17 @@ protected $display=array(
 /*at用户名*/
   public function at($data) {
       global $PAGE;
-      return '<a href="user.info.'.code::html($data['uid']).'.'.$PAGE->bid.'">@'.code::html($data['tag']).'</a>';
+	  
+	  $jsFunc = $this->getOpt('at.jsFunc');
+	  $uinfo = new UserInfo();
+	  $uinfo->uid($data['uid']);
+	  $name = $uinfo->name===null ? $data['tag'] : $uinfo->name;
+	  
+	  if ($jsFunc) {
+		  return '<a href="#" onclick="'.$jsFunc.'(\''.$name.'\');return false">@</a><a href="user.info.'.code::html($data['uid']).'.'.$PAGE->bid.'">'.code::html($name).'</a>';
+	  } else {
+		  return '<a href="user.info.'.code::html($data['uid']).'.'.$PAGE->bid.'">@'.code::html($name).'</a>';
+	  }
   }
   
 /*at通知信息*/
