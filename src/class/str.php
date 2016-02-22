@@ -55,7 +55,7 @@ if($off<0) $off=$slen-$off;
 $str=mb_substr($str,$off,$len,$code);
 if($off>0) $str=$add.$str;
 if($off+$len<$slen) $str.=$add;
-return $add;
+return $str;
 }
 //class str end
 }

@@ -18,6 +18,9 @@ class chat{
             $this->user = $user;
         $this->db = new db;
     }
+	public static function getInstance($user = null) {
+		return new chat($user);
+	}
     /**
      * 检查聊天室名是否有效
 聊天室名只允许汉字、字母、数字、下划线(_)和减号(-)。
@@ -103,6 +106,15 @@ class chat{
          $row['row'] = $rs -> fetchAll();
          $row['px'] = $px -> pageshow();
          return $row;
+         }
+		 
+	/**
+     * 获取最新的发言
+     */
+     public function newChat(){
+         $rs = $this -> db -> select("*", 'addin_chat_data', 'ORDER BY `time` DESC LIMIT 1');
+         $data = $rs -> fetch();
+         return $data;
          }
     
     /**

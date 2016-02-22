@@ -38,6 +38,10 @@ class ubbEdit extends XUBBP {
         /*face 表情*/
         'face' => 'face',
     );
+	
+	public static function getInstance() {
+		return new ubbEdit();
+	}
 
     /*text 纯文本*/
     public function text($data) {
