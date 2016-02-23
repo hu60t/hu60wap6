@@ -13,7 +13,7 @@ if (!$_POST['go']) {
 	$tpl->assign('webplug', $plug);
 	$tpl->display('tpl:webplug_form');
 } else {
-	$plug = $_POST['webplug'];
+	$plug = str_replace("\xc2\xa0", ' ', $_POST['webplug']);
 	$USER->setinfo('addin.webplug', $plug);
 	$tpl->display('tpl:webplug_success');
 }

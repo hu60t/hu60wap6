@@ -18,7 +18,7 @@
     <form method="post" action="{$CID}.{$PID}.{$BID}">
 		<p>插件代码：</p>
 		<p>
-			<textarea name="webplug" style="width:80%;height:100px;">{$webplug|code}</textarea>
+			<textarea name="webplug" style="width:80%;height:100px;">{$webplug|code:false:true}</textarea>
 		<p>
 		<p>
 			<input type="submit" name="go" value="保存" />
