@@ -31,6 +31,18 @@
 <p class="txt">
 查看：<a href="msg.index.{$bid}">内信</a>/<a href="msg.index.@.{$bid}">@消息</a><br/>
 </p>
+<p class="txt">
+界面：<a href="link.css.default.{$BID}?url64={url::b64e($page->geturl())}">白天模式</a>/<a href="link.css.night.{$BID}?url64={url::b64e($page->geturl())}">夜间模式</a><br/>
+</p>
+<p class="txt">
+论坛楼层排序：
+{if $floorReverse}
+	<a href="?floorReverse=0">正序</a>/倒序
+{else}
+	正序/<a href="?floorReverse=1">倒序</a>
+{/if}
+<br/>
+</p>
 {/div}
 {/div}
 {if $mmbt}

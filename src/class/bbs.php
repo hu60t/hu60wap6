@@ -424,10 +424,37 @@ class bbs {
         if ($page < 1)
             $page = 1;
         $offset = ($page-1)*$size;
-        $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? ORDER BY id ASC LIMIT ?,?', $topic_id, $offset, $size);
-        if (!$rs)
-            throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
-        return $rs->fetchAll();
+		
+		//倒序排列楼层
+		if ($this->user && $this->user->islogin && $this->user->getInfo('bbs.floorReverse')) {
+			if ($page == 1)
+				$size --;
+			
+			$rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? AND floor!=0 ORDER BY floor DESC LIMIT ?,?', $topic_id, $offset, $size);
+			
+			if (!$rs)
+				throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
+			
+			$data = $rs->fetchAll();
+			
+			if ($page == 1) {
+				$rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? AND floor=0', $topic_id);
+				
+				if (!$rs)
+					throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
+				
+				array_unshift($data, $rs->fetch());
+			}
+			
+		} else {
+			$rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? ORDER BY floor ASC LIMIT ?,?', $topic_id, $offset, $size);
+			if (!$rs)
+				throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
+			
+			$data = $rs->fetchAll();
+		}
+		
+		return $data;
     }
 
     
@@ -440,7 +467,7 @@ class bbs {
         if ($page < 1)
             $page = 1;
         $offset = ($page-1)*$size;
-        $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE reply_id=? ORDER BY id ASC LIMIT ?,?', $reply_id, $offset, $size);
+        $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE reply_id=? ORDER BY floor ASC LIMIT ?,?', $reply_id, $offset, $size);
         if (!$rs)
             throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
         return $rs->fetchAll();

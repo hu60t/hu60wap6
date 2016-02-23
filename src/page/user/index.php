@@ -7,7 +7,14 @@ if (!$USER->islogin) {
 //设置一个头像地址用于测试
 $USER->setinfo('avatar.url', 'http://www.wapvy.cn/uc_server/images/noavatar_small.gif');
 
-if ($USER->uid == '1' || $USER->uid == '2'){
-$tpl->assign('mmbt',"admin");
+if (isset($_GET['floorReverse'])) {
+	$USER->setinfo('bbs.floorReverse', (bool)$_GET['floorReverse']);
 }
+
+$tpl->assign('floorReverse', $USER->getinfo('bbs.floorReverse'));
+
+if ($USER->uid == '1'){
+	$tpl->assign('mmbt',"admin");
+}
+
 $tpl->display('tpl:index');

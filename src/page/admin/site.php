@@ -23,6 +23,8 @@ $file="
   
 #网站名称
 SITE_NAME=".$_POST['site_name']."
+#网站简称
+SITE_SIMPLE_NAME=".$_POST['site_simple_name']."
 #论坛名称
 BBS_NAME=".$_POST['bbs_name']."
 #论坛首页名称
