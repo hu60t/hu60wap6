@@ -11,7 +11,7 @@ if (isset($_GET['floorReverse'])) {
 	$USER->setinfo('bbs.floorReverse', (bool)$_GET['floorReverse']);
 }
 
-$tpl->assign('floorReverse', $USER->getinfo('bbs.floorReverse'));
+$tpl->assign('floorReverse', false !== $USER->getinfo('bbs.floorReverse'));
 
 if ($USER->uid == '1'){
 	$tpl->assign('mmbt',"admin");

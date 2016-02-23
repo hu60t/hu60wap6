@@ -425,8 +425,16 @@ class bbs {
             $page = 1;
         $offset = ($page-1)*$size;
 		
-		//倒序排列楼层
-		if ($this->user && $this->user->islogin && $this->user->getInfo('bbs.floorReverse')) {
+		if ($this->user && $this->user->islogin && false == $this->user->getInfo('bbs.floorReverse')) {
+			//正序排列楼层
+			$rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? ORDER BY floor ASC LIMIT ?,?', $topic_id, $offset, $size);
+			if (!$rs)
+				throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
+			
+			$data = $rs->fetchAll();
+			
+		} else {
+			//倒序排列楼层
 			if ($page == 1) {
 				$size --;
 			} else {
@@ -449,12 +457,6 @@ class bbs {
 				array_unshift($data, $rs->fetch());
 			}
 			
-		} else {
-			$rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? ORDER BY floor ASC LIMIT ?,?', $topic_id, $offset, $size);
-			if (!$rs)
-				throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
-			
-			$data = $rs->fetchAll();
 		}
 		
 		return $data;
