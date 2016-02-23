@@ -25,7 +25,7 @@
 <div>
 	<p>『用户专区』</p>
 	<p>
-		-我的：帖子|回复|<a href="msg.index.{$bid}">内信</a>|<a href="msg.index.@.{$bid}">@消息</a>|收藏
+		-我的：<a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>|回复|<a href="msg.index.{$bid}">内信</a>|<a href="msg.index.@.{$bid}">@消息</a>|收藏
 	</p>
 </div>
 <hr>
