@@ -427,8 +427,11 @@ class bbs {
 		
 		//倒序排列楼层
 		if ($this->user && $this->user->islogin && $this->user->getInfo('bbs.floorReverse')) {
-			if ($page == 1)
+			if ($page == 1) {
 				$size --;
+			} else {
+				$offset --;
+			}
 			
 			$rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? AND floor!=0 ORDER BY floor DESC LIMIT ?,?', $topic_id, $offset, $size);
 			
