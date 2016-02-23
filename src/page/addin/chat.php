@@ -23,6 +23,7 @@ if($PAGE -> ext[0]){
              }
          }
      $ubbs = new ubbdisplay();
+	 $ubbs->setOpt('at.jsFunc', 'atAdd');
      $tpl -> assign('err_msg', $err_msg);
      $list = $chat -> chatlist($roomname);
      foreach($list[row] as $k => $m){
