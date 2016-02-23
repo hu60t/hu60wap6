@@ -6,18 +6,18 @@ class search {
     protected $time;
 
     public function __construct() {
-        $time = time();
+        $this->time = time();
     }
 
     protected function searchWord($table, $field, $index, $word, $order='', $limit=self::SEARCH_LIMIT) {
-        $wordHash = md5($word);
-        $key = "search/{$table}{$field}/$wordHash";
+        $wordHash = md5("$table/$field/$word");
+        $key = "search/$wordHash";
 
-            $rs = cache::get($key);
+        $rs = cache::get($key);
 
-            if (is_array($rs) && $this->time - $rs['time'] < self::CACHE_TIMEOUT) {
-                return $rs['data'];
-            }
+        if (is_array($rs) && $this->time - $rs['time'] < self::CACHE_TIMEOUT) {
+            return $rs['data'];
+        }
 
         $sql = "SELECT $index FROM ".DB_A."$table WHERE $field LIKE ? $order LIMIT $limit";
         $db = db::conn();
@@ -29,7 +29,7 @@ class search {
 
         $rs = $rs->fetchAll(db::ass);
         cache::set($key, ['time'=>$this->time, 'data'=>$rs], self::CACHE_TIMEOUT);
-        
+
         return $rs;
     }
 
@@ -37,13 +37,13 @@ class search {
         $wordsHash = md5($words);
         $key = "search/result/$wordsHash";
 
-            $rs = cache::get($key);
+        $rs = cache::get($key);
 
-            if (is_array($rs) && $this->time - $rs['time'] < self::CACHE_TIMEOUT) {
-                $data = $rs['data'];
+        if (is_array($rs) && $this->time - $rs['time'] < self::CACHE_TIMEOUT) {
+            $data = $rs['data'];
 
-                return $data;
-            }
+            return $data;
+        }
 
         $wordList = explode(' ', $words);
         $db = db::conn();
@@ -92,7 +92,7 @@ class search {
 
         arsort($result);
         $tz = [];
-        
+
         foreach ($result as $tzid => $WV) {
             $tz[] = ['tid'=>$tzid, 'uid'=>$uid[$tzid]];
         }
