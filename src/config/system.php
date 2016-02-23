@@ -44,7 +44,7 @@ define('DEFAULT_LOGIN_TIMEOUT',2592000);
 * 
 * 设为 'default' 使用默认模板
 */
-define('DEFAULT_PAGE_TPL','default');
+define('DEFAULT_PAGE_TPL','classic');
 /**
 * 默认页面cid
 */
