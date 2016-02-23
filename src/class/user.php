@@ -69,7 +69,7 @@ public function start($tpl=null,$page=null,$sid=null) {
 */
 public function setCookie() {
  if(!self::$data[$this->uid]['islogin']) throw new userexception('用户未登陆，不能设置身份验证Cookie。',2503);
- return setCookie(COOKIE_A.'sid',self::$data[$this->uid]['sid'],$_SERVER['REQUEST_TIME']+DEFAULT_LOGIN_TIMEOUT,COOKIE_PATH,COOKIE_DOMAIN);
+ return page::setCookie('sid',self::$data[$this->uid]['sid'],$_SERVER['REQUEST_TIME']+DEFAULT_LOGIN_TIMEOUT);
 }
 
 /**
@@ -403,7 +403,7 @@ public function __destruct() {
 */
 function logout(){
     global $PAGE;
-	setcookie(COOKIE_A.'sid',false,$_SERVER['REQUEST_TIME']+DEFAULT_LOGIN_TIMEOUT,COOKIE_PATH,COOKIE_DOMAIN);
+	page::setcookie('sid',false,-1);
 	header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'/user.login.'.$PAGE->bid);
 }
 

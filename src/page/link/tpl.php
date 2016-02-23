@@ -4,7 +4,7 @@ $tpl = str::word($PAGE->ext[0]);
 
 if ($PAGE->isRegTpl($tpl)) {
 	setCookie(COOKIE_A.'tpl', false, -1);
-	$PAGE->setCookie('tpl', $tpl, 3600*24*3650);
+	page::setCookie('tpl', $tpl, 3600*24*3650);
 }
 
 if ($url == '') {

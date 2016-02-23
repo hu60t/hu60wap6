@@ -4,7 +4,7 @@ $css = str::word($PAGE->ext[0]);
 $cssPath = $PAGE->getTplUrl("css/$css.css");
 
 if (false !== $cssPath) {
-	$PAGE->setCookie('css_'.$PAGE->tpl, $css, 3600*24*3650);
+	page::setCookie('css_'.$PAGE->tpl, $css, 3600*24*3650);
 }
 
 if ($url == '') {
