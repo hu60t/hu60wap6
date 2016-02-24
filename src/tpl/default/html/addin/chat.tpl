@@ -27,7 +27,7 @@
 <div class="content">
 {foreach $list.row as $k}
 <div class="i">{$k.lid}. {$k.content}<br />
-(<a href="">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}');return false">@Ta</a> {date("m-d H:i:s",{$k.time})})
+(<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}');return false">@Ta</a> {date("m-d H:i:s",{$k.time})})
 </div>
 <hr>
 {/foreach}

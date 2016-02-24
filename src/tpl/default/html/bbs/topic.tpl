@@ -34,7 +34,7 @@ function atAdd(uid) {
                     <a href="user.info.{$v.uinfo.uid}.{$BID}" target="_    blank" ><img src="http://www.wapvy.cn/uc_server/avatar.php?uid=1261&size=small" /></a>
                     </div>
                     <div class="z cr180_member_jon">
-                    <a href="msg.index.send.{$v.uinfo.uid}.{$BID}" target="_blank" >{$v.uinfo.name|code}</a>
+                    <a href="user.info.{$v.uinfo.uid}.{$BID}" target="_blank" >{$v.uinfo.name|code}</a>
 					<a href="#" onclick="atAdd('{$v.uinfo.name|code}');return false">@Ta</a>
                     <p class="cl">
                     <em class="dateline cus">{date('Y-m-d H:i:s',$v.mtime)}</em>

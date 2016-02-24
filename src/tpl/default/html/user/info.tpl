@@ -27,6 +27,9 @@
 <p class="txt">
 发送: <a href="msg.index.send.{$uinfo.uid}.{$bid}">内信</a><br/>
 </p>
+<p class="txt">
+查看: <a href="bbs.search.send.{$bid}?username={$uinfo->name|urlencode}">帖子</a><br/>
+</p>
 {/div}
 {/div}
 {if $mmbt}

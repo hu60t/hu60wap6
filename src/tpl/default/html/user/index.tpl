@@ -29,7 +29,7 @@
  注册时间: {if $USER->regtime == 0}您是很久以前注册的，那时没有记录注册时间{else}{date('Y年m月d日 H:i:s',$USER->regtime)}{/if}
 </p>
 <p class="txt">
-查看：<a href="msg.index.{$bid}">内信</a>/<a href="msg.index.@.{$bid}">@消息</a><br/>
+查看：<a href="msg.index.{$bid}">内信</a>/<a href="msg.index.@.{$bid}">@消息</a>/<a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}">帖子</a><br/>
 </p>
 <p class="txt">
 论坛楼层排序：
@@ -38,6 +38,10 @@
 {else}
 	正序/<a href="?floorReverse=1">倒序</a>
 {/if}
+<br/>
+</p>
+<p class="txt">
+功能：<a href="addin.webplug.{$BID}">网页插件</a>
 <br/>
 </p>
 {/div}
