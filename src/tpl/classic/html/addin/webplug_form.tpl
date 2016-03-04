@@ -1,4 +1,4 @@
-{include file="tpl:comm.head" title="网页插件"}
+{include file="tpl:comm.head" title="网页插件" no_webplug=true}
 {config_load file="conf:site.info"}
 <div class="tp">
 	<a href="index.index.{$BID}">首页</a> &gt; 网页插件

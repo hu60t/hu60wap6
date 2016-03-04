@@ -1,5 +1,5 @@
 {$url="index.index.$BID"}
-{include file="tpl:comm.head" title="网页插件" time=3 url=$url}
+{include file="tpl:comm.head" title="网页插件" time=3 url=$url no_webplug=true}
 <div class="tp">
 	<a href="index.index.{$BID}">首页</a> &gt; 网页插件
 </div>

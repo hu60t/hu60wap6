@@ -33,6 +33,35 @@ class msg{
      public static function getInstance($user = null) {
         return new msg($user);
      }
+	 
+	public function msgCount($type, $read = null){
+		 $uid = $this->user->uid;
+		
+		 if ($read !== null) {
+			 $isread = 'AND isread='.(int)$read;
+		 }
+		 
+         $rs = $this -> db -> select('count(*)', 'msg', 'WHERE touid=? '.$isread.' AND type=?', $uid, $type);
+		 
+         if(!$rs) return false;
+         $n = $rs->fetch(db::num);
+         
+         return $n[0];
+     }
+	 
+	 public function msgList($type, $offset, $size, $read = null, $fetch = '*') {
+		 $uid = $this->user->uid;
+		
+		 if ($read !== null) {
+			 $isread = 'AND isread='.(int)$read;
+		 }
+		 
+         $rs = $this -> db -> select($fetch, 'msg', 'WHERE touid=? '.$isread.' AND type=?', $uid, $type);
+		 
+         if(!$rs) return false;
+         
+         return $rs->fetchAll();
+	 }
     
     /**
      * 检测是否有未读信息

@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="{$css|code}"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
 	<title>{$title|code}</title>
-	{if $USER && $USER->islogin}{$USER->getinfo('addin.webplug')}{/if}
+	{if !$no_webplug && $USER && $USER->islogin}{$USER->getinfo('addin.webplug')}{/if}
 </head>
 <body>
 <a id="top" href="#bottom" accesskey="6"></a>
