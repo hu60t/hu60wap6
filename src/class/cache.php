@@ -6,12 +6,13 @@
  * 被该类调用的高速缓存类须实现cacheInterface接口。
  */
 class cache {
-    protected static $cacheClassName = 'cacheMemcached';
+    protected static $cacheClassName = CACHE_TYPE;
     protected static $instance = null;
 
     static protected function getInstance() {
         if (self::$instance == null) {
-            self::$instance = new self::$cacheClassName();
+			$cacheClass = 'cache'.self::$cacheClassName;
+            self::$instance = new $cacheClass();
         }
 
         return self::$instance;

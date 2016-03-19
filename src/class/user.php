@@ -93,8 +93,9 @@ public function setinfo($index,$data) {
  $set=&self::$info[$this->uid];
  if($set===NULL) {
   $this->getinfo();
+  $set=&self::$info[$this->uid];
  }
- $set=&self::$info[$this->uid];
+ 
  if($index!==null) {
   $index=explode('.',$index);
   foreach($index as $key)
@@ -103,6 +104,49 @@ public function setinfo($index,$data) {
  if($set===$data) return NULL;
  $set=$data;
  $this->update['info']=true;
+ return TRUE;
+}
+
+/*取得用户的安全数据*/
+public function getSafety($index=null)
+{
+    $set=self::$safety[$this->uid];
+    if($set===NULL) {
+        static $rs;
+        if(!$rs) {
+            $db=self::conn(true);
+            $rs=$db->prepare('SELECT `safety` FROM `'.DB_A.'user` WHERE `uid`=?');
+        }
+        if(!$rs || !$rs->execute(array($this->uid))) return FALSE;
+        $data=$rs->fetch(db::ass);
+        self::parseSafety($this->uid,$data['safety']);
+        $set=self::$safety[$this->uid];
+    }
+    if($index===null) return $set;
+    $index=explode('.',$index);
+    foreach($index as $key)
+    {$set=$set[$key];}
+    return $set;
+}
+	
+/**
+* 写用户的安全数据
+*/
+public function setSafety($index,$data) {
+ $set=&self::$safety[$this->uid];
+ if($set===NULL) {
+  $this->getSafety();
+  $set=&self::$safety[$this->uid];
+ }
+ 
+ if($index!==null) {
+  $index=explode('.',$index);
+  foreach($index as $key)
+   {$set=&$set[$key];}
+ }
+ if($set===$data) return NULL;
+ $set=$data;
+ $this->update['safety']=true;
  return TRUE;
 }
   
@@ -198,6 +242,50 @@ public function login($name,$pass,$isuid=false,$getinfo=true,$getsafety=false) {
  self::$name[$data['name']]=$this->uid;
  self::$sid[$data['sid']]=$this->uid;
  return TRUE;
+}
+
+/**
+* 通过邮箱登录
+*/
+public function loginByMail($mail,$pass,$getinfo=true,$getsafety=false) {
+	$sql = 'SELECT `uid` FROM `'.DB_A.'user` WHERE `mail`=?';
+	$db=self::conn();
+	$rs = $db->prepare($sql);
+	
+	if (!$rs || !$rs->execute([$mail])) {
+		if(!$rs || !$rs->execute(array($name))) throw new PDOException('数据库查询错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
+	}
+	
+	$uid = $rs->fetch(db::num);
+	
+	if (empty($uid)) {
+		throw new UserException('该邮箱未绑定任何用户。', 5404);
+	}
+	
+	return $this->login($uid[0], $pass, true, $getinfo, $getsafety);
+}
+
+/**
+* 通过手机登录
+*/
+public function loginByPhone($phone,$pass,$getinfo=true,$getsafety=false) {
+	$phone = str::regularPhoneNumber($phone);
+	
+	$sql = 'SELECT `uid` FROM `'.DB_A.'user` WHERE `regphone`=?';
+	$db=self::conn();
+	$rs = $db->prepare($sql);
+	
+	if (!$rs || !$rs->execute([$phone])) {
+		if(!$rs || !$rs->execute(array($name))) throw new PDOException('数据库查询错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
+	}
+	
+	$uid = $rs->fetch(db::num);
+	
+	if (empty($uid)) {
+		throw new UserException('该手机号码未绑定任何用户。', 6404);
+	}
+	
+	return $this->login($uid[0], $pass, true, $getinfo, $getsafety);
 }
 
   
@@ -320,23 +408,6 @@ $this->canchange();
 
 return parent::uid($uid,$getinfo);
  }
-
-  
-/**
-* 设置安全问题
-* 参数：
-* 
-*/
-public function setSafeQuestion($array) {
-if(mb_strlen($safety[0][0],'utf-8')<3) throw new userexception("安全问题1太短。不能少于3个字。",1);
-if(mb_strlen($safety[1][0],'utf-8')<3) throw new userexception("安全问题2太短。不能少于3个字。",2);
-if(mb_strlen($safety[2][0],'utf-8')<3) throw new userexception("安全问题3太短。不能少于3个字。",3);
-if(mb_strlen($safety[0][1],'utf-8')<3) throw new userexception("安全回答1太短。不能少于3个字",4);
-if(mb_strlen($safety[1][1],'utf-8')<3) throw new userexception("安全回答2太短。不能少于3个字",5);
-if(mb_strlen($safety[2][1],'utf-8')<3) throw new userexception("安全回答3太短。不能少于3个字",6);
-$safetytxt=serialize($safety);
-/*……*/
- }
   
 /**
 * 把用户信息的更改保存到数据库
@@ -387,6 +458,7 @@ public function save() {
  $data[]=$uid;
  $db=self::conn();
  $rs=$db->prepare($sql);
+
  if(!$rs || !$rs->execute($data)) throw new PDOException('数据库写入错误，SQL'.($rs ? '预处理' : '执行').'失败。',$rs ? 21 : 22);
  return TRUE;
 }
@@ -469,7 +541,9 @@ UBB;*/
     
     return true;
 }
-  
+
+
+
 /*class end*/
 }
 

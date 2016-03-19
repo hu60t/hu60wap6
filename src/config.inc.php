@@ -209,3 +209,4 @@ require_once SUB_DIR.'/strip_quotes_gpc.php';
 /*载入其他配置文件*/
 require_once CONFIG_DIR.'/system.php';
 require_once CONFIG_DIR.'/db.php';
+require_once CONFIG_DIR.'/security.php';

@@ -57,5 +57,30 @@ if($off>0) $str=$add.$str;
 if($off+$len<$slen) $str.=$add;
 return $str;
 }
+
+	/*
+     * 规范化手机号码
+	 * 
+	 * 去除字符串中的非手机号码部分
+	 * 去除中国国际区号（0086或+86）
+	 * 其他地区的国际区号等保持不变
+     */
+    public static function regularPhoneNumber($phone) {
+        $phone = preg_replace('/[^0-9\+]/s', '', $phone);
+		
+		if ($phone[0] == '+') {
+			$phone = preg_replace('/^\+86/s', '', $phone);
+		} else {
+			$phone = preg_replace('/^0086/s', '', $phone);
+		}
+		
+		//若 $phone === '' 或 $phone === false
+		if (!$phone) {
+			throw new Exception('手机号码格式不正确');
+		}
+		
+        return $phone;
+    }
+
 //class str end
 }

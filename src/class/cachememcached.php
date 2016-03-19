@@ -6,9 +6,9 @@
  */
 class cacheMemcached implements cacheInterface {
     /* Memcached 设置 */
-    protected static $memcachedName = 'hu60';
+    protected static $memcachedName = MEMCACHED_NAME;
     protected static $memcachedServers = [
-        ['localhost', 11211]
+        [MEMCACHED_HOST, MEMCACHED_PORT]
     ];
 
     protected $memcached = null;

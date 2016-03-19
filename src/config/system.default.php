@@ -9,7 +9,23 @@
 * 
 * 该文件用来配置hu60t框架的细节。
 */
-  
+
+/* 缓存设置 */
+/**
+* 缓存类型
+* 
+* 可选：memcached（内存缓存）、null（无缓存）
+*/
+define('CACHE_TYPE', 'null');
+
+/* memcached设置（选择其他缓存类型时不需要设置） */
+/** 服务器名称 */
+define('MEMCACHED_NAME', 'hu60');
+/** 服务器主机名 */
+define('MEMCACHED_HOST', 'localhost');
+/** 服务器端口 */
+define('MEMCACHED_PORT', 11211);
+
 /**
 * Smarty编译设置
 * 
