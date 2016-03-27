@@ -542,7 +542,62 @@ UBB;*/
     return true;
 }
 
+protected function getRegPhone() {
+	$db = self::conn(true);
+	$rs = $db->prepare('SELECT `regphone` FROM `'.DB_A.'user` WHERE uid=?');
+	
+	if (!$rs || !$rs->execute([$this->uid])) {
+		return false;
+	}
+	
+	$phone = $rs->fetch(db::num);
+	
+	return $phone[0];
+}
 
+public function bindPhoneRequest($phoneNumber) {
+	$uinfo = new UserInfo();
+	
+	$regphone = $this->getRegPhone();
+	
+	if ($regPhone) {
+		throw new UserException('该帐号已绑定手机。', 7400);
+	}
+	
+	if ($uinfo->regPhone($phoneNumber)) {
+		throw new UserException('该手机号已绑定其他用户。', 7403);
+	}
+	
+	$secCode = new SecCode($this);
+	$ok = $secCode->sendToPhone($phoneNumber);
+	
+	if (false === $ok) {
+		throw new UserException('短信验证码发送失败，请稍后再试。', 7500);
+	}
+	
+	$this->setSafety('user.regPhone', $phoneNumber);
+	
+	return TRUE;
+}
+
+public function bindPhoneVerify($secCode) {
+	$secCode = new SecCode($this);
+	$ok = $secCode->checkFromPhone($secCode);
+	
+	if (false === $ok) {
+		throw new UserException('验证码输入错误', 7404);
+	}
+	
+	$db = self::conn(false);
+	$rs = $db->prepare('UPDATE `'.DB_A.'user` SET `regphone`=? WHERE `uid`=?');
+	
+	$regPhone = $this->getSafety('user.regPhone');
+	$this->setSafety('user.regPhone');
+	
+	$ok = $rs->execute([$regPhone, $this->uid]);
+	
+	return $ok;
+}
 
 /*class end*/
 }

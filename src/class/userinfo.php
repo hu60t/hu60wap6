@@ -231,6 +231,29 @@ class userinfo implements ArrayAccess {
         self::$mail[$data['mail']]=$this->uid;
         return TRUE;
     }
+	
+	protected static function getUidByRegPhone($phone) {
+		$db = self::conn(true);
+		$rs = $db->prepare('SELECT `uid` FROM `'.DB_A.'user` WHERE regphone=?');
+		
+		if (!$rs || !$rs->execute([$phone])) {
+			return false;
+		}
+		
+		$uid = $rs->fetch(db::num);
+		
+		return $uid[0];
+	}
+	
+	public function regphone($phone, $getinfo = false) {
+		$uid = self::getUidByRegPhone($phone);
+		
+		if (!$uid) {
+			return FALSE;
+		}
+		
+		return $this->uid($uid, $getinfo);
+	}
 
     public function __isset($name)
     {
