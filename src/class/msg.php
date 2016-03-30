@@ -86,6 +86,12 @@ class msg{
      * 发送信息
      */
      public function send_msg($uid, $type, $touid, $content){
+		 $uinfo = new userInfo();
+		 
+		 if (!$uinfo->uid($touid)) {
+			 return false;
+		 }
+		 
          $ctime = time();
 		 if (is_array($content)) {
 			 $content = serialize($content);
@@ -105,7 +111,7 @@ class msg{
          $rs = $this -> db -> select('*', 'msg', 'WHERE (touid=? OR byuid=?) AND id=?', $uid, $uid, $id);
          if(!$rs) return false;
          $rs = $rs -> fetch();
-         if($rs -> touid != $uid || ($rs -> touid == $uid && $rs -> byuid == $uid))$this -> update_msg($uid, $id);
+         if($rs['touid'] == $uid) $this -> update_msg($uid, $id);
          return $rs;
          }
     

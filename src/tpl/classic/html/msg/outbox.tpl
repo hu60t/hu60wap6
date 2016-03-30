@@ -7,18 +7,16 @@
 <hr />
 {if $list.row}
 {foreach $list.row as $k}
-{if $k.isread==0}(对方未读){else}(对方已读){/if}发给:<a href="msg.index.send.{$k.touid}.{$bid}">{$k.toname}</a><br />
-内容:<a href="msg.index.view.{$k.id}.{$bid}">{substr($k.content,0,18)|code}...</a><br />
-时间:{date("Y-m-d H:i:s",$k.ctime)}<hr />
+{if $k.isread==0}[对方未读] {/if}发给：<a href="user.info.send.{$k.touid}.{$bid}">{$k.toname}</a><br />
+内容：<a href="msg.index.view.{$k.id}.{$bid}">{str::cut($k.content,0,20,'...')|code}</a><br />
+时间：{date("Y-m-d H:i:s",$k.ctime)}<hr />
 {/foreach}
 {$list.px}
 {else}
 发件箱里空空的。
 {/if}
 <hr />
-收件箱：
-<a href="msg.index.inbox.all.{$bid}">全部</a>
-<a href="msg.index.inbox.no.{$bid}">未读</a>
-<a href="msg.index.inbox.yes.{$bid}">已读</a>
+聊天模式 |
+<a href="msg.index.inbox.all.{$bid}">收件箱</a> |
 <a href="msg.index.@.{$bid}">@信息</a>
 {include file="tpl:comm.foot"}

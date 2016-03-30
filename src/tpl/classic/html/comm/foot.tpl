@@ -9,7 +9,7 @@
 		</p>
 		<p>
 			[<a href="index.index.{$BID}">首页</a>]
-			[<a href="link.tpl.default.{$BID}?url64={url::b64e($page->geturl())}">触屏版</a>]
+			[无触屏版]
 			[<a href="#top">回顶</a>]
 		</p>
 		<p>

@@ -37,8 +37,8 @@
 		{/foreach}
 	</ol>
 	<p>
-		{if $topicPage > 1}<a style="display:inline" href="?p={$topicPage-1}">上一页</a>{/if}
 		{if $hasNextPage}<a style="display:inline" href="?p={$topicPage + 1}">下一页</a>{/if}
+		{if $topicPage > 1}<a style="display:inline" href="?p={$topicPage-1}">上一页</a>{/if}
 	</p>
 </div>
 {include file="tpl:comm.foot"}

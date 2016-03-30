@@ -31,8 +31,8 @@
         {/foreach}
 <li style="padding: 8px 0px">
 {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;p="}
-    {if $p > 1}<a style="display:inline" href="{$url}{$p-1}">上一页</a>{/if}
     {if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{/if}
+    {if $p > 1}<a style="display:inline" href="{$url}{$p-1}">上一页</a>{/if}
     {if $maxP > 1}({$p} / {$maxP}页){/if}
 </li>
                                 </ul>

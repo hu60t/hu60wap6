@@ -5,12 +5,18 @@
 <a href="msg.index.inbox.yes.{$bid}">已读</a>
 <a href="msg.index.send.{$bid}">发信</a>
 <hr />
-{if $send}信息发送成功{/if}
-{form action="msg.index.send.{$bid}" method="post"}
-发给UID:{input type="text" name="touid" value="{$touid}"}<br />
-信息内容:{input type="textarea" name="content" }<br />
-{input type="submit" value="确认发送"}
+{if $send}
+	<span class="success">信息发送成功</span>
+{else if $send === false}
+	<span class="failure">信息发送失败</span>
+{/if}
+{if $send !== true}
+{form action="msg.index.send.{$toUser->uid}.{$bid}" method="post"}
+<p>发给：{$toUser->name|code}</p>
+<p>{input type="textarea" name="content"}</p>
+<p>{input type="submit" value="确认发送"}</p>
 {/form}
+{/if}
 <hr />
 发件箱：
 <a href="msg.index.outbox.all.{$bid}">全部</a>

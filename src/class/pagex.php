@@ -121,15 +121,17 @@ class pagex{
          $nextlink = $this -> pageurl . "=" . $this -> nextpage();
          $lastlink = $this -> pageurl . "=" . $this -> lastpage();
         
-         if($this -> prevpage()){
-             // $pagehtml.="<a href=\"".$homelink."\">首页</a> ";
-            $pagehtml .= "<a href=\"" . $prevlink . "\">上页</a> ";
-             }
-         $pagehtml .= $this -> pagelist(); //数字分页导航条
+         
+         
          if($this -> nextpage()){
              $pagehtml .= "<a href=\"" . $nextlink . "\">下页</a> ";
              // $pagehtml.="<a href=\"".$lastlink."\">尾页</a><br />";
         }
+		$pagehtml .= $this -> pagelist(); //数字分页导航条
+		if($this -> prevpage()){
+             // $pagehtml.="<a href=\"".$homelink."\">首页</a> ";
+            $pagehtml .= "<a href=\"" . $prevlink . "\">上页</a> ";
+             }
          if($this -> prevpage() or $this -> nextpage()){
              $pagehtml .= "<form action='" . $this -> pageurl . "' method='GET'><input name=\"p\" type=\"text\" size=\"3\" value=\"{$this->currpage()}\" /><input type=\"submit\" value=\"跳转\" /></form>";
              }

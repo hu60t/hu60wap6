@@ -8,6 +8,7 @@ if(!$user -> islogin){
 $msg = new msg();
 $uinfo = new userinfo;
 $ubbs = new ubbdisplay();
+
 if($PAGE -> ext[0] == 'outbox'){
     // 发件箱
     $list = $msg -> read_outbox($user -> uid, '0', $PAGE -> ext[1]);
@@ -20,11 +21,15 @@ if($PAGE -> ext[0] == 'outbox'){
     $tpl -> display('tpl:outbox');
 }elseif($PAGE -> ext[0] == 'send'){
     // 发送信息
-    if($_POST){
-        $send = $msg -> send_msg($user -> uid, '0', $_POST[touid], $_POST['content']);
+	$uinfo = new UserInfo();
+	$uinfo->uid($PAGE -> ext[1]);
+	
+    if(strlen(trim($_POST['content'])) > 0){
+        $send = $msg -> send_msg($user -> uid, '0', $uinfo->uid, $_POST['content']);
         $tpl -> assign('send', $send);
     }
-    $tpl -> assign('touid', $PAGE -> ext[1]);
+
+    $tpl -> assign('toUser', $uinfo);
     $tpl -> display('tpl:send');
 }elseif($PAGE -> ext[0] == 'view' && $PAGE -> ext[1]){
     // 查看信息

@@ -13,4 +13,7 @@
 暂无@信息。
 {/if}
 <hr />
+<a href="msg.index.inbox.all.{$bid}">收件箱</a> |
+<a href="msg.index.outbox.all.{$bid}">发件箱</a> |
+聊天模式
 {include file="tpl:comm.foot"}

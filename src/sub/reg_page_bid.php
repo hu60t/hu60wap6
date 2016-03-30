@@ -15,5 +15,4 @@
 */
 page::regBid('html');
 page::regBid('xhtml');
-page::regTpl('default');
 page::regTpl('classic');

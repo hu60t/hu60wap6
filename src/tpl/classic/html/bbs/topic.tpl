@@ -42,7 +42,7 @@
 	{/if}
 </div>
 <hr>
-
+<p>『回复列表({$contentCount-1})』</p>
 <div>
     {foreach $tContents as $v}
 		<div>{$v.floor}. {$ubb->display($v.content,true)}</div>
@@ -53,8 +53,8 @@
 
 <div>
     {if $maxPage > 1}
-        {if $p > 1}<a href="{$cid}.{$pid}.{$tid}.{$p-1}.{$bid}">上一页</a>{/if}
         {if $p < $maxPage}<a href="{$cid}.{$pid}.{$tid}.{$p+1}.{$bid}">下一页</a>{/if}
+		{if $p > 1}<a href="{$cid}.{$pid}.{$tid}.{$p-1}.{$bid}">上一页</a>{/if}
 		{$p}/{$maxPage}页,共{$contentCount-1}楼
 		<input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='{$CID}.{$PID}.{$tid}.'+this.value+'.{$BID}'; }">
 		<hr>
