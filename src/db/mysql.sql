@@ -7,14 +7,14 @@ CREATE TABLE IF NOT EXISTS `hu60_addin_chat_data` (
   `content` blob,
   `time` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hu60_addin_chat_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `ztime` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hu60_bbs_forum_meta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `hu60_bbs_forum_meta` (
   `mtime` bigint(20) DEFAULT NULL,
   `notopic` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hu60_bbs_forum_topic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `hu60_bbs_forum_topic` (
   `ctime` bigint(20) NOT NULL,
   `mtime` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hu60_bbs_topic_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `hu60_bbs_topic_content` (
   `reply_id` int(11) NOT NULL,
   `floor` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hu60_bbs_topic_meta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `hu60_bbs_topic_meta` (
   `ctime` bigint(20) NOT NULL,
   `mtime` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hu60_msg` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `hu60_msg` (
   `ctime` bigint(20) NOT NULL,
   `rtime` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hu60_token` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `hu60_token` (
   `uid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `token` (`token`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hu60_user` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
@@ -96,5 +96,5 @@ CREATE TABLE IF NOT EXISTS `hu60_user` (
   UNIQUE KEY `main` (`mail`),
   UNIQUE KEY `mail` (`mail`),
   UNIQUE KEY `regphone` (`regphone`)
-) ENGINE=MyISAM AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
