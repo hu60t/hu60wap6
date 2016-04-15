@@ -8,3 +8,4 @@ textarea{width:270px;height:55px;overflow-y:visible;}
 ol,ul{margin:0px;}
 .success{color:green;}
 .failure{color:red;}
+img{max-width:100%;}
