@@ -8,9 +8,9 @@
 <hr />
 <p>
 	{if $isSender}
-		<p>{if !$msg.isread}[对方未读] {/if}发给：<a href="msg.index.send.{$msg.byuid}.{$bid}">{$msg.byname}</a></p>
+		<p>{if !$msg.isread}[对方未读] {/if}发给：<a href="msg.index.send.{$msg.touid}.{$bid}">{$msg.toname}</a></p>
 	{else}
-		<p>{if !$msg.isread}[新] {/if}来自：<a href="msg.index.send.{$msg.touid}.{$bid}">{$msg.toname}</a></p>
+		<p>{if !$msg.isread}[新] {/if}来自：<a href="msg.index.send.{$msg.byuid}.{$bid}">{$msg.byname}</a></p>
 	{/if}
 	<p>发送时间：{date("Y-m-d H:i:s",$msg.ctime)}</p>
 	<p>{if $msg.rtime}阅读时间：{date("Y-m-d H:i:s",$msg.rtime)}{/if}</p>
