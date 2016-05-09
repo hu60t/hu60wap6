@@ -2,9 +2,10 @@
 $tpl = $PAGE -> start();
 $USER -> start();
 $user = $USER;
-if(!$user -> islogin){
-    header('location:user.login.' . $PAGE -> bid . '');
-}
+
+//若未登录，跳转到登录页
+$USER->gotoLogin(true);
+
 $msg = new msg();
 $uinfo = new userinfo;
 $ubbs = new ubbdisplay();

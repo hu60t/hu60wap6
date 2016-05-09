@@ -599,6 +599,91 @@ public function bindPhoneVerify($secCode) {
 	return $ok;
 }
 
+public function changeName($newName) {
+	if(!$this->islogin) {
+		throw new userexception('用户未登陆，不能改名。', 9403);
+	}
+	
+	//检查用户名合法性，不合法则抛出异常
+	$this->checkName($newName);
+	
+	$uinfo = new UserInfo();
+	$exists = $uinfo->name($newName);
+	
+	if ($exists) {
+		throw new userexception('该用户名已被他人使用。', 9410);
+	}
+	
+	$sql = 'UPDATE '.DB_A.'user SET name=? WHERE uid=?';
+	$db = self::conn(false);
+	
+	$rs = $db->prepare($sql);
+	
+	if (!$rs) {
+		throw new userexception('数据库预处理失败。', 9500);
+	}
+	
+	$ok = $rs->execute([$newName, $this->uid]);
+	
+	if (!$ok) {
+		throw new userexception('数据库写入失败。', 9500);
+	}
+	
+	return true;
+}
+
+public function changePassword($oldPassword, $newPassword) {
+    if(!$this->islogin) {
+        throw new userexception('用户未登陆，不能修改密码。', 9403);
+    }
+
+    $ok = self::checkPassword($this->uid, $oldPassword);
+
+    if (!$ok) {
+        throw new UserException('原密码错误。', 10403);
+    }
+
+    $hashedPassword = self::mkpass($newPassword);
+
+    $db = self::conn(false);
+    $sql = 'UPDATE '.DB_A.'user SET pass=?,sidtime=0 WHERE uid=?';
+    $rs = $db->prepare($sql);
+
+    if (!$rs) {
+        throw new userexception('数据库预处理失败。', 10500);
+    }
+
+    $ok = $rs->execute([$hashedPassword, $this->uid]);
+
+    if (!$ok) {
+        throw new userexception('数据库写入失败。', 10500);
+    }
+
+    return true;
+}
+
+    public static function checkPassword($uid, $password) {
+        $db = self::conn(false);
+        $sql = 'SELECT pass FROM '.DB_A.'user WHERE uid=?';
+        $rs = $db->prepare($sql);
+
+        if (!$rs) {
+            throw new userexception('数据库预处理失败。', 10500);
+        }
+
+        $ok = $rs->execute([$uid]);
+
+        if (!$ok) {
+            throw new userexception('数据库写入失败。', 10500);
+        }
+
+        $result = $rs->fetch(db::ass);
+
+        $hashedPwd = $result['pass'];
+
+        return self::mkpass($password) === $hashedPwd;
+    }
+
 /*class end*/
 }
 
