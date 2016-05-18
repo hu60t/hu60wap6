@@ -11,18 +11,18 @@ $Xc=trim($_SERVER['HTTP_VIA']);
 $proxy = NULL;
 
 if (!empty($Xa)) {
-    $proxy .= '  Client-Ip: ' . $Xa . '（' . quip($Xa) . "）\n";
+    $proxy .= '    Client-Ip: ' . $Xa . '（' . quip($Xa) . "）\n";
 }
 
 if (!empty($Xb)) {
-    $proxy .= "  Forwarded-For: \n";
+    $proxy .= "    Forwarded-For: \n";
     foreach (explode(',', $Xb) as $ip) {
-        $proxy .= '    ' . $ip . '（' . quip($ip) . "）\n";
+        $proxy .= '        ' . $ip . '（' . quip($ip) . "）\n";
     }
 }
 
 if (!empty($Xc)) {
-    echo '  Via(透明代理): '.$Xc.'（'.quip($Xc)."）\n";
+    echo '    Via(透明代理): '.$Xc.'（'.quip($Xc)."）\n";
 }
 
 //生成HTTP请求行
