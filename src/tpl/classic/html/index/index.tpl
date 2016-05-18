@@ -41,4 +41,9 @@
 		{if $topicPage > 1}<a style="display:inline" href="?p={$topicPage-1}">上一页</a>{/if}
 	</p>
 </div>
+<hr>
+<div id="tools">
+	<p>『实用工具』</p>
+	<p><a href="tools.ua.{$BID}">查看HTTP请求</a></p>
+</div>
 {include file="tpl:comm.foot"}
