@@ -55,8 +55,10 @@ protected $display=array(
       if ($PAGE->bid == 'wml') {
           return code::html($data['data'], '<br/>');
       }
-      
-      $geshi = new geshi($data['data'], $data['lang']);
+
+      $codes = preg_replace(['/^[\r\n]+/s', '/[\r\n]+$/s'], '', $data['data']);
+
+      $geshi = new geshi($codes, $data['lang']);
       $geshi->set_header_type(GESHI_HEADER_DIV);
       $geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS); 
       return $geshi->parse_code();
