@@ -40,9 +40,12 @@ foreach ($_GET as $n=>$v) {
     $get[]=urlencode($n).'='.urlencode($v);
 }
 
-$_SERVER['REQUEST_URI']=$_SERVER['SCRIPT_NAME'].'?'.implode('&',$get);
+$queryString = empty($get) ? '' : '?'.implode('&',$get);
 
-$header="$_SERVER[REQUEST_METHOD] $_SERVER[REQUEST_URI] HTTP/1.1\r\n";
+//为了避免泄露sid，重新构造URI
+$REQUEST_URI=$_SERVER['SCRIPT_NAME']."/$PAGE[cid].$PAGE[pid].$PAGE[bid]".$queryString;
+
+$header="$_SERVER[REQUEST_METHOD] $REQUEST_URI HTTP/1.1\r\n";
 
 foreach($_SERVER as $x=>$v) {
     if(substr($x,0,5)=='HTTP_') {
