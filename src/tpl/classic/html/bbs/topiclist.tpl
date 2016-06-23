@@ -22,7 +22,7 @@
 	{else}
 		{$fName}
 	{/if}
-	{if $fid != 0 && !$forum.notopic}
+	{if $fid != 0}
 		(<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>)
 	{/if}
 	{if $forumInfo}

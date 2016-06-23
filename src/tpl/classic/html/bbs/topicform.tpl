@@ -8,13 +8,15 @@
 {/if}
 {include file="tpl:comm.head" title=$title}
 <!--导航栏-->
-<div class="pt">
-<div class="cr180_ptzmenu">
-    {foreach $fIndex as $forum}
+<div class="tp">
+    <a href="index.index.{$BID}">首页</a> &gt;
+    {$size=count($fIndex)-1}
+    {foreach $fIndex as $i=>$forum}
+        {if $i<$size}
+            <a href="{$CID}.{$PID}.{$forum.id}.{$BID}">{$forum.name|code}</a> &gt;
+        {/if}
     {/foreach}
-<a  href="javascript:;" onclick="location.href='{$CID}.forum.{$forum.id}.{$BID}'" title="{$forum.name|code}" class="pt_z">{$forum.name|code}</a>
-            <span class="pt_c">发帖</span>
-<span class="pt_y"><a href="{$CID}.{$PID}.{$forum.id}.{$BID}">刷新</a></span>
+    {$fName}
 </div>
 </div>
     <!--发帖框-->
@@ -24,7 +26,6 @@
     {/div}{/if}
 {div class="cr180_form"}
     {form method="post" action="{$CID}.newtopic.{$fid}.{$BID}"}
-<div >
 <p>
 <input type="text" name="title" id="username_LCxiI" class="txt" placeholder="帖子标题" value="{$smarty.post.title}"/>
 </p>

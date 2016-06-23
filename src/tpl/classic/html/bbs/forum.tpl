@@ -28,7 +28,7 @@
 <div>
 {foreach $forumInfo as $forum name="forum"}
 	<div>
-		<div class="tp">&gt;{$forum.name|code}(<a href="bbs.forum.{$forum['id']}.{$BID}'" >新帖/发帖</a>)</div>
+		<div class="tp">&gt;{$forum.name|code}(<a href="bbs.forum.{$forum['id']}.{$BID}" >新帖/发帖</a>)</div>
 		<ol style="padding-left:1.5em">
 		{foreach $forum.newTopic as $topic}
 			<li><a href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a></li>

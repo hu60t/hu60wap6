@@ -53,6 +53,24 @@ class bbs {
         }
     }
 
+    /**
+    * 检查板块是否可以发帖
+    */
+    public function canCreateTopic($fid) {
+        $sql = 'SELECT notopic from '.DB_A.'bbs_forum_meta WHERE id=?';
+        $rs = $this->db->prepare($sql);
+        $rs->execute([$fid]);
+
+        if (!$rs) {
+            return false;
+        }
+
+        if (!($data = $rs->fetch(db::num))) {
+            return false;
+        }
+
+        return 0 == $data[0];
+    }
     
     /**
     * 发帖
