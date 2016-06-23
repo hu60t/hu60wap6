@@ -333,8 +333,8 @@ class bbs {
         return $fIndex;
     }
 	
-	public function newTopicList($size = 20, $offset=0) {
-		    $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', 'ORDER BY mtime DESC LIMIT ?,?', $offset, $size);
+	public function newTopicList($size = 20, $offset=0, $where = '') {
+		    $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where.' ORDER BY mtime DESC LIMIT ?,?', $offset, $size);
 			if (!$rs) throw new Exception('数据库错误，表'.DB_A.'bbs_forum_topic不可读', 500);
 			$topic = $rs->fetchAll();
 			foreach ($topic as &$v) {
