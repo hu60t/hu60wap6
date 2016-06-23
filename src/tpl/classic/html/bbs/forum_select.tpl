@@ -1,7 +1,7 @@
 {config_load file="conf:site.info"}
 {if $fid == 0}
 {$fName=#BBS_INDEX_NAME#}
-{$title=#BBS_NAME#}
+{$title="发帖 - {#BBS_NAME#}"}
 {else}
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {$title="发帖 - {$fName} - {#BBS_NAME#}"}

@@ -22,13 +22,13 @@
 	{else}
 		{$fName}
 	{/if}
-	{if $fid != 0}
-		(<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>)
-	{/if}
+
+	(<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>)
+
 	{if $forumInfo}
 			&gt;
 			<select id="forum" onchange="location='{$CID}.{$PID}.'+this.options[this.selectedIndex].value+'.{$BID}'">
-				<option value="0"></option>
+				<option value="0">进入子版块</option>
 				{foreach $forumInfo as $forum}
 					<option value="{$forum.id}">{$forum.name|code}</option>
 				{/foreach}
