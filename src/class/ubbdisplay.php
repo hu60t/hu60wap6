@@ -91,7 +91,13 @@ protected $display=array(
 /*img 图片*/
   public function img($data) {
       global $PAGE;
+
+if (preg_match('#^data:image/#is', $data['src'])) {
+    $url = $data['src'];
+} else {
     $url=$_SERVER['PHP_SELF'].'/link.img.'.$PAGE->bid.'?url64='.code::b64e($data['src']);
+}
+
     return '<img src="'.code::html($url).'"'.($data['alt']!='' ? ' alt="'.code::html($data['alt']).'"' : '').'/>';
   }
 /*thumb 缩略图*/
