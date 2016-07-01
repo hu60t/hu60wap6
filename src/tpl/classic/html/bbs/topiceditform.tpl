@@ -36,7 +36,7 @@
 </p>
 <p>
 </p>
-    <p><input type="submit" name="go" id="submit" class="cr_login_submit" value="保存修改" /></p>
+    <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="保存修改" /></p>
         {else}
             修改楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
             请自行复制您的楼层内容以免数据丢失：<br/>

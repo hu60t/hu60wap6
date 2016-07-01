@@ -67,7 +67,7 @@
         <form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}">
             <textarea id="content" name="content" style="width:80%;height:100px">{$smarty.post.content}</textarea>
             <input type="hidden" name="token" value="{$token->token()}">
-            <p><input type="submit" name="go" value="评论该帖子"></p>
+            <p><input type="submit" id="reply_topic_button" name="go" value="评论该帖子"></p>
 		</form>
     {else}
         回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。

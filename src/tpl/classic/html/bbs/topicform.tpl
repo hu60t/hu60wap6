@@ -36,9 +36,9 @@
 </p>
 <p>
 </p>
-    <p><input type="submit" name="go" id="submit" class="cr_login_submit" value="确认发布帖子" /></p>
+    <p><input type="submit" id="post_topic_button" name="go" id="submit" class="cr_login_submit" value="确认发布帖子" /></p>
         {else}
-            回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+            发帖需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
             请自行复制您的回复内容以免数据丢失：<br/>
             {input type="textarea" name="content" value=$smarty.post.content size=array("25","3")}
 </p>

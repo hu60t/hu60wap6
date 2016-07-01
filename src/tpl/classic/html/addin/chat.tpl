@@ -20,7 +20,7 @@
         <textarea class="txt" id="content" name="neirong" style="width:80%;height:100px;"></textarea>
 <p>
 </p>
-    <p><input type="submit" name="go" id="submit" class="cr_login_submit" value="快速发言" /></p>
+    <p><input type="submit" id="quick_chat_button" name="go" id="submit" class="cr_login_submit" value="快速发言" /></p>
             </div>
 	</form>    </div>
 	<hr>

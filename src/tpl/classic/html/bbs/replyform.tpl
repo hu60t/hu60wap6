@@ -28,7 +28,7 @@
             {form method="post" action="{$CID}.newreply.{$topicId}.{$p}.{$BID}"}
                 {input type="textarea" name="content" value=$smarty.post.content size=array("25","3")}
                 {input type="hidden" name="token" value=$token->token()}
-                {input type="submit" name="go" value="回复"}
+                {input type="submit" id="reply_topic_button" name="go" value="回复"}
             {/form}
         {else}
             回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
