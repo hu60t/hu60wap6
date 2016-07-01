@@ -222,10 +222,13 @@ if (preg_match('#^data:image/#is', $data['src'])) {
               switch ($data['tag']) {
               case '/color':
                   $html .= '</span>';
+                  break;
               case '/div':
                   $html .= '</div>';
+                  break;
               case '/span':
-              $html .= '</span>';
+                  $html .= '</span>';
+                  break;
               }
               return $html;
           } else {
