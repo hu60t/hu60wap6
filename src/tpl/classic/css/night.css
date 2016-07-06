@@ -59,6 +59,10 @@ ol, ul {
     color: red;
 }
 
+.notice {
+    color: red;
+}
+
 img {
     max-width: 100%;
 }

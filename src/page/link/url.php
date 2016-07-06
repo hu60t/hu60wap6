@@ -1,4 +1,8 @@
 <?php
+$tpl=$PAGE->start();
+$USER->start($tpl);
+
 $url = code::b64d($_GET['url64']);
-//echo $url;
-header('Location: '.$url);
+$tpl->assign('url', $url);
+
+$tpl->display('tpl:url');
