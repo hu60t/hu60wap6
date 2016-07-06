@@ -15,3 +15,5 @@
 *.xz
 *.rar
 *~
+/src/google*.html
+.htaccess
