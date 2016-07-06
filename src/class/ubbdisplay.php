@@ -239,6 +239,8 @@ if (preg_match('#^data:image/#is', $data['src'])) {
   
 /*urltxt 网址文本*/
   public function urltxt($data) {
+    global $PAGE;
+
     $url=$_SERVER['PHP_SELF'].'/link.url.'.$PAGE->bid.'?url64='.code::b64e($data['url']);
       return '<a href="'.code::html($url).'">'.code::html($data['url']).'</a>';
   }
