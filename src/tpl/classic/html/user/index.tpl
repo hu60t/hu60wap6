@@ -32,7 +32,7 @@
 查看：<a href="msg.index.{$bid}">内信</a>/<a href="msg.index.@.{$bid}">@消息</a>/<a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}">帖子</a><br/>
 </p>
 <p class="txt">
-更改：<a href="{$cid}.chname.{$bid}">用户名</a>/<a href="{$cid}.chpwd.{$bid}">密码</a>
+更改：<a href="{$cid}.chname.{$bid}">用户名</a>/<a href="{$cid}.chpwd.{$bid}">密码</a>/<a href="{$cid}.chinfo.{$bid}">个性签名/联系方式</a>
 </p>
 <p class="txt">
 界面：<a href="link.css.default.{$BID}?url64={url::b64e($page->geturl())}">白天模式</a>/<a href="link.css.night.{$BID}?url64={url::b64e($page->geturl())}">夜间模式</a><br/>
