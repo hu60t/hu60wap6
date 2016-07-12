@@ -23,12 +23,14 @@
 		<p>
 			Powered by <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a>
 		</p>
-		{$chat=chat::getInstance()}
-		{$newChat=$chat->newChat()}
-		{if !empty($newChat)}
-			{$ubb=ubbEdit::getInstance()}
-			{$content=$ubb->display($newChat.content, true)}
-			<p>[<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>]{$newChat.uname|code}:{str::cut($content,0,10,'…')}</p>
+		{if !$no_chat}
+			{$chat=chat::getInstance()}
+			{$newChat=$chat->newChat()}
+			{if !empty($newChat)}
+				{$ubb=ubbEdit::getInstance()}
+				{$content=$ubb->display($newChat.content, true)}
+				<p>[<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>]{$newChat.uname|code}:{str::cut($content,0,10,'…')}</p>
+			{/if}
 		{/if}
 {/if}
 <a id="bottom" href="#top" accesskey="3"></a>
