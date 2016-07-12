@@ -8,13 +8,13 @@ if (!$USER->islogin) {
 $USER->setinfo('avatar.url', 'http://www.wapvy.cn/uc_server/images/noavatar_small.gif');
 
 if (isset($_GET['floorReverse'])) {
-	$USER->setinfo('bbs.floorReverse', (bool)$_GET['floorReverse']);
+    $USER->setinfo('bbs.floorReverse', (bool)$_GET['floorReverse']);
 }
 
 $tpl->assign('floorReverse', false !== $USER->getinfo('bbs.floorReverse'));
 
-if ($USER->uid == '1'){
-	$tpl->assign('mmbt',"admin");
+if ($USER->uid == '1') {
+    $tpl->assign('mmbt', "admin");
 }
 
 $tpl->display('tpl:index');

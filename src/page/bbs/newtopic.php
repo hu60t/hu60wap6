@@ -11,7 +11,7 @@ try {
 
     //读取父版块信息
     $fIndex = $bbs->fatherForumMeta($fid, 'id,name,parent_id,notopic');
-    $tpl->assign('fName', $fIndex[count($fIndex)-1]['name']);
+    $tpl->assign('fName', $fIndex[count($fIndex) - 1]['name']);
     $tpl->assign('fIndex', $fIndex);
 
     $canCreateTopic = $bbs->canCreateTopic($fid);
@@ -23,8 +23,7 @@ try {
         $tpl->assign('creatableChildForums', $creatableChildForums);
         $tpl->display('tpl:forum_select');
 
-    }
-    else {
+    } else {
 
         //发帖操作
         $go = $_POST['go'];

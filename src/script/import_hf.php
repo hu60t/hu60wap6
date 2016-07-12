@@ -14,40 +14,41 @@ $ubb = new ubbparser();
 $floor = [];
 
 try {
-for ($offset = 0; true; $offset += $size) {
-    $rs = $db->query('select * from hf order by id asc limit '.$offset.','.$size);
-    $datas = $rs->fetchAll(db::ass);
+    for ($offset = 0; true; $offset += $size) {
+        $rs = $db->query('SELECT * FROM hf ORDER BY id ASC LIMIT ' . $offset . ',' . $size);
+        $datas = $rs->fetchAll(db::ass);
 
-    if (empty($datas)) {break;}
+        if (empty($datas)) {
+            break;
+        }
 
-    foreach ($datas as $data) {
-        #$content = $ubb->parse($data['nr'],true);
+        foreach ($datas as $data) {
+            #$content = $ubb->parse($data['nr'],true);
 
 
+            $newData = [
+                $data['id'] + 81000,
+                $data['tzid'] + 500,
+                $data['hftime'],
+                $data['hftime'],
+                $ubb->parse($data['nr'], true),
+                $data['uid'],
+                $data['tzid'] + 2000,
+                ++$floor[$data['tzid']]
+            ];
 
-        $newData = [
-            $data['id']+81000,
-            $data['tzid']+500,
-            $data['hftime'],
-            $data['hftime'],
-            $ubb->parse($data['nr'],true),
-            $data['uid'],
-            $data['tzid']+2000,
-            ++$floor[$data['tzid']]
-        ];
+            //var_dump($newData);
 
-        //var_dump($newData);
+            $db->query('INSERT INTO hu60_bbs_topic_content_tmp2 VALUES(?,?,?,?,?,?,?,?)', $newData);
 
-        $db->query('insert into hu60_bbs_topic_content_tmp2 values(?,?,?,?,?,?,?,?)', $newData);
+            //die;
+        }
 
-        //die;
+        echo $offset . "(" . memory_get_usage() . ")\n";
+        //break;
     }
-
-    echo $offset."(".memory_get_usage().")\n";
-    //break;
-}
 } catch (Exception $ex) {
     var_dump($data);
-    echo "id: $data[id]\nException: ".$ex->getMessage()."\n";
+    echo "id: $data[id]\nException: " . $ex->getMessage() . "\n";
 }
 

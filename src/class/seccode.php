@@ -1,60 +1,65 @@
 <?php
+
 /**
-* ÑéÖ¤Âë²Ù×÷Àà
-*/
-class secCode {
-	protected $user;
-	
-	public function __construct($user) {
-		$this->user = $user;
-	}
-	
-	public function sendToPhone($phone) {
-		$arr = $this->user->getSafety('secCode.phone');
-		
-		if (time() - $arr['time'] < SECCODE_SMS_INTERVAL) {
-			throw new secCodeException('ÑéÖ¤Âë·¢ËÍ¹ý¿ì£¬Çë'.(time() - $arr['time'] - SECCODE_SMS_INTERVAL).'ÃëºóÔÙÊÔ');
-		}
-		
-		$sms = new secCodeSms();
-		$code = $sms->sendCode($phone);
-		
-		if (false !== $code) {
-			$arr = ['code'=>$code, 'time'=>time(), 'errCount'=>0];
-			$this->user->setSafety('secCode.phone', $arr);
-			
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public function checkFromPhone($code) {
-		$arr = $this->user->getSafety('secCode.phone');
-		
-		if (empty($arr)) {
-			throw new secCodeException('ÇëÖØÐÂ»ñÈ¡ÑéÖ¤Âë');
-		}
-		
-		if (time() - $arr['time'] > SECCODE_SMS_TIME) {
-			throw new secCodeException('ÑéÖ¤ÂëÒÑ¹ýÆÚ£¬ÇëÖØÐÂ»ñÈ¡');
-		}
-		
-		if ($arr['code'] == $code) {
-			$this->user->setSafety('secCode.phone', null);
-			
-			return true;
-			
-		} else {
-			$arr['errCount'] ++;
-			
-			if ($arr['errCount'] >= SECCODE_SMS_MAX_ERR) {
-				$this->user->setSafety('secCode.phone', null);
-				throw new secCodeException('ÑéÖ¤ÂëÒÑÊ§Ð§£¬ÇëÖØÐÂ»ñÈ¡');
-			}
-				
-			$this->user->setSafety('secCode.phone', $arr);
-			return false;
-		}
-	}
+ * éªŒè¯ç æ“ä½œç±»
+ */
+class secCode
+{
+    protected $user;
+
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
+
+    public function sendToPhone($phone)
+    {
+        $arr = $this->user->getSafety('secCode.phone');
+
+        if (time() - $arr['time'] < SECCODE_SMS_INTERVAL) {
+            throw new secCodeException('éªŒè¯ç å‘é€è¿‡å¿«ï¼Œè¯·' . (time() - $arr['time'] - SECCODE_SMS_INTERVAL) . 'ç§’åŽå†è¯•');
+        }
+
+        $sms = new secCodeSms();
+        $code = $sms->sendCode($phone);
+
+        if (false !== $code) {
+            $arr = ['code' => $code, 'time' => time(), 'errCount' => 0];
+            $this->user->setSafety('secCode.phone', $arr);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function checkFromPhone($code)
+    {
+        $arr = $this->user->getSafety('secCode.phone');
+
+        if (empty($arr)) {
+            throw new secCodeException('è¯·é‡æ–°èŽ·å–éªŒè¯ç ');
+        }
+
+        if (time() - $arr['time'] > SECCODE_SMS_TIME) {
+            throw new secCodeException('éªŒè¯ç å·²è¿‡æœŸï¼Œè¯·é‡æ–°èŽ·å–');
+        }
+
+        if ($arr['code'] == $code) {
+            $this->user->setSafety('secCode.phone', null);
+
+            return true;
+
+        } else {
+            $arr['errCount']++;
+
+            if ($arr['errCount'] >= SECCODE_SMS_MAX_ERR) {
+                $this->user->setSafety('secCode.phone', null);
+                throw new secCodeException('éªŒè¯ç å·²å¤±æ•ˆï¼Œè¯·é‡æ–°èŽ·å–');
+            }
+
+            $this->user->setSafety('secCode.phone', $arr);
+            return false;
+        }
+    }
 }

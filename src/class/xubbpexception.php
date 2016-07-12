@@ -1,6 +1,8 @@
 <?php
+
 /**
-* XUBBPÒì³£´¦ÀíÀà
-*/
-class XUBBPException extends Exception {
+ * XUBBPå¼‚å¸¸å¤„ç†ç±»
+ */
+class XUBBPException extends Exception
+{
 }

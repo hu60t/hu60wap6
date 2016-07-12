@@ -19,13 +19,13 @@ try {
 
     //读取父版块信息
     $fIndex = $bbs->fatherForumMeta($fid, 'id,name,parent_id,notopic');
-    $tpl->assign('fName', $fIndex[count($fIndex)-1]['name']);
+    $tpl->assign('fName', $fIndex[count($fIndex) - 1]['name']);
     $tpl->assign('fIndex', $fIndex);
 
     //读取帖子元信息
     $tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime', 'WHERE id=?', $fid);
     if (!$tMeta)
-        throw new bbsException('帖子 id='.$tid.' 不存在！', 2404);
+        throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
     $tpl->assign('tMeta', $tMeta);
 
     //回帖操作

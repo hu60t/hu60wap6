@@ -1,15 +1,19 @@
 <?php
+
 //站内搜索类
-class search {
+class search
+{
     const CACHE_TIMEOUT = 600;
     const SEARCH_LIMIT = 1000;
     protected $time;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->time = time();
     }
 
-    protected function searchWord($table, $field, $index, $word, $order='', $limit=self::SEARCH_LIMIT) {
+    protected function searchWord($table, $field, $index, $word, $order = '', $limit = self::SEARCH_LIMIT)
+    {
         $wordHash = md5("$table/$field/$word");
         $key = "search/$wordHash";
 
@@ -19,7 +23,7 @@ class search {
             return $rs['data'];
         }
 
-        $sql = "SELECT $index FROM ".DB_A."$table WHERE $field LIKE ? $order LIMIT $limit";
+        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ? $order LIMIT $limit";
         $db = db::conn();
         $rs = $db->prepare($sql);
 
@@ -28,12 +32,13 @@ class search {
         }
 
         $rs = $rs->fetchAll(db::ass);
-        cache::set($key, ['time'=>$this->time, 'data'=>$rs], self::CACHE_TIMEOUT);
+        cache::set($key, ['time' => $this->time, 'data' => $rs], self::CACHE_TIMEOUT);
 
         return $rs;
     }
 
-    protected function getAllResult($words) {
+    protected function getAllResult($words)
+    {
         $wordsHash = md5($words);
         $key = "search/result/$wordsHash";
 
@@ -47,7 +52,7 @@ class search {
 
         $wordList = explode(' ', $words);
         $db = db::conn();
-        $tzRs = $db->prepare('SELECT mtime,uid FROM '.DB_A.'bbs_topic_meta WHERE id=?');
+        $tzRs = $db->prepare('SELECT mtime,uid FROM ' . DB_A . 'bbs_topic_meta WHERE id=?');
 
         if (!$tzRs) {
             throw new Exception('数据库错误');
@@ -57,7 +62,7 @@ class search {
         $wordWV = 10 + count($wordList);
 
         foreach ($wordList as $word) {
-            $wordWV --;
+            $wordWV--;
 
             $data[200 * $wordWV][] = $this->searchWord('bbs_topic_meta', 'title', 'id', $word, 'ORDER BY mtime DESC');
             $data[100 * $wordWV][] = $this->searchWord('bbs_topic_content', 'reply_id=0 AND content', 'topic_id', $word, 'ORDER BY mtime DESC');
@@ -94,23 +99,25 @@ class search {
         $tz = [];
 
         foreach ($result as $tzid => $WV) {
-            $tz[] = ['tid'=>$tzid, 'uid'=>$uid[$tzid]];
+            $tz[] = ['tid' => $tzid, 'uid' => $uid[$tzid]];
         }
 
-        cache::set($key, ['time'=>$this->time, 'data'=>$tz]);
+        cache::set($key, ['time' => $this->time, 'data' => $tz]);
 
         return $tz;
     }
 
-    protected function uidFilter($uid, & $result) {
-        foreach ($result as $key=>$tz) {
+    protected function uidFilter($uid, & $result)
+    {
+        foreach ($result as $key => $tz) {
             if ($tz['uid'] != $uid) {
                 unset($result[$key]);
             }
         }
     }
 
-    public function searchTopic($words, $userName='', $offset=0, $limit=self::SEARCH_LIMIT, & $count = true) {
+    public function searchTopic($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, & $count = true)
+    {
         $words = trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words));
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
 
@@ -125,7 +132,7 @@ class search {
                 throw new Exception('用户名不存在');
             }
 
-            $sql = 'SELECT id as tid,uid FROM '.DB_A.'bbs_topic_meta WHERE uid=? ORDER BY mtime DESC LIMIT ?,?';
+            $sql = 'SELECT id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? ORDER BY mtime DESC LIMIT ?,?';
             $rs = db::conn()->prepare($sql);
 
             if (!$rs || !$rs->execute([$uid, $offset, $limit])) {
@@ -135,7 +142,7 @@ class search {
             $result = $rs->fetchAll(db::ass);
 
             if ($count !== true) {
-                $rs = db::conn()->query('SELECT count(*) FROM '.DB_A.'bbs_topic_meta WHERE uid='.(int)$uid);
+                $rs = db::conn()->query('SELECT count(*) FROM ' . DB_A . 'bbs_topic_meta WHERE uid=' . (int)$uid);
 
                 if ($rs) {
                     $count = $rs->fetch(db::num);

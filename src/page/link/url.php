@@ -1,5 +1,5 @@
 <?php
-$tpl=$PAGE->start();
+$tpl = $PAGE->start();
 $USER->start($tpl);
 
 $url = code::b64d($_GET['url64']);

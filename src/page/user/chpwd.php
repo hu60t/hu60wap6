@@ -2,9 +2,9 @@
 try {
     $tpl = $PAGE->start();
     $USER->start($tpl);
-	
-	//若未登录，跳转到登录页
-	$USER->gotoLogin(true);
+
+    //若未登录，跳转到登录页
+    $USER->gotoLogin(true);
 
     if (!empty($_POST['go'])) {
         $step = $_POST['step'];
@@ -18,8 +18,7 @@ try {
             }
 
             $tpl->display('tpl:chpwd_step2');
-        }
-        else {
+        } else {
             $oldPassword = $_POST['oldPassword'];
             $newPassword = $_POST['newPassword'];
             $newPasswordAgain = $_POST['newPasswordAgain'];

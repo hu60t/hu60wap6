@@ -2,18 +2,18 @@
 try {
     $tpl = $PAGE->start();
     $USER->start($tpl);
-	
-	//若未登录，跳转到登录页
-	$USER->gotoLogin(true);
+
+    //若未登录，跳转到登录页
+    $USER->gotoLogin(true);
 
     if (!empty($_POST['go'])) {
         $signature = $_POST['signature'];
-		$USER->setinfo('signature', $signature);
+        $USER->setinfo('signature', $signature);
 
         $contact = $_POST['contact'];
         $USER->setinfo('contact', $contact);
 
-		$tpl->display('tpl:chinfo_success');
+        $tpl->display('tpl:chinfo_success');
     } else {
         $tpl->assign('signature', $USER->getinfo('signature'));
         $tpl->assign('contact', $USER->getinfo('contact'));

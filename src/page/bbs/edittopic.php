@@ -14,7 +14,7 @@ try {
 
     //读取父版块信息
     $fIndex = $bbs->fatherForumMeta($fid, 'id,name,parent_id,notopic');
-    $tpl->assign('fName', $fIndex[count($fIndex)-1]['name']);
+    $tpl->assign('fName', $fIndex[count($fIndex) - 1]['name']);
     $tpl->assign('fIndex', $fIndex);
 
     //获取内容id
@@ -24,7 +24,7 @@ try {
     //读取帖子元信息
     $tMeta = $bbs->topicMeta($tid, 'title,uid,content_id', 'WHERE id=?', $fid);
     if (!$tMeta)
-        throw new bbsException('帖子 id='.$tid.' 不存在！', 2404);
+        throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
     $tpl->assign('tMeta', $tMeta);
 
     //读取楼层内容
@@ -32,9 +32,9 @@ try {
     if (!$tContent)
         throw new bbsException('楼层不存在！', 3404);
     $tpl->assign('tContent', $tContent);
-	
-	if ($tContent['topic_id'] != $tid)
-		throw new bbsException('不能编辑其他帖子的楼层！', 3403);
+
+    if ($tContent['topic_id'] != $tid)
+        throw new bbsException('不能编辑其他帖子的楼层！', 3403);
 
     //楼层编辑权限检查
     $bbs->canEdit($tContent['uid']);

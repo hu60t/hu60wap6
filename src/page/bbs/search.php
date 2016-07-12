@@ -10,7 +10,7 @@ if ($p < 1) $p = 1;
 $tpl->assign('p', $p);
 
 $size = 20;
-$offset = ($p-1) * $size;
+$offset = ($p - 1) * $size;
 
 //获取搜索词
 $keywords = $_GET['keywords'];

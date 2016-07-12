@@ -1,7 +1,9 @@
 <?php
+
 /**
-* 验证码异常类
-*/
-class secCodeException extends Exception {
-	//没有扩展异常类的功能
+ * 楠岃瘉鐮佸紓甯哥被
+ */
+class secCodeException extends Exception
+{
+    //娌℃湁鎵╁睍寮傚父绫荤殑鍔熻兘
 }

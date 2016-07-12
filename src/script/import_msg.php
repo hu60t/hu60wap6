@@ -10,35 +10,37 @@ $size = 100;
 $ubb = new ubbparser();
 
 try {
-for ($offset = 0; true; $offset += $size) {
-    $rs = $db->query('select * from msg order by id asc limit '.$offset.','.$size);
-    $datas = $rs->fetchAll(db::ass);
+    for ($offset = 0; true; $offset += $size) {
+        $rs = $db->query('SELECT * FROM msg ORDER BY id ASC LIMIT ' . $offset . ',' . $size);
+        $datas = $rs->fetchAll(db::ass);
 
-    if (empty($datas)) {break;}
+        if (empty($datas)) {
+            break;
+        }
 
-    foreach ($datas as $data) {
-        $content = $ubb->parse($data['nr'],true);
+        foreach ($datas as $data) {
+            $content = $ubb->parse($data['nr'], true);
 
-        $newData = [
-            $data['id'],
-            $data['uid'],
-            $data['byuid'],
-            0,
-            $data['read'],
-            $content,
-            $data['time'],
-            $data['time']
-        ];
+            $newData = [
+                $data['id'],
+                $data['uid'],
+                $data['byuid'],
+                0,
+                $data['read'],
+                $content,
+                $data['time'],
+                $data['time']
+            ];
 
-        $db->query('insert into hu60_msg_tmp values(?,?,?,?,?,?,?,?)', $newData);
+            $db->query('INSERT INTO hu60_msg_tmp VALUES(?,?,?,?,?,?,?,?)', $newData);
+        }
+
+        echo $offset . "\n";
+        flush();
+        //break;
     }
-
-    echo $offset."\n";
-    flush();
-    //break;
-}
 } catch (Exception $ex) {
-    echo "id: $data[id]\nException: ".$ex->getMessage()."\n";
+    echo "id: $data[id]\nException: " . $ex->getMessage() . "\n";
     var_dump($data);
 
 }
