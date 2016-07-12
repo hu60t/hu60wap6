@@ -75,8 +75,14 @@ try {
                 throw new Exception('编辑理由不能为空！');
             }
 
+            $msgTitle = "帖子“{$tMeta['title']}”";
+
+            if ($tContent['floor'] > 1) {
+                $msgTitle .= "的" . ($tContent['floor'] - 1) . "楼";
+            }
+
             $ubbp = new ubbParser();
-            $msgData = $ubbp->createAdminEditNotice($USER, "帖子“{$tMeta['title']}”的{$tContent['floor']}楼", "bbs.topic.{$tid}.{$PAGE->bid}", $editReason, $tContent['content']);
+            $msgData = $ubbp->createAdminEditNotice($USER, $msgTitle, "bbs.topic.{$tid}.{$PAGE->bid}", $editReason, $tContent['content']);
 
             $msg = new Msg($USER);
             $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
