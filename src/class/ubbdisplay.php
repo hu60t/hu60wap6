@@ -38,6 +38,7 @@ class ubbDisplay extends XUBBP
         /*at消息*/
         'at' => 'at',
         'atMsg' => 'atMsg',
+        'adminEdit' => 'adminEditNotice',
         /*face 表情*/
         'face' => 'face',
     );
@@ -303,6 +304,30 @@ class ubbDisplay extends XUBBP
 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 在 <a href="{$url}">{$pos}</a> at你：
 <blockquote>
 {$msg}
+</blockquote>
+HTML;
+    }
+
+    /*管理员编辑通知信息*/
+    public function adminEditNotice($data)
+    {
+        global $PAGE;
+
+        $url = code::html($data['url']);
+        $pos = code::html($data['pos']);
+        $reason = code::html($data['reason']);
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+        $oriData = $this->display($data['oriData']);
+
+        return <<<HTML
+管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 编辑了您在 <a href="{$url}">{$pos}</a> 的发言，编辑理由如下：
+<blockquote>
+{$reason}
+</blockquote>
+您发言的原始内容如下：
+<blockquote>
+{$oriData}
 </blockquote>
 HTML;
     }

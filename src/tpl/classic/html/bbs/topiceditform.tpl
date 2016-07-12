@@ -34,6 +34,9 @@
 <textarea class="txt" name="content" style="width:100%;height:100px;">{$smarty.post.content}</textarea>
                 {input type="hidden" name="token" value=$token->token()}
 </p>
+    {if $isAdminEdit}
+        <p>编辑理由：<input name="editReason" value="{$smarty.post.editReason|code}" /></p>
+    {/if}
 <p>
 </p>
     <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="保存修改" /></p>

@@ -28,7 +28,7 @@ try {
     $tpl->assign('tMeta', $tMeta);
 
     //读取楼层内容
-    $tContent = $bbs->topicContent($cid, 'content,uid,topic_id');
+    $tContent = $bbs->topicContent($cid, 'content,uid,topic_id,floor');
     if (!$tContent)
         throw new bbsException('楼层不存在！', 3404);
     $tpl->assign('tContent', $tContent);
@@ -45,6 +45,9 @@ try {
 
     $ubb = new ubbedit();
     $tpl->assign('ubb', $ubb);
+
+    $isAdminEdit = $tContent['uid'] != $USER->uid;
+    $tpl->assign('isAdminEdit', $isAdminEdit);
 
     //编辑操作
     $go = $_POST['go'];
@@ -63,6 +66,21 @@ try {
             throw new Exception('会话已过期，请重新发布');
         $token->delete();
         $bbs = new bbs($USER);
+
+        //编辑者为版主，向用户发送提醒
+        if ($tContent['uid'] != $USER->uid) {
+            $editReason = trim($_POST['editReason']);
+
+            if (empty($editReason)) {
+                throw new Exception('编辑理由不能为空！');
+            }
+
+            $ubbp = new ubbParser();
+            $msgData = $ubbp->createAdminEditNotice($USER, "帖子“{$tMeta['title']}”的{$tContent['floor']}楼", "bbs.topic.{$tid}.{$PAGE->bid}", $editReason, $tContent['content']);
+
+            $msg = new Msg($USER);
+            $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
+        }
 
         $ok = $bbs->updateTopicContent($cid, $content);
 

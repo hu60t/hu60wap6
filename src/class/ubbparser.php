@@ -384,6 +384,37 @@ class ubbParser extends XUBBP
         return $data;
     }
 
+    /**
+     * 生成管理员编辑通知的XUBBP数据
+     *
+     * @param User $user 操作者
+     * @param string $pos 编辑对象的名称
+     * @param string $url 操作对象的路径
+     * @param string $reason 操作原因
+     * @param string $oriData 编辑对象的原始内容（serialize格式的XUBBP数据）
+     * @param bool $serialize 是否返回串行化结果
+     *
+     * @return XUBBP 数据
+     */
+    public function createAdminEditNotice($user, $pos, $url, $reason, $oriData, $serialize = false)
+    {
+        $data = array(array(
+            'type' => 'adminEdit',
+            'uid' => $user->uid,
+            'pos' => $pos,
+            'url' => $url,
+            'reason' => $reason,
+            'oriData' => unserialize($oriData),
+            'len' => $this->len($user->name . $pos . $url . $reason . $oriData)
+        ));
+
+        if ($serialize) {
+            $data = serialize($data);
+        }
+
+        return $data;
+    }
+
     /*按指定分隔符将字符串分成两半*/
     function split($split, $str)
     {

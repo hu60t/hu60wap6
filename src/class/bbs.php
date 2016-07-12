@@ -44,7 +44,7 @@ class bbs
         try {
             $this->checkLogin();
 
-            if ($this->user->uid == $ownUid) {
+            if ($this->user->uid == $ownUid || $this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
                 return true;
             } else {
                 throw new bbsException('您没有权限编辑当前楼层。', 403);

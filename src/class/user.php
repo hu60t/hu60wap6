@@ -5,6 +5,8 @@
  */
 class user extends userinfo
 {
+    const PERMISSION_EDIT_TOPIC = 1;
+    
     protected static $sid; //sid到uid对应关系的缓存
     protected static $safety; //用户安全信息缓存
 
@@ -12,6 +14,7 @@ class user extends userinfo
     public $err = NULL; //start()方法捕获的错误
     protected $at = NULL; //注册的at消息元信息数组
     protected $atUid = NULL; //at消息收件人uid数组
+    protected $permission = NULL; //权限
 
     /*加密用户的密码*/
     protected static function mkpass($pass)
@@ -720,24 +723,22 @@ class user extends userinfo
         return self::mkpass($password) === $hashedPwd;
     }
 
+    public function hasPermission($permission) {
+        if (NULL === $this->permission) {
+            $db = self::conn(true);
+            $sql = 'SELECT `permission` FROM `'.DB_A.'user` WHERE uid = ?';
+            $rs = $db->prepare($sql);
+
+            if (!$rs || !$rs->execute([$this->uid])) {
+                throw new UserException('数据库异常，无法读取权限信息！', 10500);
+            }
+
+            $data = $rs->fetch(db::num);
+            $this->permission = $data[0];
+        }
+
+        return (bool) ($permission & $this->permission);
+    }
+
     /*class end*/
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
