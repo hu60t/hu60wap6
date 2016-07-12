@@ -205,6 +205,9 @@ spl_autoload_register('autoload_file');
 //PHP5.4+不再需要
 //require_once SUB_DIR . '/strip_quotes_gpc.php';
 
+/*更正$_SERVER[PHP_SELF]*/
+require_once SUB_DIR . '/correct_php_self.php';
+
 
 /*载入其他配置文件*/
 require_once CONFIG_DIR . '/system.php';
