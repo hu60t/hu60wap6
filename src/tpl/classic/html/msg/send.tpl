@@ -7,6 +7,7 @@
 <hr />
 {if $send}
 	<span class="success">信息发送成功</span>
+	<a href="msg.index.chat.{$toUser->uid}.{$bid}">返回聊天模式</a>
 {else if $send === false}
 	<span class="failure">信息发送失败</span>
 {/if}

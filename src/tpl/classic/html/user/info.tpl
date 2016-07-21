@@ -25,7 +25,7 @@
  注册时间: {if $uinfo->regtime == 0}该用户是很久以前注册的，那时没有记录注册时间{else}{date('Y年m月d日 H:i:s',$uinfo->regtime)}{/if}
 </p>
 <p class="txt">
-发送: <a href="msg.index.send.{$uinfo.uid}.{$bid}">内信</a><br/>
+发送: <a href="msg.index.send.{$uinfo.uid}.{$bid}">内信</a> / <a href="msg.index.chat.{$uinfo.uid}.{$bid}">聊天模式</a><br/>
 </p>
 <p class="txt">
 查看: <a href="bbs.search.send.{$bid}?username={$uinfo->name|urlencode}">帖子</a><br/>

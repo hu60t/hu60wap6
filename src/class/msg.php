@@ -61,7 +61,37 @@ class msg
             $isread = 'AND isread=' . (int)$read;
         }
 
-        $rs = $this->db->select($fetch, 'msg', 'WHERE touid=? ' . $isread . ' AND type=?', $uid, $type);
+        $rs = $this->db->select($fetch, 'msg', 'WHERE touid=? ' . $isread . ' AND type=? ORDER BY ctime DESC LIMIT ?,?', $uid, $type, $offset, $size);
+
+        if (!$rs) return false;
+
+        return $rs->fetchAll();
+    }
+
+    public function chatCount($chatUid, $read = null)
+    {
+        $uid = $this->user->uid;
+
+        if ($read !== null) {
+            $isread = 'AND isread=' . (int)$read;
+        }
+
+        $rs = $this->db->select('count(*)', 'msg', 'WHERE ((touid=? AND byuid=?) OR (byuid=? AND touid=?)) ' . $isread . ' AND type=?', $uid, $chatUid, $uid, $chatUid, self::TYPE_MSG);
+
+        if (!$rs || !$rs=$rs->fetch(db::num)) return false;
+
+        return $rs[0];
+    }
+
+    public function chatList($chatUid, $offset, $size, $read = null, $fetch = '*')
+    {
+        $uid = $this->user->uid;
+
+        if ($read !== null) {
+            $isread = 'AND isread=' . (int)$read;
+        }
+
+        $rs = $this->db->select($fetch, 'msg', 'WHERE ((touid=? AND byuid=?) OR (byuid=? AND touid=?)) ' . $isread . ' AND type=? ORDER BY ctime DESC LIMIT ?,?', $uid, $chatUid, $uid, $chatUid, self::TYPE_MSG, $offset, $size);
 
         if (!$rs) return false;
 
