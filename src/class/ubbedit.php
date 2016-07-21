@@ -210,7 +210,15 @@ class ubbEdit extends XUBBP
     public function at($data)
     {
         global $PAGE;
-        return '@' . code::html($data['tag']);
+
+        $uinfo = new UserInfo();
+        $ok = $uinfo->uid($data['uid']);
+
+        if ($ok && $uinfo->name != $data['tag']) {
+            return '@#'.code::html($data['uid']);
+        } else {
+            return '@' . code::html($data['tag']);
+        }
     }
 
     /*face 表情*/
