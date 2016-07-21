@@ -59,6 +59,28 @@ class bbs
     }
 
     /**
+     * 检查用户是否可删除
+     */
+    public function canDel($ownUid, $noException = false)
+    {
+        try {
+            $this->checkLogin();
+
+            if ($this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
+                return true;
+            } else {
+                throw new bbsException('您没有权限删除当前楼层。', 403);
+            }
+        } catch (Exception $e) {
+            if ($noException) {
+                return false;
+            } else {
+                throw $e;
+            }
+        }
+    }
+
+    /**
      * 检查板块是否可以发帖
      */
     public function canCreateTopic($fid)
@@ -232,7 +254,7 @@ class bbs
     public function updateTopicContent($contentId, $newContent)
     {
         $ubb = new ubbparser;
-        $data = $ubb->parse($newContent, true);
+        $data = is_array($newContent) ? serialize($newContent) : $ubb->parse($newContent, true);
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,mtime=? WHERE id=?';
         $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $contentId);
 

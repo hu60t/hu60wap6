@@ -66,3 +66,8 @@ ol, ul {
 img {
     max-width: 100%;
 }
+
+.info-box {
+    text-align: center;
+    border: solid red 1px;
+}

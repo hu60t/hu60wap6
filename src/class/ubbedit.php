@@ -39,6 +39,8 @@ class ubbEdit extends XUBBP
         'at' => 'at',
         /*face 表情*/
         'face' => 'face',
+        /*管理员操作*/
+        'delContent' => 'adminDelContent',
     );
 
     public static function getInstance()
@@ -227,6 +229,11 @@ class ubbEdit extends XUBBP
     public function mailtxt($data)
     {
         return code::html($data['mail']);
+    }
+
+    /*管理员删除的内容*/
+    public function adminDelContent($data) {
+        return '';
     }
 }
 

@@ -33,9 +33,9 @@
 		<p>点击: {$tMeta.read_count}</p>
 		<hr>
 		<div>{$ubb->display($v.content,true)}</div>
-		{if $bbs->canEdit($v.uinfo.uid, true)}
+		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<hr>
-			<p>[<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>|续|删|沉|移|设]</p>
+			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|沉|移|设]</p>
 		{/if}
 	{else}
 		<p>{$tMeta.title|code}</p>
@@ -46,7 +46,7 @@
 <div>
     {foreach $tContents as $v}
 		<div>{$v.floor}. {$ubb->display($v.content,true)}</div>
-		<p>(<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" onclick="atAdd('{$v.uinfo.name|code}');return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{/if})</p>
+		<p>(<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" onclick="atAdd('{$v.uinfo.name|code}');return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if})</p>
 		<hr>
     {/foreach}
 </div>

@@ -56,13 +56,18 @@ ol, ul {
 }
 
 .failure {
-    color: red;
+    color: #cc66cc;
 }
 
 .notice {
-    color: red;
+    color: #cc66cc;
 }
 
 img {
     max-width: 100%;
+}
+
+.info-box {
+    text-align: center;
+    border: solid #cc66cc 1px;
 }

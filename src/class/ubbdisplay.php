@@ -38,7 +38,10 @@ class ubbDisplay extends XUBBP
         /*at消息*/
         'at' => 'at',
         'atMsg' => 'atMsg',
+        /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
+        'adminDel' => 'adminDelNotice',
+        'delContent' => 'adminDelContent',
         /*face 表情*/
         'face' => 'face',
     );
@@ -329,6 +332,49 @@ HTML;
 <blockquote>
 {$oriData}
 </blockquote>
+HTML;
+    }
+
+    /*管理员删除通知信息*/
+    public function adminDelNotice($data)
+    {
+        global $PAGE;
+
+        $url = code::html($data['url']);
+        $pos = code::html($data['pos']);
+        $reason = code::html($data['reason']);
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+        $oriData = $this->display($data['oriData']);
+
+        return <<<HTML
+管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 删除了您在 <a href="{$url}">{$pos}</a> 的发言，理由如下：
+<blockquote>
+{$reason}
+</blockquote>
+您发言的原始内容如下：
+<blockquote>
+{$oriData}
+</blockquote>
+HTML;
+    }
+
+    /*管理员删除的内容*/
+    public function adminDelContent($data)
+    {
+        global $PAGE;
+
+        $reason = code::html($data['reason']);
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+
+        return <<<HTML
+<div class="tp info-box">
+<span class="notice">管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 删除了该楼层</span>，理由如下：
+<p>
+{$reason}
+</p>
+</div>
 HTML;
     }
 
