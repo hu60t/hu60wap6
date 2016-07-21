@@ -1,7 +1,7 @@
 {$isSender=$USER.uid == $msg.byuid}
 {include file="tpl:comm.head" title="查看信息"}
 收件箱：
-<a href="msg.index.chat.{if $msg.touid==$USER->uid}{$msg.byuid}{else}{$msg.touid}}{/if}.{$bid}">聊天模式</a>
+<a href="msg.index.chat.{if $msg.touid==$USER->uid}{$msg.byuid}{else}{$msg.touid}{/if}.{$bid}">聊天模式</a>
 <a href="msg.index.inbox.all.{$bid}">全部</a>
 <a href="msg.index.inbox.no.{$bid}">未读</a>
 <a href="msg.index.inbox.yes.{$bid}">已读</a>
