@@ -4,6 +4,14 @@ try {
     $u = $_GET['u'];
     if ($u == '') $u = 'index.index.' . $PAGE->bid;
     $tpl->assign('u', $u);
+
+    //检测注册功能是否被关闭
+    if (!SITE_REG_ENABLE) {
+        $tpl->display('tpl:reg_close');
+        //中断操作
+        return;
+    }
+
     if (!$_POST['go']) {
         if (!$_POST['check']) {
             $step = 1;

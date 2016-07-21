@@ -213,3 +213,4 @@ require_once SUB_DIR . '/correct_php_self.php';
 require_once CONFIG_DIR . '/system.php';
 require_once CONFIG_DIR . '/db.php';
 require_once CONFIG_DIR . '/security.php';
+require_once CONFIG_DIR . '/site.php';

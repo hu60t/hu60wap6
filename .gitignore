@@ -1,6 +1,7 @@
 /src/config/db.php
 /src/config/security.php
 /src/config/system.php
+/src/config/site.php
 /src/temp/
 /src/userfile/
 /src/wap/
