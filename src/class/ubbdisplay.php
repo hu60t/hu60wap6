@@ -368,9 +368,18 @@ HTML;
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
 
+        $jsFunc = $this->getOpt('at.jsFunc');
+        $name = $uinfo->name === null ? $data['tag'] : $uinfo->name;
+
+        if ($jsFunc) {
+            $admin = '<a href="#" onclick="' . $jsFunc . '(\'' . $name . '\');return false">@</a><a href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">' . code::html($name) . '</a>';
+        } else {
+            $admin = '<a href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">@' . code::html($name) . '</a>';
+        }
+
         return <<<HTML
 <div class="tp info-box">
-<span class="notice">管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 删除了该楼层</span>，理由如下：
+<span class="notice">管理员 $admin 删除了该楼层</span>，理由如下：
 <p>
 {$reason}
 </p>
