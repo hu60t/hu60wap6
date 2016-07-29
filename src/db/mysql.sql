@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
--- http://www.phpmyadmin.net
+-- version 4.6.3deb1
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: 2016-07-12 11:24:35
--- 服务器版本： 5.6.17
--- PHP Version: 5.5.12
+-- Host: localhost
+-- Generation Time: 2016-07-29 04:25:56
+-- 服务器版本： 10.0.26-MariaDB-1
+-- PHP Version: 7.0.8-4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hu60org`
+-- Database: `hu60`
 --
 
 -- --------------------------------------------------------
@@ -26,16 +26,15 @@ SET time_zone = "+00:00";
 -- 表的结构 `hu60_addin_chat_data`
 --
 
-CREATE TABLE IF NOT EXISTS `hu60_addin_chat_data` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hu60_addin_chat_data` (
+  `id` int(11) NOT NULL,
   `room` varchar(32) NOT NULL,
   `lid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `uname` varchar(16) NOT NULL,
-  `content` blob,
-  `time` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  `content` blob NOT NULL,
+  `time` bigint(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -43,12 +42,11 @@ CREATE TABLE IF NOT EXISTS `hu60_addin_chat_data` (
 -- 表的结构 `hu60_addin_chat_list`
 --
 
-CREATE TABLE IF NOT EXISTS `hu60_addin_chat_list` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hu60_addin_chat_list` (
+  `id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `ztime` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  `ztime` bigint(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -56,29 +54,13 @@ CREATE TABLE IF NOT EXISTS `hu60_addin_chat_list` (
 -- 表的结构 `hu60_bbs_forum_meta`
 --
 
-CREATE TABLE IF NOT EXISTS `hu60_bbs_forum_meta` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hu60_bbs_forum_meta` (
+  `id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `mtime` bigint(20) DEFAULT NULL,
-  `notopic` bit(1) DEFAULT b'0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `hu60_bbs_forum_topic`
---
-
-CREATE TABLE IF NOT EXISTS `hu60_bbs_forum_topic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `forum_id` int(11) NOT NULL,
-  `topic_id` int(11) NOT NULL,
-  `ctime` bigint(20) NOT NULL,
-  `mtime` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  `mtime` bigint(20) NOT NULL DEFAULT '0',
+  `notopic` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -86,17 +68,17 @@ CREATE TABLE IF NOT EXISTS `hu60_bbs_forum_topic` (
 -- 表的结构 `hu60_bbs_topic_content`
 --
 
-CREATE TABLE IF NOT EXISTS `hu60_bbs_topic_content` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hu60_bbs_topic_content` (
+  `id` int(11) NOT NULL,
   `topic_id` int(11) NOT NULL,
   `ctime` bigint(20) NOT NULL,
   `mtime` bigint(20) NOT NULL,
-  `content` mediumblob,
+  `content` mediumblob NOT NULL,
   `uid` int(11) NOT NULL,
   `reply_id` int(11) NOT NULL,
-  `floor` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  `floor` int(11) NOT NULL DEFAULT '0',
+  `locked` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -104,16 +86,18 @@ CREATE TABLE IF NOT EXISTS `hu60_bbs_topic_content` (
 -- 表的结构 `hu60_bbs_topic_meta`
 --
 
-CREATE TABLE IF NOT EXISTS `hu60_bbs_topic_meta` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hu60_bbs_topic_meta` (
+  `id` int(11) NOT NULL,
   `content_id` int(11) NOT NULL,
-  `title` varchar(150) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `read_count` int(11) DEFAULT '0',
+  `title` varchar(150) CHARACTER SET utf8mb4 NOT NULL,
+  `read_count` int(11) NOT NULL DEFAULT '0',
   `uid` int(11) NOT NULL,
   `ctime` bigint(20) NOT NULL,
   `mtime` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  `level` tinyint(4) NOT NULL DEFAULT '0',
+  `forum_id` int(11) NOT NULL,
+  `locked` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -121,17 +105,16 @@ CREATE TABLE IF NOT EXISTS `hu60_bbs_topic_meta` (
 -- 表的结构 `hu60_msg`
 --
 
-CREATE TABLE IF NOT EXISTS `hu60_msg` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hu60_msg` (
+  `id` int(11) NOT NULL,
   `touid` int(11) NOT NULL,
   `byuid` int(11) NOT NULL,
-  `type` int(11) DEFAULT '1',
+  `type` tinyint(4) NOT NULL DEFAULT '1',
   `isread` int(11) NOT NULL,
-  `content` blob,
+  `content` blob NOT NULL,
   `ctime` bigint(20) NOT NULL,
-  `rtime` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  `rtime` bigint(20) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -139,14 +122,12 @@ CREATE TABLE IF NOT EXISTS `hu60_msg` (
 -- 表的结构 `hu60_token`
 --
 
-CREATE TABLE IF NOT EXISTS `hu60_token` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hu60_token` (
+  `id` bigint(20) NOT NULL,
   `lifetime` bigint(20) NOT NULL,
   `token` char(32) NOT NULL,
-  `uid` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `token` (`token`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  `uid` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -154,8 +135,8 @@ CREATE TABLE IF NOT EXISTS `hu60_token` (
 -- 表的结构 `hu60_user`
 --
 
-CREATE TABLE IF NOT EXISTS `hu60_user` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hu60_user` (
+  `uid` int(11) NOT NULL,
   `name` varchar(16) NOT NULL,
   `pass` char(32) NOT NULL,
   `sid` varchar(64) NOT NULL,
@@ -166,15 +147,128 @@ CREATE TABLE IF NOT EXISTS `hu60_user` (
   `info` blob,
   `mail` varchar(255) DEFAULT NULL,
   `regphone` char(11) CHARACTER SET ascii DEFAULT NULL,
-  `permission` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `sid` (`sid`),
-  UNIQUE KEY `main` (`mail`),
-  UNIQUE KEY `mail` (`mail`),
-  UNIQUE KEY `regphone` (`regphone`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  `permission` bit(8) NOT NULL DEFAULT b'0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `hu60_addin_chat_data`
+--
+ALTER TABLE `hu60_addin_chat_data`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `room` (`room`),
+  ADD KEY `time` (`time`),
+  ADD KEY `room_time` (`room`,`time`) USING BTREE,
+  ADD KEY `room_lid` (`room`,`lid`) USING BTREE;
+
+--
+-- Indexes for table `hu60_addin_chat_list`
+--
+ALTER TABLE `hu60_addin_chat_list`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ztime` (`ztime`),
+  ADD KEY `name` (`name`);
+
+--
+-- Indexes for table `hu60_bbs_forum_meta`
+--
+ALTER TABLE `hu60_bbs_forum_meta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent_id` (`parent_id`),
+  ADD KEY `mtime` (`mtime`);
+
+--
+-- Indexes for table `hu60_bbs_topic_content`
+--
+ALTER TABLE `hu60_bbs_topic_content`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `topic_id` (`topic_id`),
+  ADD KEY `reply_id` (`reply_id`);
+
+--
+-- Indexes for table `hu60_bbs_topic_meta`
+--
+ALTER TABLE `hu60_bbs_topic_meta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ctime` (`level`,`ctime`) USING BTREE,
+  ADD KEY `mtime` (`level`,`mtime`) USING BTREE,
+  ADD KEY `lfctime` (`level`,`forum_id`,`ctime`),
+  ADD KEY `lfmtime` (`level`,`forum_id`,`mtime`);
+
+--
+-- Indexes for table `hu60_msg`
+--
+ALTER TABLE `hu60_msg`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `touid` (`type`,`touid`,`isread`,`ctime`) USING BTREE,
+  ADD KEY `byuid` (`type`,`byuid`,`isread`,`ctime`) USING BTREE,
+  ADD KEY `chat` (`type`,`touid`,`byuid`,`ctime`);
+
+--
+-- Indexes for table `hu60_token`
+--
+ALTER TABLE `hu60_token`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token` (`token`);
+
+--
+-- Indexes for table `hu60_user`
+--
+ALTER TABLE `hu60_user`
+  ADD PRIMARY KEY (`uid`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD UNIQUE KEY `sid` (`sid`),
+  ADD UNIQUE KEY `main` (`mail`),
+  ADD UNIQUE KEY `mail` (`mail`),
+  ADD UNIQUE KEY `regphone` (`regphone`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `hu60_addin_chat_data`
+--
+ALTER TABLE `hu60_addin_chat_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_addin_chat_list`
+--
+ALTER TABLE `hu60_addin_chat_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_bbs_forum_meta`
+--
+ALTER TABLE `hu60_bbs_forum_meta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_bbs_topic_content`
+--
+ALTER TABLE `hu60_bbs_topic_content`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_bbs_topic_meta`
+--
+ALTER TABLE `hu60_bbs_topic_meta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_msg`
+--
+ALTER TABLE `hu60_msg`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_token`
+--
+ALTER TABLE `hu60_token`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_user`
+--
+ALTER TABLE `hu60_user`
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
