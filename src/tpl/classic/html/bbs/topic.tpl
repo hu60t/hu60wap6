@@ -63,7 +63,9 @@
 
 <!--回复框-->
 <div>
-    {if $USER->islogin}
+	{if $tMeta.locked}
+		<div class="notice">该帖子已锁定，不能回复。</div>
+    {elseif $USER->islogin}
         <form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}">
             <textarea id="content" name="content" style="width:80%;height:100px">{$smarty.post.content}</textarea>
             <input type="hidden" name="token" value="{$token->token()}">

@@ -377,9 +377,15 @@ HTML;
             $admin = '<a href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">@' . code::html($name) . '</a>';
         }
 
+        $time = '';
+
+        if (isset($data['time'])) {
+            $time = '于 ' . date('Y-m-d H:i ', $data['time']);
+        }
+
         return <<<HTML
 <div class="tp info-box">
-<span class="notice">管理员 $admin 删除了该楼层</span>，理由如下：
+<span class="notice">管理员 $admin {$time}删除了该楼层</span>，理由如下：
 <p>
 {$reason}
 </p>

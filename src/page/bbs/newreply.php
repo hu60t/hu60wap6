@@ -23,9 +23,16 @@ try {
     $tpl->assign('fIndex', $fIndex);
 
     //读取帖子元信息
-    $tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime', 'WHERE id=?', $fid);
-    if (!$tMeta)
+    $tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime,locked', 'WHERE id=?', $fid);
+
+    if (!$tMeta) {
         throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
+    }
+
+    if ($tMeta['locked']) {
+        throw new bbsException('锁定的帖子不能回复！', 2403);
+    }
+
     $tpl->assign('tMeta', $tMeta);
 
     //回帖操作
@@ -41,8 +48,10 @@ try {
         $token->delete();
         $bbs = new bbs($USER);
         $topic = $bbs->topicMeta($tid, 'content_id');
+
         if (!topic)
             throw new Exception('帖子不存在或已删除');
+
         $ok = $bbs->newreply($topic['content_id'], $content);
         if (!$ok)
             throw new Exception('未知原因回复失败，请重试或联系管理员');

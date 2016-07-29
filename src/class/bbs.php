@@ -139,29 +139,17 @@ class bbs
             if (!$rs)
                 throw new bbsException('数据库错误，主题内容（' . DB_A . 'bbs_topic_content）写入失败！', 500);
             $content_id = $this->db->lastInsertId();
+
             //写主题标题
-            $rs = $this->db->insert('bbs_topic_meta', 'content_id,title,uid,ctime,mtime', $content_id, $title, $this->user->uid, $time, $time);
+            $rs = $this->db->insert('bbs_topic_meta', 'forum_id,content_id,title,uid,ctime,mtime', $fid, $content_id, $title, $this->user->uid, $time, $time);
+
             if (!$rs) {
                 $this->db->delete('bbs_topic_content', 'WHERE id=?', $content_id);
                 throw new bbsException('数据库错误，主题标题（' . DB_A . 'bbs_topic_meta）写入失败！', 500);
             }
+
             $topic_id = $this->db->lastInsertId();
             $this->db->update('bbs_topic_content', 'topic_id=? WHERE id=?', $topic_id, $content_id);
-
-            //写版块
-            $sql = 'INSERT INTO ' . DB_A . 'bbs_forum_topic(forum_id,topic_id,ctime,mtime) VALUES(?,?,?,?)';
-            $rs = $this->db->prepare($sql);
-            if (!$rs)
-                throw new bbsException('数据库错误，版块信息（' . DB_A . 'bbs_forum_topic）写入失败！', 500);
-
-            $rs->bindParam(1, $fid);
-            $rs->bindParam(3, $time);
-            $rs->bindParam(4, $time);
-            $rs->bindParam(2, $topic_id);
-            $ok = $rs->execute();
-
-            if (!$ok)
-                throw new bbsException('数据库错误，版块信息（' . DB_A . 'bbs_forum_topic）写入失败！', 500);
 
             //注册at消息
             $this->user->regAt("帖子“{$title}”中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
@@ -238,14 +226,22 @@ class bbs
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
         }
+    }
 
-        //若未修改，则部分服务器会报错，故注释
-        /*if ($ok->rowCount() == 0) {
-            throw new bbsException('修改失败，帖子不存在！');
-        }*/
+    /**
+     * 删除帖子标题
+     */
+    public function deleteTopicTitle($topicId)
+    {
+        $title = '【管理员删除了该帖】';
 
-        $sql = 'UPDATE ' . DB_A . 'bbs_forum_topic SET mtime=? WHERE topic_id=?';
-        $this->db->query($sql, $_SERVER['REQUEST_TIME'], $topicId);
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,locked=?,level=? WHERE id=?';
+
+        $ok = $this->db->query($sql, $title, 1, -1, $topicId);
+
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
     }
 
     /**
@@ -269,6 +265,21 @@ class bbs
 
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET mtime=? WHERE id = (SELECT topic_id FROM ' . DB_A . 'bbs_topic_content WHERE id=?)';
         $this->db->query($sql, $_SERVER['REQUEST_TIME'], $contentId);
+    }
+
+    /**
+     * 删除帖子/回复内容
+     */
+    public function deleteTopicContent($contentId, $deleteNotice)
+    {
+        $ubb = new ubbparser;
+        $data = is_array($deleteNotice) ? serialize($deleteNotice) : $ubb->parse($deleteNotice, true);
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,locked=? WHERE id=?';
+        $ok = $this->db->query($sql, $data, 1, $contentId);
+
+        if (!$ok) {
+            throw new bbsException('删除失败，数据库错误');
+        }
     }
 
 
@@ -374,8 +385,8 @@ class bbs
 
     public function newTopicList($size = 20, $offset = 0, $where = '')
     {
-        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY mtime DESC LIMIT ?,?', $offset, $size);
-        if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_forum_topic不可读', 500);
+        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY level DESC, mtime DESC LIMIT ?,?', $offset, $size);
+        if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $topic = $rs->fetchAll();
         foreach ($topic as &$v) {
             $v += (array)$this->topicMeta($v['topic_id']);
@@ -392,8 +403,8 @@ class bbs
         $forum = $rs->fetchAll();
         foreach ($forum as &$v) {
             $v['topic_count'] = $this->topicCount($v['id']);
-            $rs = $this->db->select('topic_id', 'bbs_forum_topic', 'WHERE forum_id=? ORDER BY mtime DESC LIMIT ?', $v['id'], $topicSize);
-            if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_forum_topic不可读', 500);
+            $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', 'WHERE forum_id=? ORDER BY level DESC, mtime DESC LIMIT ?', $v['id'], $topicSize);
+            if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
             $v['topic'] = $rs->fetchAll();
             foreach ($v['topic'] as &$vt) {
                 $vt += (array)$this->topicMeta($vt['topic_id']);
@@ -413,9 +424,9 @@ class bbs
             $where = 'WHERE forum_id IN (' . $this->childForumIdList($forum_id) . ')';
         }
 
-        $rs = $this->db->select('count(*)', 'bbs_forum_topic', $where);
+        $rs = $this->db->select('count(*)', 'bbs_topic_meta', $where);
         if (!$rs)
-            throw new bbsException('数据库错误，表' . DB_A . 'bbs_forum_topic不可读', 500);
+            throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $rs = $rs->fetch(db::num);
         return $rs[0];
     }
@@ -429,10 +440,10 @@ class bbs
             $where = 'WHERE `forum_id` IN (' . $this->childForumIdList($forum_id) . ') ';
         }
 
-        $rs = $this->db->select('topic_id', 'bbs_forum_topic', $where . 'ORDER BY `' . $orderBy . '` DESC LIMIT ?,?', $page, $size);
+        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . 'ORDER BY `level` DESC, `' . $orderBy . '` DESC LIMIT ?,?', $page, $size);
 
         if (!$rs)
-            throw new bbsException('数据库错误，表' . DB_A . 'bbs_forum_topic不可读', 500);
+            throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         return $rs->fetchAll();
     }
 
@@ -443,9 +454,9 @@ class bbs
      */
     public function findTopicForum($tid)
     {
-        $rs = $this->db->select('forum_id', 'bbs_forum_topic', 'WHERE topic_id=?', $tid);
+        $rs = $this->db->select('forum_id', 'bbs_topic_meta', 'WHERE id=?', $tid);
         if (!$rs)
-            throw new bbsException('数据库错误，表' . DB_A . 'bbs_forum_topic不可读', 500);
+            throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $result = $rs->fetchAll(db::num);
         return array_column($result, 0);
     }

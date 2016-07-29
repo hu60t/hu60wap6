@@ -22,15 +22,25 @@ try {
     $tpl->assign('contentId', $cid);
 
     //读取帖子元信息
-    $tMeta = $bbs->topicMeta($tid, 'title,uid,content_id', 'WHERE id=?', $fid);
-    if (!$tMeta)
+    $tMeta = $bbs->topicMeta($tid, 'title,uid,content_id,locked', 'WHERE id=?', $fid);
+
+    if (!$tMeta) {
         throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
+    }
+
     $tpl->assign('tMeta', $tMeta);
 
     //读取楼层内容
-    $tContent = $bbs->topicContent($cid, 'content,uid,topic_id,floor');
-    if (!$tContent)
+    $tContent = $bbs->topicContent($cid, 'content,uid,topic_id,floor,locked');
+
+    if (!$tContent) {
         throw new bbsException('楼层不存在！', 3404);
+    }
+
+    if ($tContent['locked']) {
+        throw new bbsException('楼层已锁定，不能删除！', 3403);
+    }
+
     $tpl->assign('tContent', $tContent);
 
     if ($tContent['topic_id'] != $tid)
@@ -76,11 +86,10 @@ try {
         $msg = new Msg($USER);$msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
 
         $content = $ubbP->createAdminDelContent($USER, $delReason);
-        $bbs->updateTopicContent($cid, $content);
+        $bbs->deleteTopicContent($cid, $content);
 
         if ($delTitle) {
-            $title = '【管理员删除了该帖】';
-            $bbs->updateTopicTitle($tid, $title);
+            $bbs->deleteTopicTitle($tid);
         }
 
         $tpl->assign('tid', $tid);

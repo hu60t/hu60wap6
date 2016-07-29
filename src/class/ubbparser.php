@@ -461,7 +461,8 @@ class ubbParser extends XUBBP
             'type' => 'delContent',
             'uid' => $user->uid,
             'reason' => $reason,
-            'len' => $this->len($user->name . $reason)
+            'time' => $_SERVER['REQUEST_TIME'],
+            'len' => $this->len($user->name . $reason . $_SERVER['REQUEST_TIME'])
         ));
 
         if ($serialize) {
