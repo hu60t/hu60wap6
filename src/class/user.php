@@ -5,7 +5,16 @@
  */
 class user extends userinfo
 {
+    //权限列表开始
+    
+    /*** 帖子编辑权限 */
     const PERMISSION_EDIT_TOPIC = 1;
+    
+    //权限列表结束
+    
+    //错误ID开始
+    const ERROR_USER_NOT_ACTIVE = 80403;
+    //错误ID结束
     
     protected static $sid; //sid到uid对应关系的缓存
     protected static $safety; //用户安全信息缓存
@@ -99,7 +108,6 @@ class user extends userinfo
      */
     public function setinfo($index, $data)
     {
-
         if (!self::$data[$this->uid]['islogin']) throw new userexception('用户未成功登陆，不能写info数据。', 3503);
         $set =& self::$info[$this->uid];
         if ($set === NULL) {
@@ -182,7 +190,7 @@ class user extends userinfo
     public function gotoLogin($checkLogin = false)
     {
         global $PAGE;
-//var_dump($checkLogin, $this->islogin, $this->name);die;
+
         if ($checkLogin && $this->islogin) {
             return TRUE;
         }
@@ -213,7 +221,7 @@ class user extends userinfo
             }
         }
         $pass = self::mkpass($pass);
-        $sql = 'SELECT `uid`,`name`,`pass`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`';
+        $sql = 'SELECT `active`,`uid`,`name`,`pass`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`';
         if ($getinfo) {
             $sql .= ',`info`';
         }
@@ -259,6 +267,13 @@ class user extends userinfo
         self::$data[$this->uid] = $data;
         self::$name[$data['name']] = $this->uid;
         self::$sid[$data['sid']] = $this->uid;
+
+        if (!$data['active']) {
+            $data['islogin'] = false;
+            self::$data[$uid] = $data;
+            throw new userexception("用户未激活", self::ERROR_USER_NOT_ACTIVE);
+        }
+
         return TRUE;
     }
 
@@ -334,12 +349,13 @@ class user extends userinfo
         static $rs, $x_getinfo;
         if (!$rs || $getinfo != $x_getinfo) {
             $db = self::conn(true);
-            $rs = $db->prepare('SELECT `uid`,`name`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`' . ($getinfo ? ',`info`' : '') . ' FROM `' . DB_A . 'user` WHERE `sid`=?');
+            $rs = $db->prepare('SELECT `active`,`uid`,`name`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`' . ($getinfo ? ',`info`' : '') . ' FROM `' . DB_A . 'user` WHERE `sid`=?');
 
             $x_getinfo = $getinfo;
         }
         if (!$rs || !$rs->execute(array($sid))) throw new PDOException('数据库查询失败，SQL' . ($rs ? '执行' : '预处理') . '失败。', $rs ? 21 : 22);
         $data = $rs->fetch(db::ass);
+
         if (!isset($data['uid'])) {
             self::$sid[$sid] = FALSE;
             throw new userexception('sid不存在。', 54);
@@ -353,11 +369,19 @@ class user extends userinfo
 
         self::$sid[$data['sid']] = $this->uid;
         if ($data['sidtime'] + DEFAULT_LOGIN_TIMEOUT > $_SERVER['REQUEST_TIME']) {
-            $data['islogin'] = true;
             $data['acctime'] = $_SERVER['REQUEST_TIME'];
             $this->update['acctime'] = true;
-            self::$data[$this->uid] = $data;
-            return TRUE;
+
+            if (!$data['active']) {
+                $data['islogin'] = false;
+                self::$data[$this->uid] = $data;
+                throw new userexception("用户未激活", self::ERROR_USER_NOT_ACTIVE);
+            } else {
+                $data['islogin'] = true;
+                self::$data[$this->uid] = $data;
+                return TRUE;
+            }
+
         } else {
             $data['islogin'] = FALSE;
             self::$data[$this->uid] = $data;
@@ -390,10 +414,14 @@ class user extends userinfo
             $id = $rs[0] + 1;
         }
         $sid = self::mksid($id, $name, $pass);
+        
+        //若短信验证打开，则默认不激活
+        $active = SECCODE_SMS_ENABLE ? 0 : 1;
+        
 //实现读写分离：获得一个可以写入的数据库连接
         $db = self::conn();
-        $rs = $db->prepare('INSERT INTO `' . DB_A . 'user`(`name`,`pass`,`sid`,`mail`,`regtime`,`sidtime`,`acctime`) values(?,?,?,?,?,?,?)');
-        if (!$rs || !$rs->execute(array($name, $pass, $sid, $mail, $time, $time, $time))) throw new PDOException('数据库写入错误，SQL' . ($rs ? '执行' : '预处理') . '失败。', $rs ? 21 : 22);
+        $rs = $db->prepare('INSERT INTO `' . DB_A . 'user`(`name`,`pass`,`sid`,`mail`,`regtime`,`sidtime`,`acctime`,`active`) values(?,?,?,?,?,?,?,?)');
+        if (!$rs || !$rs->execute(array($name, $pass, $sid, $mail, $time, $time, $time, $active))) throw new PDOException('数据库写入错误，SQL' . ($rs ? '执行' : '预处理') . '失败。', $rs ? 21 : 22);
         $uid = $db->lastinsertid();
         $this->uid = $uid;
         self::$data[$uid] = array('uid' => $uid, 'name' => $name, 'mail' => $mail, 'pass' => $pass, 'sid' => $sid, 'regtime' => $time, 'sidtime' => $time, 'acctime' => $time, 'islogin' => true);
@@ -615,22 +643,24 @@ class user extends userinfo
         return TRUE;
     }
 
-    public function bindPhoneVerify($secCode)
+    public function bindPhoneVerify($code)
     {
         $secCode = new SecCode($this);
-        $ok = $secCode->checkFromPhone($secCode);
+        $ok = $secCode->checkFromPhone($code);
 
         if (false === $ok) {
             throw new UserException('验证码输入错误', 7404);
         }
 
         $db = self::conn(false);
-        $rs = $db->prepare('UPDATE `' . DB_A . 'user` SET `regphone`=? WHERE `uid`=?');
+        $rs = $db->prepare('UPDATE `' . DB_A . 'user` SET `regphone`=?,`active`=1 WHERE `uid`=?');
 
         $regPhone = $this->getSafety('user.regPhone');
         $this->setSafety('user.regPhone');
 
         $ok = $rs->execute([$regPhone, $this->uid]);
+
+        unset(self::$sid[$this->sid]);
 
         return $ok;
     }

@@ -46,3 +46,8 @@ define('SECCODE_SMS_TIME', 300);
  * 验证码允许输错次数
  */
 define('SECCODE_SMS_MAX_ERR', 5);
+
+/**
+ * 短信验证码提供者信息（设为null则不显示）
+ */
+define('SECCODE_SMS_PROVIDER_INFO', '<p>短信验证码由虎绿林提供</p>');

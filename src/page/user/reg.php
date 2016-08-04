@@ -28,9 +28,16 @@ try {
         }
         $user = new user;
         $user->reg($_POST['name'], $_POST['pass'], $_POST['mail']);
-        $user->setcookie();
-        $tpl->assign('user', $user);
-        $tpl->display('tpl:reg_success');
+
+        if (SECCODE_SMS_ENABLE) {
+            $sid = $user->sid;
+            $url = "{$PAGE->cid}.active.{$PAGE->bid}?sid={$sid}";
+            header('Location: '.$url);
+        } else {
+            $user->setcookie();
+            $tpl->assign('user', $user);
+            $tpl->display('tpl:reg_success');
+        }
     }
 } catch (UserException$ERR) {
     $tpl->assign('msg', $ERR->getmessage());

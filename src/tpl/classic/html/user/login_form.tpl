@@ -10,7 +10,10 @@
 {if $msg}
 <div class="message_f_c" style="padding:50px 10px; background:#f5f5f5">
 <div id="messagetext">
-<p>抱歉，{$msg|code:true}</p>
+<p>
+    抱歉，{$msg|code:true}
+    {if $active}(<a href="{$CID}.active.{$BID}?sid={$activeSid}">立即激活</a>){/if}
+</p>
         <p><a href="javascript:history.back();">[ 点击这里返回上一页 ]</a></p>
 </div>
 </div>

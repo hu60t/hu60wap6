@@ -17,7 +17,7 @@ class secCode
         $arr = $this->user->getSafety('secCode.phone');
 
         if (time() - $arr['time'] < SECCODE_SMS_INTERVAL) {
-            throw new secCodeException('验证码发送过快，请' . (time() - $arr['time'] - SECCODE_SMS_INTERVAL) . '秒后再试');
+            throw new secCodeException('验证码发送过快，请' . ( SECCODE_SMS_INTERVAL - (time() - $arr['time']) ) . '秒后再试');
         }
 
         $sms = new secCodeSms();

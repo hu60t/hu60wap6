@@ -14,8 +14,14 @@ try {
         $tpl->assign('user', $user);
         $tpl->display('tpl:login_success');
     }
-} catch (UserException$ERR) {
+} catch (UserException $ERR) {
     $tpl->assign('msg', $ERR->getmessage());
+
+    if ($ERR->getCode() == User::ERROR_USER_NOT_ACTIVE && SECCODE_SMS_ENABLE) {
+        $tpl->assign('active', true);
+        $tpl->assign('activeSid', $user->sid);
+    }
+
     $tpl->display('tpl:login_form');
 } catch (exception $ERR) {
     throw $ERR;
