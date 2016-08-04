@@ -1,6 +1,6 @@
 {include file="tpl:comm.head" title="激活用户" no_user=true}
 {config_load file="conf:site.info"}
-<div class="tp">{$user->name|code}，未激活。</div>
+<div class="tp">{$user->name|code}，{if $actived}已{else}未{/if}激活。</div>
 <div class="notice">
 	<p class="failure">{$errMsg}</p>
 </div>

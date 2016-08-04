@@ -17,4 +17,7 @@ if ($USER->uid == '1') {
     $tpl->assign('mmbt', "admin");
 }
 
+$hasRegPhone = null != $USER->getRegPhone();
+$tpl->assign('hasRegPhone', $hasRegPhone);
+
 $tpl->display('tpl:index');

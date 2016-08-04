@@ -9,6 +9,9 @@ try {
     $tpl = $PAGE->start();
     $USER->start($tpl);
 
+    $actived = $USER->islogin;
+    $tpl->assign('actived', $actived);
+
     if (!empty($_POST['go'])) {
         $step = $_POST['step'];
 

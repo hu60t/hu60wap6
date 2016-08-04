@@ -603,7 +603,7 @@ class user extends userinfo
         return true;
     }
 
-    protected function getRegPhone()
+    public function getRegPhone()
     {
         $db = self::conn(true);
         $rs = $db->prepare('SELECT `regphone` FROM `' . DB_A . 'user` WHERE uid=?');
