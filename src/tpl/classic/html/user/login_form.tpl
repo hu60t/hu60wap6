@@ -22,7 +22,14 @@
 {form action="user.login.{$bid}?u={urlencode($u)}" method="post"}
 <div >
 <p>
-<input type="text" name="name" id="username_LCxiI" class="txt" placeholder="用户名" value="{$smarty.post.name}"/>
+    登录类型：<select name="type">
+        <option value="1">用户名</option>
+        <option value="2">邮箱</option>
+        <option value="3">手机号</option>
+    </select>
+</p>
+<p>
+<input type="text" name="name" id="username_LCxiI" class="txt" placeholder="用户名/邮箱/手机号" value="{$smarty.post.name}"/>
 </p>
 <p>
 <input type="password" name="pass" id="password3_LCxiI" class="txt" value="{$smarty.post.pass}" placeholder="密码" />

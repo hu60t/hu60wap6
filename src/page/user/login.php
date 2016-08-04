@@ -8,8 +8,23 @@ try {
     if (!$_POST['go']) {
         $tpl->display('tpl:login_form');
     } else {
-        $user = new user;
-        $user->login($_POST['name'], $_POST['pass']);
+        $user = new User();
+
+        $type = $_POST['type'];
+        switch ($type) {
+            case 1:
+            default:
+                $user->login($_POST['name'], $_POST['pass']);
+                break;
+            case 2:
+                $user->loginByMail($_POST['name'], $_POST['pass']);
+                break;
+            case 3:
+                $user->loginByPhone($_POST['name'], $_POST['pass']);
+                break;
+        }
+
+
         $user->setcookie();
         $tpl->assign('user', $user);
         $tpl->display('tpl:login_success');
