@@ -32,6 +32,7 @@
 				<p>[<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>]{$newChat.uname|code}:{str::cut($content,0,10,'…')}</p>
 			{/if}
 		{/if}
+	</div>
 {/if}
 <a id="bottom" href="#top" accesskey="3"></a>
 </body>
