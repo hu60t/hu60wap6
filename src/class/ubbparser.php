@@ -24,6 +24,8 @@ class ubbParser extends XUBBP
         /*img 图片*/
         '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img', 2, 3)),
         '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img', array(2, 3)),
+        /*video 视频*/
+        '!^(.*)《视频：(.*?)》(.*)$!is' => array(array(1, 3), 'video', array(2)),
         /*copyright 版权*/
         '!^(.*)《版权：(.*?)》(.*)$!is' => array(array(1, 3), 'copyright', array(2)),
         /*battlenet 战网*/
@@ -181,6 +183,18 @@ class ubbParser extends XUBBP
                 'len' => $this->len($src) + $this->len($alt)
             ));
         }
+    }
+
+    /**
+     * @brief 视频
+     */
+    public function video($url)
+    {
+        return array(array(
+            'type' => 'video',
+            'url' => trim($url),
+            'len' => $this->len($url)
+        ));
     }
 
     /**

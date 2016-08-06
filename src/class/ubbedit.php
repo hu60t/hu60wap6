@@ -23,6 +23,8 @@ class ubbEdit extends XUBBP
         'code' => 'code',
         /*time 时间标记*/
         'time' => 'time',
+        /*video 视频*/
+        'video' => 'video',
         /*copyright 版权声明*/
         'copyright' => 'copyright',
         /*battlenet 战网*/
@@ -144,6 +146,12 @@ class ubbEdit extends XUBBP
             $opt .= 'x' . (int)$data['h'];
         }
         return '《缩略图：' . $opt . ',' . code::html($data['src']) . '》';
+    }
+
+    /*video 视频*/
+    public function video($data)
+    {
+        return '《视频：' . code::html($data['url']) . '》';
     }
 
     /*copyright 版权声明*/

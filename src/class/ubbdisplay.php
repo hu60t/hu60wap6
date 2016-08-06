@@ -23,6 +23,8 @@ class ubbDisplay extends XUBBP
         'code' => 'code',
         /*time 时间标记*/
         'time' => 'time',
+        /*video 视频*/
+        'video' => 'video',
         /*copyright 版权声明*/
         'copyright' => 'copyright',
         /*battlenet 战网*/
@@ -120,6 +122,33 @@ class ubbDisplay extends XUBBP
     {
         $src = code::html($data['src']);
         return '<a href="' . $src . '"><img src="http://s.image.wap.soso.com/img/' . floor($data['w']) . '_' . floor($data['h']) . '_0_0_' . $src . '" alt="点击查看大图"/></a>';
+    }
+
+    /*video 视频*/
+    public function video($data)
+    {
+        $url = $data['url'];
+        $iframeUrl = null;
+
+        //优酷
+        if (preg_match('#\.youku\.com/v_show/id_([a-zA-Z0-9=]+)#', $url, $arr)) {
+            $iframeUrl = 'http://player.youku.com/embed/'.$arr[1];
+        }
+        //土豆
+        else if (preg_match('#\.tudou\.com/albumplay/[a-zA-Z0-9=]+/([a-zA-Z0-9=]+)#', $url, $arr)) {
+            $iframeUrl = 'http://www.tudou.com/programs/view/html5embed.action?code='.$arr[1];
+        }
+        //土豆播放列表
+        else if (preg_match('#\.tudou\.com/listplay/[a-zA-Z0-9=]+/([a-zA-Z0-9=]+)#', $url, $arr)) {
+            $iframeUrl = 'http://www.tudou.com/programs/view/html5embed.action?code='.$arr[1];
+        }
+
+        if (null !== $iframeUrl) {
+            return '<p class="video_box"><iframe class="video" src="'.code::html($iframeUrl).'" seamless="seamless"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p>';
+        }
+        else {
+            return '<p class="video_box"><a href="'.code::html($url).'">'.code::html($url).'</a></p>';
+        }
     }
 
     /*copyright 版权声明*/
