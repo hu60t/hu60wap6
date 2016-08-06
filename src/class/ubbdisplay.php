@@ -149,7 +149,7 @@ class ubbDisplay extends XUBBP
         }
 
         if (null !== $iframeUrl) {
-            return '<p class="video_box"><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless="seamless"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>var box=document.getElementById("video_site_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\'</script>';
+            return '<p class="video_box"><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless="seamless"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
         }
         else {
             return '<p class="video_box"><a href="'.code::html($url).'">'.code::html($url).'</a></p>';
@@ -163,7 +163,7 @@ class ubbDisplay extends XUBBP
         $id ++;
         $url = $data['url'];
 
-        return '<p class="video_box"><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></video></p><script>var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\'</script>';
+        return '<p class="video_box"><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></video></p><script>(function(){var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
     }
 
     /*audioStream 音频流*/
