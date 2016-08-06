@@ -78,3 +78,8 @@ img {
     border: none;
     max-width: 100%;
 }
+
+.audio {
+    width: 600px;
+    max-width: 100%;
+}
