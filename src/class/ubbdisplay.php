@@ -144,7 +144,7 @@ class ubbDisplay extends XUBBP
         }
 
         if (null !== $iframeUrl) {
-            return '<p class="video_box"><iframe class="video" src="'.code::html($iframeUrl).'" seamless="seamless"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p>';
+            return '<p class="video_box"><iframe class="video" src="'.code::html($iframeUrl).'" seamless="seamless" onload="this.style.height=(this.offsetWidth*2/3)+\'px\'"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p>';
         }
         else {
             return '<p class="video_box"><a href="'.code::html($url).'">'.code::html($url).'</a></p>';
