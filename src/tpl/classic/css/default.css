@@ -81,5 +81,6 @@ img {
 
 .audio {
     width: 600px;
+    border: none;
     max-width: 100%;
 }

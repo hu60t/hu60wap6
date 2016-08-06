@@ -157,7 +157,7 @@ class ubbDisplay extends XUBBP
     public function videoStream($data)
     {
         $url = $data['url'];
-        return '<p class="video_box"><video class="video" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></video></p>';
+        return '<p class="video_box"><video class="video" src="'.code::html($url).'" controls="controls" onload="this.style.height=(this.offsetWidth*2/3)+\'px\'"><a href="'.code::html($url).'">'.code::html($url).'</a></video></p>';
     }
 
     /*audioStream 音频流*/
