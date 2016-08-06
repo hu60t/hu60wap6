@@ -25,6 +25,8 @@ class ubbEdit extends XUBBP
         'time' => 'time',
         /*video 视频*/
         'video' => 'video',
+        'videoStream' => 'video',
+        'audioStream' => 'video',
         /*copyright 版权声明*/
         'copyright' => 'copyright',
         /*battlenet 战网*/
@@ -151,7 +153,20 @@ class ubbEdit extends XUBBP
     /*video 视频*/
     public function video($data)
     {
-        return '《视频：' . code::html($data['url']) . '》';
+        switch ($data['type']) {
+            case 'video':
+            default:
+                $tag = '视频';
+                break;
+            case 'videoStream':
+                $tag = '视频流';
+                break;
+            case 'audioStream':
+                $tag = '音频流';
+                break;
+        }
+
+        return '《'.$tag.'：' . code::html($data['url']) . '》';
     }
 
     /*copyright 版权声明*/

@@ -25,6 +25,8 @@ class ubbDisplay extends XUBBP
         'time' => 'time',
         /*video 视频*/
         'video' => 'video',
+        'videoStream' => 'videoStream',
+        'audioStream' => 'audioStream',
         /*copyright 版权声明*/
         'copyright' => 'copyright',
         /*battlenet 战网*/
@@ -149,6 +151,20 @@ class ubbDisplay extends XUBBP
         else {
             return '<p class="video_box"><a href="'.code::html($url).'">'.code::html($url).'</a></p>';
         }
+    }
+
+    /*videoStream 视频流*/
+    public function videoStream($data)
+    {
+        $url = $data['url'];
+        return '<p class="video_box"><video src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></video></p>';
+    }
+
+    /*audioStream 音频流*/
+    public function audioStream($data)
+    {
+        $url = $data['url'];
+        return '<p class="audio_box"><audio src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></audio></p>';
     }
 
     /*copyright 版权声明*/

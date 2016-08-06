@@ -26,6 +26,10 @@ class ubbParser extends XUBBP
         '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img', array(2, 3)),
         /*video 视频*/
         '!^(.*)《视频：(.*?)》(.*)$!is' => array(array(1, 3), 'video', array(2)),
+        /*videoStream 视频*/
+        '!^(.*)《视频流：(.*?)》(.*)$!is' => array(array(1, 3), 'videoStream', array(2)),
+        /*audioStream 视频*/
+        '!^(.*)《音频流：(.*?)》(.*)$!is' => array(array(1, 3), 'audioStream', array(2)),
         /*copyright 版权*/
         '!^(.*)《版权：(.*?)》(.*)$!is' => array(array(1, 3), 'copyright', array(2)),
         /*battlenet 战网*/
@@ -192,6 +196,30 @@ class ubbParser extends XUBBP
     {
         return array(array(
             'type' => 'video',
+            'url' => trim($url),
+            'len' => $this->len($url)
+        ));
+    }
+
+    /**
+     * @brief 视频流
+     */
+    public function videoStream($url)
+    {
+        return array(array(
+            'type' => 'videoStream',
+            'url' => trim($url),
+            'len' => $this->len($url)
+        ));
+    }
+
+    /**
+     * @brief 音频流
+     */
+    public function audioStream($url)
+    {
+        return array(array(
+            'type' => 'audioStream',
             'url' => trim($url),
             'len' => $this->len($url)
         ));
