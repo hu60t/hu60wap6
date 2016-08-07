@@ -44,6 +44,7 @@
 <hr>
 <div id="tools">
 	<p>『实用工具』</p>
-	<p><a href="tools.ua.{$BID}">查看HTTP请求</a></p>
+	<p>-<a href="tools.ua.{$BID}">查看HTTP请求</a></p>
+	<p>-<a href="tools.coder.{$BID}">编码解码器</a></p>
 </div>
 {include file="tpl:comm.foot"}
