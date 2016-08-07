@@ -30,13 +30,13 @@ switch($action)
         $result = json_encode($content);
         break;
     case 'emd5':
-        $result = md5($content);
+        $result = md5(mb_convert_encoding($content,$code,'utf-8'));
         break;
     case 'esha1':
-        $result = sha1($content);
+        $result = sha1(mb_convert_encoding($content,$code,'utf-8'));
         break;
     case 'esha256':
-        $result = hash('sha256', $content);
+        $result = hash('sha256', mb_convert_encoding($content,$code,'utf-8'));
         break;
     case 'db64x':
         $result = bin2hex(base64_decode($content));
@@ -45,25 +45,25 @@ switch($action)
         $result = base64_encode(pack('H*',$content));
         break;
     case 'ehex':
-        $result = bin2hex($content);
+        $result = bin2hex(mb_convert_encoding($content,$code,'utf-8'));
         break;
     case 'dhex':
         $result = mb_convert_encoding(pack('H*',$content),'utf-8',$code);
         break;
     case 'eb64':
-        $result = base64_encode($content);
+        $result = base64_encode(mb_convert_encoding($content,$code,'utf-8'));
         break;
     case 'db64':
         $result = mb_convert_encoding(base64_decode($content),'utf-8',$code);
         break;
     case 'eurl':
-        $result = urlencode($content);
+        $result = urlencode(mb_convert_encoding($content,$code,'utf-8'));
         break;
     case 'durl':
         $result = mb_convert_encoding(urldecode($content),'utf-8',$code);
         break;
     case 'eurls':
-        $result=urlencode($content);
+        $result=urlencode(mb_convert_encoding($content,$code,'utf-8'));
         for($i=33;$i<=126;$i  )
         {
             $str=chr($i);
