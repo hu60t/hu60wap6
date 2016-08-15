@@ -52,6 +52,8 @@ class IpLocation
             $this->firstIp = $this->getLong();
             $this->lastIp = $this->getLong();
             $this->totalIp = ($this->lastIp - $this->firstIp) / 7;
+        } else {
+            throw new IpLocationException("纯真IP数据库 {$filename} 无法打开");
         }
     }
 
@@ -228,6 +230,32 @@ class IpLocation
     }
 
     /**
+     * 获取字符串形式的查询结果
+     *
+     * @author 老虎会游泳
+     * @date 2016-8-15 11:38:45
+     */
+    public function getLocationString($ip) {
+        $location = $this->getLocation($ip);
+        $country = trim($location['country']);
+        $area = trim($location['area']);
+
+        if (empty($country) || $country == '世界') {
+            if (empty($area)) {
+                return '无位置记录';
+            } else {
+                return $area;
+            }
+        } else {
+            if (empty($area)) {
+                return $country;
+            } else {
+                return "$country $area";
+            }
+        }
+    }
+
+    /**
      * 析构函数，用于在页面执行结束后自动关闭打开的文件。
      *
      */
@@ -238,4 +266,8 @@ class IpLocation
         }
         $this->fp = 0;
     }
+}
+
+class IpLocationException extends Exception {
+    // 未重载父类
 }

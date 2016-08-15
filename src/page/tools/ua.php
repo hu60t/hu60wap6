@@ -1,4 +1,5 @@
 <?php
+$ipLocation = new IpLocation();
 $tpl = $PAGE->START();
 
 //生成地理位置信息
@@ -62,9 +63,10 @@ $tpl->assign('header', $header);
 
 $tpl->display('tpl:ua');
 
+
+
 function quip($ip)
 {
-    $ipLocation = new IpLocation();
-    $location = $ipLocation->getLocation($ip);
-    return "$location[country] $location[area]";
+    global $ipLocation;
+    return $ipLocation->getLocationString($ip);
 }
