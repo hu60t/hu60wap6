@@ -249,6 +249,9 @@ class IpLocation
         } else {
             if (empty($area)) {
                 return $country;
+            }elseif (substr($area, 0, strlen($country)) == $country) {
+                //$area的开头和$country相同，不需要把$country再显示一遍
+                return $area;
             } else {
                 return "$country $area";
             }
