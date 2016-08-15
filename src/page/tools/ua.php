@@ -64,5 +64,7 @@ $tpl->display('tpl:ua');
 
 function quip($ip)
 {
-    return '地理信息暂时无法读取';
+    $ipLocation = new IpLocation();
+    $location = $ipLocation->getLocation($ip);
+    return "$location[country] $location[area]";
 }

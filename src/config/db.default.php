@@ -12,6 +12,17 @@
 
 
 /**
+ * 纯真IP数据库的位置
+ *
+ * 纯真IP数据库用于显示IP地址对应的地理位置。
+ * 由于没有授权，本程序不附带数据库文件，您需要自行下载。
+ * 可以从 http://www.cz88.net/ 下载最新版本的纯真IP数据库，
+ * 并将其中的 qqwry.dat 放在本程序的 src/db 文件夹中。
+ */
+define('QQWRY_IP_DB_PATH', ROOT_DIR . '/db/qqwry.dat');
+
+
+/**
  * 数据库类型
  *
  * 可以填mysql或sqlite

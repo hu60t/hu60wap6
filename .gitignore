@@ -18,3 +18,4 @@
 *~
 /src/google*.html
 .htaccess
+/src/db/qqwry.dat
