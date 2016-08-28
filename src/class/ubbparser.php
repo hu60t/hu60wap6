@@ -83,7 +83,7 @@ class ubbParser extends XUBBP
         /*mailtxt 文本电子邮件地址*/
         '!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is' => array(array(1, 3), 'mailtxt', array(2)),
         /*at @消息*/
-        '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9_\x{4e00}-\x{9fa5}]+)(.*)$!uis' => array(array(1, 3), 'at', array(2)),
+        '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)(.*)$!uis' => array(array(1, 3), 'at', array(2)),
         /*face 表情*/
         '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
         '!^(.*)《(?:表情)?(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
