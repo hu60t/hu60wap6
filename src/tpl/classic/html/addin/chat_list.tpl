@@ -13,7 +13,7 @@
 <p class="title"><span class=" a">聊天室列表</span></p>
 <ul class="chat_list">
     {foreach $list as $k}
-        <li><a href="addin.chat.{$k.name}.{$bid}">{$k.name} ({chat::time_trun(time()-$k.ztime)})</a></li>
+        <li><a href="addin.chat.{urlencode($k.name)}.{$bid}">{$k.name} ({chat::time_trun(time()-$k.ztime)})</a></li>
     {/foreach}
 </ul>
 {include file="tpl:comm.foot"}

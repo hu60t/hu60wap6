@@ -7,6 +7,7 @@ if ($PAGE->ext[0]) {
     $roomname = $PAGE->ext[0];
     $tpl->assign('roomname', $roomname);
     $chat->checkName($roomname);
+
     if ($_POST['go']) {
         if (!$user->islogin)
             $err_msg = '你必须要<a href="user.login.' . $PAGE->bid . '">登录</a>才能发言';
@@ -28,7 +29,12 @@ if ($PAGE->ext[0]) {
     $pageSize = 15;
     $maxP = ceil($chatCount / $pageSize);
 
-    $p = (int)$_GET['p'];
+    if (isset($_GET['level'])) {
+        $level = (int)$_GET['level'];
+        $p = ceil(($chatCount - $level + 1) / $pageSize);
+    } else {
+        $p = (int)$_GET['p'];
+    }
 
     if ($p < 1) {
         $p = 1;
@@ -48,9 +54,10 @@ if ($PAGE->ext[0]) {
 
     $tpl->display("tpl:chat");
 } else {
-    if ($_POST[roomname]) {
-        $url = 'addin.chat.' . $_POST[roomname] . '.' . $PAGE->bid;
-        header("location:$url");
+    if ($_POST['roomname']) {
+        $url = 'addin.chat.' . urlencode($_POST['roomname']) . '.' . $PAGE->bid;
+        header("Location: $url");
+        exit;
     }
     // 聊天室列表
     $list = $chat->roomlist();

@@ -113,6 +113,13 @@ class chat
         
         return $rs->fetchAll();
     }
+    
+    public function chatListWithLevel($name, $level = 1, $size = 10)
+    {
+        $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND lid<=? ORDER BY `time` DESC LIMIT ?', $name, $level, $size);
+
+        return $rs->fetchAll();
+    }
 
     /**
      * 获取最新的发言
@@ -132,12 +139,12 @@ class chat
         global $PAGE;
         $ubb = new ubbparser;
         $contents = $ubb->parse($content, true);
-        $lid = $this->db->select('max(lid)', 'addin_chat_data', 'WHERE room=?', $room)->fetch();
-        $lid = $lid['max(lid)'] + 1;
+        $lid = $this->db->select('count(*)', 'addin_chat_data', 'WHERE room=?', $room)->fetch(db::num);
+        $lid = $lid[0] + 1;
         $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,uname,content,time', $room, $lid, $this->user->uid, $this->user->name, $contents, $time);
         if ($rs) {
             $this->db->update('addin_chat_list', 'ztime=? WHERE name=?', $time, $room);
-            $this->user->regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.{$room}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
+            $this->user->regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.{$room}.{$PAGE->bid}?level={$lid}", mb_substr($content, 0, 200, 'utf-8'));
             return true;
         } else {
             return false;

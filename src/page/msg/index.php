@@ -83,7 +83,7 @@ switch ($action) {
         } catch (Exception $e) {
             $tpl->assign('error', $e);
         }
-        
+
         $tpl->display('tpl:send');
         break;
 
@@ -112,6 +112,12 @@ switch ($action) {
         $offset = ($p - 1) * $pageSize;
 
         $list = $msg->msgList(msg::TYPE_AT_INFO, $offset, $pageSize, $isread, '*', false);
+
+        foreach ($list as $v) {
+            if (!$v['isread']) {
+                $msg->read_msg($USER->uid, $v['id']);
+            }
+        }
 
         $tpl->assign('uinfo', $uinfo);
         $tpl->assign('ubbs', $ubbs);

@@ -11,7 +11,7 @@
     <span class="pt_c"><a href="addin.chat.{$bid}">切换聊天室</a></span>
     <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?rand={time()}">刷新</a></span>
 </div>
-{$err_msg}
+<div class="failure">{$err_msg}</div>
 <div class="topic_area">
     <form method="post" action="addin.chat.{$roomname}.{$bid}">
         <div>
