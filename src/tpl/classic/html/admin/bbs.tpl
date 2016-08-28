@@ -5,7 +5,7 @@
 <div class="cr180_ptzmenu">
     {foreach $fIndex as $forum}
     {/foreach}
-<a  href="javascript:;" onclick="location.href='admin.index.{$BID}'" class="pt_z">管理页</a>
+<a  href="admin.index.{$BID}" class="pt_z">管理页</a>
             <span class="pt_c">论坛管理</span>
 <span class="pt_y"><a href="{$CID}.{$PID}.{$PAGE->ext[0]|code}.{$BID}">刷新</a></span>
 </div>

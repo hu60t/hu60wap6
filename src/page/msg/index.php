@@ -12,30 +12,78 @@ $ubbs = new ubbdisplay();
 
 $action = $PAGE->ext[0];
 
+$p = (int)$_GET['p'];
+$pageSize = 15;
+
+if ($p < 1) {
+    $p = 1;
+}
+
+switch ($PAGE->ext[1]) {
+    case 'yes':
+        $isread = 1;
+        break;
+    case 'no':
+        $isread = 0;
+        break;
+    case 'all':
+    default:
+        $isread = null;
+        break;
+}
+
 switch ($action) {
     case 'outbox':
         // 发件箱
-        $list = $msg->read_outbox($user->uid, '0', $PAGE->ext[1]);
-        foreach ($list[row] as $k => $m) {
-            $uinfo->uid($m['touid']);
-            $list[row][$k]['toname'] = $uinfo->name;
-            $list[row][$k]['content'] = $ubbs->display($m['content'], true);
+        $msgCount = $msg->msgCount(msg::TYPE_MSG, $isread, true);
+
+        $maxP = ceil($msgCount / $pageSize);
+
+        if ($p > $maxP) {
+            $p = $maxP;
         }
+
+        $offset = ($p - 1) * $pageSize;
+
+        $list = $msg->msgList(msg::TYPE_MSG, $offset, $pageSize, $isread, '*', true);
+
+        $tpl->assign('uinfo', $uinfo);
+        $tpl->assign('ubbs', $ubbs);
         $tpl->assign('list', $list);
+
+        $tpl->assign('p', $p);
+        $tpl->assign('maxP', $maxP);
+        $tpl->assign('msgCount', $msgCount);
+        
         $tpl->display('tpl:outbox');
+
         break;
 
     case 'send':
         // 发送信息
-        $uinfo = new UserInfo();
-        $uinfo->uid($PAGE->ext[1]);
+        try {
+            $uinfo = new UserInfo();
+            $ok = $uinfo->uid($PAGE->ext[1]);
 
-        if (strlen(trim($_POST['content'])) > 0) {
-            $send = $msg->send_msg($user->uid, '0', $uinfo->uid, $_POST['content']);
-            $tpl->assign('send', $send);
+            if (!$ok) {
+                $ok = $uinfo->name($_POST['name']);
+            }
+
+            if (!$ok) {
+                throw new Exception('该用户不存在！');
+            }
+
+            if (strlen(trim($_POST['content'])) > 0) {
+                $send = $msg->send_msg($user->uid, '0', $uinfo->uid, $_POST['content']);
+                $tpl->assign('send', $send);
+            }
+
+            $tpl->assign('toUser', $uinfo);
+
+        } catch (Exception $e) {
+            $tpl->assign('error', $e);
         }
-
-        $tpl->assign('toUser', $uinfo);
+        
         $tpl->display('tpl:send');
         break;
 
@@ -53,24 +101,52 @@ switch ($action) {
 
     case '@':
         //@信息查看
-        $list = $msg->read_inbox($user->uid, '1', $PAGE->ext[1]);
-        foreach ($list[row] as $k => $m) {
-            $list[row][$k]['content'] = $ubbs->display($m['content'], true);
+        $msgCount = $msg->msgCount(msg::TYPE_AT_INFO, $isread, false);
+
+        $maxP = ceil($msgCount / $pageSize);
+
+        if ($p > $maxP) {
+            $p = $maxP;
         }
+
+        $offset = ($p - 1) * $pageSize;
+
+        $list = $msg->msgList(msg::TYPE_AT_INFO, $offset, $pageSize, $isread, '*', false);
+
+        $tpl->assign('uinfo', $uinfo);
+        $tpl->assign('ubbs', $ubbs);
         $tpl->assign('list', $list);
+
+        $tpl->assign('p', $p);
+        $tpl->assign('maxP', $maxP);
+        $tpl->assign('msgCount', $msgCount);
+        
         $tpl->display('tpl:at');
         break;
 
     case 'inbox':
     default:
         // 收件箱
-        $list = $msg->read_inbox($user->uid, '0', $PAGE->ext[1]);
-        foreach ($list['row'] as $k => $m) {
-            $uinfo->uid($m['byuid']);
-            $list[row][$k]['byname'] = $uinfo->name;
-            $list[row][$k]['content'] = $ubbs->display($m['content'], true);
+        $msgCount = $msg->msgCount(msg::TYPE_MSG, $isread, false);
+    
+        $maxP = ceil($msgCount / $pageSize);
+    
+        if ($p > $maxP) {
+            $p = $maxP;
         }
+    
+        $offset = ($p - 1) * $pageSize;
+    
+        $list = $msg->msgList(msg::TYPE_MSG, $offset, $pageSize, $isread, '*', false);
+    
+        $tpl->assign('uinfo', $uinfo);
+        $tpl->assign('ubbs', $ubbs);
         $tpl->assign('list', $list);
+
+        $tpl->assign('p', $p);
+        $tpl->assign('maxP', $maxP);
+        $tpl->assign('msgCount', $msgCount);
+    
         $tpl->display('tpl:inbox');
         break;
 

@@ -3,7 +3,7 @@
 {include file="tpl:comm.head" title=$title}
 <!--导航栏-->
 <div class="pt cr180_ptzmenu">
- <a  href="javascript:;" onclick="location.href='index.index.{$bid}'" title="首页" class="pt_z">回首页</a>
+ <a  href="index.index.{$bid}" title="首页" class="pt_z">回首页</a>
 <a href="{$CID}.forum.{$BID}">{#BBS_NAME#}</a>
 </div>
 <div style="clear:left"></div>
@@ -15,11 +15,11 @@
 </form>
 </div>
 {if $topicList}
-                                                <a  href="javascript:;" onclick="location.href='bbs.forum.{$forum['id']}.{$BID}'" >
+                                                <a  href="location.href='bbs.forum.{$forum['id']}.{$BID}'" >
                         <p class="cr_cb">一共{$count}主题 </p>
                         </a>
                     </div>
-<a  href="javascript:;" onclick="location.href='bbs.forum.{$forum['id']}.{$BID}'" >{$forum['name']}</a>
+<a  href="location.href='bbs.forum.{$forum['id']}.{$BID}'" >{$forum['name']}</a>
 <!--帖子列表-->
 <div class="fl cl indexthreadlist">
                 <div id="threadalllist_c">

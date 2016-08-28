@@ -1,7 +1,7 @@
 {include file="tpl:comm.head" title="新用户注册" no_user=true}
 <div class="pt">
 <div class="cr180_ptzmenu">
-<a  href="javascript:;" onclick="location.href='index.index.{$bid}'" title="首页" class="pt_z">回首页</a>
+<a  href="index.index.{$bid}" title="首页" class="pt_z">回首页</a>
 <span class="pt_c">确认密码</span>
 <span class="pt_y"><a href="{$u|code}">返回来源</a></span>
 </div>

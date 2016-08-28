@@ -11,7 +11,7 @@
 <div class="cr180_ptzmenu">
     {foreach $fIndex as $forum}
     {/foreach}
-<a  href="javascript:;" onclick="location.href='{$CID}.forum.{$forum.id}.{$BID}'" title="{$forum.name|code}" class="pt_z">{$forum.name|code}</a>
+<a  href="{$CID}.forum.{$forum.id}.{$BID}" title="{$forum.name|code}" class="pt_z">{$forum.name|code}</a>
             <span class="pt_c">发帖</span>
 <span class="pt_y"><a href="{$CID}.topic.{$topicId}.{$BID}">返回帖子</a></span>
 </div>

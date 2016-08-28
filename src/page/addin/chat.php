@@ -19,14 +19,33 @@ if ($PAGE->ext[0]) {
             }
         }
     }
+
     $ubbs = new ubbdisplay();
     $ubbs->setOpt('at.jsFunc', 'atAdd');
     $tpl->assign('err_msg', $err_msg);
-    $list = $chat->chatlist($roomname);
-    foreach ($list[row] as $k => $m) {
-        $list[row][$k][content] = $ubbs->display($m[content], truw);
+
+    $chatCount = $chat->chatCount($roomname);
+    $pageSize = 15;
+    $maxP = ceil($chatCount / $pageSize);
+
+    $p = (int)$_GET['p'];
+
+    if ($p < 1) {
+        $p = 1;
+    } else if ($p > $maxP) {
+        $p = $maxP;
     }
+
+    $offset = ($p - 1) * $pageSize;
+
+    $list = $chat->chatList($roomname, $offset, $pageSize);
+
     $tpl->assign('list', $list);
+    $tpl->assign('count', $chatCount);
+    $tpl->assign('p', $p);
+    $tpl->assign('maxP', $maxP);
+    $tpl->assign('ubbs', $ubbs);
+
     $tpl->display("tpl:chat");
 } else {
     if ($_POST[roomname]) {

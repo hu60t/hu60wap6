@@ -2,7 +2,7 @@
 {config_load file="conf:site.info"}
 <div class="pt">
 <div class="cr180_ptzmenu">
-<a  href="javascript:;" onclick="location.href='index.index.{$bid}'" title="首页" class="pt_z">回首页</a>
+<a  href="index.index.{$bid}" title="首页" class="pt_z">回首页</a>
 <span class="pt_c">用户信息</span>
 <!--span class="pt_y"><a href="user.exit.{$bid}">退出</a></span-->
 </div>

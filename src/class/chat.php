@@ -52,21 +52,10 @@ class chat
     /**
      * 聊天室列表
      */
-    public function roomlist($size = 20)
+    public function roomlist()
     {
-        $rs = $this->db->select('*', 'addin_chat_list', 'ORDER BY `ztime`');
-        if (!$rs)
-            throw new chatException('数据库错误，表' . DB_A . 'addin_chat_list不可读', 500);
-        $n = count($rs->fetchAll());
-        $px = $this->page($n, $size);
-        $rs = $this->db->select("*", 'addin_chat_list', 'ORDER BY `ztime` DESC LIMIT ?,?', $px->thispage, $px->pagesize);
-        $rs = $rs->fetchAll();
-        foreach ($rs as $k => $m) {
-            $rs[$k]['ctime'] = $this->time_trun(time() - $m['ztime']);
-        }
-        $row['row'] = $rs;
-        $row['px'] = $px->pageshow();
-        return $row;
+        $rs = $this->db->select("*", 'addin_chat_list', 'ORDER BY `ztime` DESC');
+        return $rs->fetchAll();
     }
 
     /**
@@ -108,19 +97,21 @@ class chat
         if (!$rs) return false;
         return true;
     }
+    
+    public function chatCount($name) {
+        $rs = $this->db->select("count(*)", 'addin_chat_data', 'WHERE room=?', $name);
+        $n = $rs->fetch(db::num);
+        return $n[0];
+    }
 
     /**
      * 指定聊天室发言列表
      */
-    public function chatlist($name, $size = 10)
+    public function chatList($name, $offset = 0, $size = 10)
     {
-        $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? ORDER BY `time` DESC', $name);
-        $n = count($rs->fetchAll());
-        $px = $this->page($n, $size);
-        $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? ORDER BY `time` DESC LIMIT ?,?', $name, $px->thispage, $px->pagesize);
-        $row['row'] = $rs->fetchAll();
-        $row['px'] = $px->pageshow();
-        return $row;
+        $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? ORDER BY `time` DESC LIMIT ?,?', $name, $offset, $size);
+        
+        return $rs->fetchAll();
     }
 
     /**
@@ -160,7 +151,7 @@ class chat
     }
 
     // 计算时间差
-    public function time_trun($s)
+    public static function time_trun($s)
     {
         if ($s < 60) {
             return $s . '秒钟前';
@@ -172,16 +163,7 @@ class chat
             return floor($s / 86400) . '天前';
         }
     }
-
-    // 调用分页类
-    private function page($n, $size = 10, $url = "?p")
-    {
-        $px = new pagex();
-        $px->pageurl = $url;
-        $px->total = $n;
-        $px->pagesize = $size;
-        return $px;
-    }
+    
     /**
      * class end!
      */
