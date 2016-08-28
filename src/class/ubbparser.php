@@ -15,6 +15,7 @@ class ubbParser extends XUBBP
         * 因为[code][/code]标记里的内容（代码块）不应该进行任何UBB解析。
         */
         /*code 代码高亮*/
+        '!^(^|.*[\r\n]+)\[code(?:=(.*?))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
         '!^(.*)\[code(?:=(.*?))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
         /*time 时间*/
         '!^(.*)\[time(?:=(.*?))?\](.*)$!is' => array(array(1, 3), 'time', array(2)),

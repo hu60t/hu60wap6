@@ -1,6 +1,6 @@
 {include file="tpl:comm.head" title="收件箱"}
 发件箱：
-{if $PAGE.ext[1] == 'all'}全部{else}<a href="msg.index.outbox.all.{$bid}">全部</a>{/if}&nbsp;
+{if !in_array($PAGE.ext[1],['yes','no'])}全部{else}<a href="msg.index.outbox.all.{$bid}">全部</a>{/if}&nbsp;
 {if $PAGE.ext[1] == 'no'}对方未读{else}<a href="msg.index.outbox.no.{$bid}">对方未读</a>{/if}&nbsp;
 {if $PAGE.ext[1] == 'yes'}对方已读{else}<a href="msg.index.outbox.yes.{$bid}">对方已读</a>{/if}&nbsp;
 <a href="msg.index.send.{$bid}">发信</a>
