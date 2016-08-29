@@ -467,14 +467,16 @@ class ubbParser extends XUBBP
      * @param string $reason 操作原因
      * @param string $oriData 删除对象的原始内容（serialize格式的XUBBP数据）
      * @param bool $serialize 是否返回串行化结果
+     * @param int $ownUid 楼层所有者的uid
      *
      * @return XUBBP 数据
      */
-    public function createAdminDelNotice($user, $pos, $url, $reason, $oriData, $serialize = false)
+    public function createAdminDelNotice($user, $pos, $url, $reason, $oriData, $serialize = false, $ownUid = null)
     {
         $data = array(array(
             'type' => 'adminDel',
             'uid' => $user->uid,
+            'ownUid' => $ownUid,
             'pos' => $pos,
             'url' => $url,
             'reason' => $reason,
@@ -495,14 +497,16 @@ class ubbParser extends XUBBP
      * @param User $user 操作者
      * @param string $reason 操作原因
      * @param bool $serialize 是否返回串行化结果
+     * @param int $ownUid 楼层所有者的uid
      *
      * @return XUBBP 数据
      */
-    public function createAdminDelContent($user, $reason, $serialize = false)
+    public function createAdminDelContent($user, $reason, $serialize = false, $ownUid = null)
     {
         $data = array(array(
             'type' => 'delContent',
             'uid' => $user->uid,
+            'ownUid' => $ownUid,
             'reason' => $reason,
             'time' => $_SERVER['REQUEST_TIME'],
             'len' => $this->len($user->name . $reason . $_SERVER['REQUEST_TIME'])

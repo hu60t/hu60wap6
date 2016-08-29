@@ -81,11 +81,12 @@ try {
         }
 
         $ubbp = new ubbParser();
-        $msgData = $ubbp->createAdminDelNotice($USER, $msgTitle, "bbs.topic.{$tid}.{$PAGE->bid}", $delReason, $tContent['content']);
+        $msgData = $ubbp->createAdminDelNotice($USER, $msgTitle, "bbs.topic.{$tid}.{$PAGE->bid}", $delReason, $tContent['content'], false, $tContent['uid']);
 
-        $msg = new Msg($USER);$msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
+        $msg = new Msg($USER);
+        $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
 
-        $content = $ubbP->createAdminDelContent($USER, $delReason);
+        $content = $ubbP->createAdminDelContent($USER, $delReason, false, $tContent['uid']);
         $bbs->deleteTopicContent($cid, $content);
 
         if ($delTitle) {

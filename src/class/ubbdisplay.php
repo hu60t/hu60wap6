@@ -390,7 +390,7 @@ HTML;
     /*管理员删除通知信息*/
     public function adminDelNotice($data)
     {
-        global $PAGE;
+        global $PAGE, $USER;
 
         $url = code::html($data['url']);
         $pos = code::html($data['pos']);
@@ -399,8 +399,14 @@ HTML;
         $uinfo->uid($data['uid']);
         $oriData = $this->display($data['oriData']);
 
+        if ($data['uid'] == $data['ownUid']) {
+            $own = "您";
+        } else {
+            $own = "管理员 <a href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
+        }
+
         return <<<HTML
-管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 删除了您在 <a href="{$url}">{$pos}</a> 的发言，理由如下：
+{$own}删除了您在 <a href="{$url}">{$pos}</a> 的发言，理由如下：
 <blockquote>
 {$reason}
 </blockquote>
@@ -414,7 +420,7 @@ HTML;
     /*管理员删除的内容*/
     public function adminDelContent($data)
     {
-        global $PAGE;
+        global $PAGE, $USER;
 
         $reason = code::html($data['reason']);
         $uinfo = new UserInfo();
@@ -435,12 +441,16 @@ HTML;
             $time = '于 ' . date('Y-m-d H:i ', $data['time']);
         }
 
+        if ($data['uid'] == $data['ownUid']) {
+            $own = '层主';
+        } else {
+            $own = '管理员';
+        }
+
         return <<<HTML
 <div class="tp info-box">
-<span class="notice">管理员 $admin {$time}删除了该楼层</span>，理由如下：
-<p>
-{$reason}
-</p>
+<span class="notice">{$own} {$admin} {$time}删除了该楼层</span>，理由如下：
+<p>{$reason}</p>
 </div>
 HTML;
     }
