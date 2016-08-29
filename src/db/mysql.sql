@@ -1,20 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.3deb1
+-- version 4.6.4deb1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2016-07-29 04:25:56
--- 服务器版本： 10.0.26-MariaDB-1
--- PHP Version: 7.0.8-4
+-- Generation Time: 2016-08-29 02:30:20
+-- 服务器版本： 10.0.26-MariaDB-3
+-- PHP Version: 7.0.9-2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `hu60`
@@ -32,8 +26,9 @@ CREATE TABLE `hu60_addin_chat_data` (
   `lid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `uname` varchar(16) NOT NULL,
-  `content` blob NOT NULL,
-  `time` bigint(20) NOT NULL
+  `content` mediumblob NOT NULL,
+  `time` bigint(20) NOT NULL,
+  `hidden` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -147,7 +142,8 @@ CREATE TABLE `hu60_user` (
   `info` blob,
   `mail` varchar(255) DEFAULT NULL,
   `regphone` char(11) CHARACTER SET ascii DEFAULT NULL,
-  `permission` bit(8) NOT NULL DEFAULT b'0'
+  `permission` bit(8) NOT NULL DEFAULT b'0',
+  `active` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -269,6 +265,3 @@ ALTER TABLE `hu60_token`
 --
 ALTER TABLE `hu60_user`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
