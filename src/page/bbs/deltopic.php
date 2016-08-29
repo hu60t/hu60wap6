@@ -33,6 +33,9 @@ try {
     //读取楼层内容
     $tContent = $bbs->topicContent($cid, 'content,uid,topic_id,floor,locked');
 
+    $selfDel = ($tContent['uid'] == $USER->uid);
+    $tpl->assign('selfDel', $selfDel);
+
     if (!$tContent) {
         throw new bbsException('楼层不存在！', 3404);
     }
@@ -68,12 +71,16 @@ try {
 
         //向用户发送提醒
 
-        $delReason = trim($_POST['delReason']);
+        if ($selfDel) {
+            $delReason = null;
+        } else {
+            $delReason = trim($_POST['delReason']);
 
-        if (empty($delReason)) {
-            throw new Exception('删除理由不能为空！');
+            if (empty($delReason)) {
+                throw new Exception('删除理由不能为空！');
+            }
         }
-
+        
         $msgTitle = "帖子“{$tMeta['title']}”";
 
         if ($tContent['floor'] > 1) {

@@ -28,7 +28,9 @@
         {if $USER->islogin}
                 {input type="hidden" name="token" value=$token->token()}
 </p>
-    <p>删除理由：<input name="delReason" value="{$smarty.post.editReason|code}" /></p>
+    {if !$selfDel}
+        <p>删除理由：<input name="delReason" value="{$smarty.post.editReason|code}" /></p>
+    {/if}
 <p>
 </p>
     <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="确认删除" /></p>

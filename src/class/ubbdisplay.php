@@ -401,15 +401,21 @@ HTML;
 
         if ($data['uid'] == $data['ownUid']) {
             $own = "您";
+            $reason = "。";
         } else {
             $own = "管理员 <a href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
-        }
 
-        return <<<HTML
-{$own}删除了您在 <a href="{$url}">{$pos}</a> 的发言，理由如下：
+            $reason = <<<HTML
+，理由如下：
 <blockquote>
 {$reason}
 </blockquote>
+HTML;
+
+        }
+
+        return <<<HTML
+{$own}删除了您在 <a href="{$url}">{$pos}</a> 的发言{$reason}
 您发言的原始内容如下：
 <blockquote>
 {$oriData}
@@ -443,14 +449,19 @@ HTML;
 
         if ($data['uid'] == $data['ownUid']) {
             $own = '层主';
+            $reason = '。';
         } else {
             $own = '管理员';
+
+            $reason = <<<HTML
+，理由如下：
+<p>{$reason}</p>
+HTML;
         }
 
         return <<<HTML
 <div class="tp info-box">
-<span class="notice">{$own} {$admin} {$time}删除了该楼层</span>，理由如下：
-<p>{$reason}</p>
+{$own} {$admin} {$time}删除了该楼层{$reason}
 </div>
 HTML;
     }
