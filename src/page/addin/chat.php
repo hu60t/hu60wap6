@@ -61,6 +61,7 @@ if ($PAGE->ext[0]) {
     $tpl->assign('maxP', $maxP);
     $tpl->assign('ubbs', $ubbs);
     $tpl->assign('chat', $chat);
+    $tpl->assign('uinfo', new UserInfo());
 
     $tpl->display("tpl:chat");
 } else {

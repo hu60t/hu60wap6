@@ -187,6 +187,8 @@ class chat
     // 删除指定聊天室楼层
     public function delete($id)
     {
+        global $USER;
+
         $chatInfo = $this->db->select('uid', 'addin_chat_data', 'WHERE id=?', $id);
         
         if (!$chatInfo) {
@@ -196,7 +198,7 @@ class chat
         $chatInfo = $chatInfo->fetch(db::ass);
 
         if ($this->canDel($chatInfo['uid'])) {
-            $this->db->update('addin_chat_data', 'hidden=1 WHERE id=?', $id);
+            $this->db->update('addin_chat_data', 'hidden=? WHERE id=?', $USER->uid, $id);
         }
     }
 

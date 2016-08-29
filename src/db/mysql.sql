@@ -28,7 +28,7 @@ CREATE TABLE `hu60_addin_chat_data` (
   `uname` varchar(16) NOT NULL,
   `content` mediumblob NOT NULL,
   `time` bigint(20) NOT NULL,
-  `hidden` tinyint(1) NOT NULL DEFAULT '0'
+  `hidden` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

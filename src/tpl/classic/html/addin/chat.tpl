@@ -29,7 +29,12 @@
     {foreach $list as $k}
         {if $k.hidden}
         <div class="i">
-            {$k.lid}. <span class="failure">该楼层已删除</span>
+            {$tmp = $uinfo->uid($k.hidden)}
+            {if $k.hidden == $k.uid}
+                {$k.lid}. 该楼层已被层主 <a href="#" onclick="atAdd('{$uinfo->name|code}');return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 自行删除。
+            {else}
+                {$k.lid}. 该楼层已被管理员 <a href="#" onclick="atAdd('{$uinfo->name|code}');return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 删除，层主：<a href="#" onclick="atAdd('{$k.uname|code}');return false">@</a><a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a>。
+            {/if}
         </div>
         {else}
         <div class="i">{$k.lid}. {$ubbs->display($k.content,true)}<br/>
