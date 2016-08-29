@@ -27,9 +27,15 @@
 <hr>
 <div class="content">
     {foreach $list as $k}
-        <div class="i">{$k.lid}. {$ubbs->display($k.content,true)}<br/>
-            (<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}');return false">@Ta</a> {date("m-d H:i:s",{$k.time})})
+        {if $k.hidden}
+        <div class="i">
+            {$k.lid}. <span class="failure">该楼层已删除</span>
         </div>
+        {else}
+        <div class="i">{$k.lid}. {$ubbs->display($k.content,true)}<br/>
+            (<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}');return false">@Ta</a> {date("m-d H:i:s",{$k.time})}{if $chat->canDel($k.uid,true)}/<a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>{/if})
+        </div>
+        {/if}
         <hr>
     {/foreach}
 </div>

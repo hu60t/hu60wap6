@@ -151,10 +151,53 @@ class chat
         }
     }
 
-    // 删除指定聊天室楼层
-    public function delete($name, $lid)
+    /**
+     * 检查用户是否登录
+     */
+    protected function checkLogin()
     {
-        $this->db->delete('addin_chat_data', 'WHERE room=? AND lid=?', $name, $lid);
+        if ($this->user->islogin)
+            return true;
+        else
+            throw new Exception('用户未登录或掉线，请先登录。', 401);
+    }
+
+    /**
+     * 检查用户是否可删除
+     */
+    public function canDel($ownUid, $noException = false)
+    {
+        try {
+            $this->checkLogin();
+
+            if ($this->user->uid == $ownUid || $this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
+                return true;
+            } else {
+                throw new Exception('您没有权限删除当前楼层。', 403);
+            }
+        } catch (Exception $e) {
+            if ($noException) {
+                return false;
+            } else {
+                throw $e;
+            }
+        }
+    }
+
+    // 删除指定聊天室楼层
+    public function delete($id)
+    {
+        $chatInfo = $this->db->select('uid', 'addin_chat_data', 'WHERE id=?', $id);
+        
+        if (!$chatInfo) {
+            throw new Exception('楼层不存在');
+        }
+
+        $chatInfo = $chatInfo->fetch(db::ass);
+
+        if ($this->canDel($chatInfo['uid'])) {
+            $this->db->update('addin_chat_data', 'hidden=1 WHERE id=?', $id);
+        }
     }
 
     // 计算时间差
