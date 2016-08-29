@@ -13,8 +13,8 @@
 {else}
 {form action="user.exit.{$bid}" method="post"}
 {div class="cr180_login"}
-<input type="submit" name="exit"  class="cr_login_submit"  value="确定清空SID浏览器的COOKIE？" />
-<a href="user.index.{$bid}" class="cr_login_submit" style="background:#060">返回</a>
+<input type="submit" name="exit"  class="cr_login_submit"  value="确定退出" />
+<a href="user.index.{$bid}" class="cr_login_submit">返回</a>
 {/div}{/form}
 {/if}
 {include file="tpl:comm.foot"}
