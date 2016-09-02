@@ -287,8 +287,8 @@ class ubbDisplay extends XUBBP
             $opt = &$data['opt'];
 
             if (!empty($opt)) {
-                $opt = preg_replace('#/\*.*\*/#s', '', $opt);
-                $opt = preg_replace('#position+s*:\s*\w+;?#is', '', $opt);
+                $opt = preg_replace('#/\*.*\*/#sU', '', $opt);
+                $opt = preg_replace('#position\s*:[^;]*;?#is', '', $opt);
             }
 
             switch ($data['tag']) {
