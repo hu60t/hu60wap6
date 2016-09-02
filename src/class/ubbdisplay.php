@@ -283,6 +283,14 @@ class ubbDisplay extends XUBBP
             $dataEnd = $data;
             $dataEnd['tag'] = '/' . $data['tag'];
             $this->regEndTag('/' . $data['tag'], 'style', $dataEnd);
+
+            $opt = &$data['opt'];
+
+            if (!empty($opt)) {
+                $opt = preg_replace('#/\*.*\*/#s', '', $opt);
+                $opt = preg_replace('#position+s*:\s*\w+;?#is', '', $opt);
+            }
+
             switch ($data['tag']) {
                 case 'color':
                     return '<span style="color:' . code::html($data['opt'], false, true) . '">';
