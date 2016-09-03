@@ -115,7 +115,7 @@ class userinfo implements ArrayAccess
     public function name($name, $getinfo = false)
     {
         $this->uid = NULL;
-
+        $this->permission = NULL;
         try {
             self::checkname($name);
         } catch (userexception $ERR) {
@@ -166,6 +166,7 @@ class userinfo implements ArrayAccess
     public function uid($uid, $getinfo = false)
     {
         $this->uid = NULL;
+        $this->permission = NULL;
         try {
             self::checkuid($uid);
         } catch (userexception $ERR) {
@@ -214,7 +215,7 @@ class userinfo implements ArrayAccess
     public function mail($mail, $getinfo = false)
     {
         $this->uid = NULL;
-
+        $this->permission = NULL;
         try {
             self::checkmail($mail);
         } catch (userexception $ERR) {
