@@ -20,7 +20,6 @@ class userinfo implements ArrayAccess
     protected static $mail; //邮箱到uid对应关系的缓存
     protected static $info; //用户配置数据缓存
     protected $uid; //当前用户
-    protected $permission = NULL; //权限
 
     /**
      * 连接数据库
@@ -115,7 +114,7 @@ class userinfo implements ArrayAccess
     public function name($name, $getinfo = false)
     {
         $this->uid = NULL;
-        $this->permission = NULL;
+
         try {
             self::checkname($name);
         } catch (userexception $ERR) {
@@ -166,7 +165,7 @@ class userinfo implements ArrayAccess
     public function uid($uid, $getinfo = false)
     {
         $this->uid = NULL;
-        $this->permission = NULL;
+
         try {
             self::checkuid($uid);
         } catch (userexception $ERR) {
@@ -215,7 +214,7 @@ class userinfo implements ArrayAccess
     public function mail($mail, $getinfo = false)
     {
         $this->uid = NULL;
-        $this->permission = NULL;
+
         try {
             self::checkmail($mail);
         } catch (userexception $ERR) {
@@ -317,7 +316,7 @@ class userinfo implements ArrayAccess
     }
 
     public function hasPermission($permission) {
-        if (NULL === $this->permission) {
+        if (NULL === self::$data['permission'][$this->uid]) {
             $db = self::conn(true);
             $sql = 'SELECT `permission` FROM `'.DB_A.'user` WHERE uid = ?';
             $rs = $db->prepare($sql);
@@ -327,10 +326,10 @@ class userinfo implements ArrayAccess
             }
 
             $data = $rs->fetch(db::num);
-            $this->permission = $data[0];
+            self::$data['permission'][$this->uid] = $data[0];
         }
 
-        return (bool) ($permission & $this->permission);
+        return (bool) ($permission & self::$data['permission'][$this->uid]);
     }
 
     /*class end*/
