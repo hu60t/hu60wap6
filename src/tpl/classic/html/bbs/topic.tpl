@@ -45,6 +45,7 @@
 <p>『回复列表({$contentCount-1})』</p>
 <div>
     {foreach $tContents as $v}
+		{$tmp = $ubb->setOpt('style.disable', $v.uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
 		<div>{$v.floor}. {$ubb->display($v.content,true)}</div>
 		<p>(<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" onclick="atAdd('{$v.uinfo.name|code}');return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if})</p>
 		<hr>

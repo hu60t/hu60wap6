@@ -5,13 +5,6 @@
  */
 class user extends userinfo
 {
-    //权限列表开始
-    
-    /*** 帖子编辑权限 */
-    const PERMISSION_EDIT_TOPIC = 1;
-    
-    //权限列表结束
-    
     //错误ID开始
     const ERROR_USER_NOT_ACTIVE = 80403;
     //错误ID结束
@@ -23,7 +16,6 @@ class user extends userinfo
     public $err = NULL; //start()方法捕获的错误
     protected $at = NULL; //注册的at消息元信息数组
     protected $atUid = NULL; //at消息收件人uid数组
-    protected $permission = NULL; //权限
 
     /*加密用户的密码*/
     protected static function mkpass($pass)
@@ -751,23 +743,6 @@ class user extends userinfo
         $hashedPwd = $result['pass'];
 
         return self::mkpass($password) === $hashedPwd;
-    }
-
-    public function hasPermission($permission) {
-        if (NULL === $this->permission) {
-            $db = self::conn(true);
-            $sql = 'SELECT `permission` FROM `'.DB_A.'user` WHERE uid = ?';
-            $rs = $db->prepare($sql);
-
-            if (!$rs || !$rs->execute([$this->uid])) {
-                throw new UserException('数据库异常，无法读取权限信息！', 10500);
-            }
-
-            $data = $rs->fetch(db::num);
-            $this->permission = $data[0];
-        }
-
-        return (bool) ($permission & $this->permission);
     }
 
     /*class end*/

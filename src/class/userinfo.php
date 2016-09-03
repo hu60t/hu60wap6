@@ -5,11 +5,22 @@
  */
 class userinfo implements ArrayAccess
 {
+    //权限列表开始
+
+    /*** 帖子编辑权限 */
+    const PERMISSION_EDIT_TOPIC = 1;
+
+    /*** 禁止使用div和span标签 */
+    const PERMISSION_UBB_DISABLE_STYLE = 2;
+
+    //权限列表结束
+
     protected static $data; //用户数据缓存
     protected static $name; //用户名到uid对应关系的缓存
     protected static $mail; //邮箱到uid对应关系的缓存
     protected static $info; //用户配置数据缓存
     protected $uid; //当前用户
+    protected $permission = NULL; //权限
 
     /**
      * 连接数据库
@@ -302,6 +313,23 @@ class userinfo implements ArrayAccess
     public function offsetUnset($name)
     {
         throw new userexception('不能从类外部删除用户信息', 503);
+    }
+
+    public function hasPermission($permission) {
+        if (NULL === $this->permission) {
+            $db = self::conn(true);
+            $sql = 'SELECT `permission` FROM `'.DB_A.'user` WHERE uid = ?';
+            $rs = $db->prepare($sql);
+
+            if (!$rs || !$rs->execute([$this->uid])) {
+                throw new UserException('数据库异常，无法读取权限信息！', 10500);
+            }
+
+            $data = $rs->fetch(db::num);
+            $this->permission = $data[0];
+        }
+
+        return (bool) ($permission & $this->permission);
     }
 
     /*class end*/

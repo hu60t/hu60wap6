@@ -279,7 +279,13 @@ class ubbDisplay extends XUBBP
     /*style 风格*/
     public function style($data)
     {
+        $disable = $this->getOpt('style.disable');
+
         if ($data['tag'][0] != '/') {
+            if ($disable) {
+                return '<div style="border:red solid 1px">由于该用户使用div和span标签破坏论坛版面，影响其他人正常的发言和聊天，该用户的div和span标签已被禁用。请大家引以为戒！</div>';
+            }
+
             $dataEnd = $data;
             $dataEnd['tag'] = '/' . $data['tag'];
             $this->regEndTag('/' . $data['tag'], 'style', $dataEnd);
@@ -300,6 +306,10 @@ class ubbDisplay extends XUBBP
                     return '<span style="' . code::html($data['opt'], false, true) . '">';
             }
         } else {
+            if ($disable) {
+                return '';
+            }
+
             $html = '';
             if ($this->rmEndTag($data['tag'], $html)) {
                 switch ($data['tag']) {
