@@ -1,6 +1,7 @@
 {include file="tpl:comm.head" title="聊天室-{$roomname}"}
 <script>
     function atAdd(uid) {
+        that.style.color = "red";
         var nr = document.getElementById("content");
         nr.value += "@" + uid + "，";
     }
@@ -31,16 +32,16 @@
         <div class="i">
             {$tmp = $uinfo->uid($k.hidden)}
             {*if $k.hidden == $k.uid}
-                {$k.lid}. 该楼层已被层主 <a href="#" onclick="atAdd('{$uinfo->name|code}');return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 自行删除。
+                {$k.lid}. 该楼层已被层主 <a href="#" onclick="atAdd('{$uinfo->name|code}',this);return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 自行删除。
             {else*}
-                {$k.lid}. 该楼层已被管理员 <a href="#" onclick="atAdd('{$uinfo->name|code}');return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 删除，层主：<a href="#" onclick="atAdd('{$k.uname|code}');return false">@</a><a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a>。
+                {$k.lid}. 该楼层已被管理员 <a href="#" onclick="atAdd('{$uinfo->name|code}',this);return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 删除，层主：<a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@</a><a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a>。
             {*/if*}
         </div>
         {else}
             {$tmp = $uinfo->uid($k.uid)}
             {$tmp = $ubbs->setOpt('style.disable', $uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
         <div class="i">{$k.lid}. {$ubbs->display($k.content,true)}<br/>
-            (<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}');return false">@Ta</a> {date("m-d H:i:s",{$k.time})}{if $chat->canDel($k.uid,true)}/<a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>{/if})
+            (<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a> {date("m-d H:i:s",{$k.time})}{if $chat->canDel($k.uid,true)}/<a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>{/if})
         </div>
         {/if}
         <hr>
