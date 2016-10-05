@@ -1,7 +1,7 @@
 {include file="tpl:comm.head" title="聊天室-{$roomname}"}
 <script>
     function atAdd(uid,that) {
-        that.style.color = "red";
+        that.style.color = "#FFA500";
         var nr = document.getElementById("content");
         nr.value += "@" + uid + "，";
     }
