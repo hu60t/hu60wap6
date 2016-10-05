@@ -572,6 +572,9 @@ class user extends userinfo
 
     public function sendAt()
     {
+        static $maxSize = 1;
+        static $nowSize = 0;
+
         if ($this->at === NULL) {
             return false;
         }
@@ -588,6 +591,11 @@ class user extends userinfo
 
         $msg = new msg;
         foreach ($this->atUid as $i => $uid) {
+            $nowSize ++;
+            if ($nowSize > $maxSize) {
+                return false;
+            }
+
             $msg->send_msg($this->uid, '1', $uid, $content);
             unset($this->atUid[$i]);
         }
