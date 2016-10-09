@@ -2,7 +2,7 @@
 <div id="coder">
     <form action="{$CID}.{$PID}.{$BID}" method="post">
         <p>欲编码/解码的内容：</p>
-        <p><textarea name="content">{$smarty.post.content|code}</textarea></p>
+        <p><textarea name="content">{$smarty.post.content|code:false:true}</textarea></p>
         <p>编码所采用的字符集：<select name="code">
                 <option value="UTF-8" {if $smarty.post.code == 'UTF-8'}selected{/if}>UTF-8</option>
                 <option value="GBK" {if $smarty.post.code == 'GBK'}selected{/if}>GBK</option>
@@ -16,6 +16,14 @@
                 <option value="db64" {if $smarty.post.action == 'db64'}selected{/if}>base64解码</option>
                 <option value="xdb64" {if $smarty.post.action == 'xdb64'}selected{/if}>base64编码(输入十六进制值)</option>
                 <option value="db64x" {if $smarty.post.action == 'db64x'}selected{/if}>base64解码(显示十六进制结果)</option>
+		<option value="eb64u" {if $smarty.post.action == 'eb64u'}selected{/if}>base64编码(用于URL)</option>
+                <option value="db64u" {if $smarty.post.action == 'db64u'}selected{/if}>base64解码(用于URL)</option>
+		<option value="xdb64u" {if $smarty.post.action == 'xdb64u'}selected{/if}>base64编码(用于URL，十六进制输入)</option>
+                <option value="db64ux" {if $smarty.post.action == 'db64ux'}selected{/if}>base64解码(用于URL，十六进制结果)</option>
+		<option value="eb32" {if $smarty.post.action == 'eb32'}selected{/if}>base32编码</option>
+		<option value="db32" {if $smarty.post.action == 'db32'}selected{/if}>base32解码</option>
+		<option value="xdb32" {if $smarty.post.action == 'xdb32'}selected{/if}>base32编码(输入十六进制值)</option>
+		<option value="db32x" {if $smarty.post.action == 'db32x'}selected{/if}>base32解码(显示十六进制结果)</option>
                 <option value="eurl" {if $smarty.post.action == 'eurl'}selected{/if}>URL编码</option>
                 <option value="durl" {if $smarty.post.action == 'durl'}selected{/if}>URL解码</option>
                 <option value="eurls" {if $smarty.post.action == 'eurls'}selected{/if}>智能URL编码</option>
@@ -30,13 +38,16 @@
                 <option value="json2serialize" {if $smarty.post.action == 'json2serialize'}selected{/if}>JSON转serialize+url编码</option>
                 <option value="njson2serialize" {if $smarty.post.action == 'njson2serialize'}selected{/if}>JSON转serialize+url编码（移除所有空白）</option>
                 <option value="date" {if $smarty.post.action == 'date'}selected{/if}>时间戳转日期</option>
-                <option value="str2time" {if $smarty.post.action == 'date'}selected{/if}>日期转时间戳</option>
+                <option value="str2time" {if $smarty.post.action == 'str2time'}selected{/if}>日期转时间戳</option>
+		<option value="str2lower" {if $smarty.post.action == 'str2lower'}selected{/if}>字母转为小写</option>
+		<option value="str2upper" {if $smarty.post.action == 'str2upper'}selected{/if}>字母转为大写</option>
+		<option value="str2ucwords" {if $smarty.post.action == 'str2ucwords'}selected{/if}>首字母大写</option>
             </select></p>
         <p><input type="submit" value="操作"/></p>
     </form>
 </div>
 <div id="result">
-    <p><textarea name="content">{$result|code}</textarea></p>
+    <p><textarea name="content">{$result|code:false:true}</textarea></p>
     <p>当前时间戳：{$smarty.server.REQUEST_TIME|code}</p>
 </div>
 {include file="tpl:comm.foot"}

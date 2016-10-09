@@ -5,20 +5,14 @@ class url
 #url解析类
     static function b64e($data)
     {
-#base64URL编码，把+/替换为-_，去除=
-        $pad = 3 - strlen($data) % 3;
-        if ($pad == 3)
-            $pad = 0;
-        $len = strlen($data = str_replace(array('+', '/'), array('-', '_'), base64_encode($data))) - $pad;
-        return substr($data, 0, $len);
+	// base64URL编码，把+/替换为-_
+
+	return strtr(base64_encode($data), array('+'=>'-', '/'=>'_'));
     }
 
     static function b64d($code)
     {
-        $pad = 4 - ($len = strlen($code)) % 4;
-        if ($pad == 4 or $pad == 3)
-            $pad = 0;
-        return base64_decode(str_pad(str_replace(array('-', '_'), array('+', '/'), $code), $len + $pad, '='));
+	return base64_decode(strtr($code, array('-'=>'+', '_'=>'/')));
     }
 
     static function realpath
