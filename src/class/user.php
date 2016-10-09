@@ -572,7 +572,7 @@ class user extends userinfo
 
     public function sendAt()
     {
-        static $maxSize = 1;
+        static $maxSize = 5;
         static $nowSize = 0;
 
         if ($this->at === NULL) {
