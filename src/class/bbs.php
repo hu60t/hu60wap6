@@ -5,6 +5,9 @@
  */
 class bbs
 {
+    /** 下沉帖子操作 */
+    const ACTION_SINK_TOPIC = 1;
+
     /**
      * 用户对象
      */
@@ -70,6 +73,28 @@ class bbs
                 return true;
             } else {
                 throw new bbsException('您没有权限删除当前楼层。', 403);
+            }
+        } catch (Exception $e) {
+            if ($noException) {
+                return false;
+            } else {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * 检查用户是否可沉帖
+     */
+    public function canSink($ownUid, $noException = false)
+    {
+        try {
+            $this->checkLogin();
+
+            if ($this->user->uid == $ownUid || $this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
+                return true;
+            } else {
+                throw new bbsException('您没有权限下沉该帖。', 403);
             }
         } catch (Exception $e) {
             if ($noException) {
@@ -222,6 +247,20 @@ class bbs
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,mtime=? WHERE id=?';
 
         $ok = $this->db->query($sql, $title, $_SERVER['REQUEST_TIME'], $topicId);
+
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
+    }
+
+    /**
+     * 下沉帖子
+     */
+    public function sinkTopic($topicId)
+    {
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET level=? WHERE id=?';
+
+        $ok = $this->db->query($sql, -1, $topicId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');

@@ -519,6 +519,36 @@ class ubbParser extends XUBBP
         return $data;
     }
 
+    /**
+     * 生成管理员操作提醒的XUBBP数据
+     *
+     * @param User $user 操作者
+     * @param string $reason 操作原因
+     * @param bool $serialize 是否返回串行化结果
+     * @param int $ownUid 楼层所有者的uid
+     *
+     * @return XUBBP 数据
+     */
+    public function createAdminActionNotice($action, $admin, $title, $url, $reason, $ownUid = null, $serialize = false)
+    {
+        $data = array(array(
+            'type' => 'adminAction',
+            'act' => $action,
+            'uid' => $admin->uid,
+            'ownUid' => $ownUid,
+            'pos' => $title,
+            'url' => $url,
+            'reason' => $reason,
+            'len' => $this->len($admin->name . $title . $url . $reason)
+        ));
+
+        if ($serialize) {
+            $data = serialize($data);
+        }
+
+        return $data;
+    }
+
     /*按指定分隔符将字符串分成两半*/
     function split($split, $str)
     {

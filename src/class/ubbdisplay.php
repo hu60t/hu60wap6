@@ -46,6 +46,7 @@ class ubbDisplay extends XUBBP
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
         'delContent' => 'adminDelContent',
+        'adminAction' => 'adminActionNotice',
         /*face 表情*/
         'face' => 'face',
     );
@@ -441,6 +442,42 @@ HTML;
 <blockquote>
 {$oriData}
 </blockquote>
+HTML;
+    }
+
+    /*管理员操作通知信息*/
+    public function adminActionNotice($data)
+    {
+        global $PAGE, $USER;
+
+        $actName = [
+            bbs::ACTION_SINK_TOPIC => '下沉',
+        ];
+
+        $act = $actName[$data['act']];
+        $url = code::html($data['url']);
+        $pos = code::html($data['pos']);
+        $reason = code::html($data['reason']);
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+
+        if ($data['uid'] == $data['ownUid']) {
+            $own = "您";
+            $reason = "。";
+        } else {
+            $own = "管理员 <a href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
+
+            $reason = <<<HTML
+，理由如下：
+<blockquote>
+{$reason}
+</blockquote>
+HTML;
+
+        }
+
+        return <<<HTML
+{$own}{$act}了您的 <a href="{$url}">{$pos}</a>{$reason}
 HTML;
     }
 
