@@ -36,7 +36,7 @@
 绑定：{if $hasRegPhone}已绑定手机号{else}<a href="{$CID}.active.{$BID}?sid={$USER->sid}">手机号</a>{/if}
 </p>
 <p class="txt">
-界面：<a href="link.css.default.{$BID}?url64={url::b64e($page->geturl())}">白天模式</a>/<a href="link.css.night.{$BID}?url64={url::b64e($page->geturl())}">夜间模式</a><br/>
+界面：<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a>/<a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a><br/>
 </p>
 <p class="txt">
 论坛楼层排序：

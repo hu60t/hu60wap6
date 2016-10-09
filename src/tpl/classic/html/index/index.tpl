@@ -19,7 +19,7 @@
 		<a href="user.login.{$bid}?u={urlencode($page->geturl())}" title="登录" style="margin-right:10px">登录</a>
 		<a href="user.reg.{$bid}?u={urlencode($page->geturl())}" title="立即注册">立即注册</a>
 	{/if}
-	<p>[<a href="link.css.default.{$BID}?url64={url::b64e($page->geturl())}">白天模式</a>|<a href="link.css.night.{$BID}?url64={url::b64e($page->geturl())}">夜间模式</a>|<a href="addin.webplug.{$BID}">网页插件</a>]</p>
+	<p>[<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a>|<a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a>|<a href="addin.webplug.{$BID}">网页插件</a>]</p>
 </div>
 <hr>
 <div>

@@ -3,16 +3,23 @@
 class url
 {
 #url解析类
+
+    // base64URL编码，把+/替换为-_
     static function b64e($data)
     {
-	// base64URL编码，把+/替换为-_
 
-	return strtr(base64_encode($data), array('+'=>'-', '/'=>'_'));
+	    return strtr(base64_encode($data), array('+'=>'-', '/'=>'_'));
+    }
+
+    //去除末尾的填充（Base64 Encode Clean）
+    static function b64ec($data)
+    {
+        return str_replace('=', '', self::b64e($data));
     }
 
     static function b64d($code)
     {
-	return base64_decode(strtr($code, array('-'=>'+', '_'=>'/')));
+	    return base64_decode(strtr($code, array('-'=>'+', '_'=>'/')));
     }
 
     static function realpath
