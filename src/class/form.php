@@ -125,12 +125,15 @@ class form
     }
 
 //文本框
-    static function input($name, $size = null, $value = null, $istextarea = false, $ispassword = false)
+    static function input($name, $size = null, $value = null, $istextarea = false, $ispassword = false, $id=null)
     {
         if ($size === null) $size = self::$someinput_set['size'];
         self::namearr($name);
         if ($istextarea && self::$someinput_set['istextarea'] && !self::$iswml) {
             $html1 = "<textarea name=\"{$name[0]}\"";
+            if (null !== $id) {
+                $html1 .= " id=\"{$id}\"";
+            }
             if (is_array($size)) {
                 $html1 .= self::htmlarr(array('cols', 'rows'), $size, $size);
             } elseif ($size)
@@ -139,6 +142,9 @@ class form
             $html2 = '</textarea>';
         } else {
             $html1 = '<input name="' . $name[1] . '" type="' . ($ispassword ? 'password' : 'text') . '"';
+            if (null !== $id) {
+                $html1 .= " id=\"{$id}\"";
+            }
             if (is_array($size))
                 $size = $size[0];
             if ($size) $html1 .= " size=\"{$size}\"";

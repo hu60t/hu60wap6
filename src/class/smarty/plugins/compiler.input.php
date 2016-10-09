@@ -33,7 +33,8 @@ if($type=='textarea') $istextarea='true';
 else $istextarea='false';
 if($type=='password') $ispassword='true';
 else $ispassword='false';
-return "<?php form::input($p[name],$p[size],$p[value],$istextarea,$ispassword); ?>";
+if (!isset($p['id'])) $p['id'] = 'null';
+return "<?php form::input($p[name],$p[size],$p[value],$istextarea,$ispassword,$p[id]); ?>";
 break;
 case 'checkbox':
 if(!isset($p['name'])) $p['name']='null';
