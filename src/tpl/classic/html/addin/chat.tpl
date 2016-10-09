@@ -17,7 +17,7 @@
     <form method="post" action="addin.chat.{$roomname}.{$bid}">
         <div>
             <p>
-                <textarea class="txt" id="content" name="neirong" style="width:80%;height:100px;"></textarea>
+                <textarea class="txt" id="content" name="content" style="width:80%;height:100px;"></textarea>
             </p>
             <p>
                 <input type="submit" id="quick_chat_button" name="go" id="submit" class="cr_login_submit" value="快速发言"/>

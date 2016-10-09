@@ -26,14 +26,14 @@
         {/div}{/if}
         {if $USER->islogin}
             {form method="post" action="{$CID}.newreply.{$topicId}.{$p}.{$BID}"}
-                {input type="textarea" name="content" value=$smarty.post.content size=array("25","3")}
+                {input type="textarea" name="content" id="content" value=$smarty.post.content size=array("25","3")}
                 {input type="hidden" name="token" value=$token->token()}
                 {input type="submit" id="reply_topic_button" name="go" value="回复"}
             {/form}
         {else}
             回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
             请自行复制您的回复内容以免数据丢失：<br/>
-            {input type="textarea" name="content" value=$smarty.post.content size=array("25","3")}
+            {input type="textarea" name="content" id="content" value=$smarty.post.content size=array("25","3")}
         {/if}
     {/div}
 {/div}

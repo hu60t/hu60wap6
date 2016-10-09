@@ -2,7 +2,7 @@
 与 <a href="user.info.{$chatUser.uid}.{$bid}">{$chatUser.name}</a> 聊天
 <hr />
 {form action="msg.index.send.{$chatUser->uid}.{$bid}" method="post"}
-{input type="textarea" name="content" }<br />
+{input type="textarea" name="content" id="content" }<br />
 {input type="submit" value="回复"}
 {/form}
 <hr />

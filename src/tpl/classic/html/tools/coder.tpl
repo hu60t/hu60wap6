@@ -2,7 +2,7 @@
 <div id="coder">
     <form action="{$CID}.{$PID}.{$BID}" method="post">
         <p>欲编码/解码的内容：</p>
-        <p><textarea name="content">{$smarty.post.content|code:false:true}</textarea></p>
+        <p><textarea name="content" id="content">{$smarty.post.content|code:false:true}</textarea></p>
         <p>编码所采用的字符集：<select name="code">
                 <option value="UTF-8" {if $smarty.post.code == 'UTF-8'}selected{/if}>UTF-8</option>
                 <option value="GBK" {if $smarty.post.code == 'GBK'}selected{/if}>GBK</option>
@@ -47,7 +47,7 @@
     </form>
 </div>
 <div id="result">
-    <p><textarea name="content">{$result|code:false:true}</textarea></p>
+    <p><textarea>{$result|code:false:true}</textarea></p>
     <p>当前时间戳：{$smarty.server.REQUEST_TIME|code}</p>
 </div>
 {include file="tpl:comm.foot"}

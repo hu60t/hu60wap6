@@ -22,10 +22,10 @@ if ($PAGE->ext[0]) {
             $err_msg = '你必须要<a href="user.login.' . $PAGE->bid . '">登录</a>才能发言';
         else {
             $chat->checkroom($roomname);
-            if ($_POST['neirong'] == '')
+            if ($_POST['content'] == '')
                 $err_msg = '内容不能为空';
             else {
-                $chat->chatsay($roomname, $_POST['neirong'], time());
+                $chat->chatsay($roomname, $_POST['content'], time());
             }
         }
     }

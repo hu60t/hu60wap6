@@ -31,7 +31,7 @@
 {/if}
 <p>
         {if $USER->islogin}
-<textarea class="txt" name="content" style="width:100%;height:100px;">{$smarty.post.content}</textarea>
+<textarea class="txt" name="content" id="content" style="width:100%;height:100px;">{$smarty.post.content}</textarea>
                 {input type="hidden" name="token" value=$token->token()}
 </p>
     {if $isAdminEdit}
@@ -43,7 +43,7 @@
         {else}
             修改楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
             请自行复制您的楼层内容以免数据丢失：<br/>
-            {input type="textarea" name="content" value=$smarty.post.content size=array("25","3")}
+            {input type="textarea" name="content" id="content" value=$smarty.post.content size=array("25","3")}
 </p>
         {/if}
     {/div}
