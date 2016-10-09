@@ -527,7 +527,18 @@ HTML;
     /*face 表情*/
     public function face($data)
     {
-        return $data['face'] . '(表情图未就绪)';
+        global $PAGE;
+
+        $path = 'img/face/' . bin2hex($data['face']) . '.gif';
+
+        try {
+            $url = $PAGE->getTplUrl($path);
+            $html = '<img title="' . code::html($data['face']) . '" src="' . code::html($url) . '" />';
+        } catch (Exception $e) {
+            $html = code::html($data['face']) . '(表情图不存在)';
+        }
+
+        return $html;
     }
 }
 
