@@ -12,28 +12,55 @@
  * specific language governing permissions and limitations under the License.
  */
 require_once CLASS_DIR . '/BaiduBce.phar';
+
 use BaiduBce\Auth\BceV1Signer;
 use BaiduBce\Util\DateUtils;
-define('AK', BAIDUBCE_AK);
-define('SK', BAIDUBCE_SK);
+
 class SignatureBuilder {
     public function simple() {
+
         if (!($this->hasQuery('httpMethod')
             && $this->hasQuery('path')
             && $this->hasQuery('queries')
             && $this->hasQuery('headers'))) {
             return array('statusCode' => 403);
         }
+
         $httpMethod = $this->getQuery('httpMethod');
         if (strcmp($httpMethod, 'DELETE') === 0) {
             return array('statusCode' => 403);
         }
+
         $path = $this->getQuery('path');
         $queries = json_decode($this->getQuery('queries'), TRUE);
         $headers = json_decode($this->getQuery('headers'), TRUE);
+
+        //禁止分片
+        if (isset($queries['uploadId']) || isset($queries['uploads'])) {
+            return array('statusCode' => 403);
+        }
+
+        //禁止过大请求和空文件上传
+        if (!isset($headers['Content-Length']) || $headers['Content-Length'] < 1 ||
+            $headers['Content-Length'] > BAIDUBCE_BOS_MAX_FILESIZE) {
+            return array('statusCode' => 403);
+        }
+
+        //禁止非法Host
+        if ($headers['Host'] !== BAIDUBCE_BOS_HOST) {
+            return array('statusCode' => 403);
+        }
+
+        $patten = '#^(/v\d+)?/'.preg_quote(BAIDUBCE_BOS_BUCKET, '#').
+            '/file/(hash|uuid)/[a-z0-9_-]{1,10}/[a-z0-9_.-]+\.[a-z0-9_-]{1,10}$#s';
+
+        if (!preg_match($patten, $path)) {
+            return array('statusCode' => 403);
+        }
+
         $credentials = array(
-            'ak' => AK,
-            'sk' => SK
+            'ak' => BAIDUBCE_AK,
+            'sk' => BAIDUBCE_SK
         );
         $signer = new BceV1Signer();
         $authorization = $signer->sign($credentials, $httpMethod, $path, $headers, $queries);
@@ -56,9 +83,9 @@ class SignatureBuilder {
     }
     public function policy() {
         $policy = base64_encode($this->getQuery('policy'));
-        $signature = hash_hmac('sha256', $policy, SK);
+        $signature = hash_hmac('sha256', $policy, BAIDUBCE_SK);
         return array(
-            'accessKey' => AK,
+            'accessKey' => BAIDUBCE_AK,
             'policy' => $policy,
             'signature' => $signature
         );
@@ -85,7 +112,7 @@ function Main() {
     $builder = new SignatureBuilder();
     $result = $builder->getResponse();
     header('Content-Type: text/javascript; charset=utf-8');
-    header('Access-Control-Allow-Origin: *');
+    //header('Access-Control-Allow-Origin: *');
     if (isset($_GET['callback'])) {
         echo sprintf("%s(%s);", $_GET['callback'], json_encode($result));
     }

@@ -35,6 +35,6 @@
 
         sessionStorage.topicContent = content;
         sessionStorage.topicContentSaved = '1';
-        document.location = '/tpl/classic/html/bbs/upload.html?r=1';
+        document.location = '/tpl/classic/html/bbs/upload.html?r=2';
     }
 </script>

@@ -182,7 +182,8 @@
         bos_endpoint: 'http://bj.bcebos.com',
         multi_selection: true,
         uptoken_url: '/q.php/api.baidubce.json',
-        max_file_size: '1TB',
+        max_file_size: '0',
+        bos_multipart_min_size: '1024G', // 禁止分片上传
         flash_swf_url: '../../js/moxie/bin/flash/Moxie.swf',
         init: {
             FilesFilter: function (_, files) {
@@ -198,6 +199,10 @@
                         if (file.size > 10485760) {
                             fileList.add(file);
                             fileList.setState(file._id, '文件过大，无法上传。请选择 10MB 以内的文件。');
+                            continue;
+                        } else if (file.size < 1) {
+                            fileList.add(file);
+                            fileList.setState(file._id, '抱歉，不能上传空文件。');
                             continue;
                         }
 

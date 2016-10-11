@@ -57,3 +57,18 @@ define('SECCODE_SMS_PROVIDER_INFO', '<p>短信验证码由虎绿林提供</p>');
  */
 define('BAIDUBCE_AK', '');
 define('BAIDUBCE_SK', '');
+
+/**
+ * 百度 BCE BOS 上传文件最大限制（单位：字节，用于服务器端签名）
+ */
+define('BAIDUBCE_BOS_MAX_FILESIZE', 10485760);
+
+/**
+ * 百度 BCE BOS 上传文件的Bucket（用于服务器端签名）
+ */
+define('BAIDUBCE_BOS_BUCKET', 'hu60');
+
+/**
+ * 百度 BCE BOS 上传文件的HOST（用于服务器端签名）
+ */
+define('BAIDUBCE_BOS_HOST', 'bj.bcebos.com');
