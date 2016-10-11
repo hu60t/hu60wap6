@@ -51,3 +51,9 @@ define('SECCODE_SMS_MAX_ERR', 5);
  * 短信验证码提供者信息（设为null则不显示）
  */
 define('SECCODE_SMS_PROVIDER_INFO', '<p>短信验证码由虎绿林提供</p>');
+
+/**
+ * 百度 BCE 的 AK 和 SK
+ */
+define('BAIDUBCE_AK', '');
+define('BAIDUBCE_SK', '');

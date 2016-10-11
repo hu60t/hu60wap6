@@ -27,7 +27,7 @@
 {div class="cr180_form"}
     {form method="post" action="{$CID}.newtopic.{$fid}.{$BID}"}
 <p>
-<input type="text" name="title" id="username_LCxiI" class="txt" placeholder="帖子标题" value="{$smarty.post.title}"/>
+<input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{$smarty.post.title}"/>
 </p>
 <p>
         {if $USER->islogin}
@@ -36,7 +36,11 @@
 </p>
 <p>
 </p>
-    <p><input type="submit" id="post_topic_button" name="go" id="submit" class="cr_login_submit" value="确认发布帖子" /></p>
+    <p>
+        <input type="submit" id="post_topic_button" name="go" id="submit" class="cr_login_submit" value="确认发布帖子" />
+        <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+        {include file="tpl:comm.addfiles"}
+    </p>
         {else}
             发帖需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
             请自行复制您的回复内容以免数据丢失：<br/>

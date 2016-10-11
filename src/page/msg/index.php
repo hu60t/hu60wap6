@@ -69,13 +69,17 @@ switch ($action) {
                 $ok = $uinfo->name($_POST['name']);
             }
 
-            if (!$ok) {
+            if (!$ok && $_POST['go']) {
                 throw new Exception('该用户不存在！');
             }
 
-            if (strlen(trim($_POST['content'])) > 0) {
-                $send = $msg->send_msg($user->uid, '0', $uinfo->uid, $_POST['content']);
-                $tpl->assign('send', $send);
+            if ($_POST['go']) {
+                if (strlen(trim($_POST['content'])) > 0) {
+                    $send = $msg->send_msg($user->uid, '0', $uinfo->uid, $_POST['content']);
+                    $tpl->assign('send', $send);
+                } else {
+                    throw new Exception('发送内容不能为空');
+                }
             }
 
             $tpl->assign('toUser', $uinfo);

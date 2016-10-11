@@ -1,11 +1,5 @@
 {include file="tpl:comm.head" title="聊天室-{$roomname}"}
-<script>
-    function atAdd(uid,that) {
-        that.style.color = "#FFA500";
-        var nr = document.getElementById("content");
-        nr.value += "@" + uid + "，";
-    }
-</script>
+{include file="tpl:comm.at"}
 <div class="top_nav">
     <a href="index.index.{$bid}" title="回首页" class="pt_z">回首页</a>
     {$roomname}
@@ -21,6 +15,8 @@
             </p>
             <p>
                 <input type="submit" id="quick_chat_button" name="go" id="submit" class="cr_login_submit" value="快速发言"/>
+                <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+                {include file="tpl:comm.addfiles"}
             </p>
         </div>
     </form>

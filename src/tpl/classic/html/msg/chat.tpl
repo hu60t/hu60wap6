@@ -2,8 +2,10 @@
 与 <a href="user.info.{$chatUser.uid}.{$bid}">{$chatUser.name}</a> 聊天
 <hr />
 {form action="msg.index.send.{$chatUser->uid}.{$bid}" method="post"}
-{input type="textarea" name="content" id="content" }<br />
-{input type="submit" value="回复"}
+    {input type="textarea" name="content" id="content" }<br />
+    {input type="submit" value="回复"}
+    <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+    {include file="tpl:comm.addfiles"}
 {/form}
 <hr />
 {if $chatCount > 0}

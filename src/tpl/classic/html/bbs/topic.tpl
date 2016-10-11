@@ -6,13 +6,7 @@
 {/if}
 {include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}"}
 
-<script>
-	function atAdd(uid,that) {
-		that.style.color = "#FFA500";
-		var nr = document.getElementById("content");
-		nr.value += "@"+uid+"，";
-	}
-</script>
+{include file="tpl:comm.at"}
 {$ok=$ubb->setOpt('at.jsFunc', 'atAdd')}
 
 <!--导航栏-->
@@ -62,7 +56,6 @@
 		<hr>
     {/if}
 </div>
-
 <!--回复框-->
 <div>
 	{if $tMeta.locked}
@@ -71,7 +64,11 @@
         <form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}">
             <textarea id="content" name="content" style="width:80%;height:100px">{$smarty.post.content}</textarea>
             <input type="hidden" name="token" value="{$token->token()}">
-            <p><input type="submit" id="reply_topic_button" name="go" value="评论该帖子"></p>
+            <p>
+				<input type="submit" id="reply_topic_button" name="go" value="评论该帖子"/>
+				<input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+				{include file="tpl:comm.addfiles"}
+			</p>
 		</form>
     {else}
         回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。

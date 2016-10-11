@@ -26,7 +26,7 @@
 <div>
 {if $editTitle}
 <p>
-<input type="text" name="title" id="username_LCxiI" class="txt" placeholder="帖子标题" value="{$smarty.post.title}"/>
+<input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{$smarty.post.title}"/>
 </p>
 {/if}
 <p>
@@ -39,7 +39,11 @@
     {/if}
 <p>
 </p>
-    <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="保存修改" /></p>
+    <p>
+        <input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="保存修改" />
+        <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+        {include file="tpl:comm.addfiles"}
+    </p>
         {else}
             修改楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
             请自行复制您的楼层内容以免数据丢失：<br/>

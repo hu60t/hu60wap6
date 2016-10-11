@@ -29,6 +29,8 @@
                 {input type="textarea" name="content" id="content" value=$smarty.post.content size=array("25","3")}
                 {input type="hidden" name="token" value=$token->token()}
                 {input type="submit" id="reply_topic_button" name="go" value="回复"}
+                <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+                {include file="tpl:comm.addfiles"}
             {/form}
         {else}
             回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
