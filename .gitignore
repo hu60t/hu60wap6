@@ -19,3 +19,4 @@
 /src/google*.html
 .htaccess
 /src/db/qqwry.dat
+/src/tpl/*/img/face/
