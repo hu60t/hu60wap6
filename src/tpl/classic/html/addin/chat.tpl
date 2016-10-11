@@ -11,12 +11,17 @@
     <form method="post" action="addin.chat.{$roomname}.{$bid}">
         <div>
             <p>
-                <textarea class="txt" id="content" name="content" style="width:80%;height:100px;"></textarea>
+                <textarea class="txt" id="content" name="content" style="width:80%;height:100px;">{$smarty.post.content|code:false:true}</textarea>
             </p>
             <p>
-                <input type="submit" id="quick_chat_button" name="go" id="submit" class="cr_login_submit" value="快速发言"/>
-                <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
-                {include file="tpl:comm.addfiles"}
+                {if $USER->islogin}
+                    <input type="hidden" name="token" value="{$token->token()}">
+                    <input type="submit" id="quick_chat_button" name="go" id="submit" class="cr_login_submit" value="快速发言"/>
+                    <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+                    {include file="tpl:comm.addfiles"}
+                {else}
+                    必须<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>才能发言。
+                {/if}
             </p>
         </div>
     </form>

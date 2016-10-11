@@ -21,11 +21,20 @@ if ($PAGE->ext[0]) {
         if (!$user->islogin)
             $err_msg = '你必须要<a href="user.login.' . $PAGE->bid . '">登录</a>才能发言';
         else {
-            $chat->checkroom($roomname);
-            if ($_POST['content'] == '')
-                $err_msg = '内容不能为空';
-            else {
-                $chat->chatsay($roomname, $_POST['content'], time());
+            $token = new token($USER);
+            $ok = $token->check($_POST['token']);
+            if (!$ok) {
+                $err_msg = '会话已过期，请重新发布';
+            } else {
+                $token->delete();
+
+                $chat->checkroom($roomname);
+
+                if ($_POST['content'] == '')
+                    $err_msg = '内容不能为空';
+                else {
+                    $chat->chatsay($roomname, $_POST['content'], time());
+                }
             }
         }
     }
@@ -63,6 +72,12 @@ if ($PAGE->ext[0]) {
     $tpl->assign('chat', $chat);
     $tpl->assign('uinfo', new UserInfo());
 
+    if ($USER->islogin) {
+        $token = new token($USER);
+        $token->create();
+        $tpl->assign('token', $token);
+    }
+
     $tpl->display("tpl:chat");
 } else {
     if ($_POST['roomname']) {
@@ -73,5 +88,6 @@ if ($PAGE->ext[0]) {
     // 聊天室列表
     $list = $chat->roomlist();
     $tpl->assign('list', $list);
+    
     $tpl->display("tpl:chat_list");
 }
