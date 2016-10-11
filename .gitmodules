@@ -1,0 +1,3 @@
+[submodule "bce-bos-uploader"]
+path = src/tpl/classic/js/bce-bos-uploader
+url = https://github.com/leeight/bce-bos-uploader.git
