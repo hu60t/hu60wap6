@@ -34,6 +34,8 @@ if ($PAGE->ext[0]) {
                     $err_msg = '内容不能为空';
                 else {
                     $chat->chatsay($roomname, $_POST['content'], time());
+                    //清空发言框的内容
+                    $_POST['content'] = '';
                 }
             }
         }
