@@ -5,6 +5,11 @@ do
 	baseName=${file%%.*}
 	hexName=`echo -n $baseName | xxd -ps`
 	newName=$hexName.gif
-	printf "%-15s ->     %s\n" $file $newName
-	mv $file $newName
+
+	if [ -e $newName ]; then
+		printf "%-15s -X     %s     (文件已存在)\n" $file $newName
+	else
+		printf "%-15s ->     %s\n" $file $newName
+		mv $file $newName
+	fi
 done
