@@ -23,7 +23,7 @@
 <p>
 {form action="msg.index.send.{if $isSender}{$msg.touid}{else}{$msg.byuid}{/if}.{$bid}" method="post"}
 	{input type="textarea" name="content" id="content"}<br />
-	{input type="submit" value="{if $isSender}再发一条{else}回复{/if}"}
+	{input type="submit" name="go" value="{if $isSender}再发一条{else}回复{/if}"}
 	<input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
 	{include file="tpl:comm.addfiles"}
 {/form}
