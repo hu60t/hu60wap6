@@ -67,7 +67,7 @@ try {
     if (preg_match('/^\.(jpe?g|png|gif)$/s', $ext)) {
         $content = "\n《图片：" . $url . '》';
     } else {
-        preg_match('/[^\/\\]*$/s', $realName, $name);
+        preg_match('#[^/\\\\]*$#s', $realName, $name);
         $name = $name[0];
         $sizeName = str::filesize($size);
 
