@@ -40,7 +40,7 @@ try {
     $realName = $_FILES['file']['name'];
 
     if (preg_match('/\.[a-zA-Z0-9_-]{1,10}$/s', $realName, $ext)) {
-        $ext = $ext[0];
+        $ext = strtolower($ext[0]);
     } else {
         $ext = '.dat';
     }
