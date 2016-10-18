@@ -91,5 +91,43 @@ class str
         return $phone;
     }
 
+    /**
+     * 取得可读的文件大小
+     *
+     * @url http://outofmemory.cn/code-snippet/3236/php-jiangyi-byte-danwei-indicate-file-size-turn-huawei-kedu-xing-indicate
+     */
+    public static function filesize($fileSize) {
+        $unit = array(' Bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB');
+        $i = 0;
+
+        /*
+        while($fileSize >= 1024 && $i < 8)
+        {
+            $fileSize /= 1024;
+            ++$i;
+        }
+        */
+
+        /*
+        以上代码还可以优化一下
+        由于计算机做乘法比做除法快
+        */
+        $inv = 1 / 1024;
+
+        while($fileSize >= 1024 && $i < 8)
+        {
+            $fileSize *= $inv;
+            ++$i;
+        }
+
+        //return sprintf("%.2f", $fileSize) . $unit[$i];
+
+        // 改正上一条结果为整数，输出却带两个无意义0的小数位的浮点数
+        $fileSizeTmp = sprintf("%.2f", $fileSize);
+
+        // 以下代码在99.99%的情况下结果会是正确的，除非你使用了"超超大数"。：）
+        return ($fileSizeTmp - (int)$fileSizeTmp ? $fileSizeTmp : $fileSize) . $unit[$i];
+    }
+
 //class str end
 }

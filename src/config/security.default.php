@@ -72,3 +72,24 @@ define('BAIDUBCE_BOS_BUCKET', 'hu60');
  * 百度 BCE BOS 上传文件的HOST（用于服务器端签名）
  */
 define('BAIDUBCE_BOS_HOST', 'bj.bcebos.com');
+
+/**
+ * 七牛云 的 AK 和 SK
+ */
+define('QINIU_AK', '');
+define('QINIU_SK', '');
+
+/**
+ * 七牛云存储上传文件最大限制（单位：字节，用于服务器端签名）
+ */
+define('QINIU_STORAGE_MAX_FILESIZE', 10485760);
+
+/**
+ * 七牛云存储上传文件的Bucket（用于服务器端签名）
+ */
+define('QINIU_STORAGE_BUCKET', 'hu60');
+
+/**
+ * 七牛云存储上传文件的HOST（用于服务器端签名）
+ */
+define('QINIU_STORAGE_HOST', 'oeyz1bxso.bkt.clouddn.com');

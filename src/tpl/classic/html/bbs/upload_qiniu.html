@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
     <!--[if lt IE 8]><script src="../../js/json3/lib/json3.min.js"></script><![endif]-->
     <!--[if lt IE 9]><script src="../../js/js-polyfills/es5.js"></script><![endif]-->
-    <!--[if lt IE 10]><script src="../../js/moxie/bin/js/moxie.min.js"></script><![endif]-->
     <script src="../../js/jquery/dist/jquery.min.js"></script>
-    <script src="../../js/bce-bos-uploader/bce-bos-uploader.bundle.min.js?r=1"></script>
+    <script src="../../js/plupload/js/plupload.full.min.js"></script>
+    <script src="../../js/SparkMD5/spark-md5.min.js"></script>
+    <script src="../../js/qiniu/dist/qiniu.js"></script>
     <script src="../../js/humanize/humanize.js"></script>
     <link rel="stylesheet" type="text/css" href="../../css/default.css" />
     <style>
@@ -104,6 +105,10 @@
 </div>
 <script>
     function htmlSpecialChars(str) {
+        if ('string' !== typeof str) {
+            return '';
+        }
+
         str = str.replace(/&/g, '&amp;');
         str = str.replace(/</g, '&lt;');
         str = str.replace(/>/g, '&gt;');
@@ -114,6 +119,8 @@
     var fileList = {
         fidCounter: 0, //文件id计数器
         uploadedFiles: [], //保存已上传完成的file对象，格式：['1'=> file, '2'=> file, ...]，key为fid
+        computingMd5Files: [], //正在计算md5的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
+
         fileUploaded: function (file){
             this.uploadedFiles[file._id] = file;
         },
@@ -126,13 +133,13 @@
                     '<p class="file_size"><span class="box_title">大小</span><span class="box_value">' + humanize.filesize(file.size) + '</span>' +
                         '<span class="uploaded_size"></span></p>' +
                     '<p class="file_state"><span class="box_title">状态</span><span class="box_value">-</span>' +
-                        '<span class="box_action"><a href="#" onclick="fileList.remove('+file._id+',\''+file.uuid+'\');return false">取消</a></span></p>' +
+                        '<span class="box_action"><a href="#" onclick="fileList.remove('+file._id+',\''+file.id+'\');return false">取消</a></span></p>' +
                     '<p class="file_progress"><span class="box_title">进度</span><span class="box_value">0%</span></p>' +
                 '</div>');
             $('#upload').removeAttr('disabled');
         },
         remove: function (fid, uuid) {
-            uploader.remove(uuid);
+            uploader.removeFile(uuid);
 
             $('#upload_fid_' + fid).fadeOut("normal", function (){
                 $(this).remove();
@@ -145,18 +152,20 @@
             $('#upload_fid_' + fid + ' .file_state .box_action').html(state);
         },
         setProgress: function (fid, progress) {
-            $('#upload_fid_' + fid + ' .file_progress .box_value').html((progress * 100).toFixed(2) + '%');
+            $('#upload_fid_' + fid + ' .file_progress .box_value').html(progress + '%');
 
-            if (1 == progress) {
+            if (100 == progress) {
                 this.setState(fid, "确认中...");
             }
         },
-        setSpeed: function (bytes, time, pendings) {
-            var speed = bytes / (time / 1000);
+        setSpeed: function (speed, pendings) {
             var html = '上传速度：' + humanize.filesize(speed) + '/s';
             var seconds = pendings / speed;
+
+            console.log(speed, pendings, seconds);
+
             if (seconds > 1) {
-                var dhms = baidubce.utils.toDHMS(~~seconds);
+                var dhms = this.toDHMS(~~seconds);
                 html += '，剩余时间：' + [
                             humanize.pad(dhms.HH, 2, '0'),
                             humanize.pad(dhms.MM, 2, '0'),
@@ -196,51 +205,145 @@
             $('#legacy_mode_form').toggle();
 
             localStorage.uploadLegacyMode = ('1' == localStorage.uploadLegacyMode) ? '0' : '1';
+        },
+        start: function () {
+            $('#upload').attr("disabled", true);
+
+            function next() {
+                if (0 == fileList.computingMd5Files.length) {
+                    uploader.start();
+                } else {
+                    var file = fileList.computingMd5Files.pop();
+
+                    var ext = /\.[a-zA-Z0-9_-]{1,10}$/.exec(file.name);
+
+                    file._ext = (null === ext) ? '.dat' : ext[0].toLowerCase();
+                    var type = file._ext.substr(1) + '-';
+
+                    file._md5sum.done(function (md5) {
+                        file._hashName = 'file-hash-' + type + md5 + file.size + file._ext;
+                        next();
+                    });
+
+                    file._md5sum.fail(function () {
+                        file._hashName = 'file-uuid-' + type + file.id + file.size + file._ext;
+                        next();
+                    });
+                }
+            }
+
+            next();
+
+        },
+        /**
+         *  @author leeight
+         *  @url https://github.com/leeight/bce-bos-uploader/blob/master/src/utils.js
+         */
+        toDHMS: function (seconds) {
+            var days = 0;
+            var hours = 0;
+            var minutes = 0;
+
+            if (seconds >= 60) {
+                minutes = ~~(seconds / 60);
+                seconds = seconds - minutes * 60;
+            }
+
+            if (minutes >= 60) {
+                hours = ~~(minutes / 60);
+                minutes = minutes - hours * 60;
+            }
+
+            if (hours >= 24) {
+                days = ~~(hours / 24);
+                hours = hours - days * 24;
+            }
+
+            return {DD: days, HH: hours, MM: minutes, SS: seconds};
+        },
+        /**
+         *  @author leeight
+         *  @url https://github.com/leeight/bce-bos-uploader/blob/master/src/utils.js
+         *
+         * 基于 SparkMD5 来快速的计算 blob 的md5
+         * 貌似直接使用 bce-sdk-js/src/crypto 里面的 md5blob，对于 300M 的文件，Chrome 直接
+         * 挂掉了
+         *
+         * @param {Blob} file 需要计算md5的文件内容.
+         * @return {Promise}
+         */
+        md5sum: function (file) {
+            var blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
+            var chunkSize = 2097152;
+            var chunks = Math.ceil(file.size / chunkSize);
+            var currentChunk = 0;
+            var spark = new SparkMD5.ArrayBuffer();
+            var fileReader = new FileReader();
+
+            var deferred = $.Deferred();
+
+            fileReader.onload = function (e) {
+                spark.append(e.target.result);
+                currentChunk++;
+
+                if (currentChunk < chunks) {
+                    loadNext();
+                }
+                else {
+                    deferred.resolve(spark.end());
+                }
+            };
+            fileReader.onerror = function (error) {
+                deferred.reject(error);
+            };
+
+            function loadNext() {
+                var start = currentChunk * chunkSize;
+                var end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
+                fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
+            }
+            loadNext();
+
+            return deferred.promise();
         }
     };
-    var downloadUrlPrefix = 'http://hu60.bj.bcebos.com/';
-    var uploader = new baidubce.bos.Uploader({
-        browse_button: '#file',
-        bos_bucket: 'hu60',
-        bos_endpoint: location.protocol + '//bj.bcebos.com',
+    var downloadUrlPrefix = 'http://oeyz1bxso.bkt.clouddn.com/';
+    var uploader = Qiniu.uploader({
+        runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+        browse_button: 'file',         // 上传选择的点选按钮，必需
+        // 在初始化时，uptoken，uptoken_url，uptoken_func三个参数中必须有一个被设置
+        // 切如果提供了多个，其优先级为uptoken > uptoken_url > uptoken_func
+        // 其中uptoken是直接提供上传凭证，uptoken_url是提供了获取上传凭证的地址，如果需要定制获取uptoken的过程则可以设置uptoken_func
+        // uptoken : '<Your upload token>', // uptoken是上传凭证，由其他程序生成
+        uptoken_url: '/q.php/api.qiniu.json',         // Ajax请求uptoken的Url，强烈建议设置（服务端提供）
+        // uptoken_func: function(file){    // 在需要获取uptoken时，该方法会被调用
+        //    // do something
+        //    return uptoken;
+        // },
+        get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+        // downtoken_url: '/downtoken',
+        // Ajax请求downToken的Url，私有空间时使用，JS-SDK将向该地址POST文件的key和domain，服务端返回的JSON必须包含url字段，url值为该文件的下载地址
+        // unique_names: true,              // 默认false，key为文件名。若开启该选项，JS-SDK会为每个文件自动生成key（文件名）
+        // save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+        domain: 'oeyz1bxso.bkt.clouddn.com',     // bucket域名，下载资源时用到，必需
+        container: 'file_selector',             // 上传区域DOM ID，默认是browser_button的父元素
+        max_file_size: '0',             // 最大文件体积限制
+        flash_swf_url: '../../js/plupload/js/Moxie.swf',  //引入flash，相对路径
+        max_retries: 0,                     // 上传失败最大重试次数
+        dragdrop: true,                     // 开启可拖曳上传
+        drop_element: 'file_selector',          // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+        chunk_size: '4mb',                  // 分块上传时，每块的体积
+        auto_start: false,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
         multi_selection: true,
-        uptoken_url: '/q.php/api.baidubce.json',
-        max_file_size: '0',
-        bos_multipart_min_size: '1024G', // 禁止分片上传
-        flash_swf_url: '../../js/moxie/bin/flash/Moxie.swf',
+        unique_names: false,
         init: {
-            FilesFilter: function (_, files) {
-                var allowFiles = [];
-
-                if (files.length) {
-                    var length = files.length;
-
-                    for (var i = 0; i < length; i++) {
-                        var file = files[i];
-                        fileList.setFid(file);
-
-                        if (file.size > 10485760) {
-                            fileList.add(file);
-                            fileList.setState(file._id, '文件过大，无法上传。请选择 10MB 以内的文件。');
-                            continue;
-                        } else if (file.size < 1) {
-                            fileList.add(file);
-                            fileList.setState(file._id, '抱歉，不能上传空文件。');
-                            continue;
-                        }
-
-                        allowFiles.push(file);
-                    }
-                }
-
-                return allowFiles;
-            },
             FilesAdded: function (_, files) {
                 if (files.length) {
                     var length = files.length;
 
                     for (var i=0; i<length; i++) {
                         var file = files[i];
+                        fileList.setFid(file);
                         fileList.add(file);
                     }
 
@@ -255,8 +358,9 @@
                         var file = files[md5Pos];
 
                         fileList.setState(file._id, '计算md5中...');
+                        fileList.computingMd5Files.push(file);
 
-                        file._md5sum = baidubce.utils.md5sum(file);
+                        file._md5sum = fileList.md5sum(file.getNative());
 
                         file._md5sum.done(function () {
                             fileList.setState(file._id, '待上传');
@@ -267,41 +371,21 @@
                             }
                         });
 
-                        file._md5sum.fail(function (result) {
+                        file._md5sum.fail(function () {
                             fileList.setState(file._id, 'md5计算失败');
                         });
                     }
                 }
             },
             Key: function (_, file) {
-                var prefix = 'file/';
-                var ext = /\.[a-zA-Z0-9_-]{1,10}$/.exec(file.name);
-
-                file._ext = (null === ext) ? '.dat' : ext[0].toLowerCase();
-                var type = file._ext.substr(1) + '/';
-
-                var deferred = baidubce.sdk.Q.defer();
-
-                file._md5sum.done(function (md5) {
-                    file._hashName = prefix + 'hash/' + type + md5 + file.size + file._ext;
-                    deferred.resolve(file._hashName);
-                });
-
-                file._md5sum.fail(function () {
-                    file._hashName = prefix + 'uuid/' + type + file.uuid + file.size + file._ext;
-                    deferred.resolve(file._hashName);
-                });
-
-                return deferred.promise;
+                return file._hashName;
             },
             BeforeUpload: function(_, file) {
                 fileList.setState(file._id, '上传中...');
             },
-            UploadProgress: function (_, file, progress, event) {
-                fileList.setProgress(file._id, progress);
-            },
-            NetworkSpeed: function (_, bytes, time, pendings) {
-                fileList.setSpeed(bytes, time, pendings);
+            UploadProgress: function (_, file) {
+                fileList.setProgress(file._id, file.percent);
+                fileList.setSpeed(file.speed, file.size - file.loaded);
             },
             FileUploaded: function (_, file, info) {
                 var actionHtml = '<a href="' + downloadUrlPrefix + htmlSpecialChars(file._hashName) + '">下载地址</a> ' +
@@ -321,8 +405,7 @@
     });
 
     $('#upload').click(function () {
-        uploader.start();
-        $('#upload').attr("disabled", true);
+        fileList.start();
     });
 
     $('#save').click(function () {
