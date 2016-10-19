@@ -54,10 +54,7 @@ class ubbDisplay extends XUBBP
     /*text 纯文本*/
     public function text($data)
     {
-        $text = $data['value'];
-
-        $text = preg_replace('/[\x{0e00}-\x{0e7f}]{10,}/u', '(为防止版面长草，过长的泰文被过滤)', $text);
-	$text = preg_replace('/[\x{0600}-\x{06ff}]{10,}/u', '(为防止版面长草，过长的阿拉伯文被过滤)', $text);
+        $text = str::过滤滥用($data['value']);
 
         return code::html($text, '<br/>');
     }

@@ -38,6 +38,9 @@ class code
             $str = str_replace(' ', '&nbsp;', $str);
         if ($PAGE['bid'] == 'wml')
             $str = str_replace('$', '$$', $str);
+
+        $str = str::过滤滥用($str);
+
         return $str;
     }
 
