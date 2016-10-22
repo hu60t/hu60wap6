@@ -130,8 +130,9 @@ class str
     }
 
     public static function 过滤滥用($text) {
-        $text = preg_replace('/[\x{0e00}-\x{0e7f}]{10,}/u', '(为防止版面长草，过长的泰文被过滤)', $text);
-        $text = preg_replace('/[\x{0600}-\x{06ff}]{10,}/u', '(为防止版面长草，过长的阿拉伯文被过滤)', $text);
+        #通过css解决了版面长草的问题，不需要再过滤了。
+        #$text = preg_replace('/[\x{0e00}-\x{0e7f}]{10,}/u', '(为防止版面长草，过长的泰文被过滤)', $text);
+        #$text = preg_replace('/[\x{0600}-\x{06ff}]{10,}/u', '(为防止版面长草，过长的阿拉伯文被过滤)', $text);
         return $text;
 
     }
