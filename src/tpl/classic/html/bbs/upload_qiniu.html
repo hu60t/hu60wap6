@@ -162,8 +162,6 @@
             var html = '上传速度：' + humanize.filesize(speed) + '/s';
             var seconds = pendings / speed;
 
-            console.log(speed, pendings, seconds);
-
             if (seconds > 1) {
                 var dhms = this.toDHMS(~~seconds);
                 html += '，剩余时间：' + [
