@@ -66,5 +66,8 @@ try {
         $tpl->assign('token', $token);
     }
 
+    $tpl->assign('title', code::html($_POST['title']));
+    $tpl->assign('content', code::html($_POST['content']));
+
     $tpl->display('tpl:topicform');
 }

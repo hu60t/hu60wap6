@@ -108,18 +108,30 @@ try {
         $tpl->assign('tid', $tid);
         $tpl->display('tpl:editsuccess');
     } else {
-        $_POST['title'] = $tMeta['title'];
-        $_POST['content'] = $ubb->display($tContent['content'], true);
-        throw new Exception('');
+        $tpl->assign('title', code::html($tMeta['title']));
+        $tpl->assign('content', $ubb->display($tContent['content'], true));
+
+        if ($USER->islogin) {
+            $token = new token($USER);
+            $token->create();
+            $tpl->assign('token', $token);
+        }
+
+        $tpl->display('tpl:topiceditform');
     }
 
 
 } catch (Exception $err) {
     $tpl->assign('err', $err);
+
     if ($USER->islogin) {
         $token = new token($USER);
         $token->create();
         $tpl->assign('token', $token);
     }
+
+    $tpl->assign('title', code::html($_POST['title']));
+    $tpl->assign('content', code::html($_POST['content']));
+
     $tpl->display('tpl:topiceditform');
 }
