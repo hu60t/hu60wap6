@@ -8,6 +8,7 @@ body {
     max-width: 1024px;
     margin: 0px auto;
     box-shadow: 0 0 15px #ccc;
+    tab-size: 4;
 }
 
 p {

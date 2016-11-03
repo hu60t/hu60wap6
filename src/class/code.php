@@ -35,7 +35,7 @@ class code
             $str = str_replace(array("\r\n", "\r", "\n"), $br, $str);
         }
         if (!$NOnbsp)
-            $str = str_replace(' ', '&nbsp;', $str);
+            $str = str_replace(' ', '&ensp;', $str);
         if ($PAGE['bid'] == 'wml')
             $str = str_replace('$', '$$', $str);
 
