@@ -52,6 +52,12 @@ textarea {
     overflow-y: visible;
 }
 
+pre, textarea {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
 ol, ul {
     margin: 0px;
 }

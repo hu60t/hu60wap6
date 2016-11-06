@@ -70,7 +70,7 @@ class ubbDisplay extends XUBBP
         $codes = preg_replace(['/^[\r\n]+/s', '/[\r\n]+$/s'], '', $data['data']);
 
         $geshi = new geshi($codes, $data['lang']);
-        $geshi->set_header_type(GESHI_HEADER_DIV);
+        $geshi->set_header_type(GESHI_HEADER_PRE_VALID);
         $geshi->set_tab_width(4);
         $geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
         return $geshi->parse_code();

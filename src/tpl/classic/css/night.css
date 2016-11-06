@@ -8,7 +8,11 @@ body {
     max-width: 1024px;
     margin: 0px auto;
     box-shadow: 0 0 15px #ccc;
-    tab-size: 4;
+    tab-size: 4; -moz-tab-size: 4; -o-tab-size: 4; -webkit-tab-size: 4;
+}
+
+p, div {
+    overflow: hidden;
 }
 
 p {
@@ -47,6 +51,12 @@ textarea {
     width: 270px;
     height: 55px;
     overflow-y: visible;
+}
+
+pre, textarea {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 ol, ul {
