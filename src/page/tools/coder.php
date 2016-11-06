@@ -116,6 +116,9 @@ try {
 		case 'str2ucwords':
 			$result = ucwords($content);
 			break;
+		case 'nbsp2space':
+			$result = str::nbsp2space($content);
+			break;
 	}
 } catch (Exception $ex) {
 	$result = '';

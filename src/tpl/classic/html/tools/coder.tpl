@@ -42,6 +42,7 @@
 		<option value="str2lower" {if $smarty.post.action == 'str2lower'}selected{/if}>字母转为小写</option>
 		<option value="str2upper" {if $smarty.post.action == 'str2upper'}selected{/if}>字母转为大写</option>
 		<option value="str2ucwords" {if $smarty.post.action == 'str2ucwords'}selected{/if}>首字母大写</option>
+                <option value="nbsp2space" {if $smarty.post.action == 'nbsp2space'}selected{/if}>UTF-8特殊空格转普通空格</option>
             </select></p>
         <p><input type="submit" value="操作"/></p>
     </form>
