@@ -2960,7 +2960,7 @@ class GeSHi
                                     // strreplace to put close span and open span around multiline newlines
                                     $test_str = str_replace(
                                         "\n", "</span>\n<span$attributes>",
-                                        str_replace("\n ", "\n&ensp;", $test_str)
+                                        str_replace("\n ", "\n&nbsp;", $test_str)
                                     );
                                 }
                             }
@@ -3053,7 +3053,7 @@ class GeSHi
                                     // strreplace to put close span and open span around multiline newlines
                                     $test_str .= str_replace(
                                         "\n", "</span>\n<span$attributes>",
-                                        str_replace("\n ", "\n&ensp;", $rest_of_comment)
+                                        str_replace("\n ", "\n&nbsp;", $rest_of_comment)
                                     );
                                 } else {
                                     $test_str .= $rest_of_comment;
@@ -3222,7 +3222,7 @@ class GeSHi
             $lines = explode("\n", $result);
             $result = null;//Save memory while we process the lines individually
             $tab_width = $this->get_real_tab_width();
-            $tab_string = '&ensp;' . str_repeat(' ', $tab_width);
+            $tab_string = '&nbsp;' . str_repeat(' ', $tab_width);
 
             for ($key = 0, $n = count($lines); $key < $n; $key++) {
                 $line = $lines[$key];
@@ -3265,9 +3265,9 @@ class GeSHi
                         $str = '';
                         // OPTIMISE - move $strs out. Make an array:
                         // $tabs = array(
-                        //  1 => '&ensp;',
-                        //  2 => '&ensp; ',
-                        //  3 => '&ensp; &ensp;' etc etc
+                        //  1 => '&nbsp;',
+                        //  2 => '&nbsp; ',
+                        //  3 => '&nbsp; &nbsp;' etc etc
                         // to use instead of building a string every time
                         $tab_end_width = $tab_width - ($pos % $tab_width); //Moved out of the look as it doesn't change within the loop
                         if (($pos & 1) || 1 == $tab_end_width) {
@@ -3283,7 +3283,7 @@ class GeSHi
                             break;
                         }
                     } elseif (0 == $pos && ' ' == $char) {
-                        $lines[$key] .= '&ensp;';
+                        $lines[$key] .= '&nbsp;';
                         ++$pos;
                     } else {
                         $lines[$key] .= $char;
@@ -3296,8 +3296,8 @@ class GeSHi
         }
         // Other whitespace
         // BenBE: Fix to reduce the number of replacements to be done
-        $result = preg_replace('/^ /m', '&ensp;', $result);
-        $result = str_replace('  ', ' &ensp;', $result);
+        $result = preg_replace('/^ /m', '&nbsp;', $result);
+        $result = str_replace('  ', ' &nbsp;', $result);
 
         if ($this->line_numbers == GESHI_NO_LINE_NUMBERS && $this->header_type != GESHI_HEADER_PRE_TABLE) {
             if ($this->line_ending === null) {
@@ -3993,7 +3993,7 @@ class GeSHi
                 // Make lines have at least one space in them if they're empty
                 // BenBE: Checking emptiness using trim instead of relying on blanks
                 if ('' == trim($code[$i])) {
-                    $code[$i] = '&ensp;';
+                    $code[$i] = '&nbsp;';
                 }
 
                 // If this is a "special line"...
@@ -4135,7 +4135,7 @@ class GeSHi
                 // Make lines have at least one space in them if they're empty
                 // BenBE: Checking emptiness using trim instead of relying on blanks
                 if ('' == trim($code[$i])) {
-                    $code[$i] = '&ensp;';
+                    $code[$i] = '&nbsp;';
                 }
                 // fancy lines
                 if ($this->line_numbers == GESHI_FANCY_LINE_NUMBERS &&
