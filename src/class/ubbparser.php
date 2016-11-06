@@ -95,8 +95,12 @@ class ubbParser extends XUBBP
      */
     public function code($lang, $data)
     {
+        //把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
+        $data = str::nbsp2space($data);
+        
         $lang = strtolower(trim($lang));
         if ($lang == '') $lang = 'php';
+        
         return array(array(
             'type' => 'code',
             'lang' => $lang,

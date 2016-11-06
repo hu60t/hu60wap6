@@ -258,6 +258,9 @@ class XUBBP
      */
     protected function parseText($text)
     {
+        //把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
+        $text = str::nbsp2space($text);
+        
         return array(array(
             'type' => 'text',
             'value' => $text,

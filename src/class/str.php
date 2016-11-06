@@ -137,5 +137,10 @@ class str
 
     }
 
+    //将UTF-8中的特殊空格字符转换为普通空格
+    public static function nbsp2space($str) {
+        return str_replace(["\xc2\xa0","\xe2\x80\x82"], ' ', $str);
+    }
+
 //class str end
 }
