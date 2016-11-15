@@ -95,8 +95,14 @@ class ubbDisplay extends XUBBP
             if (trim($data['title']) == '') $data['title'] = $data['url'];
             $data['title'] = code::html($data['title']);
         }
-        if ($data['type'] == 'urlout') $data['url'] = 'http://' . $data['url'];
-        $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+	if ($data['type'] == 'urlout') $data['url'] = 'http://' . $data['url'];
+
+	if ($data['url'][0] == '#') {
+	    $url = $data['url'];
+	} else {
+	    $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+	}
+
         return '<a href="' . code::html($url) . '">' . $data['title'] . '</a>';
     }
 
