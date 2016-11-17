@@ -23,7 +23,8 @@
 </div>
 <hr>
 <div class="news">
-	<p>『<a href="addin.speedtest.{$BID}">参与网速测试，帮助虎绿林解决访问速度慢的问题！』</a></p>
+	<p>『<a href="addin.speedtest.{$BID}">参与网速测试，帮助虎绿林解决访问速度慢的问题！</a>』</p>
+	<p>-网速测试已经可以查看统计数据了，点击上面的链接进入即可查看 ↑</p>
 </div>
 <hr>
 <div>

@@ -136,8 +136,11 @@
 	.test_item p {
 		display: inline-block;
 	}
-	.name, .state, .speed {
+	.name {
 		min-width: 80px;
+	}
+	.state {
+		min-width: 120px;
 	}
 	#title {
 		font-weight: bold;
@@ -156,33 +159,33 @@
 	</div>
 	<div class="test_item" id="main">
 		<p class="name"><a href="http://hu60.cn{$smarty.server.REQUEST_URI|code}">主站</a></p>
-		<p class="state">待测试</p>
-		<p class="speed"></p>
+		<p class="state">成功率 {round($result.main.successRate*100,2)}%</p>
+		<p class="speed">平均 {str::filesize($result.main.speed)}/s</p>
 	</div>
 	<div class="test_item" id="mainssl">
 		<p class="name"><a href="https://ssl.hu60.cn{$smarty.server.REQUEST_URI|code}">主站(ssl)</a></p>
-		<p class="state">待测试</p>
-		<p class="speed"></p>
+		<p class="state">成功率 {round($result.mainssl.successRate*100,2)}%</p>
+		<p class="speed">平均 {str::filesize($result.mainssl.speed)}/s</p>
 	</div>
 	<div class="test_item" id="cdn360">
 		<p class="name"><a href="http://360.cdn.hu60.cn{$smarty.server.REQUEST_URI|code}">360</a></p>
-		<p class="state">待测试</p>
-		<p class="speed"></p>
+		<p class="state">成功率 {round($result.cdn360.successRate*100,2)}%</p>
+		<p class="speed">平均 {str::filesize($result.cdn360.speed)}/s</p>
 	</div>
 	<div class="test_item" id="cdn360ssl">
 		<p class="name"><a href="https://360.cdn.hu60.cn{$smarty.server.REQUEST_URI|code}">360(ssl)</a></p>
-		<p class="state">待测试</p>
-		<p class="speed"></p>
+		<p class="state">成功率 {round($result.cdn360ssl.successRate*100,2)}%</p>
+		<p class="speed">平均 {str::filesize($result.cdn360ssl.speed)}/s</p>
 	</div>
 	<div class="test_item" id="baidu">
 		<p class="name"><a href="http://baidu.cdn.hu60.cn{$smarty.server.REQUEST_URI|code}">百度</a></p>
-		<p class="state">待测试</p>
-		<p class="speed"></p>
+		<p class="state">成功率 {round($result.baidu.successRate*100,2)}%</p>
+		<p class="speed">平均 {str::filesize($result.baidu.speed)}/s</p>
 	</div>
 	<div class="test_item" id="yundun">
 		<p class="name"><a href="http://yd.cdn.hu60.cn{$smarty.server.REQUEST_URI|code}">云盾</a></p>
-		<p class="state">待测试</p>
-		<p class="speed"></p>
+		<p class="state">成功率 {round($result.yundun.successRate*100,2)}%</p>
+		<p class="speed">平均 {str::filesize($result.yundun.speed)}/s</p>
 	</div>
 	<div class="toolbar">
 		<input type="button" id="test_button" onclick="startTest()" value="开始测试">

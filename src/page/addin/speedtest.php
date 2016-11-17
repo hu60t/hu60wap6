@@ -63,6 +63,32 @@ switch ($_GET['action']) {
     default:
         $tpl = $PAGE->start();
         $tpl->assign('TEST_FILE_SIZE', 10240); //测试文件大小：10KB
+		
+		$result = [];
+		$db = db::conn();
+		
+		$rs = $db->query('SELECT tag,count(*) as size,avg(speed) as speed FROM '.DB_A.'speedtest GROUP BY tag');
+		$data = $rs->fetchAll(db::ass);
+		
+		foreach ($data as $v) {
+			$tag = $v['tag'];
+			unset($v['tag']);
+			$result[$tag] = $v;
+		}
+		
+		$rs = $db->query('SELECT tag,count(*) as successSize FROM '.DB_A.'speedtest WHERE success=1 GROUP BY tag');
+		$data = $rs->fetchAll(db::ass);
+		
+		foreach ($data as $v) {
+			$tag = $v['tag'];
+			unset($v['tag']);
+			$result[$tag] += $v;
+			//成功率
+			$result[$tag]['successRate'] = $result[$tag]['successSize'] / $result[$tag]['size'];
+		}
+		
+		$tpl->assign('result', $result);
+		
         $tpl->display('tpl:addin.speedtest');
         break;
 }
