@@ -22,6 +22,10 @@
 	<p>[<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a>|<a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a>|<a href="addin.webplug.{$BID}">网页插件</a>]</p>
 </div>
 <hr>
+<div class="news">
+	<p>『<a href="addin.speedtest.{$BID}">参与网速测试，帮助虎绿林解决访问速度慢的问题！』</a></p>
+</div>
+<hr>
 <div>
 	<p>『用户专区』</p>
 	<p>
