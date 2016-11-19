@@ -3,12 +3,18 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2016-08-29 02:30:20
--- 服务器版本： 10.0.26-MariaDB-3
--- PHP Version: 7.0.9-2
+-- Generation Time: 2016-11-19 03:35:58
+-- 服务器版本： 10.0.27-MariaDB-2
+-- PHP Version: 7.0.12-1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `hu60`
@@ -114,6 +120,23 @@ CREATE TABLE `hu60_msg` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `hu60_speedtest`
+--
+
+CREATE TABLE `hu60_speedtest` (
+  `id` int(11) NOT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `tag` varchar(10) DEFAULT NULL,
+  `startTime` bigint(20) DEFAULT NULL,
+  `endTime` bigint(11) DEFAULT NULL,
+  `speed` float DEFAULT NULL,
+  `success` tinyint(1) DEFAULT NULL,
+  `errCode` varchar(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `hu60_token`
 --
 
@@ -204,6 +227,13 @@ ALTER TABLE `hu60_msg`
   ADD KEY `chat` (`type`,`touid`,`byuid`,`ctime`);
 
 --
+-- Indexes for table `hu60_speedtest`
+--
+ALTER TABLE `hu60_speedtest`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tag` (`tag`);
+
+--
 -- Indexes for table `hu60_token`
 --
 ALTER TABLE `hu60_token`
@@ -256,6 +286,11 @@ ALTER TABLE `hu60_bbs_topic_meta`
 ALTER TABLE `hu60_msg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- 使用表AUTO_INCREMENT `hu60_speedtest`
+--
+ALTER TABLE `hu60_speedtest`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- 使用表AUTO_INCREMENT `hu60_token`
 --
 ALTER TABLE `hu60_token`
@@ -265,3 +300,6 @@ ALTER TABLE `hu60_token`
 --
 ALTER TABLE `hu60_user`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
