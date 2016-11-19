@@ -75,6 +75,7 @@
 	var timerInterval = null;
 
 	function startTest() {
+		$('.reportSize, .successRate').hide();
 		$('#report_button').attr('disabled',true);
 		$('#test_button').attr('disabled',true);
 		$('#test_button').val('测试中...');
