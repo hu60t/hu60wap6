@@ -18,6 +18,12 @@
 	#title {
 		font-weight: bold;
 	}
+	.itemB {
+		background: #F0F0F0;
+	}
+	.itemA {
+		background: #FFFFFF;
+	}
 </style>
 <div class="tp">
 	<p>感谢您参与虎绿林的访问速度测试。</p>
@@ -25,7 +31,7 @@
 	<p>虎绿林将选择一条大部分人都访问较快的线路做为主站线路。</p>
 </div>
 <div class="test">
-	<div class="test_item" id="title">
+	<div class="test_item itemB" id="title">
 		<p class="name">线路</p>
 		<p class="state">下载10KB</p>
 		<p class="speed">访问速度</p>
@@ -33,7 +39,7 @@
 		<p class="successRate">成功率</p>
 	</div>
 	{foreach $testResults as $tag=>$item}
-	<div class="test_item" id="{$tag}">
+	<div class="test_item {cycle values="itemA,itemB"}" id="{$tag}">
 		<p class="name"><a href="{$item.urlPrefix}{$smarty.server.REQUEST_URI|code}">{$item.name}</a></p>
 		<p class="state">平均 {round($item.time/1000,2)}s</p>
 		<p class="speed">平均 {str::filesize($item.speed)}/s</p>
