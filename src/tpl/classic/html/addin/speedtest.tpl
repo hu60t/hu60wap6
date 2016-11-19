@@ -1,6 +1,52 @@
 {include file="tpl:comm.head" title="访问速度测试" no_webplug=true}
 <script src="/tpl/classic/js/jquery/dist/jquery.min.js"></script>
 <script src="/tpl/classic/js/humanize/humanize.js"></script>
+<style>
+	.test_item p {
+		display: inline-block;
+		text-align: center;
+	}
+	.name, .reportSize, .successRate {
+		min-width: 80px;
+	}
+	.state {
+		min-width: 100px;
+	}
+	.speed {
+		min-width: 130px;
+	}
+	#title {
+		font-weight: bold;
+	}
+</style>
+<div class="tp">
+	<p>感谢您参与虎绿林的访问速度测试。</p>
+	<p>您可以将测试结果发送给虎绿林服务器。</p>
+	<p>虎绿林将选择一条大部分人都访问较快的线路做为主站线路。</p>
+</div>
+<div class="test">
+	<div class="test_item" id="title">
+		<p class="name">线路</p>
+		<p class="state">下载10KB</p>
+		<p class="speed">访问速度</p>
+		<p class="reportSize">报告数</p>
+		<p class="successRate">成功率</p>
+	</div>
+	{foreach $testResults as $tag=>$item}
+	<div class="test_item" id="{$tag}">
+		<p class="name"><a href="{$item.urlPrefix}{$smarty.server.REQUEST_URI|code}">{$item.name}</a></p>
+		<p class="state">平均 {round($item.time/1000,2)}s</p>
+		<p class="speed">平均 {str::filesize($item.speed)}/s</p>
+		<p class="reportSize">{$item.size}</p>
+		<p class="successRate">{round($item.successRate*100,2)}%</p>
+	</div>
+	{/foreach}
+	<div class="toolbar">
+		<input type="button" id="test_button" onclick="startTest()" value="开始测试">
+		<input type="button" id="report_button" onclick="sendReport()" value="发送报告" disabled>
+		<a href="{$CID}.{$PID}.{$BID}?r={$smarty.server.REQUEST_TIME}">刷新报告</a>
+	</div>
+</div>
 <script>
 	var result = {
 		/* tag1: { startTime:111, endTime:222, success:true, speed: 1111 },
@@ -38,12 +84,9 @@
 
 		complete = 0;
 
-		testUrl('http://hu60.cn/q.php/addin.speedtest.json?action=send', 'main');
-		testUrl('https://ssl.hu60.cn/q.php/addin.speedtest.json?action=send', 'mainssl');
-		testUrl('http://360.cdn.hu60.cn/q.php/addin.speedtest.json?action=send', 'cdn360');
-		testUrl('https://360.cdn.hu60.cn/q.php/addin.speedtest.json?action=send', 'cdn360ssl');
-		testUrl('http://baidu.cdn.hu60.cn/q.php/addin.speedtest.json?action=send', 'baidu');
-		testUrl('http://yd.cdn.hu60.cn/q.php/addin.speedtest.json?action=send', 'yundun');
+		{foreach $testSites as $tag=>$item}
+		testUrl('{$item.urlPrefix}/q.php/addin.speedtest.json?action=send', '{$tag}');
+		{/foreach}
 	}
 	function sendReport() {
 		$('#report_button').attr('disabled',true);
@@ -68,17 +111,15 @@
 				}
 				
 				//防止测试完成事件被错误触发
-				complete = 0;
+				complete = -1;
 			}
 		});
 	}
 	function testUrl(url, tag) {
 		var stat = $('#' + tag + ' .state');
 		var speed = $('#' + tag + ' .speed');
-		stat.html('测试中...');
+		stat.html('待测试');
 
-		result[tag] = { startTime: new Date().getTime() };
-		
 		$.ajax({
 			cache: false,
 			timeout: 15000, //15秒
@@ -86,6 +127,10 @@
 			_tag: tag,
 			_stat: stat,
 			_speed: speed,
+			beforeSend: function(xhr, options) {
+				stat.html('测试中...');
+				result[options._tag] = { startTime: new Date().getTime() };
+			},
 			complete: function(xhr, stat) {
 				var item = result[this._tag];
 				item.endTime = new Date().getTime();
@@ -122,7 +167,7 @@
 		$(document).ajaxComplete(function(event, xhr, options) {
 			complete++;
 
-  			if (complete >= 6) {
+  			if (complete >= {count($testSites)}) {
 				$('#report_button').removeAttr('disabled');
 				$('#test_button').val('重新测试');
 				$('#test_button').removeAttr('disabled');
@@ -132,64 +177,4 @@
 		});
 	});
 </script>
-<style>
-	.test_item p {
-		display: inline-block;
-	}
-	.name {
-		min-width: 80px;
-	}
-	.state {
-		min-width: 120px;
-	}
-	#title {
-		font-weight: bold;
-	}
-</style>
-<div class="tp">
-	<p>感谢您参与虎绿林的访问速度测试。</p>
-	<p>您可以将测试结果发送给虎绿林服务器。</p>
-	<p>虎绿林将选择一条大部分人都访问较快的线路做为主站线路。</p>
-</div>
-<div class="test">
-	<div class="test_item" id="title">
-		<p class="name">线路</p>
-		<p class="state">下载10KB</p>
-		<p class="speed">访问速度</p>
-	</div>
-	<div class="test_item" id="main">
-		<p class="name"><a href="http://hu60.cn{$smarty.server.REQUEST_URI|code}">主站</a></p>
-		<p class="state">成功率 {round($result.main.successRate*100,2)}%</p>
-		<p class="speed">平均 {str::filesize($result.main.speed)}/s</p>
-	</div>
-	<div class="test_item" id="mainssl">
-		<p class="name"><a href="https://ssl.hu60.cn{$smarty.server.REQUEST_URI|code}">主站(ssl)</a></p>
-		<p class="state">成功率 {round($result.mainssl.successRate*100,2)}%</p>
-		<p class="speed">平均 {str::filesize($result.mainssl.speed)}/s</p>
-	</div>
-	<div class="test_item" id="cdn360">
-		<p class="name"><a href="http://360.cdn.hu60.cn{$smarty.server.REQUEST_URI|code}">360</a></p>
-		<p class="state">成功率 {round($result.cdn360.successRate*100,2)}%</p>
-		<p class="speed">平均 {str::filesize($result.cdn360.speed)}/s</p>
-	</div>
-	<div class="test_item" id="cdn360ssl">
-		<p class="name"><a href="https://360.cdn.hu60.cn{$smarty.server.REQUEST_URI|code}">360(ssl)</a></p>
-		<p class="state">成功率 {round($result.cdn360ssl.successRate*100,2)}%</p>
-		<p class="speed">平均 {str::filesize($result.cdn360ssl.speed)}/s</p>
-	</div>
-	<div class="test_item" id="baidu">
-		<p class="name"><a href="http://baidu.cdn.hu60.cn{$smarty.server.REQUEST_URI|code}">百度</a></p>
-		<p class="state">成功率 {round($result.baidu.successRate*100,2)}%</p>
-		<p class="speed">平均 {str::filesize($result.baidu.speed)}/s</p>
-	</div>
-	<div class="test_item" id="yundun">
-		<p class="name"><a href="http://yd.cdn.hu60.cn{$smarty.server.REQUEST_URI|code}">云盾</a></p>
-		<p class="state">成功率 {round($result.yundun.successRate*100,2)}%</p>
-		<p class="speed">平均 {str::filesize($result.yundun.speed)}/s</p>
-	</div>
-	<div class="toolbar">
-		<input type="button" id="test_button" onclick="startTest()" value="开始测试">
-		<input type="button" id="report_button" onclick="sendReport()" value="发送报告" disabled>
-	</div>
-</div>
 {include file="tpl:comm.foot"}

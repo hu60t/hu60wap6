@@ -1,4 +1,14 @@
 <?php
+$testSites = [
+    'main' => ['name'=>'主站', 'urlPrefix'=>'http://hu60.cn'],
+    'mainssl' => ['name'=>'主站(ssl)', 'urlPrefix'=>'https://ssl.hu60.cn'],
+    'cdn360' => ['name'=>'360', 'urlPrefix'=>'http://360.cdn.hu60.cn'],
+    'cdn360ssl' => ['name'=>'360(ssl)', 'urlPrefix'=>'https://360.cdn.hu60.cn'],
+    'baidu' => ['name'=>'百度', 'urlPrefix'=>'http://baidu.cdn.hu60.cn'],
+    'yundun' => ['name'=>'云盾', 'urlPrefix'=>'http://yd.cdn.hu60.cn'],
+    'cmcc' => ['name'=>'移动专线', 'urlPrefix'=>'https://cmcc.cdn.hu60.cn'],
+];
+
 switch ($_GET['action']) {
     case 'send':
         header('Access-Control-Allow-Origin: *');
@@ -43,7 +53,7 @@ switch ($_GET['action']) {
             return;
         }
 
-        $tags = ['main', 'mainssl', 'cdn360', 'cdn360ssl', 'baidu', 'yundun'];
+        $tags = array_keys($testSites);
         $count = 0;
 
         foreach ($tags as $tag) {
@@ -64,30 +74,32 @@ switch ($_GET['action']) {
         $tpl = $PAGE->start();
         $tpl->assign('TEST_FILE_SIZE', 10240); //测试文件大小：10KB
 		
-		$result = [];
+		$testResults = $testSites;
 		$db = db::conn();
 		
-		$rs = $db->query('SELECT tag,count(*) as size,avg(speed) as speed FROM '.DB_A.'speedtest GROUP BY tag');
+		$rs = $db->query('SELECT tag, count(*) as size, avg(speed) as speed FROM '.DB_A.'speedtest GROUP BY tag');
 		$data = $rs->fetchAll(db::ass);
 		
 		foreach ($data as $v) {
 			$tag = $v['tag'];
 			unset($v['tag']);
-			$result[$tag] = $v;
+			$testResults[$tag] += $v;
 		}
 		
-		$rs = $db->query('SELECT tag,count(*) as successSize FROM '.DB_A.'speedtest WHERE success=1 GROUP BY tag');
+        //只统计成功者的用时
+		$rs = $db->query('SELECT tag, count(*) as successSize, avg(endTime-startTime) as time FROM '.DB_A.'speedtest WHERE success=1 GROUP BY tag');
 		$data = $rs->fetchAll(db::ass);
 		
 		foreach ($data as $v) {
 			$tag = $v['tag'];
 			unset($v['tag']);
-			$result[$tag] += $v;
+			$testResults[$tag] += $v;
 			//成功率
-			$result[$tag]['successRate'] = $result[$tag]['successSize'] / $result[$tag]['size'];
+			$testResults[$tag]['successRate'] = $testResults[$tag]['successSize'] / $testResults[$tag]['size'];
 		}
 		
-		$tpl->assign('result', $result);
+        $tpl->assign('testSites', $testSites);
+		$tpl->assign('testResults', $testResults);
 		
         $tpl->display('tpl:addin.speedtest');
         break;

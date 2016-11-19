@@ -94,39 +94,22 @@ class str
     /**
      * 取得可读的文件大小
      *
-     * @url http://outofmemory.cn/code-snippet/3236/php-jiangyi-byte-danwei-indicate-file-size-turn-huawei-kedu-xing-indicate
+     * @param $fileSize 文件大小（整数，单位：字节）
+     * @param $decimal 结果保留的小数位数（默认两位）
+     * @param $separator 数值和单位之间的分隔符（默认空格）
      */
-    public static function filesize($fileSize) {
-        $unit = array(' Bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB');
-        $i = 0;
+    public static function filesize($fileSize, $decimal = 2, $separator = ' ') {
+        $units = array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'NB', 'DB');
+        $unit = array_shift($units);
 
-        /*
-        while($fileSize >= 1024 && $i < 8)
-        {
+        while ($fileSize > 999 && !empty($units)) {
             $fileSize /= 1024;
-            ++$i;
-        }
-        */
-
-        /*
-        以上代码还可以优化一下
-        由于计算机做乘法比做除法快
-        */
-        $inv = 1 / 1024;
-
-        while($fileSize >= 1024 && $i < 8)
-        {
-            $fileSize *= $inv;
-            ++$i;
+            $unit = array_shift($units);
         }
 
-        //return sprintf("%.2f", $fileSize) . $unit[$i];
+        $fileSize = round($fileSize, $decimal);
 
-        // 改正上一条结果为整数，输出却带两个无意义0的小数位的浮点数
-        $fileSizeTmp = sprintf("%.2f", $fileSize);
-
-        // 以下代码在99.99%的情况下结果会是正确的，除非你使用了"超超大数"。：）
-        return ($fileSizeTmp - (int)$fileSizeTmp ? $fileSizeTmp : $fileSize) . $unit[$i];
+        return "{$fileSize}{$separator}{$unit}";
     }
 
     public static function 过滤滥用($text) {
