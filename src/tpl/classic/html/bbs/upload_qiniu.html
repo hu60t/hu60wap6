@@ -143,7 +143,7 @@
          * @param quality 压缩后图像的质量（1-10）
          * @return jpeg图片数据的Blob对象
          */
-        imgCompress: function(img, quality){
+        imgCompress: function(callback, img, quality){
             var mime_type = "image/jpeg";
 
             var cvs = document.createElement('canvas');
@@ -152,18 +152,7 @@
 
             cvs.getContext("2d").drawImage(img, 0, 0);
 
-            var newImgData = cvs.toDataURL(mime_type, quality/10);
-
-            var arr = newImgData.split(',');
-            var bstr = atob(arr[1]);
-            var n = bstr.length;
-            var u8arr = new Uint8Array(n);
-
-            while(n--) {
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-
-            return new Blob([u8arr], {type:mime_type});
+            cvs.toBlob(callback, mime_type, quality/10);
         },
         //预览图片
         preview: function (fid) {
@@ -491,18 +480,19 @@
                 fileList.setState(file._id, '压缩中...');
 
                 createImageBitmap(file).then(function(bitmap) {
-                    var newFile = fileList.imgCompress(bitmap, imgQuality);
-                    newFile._id = file._id;
-                    newFile.name = file.name;
-                    newFile.lastModified = file.lastModified;
-                    newFile.lastModifiedDate = file.lastModifiedDate;
+                    fileList.imgCompress(function(newFile) {
+                        newFile._id = file._id;
+                        newFile.name = file.name;
+                        newFile.lastModified = file.lastModified;
+                        newFile.lastModifiedDate = file.lastModifiedDate;
 
-                    uploader.addFile(newFile);
+                        uploader.addFile(newFile);
 
-                    pos++;
-                    if (pos < length) {
-                        nextFile();
-                    }
+                        pos++;
+                        if (pos < length) {
+                            nextFile();
+                        }
+                    }, bitmap, imgQuality);
                 });
             }
         }
@@ -621,6 +611,43 @@
 
         //显示时间
         showTime();
+
+        //canvas转blob的polyfill
+        if (!HTMLCanvasElement.prototype.toBlob) {
+            Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+                value: function (callback, type, quality) {
+
+                    var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
+                            len = binStr.length,
+                            arr = new Uint8Array(len);
+
+                    for (var i=0; i<len; i++ ) {
+                        arr[i] = binStr.charCodeAt(i);
+                    }
+
+                    callback( new Blob( [arr], {type: type || 'image/png'} ) );
+                }
+            });
+        }
+
+        //createImageBitmap的polyfill
+        if ('function' != typeof createImageBitmap) {
+            createImageBitmap = function (file) {
+                var result = $.Deferred();
+
+                var fr = new FileReader();
+                fr.onload = function(e) {
+                    var img = new Image();
+                    img.onload = function(e) {
+                        result.resolve(e.target);
+                    }
+                    img.src = e.target.result;
+                };
+                fr.readAsDataURL(file);
+
+                return result.promise();
+            }
+        }
     });
 
 </script>
