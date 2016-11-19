@@ -46,6 +46,12 @@
             display: none;
             margin-top: 10px;
         }
+        #img_selector {
+            display: none;
+        }
+        #img_quality {
+            width: 146px;
+        }
     </style>
 </head>
 <body>
@@ -59,24 +65,33 @@
     <textarea id="content"></textarea>
 </div>
 <hr>
-<div id="file_selector" class="tp">
-    <input type="file" id="file" />
-    <input type="button" id="upload" value="上传" disabled />
-    <input type="button" id="save" value="暂存" />
-    <input type="button" id="load" value="载入" />
-    <input type="button" id="finish" value="完成" />
-    <span id="action_state"></span>
-</div>
-<div id="upload_state_bar"></div>
-<div id="file_list"></div>
-<hr>
-<div id="legacy_mode_bar">
-    <p id="to_legacy_mode">总是上传失败？<a href="#" onclick="fileList.legacyMode();return false">切换到传统模式。</a></p>
-    <form id="legacy_mode_form" action="/q.php/bbs.upload.html" method="post" enctype="multipart/form-data">
-        <input type="file" id="legacy_mode_file" name="file" />
-        <input type="button" id="legacy_mode_upload" name="go" value="上传" />
-    </form>
-    <p id="to_modern_mode">传统模式不好用？<a href="#" onclick="fileList.legacyMode();return false">切换到现代模式。</a></p>
+<div id="file_drop_area">
+    <div id="file_selector" class="tp">
+        <div id="file_select_bar">
+            <input type="button" id="file" value="选择文件" />
+            <input type="button" id="upload" value="上传" disabled />
+            <input type="button" id="save" value="暂存" />
+            <input type="button" id="load" value="载入" />
+            <input type="button" id="finish" value="完成" />
+            <span id="action_state"></span>
+        </div>
+        <div id="img_select_bar">
+            <input id="img_selector" type="file" accept="image/*" multiple />
+            <input type="button" id="addImg" value="选择图片" onclick="$('#img_selector').trigger('click')" />
+            压缩比<input type="range" id="img_quality" min="0" max="9" value="4" />
+        </div>
+    </div>
+    <div id="upload_state_bar"></div>
+    <div id="file_list"></div>
+    <hr>
+    <div id="legacy_mode_bar">
+        <p id="to_legacy_mode">总是上传失败？<a href="#" onclick="fileList.legacyMode();return false">切换到传统模式。</a></p>
+        <form id="legacy_mode_form" action="/q.php/bbs.upload.html" method="post" enctype="multipart/form-data">
+            <input type="file" id="legacy_mode_file" name="file" />
+            <input type="button" id="legacy_mode_upload" name="go" value="上传" />
+        </form>
+        <p id="to_modern_mode">传统模式不好用？<a href="#" onclick="fileList.legacyMode();return false">切换到现代模式。</a></p>
+    </div>
 </div>
 <hr>
 <div class="tp">
@@ -120,7 +135,45 @@
         fidCounter: 0, //文件id计数器
         uploadedFiles: [], //保存已上传完成的file对象，格式：['1'=> file, '2'=> file, ...]，key为fid
         computingMd5Files: [], //正在计算md5的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
+        previewFiles: [], //可供预览的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
 
+        /**
+         * 压缩图片
+         * @param img 任何可被canvas绘制的2d图像
+         * @param quality 压缩后图像的质量（1-10）
+         * @return jpeg图片数据的Blob对象
+         */
+        imgCompress: function(img, quality){
+            var mime_type = "image/jpeg";
+
+            var cvs = document.createElement('canvas');
+            cvs.width = img.width;
+            cvs.height = img.height;
+
+            cvs.getContext("2d").drawImage(img, 0, 0);
+
+            var newImgData = cvs.toDataURL(mime_type, quality/10);
+
+            var arr = newImgData.split(',');
+            var bstr = atob(arr[1]);
+            var n = bstr.length;
+            var u8arr = new Uint8Array(n);
+
+            while(n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+
+            return new Blob([u8arr], {type:mime_type});
+        },
+        //预览图片
+        preview: function (fid) {
+            var fr = new FileReader();
+            fr.onload = function(e) {
+                var data = e.target.result;
+                $('#upload_fid_' + fid + ' .preview').html('<img src="' + data + '" />');
+            };
+            fr.readAsDataURL(this.previewFiles[fid]);
+        },
         fileUploaded: function (file){
             this.uploadedFiles[file._id] = file;
         },
@@ -135,6 +188,7 @@
                     '<p class="file_state"><span class="box_title">状态</span><span class="box_value">-</span>' +
                         '<span class="box_action"><a href="#" onclick="fileList.remove('+file._id+',\''+file.id+'\');return false">取消</a></span></p>' +
                     '<p class="file_progress"><span class="box_title">进度</span><span class="box_value">0%</span></p>' +
+                    '<p class="preview"></p>' +
                 '</div>');
             $('#upload').removeAttr('disabled');
         },
@@ -144,6 +198,9 @@
             $('#upload_fid_' + fid).fadeOut("normal", function (){
                 $(this).remove();
             });
+        },
+        modifySize: function (fid, size) {
+            $('#upload_fid_' + fid + ' .file_size .box_value').append(size);
         },
         setState: function (fid, state) {
             $('#upload_fid_' + fid + ' .file_state .box_value').html(state);
@@ -201,6 +258,7 @@
             $('#to_modern_mode').toggle();
             $('#file_list').toggle();
             $('#legacy_mode_form').toggle();
+            $('#img_select_bar').toggle();
 
             localStorage.uploadLegacyMode = ('1' == localStorage.uploadLegacyMode) ? '0' : '1';
         },
@@ -329,7 +387,7 @@
         flash_swf_url: '../../js/plupload/js/Moxie.swf',  //引入flash，相对路径
         max_retries: 0,                     // 上传失败最大重试次数
         dragdrop: true,                     // 开启可拖曳上传
-        drop_element: 'file_selector',          // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+        drop_element: 'file_drop_area',          // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
         chunk_size: '4mb',                  // 分块上传时，每块的体积
         auto_start: false,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
         multi_selection: true,
@@ -341,8 +399,17 @@
 
                     for (var i=0; i<length; i++) {
                         var file = files[i];
-                        fileList.setFid(file);
-                        fileList.add(file);
+                        var nativeFile = file.getNative();
+
+                        if (!nativeFile._id) {
+                            fileList.setFid(file);
+                            fileList.add(file);
+                        } else {
+                            //压缩后的图片，已经有_id
+                            file._id = nativeFile._id;
+                            fileList.modifySize(file._id, '（压缩后：' + humanize.filesize(file.size) + ' / <a href="#" onclick="fileList.preview('+file._id+');return false">预览</a>）');
+                            fileList.previewFiles[file._id] = nativeFile;
+                        }
                     }
 
                     // 为了保证file变量的一致性，使用串行方式进行md5计算
@@ -398,6 +465,45 @@
                 fileList.setState(file._id, '<span class="failure">出错：' + htmlSpecialChars(errorMessage) + "</span>");
 
                 $('#upload').attr("disabled", false);
+            }
+        }
+    });
+
+    //压缩选择的图片并添加到上传列表
+    $("#img_selector").change(function() {
+        var files = this.files;
+        var imgQuality = 10 - $('#img_quality').val();
+
+        if (files.length) {
+            var length = files.length;
+
+            for (var i = 0; i < length; i++) {
+                var file = files[i];
+                fileList.setFid(file);
+                fileList.add(file);
+            }
+
+            var pos = 0;
+            nextFile();
+
+            function nextFile() {
+                var file = files[pos];
+                fileList.setState(file._id, '压缩中...');
+
+                createImageBitmap(file).then(function(bitmap) {
+                    var newFile = fileList.imgCompress(bitmap, imgQuality);
+                    newFile._id = file._id;
+                    newFile.name = file.name;
+                    newFile.lastModified = file.lastModified;
+                    newFile.lastModifiedDate = file.lastModifiedDate;
+
+                    uploader.addFile(newFile);
+
+                    pos++;
+                    if (pos < length) {
+                        nextFile();
+                    }
+                });
             }
         }
     });
