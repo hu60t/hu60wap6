@@ -1,8 +1,7 @@
 <?php
 $testSites = [
-    'main' => ['name'=>'主站', 'urlPrefix'=>'http://hu60.cn'],
+    'main' => ['name'=>'主站(360)', 'urlPrefix'=>'http://hu60.cn'],
     'mainssl' => ['name'=>'主站(ssl)', 'urlPrefix'=>'https://ssl.hu60.cn'],
-    'cdn360' => ['name'=>'360线路', 'urlPrefix'=>'http://360.cdn.hu60.cn'],
     'cdn360ssl' => ['name'=>'360(ssl)', 'urlPrefix'=>'https://360.cdn.hu60.cn'],
     'baidu' => ['name'=>'百度', 'urlPrefix'=>'http://baidu.cdn.hu60.cn'],
     'yundun' => ['name'=>'云盾', 'urlPrefix'=>'http://yd.cdn.hu60.cn'],
