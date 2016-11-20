@@ -389,7 +389,6 @@
                     for (var i=0; i<length; i++) {
                         var file = files[i];
                         var nativeFile = file.getNative();
-
                         if (!nativeFile._id) {
                             fileList.setFid(file);
                             fileList.add(file);
@@ -470,6 +469,7 @@
                 var file = files[i];
                 fileList.setFid(file);
                 fileList.add(file);
+                files[i] = file; //解决在QQ浏览器中同一次添加的第三个文件没有id的问题
             }
 
             var pos = 0;
@@ -478,7 +478,6 @@
             function nextFile() {
                 var file = files[pos];
                 fileList.setState(file._id, '压缩中...');
-
                 createImageBitmap(file).then(function(bitmap) {
                     fileList.imgCompress(function(newFile) {
                         newFile._id = file._id;
@@ -555,6 +554,10 @@
         $('#legacy_mode_form').submit();
     });
 
+    $('#img_quality').change(function () {
+        localStorage.uploadImgQuality = $(this).val();
+    });
+
     //没有按完成就离开页面
     $(window).bind('beforeunload', function () {
         var content = $('#content').val();
@@ -606,11 +609,20 @@
             localStorage.uploadLegacyMode = '1';
         }
 
+        if (undefined != localStorage.uploadImgQuality && 0 <= localStorage.uploadImgQuality && localStorage.uploadImgQuality <= 9) {
+            $('#img_quality').val(localStorage.uploadImgQuality);
+        }
+
         //sessionStorage只支持string的存储
         sessionStorage.topicContentSaved = '0';
 
         //显示时间
         showTime();
+
+        //方便在手机上显示调试信息
+        log = function (obj) {
+            $('#content').val($('#content').val() + "\n" + JSON.stringify(obj));
+        }
 
         //canvas转blob的polyfill
         if (!HTMLCanvasElement.prototype.toBlob) {
@@ -618,8 +630,8 @@
                 value: function (callback, type, quality) {
 
                     var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
-                            len = binStr.length,
-                            arr = new Uint8Array(len);
+                        len = binStr.length,
+                        arr = new Uint8Array(len);
 
                     for (var i=0; i<len; i++ ) {
                         arr[i] = binStr.charCodeAt(i);

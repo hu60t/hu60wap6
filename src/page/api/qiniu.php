@@ -17,4 +17,6 @@ $upToken = $auth->uploadToken($bucket, null, 3600, null);
 
 $data = ['uptoken'=>$upToken];
 
+header('Content-Type: application/json');
+
 echo json_encode($data);
