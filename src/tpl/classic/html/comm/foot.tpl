@@ -22,7 +22,7 @@
 			{if $host == "ipv6.hu60.cn"}IPv6(ssl){else}<a href="https://ipv6.hu60.cn{$smarty.server.REQUEST_URI|code}">IPv6(ssl)</a>{/if}
 		</p>
 		<p>
-			Powered by <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a>
+			本站由 <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> 驱动
 		</p>
 		{if !$no_chat}
 			{$chat=chat::getInstance()}
