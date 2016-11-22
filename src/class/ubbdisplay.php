@@ -173,6 +173,13 @@ class ubbDisplay extends XUBBP
         $id ++;
         $url = $data['url'];
 
+        //百度输入法多媒体输入
+        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
+            $prefix = $arr[1];
+            $imgId = $arr[2];
+            $url = $prefix . '/more?mm=' . $imgId;
+        }
+
         return '<p class="video_box"><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></video></p><script>(function(){var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
     }
 
@@ -180,6 +187,14 @@ class ubbDisplay extends XUBBP
     public function audioStream($data)
     {
         $url = $data['url'];
+
+        //百度输入法多媒体输入
+        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
+            $prefix = $arr[1];
+            $imgId = $arr[2];
+            $url = $prefix . '/more?mm=' . $imgId;
+        }
+
         return '<p class="audio_box"><audio class="audio" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></audio></p>';
     }
 
@@ -348,10 +363,40 @@ class ubbDisplay extends XUBBP
         if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $data['url'], $arr)) {
             $prefix = $arr[1];
             $imgId = $arr[2];
-            $url = $data['url'];
-            $imgUrl = $prefix . '/more?mm=' . $imgId;
+            $url = code::html($data['url']);
+            $imgUrl = code::html($prefix . '/more?mm=' . $imgId);
 
-            return '<a href="' . code::html($url) . '"><img src="' . code::html($imgUrl) . '" alt="' . code::html($url) . '"/></a>';
+            static $id = 0;
+            $id ++;
+
+            if (1 === $id) {
+                $script = <<<HTML
+<script>
+    if ('function' != typeof baidu_media_change) {
+    baidu_media_change = function (id, hideTag, showTag) {
+    console.log(id,hideTag,showTag);
+        var hideDom = document.getElementById('baidu_media_' + hideTag + '_' + id);
+        var showDom = document.getElementById('baidu_media_' + showTag + '_' + id);
+        if ('audio' == showTag) { showDom.src = hideDom.src; }
+        hideDom.style.display = 'none';
+        showDom.style.display = 'inline';
+    }}
+</script>
+HTML;
+            } else {
+                $script = '';
+            }
+
+
+            return <<<HTML
+<div class="baidu_media_box">
+    <p>多媒体输入（<a id="baidu_media_link_{$id}" href="{$url}">{$url}</a>）</p>
+    <img id="baidu_media_img_{$id}" src="{$imgUrl}" al="图片加载中" onerror="baidu_media_change({$id}, 'img', 'audio')" />
+    <audio id="baidu_media_audio_{$id}" class="audio" style="display:none" controls="controls" onerror="baidu_media_change({$id}, 'audio', 'txt')"></audio>
+    <span id="baidu_media_txt_{$id}" style="display:none">内容无法解析，请点击上方链接查看↑</span>
+</div>
+{$script}
+HTML;
         } else {
             $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
             return '<a href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
