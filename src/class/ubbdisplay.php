@@ -344,8 +344,18 @@ class ubbDisplay extends XUBBP
     {
         global $PAGE;
 
-        $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
-        return '<a href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
+        //百度输入法多媒体输入
+        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $data['url'], $arr)) {
+            $prefix = $arr[1];
+            $imgId = $arr[2];
+            $url = $data['url'];
+            $imgUrl = $prefix . '/more?mm=' . $imgId;
+
+            return '<a href="' . code::html($url) . '"><img src="' . code::html($imgUrl) . '" alt="百度输入法多媒体输入"/></a>';
+        } else {
+            $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+            return '<a href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
+        }
     }
 
     /*mailtxt 邮箱文本*/
