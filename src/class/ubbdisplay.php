@@ -125,6 +125,13 @@ class ubbDisplay extends XUBBP
         //减少HTTP请求次数，不再进行跳转
         $url = $data['src'];
 
+        //百度输入法多媒体输入
+        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
+            $prefix = $arr[1];
+            $imgId = $arr[2];
+            $url = $prefix . '/more?mm=' . $imgId;
+        }
+
         return '<img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . code::html($data['alt']) . '"' : '') . '/>';
     }
 
@@ -132,6 +139,14 @@ class ubbDisplay extends XUBBP
     public function thumb($data)
     {
         $src = code::html($data['src']);
+
+        //百度输入法多媒体输入
+        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $src, $arr)) {
+            $prefix = $arr[1];
+            $imgId = $arr[2];
+            $src = $prefix . '/more?mm=' . $imgId;
+        }
+        
         return '<a href="' . $src . '"><img src="http://s.image.wap.soso.com/img/' . floor($data['w']) . '_' . floor($data['h']) . '_0_0_' . $src . '" alt="点击查看大图"/></a>';
     }
 
