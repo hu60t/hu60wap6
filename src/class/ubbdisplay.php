@@ -351,7 +351,7 @@ class ubbDisplay extends XUBBP
             $url = $data['url'];
             $imgUrl = $prefix . '/more?mm=' . $imgId;
 
-            return '<a href="' . code::html($url) . '"><img src="' . code::html($imgUrl) . '" alt="百度输入法多媒体输入"/></a>';
+            return '<a href="' . code::html($url) . '"><img src="' . code::html($imgUrl) . '" alt="' . code::html($url) . '"/></a>';
         } else {
             $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
             return '<a href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
