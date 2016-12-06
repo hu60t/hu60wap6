@@ -8,6 +8,8 @@
                 <option value="GBK" {if $smarty.post.code == 'GBK'}selected{/if}>GBK</option>
                 <option value="UTF-16LE" {if $smarty.post.code == 'UTF-16LE'}selected{/if}>UTF-16LE</option>
                 <option value="UTF-16BE" {if $smarty.post.code == 'UTF-16BE'}selected{/if}>UTF-16BE</option>
+                <option value="UTF-32LE" {if $smarty.post.code == 'UTF-32LE'}selected{/if}>UTF-32LE</option>
+                <option value="UTF-32BE" {if $smarty.post.code == 'UTF-32BE'}selected{/if}>UTF-32BE</option>
             </select></p>
         <p>欲进行的操作：<select name="action">
                 <option value="ehex" {if $smarty.post.action == 'ehex'}selected{/if}>十六进制编码</option>
