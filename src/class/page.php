@@ -305,7 +305,7 @@ class page implements ArrayAccess
     public static function getCookie($name, $default = null)
     {
         $name = COOKIE_A . $name;
-        return isset($_COOKIE[$name]) ? $_COOKIE[$name] : $default;
+        return empty($_COOKIE[$name]) ? $default : $_COOKIE[$name];
     }
 
     public static function setCookie($name, $value, $time = 0)
