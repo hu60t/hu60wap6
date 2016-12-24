@@ -16,5 +16,10 @@
 {else}
 	{$uinfo=NULL}
 {/if}
+
+{foreach $newTopicList as $k=>$v}
+	{$newTopicList.$k.uinfo = ['name'=>$v.uinfo.name]}
+{/foreach}
+
 {$jsonData=['userInfo'=>$uinfo, 'newTopicList'=>$newTopicList]}
 {JsonPage::output($jsonData)}
