@@ -23,8 +23,8 @@
 </div>
 <hr>
 <div class="news">
-	<p>『<a href="addin.speedtest.{$BID}">参与网速测试，帮助虎绿林解决访问速度慢的问题！</a>』</p>
-	<p>-网速测试更新：主站切换为360线路，测试数据重置 ↑</p>
+	<p>『<a href="addin.speedtest.{$BID}">网速测试（找到我的最佳访问线路）</a>』</p>
+	<p>-机房搬迁，测试数据重置 ↑</p>
 </div>
 <hr>
 <div>
@@ -51,5 +51,12 @@
 	<p>『实用工具』</p>
 	<p>-<a href="tools.ua.{$BID}">查看HTTP请求</a></p>
 	<p>-<a href="tools.coder.{$BID}">编码解码器</a></p>
+</div>
+<hr>
+<div id="friend_links">
+	<p>『友情链接』</p>
+	<p><a href="http://chinalol.cc/">老司机LOL</a> | <a href="http://2cbk.com/">二超博客</a> | <a href="http://www.mhcf.net/">梦幻辰风</a> | <a href="http://blog.isoyu.com/">长信博客</a> | <a href="https://morz.org/">喵萌博客</a></p>
+	<p><a href="http://lehuidc.cn/">乐虎IDC</a></p>
+	<p>虎绿林使用<a href="http://www.vultr.com/?ref=6945913-3B">Vultr</a>的服务器，由<a href="user.info.13716.html">OrzLAN</a>提供网络加速。
 </div>
 {include file="tpl:comm.foot"}

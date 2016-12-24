@@ -1,11 +1,10 @@
 <?php
 $testSites = [
-    'main' => ['name'=>'主站(360)', 'urlPrefix'=>'http://hu60.cn'],
-    'mainssl' => ['name'=>'主站(ssl)', 'urlPrefix'=>'https://ssl.hu60.cn'],
-    'cdn360ssl' => ['name'=>'360(ssl)', 'urlPrefix'=>'https://360.cdn.hu60.cn'],
+    'main' => ['name'=>'半ssl', 'urlPrefix'=>'https://hu60.cn'],
+    'mainssl' => ['name'=>'全ssl', 'urlPrefix'=>'https://ssl.hu60.cn'],
     'baidu' => ['name'=>'百度', 'urlPrefix'=>'http://baidu.cdn.hu60.cn'],
     'yundun' => ['name'=>'云盾', 'urlPrefix'=>'http://yd.cdn.hu60.cn'],
-    'cmcc' => ['name'=>'移动专线', 'urlPrefix'=>'https://cmcc.cdn.hu60.cn'],
+    'cmcc' => ['name'=>'腾讯云', 'urlPrefix'=>'https://cmcc.cdn.hu60.cn'],
 ];
 
 switch ($_GET['action']) {
@@ -82,7 +81,10 @@ switch ($_GET['action']) {
 		foreach ($data as $v) {
 			$tag = $v['tag'];
 			unset($v['tag']);
-			$testResults[$tag] += $v;
+
+			if (isset($testResults[$tag])) {
+				$testResults[$tag] += $v;
+			}
 		}
 		
         //只统计成功者的用时
@@ -92,9 +94,11 @@ switch ($_GET['action']) {
 		foreach ($data as $v) {
 			$tag = $v['tag'];
 			unset($v['tag']);
-			$testResults[$tag] += $v;
-			//成功率
-			$testResults[$tag]['successRate'] = $testResults[$tag]['successSize'] / $testResults[$tag]['size'];
+			if (isset($testResults[$tag])) {
+				$testResults[$tag] += $v;
+				//成功率
+				$testResults[$tag]['successRate'] = $testResults[$tag]['successSize'] / $testResults[$tag]['size'];
+			}
 		}
 		
         $tpl->assign('testSites', $testSites);
