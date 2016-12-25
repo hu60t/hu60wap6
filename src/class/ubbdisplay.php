@@ -95,13 +95,14 @@ class ubbDisplay extends XUBBP
             if (trim($data['title']) == '') $data['title'] = $data['url'];
             $data['title'] = code::html($data['title']);
         }
-	if ($data['type'] == 'urlout') $data['url'] = 'http://' . $data['url'];
 
-	if ($data['url'][0] == '#') {
-	    $url = $data['url'];
-	} else {
-	    $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
-	}
+	    if ($data['type'] == 'urlout') $data['url'] = 'http://' . $data['url'];
+
+	    if ($PAGE->bid == 'json' || $data['url'][0] == '#') {
+	        $url = $data['url'];
+	    } else {
+	        $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+	    }
 
         return '<a href="' . code::html($url) . '">' . $data['title'] . '</a>';
     }
@@ -413,7 +414,12 @@ HTML;
 {$script}
 HTML;
         } else {
-            $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+            if ($PAGE->bid == 'json') {
+                $url = $data['url'];
+            } else {
+                $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+            }
+
             return '<a href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
         }
     }
@@ -608,9 +614,14 @@ HTML;
 
         try {
             $url = $PAGE->getTplUrl($path);
+
+            if ($PAGE->bid == 'json') {
+                $url = $PAGE->getUrlPrefix() . $url;
+            }
+
             $html = '<img title="' . code::html($data['face']) . '" src="' . code::html($url) . '" />';
         } catch (Exception $e) {
-            $html = code::html($data['face']) . '(表情图不存在)';
+            $html = code::html('{' . $data['face'] . '}');
         }
 
         return $html;

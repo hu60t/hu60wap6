@@ -70,6 +70,46 @@ class page implements ArrayAccess
         return "$page[cid].$page[pid].$page[extid]$page[bid]$page[path_info]$page[query_string]";
     }
 
+    /*判断是否正在使用https*/
+    public function isHttps() {  
+        if ($_SERVER['SERVER_PORT'] == 443) {
+            return true;
+        }
+
+        if (isset($_SERVER['HTTPS']) && !$_SERVER['HTTPS'] && 'off'!=strtolower($_SERVER['HTTPS'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /*取得当前URL的协议和主机名部分*/
+    public function getUrlPrefix() {
+        static $prefix = NULL;
+
+        // 可能多次调用，进行缓存
+        if (NULL !== $prefix) {
+            return $prefix;
+        }
+
+        if ($this->isHttps()) {
+            $protocol = 'http';
+            $defaultPort = 80;
+        }
+        else {
+            $protocol = 'https';
+            $defaultPort = 443;
+        }
+
+        $prefix = "$protocol://$_SERVER[HTTP_HOST]";
+
+        if ($_SERVER['SERVER_PORT'] != $defaultPort) {
+            $prefix .= ":$_SERVER[SERVER_PORT]";
+        }
+
+        return $prefix;
+    }
+
     /*取得文件的访问路径*/
     public function getFileUrl($path)
     {
