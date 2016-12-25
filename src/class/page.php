@@ -93,12 +93,12 @@ class page implements ArrayAccess
         }
 
         if ($this->isHttps()) {
-            $protocol = 'http';
-            $defaultPort = 80;
-        }
-        else {
             $protocol = 'https';
             $defaultPort = 443;
+        }
+        else {
+            $protocol = 'http';
+            $defaultPort = 80;
         }
 
         $prefix = "$protocol://$_SERVER[HTTP_HOST]";
