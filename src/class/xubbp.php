@@ -270,6 +270,14 @@ class XUBBP
 
 
     /**
+    * 跳过未知类型
+    */
+    public function skipUnknown($skip) {
+        $this->skipUnknown = $skip;
+    }
+
+
+    /**
      * 将UBB资源数组转换成可显示的文本
      *
      * 该方法通过已定义的回调函数将UBB数组转换成可显示的HTML或其他格式。

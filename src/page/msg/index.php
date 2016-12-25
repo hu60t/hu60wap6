@@ -98,8 +98,9 @@ switch ($action) {
         $xx[toname] = $uinfo->name;
         $uinfo->uid($xx[byuid]);
         $xx[byname] = $uinfo->name;
-        $xx['content'] = $ubbs->display($xx['content'], true);
+        //$xx['content'] = $ubbs->display($xx['content'], true);
         $tpl->assign('msg', $xx);
+        $tpl->assign('ubbs', $ubbs);
         $tpl->display('tpl:view');
         break;
 

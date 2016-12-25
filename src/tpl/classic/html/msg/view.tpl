@@ -17,7 +17,7 @@
 	<p>{if $msg.rtime}阅读时间：{date("Y-m-d H:i:s",$msg.rtime)}{/if}</p>
 </p>
 <hr>
-{$msg.content}
+{$ubbs->display($msg.content,true)}
 <hr>
 <p>『快速回复』</p>
 <p>

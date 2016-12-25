@@ -1,5 +1,7 @@
 {JsonPage::start()}
 
+{JsonPage::selUbbP($ubb)}
+
 {config_load file="conf:site.info"}
 
 {if $fid == 0}

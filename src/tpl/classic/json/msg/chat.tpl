@@ -1,5 +1,7 @@
 {JsonPage::start()}
 
+{JsonPage::selUbbP($ubb)}
+
 {if $chatList}
 {foreach $chatList as $k=>$v}
     {$chatList.$k.content = $ubb->display($v.content,true)}

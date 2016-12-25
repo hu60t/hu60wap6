@@ -1,5 +1,7 @@
 {JsonPage::start()}
 
+{JsonPage::selUbbP($ubbs)}
+
 {foreach $list as $k=>$v}
     {$list.$k.uinfo = ['name'=>$v.uname]}
     {JsonPage::unset($list.$k, 'uname')}
