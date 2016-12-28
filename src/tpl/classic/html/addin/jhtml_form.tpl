@@ -1,7 +1,7 @@
 {include file="tpl:comm.head" title="JHTML" no_webplug=true}
 {config_load file="conf:site.info"}
 <div class="tp">
-	<a href="index.index.{$BID}">首页</a> &gt; JHTML | <a href="bbs.forum.140.html">论坛：网页插件专版</a>
+	<a href="index.index.{$BID}">首页</a> &gt; JHTML | <a href="bbs.forum.140.html">相关讨论</a> | <a href="index.index.jhtml">进入 JHTML 首页</a>
 </div>
 
 <hr>
