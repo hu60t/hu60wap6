@@ -18,3 +18,9 @@
  */
 
 $USER = new USER;
+
+// 初始化 JHTML 页面
+if ($PAGE->bid === 'jhtml') {
+    // 开启 jhtml
+    JsonPage::jhtml(true);
+}
