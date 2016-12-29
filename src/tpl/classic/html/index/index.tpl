@@ -27,7 +27,7 @@
 	<p>-机房搬迁，测试数据重置 ↑</p>
 </div>
 <hr>
-<div>
+<div id="my_heart"><!-- 由@肖申克(uid:21156)命名 -->
 	<p>『用户专区』</p>
 	<p>
 		-我的：<a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>|回复|<a href="msg.index.{$bid}">内信</a>|<a href="msg.index.@.{$bid}">@消息</a>|收藏
