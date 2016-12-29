@@ -22,23 +22,6 @@ class JsonPage {
 		ob_end_clean();
 
 		if (self::$isJhtml) {
-			echo <<<HTML
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
-	<title>虎绿林 JHTML</title>
-</head>
-<body>
-<script>
-    var data = 
-HTML;
-		}
-
-		echo json_encode($data, (false === strpos($_GET['_json'], 'object') ? 0 : JSON_FORCE_OBJECT) | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | (false !== strpos($_GET['_json'], 'compact') ? 0 : JSON_PRETTY_PRINT));
-
-		if (self::$isJhtml) {
 			global $USER, $PAGE;
 
 			// 初始化用户登录
@@ -61,14 +44,28 @@ HTML;
 <p><a href="addin.jhtml.html?u=$url">您的JHTML代码为空，请先设置。</a></p>
 HTML;
 			}
-
+			
+			$data = json_encode($data, JSON_UNESCAPED_UNICODE);
+			
 			echo <<<HTML
-;
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
+	<title>虎绿林 JHTML</title>
+</head>
+<body>
+<script>
+    var data = $data;
 </script>
 $jhtml
 </body>
 </html>
 HTML;
+		}
+		else {
+			echo json_encode($data, (false === strpos($_GET['_json'], 'object') ? 0 : JSON_FORCE_OBJECT) | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | (false !== strpos($_GET['_json'], 'compact') ? 0 : JSON_PRETTY_PRINT));
 		}
 	}
 
