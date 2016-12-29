@@ -22,4 +22,9 @@
 {/foreach}
 
 {$jsonData=['fName'=>$fName, 'fIndex'=>$fIndex, 'tMeta'=>$tMeta, 'floorCount'=>$contentCount, 'maxPage'=>$maxPage, 'isLogin'=>$USER->islogin, 'tContents'=>$tContents]}
+
+{if $USER->islogin}
+	{$jsonData['token'] = $token->token()}
+{/if}
+
 {JsonPage::output($jsonData)}

@@ -22,4 +22,9 @@
 {/foreach}
 
 {$jsonData=['chatRomName'=>$roomname, 'isLogin'=>$USER->islogin, 'chatCount'=>$count, 'maxPage'=>$maxP, 'chatList'=>$list]}
+
+{if $USER->islogin}
+	{$jsonData['token'] = $token->token()}
+{/if}
+
 {JsonPage::output($jsonData)}
