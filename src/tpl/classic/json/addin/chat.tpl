@@ -4,7 +4,7 @@
 
 {foreach $list as $k=>$v}
     {$list.$k.uinfo = ['name'=>$v.uname]}
-    {JsonPage::unset($list.$k, 'uname')}
+    {JsonPage::_unset($list.$k, 'uname')}
 
     {if $v.hidden}
         {$tmp = $uinfo->uid($v.hidden)}

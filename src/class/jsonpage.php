@@ -72,7 +72,7 @@ HTML;
 		}
 	}
 
-	public static function unset(&$arr, $key) {
+	public static function _unset(&$arr, $key) {
 		unset($arr[$key]);
 	}
 

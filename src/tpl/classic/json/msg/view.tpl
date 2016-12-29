@@ -7,8 +7,8 @@
 {$msg.toUinfo = ['name'=>$msg.toname]}
 {$msg.byUinfo = ['name'=>$msg.byname]}
 
-{JsonPage::unset($msg, 'toname')}
-{JsonPage::unset($msg, 'byname')}
+{JsonPage::_unset($msg, 'toname')}
+{JsonPage::_unset($msg, 'byname')}
 
 {$msg.content=$ubbs->display($msg.content,true)}
 

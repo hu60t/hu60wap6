@@ -1,6 +1,6 @@
 {JsonPage::start()}
 
-{JsonPage::unset($tContent, 'content')}
+{JsonPage::_unset($tContent, 'content')}
 
 {$jsonData=['tMeta'=>$tMeta, 'floorMeta'=>$tContent, 'isLogin'=>$USER->islogin]}
 
