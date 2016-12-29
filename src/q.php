@@ -47,6 +47,14 @@ require_once dirname(__FILE__) . '/config.inc.php';
 try {
     /*分析URL*/
     $PAGE = new page;
+	
+	// Json Page 跨域支持
+	if ($_GET['_origin']) {
+		// 坚决禁止跨域 Cookie 访问，否则会形成 XSS 漏洞
+		$PAGE->setNoCookie(true);
+		header('Access-Control-Allow-Origin: ' . preg_replace('/[^a-zA-Z0-9,._*-]/s', '', trim($_GET['_origin'])));
+	}
+	
     $PAGE->cutPath();
     page::regBid($PAGE->bid);
     /*载入注册bid过程*/

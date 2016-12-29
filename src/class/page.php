@@ -5,6 +5,9 @@
  */
 class page implements ArrayAccess
 {
+	//标志位，禁止发送 Cookie （用于跨站访问的 Json Page）
+	protected static $noCookie = false;
+	
     //已注册的bid
     protected static $bid = array();
 
@@ -21,6 +24,18 @@ class page implements ArrayAccess
 
     //Smarty的模板路径缓存
     protected $tplCache = array();
+	
+	/* 设置是否发送 Cookie */
+	public function setNoCookie($noCookie) {
+		self::$noCookie = $noCookie;
+		
+		if ($noCookie) {
+			// 删除所有 Cookie
+			$_COOKIE = [];
+			// 删除 sid
+			$this->page['sid'] = NULL;
+		}
+	}
 
     /*取得已注册的bid信息*/
     public static function getRegbid()
@@ -344,19 +359,29 @@ class page implements ArrayAccess
 
     public static function getCookie($name, $default = null)
     {
-        $name = COOKIE_A . $name;
-        return empty($_COOKIE[$name]) ? $default : $_COOKIE[$name];
+		if (self::$noCookie) {
+			return $default;
+		}
+		else {
+			$name = COOKIE_A . $name;
+			return empty($_COOKIE[$name]) ? $default : $_COOKIE[$name];
+		}
     }
 
     public static function setCookie($name, $value, $time = 0)
     {
-        $name = COOKIE_A . $name;
+		if (self::$noCookie) {
+			return true;
+		}
+		else {
+			$name = COOKIE_A . $name;
 
-        if ($time > 0 && $time < $_SERVER['REQUEST_TIME']) {
-            $time += $_SERVER['REQUEST_TIME'];
-        }
-
-        return setCookie($name, $value, $time, COOKIE_PATH, COOKIE_DOMAIN, false, true);
+			if ($time > 0 && $time < $_SERVER['REQUEST_TIME']) {
+				$time += $_SERVER['REQUEST_TIME'];
+			}
+			
+			return setCookie($name, $value, $time, COOKIE_PATH, COOKIE_DOMAIN, false, true);
+		}
     }
 
     public function __isset($name)
