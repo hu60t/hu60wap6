@@ -1,3 +1,4 @@
+<a href="bbs.topic.80645.{$BID}">UBB说明</a>
 <script>
     //加载保存的帖子内容
     if (sessionStorage.topicContentSaved == '1') {

@@ -7,7 +7,7 @@
 <hr>
 
 <div>
-	<p>JHTML 是用 HTML + JavaScript 对虎绿林的界面进行完全重新排版的技术。</p>
+	<p>JHTML 是 JSON Page 的网页插件，可以利用 HTML + JavaScript 对虎绿林界面进行完全重新排版。</p>
 	<p style="color:red">警告：从他人处复制的代码可能含有恶意程序，造成版面错乱、帐户被盗、数据损坏，甚至计算机感染病毒等严重后果！</p>
 	<p style="color:green">请仅从信任的人处复制代码，并且仔细检查，避免使用不知用途的代码。</p>
 </div>

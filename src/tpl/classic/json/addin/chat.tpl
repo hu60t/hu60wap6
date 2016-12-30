@@ -4,7 +4,7 @@
 
 {foreach $list as $k=>$v}
     {$list.$k.uinfo = ['name'=>$v.uname]}
-    {JsonPage::unset($list.$k, 'uname')}
+    {JsonPage::_unset($list.$k, 'uname')}
 
     {if $v.hidden}
         {$tmp = $uinfo->uid($v.hidden)}
@@ -22,4 +22,9 @@
 {/foreach}
 
 {$jsonData=['chatRomName'=>$roomname, 'isLogin'=>$USER->islogin, 'chatCount'=>$count, 'maxPage'=>$maxP, 'chatList'=>$list]}
+
+{if $USER->islogin}
+	{$jsonData['token'] = $token->token()}
+{/if}
+
 {JsonPage::output($jsonData)}
