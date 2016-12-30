@@ -177,7 +177,7 @@ class bbs
             $this->db->update('bbs_topic_content', 'topic_id=? WHERE id=?', $topic_id, $content_id);
 
             //注册at消息
-            $this->user->regAt("帖子“{$title}”中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
+            $this->user->regAt("帖子“{$title}”中", "bbs.topic.{$topic_id}.{\$BID}", mb_substr($content, 0, 200, 'utf-8'));
 
             //更新发帖版块的改动时间
             $this->updateForumTime($fid);
@@ -229,7 +229,7 @@ class bbs
 
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
-        $this->user->regAt("帖子“{$topicTitle['title']}”的回复中", "bbs.topic.{$topic_id}.{$PAGE->bid}", mb_substr($content, 0, 200, 'utf-8'));
+        $this->user->regAt("帖子“{$topicTitle['title']}”的回复中", "bbs.topic.{$topic_id}.{\$BID}", mb_substr($content, 0, 200, 'utf-8'));
 
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET mtime=? WHERE id=?';
         $this->db->query($sql, $_SERVER['REQUEST_TIME'], $topic_id);

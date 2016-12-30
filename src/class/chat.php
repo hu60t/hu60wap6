@@ -144,7 +144,7 @@ class chat
         $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,uname,content,time', $room, $lid, $this->user->uid, $this->user->name, $contents, $time);
         if ($rs) {
             $this->db->update('addin_chat_list', 'ztime=? WHERE name=?', $time, $room);
-            $this->user->regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.{$room}.{$PAGE->bid}?level={$lid}", mb_substr($content, 0, 200, 'utf-8'));
+            $this->user->regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.{$room}.{\$BID}?level={$lid}", mb_substr($content, 0, 200, 'utf-8'));
             return true;
         } else {
             return false;

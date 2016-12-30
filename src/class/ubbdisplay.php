@@ -452,7 +452,7 @@ HTML;
     {
         global $PAGE;
 
-        $url = code::html($data['url']);
+        $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
         $pos = code::html($data['pos']);
         $msg = code::html($data['msg']);
         $uinfo = new UserInfo();
