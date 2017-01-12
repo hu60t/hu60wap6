@@ -5,7 +5,21 @@
 	{$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
 {include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}"}
-
+<script>
+	function foldFloor(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var action = document.getElementById('floor_action_' + floor);
+		
+		if (content.style.display == 'none') {
+			content.style.display = 'inline';
+			action.innerHTML = '';
+		}
+		else {
+			content.style.display = 'none';
+			action.innerHTML = '<a href="#" onclick="foldFloor(' + floor + ');return false">展开</a>';
+		}
+	}
+</script>
 {include file="tpl:comm.at"}
 {$ok=$ubb->setOpt('at.jsFunc', 'atAdd')}
 
@@ -41,7 +55,7 @@
 <div>
     {foreach $tContents as $v}
 		{$tmp = $ubb->setOpt('style.disable', $v.uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
-		<div>{$v.floor}. {$ubb->display($v.content,true)}</div>
+		<div><a class="fold_floor_button" title="折叠" href="#" onclick="foldFloor({$v.floor});return false">{$v.floor}</a>. <span id="floor_action_{$v.floor}"></span><span class="floor_content" id="floor_content_{$v.floor}">{$ubb->display($v.content,true)}</span></div>
 		<p>(<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if})</p>
 		<hr>
     {/foreach}
