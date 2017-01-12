@@ -16,7 +16,7 @@
 		}
 		else {
 			content.style.display = 'none';
-			action.innerHTML = '<a href="#" onclick="foldFloor(' + floor + ');return false">展开</a>';
+			action.innerHTML = '内容已折叠 (<a href="#" onclick="foldFloor(' + floor + ');return false">展开</a>)';
 		}
 	}
 </script>
@@ -39,9 +39,9 @@
 		<p>标题: {$tMeta.title|code}</p>
 		<p>作者: <a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
 		<p>时间: {date('Y-m-d H:i',$v.mtime)}</p>
-		<p>点击: {$tMeta.read_count}</p>
+		<p>点击: {$tMeta.read_count} (<a class="fold_floor_button" title="折叠" href="#" onclick="foldFloor(0);return false">折叠</a>)</p>
 		<hr>
-		<div>{$ubb->display($v.content,true)}</div>
+		<div><span id="floor_action_0"></span><span class="floor_content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<hr>
 			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|移|设]</p>
