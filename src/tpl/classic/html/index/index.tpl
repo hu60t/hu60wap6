@@ -55,8 +55,8 @@
 <hr>
 <div id="friend_links">
 	<p>『友情链接』</p>
-	<p><a href="http://chinalol.cc/">老司机LOL</a> | <a href="http://2cbk.com/">二超博客</a> | <a href="http://www.mhcf.net/">梦幻辰风</a> | <a href="http://blog.isoyu.com/">长信博客</a> | <a href="https://morz.org/">喵萌博客</a></p>
-	<p><a href="http://lehuidc.cn/">乐虎IDC</a></p>
+	<p><a href="http://enart.cn/">英语文化</a> | <a href="http://2cbk.com/">二超博客</a> | <a href="http://www.mhcf.net/">梦幻辰风</a> | <a href="http://blog.isoyu.com/">长信博客</a> | <a href="https://morz.org/">喵萌博客</a></p>
+	<p><a href="http://lehuidc.cn/">乐虎IDC</a> | <a href="https://www.5izzz.cn/">中转站博客</a></p>
 	<p>虎绿林使用<a href="http://www.vultr.com/?ref=6945913-3B">Vultr</a>的服务器，由<a href="user.info.13716.html">OrzLAN</a>提供网络加速。
 </div>
 {include file="tpl:comm.foot"}
