@@ -1,0 +1,92 @@
+body {
+  background-color: #EEE;
+}
+
+p {
+    margin: 0px;
+    padding: 2px 1px 2px 1px;
+}
+
+.tp {
+    margin: 0px;
+    background-color: #E6F3FF;
+}
+hr {
+    height: 1px;
+    border: 1px solid #BED8EA;
+    border-left: none;
+    border-right: none;
+}
+
+a {
+    text-decoration: none;
+    color: #08C;
+}
+
+form {
+    margin: 0px;
+    padding: 0px;
+}
+
+img, input, textarea {
+    max-width: 100%;
+    max-height: 768px;
+    vertical-align: middle;
+}
+
+textarea {
+    width: 270px;
+    height: 55px;
+    overflow-y: visible;
+}
+
+pre, textarea {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+ol, ul {
+    margin: 0px;
+}
+
+.text-success {
+    color: green;
+}
+
+.text-failure {
+    color: red;
+}
+
+.text-notice {
+    color: red;
+}
+.text-worning{
+  color: yellow;
+}
+img {
+    max-width: 100%;
+}
+
+.info-box {
+    text-align: center;
+    border: solid red 1px;
+}
+
+.video {
+    width: 600px;
+    height: 400px;
+    border: none;
+    max-width: 100%;
+}
+
+.audio {
+    width: 600px;
+    border: none;
+    max-width: 100%;
+}
+
+#content_title {
+	width: 270px;
+	max-width: 100%;
+}

@@ -1,0 +1,667 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>文件上传 - 虎绿林</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
+    <!--[if lt IE 8]><script src="../../js/json3/lib/json3.min.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="../../js/js-polyfills/es5.js"></script><![endif]-->
+    <script src="../../js/jquery/dist/jquery.min.js"></script>
+    <script src="../../js/plupload/js/plupload.full.min.js"></script>
+    <script src="../../js/SparkMD5/spark-md5.min.js"></script>
+    <script src="../../js/qiniu/dist/qiniu.min.js"></script>
+    <script src="../../js/humanize/humanize.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/default.css" />
+    <style>
+        p {
+            margin: 2px;
+            padding: 0;
+        }
+        #file_list .file_box {
+            padding: 5px 10px;
+            border: solid #BED8EA 1px;
+            border-bottom: none;
+        }
+        #file_list .box_title {
+            display: inline-block;
+            width: 60px;
+            text-align: right;
+            padding-right: 10px;
+        }
+        #file_list .box_action {
+            padding-left: 10px;
+        }
+        #content {
+            width: 99%;
+            height: 200px;
+            max-width: 100%;
+        }
+        #file_selector {
+            margin-bottom: 5px;
+        }
+        #desc, #topic_content, #file_selector, #legacy_mode_bar {
+            text-align: center;
+        }
+        #to_modern_mode, #legacy_mode_form {
+            display: none;
+            margin-top: 10px;
+        }
+        #img_selector {
+            display: none;
+        }
+        #img_quality {
+            width: 146px;
+        }
+    </style>
+</head>
+<body>
+<div id="desc" class="tp">
+    <p>文件保存在虎绿林的七牛云存储中，任何人都可以查看。</p>
+    <p>若空间占用过大，老文件可能会被删除，请不要保存重要内容。</p>
+    <p>可一次上传多个文件，若浏览器不支持多选，可以分多次添加。</p>
+</div>
+<hr>
+<div id="topic_content">
+    <textarea id="content"></textarea>
+</div>
+<hr>
+<div id="file_drop_area">
+    <div id="file_selector" class="tp">
+        <div id="file_select_bar">
+            <input type="button" id="file" value="选择文件" />
+            <input type="button" id="upload" value="上传" disabled />
+            <input type="button" id="save" value="暂存" />
+            <input type="button" id="load" value="载入" />
+            <input type="button" id="finish" value="完成" />
+            <span id="action_state"></span>
+        </div>
+        <div id="img_select_bar">
+            <input id="img_selector" type="file" accept="image/*" multiple />
+            <input type="button" id="addImg" value="选择图片" onclick="$('#img_selector').trigger('click')" />
+            压缩比<input type="range" id="img_quality" min="0" max="9" value="4" />
+        </div>
+    </div>
+    <div id="upload_state_bar"></div>
+    <div id="file_list"></div>
+    <hr>
+    <div id="legacy_mode_bar">
+        <p id="to_legacy_mode">总是上传失败？<a href="#" onclick="fileList.legacyMode();return false">切换到传统模式。</a></p>
+        <form id="legacy_mode_form" action="/q.php/bbs.upload.html" method="post" enctype="multipart/form-data">
+            <input type="file" id="legacy_mode_file" name="file" />
+            <input type="button" id="legacy_mode_upload" name="go" value="上传" />
+        </form>
+        <p id="to_modern_mode">传统模式不好用？<a href="#" onclick="fileList.legacyMode();return false">切换到现代模式。</a></p>
+    </div>
+</div>
+<hr>
+<div class="breadcrumb">
+    <p id="date">
+        0月0日 00:00 星期零
+    </p>
+    <p>
+        效率: 0秒（这是一个静态页面）
+    </p>
+    <p>
+        [<a href="javascript:history.back()">返回上级</a>]
+        [<a href="/q.php/index.index.html">首页</a>]
+        [<a href="javascript:scroll(0,0)">回顶</a>]
+    </p>
+    <p>
+        线路：
+        <a href="http://hu60.cn/tpl/classic/html/bbs/upload_qiniu.html">主站</a> |
+        <a href="https://ssl.hu60.cn/tpl/classic/html/bbs/upload_qiniu.html">SSL</a> |
+        <a href="http://360.cdn.hu60.cn/tpl/classic/html/bbs/upload_qiniu.html">360</a> |
+        <a href="http://yd.cdn.hu60.cn/tpl/classic/html/bbs/upload_qiniu.html">云盾</a> |
+        <a href="http://ipv6.hu60.cn/tpl/classic/html/bbs/upload_qiniu.html">IPv6</a>		</p>
+    <p>
+        本站由 <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> 驱动
+    </p>
+    <p>[<a href="/q.php/addin.chat.文件上传.html">聊天-文件上传</a>]老虎会游泳：有问题可以进入这个聊天室反馈。</p>
+</div>
+<script>
+    function htmlSpecialChars(str) {
+        if ('string' !== typeof str) {
+            return '';
+        }
+
+        str = str.replace(/&/g, '&amp;');
+        str = str.replace(/</g, '&lt;');
+        str = str.replace(/>/g, '&gt;');
+        str = str.replace(/"/g, '&quot;');
+        str = str.replace(/'/g, '&#039;');
+        return str;
+    }
+    var fileList = {
+        fidCounter: 0, //文件id计数器
+        uploadedFiles: [], //保存已上传完成的file对象，格式：['1'=> file, '2'=> file, ...]，key为fid
+        computingMd5Files: [], //正在计算md5的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
+        previewFiles: [], //可供预览的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
+
+        /**
+         * 压缩图片
+         * @param img 任何可被canvas绘制的2d图像
+         * @param quality 压缩后图像的质量（1-10）
+         * @return jpeg图片数据的Blob对象
+         */
+        imgCompress: function(callback, img, quality){
+            var mime_type = "image/jpeg";
+
+            var cvs = document.createElement('canvas');
+            cvs.width = img.width;
+            cvs.height = img.height;
+
+            cvs.getContext("2d").drawImage(img, 0, 0);
+
+            cvs.toBlob(callback, mime_type, quality/10);
+        },
+        //预览图片
+        preview: function (fid) {
+            var fr = new FileReader();
+            fr.onload = function(e) {
+                var data = e.target.result;
+                $('#upload_fid_' + fid + ' .preview').html('<img src="' + data + '" />');
+            };
+            fr.readAsDataURL(this.previewFiles[fid]);
+        },
+        fileUploaded: function (file){
+            this.uploadedFiles[file._id] = file;
+        },
+        setFid: function (file) {
+            file._id = ++this.fidCounter;
+        },
+        add: function (file) {
+            $('#file_list').append('<div id="upload_fid_' + file._id + '" class="file_box">' +
+                    '<p class="file_name"><span class="box_title">文件名</span><span class="box_value">' + htmlSpecialChars(file.name) + '</span></p>' +
+                    '<p class="file_size"><span class="box_title">大小</span><span class="box_value">' + humanize.filesize(file.size) + '</span>' +
+                        '<span class="uploaded_size"></span></p>' +
+                    '<p class="file_state"><span class="box_title">状态</span><span class="box_value">-</span>' +
+                        '<span class="box_action"><a href="#" onclick="fileList.remove('+file._id+',\''+file.id+'\');return false">取消</a></span></p>' +
+                    '<p class="file_progress"><span class="box_title">进度</span><span class="box_value">0%</span></p>' +
+                    '<p class="preview"></p>' +
+                '</div>');
+            $('#upload').removeAttr('disabled');
+        },
+        remove: function (fid, uuid) {
+            uploader.removeFile(uuid);
+
+            $('#upload_fid_' + fid).fadeOut("normal", function (){
+                $(this).remove();
+            });
+        },
+        modifySize: function (fid, size) {
+            $('#upload_fid_' + fid + ' .file_size .box_value').append(size);
+        },
+        setState: function (fid, state) {
+            $('#upload_fid_' + fid + ' .file_state .box_value').html(state);
+        },
+        setAction: function (fid, state) {
+            $('#upload_fid_' + fid + ' .file_state .box_action').html(state);
+        },
+        setProgress: function (fid, progress) {
+            $('#upload_fid_' + fid + ' .file_progress .box_value').html(progress + '%');
+
+            if (100 == progress) {
+                this.setState(fid, "确认中...");
+            }
+        },
+        setSpeed: function (speed, pendings) {
+            var html = '上传速度：' + humanize.filesize(speed) + '/s';
+            var seconds = pendings / speed;
+
+            if (seconds > 1) {
+                var dhms = this.toDHMS(~~seconds);
+                html += '，剩余时间：' + [
+                            humanize.pad(dhms.HH, 2, '0'),
+                            humanize.pad(dhms.MM, 2, '0'),
+                            humanize.pad(dhms.SS, 2, '0')
+                        ].join(':');
+            }
+
+            $('#upload_state_bar').html(html);
+        },
+        addToContent: function (fid) {
+            var file = this.uploadedFiles[fid];
+            var url = downloadUrlPrefix + file._hashName;
+            var html = '';
+
+            if (/^\.(jpe?g|png|gif)$/.test(file._ext)) {
+                html = '《图片：' + url + '》';
+            } else {
+                var basename = /[^\/\\]*$/.exec(file.name);
+                var size = humanize.filesize(file.size);
+
+                if (basename.length == 0 || basename[0].length == 0) {
+                    basename = '附件' + ext;
+                }
+
+                html = '《链接：' + url + '，' + basename + '（' + size + '）》';
+            }
+
+            var content = $('#content');
+            content.val(content.val() + "\n" + html);
+        },
+        legacyMode: function () {
+            $('#file').toggle();
+            $('#upload').toggle();
+            $('#to_legacy_mode').toggle();
+            $('#to_modern_mode').toggle();
+            $('#file_list').toggle();
+            $('#legacy_mode_form').toggle();
+            $('#img_select_bar').toggle();
+
+            localStorage.uploadLegacyMode = ('1' == localStorage.uploadLegacyMode) ? '0' : '1';
+        },
+        start: function () {
+            $('#upload').attr("disabled", true);
+
+            function next() {
+                if (0 == fileList.computingMd5Files.length) {
+                    uploader.start();
+                } else {
+                    var file = fileList.computingMd5Files.pop();
+
+                    var ext = /\.[a-zA-Z0-9_-]{1,10}$/.exec(file.name);
+
+                    file._ext = (null === ext) ? '.dat' : ext[0].toLowerCase();
+                    var type = file._ext.substr(1) + '-';
+
+                    file._md5sum.done(function (md5) {
+                        file._hashName = 'file-hash-' + type + md5 + file.size + file._ext;
+                        next();
+                    });
+
+                    file._md5sum.fail(function () {
+                        file._hashName = 'file-uuid-' + type + file.id + file.size + file._ext;
+                        next();
+                    });
+                }
+            }
+
+            next();
+
+        },
+        /**
+         *  @author leeight
+         *  @url https://github.com/leeight/bce-bos-uploader/blob/master/src/utils.js
+         */
+        toDHMS: function (seconds) {
+            var days = 0;
+            var hours = 0;
+            var minutes = 0;
+
+            if (seconds >= 60) {
+                minutes = ~~(seconds / 60);
+                seconds = seconds - minutes * 60;
+            }
+
+            if (minutes >= 60) {
+                hours = ~~(minutes / 60);
+                minutes = minutes - hours * 60;
+            }
+
+            if (hours >= 24) {
+                days = ~~(hours / 24);
+                hours = hours - days * 24;
+            }
+
+            return {DD: days, HH: hours, MM: minutes, SS: seconds};
+        },
+        /**
+         *  @author leeight
+         *  @url https://github.com/leeight/bce-bos-uploader/blob/master/src/utils.js
+         *
+         * 基于 SparkMD5 来快速的计算 blob 的md5
+         * 貌似直接使用 bce-sdk-js/src/crypto 里面的 md5blob，对于 300M 的文件，Chrome 直接
+         * 挂掉了
+         *
+         * @param {Blob} file 需要计算md5的文件内容.
+         * @return {Promise}
+         */
+        md5sum: function (file) {
+            var blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
+            var chunkSize = 2097152;
+            var chunks = Math.ceil(file.size / chunkSize);
+            var currentChunk = 0;
+            var spark = new SparkMD5.ArrayBuffer();
+            var fileReader = new FileReader();
+
+            var deferred = $.Deferred();
+
+            fileReader.onload = function (e) {
+                spark.append(e.target.result);
+                currentChunk++;
+
+                if (currentChunk < chunks) {
+                    loadNext();
+                }
+                else {
+                    deferred.resolve(spark.end());
+                }
+            };
+            fileReader.onerror = function (error) {
+                deferred.reject(error);
+            };
+
+            function loadNext() {
+                var start = currentChunk * chunkSize;
+                var end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
+                fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
+            }
+            loadNext();
+
+            return deferred.promise();
+        }
+    };
+    var downloadUrlPrefix = 'http://oeyz1bxso.bkt.clouddn.com/';
+    var uploader = Qiniu.uploader({
+        runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+        browse_button: 'file',         // 上传选择的点选按钮，必需
+        // 在初始化时，uptoken，uptoken_url，uptoken_func三个参数中必须有一个被设置
+        // 切如果提供了多个，其优先级为uptoken > uptoken_url > uptoken_func
+        // 其中uptoken是直接提供上传凭证，uptoken_url是提供了获取上传凭证的地址，如果需要定制获取uptoken的过程则可以设置uptoken_func
+        // uptoken : '<Your upload token>', // uptoken是上传凭证，由其他程序生成
+        uptoken_url: '/q.php/api.qiniu.json',         // Ajax请求uptoken的Url，强烈建议设置（服务端提供）
+        // uptoken_func: function(file){    // 在需要获取uptoken时，该方法会被调用
+        //    // do something
+        //    return uptoken;
+        // },
+        get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+        // downtoken_url: '/downtoken',
+        // Ajax请求downToken的Url，私有空间时使用，JS-SDK将向该地址POST文件的key和domain，服务端返回的JSON必须包含url字段，url值为该文件的下载地址
+        // unique_names: true,              // 默认false，key为文件名。若开启该选项，JS-SDK会为每个文件自动生成key（文件名）
+        // save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+        domain: 'oeyz1bxso.bkt.clouddn.com',     // bucket域名，下载资源时用到，必需
+        container: 'file_selector',             // 上传区域DOM ID，默认是browser_button的父元素
+        max_file_size: '0',             // 最大文件体积限制
+        flash_swf_url: '../../js/plupload/js/Moxie.swf',  //引入flash，相对路径
+        max_retries: 0,                     // 上传失败最大重试次数
+        dragdrop: true,                     // 开启可拖曳上传
+        drop_element: 'file_drop_area',          // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+        chunk_size: '4mb',                  // 分块上传时，每块的体积
+        auto_start: false,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+        multi_selection: true,
+        unique_names: false,
+        init: {
+            FilesAdded: function (_, files) {
+                if (files.length) {
+                    var length = files.length;
+
+                    for (var i=0; i<length; i++) {
+                        var file = files[i];
+                        var nativeFile = file.getNative();
+                        if (!nativeFile._id) {
+                            fileList.setFid(file);
+                            fileList.add(file);
+                        } else {
+                            //压缩后的图片，已经有_id
+                            file._id = nativeFile._id;
+                            fileList.modifySize(file._id, '（压缩后：' + humanize.filesize(file.size) + ' / <a href="#" onclick="fileList.preview('+file._id+');return false">预览</a>）');
+                            fileList.previewFiles[file._id] = nativeFile;
+                        }
+                    }
+
+                    // 为了保证file变量的一致性，使用串行方式进行md5计算
+
+                    var md5PosEnd = files.length - 1;
+                    var md5Pos = 0;
+
+                    computeMd5();
+
+                    function computeMd5() {
+                        var file = files[md5Pos];
+
+                        fileList.setState(file._id, '计算md5中...');
+                        fileList.computingMd5Files.push(file);
+
+                        file._md5sum = fileList.md5sum(file.getNative());
+
+                        file._md5sum.done(function () {
+                            fileList.setState(file._id, '待上传');
+
+                            if (md5Pos < md5PosEnd) {
+                                md5Pos++;
+                                computeMd5();
+                            }
+                        });
+
+                        file._md5sum.fail(function () {
+                            fileList.setState(file._id, 'md5计算失败');
+                        });
+                    }
+                }
+            },
+            Key: function (_, file) {
+                return file._hashName;
+            },
+            BeforeUpload: function(_, file) {
+                fileList.setState(file._id, '上传中...');
+            },
+            UploadProgress: function (_, file) {
+                fileList.setProgress(file._id, file.percent);
+                fileList.setSpeed(file.speed, file.size - file.loaded);
+            },
+            FileUploaded: function (_, file, info) {
+                var actionHtml = '<a href="' + downloadUrlPrefix + htmlSpecialChars(file._hashName) + '">下载地址</a> ' +
+                        '<a href="#" onclick="fileList.addToContent(' + file._id + ');return false">添加附件</a>';
+
+                fileList.fileUploaded(file);
+                fileList.setState(file._id, '已完成');
+                fileList.setAction(file._id, actionHtml);
+            },
+            Error: function (_, error, file) {
+                var errorMessage = $.isPlainObject(error) ? JSON.stringify(error) : String(error);
+                fileList.setState(file._id, '<span class="failure">出错：' + htmlSpecialChars(errorMessage) + "</span>");
+
+                $('#upload').attr("disabled", false);
+            }
+        }
+    });
+
+    //压缩选择的图片并添加到上传列表
+    $("#img_selector").change(function() {
+        var files = this.files;
+        var imgQuality = 10 - $('#img_quality').val();
+
+        if (files.length) {
+            var length = files.length;
+
+            for (var i = 0; i < length; i++) {
+                var file = files[i];
+                fileList.setFid(file);
+                fileList.add(file);
+                files[i] = file; //解决在QQ浏览器中同一次添加的第三个文件没有id的问题
+            }
+
+            var pos = 0;
+            nextFile();
+
+            function nextFile() {
+                var file = files[pos];
+                fileList.setState(file._id, '压缩中...');
+                createImageBitmap(file).then(function(bitmap) {
+                    fileList.imgCompress(function(newFile) {
+                        newFile._id = file._id;
+                        newFile.name = file.name;
+                        newFile.lastModified = file.lastModified;
+                        newFile.lastModifiedDate = file.lastModifiedDate;
+
+                        uploader.addFile(newFile);
+
+                        pos++;
+                        if (pos < length) {
+                            nextFile();
+                        }
+                    }, bitmap, imgQuality);
+                });
+            }
+        }
+    });
+
+    $('#upload').click(function () {
+        fileList.start();
+    });
+
+    $('#save').click(function () {
+        var content = $('#content').val();
+
+        if (0 == content.length) {
+            alert('没有可暂存的内容。');
+        } else if (confirm('将内容暂存到当前浏览器，下次打开本页时可以载入。')) {
+            try {
+                localStorage.savedTopicContent = content;
+                $('#action_state').html('暂存成功');
+            } catch (e) {
+                $('#action_state').html('浏览器不支持web存储API');
+            }
+        }
+    });
+
+    $('#load').click(function () {
+        try {
+            var content = localStorage.savedTopicContent;
+
+            if ('string' !== typeof content || 0 == content.length) {
+                alert('没有可载入的内容。');
+            } else if (confirm("载入上次暂存的内容（" + content.length + "字）：\n" + content.substr(0, 100) + (content.length > 100 ? '...' : ''))) {
+                $('#content').val(content);
+                $('#action_state').html('载入成功');
+            }
+        } catch (e) {
+            $('#action_state').html('浏览器不支持web存储API');
+        }
+
+    });
+
+    $('#finish').click(function () {
+        $(window).unbind('beforeunload');
+
+        //不支持web存储，不跳转
+        if ('object' !== typeof sessionStorage || 'string' !== typeof sessionStorage.topicContentSaved) {
+            alert("浏览器不支持web存储API，你的修改不会被保存！请自行复制内容后粘贴到发言框。\n点击底部的“返回上级”按钮回到发言页面。");
+            return;
+        }
+
+        sessionStorage.topicContentSaved = '1';
+        sessionStorage.topicContent = $('#content').val();
+        document.location = sessionStorage.topicBackUrl;
+    });
+
+    $('#legacy_mode_upload').click(function () {
+        $(window).unbind('beforeunload');
+        sessionStorage.topicContentSaved = '1';
+        sessionStorage.topicContent = $('#content').val();
+        sessionStorage.uploadLegacyBackUrl = document.location;
+        $('#legacy_mode_form').submit();
+    });
+
+    $('#img_quality').change(function () {
+        localStorage.uploadImgQuality = $(this).val();
+    });
+
+    //没有按完成就离开页面
+    $(window).bind('beforeunload', function () {
+        var content = $('#content').val();
+
+        if (content.length > 0 && ('object' !== typeof sessionStorage || 'string' !== typeof sessionStorage.topicContentSaved)) {
+            return '浏览器不支持web存储API，你的修改不会被保存！请点击留在此页，自行复制内容后粘贴到发言框。';
+        }
+
+        //sessionStorage只支持string的存储
+        if ('0' == sessionStorage.topicContentSaved) {
+            sessionStorage.topicContentSaved = '1';
+            sessionStorage.topicContent = content;
+        }
+    });
+
+    // 对Date的扩展，将 Date 转化为指定格式的String
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds() //秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    };
+
+    // 定义获取和更新时间的函数
+    function showTime() {
+        var curTime = new Date();
+        $("#date").html(curTime.Format('MM月dd日 hh:mm:ss 星期几不知道'));
+        setTimeout("showTime()", 1000);
+    }
+
+    // 页面加载完成后执行
+    $(function(){
+        //加载保存的帖子内容
+        if (sessionStorage.topicContentSaved == '1') {
+            $('#content').val(sessionStorage.topicContent);
+            sessionStorage.topicContent = '';
+        }
+
+        if ('1' == localStorage.uploadLegacyMode) {
+            fileList.legacyMode();
+            // legacyMode()会反转状态，这里保持状态一致
+            localStorage.uploadLegacyMode = '1';
+        }
+
+        if (undefined != localStorage.uploadImgQuality && 0 <= localStorage.uploadImgQuality && localStorage.uploadImgQuality <= 9) {
+            $('#img_quality').val(localStorage.uploadImgQuality);
+        }
+
+        //sessionStorage只支持string的存储
+        sessionStorage.topicContentSaved = '0';
+
+        //显示时间
+        showTime();
+
+        //方便在手机上显示调试信息
+        log = function (obj) {
+            $('#content').val($('#content').val() + "\n" + JSON.stringify(obj));
+        }
+
+        //canvas转blob的polyfill
+        if (!HTMLCanvasElement.prototype.toBlob) {
+            Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+                value: function (callback, type, quality) {
+
+                    var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
+                        len = binStr.length,
+                        arr = new Uint8Array(len);
+
+                    for (var i=0; i<len; i++ ) {
+                        arr[i] = binStr.charCodeAt(i);
+                    }
+
+                    callback( new Blob( [arr], {type: type || 'image/png'} ) );
+                }
+            });
+        }
+
+        //createImageBitmap的polyfill
+        if ('function' != typeof createImageBitmap) {
+            createImageBitmap = function (file) {
+                var result = $.Deferred();
+
+                var fr = new FileReader();
+                fr.onload = function(e) {
+                    var img = new Image();
+                    img.onload = function(e) {
+                        result.resolve(e.target);
+                    }
+                    img.src = e.target.result;
+                };
+                fr.readAsDataURL(file);
+
+                return result.promise();
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
