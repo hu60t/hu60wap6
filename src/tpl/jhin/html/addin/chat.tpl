@@ -7,23 +7,21 @@
 {block name='body'}
   {include file="tpl:comm.at"}
 <div class="breadcrumb">
-    <a href="index.index.{$bid}" title="回首页" class="pt_z">回首页</a>
+    <a href="index.index.{$bid}" title="回首页">回首页</a>
     {$roomname}
-    <span class="pt_c"><a href="addin.chat.{$bid}">切换聊天室</a></span>
-    <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?rand={time()}">刷新</a></span>
+    <a href="addin.chat.{$bid}">切换聊天室</a>
+    <a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?rand={time()}">刷新</a>
 </div>
-<div class="failure">{$err_msg}</div>
-<div class="topic_area">
-    <form method="post" action="addin.chat.{$roomname}.{$bid}">
+<div class="text-failure">{$err_msg}</div>
+<div class="widget-form">
+    <form method="post" action="addin.chat.{$roomname}.{$bid}" class="chat-form">
         <div>
-            <p>
-                <textarea class="txt" id="content" name="content" style="width:80%;height:100px;">{$smarty.post.content|code:false:true}</textarea>
-            </p>
+          <textarea id="content" name="content" class="chat-form-content">{$smarty.post.content|code:false:true}</textarea>
             <p>
                 {if $USER->islogin}
                     <input type="hidden" name="token" value="{$token->token()}">
-                    <input type="submit" id="quick_chat_button" name="go" id="submit" class="cr_login_submit" value="快速发言"/>
-                    <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+                    <input type="submit" id="quick_chat_button" name="go" id="submit" class="chat-form-submit" value="快速发言"/>
+                    <input type="button" id="add_files" value="添加附件" class="chat-form-submit" onclick="addFiles()"/>
                     {include file="tpl:comm.addfiles"}
                 {else}
                     必须<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>才能发言。
