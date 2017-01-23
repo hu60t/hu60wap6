@@ -1,0 +1,21 @@
+{
+	"name": "moxie",
+	"version": "1.4.1",
+	"main": [
+		"./bin/js/moxie.min.js",
+		"./bin/flash/Moxie.swf",
+		"./bin/flash/Moxie.min.swf",
+		"./bin/silverlight/Moxie.xap",
+		"./bin/silverlight/Moxie.min.xap"
+	],
+	"ignore": [
+		"tests/",
+		"src/",
+		"build/",
+		"Jakefile.js",
+		"package.json",
+		"bower.json",
+		"README.md",
+		".*"
+	]
+}
