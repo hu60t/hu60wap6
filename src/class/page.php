@@ -7,7 +7,7 @@ class page implements ArrayAccess
 {
 	//标志位，禁止发送 Cookie （用于跨站访问的 Json Page）
 	protected static $noCookie = false;
-	
+
     //已注册的bid
     protected static $bid = array();
 
@@ -24,11 +24,11 @@ class page implements ArrayAccess
 
     //Smarty的模板路径缓存
     protected $tplCache = array();
-	
+
 	/* 设置是否发送 Cookie */
 	public function setNoCookie($noCookie) {
 		self::$noCookie = $noCookie;
-		
+
 		if ($noCookie) {
 			// 删除所有 Cookie
 			$_COOKIE = [];
@@ -86,7 +86,7 @@ class page implements ArrayAccess
     }
 
     /*判断是否正在使用https*/
-    public function isHttps() {  
+    public function isHttps() {
         if ($_SERVER['SERVER_PORT'] == 443) {
             return true;
         }
@@ -151,7 +151,7 @@ class page implements ArrayAccess
     }
 
     /*取得tpl的访问路径
-    * 
+    *
     * 格式：bid/cid/pid.ext
     */
     public function getTplUrl($path)
@@ -310,7 +310,7 @@ class page implements ArrayAccess
     public function tplPath($name, $ext = '.tpl')
     {
         global $PAGE;
-        
+
         if (isset($this->tplCache[$ext][$name])) return $this->tplCache[$ext][$name];
         $info = explode('.', $name);
         if (count($info) == 1) {
@@ -379,7 +379,7 @@ class page implements ArrayAccess
 			if ($time > 0 && $time < $_SERVER['REQUEST_TIME']) {
 				$time += $_SERVER['REQUEST_TIME'];
 			}
-			
+
 			return setCookie($name, $value, $time, COOKIE_PATH, COOKIE_DOMAIN, false, true);
 		}
     }
