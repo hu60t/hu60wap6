@@ -77,8 +77,6 @@
       界面
     </td>
     <td>
-      <a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a>/
-      <a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a>/
       <a href="user.template.html?name=classic">默认模板</a>/
       <a href="user.template.html?name=jhin">测试模板</a>
     </td>
