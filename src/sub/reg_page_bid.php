@@ -16,3 +16,4 @@
 page::regBid('html');
 page::regBid('xhtml');
 page::regTpl('classic');
+page::regTpl('jhin');

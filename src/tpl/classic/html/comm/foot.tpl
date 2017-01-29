@@ -10,6 +10,7 @@
 		<p>
 			[<a href="index.index.{$BID}">首页</a>]
 			[<a href="#top">回顶</a>]
+			[<a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a>]
 		</p>
 		<p>
 			线路：
