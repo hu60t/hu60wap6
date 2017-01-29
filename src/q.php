@@ -64,9 +64,7 @@ try {
     /*载入全局初始化过程*/
     include SUB_DIR . '/global_init.php';
     /*载入页面*/
-    (function() use ($PAGE,$USER){
-      include $PAGE->load();
-    })();
+    include $PAGE->load();
 
 } catch (exception $ERR) {
 
