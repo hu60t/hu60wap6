@@ -24,16 +24,15 @@
     {if $err && $USER->islogin}{$err->getMessage()|code}{/if}
   </div>
   <div class='widget-form'>
-    <form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$BID}">
+    <form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$BID}" class="topic-form">
       {if $editTitle}
-      <p>
-        <input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{$title}"/>
-      </p>
+      <div class="">标题</div>
+        <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="帖子标题" value="{$title}" />
       {/if}
       <p>
         {if $USER->islogin}
         <textarea class="txt" name="content" id="content">{$content}</textarea>
-        {input type="hidden" name="token" value=$token->token()}
+        <input type="hidden" name="token" value="{$token->token()}">
       </p>
       {if $isAdminEdit}
       <p>编辑理由：<input name="editReason" value="{$smarty.post.editReason|code}" /></p>
@@ -55,4 +54,9 @@
     </form>
   </div>
 </div>
+<style>
+.topic-form-title{
+  width: 100%;
+}
+</style>
 {/block}

@@ -1,5 +1,10 @@
-{include file="tpl:comm.head" title="访问速度测试" no_webplug=true}
-<script src="/tpl/classic/js/jquery/dist/jquery.min.js"></script>
+{extends file='tpl:comm.default'}
+
+{block name='title'}
+  访问速度测试
+{/block}
+
+{block name='body'}
 <script src="/tpl/classic/js/humanize/humanize.js"></script>
 <style>
 	.test_item p {
@@ -56,7 +61,7 @@
 	var result = {
 		/* tag1: { startTime:111, endTime:222, success:true, speed: 1111 },
 		 * tag2: { startTime:112, endTime:245, success:false, errCode:'timeout' },
-		 * ... 
+		 * ...
 		 */
 		};
 
@@ -101,7 +106,7 @@
 
 		var msg = JSON.stringify(result);
 		var data = { data: msg };
-		
+
 		$.ajax({
 			url: '{$CID}.{$PID}.{$BID}?action=report',
 			method: 'post',
@@ -115,7 +120,7 @@
 					$('#report_button').removeAttr('disabled');
 					$('#test_button').removeAttr('disabled');
 				}
-				
+
 				//防止测试完成事件被错误触发
 				complete = -1;
 			}
@@ -143,7 +148,7 @@
 
 				if ('success' != stat || 10240 != xhr.responseText.length) {
 					item.success = false;
-					
+
 					if ('success' != stat) {
 						item.errCode = stat;
 					} else {
@@ -159,7 +164,7 @@
 					this._stat.html(time + 's');
 					this._speed.html(humanize.filesize(item.speed) + '/s');
 				}
-				
+
 				result[this._tag] = item;
 			}
 		});
@@ -183,4 +188,4 @@
 		});
 	});
 </script>
-{include file="tpl:comm.foot"}
+{/block}

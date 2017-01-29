@@ -69,6 +69,7 @@
 </div>
 <div class="comments">
 	<div class="bar">回复列表({$contentCount-1})</div>
+	{if count($tContents)>0}
 	<div class="comments-list">
 		<ul class="comments-ul">
 			{foreach $tContents as $v}
@@ -93,6 +94,9 @@
 			{/foreach}
 		</ul>
 	</div>
+	{else}
+	<div class="text-notice">帖子没有回复</div>
+	{/if}
 
 	<div class="widget-page">
 		{if $maxPage > 1}
@@ -100,16 +104,16 @@
 		{if $p > 1}<a href="{$cid}.{$pid}.{$tid}.{$p-1}.{$bid}">上一页</a>{/if}
 		{$p}/{$maxPage}页,共{$contentCount-1}楼
 		<input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='{$CID}.{$PID}.{$tid}.'+this.value+'.{$BID}'; }">
-		<hr>
 		{/if}
 	</div>
 	<!--回复框-->
 	<div class="comments-replay">
+		<div class="bar">添加新回复</div>
 		{if $tMeta.locked}
 		<div class="text-notice">该帖子已锁定，不能回复。</div>
 		{elseif $USER->islogin}
 		<form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}" class="comments-form">
-			<textarea id="content" name="content" style="width:80%;height:100px">{$smarty.post.content}</textarea>
+			<textarea id="content" name="content" class="comments-form-content">{$smarty.post.content}</textarea>
 			<input type="hidden" name="token" value="{$token->token()}">
 			<p>
 				<input type="submit" id="reply_topic_button" name="go" value="评论该帖子"/>
@@ -126,4 +130,11 @@
 
 	</div>
 </div>
+<style>
+.comments-form-content{
+	width:80%;
+	height:100px;
+	margin:8px 5px;
+}
+</style>
 {/block}
