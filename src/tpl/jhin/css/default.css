@@ -1,0 +1,113 @@
+html,body,div{
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #EEE;
+}
+
+p {
+    margin: 0px;
+    padding: 2px 1px 2px 1px;
+}
+
+.tp {
+    margin: 0px;
+    background-color: #E6F3FF;
+}
+hr {
+    height: 1px;
+    border: 1px solid #BED8EA;
+    border-left: none;
+    border-right: none;
+}
+
+a {
+    text-decoration: none;
+    color: #08C;
+}
+
+form {
+    margin: 0px;
+    padding: 0px;
+}
+
+img, input, textarea {
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+textarea {
+    width: 270px;
+    height: 55px;
+    overflow-y: visible;
+}
+
+pre, textarea {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+ol, ul {
+    margin: 0px;
+}
+.text-success {
+    color: green;
+}
+
+.text-failure {
+    color: red;
+}
+
+.text-notice {
+    color: red;
+}
+.text-worning{
+  color: yellow;
+}
+
+
+.info-box {
+    text-align: center;
+    border: solid red 1px;
+}
+
+button,input[type=submit],input[type=button]{
+  background-color: rgb(245, 245, 245);
+  background-image: -moz-linear-gradient(50% 0%, rgb(255, 255, 255), rgb(230, 230, 230));
+  background-image: linear-gradient(to bottom,rgb(255, 255, 255) 50%, rgb(230, 230, 230) 100%);
+  background-repeat: repeat-x;
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-spacing: 0px 0px;
+  border-radius: 4px;
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  color: rgb(51, 51, 51);
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 14px;
+  padding: 5px 8px;
+  text-align: center;
+  text-shadow: rgba(255, 255, 255, 0.75) 0px 1px 1px;
+  transition-delay: 0s, 0s;
+  transition-duration: 0.2s, 0.2s;
+  transition-property: border, box-shadow;
+  transition-timing-function: linear, linear;
+  vertical-align: middle;
+}
+.video {
+    width: 600px;
+    height: 400px;
+    border: none;
+    max-width: 100%;
+}
+
+.audio {
+    width: 600px;
+    border: none;
+    max-width: 100%;
+}

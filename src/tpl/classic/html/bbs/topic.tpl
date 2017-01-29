@@ -6,17 +6,37 @@
 {/if}
 {include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}"}
 <script>
-	function foldFloor(floor) {
+	function foldFold(floor) {
 		var content = document.getElementById('floor_content_' + floor);
-		var action = document.getElementById('floor_action_' + floor);
+		var foldBar = document.getElementById('floor_fold_bar_' + floor);
 		
-		if (content.style.display == 'none') {
-			content.style.display = 'inline';
-			action.innerHTML = '';
-		}
-		else {
-			content.style.display = 'none';
-			action.innerHTML = '内容已折叠 (<a href="#" onclick="foldFloor(' + floor + ');return false">展开</a>)';
+		content.style.maxHeight = '768px';
+		foldBar.innerHTML = '<a id="floor_expand_' + floor +
+				'" href="#" onclick="foldExpand(' + floor + ');return false">查看全部</a>';
+	}
+	
+	function foldExpand(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var foldBar = document.getElementById('floor_fold_bar_' + floor);
+		
+		content.style.maxHeight = '';
+		foldBar.innerHTML = '<a id="floor_fold_' + floor +
+				'" href="#" onclick="foldFold(' + floor + ');return false">折叠内容</a>';
+	}
+	
+	function foldFloorInit(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var height = content.offsetHeight;
+		
+		if (height > 768) {
+			var foldBar = document.getElementById('floor_fold_bar_' + floor);
+			
+			foldBar.style.borderTop = '1px solid #BED8EA';
+			foldBar.style.borderBottom = '1px solid #BED8EA';
+			foldBar.style.height = '24px';
+			foldBar.style.textAlign = 'center';
+			
+			foldFold(floor);
 		}
 	}
 </script>
@@ -39,9 +59,11 @@
 		<p>标题: {$tMeta.title|code}</p>
 		<p>作者: <a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
 		<p>时间: {date('Y-m-d H:i',$v.mtime)}</p>
-		<p>点击: {$tMeta.read_count} (<a class="fold_floor_button" title="折叠" href="#" onclick="foldFloor(0);return false">折叠</a>)</p>
+		<p>点击: {$tMeta.read_count}</p>
 		<hr>
-		<div><span id="floor_action_0"></span><span class="floor_content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
+		<div class="floor_content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
+		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
+		<script>foldFloorInit(0)</script>
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<hr>
 			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|移|设]</p>
@@ -55,7 +77,9 @@
 <div>
     {foreach $tContents as $v}
 		{$tmp = $ubb->setOpt('style.disable', $v.uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
-		<div><a class="fold_floor_button" title="折叠" href="#" onclick="foldFloor({$v.floor});return false">{$v.floor}</a>. <span id="floor_action_{$v.floor}"></span><span class="floor_content" id="floor_content_{$v.floor}">{$ubb->display($v.content,true)}</span></div>
+		<div class="floor_content" id="floor_content_{$v.floor}">{$v.floor}. {$ubb->display($v.content,true)}</div>
+		<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
+		<script>foldFloorInit({$v.floor})</script>
 		<p>(<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if})</p>
 		<hr>
     {/foreach}
