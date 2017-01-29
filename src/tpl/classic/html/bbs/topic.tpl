@@ -6,22 +6,37 @@
 {/if}
 {include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}"}
 <script>
+	function foldFold(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var foldBar = document.getElementById('floor_fold_bar_' + floor);
+		
+		content.style.maxHeight = '768px';
+		foldBar.innerHTML = '<a id="floor_expand_' + floor +
+				'" href="#" onclick="foldExpand(' + floor + ');return false">查看全部</a>';
+	}
+	
+	function foldExpand(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var foldBar = document.getElementById('floor_fold_bar_' + floor);
+		
+		content.style.maxHeight = '';
+		foldBar.innerHTML = '<a id="floor_fold_' + floor +
+				'" href="#" onclick="foldFold(' + floor + ');return false">折叠内容</a>';
+	}
+	
 	function foldFloorInit(floor) {
 		var content = document.getElementById('floor_content_' + floor);
 		var height = content.offsetHeight;
 		
-		console.log(height);
-		
 		if (height > 768) {
 			var foldBar = document.getElementById('floor_fold_bar_' + floor);
 			
-			content.style.maxHeight = '768px';
-			
 			foldBar.style.borderTop = '1px solid #BED8EA';
 			foldBar.style.borderBottom = '1px solid #BED8EA';
-			foldBar.style.height = '20px';
+			foldBar.style.height = '24px';
+			foldBar.style.textAlign = 'center';
 			
-			foldBar.innerHTML = 'xx';
+			foldFold(floor);
 		}
 	}
 </script>
@@ -44,9 +59,10 @@
 		<p>标题: {$tMeta.title|code}</p>
 		<p>作者: <a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
 		<p>时间: {date('Y-m-d H:i',$v.mtime)}</p>
-		<p>点击: {$tMeta.read_count} (<a class="fold_floor_button" title="折叠" href="#" onclick="foldFloor(0);return false">折叠</a>)</p>
+		<p>点击: {$tMeta.read_count}</p>
 		<hr>
 		<div class="floor_content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
+		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
 		<script>foldFloorInit(0)</script>
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<hr>
