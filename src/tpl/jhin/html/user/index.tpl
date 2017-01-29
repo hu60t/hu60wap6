@@ -74,11 +74,11 @@
   </tr>
   <tr>
     <td>
-      界面
+      主题
     </td>
     <td>
-      <a href="user.template.html?name=classic">默认模板</a>/
-      <a href="user.template.html?name=jhin">测试模板</a>
+      <a href="link.tpl.classic.{$BID}?url64={code::b64e($page->geturl())}">经典主题</a>/
+      Jhin主题
     </td>
   </tr>
   <tr>

@@ -39,7 +39,7 @@
 界面：<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a>/<a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a><br/>
 </p>
 <p class="txt">
-模板：<a href="user.template.html?name=classic">默认模板</a>/<a href="user.template.html?name=jhin">测试模板</a><br/>
+主题：经典主题/<a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a><br/>
 </p>
 <p class="txt">
 论坛楼层排序：
