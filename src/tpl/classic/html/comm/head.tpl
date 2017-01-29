@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
 	<title>{$title|code}</title>
 </head>
-<body>
+<body{if $onload !== null} onload="{$onload}"{/if}>
 {if !$no_webplug && $USER && $USER->islogin}{$USER->getinfo('addin.webplug')}{/if}
 <a id="top" href="#bottom" accesskey="6"></a>
 {if !$base}

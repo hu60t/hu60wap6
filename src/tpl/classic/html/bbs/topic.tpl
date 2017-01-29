@@ -4,7 +4,7 @@
 {else}
 	{$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}"}
+{include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}" onload="foldFloorOnload({count($tContents)})"}
 <script>
 	function foldFold(floor) {
 		var content = document.getElementById('floor_content_' + floor);
@@ -37,6 +37,14 @@
 			foldBar.style.textAlign = 'center';
 			
 			foldFold(floor);
+		}
+	}
+	
+	function foldFloorOnload(floorSize) {
+		var i;
+		
+		for (i=0; i<floorSize; i++) {
+			foldFloorInit(i);
 		}
 	}
 </script>
