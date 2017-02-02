@@ -21,8 +21,8 @@
     var copyNotice = true;
 
     function addFiles() {
-      alert("文件上传功能栏临时关闭");
-      return false;
+      // alert("文件上传功能栏临时关闭");
+      // return false;
         var content = document.getElementById('content').value;
         var title = document.getElementById('content_title');
 

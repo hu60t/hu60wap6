@@ -18,7 +18,7 @@
             <li><a href="msg.index.@.{$bid}">@消息</a></li>
             <li><a href="user.exit.{$bid}?u={urlencode($page->geturl())}">退出</a></li>
             <li><a href="user.index.{$bid}">资料</a></li>
-          </ol>
+          </ul>
 
   				{$newMSG=$MSG->newMsg()}
   				{$newATINFO=$MSG->newAtInfo()}
