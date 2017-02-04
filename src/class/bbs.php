@@ -104,6 +104,28 @@ class bbs
             }
         }
     }
+	
+	/**
+     * 检查用户是否可移帖
+     */
+    public function canMove($ownUid, $noException = false)
+    {
+        try {
+            $this->checkLogin();
+
+            if ($this->user->uid == $ownUid || $this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
+                return true;
+            } else {
+                throw new bbsException('您没有权限移动该帖。', 403);
+            }
+        } catch (Exception $e) {
+            if ($noException) {
+                return false;
+            } else {
+                throw $e;
+            }
+        }
+    }
 
     /**
      * 检查板块是否可以发帖
@@ -261,6 +283,20 @@ class bbs
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET level=? WHERE id=?';
 
         $ok = $this->db->query($sql, -1, $topicId);
+
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
+    }
+	
+	/**
+     * 转移帖子到新版块
+     */
+    public function moveTopic($topicId, $forumId)
+    {
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET forum_id=? WHERE id=?';
+
+        $ok = $this->db->query($sql, $forumId, $topicId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
