@@ -17,8 +17,16 @@ try {
     $canCreateTopic = $bbs->canCreateTopic($fid);
     $tpl->assign('canCreateTopic', $canCreateTopic);
 
+	//显示全部版块
+	if (0 == $fid) {
+		//论坛版块列表
+		$forums = $bbs->childForumMeta(0, 'id,name,notopic', 0);
+		$tpl->assign('forums', $forums);
+		
+		$tpl->display('tpl:forum_select_all');
+	}
     //当前板块不能发帖则获取子版块列表
-    if (!$canCreateTopic) {
+    elseif (!$canCreateTopic) {
         $creatableChildForums = $bbs->childForumMeta($fid, 'id,name');
         $tpl->assign('creatableChildForums', $creatableChildForums);
         $tpl->display('tpl:forum_select');

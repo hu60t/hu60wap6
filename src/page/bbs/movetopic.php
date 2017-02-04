@@ -26,8 +26,6 @@ try {
 	$forums = $bbs->childForumMeta(0, 'id,name,notopic', 0);
 	$tpl->assign('forums', $forums);
 	
-	//var_dump($forums);die;
-	
 
     //帖子编辑权限检查
     $bbs->canMove($tMeta['uid']);
