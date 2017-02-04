@@ -436,14 +436,15 @@ HTML;
         global $PAGE;
 
         $jsFunc = $this->getOpt('at.jsFunc');
+		$uid = (int)$data['uid'];
         $uinfo = new UserInfo();
-        $uinfo->uid($data['uid']);
+        $uinfo->uid($uid);
         $name = $uinfo->name === null ? $data['tag'] : $uinfo->name;
 
         if ($jsFunc) {
-            return '<a href="#" onclick="' . $jsFunc . '(\'' . $name . '\',this);return false">@</a><a href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">' . code::html($name) . '</a>';
+            return '<a href="#" onclick="' . $jsFunc . '(\'' . $name . '\',this);return false">@</a><a href="user.info.' . $uid . '.' . $PAGE->bid . '">' . code::html($name) . '</a>';
         } else {
-            return '<a href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">@' . code::html($name) . '</a>';
+            return '<a href="user.info.' . $uid . '.' . $PAGE->bid . '">@' . code::html($name) . '</a>';
         }
     }
 
