@@ -34,6 +34,9 @@ if ($keywords != '' || $username != '') {
     $maxP = ceil($count / $size);
     $tpl->assign('maxP', $maxP);
 }
+else {
+    $tpl->assign('count', 0);
+}
 
 //显示版块列表
 $tpl->display('tpl:search');

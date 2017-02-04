@@ -26,6 +26,8 @@
     </ul>
 </div>
 
+{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;p="}
+
 <div class="pager">
 	{if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{/if}
     {if $p > 1}<a style="display:inline" href="{$url}{$p-1}">上一页</a>{/if}
