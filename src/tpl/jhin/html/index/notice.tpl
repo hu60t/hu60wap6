@@ -1,5 +1,8 @@
-{include file="tpl:comm.head" title="虎绿林"}
-{config_load file="conf:site.info"}
+{extends file='tpl:comm.default'}
+{block name='title'}
+	{#SITE_NAME#}
+{/block}
+{block name='body'}
 <div class='content'>
 　　hu60.org致力于成为一个真正的非盈利性组织，它本来希望通过hu60.cn实现和平过渡。但是实践发现，这种过渡太难，几乎无法完成。<br/>
 　　于是，hu60.org放弃了过渡计划，而是决定重新开始。<br/>
@@ -13,4 +16,4 @@
 　　希望我们能够真正做到，在阳光下高质量的运行。<br/>
 　　　　　　　　　　　　————老虎会游泳　2014-01-12
 </div>
-{include file="tpl:comm.foot"}
+{/block}
