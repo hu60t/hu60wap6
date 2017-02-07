@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
   <link rel="stylesheet" type="text/css" href="{$css|code}?r=4"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/admin.css')}?r=4"/>
-  <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")}"></script>
+  <script src="{$PAGE->getTplUrl("js/jquery/dist/jquery.min.js")}"></script>
   <title>{block name='title'}后台管理{/block}</title>
 </head>
 <body>

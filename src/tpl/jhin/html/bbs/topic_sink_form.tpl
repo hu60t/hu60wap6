@@ -27,7 +27,7 @@
       <div>
         <p>
           {if $USER->islogin}
-          <input type="hidden" name="token" value="{$token->token()}">
+          {input type="hidden" name="token" value=$token->token()}
         </p>
         {if !$selfAct}
         <p>下沉理由：<input name="reason" value="{$smarty.post.editReason|code}" /></p>

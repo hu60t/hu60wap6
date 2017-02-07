@@ -68,7 +68,7 @@ class str
 
     /*
      * 规范化手机号码
-     *
+     * 
      * 去除字符串中的非手机号码部分
      * 去除中国国际区号（0086或+86）
      * 其他地区的国际区号等保持不变
@@ -124,73 +124,6 @@ class str
     public static function nbsp2space($str) {
         return str_replace(["\xc2\xa0","\xe2\x80\x82"], ' ', $str);
     }
-    // 格式化输出导航
-    public static function pageFormat($page,$pMax,$url){
-      $str='';
-      $n=3;
-      if(($page-$n) <= 1){
-        for($i=1;$i<=2*$n+1;$i++){
-          $u=str_replace("##",$i,$url);
-          $str .= ($page==$i)?"<li class=\"active\"><a href=\"{$u}\">{$i}</a></li>"."\n":"<li><a href=\"{$u}\">{$i}</a></li>"."\n";
-          if($i >= $pMax) break;
-        }
-      }elseif(($page+$n) > $pMax){
-        for($i=$pMax-2*$n;$i<=$pMax;$i++){
-          $u=str_replace("##",$i,$url);
-          $str .= ($page==$i)?"<li class=\"active\"><a href=\"{$u}\">{$i}</a></li>"."\n":"<li><a href=\"{$u}\">{$i}</a></li>"."\n";
-          if($i >= $pMax) break;
-        }
-      }else{
-        for($i=$n;$i>0;$i--){
-          $p=$page-$i;
-          if($p < 1){
-            continue;
-          }
-          $u=str_replace("##",$p,$url);
-          $str .= "<li><a href=\"{$u}\">{$p}</a></li>"."\n";
-        }
 
-        $u=str_replace("##",$page,$url);
-        $str .= "<li class=\"active\"><a href=\"{$u}\">{$page}</a></li>"."\n";
-
-        for($i=1;$i<=$n;$i++){
-          $p=$page+$i;
-          if($p > $pMax){
-            break;
-          }
-          $u=str_replace("##",$p,$url);
-          $str .= "<li><a href=\"{$u}\">{$p}</a></li>"."\n";
-        }
-      }
-      if($page > 1){
-        $u=str_replace("##",$page-1,$url);
-        $str = "<li><a href=\"{$u}\">&lt;</a></li>"."\n".$str;
-      }else{
-        $str = "<li class=\"disabled\"><a href=\"#\">&lt;</a></li>"."\n".$str;
-      }
-      if($page < $pMax){
-        $u=str_replace("##",$page+1,$url);
-        $str .= "<li><a href=\"{$u}\">&gt;</a></li>"."\n";
-      }else{
-        $str .= "<li class=\"disabled\"><a href=\"#\">&gt;</a></li>"."\n";
-      }
-      return "<ul class=\"pagination\">\n{$str}\n</ul>";
-    }
-    public static function ago($t) {
-      $d = time() - $t;
-      if($d < 60){
-        return "刚刚.";
-      }elseif($d/60 < 60){
-        return (string)round($d/60)."分钟前.";
-      }elseif($d/(60*60) < 24){
-        return (string)round($d/(60*60))."小时前.";
-      }elseif($d/(60*60*24) < 2){
-        return "1天前.";
-      }elseif(date('Y',time())==date('Y',$t)){
-        return date('m-d H:i',$t);
-      }else{
-        return date('Y-m-d',$t);
-      }
-    }
 //class str end
 }

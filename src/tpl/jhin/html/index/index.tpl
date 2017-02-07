@@ -16,7 +16,7 @@
 					(
 					<span class="topic-author"><a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a></span>/
 					{$topic.read_count}点击/
-					{$topic.reply_count}回复/{str::ago($topic.mtime)}
+					{$topic.reply_count}回复/{date('Y-m-d H:i',$topic.time)}
 					)
 				</div>
 			</li>

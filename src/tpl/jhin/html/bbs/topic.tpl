@@ -9,7 +9,26 @@
 {else}
 	{$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
+<script>
+	function foldFloorInit(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var height = content.offsetHeight;
 
+		console.log(height);
+
+		if (height > 768) {
+			var foldBar = document.getElementById('floor_fold_bar_' + floor);
+
+			content.style.maxHeight = '768px';
+
+			foldBar.style.borderTop = '1px solid #BED8EA';
+			foldBar.style.borderBottom = '1px solid #BED8EA';
+			foldBar.style.height = '20px';
+
+			foldBar.innerHTML = 'xx';
+		}
+	}
+</script>
 {include file="tpl:comm.at"}
 {$ok=$ubb->setOpt('at.jsFunc', 'atAdd')}
 
@@ -33,8 +52,8 @@
 					<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>
 				</span>
 					<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
-			时间: {str::ago($v.mtime)}
-			点击: {$tMeta.read_count}
+			时间: {date('Y-m-d H:i',$v.mtime)}
+			点击: {$tMeta.read_count} (<a class="fold_floor_button" title="折叠" href="#" onclick="foldFloor(0);return false">折叠</a>)
 		</div>
 		<div class="topic-content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
 		<!-- <script>foldFloorInit(0)</script> -->
@@ -57,16 +76,14 @@
 			{foreach $tContents as $v}
 			{$tmp = $ubb->setOpt('style.disable', $v.uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
 			<li>
-				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
-					<span class="comments-number">#{$v.floor}</span>
-					{$ubb->display($v.content,true)}
-				</div>
+				<div class="floor_content" id="floor_content_{$v.floor}"><span class="comments-number">{$v.floor}</span> {$ubb->display($v.content,true)}</div>
 				<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
+				<script>foldFloorInit({$v.floor})</script>
 				<p class="comments-meta">
 					(
 					<a href="user.info.{$v.uinfo.uid}.{$BID}" class="comments-author">{$v.uinfo.name|code}</a>/
 					<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/
-					{str::ago($v.mtime)}
+					{date('Y-m-d H:i',$v.mtime)}
 					{if $bbs->canEdit($v.uinfo.uid, true)}/
 						<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>
 					{/if}
@@ -121,31 +138,4 @@
 	margin:8px 5px;
 }
 </style>
-<script>
-// 自动折叠过长内容
-	$(document).ready(function(){
-		var maxHeight = 768;
-		$(".floor-content").each(function(){
-			var that =$(this);
-			var id=this.getAttribute("data-floorID");
-			if(that.height() >  maxHeight){
-				that.height(maxHeight);
-				$('#floor_fold_bar_'+id).html("<button data-floorID='"+id+"'>展开隐藏内容</button>");
-				$('#floor_fold_bar_'+id+">button").on('click',function(){
-					var id=this.getAttribute("data-floorID");
-					var that=$("#floor_content_"+id)
-					if(that.height()>maxHeight){
-						that.height(maxHeight);
-						this.innerHTML='展开超出内容';
-					}else{
-						that.height(that[0].scrollHeight);
-						this.innerHTML='折叠超出内容';
-					}
-				});
-			}
-		});
-	});
-
-
-</script>
 {/block}

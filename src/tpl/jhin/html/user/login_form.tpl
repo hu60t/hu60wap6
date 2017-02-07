@@ -21,7 +21,6 @@
 	</div>
 </div>
 {else}
-
 <div class='login-form'>
 	<form action="user.login.{$bid}?u={urlencode($u)}" method="post">
 		<div class="input-group">
@@ -32,15 +31,13 @@
 			</select>
 		</div>
 		<div class="input-group">
-			<label class="login-label" for="login-name">账户</label>
-			<input type="text" name="name" id="login-name" class="login-form-name" placeholder="用户名/邮箱/手机号" value="{$smarty.post.name}"/>
+			<input type="text" name="name" id="username_LCxiI" class="txt" placeholder="用户名/邮箱/手机号" value="{$smarty.post.name}"/>
 		</div>
 		<div class="input-group">
-			<label class="login-label" for="login-password">密码</label>
-			<input type="password" name="pass" id="login-password" class="login-form-password" value="{$smarty.post.pass}" placeholder="密码" />
+			<input type="password" name="pass" id="password3_LCxiI" class="txt" value="{$smarty.post.pass}" placeholder="密码" />
 		</div>
 		<div class="input-group">
-			<input type="submit" name="go" id="submit" class="login-form-submit" value="登录" />
+			<input type="submit" name="go" id="submit" class="cr_login_submit" value="登录" />
 		</div>
 		<a href="user.reg.{$bid}?u={urlencode($u)}" class="cr_login_submit">还没有用户名？立即注册</a></p>
 	</form>

@@ -21,6 +21,7 @@
   {/foreach}
   {$fName}
 </div>
+</div>
 <!--发帖框-->
 <div class='widget-form'>
   {if $USER->islogin && $smarty.post.go}
@@ -49,4 +50,37 @@
     </form>
   </div>
 </div>
+<style>
+.widget-form{
+  margin: 15px 0;
+  padding: 8px;
+  border-top: 2px solid #AAA;
+  border-bottom: 2px solid #AAA;
+}
+.topic-form-label{
+  display: block;
+  background-color: #f5f5f5;
+  font-size: 1.2rem;
+}
+.topic-form-title{
+  display: block;
+  font-size: 1.2rem;
+  border: 2px solid #EEE;
+  border-radius: 0;
+  width: 80%;
+  margin: 5px;
+  padding: 5px;
+}
+.topic-form-content{
+  display: block;
+  border: 2px solid #EEE;
+  min-height: 160px;
+  border-radius: 0;
+  width: 80%;
+  margin: 5px;
+  padding: 5px;
+}
+.topic-form-submit{
+}
+</style>
 {/block}

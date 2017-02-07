@@ -6,7 +6,7 @@
 
 {block name='body'}
 <div class="forum_login">
-  <div class="breadcrumb">
+  <div class="">
     嗨，<span class="text-notice">{$user.name|code}</span>，欢迎回到{#SITE_NAME#}。
   </div>
   <div class='title'>返回来源页：</div>

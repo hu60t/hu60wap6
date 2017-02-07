@@ -3,13 +3,12 @@
   发送内信
 {/block}
 {block name='body'}
-<div class="breadcrumb">
 收件箱：
 <a href="msg.index.inbox.all.{$bid}">全部</a>
 <a href="msg.index.inbox.no.{$bid}">未读</a>
 <a href="msg.index.inbox.yes.{$bid}">已读</a>
 <a href="msg.index.send.{$bid}">发信</a>
-</div>
+<hr />
 {if $send}
 	<span class="text-success">信息发送成功</span>
 	<a href="msg.index.chat.{$toUser->uid}.{$bid}">返回聊天模式</a>
@@ -29,11 +28,10 @@
 </p>
 {/form}
 {/if}
-<div class="breadcrumb">
+<hr />
 发件箱：
 <a href="msg.index.outbox.all.{$bid}">全部</a>
 <a href="msg.index.outbox.no.{$bid}">对方未读</a>
 <a href="msg.index.outbox.yes.{$bid}">对方已读</a>
 <a href="msg.index.@.{$bid}">@信息</a>
-</div>
 {/block}
