@@ -102,7 +102,7 @@ try {
 			$result = strtotime($content);
 			break;
 		case 'jsurd':
-			$result = preg_replace_callback('/%(u[0-9a-f]{4}|[0-9a-f]{2})/',"jsurd",$content);
+			$result = preg_replace_callback('/%(u[0-9a-f]{4}|[0-9a-f]{2})/i',"jsurd",$content);
 			break;
 		case 'jsure':
 			$result = preg_replace_callback('/(.)/us',"jsure",$content);
