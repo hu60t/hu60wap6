@@ -29,8 +29,8 @@
                 <option value="eurl" {if $smarty.post.action == 'eurl'}selected{/if}>URL编码</option>
                 <option value="durl" {if $smarty.post.action == 'durl'}selected{/if}>URL解码</option>
                 <option value="eurls" {if $smarty.post.action == 'eurls'}selected{/if}>智能URL编码</option>
-                <option value="jsure" {if $smarty.post.action == 'jsure'}selected{/if}>JS风格URL编码</option>
-                <option value="jsurd" {if $smarty.post.action == 'jsurd'}selected{/if}>JS风格URL解码</option>
+                <option value="jsure" {if $smarty.post.action == 'jsure'}selected{/if}>JS风格URL编码(escape)</option>
+                <option value="jsurd" {if $smarty.post.action == 'jsurd'}selected{/if}>JS风格URL解码(unescape)</option>
                 <option value="emd5" {if $smarty.post.action == 'emd5'}selected{/if}>MD5加密</option>
                 <option value="esha1" {if $smarty.post.action == 'esha1'}selected{/if}>SHA1加密</option>
                 <option value="esha256" {if $smarty.post.action == 'esha256'}selected{/if}>SHA256加密</option>
