@@ -19,15 +19,10 @@
 </div>
 {if $topicList}
 <div class="bar">
-  <a  href="location.href='bbs.forum.{$forum['id']}.{$BID}'" >
     一共{$count}主题
-  </a>
-  <a href="location.href='bbs.forum.{$forum['id']}.{$BID}'" >{$forum['name']}</a>
 </div>
 <!--帖子列表-->
-<div class="fl cl indexthreadlist">
-  <div id="threadalllist_c">
-    <div>
+<div class="search-list">
       <ul>
         {foreach $topicList as $topic}
         <li>
@@ -42,15 +37,6 @@
             {if $maxP > 1}({$p} / {$maxP}页){/if}
           </li>
         </ul>
-      </div>
-    </div>
-    <div class="pt">
-      <div class="breadcrumb">
-        <span class="pt_z"></span>
-        <span class="pt_c"></span>
-        <span class="pt_y"></span>
-      </div>
-    </div>
   </div>
   {/if}
-  {/block}
+{/block}

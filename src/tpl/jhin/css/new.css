@@ -15,6 +15,7 @@ h1 {
   border-radius: 15px;
   background-color: #FFF;
   min-height: 95vh;
+  word-wrap: break-word;
 }
 .layout-head-inner{
   position: relative;
@@ -165,6 +166,10 @@ h1 {
   background-color: #E6F3FF;
 }
 .forum-name a{
+}
+/* 搜索页面 */
+.search-list ul{
+  list-style-type:none;
 }
 /*帖子列表*/
 .topic-list{
