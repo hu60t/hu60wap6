@@ -47,7 +47,14 @@ h1 {
 .breadcrumb a{
 
 }
-
+/*全局通用组件,这一部分组件以 widget- 开头*/
+.widget-page{
+  margin: 5px 0;
+}
+.widget-page>a{
+  display: inline-block;
+  padding: 5px 15px;
+}
 /*页面头部*/
 .logo{
   border-radius: 15px 0 0 0;
@@ -196,27 +203,78 @@ h1 {
 .topic-panel{
   border-top: 2px solid #BED8EA;
 }
+/*分页组件开始*/
+.pagination {
+  overflow: hidden;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-content:center;
+	padding-left: 2px;
+	margin: 20px 0 20px 20px;
+}
+.pagination > li {
+  display: inline-block;
+}
+.pagination > li:first-child > a{
+  border-radius: 5px 0 0 5px;
+}
+.pagination > li:last-child > a{
+  border-radius:0 5px 5px 0;
+}
+.pagination > li > a {
+  position: relative;
+  margin-left: -1px;
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  color: #337ab7;
+}
+.pagination > .disabled > a, .pagination > .disabled > a:focus, .pagination > .disabled > a:hover{
+  color: #777;
+  cursor: not-allowed;
+  background-color: #fff;
+}
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover{
+	color: #fff;
+	cursor: default;
+	background-color: #337ab7;
+	border-color: #337ab7;
+}
+/*分页组件结束*/
 /*评论框部分*/
 .comments-ul{
   list-style-type: none;
   padding: 0;
 }
 .comments-ul>li{
+  position: relative;
   padding: 5px 8px 2px 8px;
   border-bottom: 2px solid #EEE;
+}
+.floor-content{
+  margin-left: 50px;
+  transition:height 0.5s;
+  transition-timing-function: ease;
+  overflow: hidden;
+}
+.floor_fold_bar{
+  text-align: center;
+  margin: 10px 0;
 }
 .comments-meta{
   margin-top: 3px;
 }
 .comments-number{
   display: block;
-  height: 25px;
-  min-width: 25px;
+  height: 35px;
+  width: 45px;
   line-height: 25px;
-  border-radius: 8px;
+  border-radius:0 10px 10px 0;
   text-align: center;
-  float: left;
-  color: #065279;
+  position: absolute;
+  left: 0;
+  color: #999;
+  background-color: #EEE;
 }
 .comments-author{
   font-size: 1.1rem;
@@ -226,10 +284,118 @@ h1 {
 .chat-new{
   text-align: center;
 }
+/* 登录框组件*/
+.login-form{
+	max-width: 450px;
+	margin:20px auto;
+	border-radius: 5px;
+	padding: 15px 25px;
+	box-shadow: 0 0 5px #AAA;
+}
+.input-group{
+	padding: 8px;
+	position: relative;
+}
+.input-group input[type="text"],
+.input-group input[type="password"],
+.input-group input[type="mail"]{
+	width: 100%;
+	padding: 8px 20px 8px 60px;
+	border: 1px solid #d2d8d8;
+}
+.login-form-submit{
+	display: inline-block;
+	width: 60%;
+	height: 2rem;
+	margin:0 auto;
+}
+.login-label{
+	display: inline-block;
+	color: #999;
+	position: absolute;
+	left: 15px;
+	top:14px;
+}
+
+/*发帖组件开始*/
+.widget-form{
+  margin: 15px 0;
+  padding: 8px;
+  border-top: 2px solid #AAA;
+  border-bottom: 2px solid #AAA;
+}
+.topic-form-label{
+  display: block;
+  background-color: #f5f5f5;
+  font-size: 1.2rem;
+}
+.topic-form-title{
+  display: block;
+  font-size: 1.2rem;
+  border: 2px solid #EEE;
+  border-radius: 0;
+  width: 80%;
+  margin: 5px;
+  padding: 5px;
+}
+.topic-form-content{
+  display: block;
+  border: 2px solid #EEE;
+  min-height: 160px;
+  border-radius: 0;
+  width: 80%;
+  margin: 5px;
+  padding: 5px;
+}
+.topic-form-submit{
+}
+/*发帖组件结束*/
+
 /*聊天室页面*/
 .chat-form-content{
   width:80%;height:100px;
 }
 .chat-form-submit{
 
+}
+.chat-list{
+  padding: 0;
+  list-style-type: none;
+}
+.chat-list > li{
+  margin: 0;
+  padding:20px 15px 10px 15px;
+  border-bottom:  1px solid #EEE;
+  position: relative;
+}
+.chat-content{
+  border-radius: 10px;
+  margin-left: 20px;
+  padding: 10px;
+}
+.chat-number{
+  height: 25px;
+  padding: 0 12px;
+  text-align: center;
+  font-weight: 700;
+  position: absolute;
+  background-color: #EEE;
+  color: #999;
+  left: 0;
+  top: 8px;
+  border-radius: 0 5px 5px 0;
+}
+.chat-meta-name{
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: inline-block;
+}
+.chat-meta{
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #999;
+  margin-left: 25px;
+}
+.chat-meta a{
+  color: #88A;
 }

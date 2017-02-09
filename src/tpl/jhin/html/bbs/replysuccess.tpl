@@ -26,6 +26,7 @@
     <div class='tip'>
         回复成功，3秒后返回帖子。<br/>
         <a href="{$url|code}">点击立即返回</a>
+        {include file='tpl:comm.go' url=$url}
     </div>
 </div>
 {/block}
