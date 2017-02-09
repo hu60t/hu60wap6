@@ -1,0 +1,1 @@
+../../../classic/html/comm/friend_links.tpl
