@@ -57,7 +57,23 @@ class ubbDisplay extends XUBBP
       if(!$this->Parsedown){
          $this->Parsedown = new Parsedown();
       }
-      return "<div class='markdown-body'>".$this->Parsedown->text($text['data'])."</div>";
+	  
+	  $html = $this->Parsedown->text($text['data']);
+	  
+	  //链接安全性跳转
+	  $html = preg_replace_callback('/\bhref="([^"]*)"/is', function ($data) {
+		global $PAGE;
+		
+		$url = $data[1];
+		
+	    if ($PAGE->bid != 'json' && $url[0] != '#') {
+	      $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
+	    }
+		
+		return 'href="'.$url.'"';
+	  }, $html);
+	  
+      return "<div class='markdown-body'>".$html."</div>";
     }
     /*text 纯文本*/
     public function text($data)
