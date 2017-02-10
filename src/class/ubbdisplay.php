@@ -76,7 +76,13 @@ class ubbDisplay extends XUBBP
 	  // at 标记解析
 	  $html = preg_replace_callback('![@＠]([#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)!uis', function ($atTag) use ($data) {
 	    $user = $data['users'][$atTag[1]];
-		return $this->at($user);
+		
+		if (empty($user)) {
+			return $atTag[0];
+		}
+		else {
+			return $this->at($user);
+		}
 	  }, $html);
 	  
       return "<div class='markdown-body'>".$html."</div>";
