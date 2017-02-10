@@ -53,24 +53,30 @@ class ubbDisplay extends XUBBP
         /*face 表情*/
         'face' => 'face',
     );
-    public function markdown($text){
+    public function markdown($data){
       if(!$this->Parsedown){
          $this->Parsedown = new Parsedown();
       }
 	  
-	  $html = $this->Parsedown->text($text['data']);
+	  $html = $this->Parsedown->text($data['data']);
 	  
 	  //链接安全性跳转
-	  $html = preg_replace_callback('/\bhref="([^"]*)"/is', function ($data) {
+	  $html = preg_replace_callback('/\bhref="([^"]*)"/is', function ($links) {
 		global $PAGE;
 		
-		$url = $data[1];
+		$url = $links[1];
 		
 	    if ($PAGE->bid != 'json' && $url[0] != '#') {
 	      $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
 	    }
 		
 		return 'href="'.$url.'"';
+	  }, $html);
+	  
+	  // at 标记解析
+	  $html = preg_replace_callback('![@＠]([#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)!uis', function ($atTag) use ($data) {
+	    $user = $data['users'][$atTag[1]];
+		return $this->at($user);
 	  }, $html);
 	  
       return "<div class='markdown-body'>".$html."</div>";

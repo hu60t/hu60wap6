@@ -3,7 +3,13 @@
 class ubbParser extends XUBBP
 {
     protected $parse = array(
-
+		/*
+        * 独占性UBB
+        * 
+        * 这里的UBB一但出现，则会把整个页面改成另一种模式
+        */
+		'#^<!--\s*markdown\s*-->(.*)$#ims' => array(array(), 'markdown', array(1)),
+		
         /*
         * 一次性匹配标记
         *
@@ -15,7 +21,6 @@ class ubbParser extends XUBBP
         * 因为[code][/code]标记里的内容（代码块）不应该进行任何UBB解析。
         * 按照顺序解析，顺序非常重要，排在后面的匹配可能会被忽略。
         */
-        '#^<!-- markdown -->(.*)$#ims'=>array(array(),'markdown',array(1)),
         /*code 代码高亮*/
         '!^(^|.*[\r\n]+)\[code(?:=(.*?))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
         '!^(.*)\[code(?:=(.*?))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
@@ -42,8 +47,8 @@ class ubbParser extends XUBBP
         /*empty UBB转义*/
         '!^(.*)\[empty\](.*)$!is' => array(array(1, 2), 'emptyTag', array(2)),
         /*newline 换行*/
-#    '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
-#    '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
+#       '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
+#       '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
         '!^(.*)\[([bh]r)\](.*)$!is' => array(array(1, 3), 'newline', array(2)),
         '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
 
@@ -93,11 +98,23 @@ class ubbParser extends XUBBP
     );
 
     public function markdown($data){
+	  // at 消息生成
+	  preg_match_all('![@＠]([@＠#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)!uis', $data, $atTags);
+	  $result = $this->at(implode('@', $atTags[1]));
+	  $users = [];
+	  
+	  foreach($result as $user) {
+		  $users[$user['tag']] = $user;
+	  }
+	  
       return array(array(
           'type' => 'markdown',
-          'data' => $data
+          'data' => $data,
+		  'users' => $users,
+          'len' => $this->len($data)
       ));
     }
+	
     /**
      * @brief 代码高亮
      */
