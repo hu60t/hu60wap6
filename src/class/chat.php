@@ -65,7 +65,7 @@ class chat
     {
         $rs = $this->db->select('name', 'addin_chat_list', 'WHERE name=?', $name);
         $rs = $rs->fetch();
-        if (!$rs || !$rs->fetch()) $this->newchatroom($name);
+        if (!$rs) $this->newchatroom($name);
     }
 
     /**

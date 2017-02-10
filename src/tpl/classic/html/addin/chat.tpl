@@ -1,4 +1,47 @@
 {include file="tpl:comm.head" title="聊天室-{$roomname}"}
+<script>
+	function foldFold(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var foldBar = document.getElementById('floor_fold_bar_' + floor);
+		
+		content.style.maxHeight = '768px';
+		foldBar.innerHTML = '<a id="floor_expand_' + floor +
+				'" href="#" onclick="foldExpand(' + floor + ');return false">查看全部</a>';
+	}
+	
+	function foldExpand(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var foldBar = document.getElementById('floor_fold_bar_' + floor);
+		
+		content.style.maxHeight = '';
+		foldBar.innerHTML = '<a id="floor_fold_' + floor +
+				'" href="#" onclick="foldFold(' + floor + ');return false">折叠内容</a>';
+	}
+	
+	function foldFloorInit(floor) {
+		var content = document.getElementById('floor_content_' + floor);
+		var height = content.offsetHeight;
+		
+		if (height > 768) {
+			var foldBar = document.getElementById('floor_fold_bar_' + floor);
+			
+			foldBar.style.borderTop = '1px solid #BED8EA';
+			foldBar.style.borderBottom = '1px solid #BED8EA';
+			foldBar.style.height = '24px';
+			foldBar.style.textAlign = 'center';
+			
+			foldFold(floor);
+		}
+	}
+	
+	function foldFloorOnload(floorSize) {
+		var i;
+		
+		for (i=0; i<floorSize; i++) {
+			foldFloorInit(i);
+		}
+	}
+</script>
 {include file="tpl:comm.at"}
 <div class="top_nav">
     <a href="index.index.{$bid}" title="回首页" class="pt_z">回首页</a>
@@ -42,7 +85,9 @@
             {$tmp = $uinfo->uid($k.uid)}
             {$tmp = $ubbs->setOpt('style.disable', $uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
         <div class="i">
-		<div>{$k.lid}. {$ubbs->display($k.content,true)}</div>
+        <div class="floor_content" id="floor_content_{$k.lid}">{$k.lid}. {$ubbs->display($k.content,true)}</div>
+		<div class="floor_fold_bar" id="floor_fold_bar_{$k.lid}"></div>
+		<script>foldFloorInit({$k.lid})</script>
 		<div>(<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a> {date("m-d H:i:s",{$k.time})}{if $chat->canDel($k.uid,true)}/<a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>{/if})</div>
         </div>
         {/if}
