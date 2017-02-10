@@ -6,14 +6,16 @@ class ubbParser extends XUBBP
 
         /*
         * 一次性匹配标记
-        * 
+        *
         * 如果标记可以一次性匹配，
         * 不需要分为开始标记和结束标记分别匹配，
         * 则在这一段定义（加在这一段末尾）。
-        * 
+        *
         * 注意：不要定义在code规则的前面，
         * 因为[code][/code]标记里的内容（代码块）不应该进行任何UBB解析。
+        * 按照顺序解析，顺序非常重要，排在后面的匹配可能会被忽略。
         */
+        '#^<!-- markdown -->(.*)$#ims'=>array(array(),'markdown',array(1)),
         /*code 代码高亮*/
         '!^(^|.*[\r\n]+)\[code(?:=(.*?))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
         '!^(.*)\[code(?:=(.*?))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
@@ -47,7 +49,7 @@ class ubbParser extends XUBBP
 
         /*
         * 开始标记
-        * 
+        *
         * 这一段应该只包括开始标记，
         * 结束标记不应定义在这一段，
         * 否则会出现代码嵌套错误。
@@ -58,11 +60,11 @@ class ubbParser extends XUBBP
         '!^(.*)\[(color|div|span)=(.*?)\](.*)$!is' => array(array(1, 4), 'styleStart', array(2, 3)),
         /*
         * 结束标记
-        * 
+        *
         * 结束标记应该以与开始标记相反的顺序出现，
         * 就像[b][i][/i][/b]一样排列。
         * 当然这不是强制的，只是这样排比较美观。
-        * 
+        *
         * 这一段应该只有结束标记，
         * 开始标记不要放在这里，
         * 否则会出现嵌套错误。
@@ -74,7 +76,7 @@ class ubbParser extends XUBBP
 
         /*
         * 易误匹配的标记
-        * 
+        *
         * 这里的标记最后匹配，为了防止误匹配。
         * 可能会影响其他标记正常匹配的标记放在这里。
         */
@@ -90,6 +92,12 @@ class ubbParser extends XUBBP
         '!^(.*)《(?:表情)?(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
     );
 
+    public function markdown($data){
+      return array(array(
+          'type' => 'markdown',
+          'data' => $data
+      ));
+    }
     /**
      * @brief 代码高亮
      */
@@ -97,10 +105,10 @@ class ubbParser extends XUBBP
     {
         //把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
         $data = str::nbsp2space($data);
-        
+
         $lang = strtolower(trim($lang));
         if ($lang == '') $lang = 'php';
-        
+
         return array(array(
             'type' => 'code',
             'lang' => $lang,

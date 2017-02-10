@@ -19,44 +19,38 @@
   <span class="pt_y"><a href="{$CID}.topic.{$topicId}.{$BID}">返回帖子</a></span>
 </div>
 <!--编辑框-->
-<div class='topic_area'>
   <div class="text-notice">
     {if $err && $USER->islogin}{$err->getMessage()|code}{/if}
   </div>
   <div class='widget-form'>
     <form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$BID}" class="topic-form">
       {if $editTitle}
-      <div class="">标题</div>
-        <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="帖子标题" value="{$title}" />
+      <div class="topic-form-label">标题</div>
+      <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="" value="{$title}"/>
       {/if}
-      <p>
-        {if $USER->islogin}
-        <textarea class="txt" name="content" id="content">{$content}</textarea>
-        <input type="hidden" name="token" value="{$token->token()}">
-      </p>
-      {if $isAdminEdit}
-      <p>编辑理由：<input name="editReason" value="{$smarty.post.editReason|code}" /></p>
-      {/if}
-      <p>
-      </p>
-      <p>
-        <input type="submit" id="edit_topic_button" name="go" class="cr_login_submit" value="保存修改" />
-        <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+      {if $USER->islogin}
+      <div class="topic-form-label">内容</div>
+      <textarea class="topic-form-content" name="content" id="content">{$content}</textarea>
+      <input type="hidden" name="token" value="{$token->token()}">
+
+        {if $isAdminEdit}
+        <p>编辑理由：<input name="editReason" value="{$smarty.post.editReason|code}" /></p>
+        {/if}
+        <input type="submit" id="post_topic_button" name="go" class="topic-form-submit" value="保存修改" />
+        <input type="button" id="add_files" class="topic-form-submit" value="添加附件" onclick="addFiles()"/>
         {include file="tpl:comm.addfiles"}
-      </p>
       {else}
       <p>
         修改楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
         请自行复制您的楼层内容以免数据丢失：<br/>
-        <textarea class="txt" name="content" id="content">{$content}</textarea>
+        <textarea class="topic-form-content" name="content" id="content">{$content}</textarea>
       </p>
       {/if}
     </form>
   </div>
-</div>
 <style>
-.topic-form-title{
-  width: 100%;
-}
+  .topic-form-title{
+    width: 100%;
+  }
 </style>
 {/block}
