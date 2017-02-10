@@ -182,7 +182,7 @@ class UbbDisplay extends XUBBP
         $src = code::html($data['src']);
 
         //百度输入法多媒体输入
-        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $src, $arr)) {
+        if (preg_match('#^(https?://ci\.baidu\.com)/([a-zA-Z0-9]+)$#is', $src, $arr)) {
             $prefix = $arr[1];
             $imgId = $arr[2];
             $src = $prefix . '/more?mm=' . $imgId;
