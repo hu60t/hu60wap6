@@ -12,11 +12,10 @@
 </div>
 {if $list}
 {foreach $list as $k}
-<div class="msg_box">
+<div class="msg-box">
   {$ubbs->display($k.content,true)}
   时间：{date("Y-m-d H:i:s",$k.ctime)}
 </div>
-<hr />
 {/foreach}
 <div class="pager">
   {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}

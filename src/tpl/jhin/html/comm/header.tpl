@@ -5,21 +5,36 @@
   </div>
   {if !$base}
   	{if is_object($user)}
-  		<div class="profile">
+  		<div class="profile" id="profile">
   		{if $user->uid}
   			{if $user->islogin}
   				{$MSG=msg::getInstance($USER)}
-          <img src="{$PAGE->getTplUrl("img/48_avatar_middle.jpg.gif")}" class="userHead"/>
-          <span class='userName' id="userName">{$user->name|code}</span>
+          <div class="userHeader">
+            <img src="{$PAGE->getTplUrl("img/48_avatar_middle.jpg.gif")}" class="userAvatar"/>
+            <span class='userName' id="userName">{$user->name|code}</span>
+          </div>
           <ul class="userPanel" id="userPanel">
-            <li><a href="addin.webplug.{$BID}">个性化</a></li>
-            <li><a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a></li>
-            <li><a href="msg.index.html">信息</a></li>
-            <li><a href="msg.index.@.{$bid}">@消息</a></li>
-            <li><a href="user.exit.{$bid}?u={urlencode($page->geturl())}">退出</a></li>
-            <li><a href="user.index.{$bid}">资料</a></li>
+            <li>
+              <a href="addin.webplug.{$BID}"><i class="material-icons">palette</i>个性化</a>
+            </li>
+            <li>
+              <a href="bbs.search.{$BID}?username={$USER->name|urlencode}"><i class="material-icons">bookmark</i>帖子</a>
+            </li>
+            <li>
+              <a href="msg.index.html"><i class="material-icons">local_post_office</i>信息</a>
+            </li>
+            <li><a href="msg.index.@.{$bid}"><i class="material-icons">@</i>消息</a></li>
+            <li>
+              <a href="user.exit.{$bid}?u={urlencode($page->geturl())}"><i class="material-icons">exit_to_app</i>退出</a>
+            </li>
+            <li>
+              <a href="user.index.{$bid}"><i class="material-icons">account_circle</i>资料</a>
+            </li>
           </ul>
-
+          <div id="profileClose" class="profileClose">
+            <i class="material-icons">close</i>
+          </div>
+          <div id="profileFilm" class="profileFilm"></div>
   				{$newMSG=$MSG->newMsg()}
   				{$newATINFO=$MSG->newAtInfo()}
   				{if $newMSG > 0}
@@ -50,7 +65,10 @@
 <script>
 $(document).ready(function(){
   $("#userName").on("click",function(){
-    $("#userPanel").toggleClass("userPanelMobile");
+    $("#profile").toggleClass("profileMobile");
   });
+  $("#profileClose,#profileFilm").on("click",function(){
+    $("#userName").trigger('click');
+  })
 });
 </script>

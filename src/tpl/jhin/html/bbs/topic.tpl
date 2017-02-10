@@ -36,7 +36,7 @@
 			时间: {str::ago($v.mtime)}
 			点击: {$tMeta.read_count}
 		</div>
-		<div class="topic-content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
+		<div class="topic-content" id="floor_content_0">{$v.text}</div>
 		<!-- <script>foldFloorInit(0)</script> -->
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<div class="topic-panel">[
