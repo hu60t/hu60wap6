@@ -46,20 +46,18 @@ $tpl->assign('ubb', $ubb);
 
 $tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id');
 foreach ($tContents as &$v) {
-  // XXX: 模板部分只负责输出，内容部分应该在控制器便被编码好
-  $uinfo = new userinfo();
-  $uinfo->uid($v['uid']);
-  $v['uinfo'] = $uinfo;
-  $v['text'] = $ubb->display($v['content'],true);
+    $uinfo = new userinfo();
+    $uinfo->uid($v['uid']);
+    $v['uinfo'] = $uinfo;
 }
 $tpl->assign('tContents', $tContents);
 // var_dump($tContents);die;
 
 //获取token
 if ($USER->islogin) {
-  $token = new token($USER);
-  $token->create();
-  $tpl->assign('token', $token);
+    $token = new token($USER);
+    $token->create();
+    $tpl->assign('token', $token);
 }
 //显示帖子
 $tpl->display('tpl:topic');
