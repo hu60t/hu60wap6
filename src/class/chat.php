@@ -34,7 +34,7 @@ class chat
     public function checkName($name)
     {
         if ($name == '') throw new chatexception('聊天室名不能为空。', 10);
-        if (strlen(mb_convert_encoding($name, 'gbk', 'utf-8')) > 10) throw new chatexception("聊天室名 \"$name\" 过长。聊天室名最长只允许10个英文字母或5个汉字（10字节）。", 13);
+        if (mb_strlen($name, 'utf-8') > 20) throw new chatexception("聊天室名 \"$name\" 过长，不能超过20个汉字。", 13);
         if (!str:: 匹配汉字($name, 'A-Za-z0-9_\\-')) throw new chatexception("聊天室名 \"$name\" 无效。只允许汉字、字母、数字、下划线(_)和减号(-)。", 11);
         return TRUE;
     }
@@ -45,7 +45,7 @@ class chat
     public function newchatroom($name)
     {
         $this->checkName($name);
-        $this->db->insert('addin_chat_list', 'name', $name);
+        $this->db->insert('addin_chat_list', 'name,ztime', $name, 0);
 
     }
 
@@ -54,7 +54,7 @@ class chat
      */
     public function roomlist()
     {
-        $rs = $this->db->select("*", 'addin_chat_list', 'ORDER BY `ztime` DESC');
+        $rs = $this->db->select("*", 'addin_chat_list', "WHERE name NOT LIKE '%私%' AND name NOT LIKE '%密%' AND name NOT LIKE '%秘%' ORDER BY `ztime` DESC");
         return $rs->fetchAll();
     }
 
@@ -65,7 +65,7 @@ class chat
     {
         $rs = $this->db->select('name', 'addin_chat_list', 'WHERE name=?', $name);
         $rs = $rs->fetch();
-        if (!$rs) $this->newchatroom($name);
+        if (!$rs || !$rs->fetch()) $this->newchatroom($name);
     }
 
     /**
@@ -126,7 +126,7 @@ class chat
      */
     public function newChat()
     {
-        $rs = $this->db->select("*", 'addin_chat_data', 'ORDER BY `time` DESC LIMIT 1');
+        $rs = $this->db->select("*", 'addin_chat_data', "WHERE room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' ORDER BY `time` DESC LIMIT 1");
         $data = $rs->fetch();
         return $data;
     }
