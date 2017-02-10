@@ -1219,7 +1219,7 @@ class Parsedown
 
         if (preg_match('/^[(]\s*+((?:[^ ()]++|[(][^ )]+[)])++)(?:[ ]+("[^"]*"|\'[^\']*\'))?\s*[)]/', $remainder, $matches))
         {
-            $Element['attributes']['href'] = $matches[1];
+            $Element['attributes']['href'] = url::getJumpLink($matches[1]);
 
             if (isset($matches[2]))
             {
@@ -1249,7 +1249,15 @@ class Parsedown
 
             $Definition = $this->DefinitionData['Reference'][$definition];
 
-            $Element['attributes']['href'] = $Definition['url'];
+			// 图片，url不编码
+			if ('!' == $Excerpt['context'][0]) {
+				$Element['attributes']['href'] = $Definition['url'];
+			}
+			// 链接，url编码
+			else {
+				$Element['attributes']['href'] = url::getJumpLink($Definition['url']);
+			}
+			
             $Element['attributes']['title'] = $Definition['title'];
         }
 
@@ -1341,7 +1349,7 @@ class Parsedown
             return;
         }
 
-        if (preg_match('/\bhttps?:[\/]{2}[^\s<]+\b\/*/ui', $Excerpt['context'], $matches, PREG_OFFSET_CAPTURE))
+        if (!preg_match('#</a>#i', $Excerpt['context']) && preg_match('/\bhttps?:[\/]{2}[^\s<]+\b\/*/ui', $Excerpt['context'], $matches, PREG_OFFSET_CAPTURE))
         {
             $Inline = array(
                 'extent' => strlen($matches[0][0]),
@@ -1350,7 +1358,7 @@ class Parsedown
                     'name' => 'a',
                     'text' => $matches[0][0],
                     'attributes' => array(
-                        'href' => $matches[0][0],
+                        'href' => url::getJumpLink($matches[0][0]),
                     ),
                 ),
             );
@@ -1363,13 +1371,14 @@ class Parsedown
     {
         if (strpos($Excerpt['text'], '>') !== false and preg_match('/^<(\w+:\/{2}[^ >]+)>/i', $Excerpt['text'], $matches))
         {
-            $url = str_replace(array('&', '<'), array('&amp;', '&lt;'), $matches[1]);
+            $url = str_replace(array('&', '<'), array('&amp;', '&lt;'), url::getJumpLink($matches[1]));
+			$title = str_replace(array('&', '<'), array('&amp;', '&lt;'), $matches[1]);
 
             return array(
                 'extent' => strlen($matches[0]),
                 'element' => array(
                     'name' => 'a',
-                    'text' => $url,
+                    'text' => $title,
                     'attributes' => array(
                         'href' => $url,
                     ),

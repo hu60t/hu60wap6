@@ -97,5 +97,12 @@ class url
             $url = str_replace('+', '%20', $url);
         return $url;
     }
+	
+	//获得URL安全跳转链接
+	static function getJumpLink($url) {
+		global $PAGE;
+		
+		return $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
+	}
 //class url end
 }

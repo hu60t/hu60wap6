@@ -287,12 +287,14 @@ class XUBBP
     public function display($ubbArray, $serialize = false, $maxLen = null, $page = null)
     {
         $this->init();
+		
+		if ($serialize) {
+            $ubbArray = unserialize($ubbArray);
+		}
 
         if ($maxLen != null && $page != null) {
             $ubbArray = $this->displayPage($ubbArray, $maxLen, $page);
         }
-        if ($serialize)
-            $ubbArray = unserialize($ubbArray);
 
         $html = '';
 

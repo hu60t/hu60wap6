@@ -1,15 +1,14 @@
 <?php
 
-class ubbParser extends XUBBP
+class UbbParser extends XUBBP
 {
+	// 是否处于markdown模式
+	protected $markdownEnable = false;
+	
     protected $parse = array(
-		/*
-        * 独占性UBB
-        * 
-        * 这里的UBB一但出现，则会把整个页面改成另一种模式
-        */
-		'#^<!--\s*markdown\s*-->(.*)$#ims' => array(array(), 'markdown', array(1)),
-		
+		/*开启markdown模式*/
+		'#^<!--\s*markdown\s*-->(.*)$#ims' => array(array('', 1), 'markdown', array()),
+	
         /*
         * 一次性匹配标记
         *
@@ -98,21 +97,19 @@ class ubbParser extends XUBBP
     );
 
     public function markdown($data){
-	  // at 消息生成
-	  preg_match_all('![@＠]([@＠#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)!uis', $data, $atTags);
-	  $result = $this->at(implode('@', $atTags[1]));
-	  $users = [];
-	  
-	  foreach($result as $user) {
-		  $users[$user['tag']] = $user;
-	  }
-	  
-      return array(array(
+		$this->markdownEnable = true;
+		
+		// 删除markdown不友好的标记
+		
+		/*urltxt 文本链接*/
+		unset($this->parse['!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is']);
+		/*mailtxt 文本电子邮件地址*/
+		unset($this->parse['!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is']);
+		
+		return array(array(
           'type' => 'markdown',
-          'data' => $data,
-		  'users' => $users,
-          'len' => $this->len($data)
-      ));
+          'len' => 0
+		));
     }
 	
     /**

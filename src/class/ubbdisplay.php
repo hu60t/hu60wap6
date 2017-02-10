@@ -1,11 +1,15 @@
 <?php
 
-class ubbDisplay extends XUBBP
+class UbbDisplay extends XUBBP
 {
-
-    private $Parsedown;
+	// markdown解析器
+    protected $Parsedown = NULL;
+	// 是否处于markdown模式
+	protected $markdownEnable = false;
+	
     /*注册显示回调函数*/
     protected $display = array(
+		/*开启markdown模式*/
         'markdown'=>'markdown',
         /*text 纯文本*/
         'text' => 'text',
@@ -53,55 +57,46 @@ class ubbDisplay extends XUBBP
         /*face 表情*/
         'face' => 'face',
     );
-    public function markdown($data){
-      if(!$this->Parsedown){
-         $this->Parsedown = new Parsedown();
-      }
-	  
-	  $html = $this->Parsedown->text($data['data']);
-	  
-	  //链接安全性跳转
-	  $html = preg_replace_callback('/\bhref="([^"]*)"/is', function ($links) {
-		global $PAGE;
-		
-		$url = $links[1];
-		
-	    if ($PAGE->bid != 'json' && $url[0] != '#') {
-	      $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
-	    }
-		
-		return 'href="'.$url.'"';
-	  }, $html);
-	  
-	  // at 标记解析
-	  $html = preg_replace_callback('![@＠]([#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)!uis', function ($atTag) use ($data) {
-	    $user = $data['users'][$atTag[1]];
-		
-		if (empty($user)) {
-			return $atTag[0];
+	
+	public function display($ubbArray, $serialize = false, $maxLen = null, $page = null)
+    {
+		if ($serialize) {
+            $ubbArray = unserialize($ubbArray);
 		}
-		else {
-			return $this->at($user);
+		
+		$html = parent::display($ubbArray, false, $maxLen, $page);
+		
+		if ($this->markdownEnable) {
+			if (!$this->Parsedown) {
+				$this->Parsedown = new Parsedown();
+				//$this->Parsedown->setUrlsLinked(false);
+			}
+	  
+			$html = '<div class="markdown-body">' . $this->Parsedown->text($html) . '</div>';
 		}
-	  }, $html);
-	  
-	  // 表情
-	  $html = preg_replace_callback('!\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}!uis', function ($face) {
-	    return $this->face(array(
-            'type' => 'face',
-            'face' => trim($face[1]),
-            'len' => $this->len($face[1])
-        ));
-	  }, $html);
-	  
-      return "<div class='markdown-body'>".$html."</div>";
+		
+		//$html = nl2br(htmlspecialchars($html)); // debug
+		
+		return $html;
     }
+	
+	/*开启markdown模式*/
+    public function markdown($data){
+		$this->markdownEnable = true;
+		return '';
+    }
+	
     /*text 纯文本*/
     public function text($data)
     {
         $text = str::过滤滥用($data['value']);
-
-        return code::html($text, '<br/>');
+		
+		if ($this->markdownEnable) {
+			return $text;
+		}
+		else {
+			return code::html($text, '<br/>');
+		}
     }
 
     /*代码高亮*/
