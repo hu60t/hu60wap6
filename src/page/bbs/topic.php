@@ -30,14 +30,20 @@ $tpl->assign('fIndex', $fIndex);
 
 //读取帖子元信息
 $tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime,locked');
-if (!$tMeta)
-    throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
+if (!$tMeta){
+  throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
+}
 $tpl->assign('tMeta', $tMeta);
 
 //增加帖子点击数
 $bbs->addTopicReadCount($tid);
 
 //读取帖子内容
+
+//加载 UBB 组件
+$ubb = new ubbdisplay();
+$tpl->assign('ubb', $ubb);
+
 $tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id');
 foreach ($tContents as &$v) {
     $uinfo = new userinfo();
@@ -45,9 +51,8 @@ foreach ($tContents as &$v) {
     $v['uinfo'] = $uinfo;
 }
 $tpl->assign('tContents', $tContents);
-//var_dump($tContents);die;
-$ubb = new ubbdisplay();
-$tpl->assign('ubb', $ubb);
+// var_dump($tContents);die;
+
 //获取token
 if ($USER->islogin) {
     $token = new token($USER);

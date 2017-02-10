@@ -27,6 +27,7 @@
     {/if}
   </div>
   <div class='cr180_form'>
+    <p class="text-notice">确定删除帖子:{$tMeta.title|code}?</p>
     <form method="post" action="{$CID}.deltopic.{$topicId}.{$contentId}.{$BID}">
       <div>
         <p>

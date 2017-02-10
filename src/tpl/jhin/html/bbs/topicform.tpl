@@ -36,6 +36,9 @@
         <div class="topic-form-label">内容</div>
         <textarea class="topic-form-content" name="content" id="content">{$content}</textarea>
         <input type="hidden" name="token" value="{$token->token()}">
+        <!-- <input type="checkbox" id="useMarkdown" name="useMarkdown" value="1" /> -->
+        <!-- <label for="useMarkdown">使用Markdown语法</label> -->
+        <!-- <br/> -->
         <input type="submit" id="post_topic_button" name="go" class="topic-form-submit" value="确认发布帖子" />
         <input type="button" id="add_files" class="topic-form-submit" value="添加附件" onclick="addFiles()"/>
         {include file="tpl:comm.addfiles"}
@@ -49,4 +52,11 @@
     </form>
   </div>
 </div>
+<style>
+.useMarkdown{
+}
+input[type='checkbox']:checked+label {
+
+}
+</style>
 {/block}
