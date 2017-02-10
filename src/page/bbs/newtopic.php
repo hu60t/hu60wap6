@@ -1,4 +1,5 @@
 <?php
+$_prefix="<!-- markdown -->";
 try {
     $tpl = $PAGE->start();
     $USER->start($tpl);
@@ -22,7 +23,7 @@ try {
 		//论坛版块列表
 		$forums = $bbs->childForumMeta(0, 'id,name,notopic', 0);
 		$tpl->assign('forums', $forums);
-		
+
 		$tpl->display('tpl:forum_select_all');
 	}
     //当前板块不能发帖则获取子版块列表
@@ -47,6 +48,9 @@ try {
             if (!$ok)
                 throw new EXception('会话已过期，请重新发布');
             $token->delete();
+            if(@$_POST['useMarkdown'] == '1'){
+              $content = $_prefix.$content;
+            }
             $bbs = new bbs($USER);
             $ok = $bbs->newtopic($fid, $title, $content);
             if (!$ok)

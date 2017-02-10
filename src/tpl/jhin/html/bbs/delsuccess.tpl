@@ -12,7 +12,7 @@
 
 {block name='body'}
 <!--导航栏-->
-<div class='forum_list'>
+<div class="breadcrumb">
     <a href="index.index.{$BID}">首页</a> &gt;
     {foreach $fIndex as $forum}
         <a href="{$CID}.forum.{$forum.id}.{$BID}">{$forum.name|code}</a>
@@ -28,6 +28,7 @@
     <div class='tip'>
         删除成功，3秒后返回帖子。<br/>
         <a href="{$url|code}">点击立即进入</a>
+        {include file="tpl:comm.go" url=$url}
     </div>
 </div>
 {/block}

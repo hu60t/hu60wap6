@@ -4,6 +4,7 @@ class ubbEdit extends XUBBP
 {
     /*注册显示回调函数*/
     protected $display = array(
+        'markdown' => 'markdown',
         /*text 纯文本*/
         'text' => 'text',
         /*newline 换行*/
@@ -51,7 +52,7 @@ class ubbEdit extends XUBBP
     {
         return new ubbEdit();
     }
-    
+
     protected static function html($str) {
         return code::html($str, false, true);
     }
@@ -62,6 +63,9 @@ class ubbEdit extends XUBBP
         return self::html($data['value']);
     }
 
+    public function markdown($text){
+      return '<!-- markdown -->'.$text['data'];
+    }
     /*代码高亮*/
     public function code($data)
     {
@@ -271,19 +275,3 @@ class ubbEdit extends XUBBP
         return '';
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

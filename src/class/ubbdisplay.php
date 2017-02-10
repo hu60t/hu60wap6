@@ -2,8 +2,11 @@
 
 class ubbDisplay extends XUBBP
 {
+
+    private $Parsedown;
     /*注册显示回调函数*/
     protected $display = array(
+        'markdown'=>'markdown',
         /*text 纯文本*/
         'text' => 'text',
         /*newline 换行*/
@@ -50,7 +53,12 @@ class ubbDisplay extends XUBBP
         /*face 表情*/
         'face' => 'face',
     );
-
+    public function markdown($text){
+      if(!$this->Parsedown){
+         $this->Parsedown = new Parsedown();
+      }
+      return "<div class='markdown-body'>".$this->Parsedown->text($text['data'])."</div>";
+    }
     /*text 纯文本*/
     public function text($data)
     {
@@ -147,7 +155,7 @@ class ubbDisplay extends XUBBP
             $imgId = $arr[2];
             $src = $prefix . '/more?mm=' . $imgId;
         }
-        
+
         return '<a href="' . $src . '"><img src="http://s.image.wap.soso.com/img/' . floor($data['w']) . '_' . floor($data['h']) . '_0_0_' . $src . '" alt="点击查看大图"/></a>';
     }
 
@@ -628,19 +636,3 @@ HTML;
         return $html;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
