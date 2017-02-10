@@ -85,6 +85,15 @@ class ubbDisplay extends XUBBP
 		}
 	  }, $html);
 	  
+	  // 表情
+	  $html = preg_replace_callback('!\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}!uis', function ($face) {
+	    return $this->face(array(
+            'type' => 'face',
+            'face' => trim($face[1]),
+            'len' => $this->len($face[1])
+        ));
+	  }, $html);
+	  
       return "<div class='markdown-body'>".$html."</div>";
     }
     /*text 纯文本*/
