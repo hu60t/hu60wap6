@@ -40,8 +40,8 @@
 	    </li>
 	  {/foreach}
 	</ul>
-	</div>
 	{if !$smarty.foreach.forum.last}<hr>{/if}
 {/foreach}
+</div>
 
 {/block}
