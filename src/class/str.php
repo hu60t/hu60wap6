@@ -192,5 +192,10 @@ class str
         return date('Y-m-d',$t);
       }
     }
+	
+	//将html标记转码
+	public static function htmlTagToEntity($text) {
+		return preg_replace('#<(/?script[^>]*)>#is', '&lt;\\1&gt;', $text);
+	}
 //class str end
 }

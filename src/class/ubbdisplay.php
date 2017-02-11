@@ -92,7 +92,7 @@ class UbbDisplay extends XUBBP
         $text = str::过滤滥用($data['value']);
 		
 		if ($this->markdownEnable) {
-			return $text;
+			return str::htmlTagToEntity($text);
 		}
 		else {
 			return code::html($text, '<br/>');
