@@ -71,6 +71,7 @@ class UbbDisplay extends XUBBP
 		if ($this->markdownEnable) {
 			if (!$this->Parsedown) {
 				$this->Parsedown = new Parsedown();
+				$this->Parsedown->setBreaksEnabled(true); //自动换行
 				//$this->Parsedown->setUrlsLinked(false);
 			}
 	  
