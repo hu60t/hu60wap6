@@ -64,6 +64,8 @@ class UbbDisplay extends XUBBP
             $ubbArray = unserialize($ubbArray);
 		}
 		
+		$this->markdownEnable = false;
+		
 		$html = parent::display($ubbArray, false, $maxLen, $page);
 		
 		if ($this->markdownEnable) {
