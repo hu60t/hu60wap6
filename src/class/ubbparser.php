@@ -132,6 +132,7 @@ class UbbParser extends XUBBP
             'type' => 'code',
             'lang' => $lang,
             'data' => $data,
+			'html' => code::highlight($data),
             'len' => $this->len($data)
         ));
     }

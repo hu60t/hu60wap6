@@ -79,6 +79,24 @@ class code
     {
         return base64_decode(strtr($code, array('-' => '+', '_' => '/', '.' => '=')));
     }
+	
+	// 代码高亮
+	static function highlight($code, $type = 'php') {
+		//去除前后空行
+		$code = preg_replace(['/^[\r\n]+/s', '/[\r\n]+$/s'], '', $code);
+		//特殊空格转普通空格
+		$code = str::nbsp2space($code);
+		
+		if (empty($type)) {
+			$type = 'php';
+		}
+
+        $geshi = new geshi($code, $type);
+        $geshi->set_header_type(GESHI_HEADER_PRE_VALID);
+        $geshi->set_tab_width(4);
+        $geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+        return $geshi->parse_code();
+	}
 
     /*code类结束
     */
