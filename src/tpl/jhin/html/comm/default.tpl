@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="{$css|code}?r=4"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css')}?r=4"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')}"/>
+  <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
   <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")}"></script>
   <title>{block name='title'}{/block}</title>
 </head>
@@ -46,5 +47,7 @@
 
     </div>
   </div>
+<!--css前缀自动补全-->
+<script src="{$PAGE->getTplUrl("js/prefixfree/prefixfree.min.js")}"></script>
 </body>
 </html>
