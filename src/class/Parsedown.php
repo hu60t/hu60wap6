@@ -1161,6 +1161,7 @@ class Parsedown
             return;
         }
 
+		$Excerpt['referer'] = 'image';
         $Excerpt['text']= substr($Excerpt['text'], 1);
 
         $Link = $this->inlineLink($Excerpt);
@@ -1220,7 +1221,7 @@ class Parsedown
         if (preg_match('/^[(]\s*+((?:[^ ()]++|[(][^ )]+[)])++)(?:[ ]+("[^"]*"|\'[^\']*\'))?\s*[)]/', $remainder, $matches))
         {
 			// 图片，url不编码
-			if ('!' == $Excerpt['context'][0]) {
+			if ('image' == $Excerpt['referer']) {
 				$Element['attributes']['href'] = $matches[1];
 			}
 			// 链接，url编码
@@ -1257,7 +1258,7 @@ class Parsedown
             $Definition = $this->DefinitionData['Reference'][$definition];
 
 			// 图片，url不编码
-			if ('!' == $Excerpt['context'][0]) {
+			if ('image' == $Excerpt['referer']) {
 				$Element['attributes']['href'] = $Definition['url'];
 			}
 			// 链接，url编码
