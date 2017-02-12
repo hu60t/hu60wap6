@@ -12,6 +12,9 @@ class userinfo implements ArrayAccess
 
     /*** 禁止使用div和span标签 */
     const PERMISSION_UBB_DISABLE_STYLE = 2;
+	
+	/*** 用户被禁言 */
+    const PERMISSION_BLOCK_POST = 4;
 
     //权限列表结束
 
@@ -331,6 +334,11 @@ class userinfo implements ArrayAccess
 
         return (bool) ($permission & self::$data['permission'][$this->uid]);
     }
+	
+	public function setUbbOpt($ubb) {
+		$ubb->setOpt('style.disable', $this->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE));
+		$ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
+	}
 
     /*class end*/
 }

@@ -43,7 +43,7 @@
   </li>
   {else}
   {$tmp = $uinfo->uid($k.uid)}
-  {$tmp = $ubbs->setOpt('style.disable', $uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
+  {$tmp = $uinfo->setUbbOpt($ubbs)}
   <li>
     <div class="chat-number">{$k.lid}</div>
     <div class="chat-content" data-floorID="{$k.lid}" id="floor_content_{$k.lid}">

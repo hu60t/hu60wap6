@@ -163,6 +163,11 @@ class bbs
 
             //发帖权限检查
             $this->checkLogin();
+			
+			//禁言检查
+			if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
+				throw new bbsException('您已被禁言，不能发帖。', 403);
+			}
 
             //版块有效性检查
             $sql = 'SELECT id,name,notopic FROM ' . DB_A . 'bbs_forum_meta WHERE id=?';
@@ -236,6 +241,12 @@ class bbs
         global $PAGE;
 
         $this->checkLogin();
+		
+		//禁言检查
+		if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
+			throw new bbsException('您已被禁言，不能回帖。', 403);
+		}
+		
         $data = $this->topicContent($reply_id, 'topic_id');
         if (!$data)
             throw new bbsException('帖子内容 id=' . $reply_id . ' 不存在！', 404);

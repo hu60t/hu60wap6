@@ -26,6 +26,7 @@
 	{if $p == 1}
 
 		{$v=array_shift($tContents)}
+		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<h1>标题: {$tMeta.title|code}</h1>
 		<div class="topic-meta">
 
@@ -57,7 +58,7 @@
 	<div class="comments-list">
 		<ul class="comments-ul">
 			{foreach $tContents as $v}
-			{$tmp = $ubb->setOpt('style.disable', $v.uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
+			{$tmp = $v.uinfo->setUbbOpt($ubb)}
 			<li>
 				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
 					<span class="comments-number">#{$v.floor}</span>

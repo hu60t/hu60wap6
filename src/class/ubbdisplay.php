@@ -63,6 +63,12 @@ class UbbDisplay extends XUBBP
 	
 	public function display($ubbArray, $serialize = false, $maxLen = null, $page = null)
     {
+		$disable = $this->getOpt('all.blockPost');
+
+        if ($disable) {
+            return '<div style="border:red solid 1px">用户被禁言，发言自动屏蔽。</div>';
+        }
+		
 		if ($serialize) {
             $ubbArray = unserialize($ubbArray);
 		}
@@ -75,6 +81,7 @@ class UbbDisplay extends XUBBP
 			if (!$this->Parsedown) {
 				$this->Parsedown = new Parsedown();
 				$this->Parsedown->setBreaksEnabled(true); //自动换行
+				//$this->Parsedown->setMarkupEscaped(true); //转义html
 				//$this->Parsedown->setUrlsLinked(false); //不解析链接
 			}
 	  

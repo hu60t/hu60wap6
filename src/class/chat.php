@@ -44,9 +44,13 @@ class chat
      */
     public function newchatroom($name)
     {
+		//禁言检查
+		if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
+			throw new Exception('您已被禁言，不能创建聊天室。', 403);
+		}
+		
         $this->checkName($name);
         $this->db->insert('addin_chat_list', 'name,ztime', $name, 0);
-
     }
 
     /**
@@ -137,6 +141,12 @@ class chat
     public function chatsay($room, $content, $time)
     {
         global $PAGE;
+		
+		//禁言检查
+		if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
+			throw new Exception('您已被禁言，不能发言。', 403);
+		}
+		
         $ubb = new ubbparser;
         $contents = $ubb->parse($content, true);
         $lid = $this->db->select('count(*)', 'addin_chat_data', 'WHERE room=?', $room)->fetch(db::num);

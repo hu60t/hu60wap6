@@ -83,7 +83,7 @@
         </div>
         {else}
             {$tmp = $uinfo->uid($k.uid)}
-            {$tmp = $ubbs->setOpt('style.disable', $uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
+            {$tmp = $uinfo->setUbbOpt($ubbs)}
         <div class="i">
         <div class="floor_content" id="floor_content_{$k.lid}">{$k.lid}. {$ubbs->display($k.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$k.lid}"></div>

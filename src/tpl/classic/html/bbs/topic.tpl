@@ -64,6 +64,7 @@
 	{if $p == 1}
 
 		{$v=array_shift($tContents)}
+		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<p>标题: {$tMeta.title|code}</p>
 		<p>作者: <a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
 		<p>时间: {date('Y-m-d H:i',$v.mtime)}</p>
@@ -84,7 +85,7 @@
 <p>『回复列表({$contentCount-1})』</p>
 <div>
     {foreach $tContents as $v}
-		{$tmp = $ubb->setOpt('style.disable', $v.uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
+		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<div class="floor_content" id="floor_content_{$v.floor}">{$v.floor}. {$ubb->display($v.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
 		<script>foldFloorInit({$v.floor})</script>
