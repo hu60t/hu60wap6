@@ -28,6 +28,7 @@ class UbbDisplay extends XUBBP
         'thumb' => 'thumb',
         /*code 代码高亮*/
         'code' => 'code',
+		'mdcode' => 'code',
         /*time 时间标记*/
         'time' => 'time',
         /*video 视频*/
@@ -110,6 +111,10 @@ class UbbDisplay extends XUBBP
         if ($PAGE->bid == 'wml') {
             return code::html($data['data'], '<br/>');
         }
+		
+		if (empty($data['lang']) && $this->markdownEnable) {
+			return '```' . $data['data'] . '```';
+		}
 
         if (isset($data['html'])) {
 			return $data['html'];

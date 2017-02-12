@@ -118,11 +118,37 @@ class UbbParser extends XUBBP
 		
 		/*百度输入法多媒体输入*/
 		$this->parse['#^(.*)(https?://ci\.baidu\.com/[a-zA-Z0-9]+)(.*)$#is'] = array(array(1, 3), 'urltxt', array(2));
+		/*mdcode markdown代码高亮*/
+        $this->parse['!^(^|.*[\r\n]+)`{3,}(\w+)?([\r\n]+.*?[\r\n]+)`{3,}([\r\n]+.*|$)$!is'] = array(array(1, 4), 'mdcode', array(2, 3));
 		
 		return array(array(
           'type' => 'markdown',
           'len' => 0
 		));
+    }
+	
+	/**
+     * @brief markdown代码高亮
+     */
+    public function mdcode($lang, $data)
+    {
+        //把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
+        $data = str::nbsp2space($data);
+		
+		$lang = strtolower(trim($lang));
+		
+		$result = [
+            'type' => 'mdcode',
+			'lang' => $lang,
+            'data' => $data,
+            'len' => $this->len($data)
+        ];
+		
+		if ($lang != '') {
+			$result['html'] = code::highlight($data, $lang);
+		}
+
+        return [ $result ];
     }
 	
     /**
@@ -140,7 +166,7 @@ class UbbParser extends XUBBP
             'type' => 'code',
             'lang' => $lang,
             'data' => $data,
-			'html' => code::highlight($data),
+			'html' => code::highlight($data, $lang),
             'len' => $this->len($data)
         ));
     }

@@ -4,6 +4,7 @@ class ubbEdit extends XUBBP
 {
     /*注册显示回调函数*/
     protected $display = array(
+		/*开启markdown*/
         'markdown' => 'markdown',
         /*text 纯文本*/
         'text' => 'text',
@@ -22,6 +23,8 @@ class ubbEdit extends XUBBP
         'thumb' => 'thumb',
         /*code 代码高亮*/
         'code' => 'code',
+		/*markdown风格代码高亮*/
+		'mdcode' => 'mdcode',
         /*time 时间标记*/
         'time' => 'time',
         /*video 视频*/
@@ -74,6 +77,12 @@ class ubbEdit extends XUBBP
             $lang = '';
         }
         return '[code' . $lang . ']' . self::html($data['data']) . '[/code]';
+    }
+	
+	/*markdown风格代码高亮*/
+    public function mdcode($data)
+    {
+        return '```' . $data['lang'] . self::html($data['data']) . '```';
     }
 
     /*time 时间*/
