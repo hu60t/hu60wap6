@@ -45,6 +45,9 @@
 		<option value="str2upper" {if $smarty.post.action == 'str2upper'}selected{/if}>字母转为大写</option>
 		<option value="str2ucwords" {if $smarty.post.action == 'str2ucwords'}selected{/if}>首字母大写</option>
                 <option value="nbsp2space" {if $smarty.post.action == 'nbsp2space'}selected{/if}>UTF-8特殊空格转普通空格</option>
+				<option value="markdown2html" {if $smarty.post.action == 'markdown2html'}selected{/if}>Markdown转HTML</option>
+				<option value="markdown2html_nolink" {if $smarty.post.action == 'markdown2html_nolink'}selected{/if}>Markdown转HTML(不转换链接)</option>
+				<option value="markdown2html_nohtml" {if $smarty.post.action == 'markdown2html_nohtml'}selected{/if}>Markdown转HTML(转义html)</option>
             </select></p>
         <p><input type="submit" value="操作"/></p>
     </form>

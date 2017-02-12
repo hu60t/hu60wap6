@@ -72,7 +72,7 @@ class UbbDisplay extends XUBBP
 			if (!$this->Parsedown) {
 				$this->Parsedown = new Parsedown();
 				$this->Parsedown->setBreaksEnabled(true); //自动换行
-				//$this->Parsedown->setUrlsLinked(false);
+				//$this->Parsedown->setUrlsLinked(false); //不解析链接
 			}
 	  
 			$html = '<div class="markdown-body">' . $this->Parsedown->text($html) . '</div>';

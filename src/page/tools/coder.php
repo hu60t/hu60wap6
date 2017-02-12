@@ -9,6 +9,23 @@ $result = null;
 try {
 	switch($action)
 	{
+		case 'markdown2html':
+			$parsedown = new Parsedown();
+			$parsedown->setBreaksEnabled(true); //自动换行
+			$result = $parsedown->text($content);
+			break;
+		case 'markdown2html_nolink':
+			$parsedown = new Parsedown();
+			$parsedown->setBreaksEnabled(true); //自动换行
+			$parsedown->setUrlsLinked(false); //不解析链接
+			$result = $parsedown->text($content);
+			break;
+		case 'markdown2html_nohtml':
+			$parsedown = new Parsedown();
+			$parsedown->setBreaksEnabled(true); //自动换行
+			$parsedown->setMarkupEscaped(true); //转义html
+			$result = $parsedown->text($content);
+			break;
 		case 'json2serialize':
 			$arr = json_decode($content,true);
 			$result = urlencode(serialize($arr));
