@@ -1219,7 +1219,14 @@ class Parsedown
 
         if (preg_match('/^[(]\s*+((?:[^ ()]++|[(][^ )]+[)])++)(?:[ ]+("[^"]*"|\'[^\']*\'))?\s*[)]/', $remainder, $matches))
         {
-            $Element['attributes']['href'] = url::getJumpLink($matches[1]);
+			// 图片，url不编码
+			if ('!' == $Excerpt['context'][0]) {
+				$Element['attributes']['href'] = $matches[1];
+			}
+			// 链接，url编码
+			else {
+				$Element['attributes']['href'] = url::getJumpLink($matches[1]);
+			}
 
             if (isset($matches[2]))
             {
