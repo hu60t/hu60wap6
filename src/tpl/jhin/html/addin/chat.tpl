@@ -46,8 +46,10 @@
   {$tmp = $ubbs->setOpt('style.disable', $uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
   <li>
     <div class="chat-number">{$k.lid}</div>
-    <div class="chat-content">
-      {$ubbs->display($k.content,true)}</div>
+    <div class="chat-content" data-floorID="{$k.lid}" id="floor_content_{$k.lid}">
+      {$ubbs->display($k.content,true)}
+	</div>
+	<div class="floor_fold_bar" id="floor_fold_bar_{$k.lid}"></div>
     <div class="chat-meta">
       (<div class="chat-meta-name">
         <a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a>
@@ -61,5 +63,29 @@
 <div class="widget-page">
   {str::pageFormat($p,$maxP,"?p=##")}
 </div>
-
+<script>
+// 自动折叠过长内容
+	$(document).ready(function(){
+		var maxHeight = 768;
+		$(".chat-content").each(function(){
+			var that =$(this);
+			var id=this.getAttribute("data-floorID");
+			if(that.height() >  maxHeight){
+				that.height(maxHeight);
+				$('#floor_fold_bar_'+id).html("<button data-floorID='"+id+"'>展开隐藏内容</button>");
+				$('#floor_fold_bar_'+id+">button").on('click',function(){
+					var id=this.getAttribute("data-floorID");
+					var that=$("#floor_content_"+id)
+					if(that.height()>maxHeight){
+						that.height(maxHeight);
+						this.innerHTML='展开超出内容';
+					}else{
+						that.height(that[0].scrollHeight);
+						this.innerHTML='折叠超出内容';
+					}
+				});
+			}
+		});
+	});
+</script>
 {/block}

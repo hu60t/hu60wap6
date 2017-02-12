@@ -36,8 +36,10 @@
 			时间: {str::ago($v.mtime)}
 			点击: {$tMeta.read_count}
 		</div>
-		<div class="topic-content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
-		<!-- <script>foldFloorInit(0)</script> -->
+		<div class="topic-content" data-floorID="0" id="floor_content_0">
+			{$ubb->display($v.content,true)}
+		</div>
+		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<div class="topic-panel">[
 				{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}|续|
@@ -59,7 +61,7 @@
 			<li>
 				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
 					<span class="comments-number">#{$v.floor}</span>
-					<div class="reply-content">{$ubb->display($v.content,true)}</div>
+					{$ubb->display($v.content,true)}
 				</div>
 				<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
 				<p class="comments-meta">
@@ -125,7 +127,7 @@
 // 自动折叠过长内容
 	$(document).ready(function(){
 		var maxHeight = 768;
-		$(".floor-content").each(function(){
+		$(".topic-content,.floor-content").each(function(){
 			var that =$(this);
 			var id=this.getAttribute("data-floorID");
 			if(that.height() >  maxHeight){
