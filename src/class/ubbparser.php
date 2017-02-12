@@ -6,18 +6,6 @@ class UbbParser extends XUBBP
 	protected $markdownEnable = false;
 	
     protected $parse = array(
-		/*
-		 * 开启markdown模式
-		 *
-		 * 默认情况下，PCRE 认为目标字符串是由单行字符组成的，所以不需要使用模式修饰符m。
-		 * 不过，由于XUBBP是一个文本拆分式解析器，所以即使不使用模式修饰符m也依然有Bug，
-		 * 以下内容可以在中途开启markdown：
-		 * [div=color:red]xxx[/div]<!-- markdown -->
-		 * <https://secure.php.net/manual/zh/reference.pcre.pattern.modifiers.php>
-		 */
-		'#^<!--\s*markdown\s*-->(.*)$#is' => array(array('', 1), 'markdown', array()),
-		'#^<!md>(.*)$#is' => array(array('', 1), 'markdown', array()),
-	
         /*
         * 一次性匹配标记
         *
@@ -110,8 +98,25 @@ class UbbParser extends XUBBP
 	public function parse($text, $serialize = false) {
 		//把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
         $text = str::nbsp2space($text);
+		$markdownTag = NULL;
 		
-		return parent::parse($text, $serialize);
+		// markdown模式检测
+		if (preg_match('#^<!--\s*markdown\s*-->#is', $text) || preg_match('#^<!md>#is', $text)) {
+			$text = preg_replace(['#^<!--\s*markdown\s*-->#is', '#^<!md>#is'], '', $text);
+			$markdownTag = $this->markdown();
+		}
+		
+		$result = parent::parse($text, false);
+		
+		if (NULL !== $markdownTag) {
+			$result = array_merge($markdownTag, $result);
+		}
+		
+		if ($serialize) {
+			$result = serialize($result);
+		}
+		
+		return $result;
 	}
 
     public function markdown($data){
