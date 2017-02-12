@@ -6,8 +6,16 @@ class UbbParser extends XUBBP
 	protected $markdownEnable = false;
 	
     protected $parse = array(
-		/*开启markdown模式*/
-		'#^<!--\s*markdown\s*-->(.*)$#ims' => array(array('', 1), 'markdown', array()),
+		/*
+		 * 开启markdown模式
+		 *
+		 * 默认情况下，PCRE 认为目标字符串是由单行字符组成的，所以不需要使用模式修饰符m。
+		 * 不过，由于XUBBP是一个文本拆分式解析器，所以即使不使用模式修饰符m也依然有Bug，
+		 * 以下内容可以在中途开启markdown：
+		 * [div=color:red]xxx[/div]<!-- markdown -->
+		 * <https://secure.php.net/manual/zh/reference.pcre.pattern.modifiers.php>
+		 */
+		'#^<!--\s*markdown\s*-->(.*)$#is' => array(array('', 1), 'markdown', array()),
 	
         /*
         * 一次性匹配标记
