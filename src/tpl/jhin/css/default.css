@@ -9,6 +9,10 @@ html,body,div{
   padding: 0;
 }
 
+p, div {
+    overflow: hidden;
+}
+
 /*加载谷歌字体*/
 @font-face {
     font-family: 'Material Icons';
