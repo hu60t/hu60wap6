@@ -131,7 +131,7 @@ class UbbParser extends XUBBP
 			/*mdcode markdown代码高亮*/
 			'!^(^|.*[\r\n]+)`{3,}(\w+)?([\r\n]+.*?[\r\n]+)`{3,}([\r\n]+.*|$)$!is' => array(array(1, 4), 'mdcode', array(2, 3)),
 			/*inline代码*/
-			'!^(.*)(`{1,}.*?`{1,})(.*)$!is' => array(array(1, 3), 'mdpre', array(2)),
+			'!^(.*?)(`+[^`]*`+)(.*)$!is' => array(array(1, 3), 'mdpre', array(2)),
 		];
 		
 		$this->parse = $parseHead + $this->parse;
