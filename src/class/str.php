@@ -195,7 +195,7 @@ class str
 	
 	//将html标记转码
 	public static function htmlTagToEntity($text) {
-		return preg_replace('#<(/?script[^>]*)>#is', '&lt;\\1&gt;', $text);
+		return preg_replace('#<(/?\w+(?:\s[^>]*)?)>#is', '&lt;\\1&gt;', $text);
 	}
 //class str end
 }
