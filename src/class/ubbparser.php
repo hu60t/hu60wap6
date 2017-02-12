@@ -16,6 +16,7 @@ class UbbParser extends XUBBP
 		 * <https://secure.php.net/manual/zh/reference.pcre.pattern.modifiers.php>
 		 */
 		'#^<!--\s*markdown\s*-->(.*)$#is' => array(array('', 1), 'markdown', array()),
+		'#^<!md>(.*)$#is' => array(array('', 1), 'markdown', array()),
 	
         /*
         * 一次性匹配标记
@@ -92,6 +93,8 @@ class UbbParser extends XUBBP
         * 这里的标记最后匹配，为了防止误匹配。
         * 可能会影响其他标记正常匹配的标记放在这里。
         */
+		/*百度输入法多媒体输入*/
+		'#^(.*)(https?://ci\.baidu\.com/[a-zA-Z0-9]+)(.*)$#is' => array(array(1, 3), 'urltxt', array(2)),
         /*urltxt 文本链接*/
         '!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is' => array(array(1, 3), 'urltxt', array(2)),
         #'#^(.*?)((?<!@)[a-zA-Z0-9._-]{1,255}\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$#is' => array(array(1,3), 'urltxt', array(2)),
@@ -103,23 +106,35 @@ class UbbParser extends XUBBP
         '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
         '!^(.*)《(?:表情)?(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
     );
+	
+	public function parse($text, $serialize = false) {
+		//把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
+        $text = str::nbsp2space($text);
+		
+		return parent::parse($text, $serialize);
+	}
 
     public function markdown($data){
 		$this->markdownEnable = true;
 		
-		// 删除markdown不友好的匹配规则
+		// 保护markdown内容不受XUBBP解析器干扰
 		
 		/*urltxt 文本链接*/
-		unset($this->parse['!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is']);
+		$this->parse['!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is'] = array(array(1, 3), 'mdpre', array(2));
+		
 		/*mailtxt 文本电子邮件地址*/
-		unset($this->parse['!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is']);
+		$this->parse['!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is'] = array(array(1, 3), 'mdpre', array(2));
 		
 		// 添加新的匹配规则
 		
-		/*百度输入法多媒体输入*/
-		$this->parse['#^(.*)(https?://ci\.baidu\.com/[a-zA-Z0-9]+)(.*)$#is'] = array(array(1, 3), 'urltxt', array(2));
-		/*mdcode markdown代码高亮*/
-        $this->parse['!^(^|.*[\r\n]+)`{3,}(\w+)?([\r\n]+.*?[\r\n]+)`{3,}([\r\n]+.*|$)$!is'] = array(array(1, 4), 'mdcode', array(2, 3));
+		$parseHead = [
+			/*mdcode markdown代码高亮*/
+			'!^(^|.*[\r\n]+)`{3,}(\w+)?([\r\n]+.*?[\r\n]+)`{3,}([\r\n]+.*|$)$!is' => array(array(1, 4), 'mdcode', array(2, 3)),
+			/*inline代码*/
+			'!^(.*)(`{1,}.*?`{1,})(.*)$!is' => array(array(1, 3), 'mdpre', array(2)),
+		];
+		
+		$this->parse = $parseHead + $this->parse;
 		
 		return array(array(
           'type' => 'markdown',
@@ -132,9 +147,6 @@ class UbbParser extends XUBBP
      */
     public function mdcode($lang, $data)
     {
-        //把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
-        $data = str::nbsp2space($data);
-		
 		$lang = strtolower(trim($lang));
 		
 		$result = [
@@ -151,14 +163,23 @@ class UbbParser extends XUBBP
         return [ $result ];
     }
 	
+	/**
+     * @brief markdown受保护内容（不被XUBBP解析器干扰）
+     */
+    public function mdpre($data)
+    {
+        return [[
+            'type' => 'mdpre',
+            'data' => $data,
+            'len' => $this->len($data)
+        ]];
+    }
+	
     /**
      * @brief 代码高亮
      */
     public function code($lang, $data)
     {
-        //把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
-        $data = str::nbsp2space($data);
-
         $lang = strtolower(trim($lang));
         if ($lang == '') $lang = 'php';
 

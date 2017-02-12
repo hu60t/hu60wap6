@@ -6,6 +6,8 @@ class ubbEdit extends XUBBP
     protected $display = array(
 		/*开启markdown*/
         'markdown' => 'markdown',
+		/*markdown受保护内容（不被XUBBP解析器干扰）*/
+		'mdpre' => 'mdpre',
         /*text 纯文本*/
         'text' => 'text',
         /*newline 换行*/
@@ -66,9 +68,16 @@ class ubbEdit extends XUBBP
         return self::html($data['value']);
     }
 
+	/*开启markdown模式*/
     public function markdown($text){
       return '<!-- markdown -->'.$text['data'];
     }
+	
+	/*markdown受保护内容（不被XUBBP解析器干扰）*/
+	public function mdpre($data){
+		return $data['data'];
+    }
+	
     /*代码高亮*/
     public function code($data)
     {

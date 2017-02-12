@@ -11,6 +11,8 @@ class UbbDisplay extends XUBBP
     protected $display = array(
 		/*开启markdown模式*/
         'markdown'=>'markdown',
+		/*markdown受保护内容（不被XUBBP解析器干扰）*/
+		'mdpre' => 'mdpre',
         /*text 纯文本*/
         'text' => 'text',
         /*newline 换行*/
@@ -88,6 +90,11 @@ class UbbDisplay extends XUBBP
     public function markdown($data){
 		$this->markdownEnable = true;
 		return '';
+    }
+	
+	/*markdown受保护内容（不被XUBBP解析器干扰）*/
+	public function mdpre($data){
+		return $data['data'];
     }
 	
     /*text 纯文本*/
