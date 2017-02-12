@@ -59,7 +59,7 @@
 			<li>
 				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
 					<span class="comments-number">#{$v.floor}</span>
-					{$ubb->display($v.content,true)}
+					<div class="reply-content">{$ubb->display($v.content,true)}</div>
 				</div>
 				<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
 				<p class="comments-meta">

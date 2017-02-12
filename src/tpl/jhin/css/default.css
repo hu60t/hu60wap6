@@ -9,7 +9,7 @@ html,body,div{
   padding: 0;
 }
 
-p, div {
+.chat-content, .topic-content, .reply-content {
     overflow: hidden;
 }
 

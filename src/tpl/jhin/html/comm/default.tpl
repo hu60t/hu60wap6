@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1">
   <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
   {if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")}{/if}
-  <link rel="stylesheet" type="text/css" href="{$css|code}?r=5"/>
+  <link rel="stylesheet" type="text/css" href="{$css|code}?r=6"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css')}?r=4"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')}"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
