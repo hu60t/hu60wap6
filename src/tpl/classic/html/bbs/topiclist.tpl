@@ -23,7 +23,7 @@
 		{$fName}
 	{/if}
 
-	(<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>)
+	(<a href="{$CID}.newtopic.{(int)$forum.id}.{$BID}">发帖</a>)
 
 	{if $forumInfo}
 			&gt;
