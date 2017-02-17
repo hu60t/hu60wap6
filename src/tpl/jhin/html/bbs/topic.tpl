@@ -41,13 +41,7 @@
 			{$ubb->display($v.content,true)}
 		</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
-		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
-			<div class="topic-panel">[
-				{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}|续|
-				{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|
-				{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|
-				{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}|设]</div>
-		{/if}
+		{include file="tpl:bbs.topic_manager"}
 	{else}
 		<p>{$tMeta.title|code}</p>
 	{/if}

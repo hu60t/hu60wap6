@@ -103,14 +103,14 @@
     </td>
   </tr>
   <tr>
+    {if $mmbt}
     <td>
       管理员
     </td>
     <td>
-      {if $mmbt}
       进入：<a href='admin.index.{$bid}' class="cr_login_submit">管理后台</a>
-      {/if}
     </td>
+    {/if}
   </tr>
 </table>
 {/block}

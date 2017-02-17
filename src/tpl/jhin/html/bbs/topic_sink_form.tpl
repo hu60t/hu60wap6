@@ -1,12 +1,12 @@
 {extends file='tpl:comm.default'}
 {if $fid == 0}
-{$fName=#BBS_INDEX_NAME#}
+  {$fName=#BBS_INDEX_NAME#}
 {else}
-{$fIndex.0.name=#BBS_INDEX_NAME#}
+  {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{$title="下沉楼层 - {$tMeta.title} - {#BBS_NAME#}"}
+
 {block name='title'}
-{$title}
+  下沉楼层 - {$tMeta.title} - {#BBS_NAME#}
 {/block}
 {block name='body'}
 <!--导航栏-->
