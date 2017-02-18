@@ -207,6 +207,8 @@ spl_autoload_register('autoload_file');
 
 /*更正$_SERVER[PHP_SELF]*/
 require_once SUB_DIR . '/correct_php_self.php';
+/*让 PHP<5.5 支持 array_column 函数*/
+require_once FUNC_DIR . '/array_column.php';
 
 
 /*载入其他配置文件*/
