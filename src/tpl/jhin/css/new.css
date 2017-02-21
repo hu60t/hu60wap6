@@ -137,7 +137,7 @@ h1 {
   }
   .profile{
     position: static;
-    min-height: auto;
+    min-height: 0;
     height: 50px;
     border: none;
     display: inline-block;
@@ -245,7 +245,21 @@ h1 {
   color: gray;
 }
 .topic-panel{
-  border-top: 2px solid #BED8EA;
+  background-color: #EEE;
+  margin-bottom: -10px;
+}
+.topic-panel>a,.topic-panel>div{
+  display: inline-block;
+  padding: 5px 8px;
+  font-size: 1rem;
+  color: #2e4e7e;
+}
+.topic-panel a>i{
+  font-size: 1rem;
+}
+.topic-panel>a:hover{
+  color: #FFF;
+  background-color: #9d2933;
 }
 .markdown-body {
     box-sizing: border-box;

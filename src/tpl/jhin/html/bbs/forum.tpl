@@ -22,7 +22,7 @@
 <!--搜索框-->
 <div class="widget-search">
 	<form method="get" action="{$CID}.search.{$BID}">
-		<input name="keywords" placeholder="搜索词" />
+		<input name="keywords" placeholder="搜索词" /><br />
 		<input name="username" placeholder="用户名" />
 		<input type="submit" value="搜索" />
 	</form>
@@ -40,7 +40,6 @@
 	    </li>
 	  {/foreach}
 	</ul>
-	{if !$smarty.foreach.forum.last}<hr>{/if}
 {/foreach}
 </div>
 

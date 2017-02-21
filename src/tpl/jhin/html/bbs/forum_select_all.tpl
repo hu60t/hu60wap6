@@ -1,6 +1,10 @@
-{config_load file="conf:site.info"}
-{$title="发帖 - {#BBS_NAME#}"}
-{include file="tpl:comm.head" title=$title}
+{extends file='tpl:comm.default'}
+
+{block name='title'}
+  发帖 - {#BBS_NAME#}
+{/block}
+
+{block name='body'}
 
 <!--导航栏-->
 <div class="tp">
@@ -11,14 +15,14 @@
 
 <div id="newtopic_forum_list">
 	{$forumStack = [ $forums ]}
-	
+
 	<ol>
 	{while !empty($forumStack)}
 		{$forumList = array_shift($forumStack)}
-		
+
 		{while !empty($forumList)}
 			{$forum = array_shift($forumList)}
-			
+
 			<li>
 				{if $forum.notopic}
 					{$forum.name}
@@ -28,18 +32,18 @@
 					</a>
 				{/if}
 			</li>
-			
+
 			{if !empty($forum.child)}
 				{$tmp = array_unshift($forumStack, $forumList)}
 				{$forumList = $forum.child}
-				
+
 				<ol>
 			{/if}
 		{/while}
-		
+
 		</ol>
 	{/while}
-	
+
 </div>
 
-{include file="tpl:comm.foot"}
+{/block}
