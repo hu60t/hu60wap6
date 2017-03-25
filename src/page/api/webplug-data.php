@@ -32,7 +32,14 @@ try {
 				
 				$value = substr($value, 0, 1024);
 				
-				$USER->setinfo("webplugData.$key", $value);
+				if (strlen($value) > 0) {
+					$USER->setinfo("webplugData.$key", $value);
+				}
+				else {
+					$data = $USER->getinfo('webplugData');
+					unset($data[$key]);
+					$USER->setinfo("webplugData", $data);
+				}
 				
 				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin]);
 			}
