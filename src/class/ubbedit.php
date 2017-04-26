@@ -53,11 +53,6 @@ class ubbEdit extends XUBBP
         'delContent' => 'adminDelContent',
     );
 
-    public static function getInstance()
-    {
-        return new ubbEdit();
-    }
-
     protected static function html($str) {
         return code::html($str, false, true);
     }

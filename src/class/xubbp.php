@@ -179,6 +179,14 @@ class XUBBP
     protected $tmp_parse_param = null;
 
 
+    /**
+     * 获取一个新的XUBB（或其子类）的实例
+     */
+    public static function getInstance()
+    {
+        return new static();
+    }
+
     /*len  计算utf-8字符串长度*/
     protected function len($str)
     {
