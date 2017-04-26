@@ -119,7 +119,7 @@ class UbbParser extends XUBBP
 		return $result;
 	}
 
-    public function markdown($data){
+    public function markdown(){
 		$this->markdownEnable = true;
 		
 		// 保护markdown内容不受XUBBP解析器干扰
@@ -418,14 +418,13 @@ class UbbParser extends XUBBP
     /**
      * @brief 样式结束
      */
-    function styleEnd($tag, $opt)
+    function styleEnd($tag)
     {
         /*结束标记的tag以斜杠(/)开始*/
         return array(array(
             'type' => 'style',
             'tag' => '/' . $tag,
-            'opt' => $opt,
-            'len' => $this->len($tag . $opt)
+            'len' => $this->len($tag)
         ));
     }
 
