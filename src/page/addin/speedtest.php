@@ -1,10 +1,10 @@
 <?php
 $testSites = [
-    'main' => ['name'=>'半ssl', 'urlPrefix'=>'https://hu60.cn'],
-    'mainssl' => ['name'=>'全ssl', 'urlPrefix'=>'https://ssl.hu60.cn'],
+    //'main' => ['name'=>'半ssl', 'urlPrefix'=>'https://hu60.cn'],
+    'mainssl' => ['name'=>'ssl', 'urlPrefix'=>'https://ssl.hu60.cn'],
     'baidu' => ['name'=>'百度', 'urlPrefix'=>'http://baidu.cdn.hu60.cn'],
     'yundun' => ['name'=>'云盾', 'urlPrefix'=>'http://yd.cdn.hu60.cn'],
-    'cmcc' => ['name'=>'腾讯云', 'urlPrefix'=>'https://cmcc.cdn.hu60.cn'],
+    'cmcc' => ['name'=>'腾讯云', 'urlPrefix'=>'https://hu60.cn'],
 ];
 
 switch ($_GET['action']) {

@@ -20,3 +20,6 @@
 .htaccess
 /src/db/qqwry.dat
 /src/tpl/*/img/face/
+
+/src/baidu_verify_*.html
+/src/google*.html

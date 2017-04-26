@@ -1,0 +1,1 @@
+/vhost/hu60.cn/src/tpl/classic/html/comm/endpoints.tpl
