@@ -33,3 +33,15 @@ hu60wap6 的主要功能有：论坛、聊天室、内信、@Ta、文件图片�
 PHP 5.4 或以上。
 
 PHP 7 或以上。
+
+
+不支持的PHP版本
+-----------------
+
+PHP 5.2，PHP 5.3。
+
+如果你使用的PHP版本小于5.4，你将会遇到如下错误：
+
+```
+Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
+```
