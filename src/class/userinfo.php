@@ -13,8 +13,11 @@ class userinfo implements ArrayAccess
     /*** 禁止使用div和span标签 */
     const PERMISSION_UBB_DISABLE_STYLE = 2;
 	
-	/*** 用户被禁言 */
+    /*** 用户被禁言 */
     const PERMISSION_BLOCK_POST = 4;
+
+    /*** 用户被禁止@他人 */
+    const PERMISSION_BLOCK_ATINFO = 8;
 
     //权限列表结束
 
