@@ -8,7 +8,7 @@ try {
     if (!$_POST['go']) {
         $tpl->display('tpl:login_form');
     } else {
-        $user = new User();
+        $user = $USER = new User();
 
         $type = $_POST['type'];
         switch ($type) {
