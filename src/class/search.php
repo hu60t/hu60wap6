@@ -132,7 +132,7 @@ class search
                 throw new Exception('用户名不存在');
             }
 
-            $sql = 'SELECT id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? ORDER BY mtime DESC LIMIT ?,?';
+            $sql = 'SELECT id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? ORDER BY level desc, mtime DESC LIMIT ?,?';
             $rs = db::conn()->prepare($sql);
 
             if (!$rs || !$rs->execute([$uid, $offset, $limit])) {
