@@ -1,10 +1,6 @@
 <div class="layout-head-inner">
-  <div class="logo">
-  	<img src="{$PAGE->getTplUrl("img/hulvlin2.gif")}">
-  	<span>分享阳光，树木变成森林！</span>
-  </div>
   {if !$base}
-  	{if is_object($user)}
+  	{if false && is_object($user)}
   		<div class="profile" id="profile">
   		{if $user->uid}
   			{if $user->islogin}
@@ -13,24 +9,6 @@
             <img src="{$PAGE->getTplUrl("img/48_avatar_middle.jpg.gif")}" class="userAvatar"/>
             <span class='userName' id="userName">{$user->name|code}</span>
           </div>
-          <ul class="userPanel" id="userPanel">
-            <li>
-              <a href="addin.webplug.{$BID}"><i class="material-icons">palette</i>个性化</a>
-            </li>
-            <li>
-              <a href="bbs.search.{$BID}?username={$USER->name|urlencode}"><i class="material-icons">bookmark</i>帖子</a>
-            </li>
-            <li>
-              <a href="msg.index.html"><i class="material-icons">local_post_office</i>信息</a>
-            </li>
-            <li><a href="msg.index.@.{$bid}"><i class="material-icons">@</i>消息</a></li>
-            <li>
-              <a href="user.exit.{$bid}?u={urlencode($page->geturl())}"><i class="material-icons">exit_to_app</i>退出</a>
-            </li>
-            <li>
-              <a href="user.index.{$bid}"><i class="material-icons">account_circle</i>资料</a>
-            </li>
-          </ul>
           <div id="profileClose" class="profileClose">
             <i class="material-icons">close</i>
           </div>

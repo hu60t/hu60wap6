@@ -1,0 +1,651 @@
+@color_1: #333;
+@color_2: #666;
+@color_3: #FFF;
+@color_4: #ffa400;
+@color_5: gray;
+@color_6: #2e4e7e;
+@color_7: #337ab7;
+@color_8: #777;
+@color_9: #fff;
+@color_10: #999;
+@color_11: #065279;
+@color_12: #88A;
+@background_color_1: #FFF;
+@background_color_2: #E6F3FF;
+@background_color_3: #f5f5f5;
+@background_color_4: transparent;
+@background_color_5: #EEE;
+@background_color_6: #9d2933;
+@background_color_7: #fff;
+@background_color_8: #337ab7;
+@border_color_1: #337ab7;
+
+/*主题页面布局*/
+/*页面共用组件*/
+/*全局通用组件,这一部分组件以 widget- 开头*/
+/*页面头部*/
+/*用户面板*/
+/*移动端，弹出用户面板*/
+/*用户面板结束*/
+/*收信箱界面*/
+/*论坛主题部分*/
+/* 搜索页面 */
+/*帖子列表*/
+/*帖子页面部分*/
+/*分页组件开始*/
+/*分页组件结束*/
+/*评论框部分*/
+/* 登录框组件*/
+/*发帖组件开始*/
+/*发帖组件结束*/
+/*聊天室页面*/
+h1 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 150%;
+    margin: 0px 0px 10px 0px;
+    padding: 0px;
+}
+//通用组件
+.case{
+    width: 100%;
+    max-width: 1170px;
+    margin: 0 auto;
+}
+//头部组件
+.layout-header{
+    //position: fixed;
+    width: 100%;
+    background: #53B1A8;
+    color: #FFF;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    .header-inner{
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+        .header-nav{
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+            >li{
+                margin-right: 20px;
+                a{
+                    color: #FFF;
+                }
+            }
+            .userAvatar {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+.forum-list{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    >li{
+        > a{
+            color: #999;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        display: flex;
+    }
+    .forum-list-child{
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style-type: none;
+        >li{
+            margin-left: 10px;
+            a{
+                display: block;
+                padding: 5px;
+                font-size: 16px;
+            }
+        }
+    }
+}
+.layout-footer{
+    height: 150px;
+    display: flex;
+    align-items: center;
+    background: white;
+    .case{
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+    }
+
+    a{
+        color: #666;
+    }
+    .footer-link{
+        width: 400px;
+        list-style-type: none;
+        display: flex;
+        flex-wrap: wrap;
+        >li{
+            margin-left: 10px;
+            font-size: 12px;
+        }
+    }
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    left: 130px;
+    box-shadow: 0 0 15px #ccc;
+    border-radius: 15px;
+    background-color: @background_color_1;
+    min-height: 95vh;
+    word-wrap: break-word;
+}
+
+
+.layout-foot-inner {
+    margin-top: 25px;
+    padding: 25px 0;
+    background-color: @background_color_2;
+    p {
+        text-align: center;
+    }
+}
+
+.bar {
+    margin: 10px 0;
+    color: @color_1;
+    background-color: @background_color_2;
+    font-size: 1.1rem;
+    font-weight: 400;
+    padding: 5px 18px;
+}
+
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: @background_color_3;
+    border-radius: 4px;
+}
+
+.widget-page {
+    margin: 5px 0;
+    > a {
+        display: inline-block;
+        padding: 5px 15px;
+    }
+}
+.profile {
+    padding: 5px;
+    position: absolute;
+    width: 240px;
+    min-height: 250px;
+    left: -260px;
+    top: 0px;
+
+    .userHeader {
+        height: 48px;
+    }
+    .userPanel {
+        list-style-type: none;
+        padding: 0;
+        padding-left: 10px;
+        font-size: 0.8rem;
+        > li {
+            margin: 5px;
+            padding: 0;
+            > a {
+                color: @color_2;
+                display: block;
+                padding: 5px 25px 5px 25px;
+                border-radius: 5px;
+                &:hover {
+                    background: #666;
+                    color: @color_3;
+                }
+            }
+        }
+    }
+
+
+    .profileClose {
+        font-size: 40px;
+        display: none;
+        position: absolute;
+        bottom: 25px;
+        right: 50%;
+        margin-left: 40px;
+        border-radius: 50%;
+        color: @color_4;
+    }
+
+    .profileFilm {
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 80vw;
+        top: 0;
+        bottom: 0;
+    }
+    .userAvatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        border: 3px solid #FFF;
+        vertical-align: middle;
+    }
+
+    .userName {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+}
+
+
+
+
+
+.msg-box {
+    padding-left: 15px;
+    border-bottom: 2px solid #BED8EA;
+}
+
+.forum-name {
+    font-size: 1.2rem;
+    padding: 5px 15px;
+    background-color: @background_color_2;
+}
+
+.search-list {
+    ul {
+        list-style-type: none;
+    }
+}
+
+.topic-ul {
+    list-style-type: none;
+    padding: 0;
+    > li {
+        padding: 5px 10px 2px 10px;
+        border-bottom: 2px solid #EEE;
+    }
+}
+
+.topic {
+    > h1 {
+        margin-left: 15px;
+    }
+}
+
+.topic-author {
+    font-size: 1.1rem;
+}
+
+.topic-content {
+    border-top: 2px solid #BED8EA;
+    padding: 8px;
+    background-color: @background_color_1;
+    overflow: hidden;
+    img {
+        max-width: 100%;
+    }
+}
+
+.topic-meta {
+    font-size: 0.8rem;
+    margin-left: 25px;
+    margin-top: 5px;
+    color: @color_5;
+}
+
+.comments-meta {
+    font-size: 0.8rem;
+    margin-left: 25px;
+    margin-top: 5px;
+    color: @color_5;
+    margin-top: 3px;
+}
+
+.topic-panel {
+    background-color: @background_color_5;
+    margin-bottom: -10px;
+    > a {
+        display: inline-block;
+        padding: 5px 8px;
+        font-size: 1rem;
+        color: @color_6;
+        &:hover {
+            color: @color_3;
+            background-color: @background_color_6;
+        }
+    }
+    > div {
+        display: inline-block;
+        padding: 5px 8px;
+        font-size: 1rem;
+        color: @color_6;
+    }
+    a {
+        > i {
+            font-size: 1rem;
+        }
+    }
+}
+
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.pagination {
+    overflow: hidden;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-content: center;
+    padding-left: 2px;
+    margin: 20px 0 20px 20px;
+    > li {
+        display: inline-block;
+        &:first-child {
+            > a {
+                border-radius: 5px 0 0 5px;
+            }
+        }
+        &:last-child {
+            > a {
+                border-radius: 0 5px 5px 0;
+            }
+        }
+        > a {
+            position: relative;
+            margin-left: -1px;
+            display: block;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            color: @color_7;
+        }
+    }
+    > .disabled {
+        > a {
+            color: @color_8;
+            cursor: not-allowed;
+            background-color: @background_color_7;
+            &:focus {
+                color: @color_8;
+                cursor: not-allowed;
+                background-color: @background_color_7;
+            }
+            &:hover {
+                color: @color_8;
+                cursor: not-allowed;
+                background-color: @background_color_7;
+            }
+        }
+    }
+    > .active {
+        > a {
+            color: @color_9;
+            cursor: default;
+            background-color: @background_color_8;
+            border-color: @border_color_1;
+            &:focus {
+                color: @color_9;
+                cursor: default;
+                background-color: @background_color_8;
+                border-color: @border_color_1;
+            }
+            &:hover {
+                color: @color_9;
+                cursor: default;
+                background-color: @background_color_8;
+                border-color: @border_color_1;
+            }
+        }
+    }
+}
+
+.comments-ul {
+    list-style-type: none;
+    padding: 0;
+    > li {
+        position: relative;
+        padding: 5px 8px 2px 8px;
+        border-bottom: 2px solid #EEE;
+    }
+}
+
+.floor-content {
+    margin-left: 50px;
+    transition: height 0.5s;
+    transition-timing-function: ease;
+    overflow: hidden;
+}
+
+.floor_fold_bar {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.comments-number {
+    display: block;
+    height: 35px;
+    width: 45px;
+    line-height: 25px;
+    border-radius: 0 10px 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    color: @color_10;
+    background-color: @background_color_5;
+}
+
+.comments-author {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: @color_11;
+}
+
+.chat-new {
+    text-align: center;
+}
+
+.login-form {
+    max-width: 450px;
+    margin: 20px auto;
+    border-radius: 5px;
+    padding: 15px 25px;
+    box-shadow: 0 0 5px #AAA;
+}
+
+.input-group {
+    padding: 8px;
+    position: relative;
+    input[type="text"] {
+        width: 100%;
+        padding: 8px 20px 8px 60px;
+        border: 1px solid #d2d8d8;
+    }
+    input[type="password"] {
+        width: 100%;
+        padding: 8px 20px 8px 60px;
+        border: 1px solid #d2d8d8;
+    }
+    input[type="mail"] {
+        width: 100%;
+        padding: 8px 20px 8px 60px;
+        border: 1px solid #d2d8d8;
+    }
+}
+
+.login-form-submit {
+    display: inline-block;
+    width: 60%;
+    height: 2rem;
+    margin: 0 auto;
+}
+
+.login-label {
+    display: inline-block;
+    color: @color_10;
+    position: absolute;
+    left: 15px;
+    top: 14px;
+}
+
+.widget-form {
+    margin: 15px 0;
+    padding: 8px;
+    border-top: 2px solid #AAA;
+    border-bottom: 2px solid #AAA;
+}
+
+.topic-form-label {
+    display: block;
+    background-color: @background_color_3;
+    font-size: 1.2rem;
+}
+
+.topic-form-title {
+    display: block;
+    font-size: 1.2rem;
+    border: 2px solid #EEE;
+    border-radius: 0;
+    width: 80%;
+    margin: 5px;
+    padding: 5px;
+}
+
+.topic-form-content {
+    display: block;
+    border: 2px solid #EEE;
+    min-height: 160px;
+    border-radius: 0;
+    width: 80%;
+    margin: 5px;
+    padding: 5px;
+}
+
+.chat-form-content {
+    width: 80%;
+    height: 100px;
+}
+
+.chat-list {
+    padding: 0;
+    list-style-type: none;
+    > li {
+        margin: 0;
+        padding: 20px 15px 10px 15px;
+        border-bottom: 1px solid #EEE;
+        position: relative;
+    }
+}
+
+.chat-content {
+    border-radius: 10px;
+    margin-left: 20px;
+    padding: 10px;
+}
+
+.chat-number {
+    height: 25px;
+    padding: 0 12px;
+    text-align: center;
+    font-weight: 700;
+    position: absolute;
+    background-color: @background_color_5;
+    color: @color_10;
+    left: 0;
+    top: 8px;
+    border-radius: 0 5px 5px 0;
+}
+
+.chat-meta-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.chat-meta {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: @color_10;
+    margin-left: 25px;
+    a {
+        color: @color_12;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .container {
+        position: static;
+        left: auto;
+    }
+
+    .profile {
+        position: static;
+        min-height: 0;
+        height: 50px;
+        border: none;
+        display: inline-block;
+        float: right;
+        width: auto;
+        left: auto;
+        right: auto;
+        top: auto;
+        padding: 0 15px 0 0;
+        border-radius: 0;
+        box-shadow: none;
+        > a {
+            line-height: 50px;
+        }
+    }
+
+    .userPanel {
+        display: none;
+    }
+
+    .userName {
+        font-size: 1.1rem;
+    }
+
+    .userHead {
+        width: 30px;
+        height: 30px;
+    }
+
+    .profileMobile {
+        display: block;
+        position: fixed;
+        height: 100vh;
+        width: 80vw;
+        right: 0;
+        background-color: @background_color_1;
+        .profileFilm {
+            display: block;
+        }
+        .profileClose {
+            display: block;
+        }
+        .userPanel {
+            display: block;
+            > li {
+                display: block;
+                border-bottom: 1px solid #EEE;
+            }
+            a {
+                background-color: @background_color_4;
+                display: block;
+            }
+        }
+    }
+}

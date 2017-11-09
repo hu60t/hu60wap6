@@ -5,9 +5,6 @@
 {block name='body'}
 
 <div class="widget">
-	<div class="bar">
-		最新帖子-<a href="bbs.forum.0.html">论坛</a>
-	</div>
 	<ul class="topic-ul">
 		{foreach $newTopicList as $topic}
 			<li>
@@ -32,8 +29,22 @@
 	<a href="tools.ua.html">查看浏览器UA</a>
 	<a href="tools.coder.html">编码解码器</a>
 </div>
-<div id="friend_links">
-	<div class="bar">友情链接</div>
-	{include file="tpl:comm.friend_links"}
-</div>
+    <div class="widget">
+        {jhinfunc::randTopic($user)}
+        <ul class="forum-list">
+            {foreach jhinfunc::forum() as $forum}
+                <li>
+                    <a href="bbs.forum.{$forum.id}.{$BID}" >{$forum.name|code}</a>
+                    {if $forum.child}
+                        <ul class="forum-list-child">
+                            {foreach $forum.child as $child}
+                                <li><a href="bbs.forum.{$child.id}.{$BID}" >{$child.name|code}</a></li>
+                            {/foreach}
+                        </ul>
+                    {/if}
+                </li>
+            {/foreach}
+        </ul>
+
+    </div>
 {/block}
