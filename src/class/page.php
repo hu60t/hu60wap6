@@ -125,7 +125,7 @@ class page implements ArrayAccess
         return $prefix;
     }
 
-    /*取得文件的访问路径*/
+    /*取得文件或目录的访问路径（目录的总是包含结尾的/）*/
     public function getFileUrl($path)
     {
         $realPath = realpath($path);
@@ -144,12 +144,12 @@ class page implements ArrayAccess
             throw new PageException("文件 '$path' 位于Web根目录外！");
         }
 
-        if ($realPath === $webRoot) {
-            return '/';
-        }
-
         $url = substr($realPath, strlen($webRoot));
         $url = strtr($url, '\\', '/');
+
+        if (is_dir($realPath)) {
+            $url .= '/';
+        }
 
         return $url;
     }
