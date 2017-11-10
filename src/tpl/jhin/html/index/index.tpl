@@ -6,16 +6,28 @@
 
 <div class="widget">
 	<ul class="topic-ul">
-		{foreach $newTopicList as $topic}
+		{foreach jhinfunc::IndexTopic() as $topic}
 			<li>
-				<a href="bbs.topic.{$topic.topic_id}.{$BID}" class="topic-title">{$topic.title|code}</a>
-				<div class="topic-meta">
-					(
-					<span class="topic-author"><a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a></span>/
-					{$topic.read_count}点击/
-					{str::ago($topic.mtime)}
-					)
-				</div>
+                <div>
+                    <div class="topic-anchor">
+                        <a href="user.info.{$topic.uinfo.uid}.{$BID}">
+                            <img src="{$topic.uinfo->getinfo('avatar.url')}" class="avatar">
+                        </a>
+                        <a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a>
+                    </div>
+                    <div class="topic-title">
+                        <a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
+                        <div class="topic-meta">
+                            ({$topic.read_count}点击/{str::ago($topic.mtime)})
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="topic-reply-count">
+                        <span><a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.reply_count}</a>&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+                        <a href="bbs.forum.{$topic.forum_id}.{$BID}" class="topic-title">{$topic.forum_name}</a>
+                    </div>
+                </div>
 			</li>
 		{/foreach}
 	</ul>
@@ -24,13 +36,8 @@
 		{if $topicPage > 1}<a style="display:inline" href="?p={$topicPage-1}">上一页</a>{/if}
 	</div>
 </div>
-<div class="widget">
-	<div class="bar">实用工具</div>
-	<a href="tools.ua.html">查看浏览器UA</a>
-	<a href="tools.coder.html">编码解码器</a>
-</div>
     <div class="widget">
-        {jhinfunc::randTopic($user)}
+        <div class="bar">版块</div>
         <ul class="forum-list">
             {foreach jhinfunc::forum() as $forum}
                 <li>
@@ -47,4 +54,10 @@
         </ul>
 
     </div>
+    <div class="widget">
+        <div class="bar">实用工具</div>
+        <a href="tools.ua.html">查看浏览器UA</a>
+        <a href="tools.coder.html">编码解码器</a>
+    </div>
+
 {/block}

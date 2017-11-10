@@ -44,7 +44,7 @@
                         <a href="user.index.{$bid}">资料</a>
                     </li>
                     <li>
-                        <a href="user.avatar.{$bid}"><img src="http://m1.local/tpl/jhin/img/48_avatar_middle.jpg.gif" class="userAvatar"></a>
+                        <a href="user.avatar.{$bid}" title="修改头像"><img src="{$USER->getinfo('avatar.url')}" class="userAvatar"></a>
 
                     </li>
                     {else}

@@ -52,6 +52,15 @@ h1 {
     max-width: 1170px;
     margin: 0 auto;
 }
+.avatar{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.pull-right{
+    float: right;
+}
 //头部组件
 .layout-header{
     //position: fixed;
@@ -90,9 +99,13 @@ h1 {
     flex-direction: column;
     >li{
         > a{
+            background: #eee;
             color: #999;
-            font-size: 18px;
-            font-weight: 700;
+            border-radius: 5px;
+            font-size: 12px;
+            padding: 5px;
+            margin: 3px;
+            font-weight: 600;
         }
         display: flex;
     }
@@ -104,9 +117,13 @@ h1 {
         >li{
             margin-left: 10px;
             a{
+                font-size: 12px;
                 display: block;
                 padding: 5px;
-                font-size: 16px;
+                margin: 3px;
+                border-radius: 5px;
+                background: #eee;
+                color: #999;
             }
         }
     }
@@ -116,6 +133,7 @@ h1 {
     display: flex;
     align-items: center;
     background: white;
+    margin-top: 45px;
     .case{
         display: flex;
         justify-content:space-between;
@@ -137,12 +155,9 @@ h1 {
     }
 }
 .container {
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-    left: 130px;
+    .case;
     box-shadow: 0 0 15px #ccc;
-    border-radius: 15px;
+    border-radius: 3px;
     background-color: @background_color_1;
     min-height: 95vh;
     word-wrap: break-word;
@@ -274,7 +289,42 @@ h1 {
     padding: 0;
     > li {
         padding: 5px 10px 2px 10px;
-        border-bottom: 2px solid #EEE;
+        border-bottom: 1px solid #EEE;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        >div:first-child{
+            display: flex;
+        }
+        .topic-reply-count{
+            display: flex;
+            >span{
+                font-weight: 300;
+                font-size: 30px;
+                color: gray;
+            }
+            a{
+                color: gray;
+            }
+        }
+        .topic-anchor{
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            >a{
+                color: gray;
+            }
+        }
+        .topic-title{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            >a{
+                font-size: 18px;
+                display: block;
+            }
+        }
     }
 }
 
@@ -284,9 +334,6 @@ h1 {
     }
 }
 
-.topic-author {
-    font-size: 1.1rem;
-}
 
 .topic-content {
     border-top: 2px solid #BED8EA;
@@ -307,10 +354,9 @@ h1 {
 
 .comments-meta {
     font-size: 0.8rem;
-    margin-left: 25px;
+    margin-left: 40px;
     margin-top: 5px;
     color: @color_5;
-    margin-top: 3px;
 }
 
 .topic-panel {
