@@ -144,6 +144,10 @@ class page implements ArrayAccess
             throw new PageException("文件 '$path' 位于Web根目录外！");
         }
 
+        if ($realPath === $webRoot) {
+            return '/';
+        }
+
         $url = substr($realPath, strlen($webRoot));
         $url = strtr($url, '\\', '/');
 
