@@ -19,6 +19,9 @@ class userinfo implements ArrayAccess
     /*** 用户被禁止@他人 */
     const PERMISSION_BLOCK_ATINFO = 8;
 
+    /*** 设置禁言的权限 */
+    const PERMISSION_SET_BLOCK_POST = 16;
+
     //权限列表结束
 
     protected static $data; //用户数据缓存
@@ -337,6 +340,32 @@ class userinfo implements ArrayAccess
 
         return (bool) ($permission & self::$data['permission'][$this->uid]);
     }
+
+	public function addPermission($permission) {
+		unset(self::$data['permission'][$this->uid]);
+
+		$db = self::conn(true);
+		$sql = 'UPDATE `'.DB_A.'user` SET `permission` = `permission` | ? WHERE uid = ?';
+		$rs = $db->prepare($sql);
+
+		if (!$rs || !$rs->execute([(int)$permission, $this->uid])) {
+			throw new UserException('数据库异常，无法设置权限信息！', 11500);
+		}
+	}
+
+	
+	public function removePermission($permission) {
+		unset(self::$data['permission'][$this->uid]);		
+
+		$db = self::conn(true);
+		$sql = 'UPDATE `'.DB_A.'user` SET `permission` = `permission` & ~ ? WHERE uid = ?';
+		$rs = $db->prepare($sql);
+
+		if (!$rs || !$rs->execute([(int)$permission, $this->uid])) {
+			throw new UserException('数据库异常，无法设置权限信息！', 11500);
+		}
+	}
+
 	
 	public function setUbbOpt($ubb) {
 		$ubb->setOpt('style.disable', $this->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE));

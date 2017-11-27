@@ -195,7 +195,7 @@ class UbbDisplay extends XUBBP
             $url = $prefix . '/more?mm=' . $imgId;
         }
 
-        return '<img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . code::html($data['alt']) . '"' : '') . '/>';
+        return '<a href="'.code::html($url).'"><img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . code::html($data['alt']) . '"' : '') . '/></a>';
     }
 
     /*thumb 缩略图*/
@@ -596,6 +596,8 @@ HTML;
 
         $actName = [
             bbs::ACTION_SINK_TOPIC => '下沉',
+            bbs::ACTION_ADD_BLOCK_POST => '已将您禁言',
+            bbs::ACTION_REMOVE_BLOCK_POST => '将您解除禁言',
         ];
 
         $act = $actName[$data['act']];
@@ -605,24 +607,34 @@ HTML;
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
 
-        if ($data['uid'] == $data['ownUid']) {
-            $own = "您";
-            $reason = "。";
-        } else {
-            $own = "管理员 <a href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
+	if (in_array($data['act'], [bbs::ACTION_ADD_BLOCK_POST, bbs::ACTION_REMOVE_BLOCK_POST])) {
+		return <<<HTML
+管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> {$act}，理由如下：
+<blockquote>
+{$reason}
+</blockquote>
+HTML;
+	}
+	else {
+	        if ($data['uid'] == $data['ownUid']) {
+        	    $own = "您";
+	            $reason = "。";
+	        } else {
+        	    $own = "管理员 <a href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
 
-            $reason = <<<HTML
+	            $reason = <<<HTML
 ，理由如下：
 <blockquote>
 {$reason}
 </blockquote>
 HTML;
 
-        }
+        	}
 
-        return <<<HTML
+	        return <<<HTML
 {$own}{$act}了您的 <a href="{$url}">{$pos}</a>{$reason}
 HTML;
+	}
     }
 
     /*管理员删除的内容*/

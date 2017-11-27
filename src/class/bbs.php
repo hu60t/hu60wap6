@@ -7,6 +7,10 @@ class bbs
 {
     /** 下沉帖子操作 */
     const ACTION_SINK_TOPIC = 1;
+    /** 禁言操作 */
+    const ACTION_ADD_BLOCK_POST = 2;
+    /** 解除禁言操作 */
+    const ACTION_REMOVE_BLOCK_POST = 3;
 
     /**
      * 用户对象
