@@ -100,3 +100,12 @@ img {
 	width: 270px;
 	max-width: 100%;
 }
+
+/* 针对电脑屏幕 */
+@media screen and (min-width: 800px) {
+    img {
+        max-width: 800px;
+        max-height: 600px;
+    }
+}
+
