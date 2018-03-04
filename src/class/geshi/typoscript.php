@@ -166,9 +166,9 @@ $language_data = array (
             9 => 'color: #990000; font-weight: bold;',
             ),
         'COMMENTS' => array(
-            1 => 'color: #aaa; font-style: italic;',
-            2 => 'color: #aaa; font-style: italic;',
-            'MULTI' => 'color: #aaa; font-style: italic;'
+            1 => 'color: #aaa;',
+            2 => 'color: #aaa;',
+            'MULTI' => 'color: #aaa;'
             ),
         'STRINGS' => array(
             0 => 'color: #ac14aa;'

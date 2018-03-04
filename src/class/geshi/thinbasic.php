@@ -820,7 +820,7 @@ $language_data = array (
     'STYLES' => array(
         'KEYWORDS' => array(
             1 => 'color: #0000FF; font-weight: bold;',
-            2 => 'color: #993333; font-style: italic; font-weight: bold;'
+            2 => 'color: #993333; font-weight: bold;'
             ),
         'COMMENTS' => array(
             1 => 'color: #008000;'

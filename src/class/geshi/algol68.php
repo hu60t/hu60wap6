@@ -129,7 +129,7 @@ if(!function_exists('geshi_langfile_algol68_vars')) {
             "BOLD" => 'color: #b1b100; font-weight: bold;',
             "ITALIC" => 'color: #b1b100;', # procedures traditionally italic #
             "NONSTD" => 'color: #FF0000; font-weight: bold;', # RED #
-            "COMMENT" => 'color: #666666; font-style: italic;'
+            "COMMENT" => 'color: #666666;'
         );
     }
 }

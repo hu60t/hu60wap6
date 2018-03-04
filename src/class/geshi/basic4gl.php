@@ -297,7 +297,7 @@ $language_data = array (
             3 => 'color: #0000FF;'
             ),
         'COMMENTS' => array(
-            1 => 'color: #657CC4; font-style: italic;'
+            1 => 'color: #657CC4;'
             ),
         'BRACKETS' => array(
             0 => 'color: #000080;'

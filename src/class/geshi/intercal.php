@@ -91,7 +91,7 @@ $language_data = array (
         'SCRIPT' => array(
             ),
         'REGEXPS' => array(
-            1 => 'color: #808080; font-style: italic;'
+            1 => 'color: #808080;'
             )
         ),
     'URLS' => array(

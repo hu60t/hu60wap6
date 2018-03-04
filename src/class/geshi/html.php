@@ -134,7 +134,7 @@ $language_data = array (
             ),
         'SCRIPT' => array(
             -2 => 'color: #404040;', // CDATA
-            -1 => 'color: #808080; font-style: italic;', // comments
+            -1 => 'color: #808080;', // comments
             0 => 'color: #00bbdd;',
             1 => 'color: #ddbb00;',
             2 => 'color: #009900;'

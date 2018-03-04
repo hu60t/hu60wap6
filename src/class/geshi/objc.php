@@ -306,9 +306,9 @@ $language_data = array (
             ),
         'COMMENTS' => array(
             1 => 'color: #6e371a;', // Preprocessor directives
-            2 => 'color: #11740a; font-style: italic;', // Normal C single-line comments
+            2 => 'color: #11740a;', // Normal C single-line comments
             3 => 'color: #bf1d1a;', // Q-sign in front of Strings
-            'MULTI' => 'color: #11740a; font-style: italic;'
+            'MULTI' => 'color: #11740a;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #2400d9;'

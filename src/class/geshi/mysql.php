@@ -362,9 +362,9 @@ $language_data = array (
             27 => 'color: #00CC00;',     // geometry functions
             ),
         'COMMENTS' => array(
-            'MULTI' => 'color: #808000; font-style: italic;',
-            1 => 'color: #808080; font-style: italic;',
-            2 => 'color: #808080; font-style: italic;'
+            'MULTI' => 'color: #808000;',
+            1 => 'color: #808080;',
+            2 => 'color: #808080;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #004000; font-weight: bold;',

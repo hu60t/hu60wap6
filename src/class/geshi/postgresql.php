@@ -221,7 +221,7 @@ $language_data = array (
             5 => 'color: #993333; font-weight: bold; text-transform: uppercase;',
             ),
         'COMMENTS' => array(
-            1 => 'color: #808080; font-style: italic;',
+            1 => 'color: #808080;',
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'

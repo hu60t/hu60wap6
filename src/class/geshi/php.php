@@ -1000,11 +1000,11 @@ $language_data = array(
             4 => 'color: #009900; font-weight: bold;'
             ),
         'COMMENTS' => array(
-            1 => 'color: #666666; font-style: italic;',
-            2 => 'color: #666666; font-style: italic;',
-            3 => 'color: #0000cc; font-style: italic;',
-            4 => 'color: #009933; font-style: italic;',
-            'MULTI' => 'color: #666666; font-style: italic;'
+            1 => 'color: #666666;',
+            2 => 'color: #666666;',
+            3 => 'color: #0000cc;',
+            4 => 'color: #009933;',
+            'MULTI' => 'color: #666666;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;',
@@ -1012,7 +1012,7 @@ $language_data = array(
             2 => 'color: #660099; font-weight: bold;',
             3 => 'color: #660099; font-weight: bold;',
             4 => 'color: #006699; font-weight: bold;',
-            5 => 'color: #006699; font-weight: bold; font-style: italic;',
+            5 => 'color: #006699; font-weight: bold;',
             6 => 'color: #009933; font-weight: bold;',
             'HARD' => 'color: #000099; font-weight: bold;'
             ),

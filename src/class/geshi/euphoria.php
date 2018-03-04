@@ -94,7 +94,7 @@ $language_data = array (
             2 => 'color: #cc33ff; font-weight: bold;', // builtins
             ),
         'COMMENTS' => array(
-            1 => 'color: #ff0000; font-style: italic;',
+            1 => 'color: #ff0000;',
             'MULTI' => '' // doesn't exist
             ),
         'ESCAPE_CHAR' => array(
@@ -107,7 +107,7 @@ $language_data = array (
             0 => 'color: #00cc00;'
             ),
         'NUMBERS' => array(
-            0 => 'color: #cc33cc; font-style: italic'
+            0 => 'color: #cc33cc; '
             ),
         'METHODS' => array( // Doesn't exist in Euphoria.  Everything is a function =)
             0 => ''

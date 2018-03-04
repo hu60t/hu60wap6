@@ -81,7 +81,7 @@ $language_data = array (
             0 => 'color: #66cc66;'
             ),
         'SCRIPT' => array(
-            -1 => 'color: #808080; font-style: italic;', // comments
+            -1 => 'color: #808080;', // comments
             0 => 'color: #00bbdd;',
             1 => 'color: #ddbb00;',
             2 => 'color: #339933;',

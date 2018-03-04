@@ -69,7 +69,7 @@ $language_data = array (
             1 => 'color: #06c; font-weight: bold;' /* nice blue */
             ),
         'COMMENTS' => array(
-            'MULTI' => 'color: #5d478b; font-style: italic;' /* light purple */
+            'MULTI' => 'color: #5d478b;' /* light purple */
             ),
         'ESCAPE_CHAR' => array(
             ),

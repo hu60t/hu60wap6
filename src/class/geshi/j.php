@@ -107,10 +107,10 @@ $language_data = array(
             //8 => 'color: #000000; font-weight: bold;',
             ),
         'COMMENTS' => array(
-            1 => 'color: #666666; font-style: italic;',
-            2 => 'color: #666666; font-style: italic; font-weight: bold;',
+            1 => 'color: #666666;',
+            2 => 'color: #666666; font-weight: bold;',
             3 => 'color: #ff00ff; ',                      //open quote
-            'MULTI' => 'color: #666666; font-style: italic;'
+            'MULTI' => 'color: #666666;'
             ),
         'ESCAPE_CHAR' => array(
             'HARD' => 'font-weight: bold;',

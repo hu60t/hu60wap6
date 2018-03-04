@@ -218,13 +218,13 @@ $language_data = array (
             1 => 'color: navy;', // Directives
             2 => 'color: blue;', // System Functions
             3 => 'color: blue;', // System Variables
-            4 => 'color: #6A5ACD; font-style: italic;', // Nomads Global Variables
+            4 => 'color: #6A5ACD;', // Nomads Global Variables
             5 => 'color: #BDB76B;', // Mnemonics
             ),
         'COMMENTS' => array(
-            1 => 'color: #008080; font-style: italic;',
+            1 => 'color: #008080;',
             2 => 'color: #008080;',
-            'MULTI' => 'color: #008080; font-style: italic;'
+            'MULTI' => 'color: #008080;'
             ),
         'BRACKETS' => array(
             0 => 'color: #000066;'

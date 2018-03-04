@@ -160,13 +160,13 @@ $language_data = array (
     'STYLES' => array(
         'KEYWORDS' => array(
             1 => 'color: #000000; font-weight: bold;',/*bold Black*/
-            2 => 'color: #000000;font-style: italic;',/*Black*/
+            2 => 'color: #000000;',/*Black*/
             3 => 'color: #0000FF;',/*blue*/
             4 => 'color: #CC0000;'/*red*/
             ),
         'COMMENTS' => array(
-            1 => 'color: #33FF00; font-style: italic;',
-            'MULTI' => 'color: #33FF00; font-style: italic;'
+            1 => 'color: #33FF00;',
+            'MULTI' => 'color: #33FF00;'
             ),
         'ESCAPE_CHAR' => array(
             ),

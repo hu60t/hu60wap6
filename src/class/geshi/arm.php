@@ -3155,77 +3155,77 @@ $language_data = array (
             /* Unconditional Data Processing Instructions */
             1 => 'color: #00007f; font-weight: normal; font-style: normal;',
             /* Conditional Data Processing Instructions */
-            2 => 'color: #00007f; font-weight: normal; font-style: italic;',
+            2 => 'color: #00007f; font-weight: normal;',
             /* Unconditional Memory Access Instructions */
             3 => 'color: #00007f; font-weight: normal; font-style: normal;',
             /* Conditional Memory Access Instructions */
-            4 => 'color: #00007f; font-weight: normal; font-style: italic;',
+            4 => 'color: #00007f; font-weight: normal;',
             /* Unconditional Flags Changing Instructions */
             5 => 'color: #00007f; font-weight: bold; font-style: normal;',
             /* Conditional Flags Changing Instructions */
-            6 => 'color: #00007f; font-weight: bold; font-style: italic;',
+            6 => 'color: #00007f; font-weight: bold;',
             /* Unconditional Flow Control Instructions */
             7 => 'color: #0000ff; font-weight: normal; font-style: normal;',
             /* Conditional Flow Control Instructions */
-            8 => 'color: #0000ff; font-weight: normal; font-style: italic;',
+            8 => 'color: #0000ff; font-weight: normal;',
             /* Unconditional Syncronization Instructions */
             9 => 'color: #00007f; font-weight: normal; font-style: normal;',
             /* Conditional Syncronization Instructions */
-            10 => 'color: #00007f; font-weight: normal; font-style: italic;',
+            10 => 'color: #00007f; font-weight: normal;',
             /* Unonditional ARMv6 SIMD */
             11 => 'color: #b00040; font-weight: normal; font-style: normal;',
             /* Conditional ARMv6 SIMD */
-            12 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            12 => 'color: #b00040; font-weight: normal;',
             /* Unconditional Coprocessor Instructions */
             13 => 'color: #00007f; font-weight: normal; font-style: normal;',
             /* Conditional Coprocessor Instructions */
-            14 => 'color: #00007f; font-weight: bold; font-style: italic;',
+            14 => 'color: #00007f; font-weight: bold;',
             /* Unconditional System Instructions */
             15 => 'color: #00007f; font-weight: normal; font-style: normal;',
             /* Conditional System Instructions */
-            16 => 'color: #00007f; font-weight: bold; font-style: italic;',
+            16 => 'color: #00007f; font-weight: bold;',
             /* Unconditional WMMX/WMMX2 SIMD Instructions */
             17 => 'color: #b00040; font-weight: normal; font-style: normal;',
             /* Conditional WMMX/WMMX2 SIMD Instructions */
-            18 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            18 => 'color: #b00040; font-weight: normal;',
             /* Unconditional VFPv3 & NEON SIMD Memory Access Instructions */
             19 => 'color: #b00040; font-weight: normal; font-style: normal;',
             /* Unconditional NEON SIMD Logical Instructions */
-            20 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            20 => 'color: #b00040; font-weight: normal;',
             /* Unconditional NEON SIMD ARM Registers Interop Instructions */
-            21 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            21 => 'color: #b00040; font-weight: normal;',
             /* Unconditional NEON SIMD Bit/Byte-Level Instructions */
-            22 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            22 => 'color: #b00040; font-weight: normal;',
             /* Unconditional NEON SIMD Universal Integer Instructions */
-            23 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            23 => 'color: #b00040; font-weight: normal;',
             /* Unconditional NEON SIMD Signed Integer Instructions */
-            24 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            24 => 'color: #b00040; font-weight: normal;',
             /* Unconditional NEON SIMD Unsigned Integer Instructions */
-            25 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            25 => 'color: #b00040; font-weight: normal;',
             /* Unconditional VFPv3 & NEON SIMD Floating-Point Instructions */
-            26 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            26 => 'color: #b00040; font-weight: normal;',
             /* Conditional VFPv3 & NEON SIMD Memory Access Instructions */
-            27 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            27 => 'color: #b00040; font-weight: normal;',
             /* Conditional NEON SIMD Logical Instructions */
-            28 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            28 => 'color: #b00040; font-weight: normal;',
             /* Conditional NEON SIMD ARM Registers Interop Instructions */
-            29 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            29 => 'color: #b00040; font-weight: normal;',
             /* Conditional NEON SIMD Bit/Byte-Level Instructions */
-            30 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            30 => 'color: #b00040; font-weight: normal;',
             /* Conditional NEON SIMD Universal Integer Instructions */
-            31 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            31 => 'color: #b00040; font-weight: normal;',
             /* Conditional NEON SIMD Signed Integer Instructions */
-            32 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            32 => 'color: #b00040; font-weight: normal;',
             /* Conditional NEON SIMD Unsigned Integer Instructions */
-            33 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            33 => 'color: #b00040; font-weight: normal;',
             /* Conditional VFPv3 & NEON SIMD Floating-Point Instructions */
-            34 => 'color: #b00040; font-weight: normal; font-style: italic;',
+            34 => 'color: #b00040; font-weight: normal;',
             /* Registers */
             35 => 'color: #46aa03; font-weight: bold;'
             ),
         'COMMENTS' => array(
-            1 => 'color: #666666; font-style: italic;',
-            2 => 'color: #adadad; font-style: italic;'
+            1 => 'color: #666666;',
+            2 => 'color: #adadad;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'

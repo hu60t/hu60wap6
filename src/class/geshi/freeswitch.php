@@ -61,7 +61,7 @@ $language_data = array (
 //            1 => 'color: #FF0000; font-weight: bold;',//red
             ),
         'COMMENTS' => array(
-            1 => 'color: #808080; font-style: italic;',
+            1 => 'color: #808080;',
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'
@@ -85,10 +85,10 @@ $language_data = array (
             1 => 'color: cornflowerblue; font-weight: bold;',
             2 => 'color: goldenrod; font-weight: bold;',
             3 => 'color: green; font-weight: bold;',
-            4 => 'color: dimgrey; font-style: italic;',
+            4 => 'color: dimgrey;',
             5 => 'color: green; font-weight: bold;',
             6 => 'color: firebrick; font-weight: bold;',
-            7 => 'color: indigo; font-weight: italic;'
+            7 => 'color: indigo; '
             ),
         'SCRIPT' => array(
             )

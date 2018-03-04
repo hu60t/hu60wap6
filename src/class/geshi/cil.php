@@ -140,7 +140,7 @@ $language_data = array (
             10 => 'color:gray'
             ),
         'COMMENTS' => array(
-            0 => 'color:gray;font-style:italic;'
+            0 => 'color:gray;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #008000; font-weight: bold;'

@@ -319,9 +319,9 @@ $language_data = array (
             5 => 'color: #008000;'
             ),
         'COMMENTS' => array(
-            1 => 'color: #008000; font-style: italic;',
+            1 => 'color: #008000;',
             2 => 'color: #FF1010; font-weight: bold;',
-            'MULTI' => 'color: #808080; font-style: italic;'
+            'MULTI' => 'color: #808080;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'
