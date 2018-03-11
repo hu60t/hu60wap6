@@ -144,8 +144,10 @@ class user extends userinfo
 
     /**
      * 写用户的安全数据
+	 * 
+	 * 只传递一个参数时删除对应的index
      */
-    public function setSafety($index, $data)
+    public function setSafety($index, $data = null)
     {
         $set =& self::$safety[$this->uid];
         if ($set === NULL) {
