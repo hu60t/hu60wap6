@@ -8,6 +8,10 @@ try {
 
     $tpl = $PAGE->start();
     $USER->start($tpl);
+	
+	if (empty($USER->uid)) {
+		throw new Exception('sid失效，请<a href="user.login.'.$PAGE->bid.'">重新登录</a>。');
+	}
 
     $actived = $USER->islogin;
     $tpl->assign('actived', $actived);
@@ -25,6 +29,25 @@ try {
             if (strlen($phone) != 11) {
                 throw new Exception('手机号应为11位');
             }
+			
+			// 检查图形验证码
+			$key = $PAGE->getCookie('active_captcha');
+			if (empty($key)) {
+				throw new Exception('请重新输入图形验证码。若反复出现该问题，请检查浏览器是否禁用Cookie。');
+			}
+			
+			$token = new token($USER);
+			$ok = $token->check($key);
+			if (!$ok) {
+				throw new Exception('图形验证码已过期，请重新输入。');
+			}
+			
+			$captcha = strtolower(trim($_POST['captcha']));
+			if ($captcha !== $token->data()) {
+				throw new Exception('图形验证码错误，请重新输入。');
+			}
+			// 验证通过，删除保存的验证码
+			$token->delete();
 
             $ok = $USER->bindPhoneRequest($phone);
 
