@@ -11,7 +11,7 @@ class token
     public function __construct($user)
     {
         if (!is_object($user)) {
-            $this->user = new user;
+            $user = new user;
 		}
         $this->user = $user;
         $this->db = new db;
