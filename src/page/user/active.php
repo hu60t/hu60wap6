@@ -43,6 +43,9 @@ try {
 			}
 			
 			$captcha = strtolower(trim($_POST['captcha']));
+			if (empty($captcha)) {
+				throw new Exception('请输入图形验证码。');
+			}
 			if ($captcha !== $token->data()) {
 				throw new Exception('图形验证码错误，请重新输入。');
 			}
