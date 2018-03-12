@@ -37,12 +37,12 @@ class token
      * 参数：
      *     $lifetime 有效期（秒），默认24小时（86400秒）
      */
-    public function create($lifetime = 86400, $data = null)
+    public function create($lifetime = 86400, $data = '')
     {
         $this->lifetime = time() + $lifetime;
 		$this->data = $data;
         $this->token = str_shuffle(md5($this->user->sid . microtime() . rand(-2147483648, 2147483647)));
-        $rs = $this->db->insert('token', 'uid,token,lifetime,data', (int)$this->user->uid, $this->token, $this->lifetime, $this->data);
+        $rs = $this->db->insert('token', 'uid,token,lifetime,data', (int)$this->user->uid, $this->token, (int)$this->lifetime, (string)$this->data);
         if ($rs)
             return $this->token;
         else
