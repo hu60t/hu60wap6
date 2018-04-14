@@ -25,6 +25,11 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
         $forum['newTopic'] = $bbs->topicList($forum['id'], 0, 3);
         foreach ($forum['newTopic'] as &$topic) {
             $topic += $bbs->topicMeta($topic['topic_id'], '*');
+
+            $topicForum = $bbs->forumMeta($topic['forum_id'], 'name');
+            $topic['forum_name'] = $topicForum['name'];
+            $topic['reply_count'] = $bbs->topicContentCount($topic['topic_id']) - 1;
+            
             $topic['uinfo'] = new userinfo();
             $topic['uinfo']->uid($topic['uid']);
         }
@@ -46,7 +51,11 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
 
     foreach ($topicList as &$v) {
         $v += (array)$bbs->topicMeta($v['topic_id'], '*');
+
+        $forum = $bbs->forumMeta($v['forum_id'], 'name');
+        $v['forum_name'] = $forum['name'];
         $v['reply_count'] = $bbs->topicContentCount($v['topic_id']) - 1;
+
         $uinfo = new userinfo();
         $uinfo->uid($v['uid']);
         $v['uinfo'] = $uinfo;

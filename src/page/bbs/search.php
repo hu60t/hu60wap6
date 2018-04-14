@@ -23,9 +23,15 @@ if ($keywords != '' || $username != '') {
     $topicList = [];
 
     foreach ($result as $v) {
-        $topic = $bbs->topicMeta($v['tid']);
+        $topic = $bbs->topicMeta($v['tid'], '*');
+
+        $forum = $bbs->forumMeta($topic['forum_id'], 'name');
+        $topic['forum_name'] = $forum['name'];
+        $topic['reply_count'] = $bbs->topicContentCount($v['tid']) - 1;
+
         $topic['uinfo'] = new userinfo();
         $topic['uinfo']->uid($topic['uid']);
+
         $topicList[] = $topic;
     }
 

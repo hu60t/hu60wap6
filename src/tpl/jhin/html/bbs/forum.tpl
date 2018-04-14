@@ -48,6 +48,9 @@
                     {$topic.read_count}点击 / {str::ago($topic.mtime)}
                 </div>
             </div>
+			<div class="topic-forum-name">
+                <a href="bbs.forum.{$topic.forum_id}.{$BID}" class="topic-title">{$topic.forum_name}</a>
+            </div>
             <div class="topic-reply-count">
                 <a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.reply_count}</a>
             </div>

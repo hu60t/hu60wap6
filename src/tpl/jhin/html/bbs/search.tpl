@@ -23,20 +23,11 @@
 </div>
 <!--帖子列表-->
 <div class="search-list">
-      <ul>
-        {foreach $topicList as $topic}
-        <li>
-          <a href="{$CID}.topic.{$topic.id}.{$BID}">{$topic.title|code}</a>
-          {$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.mtime)} 发表
-        </li>
-          {/foreach}
-          <li style="padding: 8px 0px">
-            {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;p="}
-            {if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{else}下一页{/if}
-            {if $p > 1}<a style="display:inline" href="{$url}{$p-1}">上一页</a>{else}上一页{/if}
-            {if $maxP > 1}({$p} / {$maxP}页){/if}
-          </li>
-        </ul>
-  </div>
-  {/if}
+        {include file='tpl:bbs.list'}
+        <div class="widget-page">
+            {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;p=##"}
+            {jhinfunc::Pager($p,$maxP,$url)}
+        </div>
+</div>
+{/if}
 {/block}
