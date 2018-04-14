@@ -27,7 +27,7 @@
 
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
-		<h1>标题: {$tMeta.title|code}</h1>
+		<h1>{$tMeta.title|code}</h1>
 		<div class="topic-meta">
 
 					<img src="{$v.uinfo->avatar()}" class="avatar">

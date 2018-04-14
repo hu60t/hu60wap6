@@ -302,6 +302,7 @@ h1 {
 }
 .topic > h1 {
   margin-left: 15px;
+  margin-right: 15px;
 }
 .topic-content {
   border-top: 2px solid #BED8EA;
@@ -671,6 +672,9 @@ h1 {
   .topic-form-title {
     width: 96%;
     font-size: 14px;
+  }
+  .topic h1 {
+    font-size: 18px;
   }
 }
 @media screen and (min-width: 800px) {
