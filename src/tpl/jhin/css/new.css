@@ -665,6 +665,9 @@ h1 {
     max-width: 100%;
     max-height: 360px;
   }
+  textarea {
+    min-width: 96%;
+  }
 }
 @media screen and (min-width: 800px) {
   img {
