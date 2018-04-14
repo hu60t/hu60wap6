@@ -36,12 +36,16 @@
   <li>
     {$tmp = $uinfo->uid($k.hidden)}
     {*if $k.hidden == $k.uid}
-    <div class="chat-number">{$k.lid}</div>
+    <div class="chat-meta">
+        <div class="chat-number">{$k.lid}</div>
+    </div>
     <div class="chat-content">
         该楼层已被层主 <a href="#" onclick="atAdd('{$uinfo->name|code}',this);return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 自行删除。
     </div>
     {else*}
-    <div class="chat-number">{$k.lid}</div>
+    <div class="chat-meta">
+        <div class="chat-number">{$k.lid}</div>
+    </div>
     <div class="chat-content">
         该楼层已被管理员 <a href="#" onclick="atAdd('{$uinfo->name|code}',this);return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 删除，层主：<a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@</a><a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a>。
     </div>
