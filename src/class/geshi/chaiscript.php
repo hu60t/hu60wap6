@@ -82,9 +82,9 @@ $language_data = array (
             3 => 'color: #000066;'
             ),
         'COMMENTS' => array(
-            1 => 'color: #006600; font-style: italic;',
-            2 => 'color: #009966; font-style: italic;',
-            'MULTI' => 'color: #006600; font-style: italic;'
+            1 => 'color: #006600;',
+            2 => 'color: #009966;',
+            'MULTI' => 'color: #006600;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'

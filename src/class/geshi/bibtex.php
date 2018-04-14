@@ -108,7 +108,7 @@ $language_data = array (
             4 => 'color: #C08020;'  // Custom entry field names
             ),
         'COMMENTS' => array(
-            1 => 'color: #2C922C; font-style: italic;'
+            1 => 'color: #2C922C;'
             ),
         'STRINGS' => array(
             0 => 'color: #2020C0;'

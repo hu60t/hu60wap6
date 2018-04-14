@@ -26,7 +26,7 @@ class user extends userinfo
     /*产生sid*/
     protected static function mksid($uid, $name, $pass)
     {
-        return str_shuffle(url::b64ec(md5(md5($name, true) . md5(microtime(), true) . md5($pass, true), true))) . url::b64ec(pack('V', $uid));
+        return str_shuffle(url::b64ec(md5(str::random_bytes(128), true), true)) . url::b64ec(pack('V', $uid));
     }
 
     /*生成info数据的字符串*/
@@ -144,8 +144,10 @@ class user extends userinfo
 
     /**
      * 写用户的安全数据
+	 * 
+	 * 只传递一个参数时删除对应的index
      */
-    public function setSafety($index, $data)
+    public function setSafety($index, $data = null)
     {
         $set =& self::$safety[$this->uid];
         if ($set === NULL) {

@@ -290,16 +290,16 @@ $language_data = array (
         'KEYWORDS' => array(
             1 => 'color: #AAAAFF; font-weight: bold;',       // reserved #blue
             2 => 'color: #88FF88;',                         // BIV yellow
-            3 => 'color: #FF00FF; font-style: italic;',       // commands purple
+            3 => 'color: #FF00FF;',       // commands purple
             4 => 'color: #888844; font-weight: bold;',       // functions #0080FF
-            5 => 'color: #000000; font-style: italic;',    // directives #black
-            6 => 'color: #FF0000; font-style: italic;',      // hotkeys #red
-            7 => 'color: #000000; font-style: italic;',    // gui commands #black
-            8 => 'color: #000000; font-style: italic;'      // gui controls
+            5 => 'color: #000000;',    // directives #black
+            6 => 'color: #FF0000;',      // hotkeys #red
+            7 => 'color: #000000;',    // gui commands #black
+            8 => 'color: #000000;'      // gui controls
             ),
         'COMMENTS' => array(
-            'MULTI' => 'font-style: italic; color: #669900;',
-            1 => 'font-style: italic; color: #009933;'
+            'MULTI' => ' color: #669900;',
+            1 => ' color: #009933;'
             ),
         'ESCAPE_CHAR' => array(
             0 => ''
@@ -314,15 +314,15 @@ $language_data = array (
             0 => 'color: #0000dd;'
             ),
         'METHODS' => array(
-            1 => 'color: #0000FF; font-style: italic; font-weight: italic;'
+            1 => 'color: #0000FF; '
             ),
         'SYMBOLS' => array(
-            0 => 'color: #000000; font-weight: italic;'
+            0 => 'color: #000000; '
             ),
         'REGEXPS' => array(
-            0 => 'font-weight: italic; color: #A00A0;',
-            1 => 'color: #CC0000; font-style: italic;',
-            2 => 'color: #DD0000; font-style: italic;',
+            0 => ' color: #A00A0;',
+            1 => 'color: #CC0000;',
+            2 => 'color: #DD0000;',
             3 => 'color: #88FF88;'
             ),
         'SCRIPT' => array(

@@ -97,10 +97,10 @@ $language_data = array (
             4 => 'color: #801010; font-weight: bold;'  // Operators and Modifiers
             ),
         'COMMENTS' => array(
-            1 => 'color: #808080; font-style: italic;',
+            1 => 'color: #808080;',
             2 => 'color: #339933;',
-            3 => 'color: #808080; font-style: italic;',
-            'MULTI' => 'color: #808080; font-style: italic;'
+            3 => 'color: #808080;',
+            'MULTI' => 'color: #808080;'
             ),
         'BRACKETS' => array(
             //0 => 'color: #66cc66;'
@@ -108,7 +108,7 @@ $language_data = array (
             ),
         'STRINGS' => array(
             //0 => 'color: #ff0000;'
-            0 => 'color: #A00000; font-style: italic;'
+            0 => 'color: #A00000;'
             ),
         'NUMBERS' => array(
             //0 => 'color: #cc66cc;'

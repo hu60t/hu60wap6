@@ -12,10 +12,6 @@
 			[<a href="#top">回顶</a>]
 		</p>
 		<p>
-			线路：
-			{include file="tpl:comm.endpoints"}
-		</p>
-		<p>
 			本站由 <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> 驱动
 		</p>
 		{if !$no_chat}

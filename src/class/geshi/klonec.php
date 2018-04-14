@@ -184,9 +184,9 @@ $language_data = array (
             7 => 'color: #000066;'//pour les autres mots-cles HTML
             ),
         'COMMENTS' => array(
-            1 => 'color: #808080; font-style: italic;',//commentaire sur une ligne C et KLone
+            1 => 'color: #808080;',//commentaire sur une ligne C et KLone
             2 => 'color: #339933;',//pour les #... en C
-            'MULTI' => 'color: #808080; font-style: italic;'//commentaire sur plusieurs lignes C et KLone
+            'MULTI' => 'color: #808080;'//commentaire sur plusieurs lignes C et KLone
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'

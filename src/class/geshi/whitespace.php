@@ -57,7 +57,7 @@ $language_data = array (
         'KEYWORDS' => array(
             ),
         'COMMENTS' => array(
-            3 => 'color: #666666; font-style: italic;'
+            3 => 'color: #666666;'
             ),
         'BRACKETS' => array(
             0 => 'color: #66cc66;'

@@ -251,6 +251,11 @@ class UbbParser extends XUBBP
     {
         if ($type == '缩略图') {
             $var = $this->split('，', $var);
+
+	    if (count($var) == 1) {
+	        array_unshift($var, '320'); //默认宽度
+	    }
+
             $opt = $var[0];
             $url = $var[1];
             preg_match_all('![0-9]+!', $opt, $opt);

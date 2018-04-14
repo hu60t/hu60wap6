@@ -152,10 +152,10 @@ $language_data = array(
             8 => 'color: #06c; font-weight: bold;' /* nice blue */
             ),
         'COMMENTS' => array(
-            'MULTI' => 'color: #5d478b; font-style: italic;', /* light purple */
-            1 => 'color: #5d478b; font-style: italic;',
-            2 => 'color: #5d478b; font-style: italic;', /* light purple */
-            3 => 'color: #5d478b; font-style: italic;' /* light purple */
+            'MULTI' => 'color: #5d478b;', /* light purple */
+            1 => 'color: #5d478b;',
+            2 => 'color: #5d478b;', /* light purple */
+            3 => 'color: #5d478b;' /* light purple */
             ),
         'ESCAPE_CHAR' => array(
             ),

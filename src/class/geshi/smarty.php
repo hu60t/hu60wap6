@@ -117,7 +117,7 @@ $language_data = array (
             8 => 'color: #0600FF;'        //php functions
             ),
         'COMMENTS' => array(
-            'MULTI' => 'color: #008080; font-style: italic;'
+            'MULTI' => 'color: #008080;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'
@@ -139,7 +139,7 @@ $language_data = array (
             ),
         'SCRIPT' => array(
             0 => '',
-            1 => 'color: #808080; font-style: italic;',
+            1 => 'color: #808080;',
             2 => 'color: #009000;'
             ),
         'REGEXPS' => array(

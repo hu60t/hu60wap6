@@ -358,9 +358,9 @@ $language_data = array (
             3 => 'color: #7a0874; font-weight: bold;'
             ),
         'COMMENTS' => array(
-            0 => 'color: #666666; font-style: italic;',
+            0 => 'color: #666666;',
             1 => 'color: #800000;',
-            2 => 'color: #cc0000; font-style: italic;',
+            2 => 'color: #cc0000;',
             3 => 'color: #000000; font-weight: bold;',
             4 => 'color: #666666;'
             ),

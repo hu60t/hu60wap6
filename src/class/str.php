@@ -1,7 +1,7 @@
 <?php
+require_once CLASS_DIR.'/random_compat/lib/random.php';
 
 /*str类,字符串处理类*/
-
 class str
 {
 
@@ -197,6 +197,11 @@ class str
 	public static function htmlTagToEntity($text) {
 		//return preg_replace('#<(/?\w+(?:\s[^>]*)?)>#is', '&lt;\\1&gt;', $text);
 		return str_replace('<', '&lt;', $text);
+	}
+
+	// 密码学安全的随机内容发生器
+	public static function random_bytes($len) {
+		return random_bytes($len);		
 	}
 //class str end
 }

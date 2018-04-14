@@ -441,7 +441,7 @@ $language_data = array (
             1 => 'color: #666666;',
             2 => 'color: #339900;',
             3 => 'color: #666666;',
-            'MULTI' => 'color: #ff0000; font-style: italic;'
+            'MULTI' => 'color: #ff0000;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099;',

@@ -110,7 +110,7 @@ $language_data = array (
             1 => 'color: #339933; font-weight: bold;',
             2 => 'color: #993333;',
             3 => 'color: #339933;',
-            'MULTI' => 'color: #7f7f7f; font-style: italic',
+            'MULTI' => 'color: #7f7f7f; ',
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'
@@ -135,7 +135,7 @@ $language_data = array (
             1 => 'color: #3f3fff;',
             2 => 'color: #3f3fff;',
             3 => 'color: #cc66cc;',
-            4 => 'color: #7f3f7f; font-style: italic;',
+            4 => 'color: #7f3f7f;',
             ),
         'SCRIPT' => array(
             )

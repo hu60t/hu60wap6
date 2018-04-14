@@ -28,4 +28,8 @@
 <p class="txt">
 查看：<a href="bbs.search.send.{$bid}?username={$uinfo->name|urlencode}">帖子</a><br/>
 </p>
+<p class="txt">
+状态：{if $blockPostStat}被禁言{else}正常{/if}
+{if $showBlockButton} / <a href="user.block_post.{$uinfo.uid}.{$bid}">{if $blockPostStat}解除禁言{else}设置禁言{/if}</a>{/if}
+</p>
 {include file="tpl:comm.foot"}

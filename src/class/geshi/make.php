@@ -88,7 +88,7 @@ $language_data = array (
             //3 => 'color: #000000; font-weight: bold;'
             ),
         'COMMENTS' => array(
-            1 => 'color: #339900; font-style: italic;',
+            1 => 'color: #339900;',
             2 => 'color: #000099; font-weight: bold;',
             'MULTI' => ''
             ),

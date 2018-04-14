@@ -146,8 +146,8 @@ $language_data = array (
             4 => 'color:#660000; font-weight:bold;'
             ),
         'COMMENTS' => array(
-            1 => 'color:#008000; font-style:italic;',
-            'MULTI' => 'color:#000080; font-style:italic;'
+            1 => 'color:#008000; ',
+            'MULTI' => 'color:#000080; '
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color:#000099;'

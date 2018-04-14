@@ -161,8 +161,8 @@ $language_data = array (
             9 => 'color: #0000ff;'
             ),
         'COMMENTS' => array(
-//            1 => 'color: #006400; font-style: italic;',
-            'MULTI' => 'color: #006400; font-style: italic;'
+//            1 => 'color: #006400;',
+            'MULTI' => 'color: #006400;'
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'
@@ -190,11 +190,11 @@ $language_data = array (
         'REGEXPS' => array(
             0 => 'color: #0000ff; font-weight: bold;',
             1 => 'color: #000080; font-weight: bold;',
-            2 => 'color: #006400; font-style: italic;',
-            3 => 'color: #006400; font-style: italic;',
-            4 => 'color: #006400; font-style: italic;',
+            2 => 'color: #006400;',
+            3 => 'color: #006400;',
+            4 => 'color: #006400;',
             5 => 'color: #ff0000; font-weight: bold;',
-            6 => 'color: #00ff00; font-style: italic;',
+            6 => 'color: #00ff00;',
             7 => 'color: #0000ff; font-style: normal;',
             8 => 'color: #b218b2; font-weight: bold;',
             9 => 'color: #b218b2; font-weight: bold;'

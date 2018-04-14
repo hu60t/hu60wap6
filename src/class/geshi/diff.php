@@ -66,7 +66,7 @@ $language_data = array (
         ),
     'STYLES' => array(
         'KEYWORDS' => array(
-            1 => 'color: #aaaaaa; font-style: italic;',
+            1 => 'color: #aaaaaa;',
 //            2 => 'color: #dd6611;',
             ),
         'COMMENTS' => array(

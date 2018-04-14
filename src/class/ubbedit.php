@@ -168,7 +168,7 @@ class ubbEdit extends XUBBP
         if ($data['h'] != '') {
             $opt .= 'x' . (int)$data['h'];
         }
-        return '《缩略图：' . $opt . ',' . self::html($data['src']) . '》';
+        return '《缩略图：' . $opt . '，' . self::html($data['src']) . '》';
     }
 
     /*video 视频*/

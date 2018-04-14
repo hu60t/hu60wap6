@@ -299,11 +299,11 @@ $language_data = array(
             ),
         'COMMENTS' => array(
             # single-line comments
-            1 => 'color: #666666; font-style: italic;',
+            1 => 'color: #666666;',
             # raw strings
             2 => 'color: #0000ff;',
             # multi-line comments
-            'MULTI' => 'color: #666666; font-style: italic;'
+            'MULTI' => 'color: #666666;'
             ),
         'ESCAPE_CHAR' => array(
             # simple escape

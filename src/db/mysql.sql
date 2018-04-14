@@ -144,7 +144,8 @@ CREATE TABLE `hu60_token` (
   `id` bigint(20) NOT NULL,
   `lifetime` bigint(20) NOT NULL,
   `token` char(32) NOT NULL,
-  `uid` int(11) NOT NULL
+  `uid` int(11) NOT NULL,
+  `data` BLOB NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

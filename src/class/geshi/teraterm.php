@@ -305,7 +305,7 @@ $language_data = array (
             4 => 'color: #ff00ff; font-weight: bold;'   // Keyword Symbols
             ),
         'COMMENTS' => array(
-            1 => 'color: #008000; font-style: italic;',
+            1 => 'color: #008000;',
             ),
         'ESCAPE_CHAR' => array(),
         'BRACKETS' => array(

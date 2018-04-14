@@ -222,9 +222,9 @@ $language_data = array (
             10 => 'color: #0000FF;'
             ),
         'COMMENTS' => array(
-            1 => 'color: #008080; font-style: italic;',
+            1 => 'color: #008080;',
             2 => 'color: #000000; font-weight: bold;',
-            'MULTI' => 'color: #008080; font-style: italic;'
+            'MULTI' => 'color: #008080;'
             ),
         'ESCAPE_CHAR' => array(
             0 => ''

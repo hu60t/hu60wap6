@@ -116,10 +116,10 @@ $language_data = array (
 //            5 => 'color: #000000; font-weight: bold;'
             ),
         'COMMENTS' => array(
-            1 => 'color: #666666; font-style: italic;',
-            2 => 'color: #666666; font-style: italic;',
-            3 => 'color: #666666; font-style: italic;',
-            4 => 'color: #adadad; font-style: italic;',
+            1 => 'color: #666666;',
+            2 => 'color: #666666;',
+            3 => 'color: #666666;',
+            4 => 'color: #adadad;',
             ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'
