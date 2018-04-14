@@ -68,9 +68,9 @@
 							/ <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
 						{/if})
 					</div>
-					<p class="comments-content">
+					<div class="comments-content">
 						{$ubb->display($v.content,true)}
-					</p>
+					</div>
 				</div>
 				<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
 			</li>

@@ -68,6 +68,7 @@ h1 {
 }
 .layout-header .header-inner .header-nav .userAvatar {
   width: 48px;
+  min-width: 48px;
   height: 48px;
   border-radius: 50%;
   vertical-align: middle;
@@ -337,12 +338,6 @@ h1 {
 .topic-panel a > i {
   font-size: 1rem;
 }
-.markdown-body {
-  box-sizing: border-box;
-  min-width: 200px;
-  max-width: 980px;
-  margin: 0 auto;
-}
 .pagination {
   overflow: hidden;
   display: inline-flex;
@@ -414,6 +409,9 @@ h1 {
   transition: height 0.5s;
   transition-timing-function: ease;
   overflow: hidden;
+}
+.comments-content {
+  margin-left: 50px;
 }
 .floor_fold_bar {
   text-align: center;
@@ -612,7 +610,19 @@ h1 {
   }
 }
 @media screen and (max-width: 600px) {
-  .forum-list {
-    padding-left: 5px;
+  .forum-list,
+  .header-nav {
+    padding-left: 10px;
+  }
+  .layout-header .header-inner .header-nav > li {
+    margin-right: 10px;
+  }
+  .comments-content {
+    margin-left: 0;
+  }
+  .layout-header .header-inner .header-nav .userAvatar {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
   }
 }
