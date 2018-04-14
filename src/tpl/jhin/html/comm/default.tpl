@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
   {if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")}{/if}
   <link rel="stylesheet" type="text/css" href="{$css|code}"/>
-  <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css')}?r=5"/>
+  <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css')}?r=7"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')}"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
     {block name='style'}{/block}
@@ -87,25 +87,8 @@
     <footer class="layout-footer">
         <div class="case">
             <div>
-                Power By <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> . <a href="link.tpl.classic.{$BID}?url64={code::b64e($page->geturl())}">Classic Theme</a>
+                Power By <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> . <a href="link.tpl.classic.{$BID}?url64={code::b64e($page->geturl())}">经典主题</a>
             </div>
-            <div>
-                <ul class="footer-link">
-                    <li><a href="http://enart.cn/">英语文化</a></li>
-                    <li><a href="http://2cbk.com/">二超博客</a></li>
-                    <li><a href="http://www.mhcf.net/">梦幻辰风</a></li>
-                    <li></li><a href="http://blog.isoyu.com/">长信博客</a>
-                    <li><a href="https://morz.org/">喵萌博客</a></li>
-                    <li><a href="http://lehuidc.cn/">乐虎IDC</a></li>
-                    <li><a href="https://www.5izzz.cn/">中转站博客</a></li>
-                    <li><a href="http://www.jianzhanwen.com/">建站问</a></li>
-                    <li><a href="http://www.aggregations.cn/">聚合体资讯</a> </li>
-                    <li><a href="https://q18idc.com/">18IDC</a> </li>
-                    <li><a href="http://bbs.wygcf.cf/">耀国论坛</a> </li>
-                    <li><a href="http://mlapp.cn/">美丽应用</a></li>
-                </ul>
-            </div>
-        </div>
     </footer>
   {block name='script'}{/block}
   <!--css前缀自动补全-->

@@ -52,9 +52,13 @@ h1 {
     max-width: 1170px;
     margin: 0 auto;
 }
+.content-box {
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .avatar{
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     vertical-align: middle;
 }
@@ -129,15 +133,18 @@ h1 {
     }
 }
 .layout-footer{
-    height: 150px;
+    height: 50px;
     display: flex;
     align-items: center;
     background: white;
-    margin-top: 45px;
+    margin-top: 30px;
     .case{
         display: flex;
         justify-content:space-between;
         align-items: center;
+        div {
+            margin: 0 auto;
+        }
     }
 
     a{
@@ -348,14 +355,14 @@ h1 {
 .topic-meta {
     font-size: 0.8rem;
     margin-left: 25px;
-    margin-top: 5px;
+    margin-bottom: 5px;
     color: @color_5;
 }
 
 .comments-meta {
+    margin-left: 50px;
     font-size: 0.8rem;
-    margin-left: 40px;
-    margin-top: 5px;
+    margin-bottom: 5px;
     color: @color_5;
 }
 
@@ -470,7 +477,6 @@ h1 {
 }
 
 .floor-content {
-    margin-left: 50px;
     transition: height 0.5s;
     transition-timing-function: ease;
     overflow: hidden;
@@ -483,7 +489,7 @@ h1 {
 
 .comments-number {
     display: block;
-    height: 35px;
+    height: 30px;
     width: 45px;
     line-height: 25px;
     border-radius: 0 10px 10px 0;
@@ -494,14 +500,16 @@ h1 {
     background-color: @background_color_5;
 }
 
-.comments-author {
+.topic-author, .comments-author {
     font-size: 1.1rem;
     font-weight: 700;
     color: @color_11;
+    position: relative;
+    top: 2px;
 }
 
 .chat-new {
-    text-align: center;
+    //text-align: center;
 }
 
 .login-form {
@@ -695,3 +703,10 @@ h1 {
         }
     }
 }
+
+@media screen and (max-width: 600px) {
+    .forum-list {
+        padding-left: 5px;
+    }
+}
+

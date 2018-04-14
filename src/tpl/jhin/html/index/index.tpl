@@ -56,8 +56,15 @@
     </div>
     <div class="widget">
         <div class="bar">实用工具</div>
-        <a href="tools.ua.html">查看浏览器UA</a>
-        <a href="tools.coder.html">编码解码器</a>
+        <div class="content-box">
+            <a href="tools.ua.html">查看浏览器UA</a>
+            <a href="tools.coder.html">编码解码器</a>
+        </div>
     </div>
-
+    <div class="widget">
+        <div class="bar">友情链接</div>
+        <div class="content-box">
+            {include file="tpl:comm.friend_links"}
+        </div>
+    </div>
 {/block}

@@ -30,9 +30,8 @@
 		<h1>标题: {$tMeta.title|code}</h1>
 		<div class="topic-meta">
 
-				作者: <span class="topic-author">
-					<a href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>
-				</span>
+					<img src="{$v.uinfo->avatar()}" class="avatar">
+					<a class="topic-author" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>
 					<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
 			时间: {str::ago($v.mtime)}
 			点击: {$tMeta.read_count}
@@ -56,22 +55,24 @@
 			<li>
 				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
 					<span class="comments-number">#{$v.floor}</span>
-					<img src="{$v.uinfo->avatar()}" class="avatar">
-					{$ubb->display($v.content,true)}
+					<div class="comments-meta">
+						<img src="{$v.uinfo->avatar()}" class="avatar">
+						<a href="user.info.{$v.uinfo.uid}.{$BID}" class="comments-author">{$v.uinfo.name|code}</a>
+						(
+						<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
+						/ {str::ago($v.mtime)}
+						{if $bbs->canEdit($v.uinfo.uid, true)}
+							/ <a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>
+						{/if}
+						{if $bbs->canDel($v.uinfo.uid, true)}
+							/ <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
+						{/if})
+					</div>
+					<p class="comments-content">
+						{$ubb->display($v.content,true)}
+					</p>
 				</div>
 				<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
-				<p class="comments-meta">
-					(
-					<a href="user.info.{$v.uinfo.uid}.{$BID}" class="comments-author">{$v.uinfo.name|code}</a>/
-					<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/
-					{str::ago($v.mtime)}
-					{if $bbs->canEdit($v.uinfo.uid, true)}/
-						<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>
-					{/if}
-					{if $bbs->canDel($v.uinfo.uid, true)}
-					/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
-					{/if})
-				</p>
 			</li>
 			{/foreach}
 		</ul>
