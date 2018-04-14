@@ -83,7 +83,7 @@
 
 	<div class="widget-page">
 		{if $maxPage > 1}
-            {str::pageFormat($p,$maxPage,"{$cid}.{$pid}.{$tid}.##.{$bid}")}
+            {jhinfunc::Pager($p,$maxPage,"{$cid}.{$pid}.{$tid}.##.{$bid}")}
 		{/if}
 	</div>
 	<!--回复框-->

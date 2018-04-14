@@ -82,7 +82,7 @@
   {/foreach}
 </ul>
 <div class="widget-page">
-  {str::pageFormat($p,$maxP,"?p=##")}
+  {jhinfunc::Pager($p,$maxP,"?p=##")}
 </div>
 <script>
 // 自动折叠过长内容

@@ -409,6 +409,29 @@ h1 {
     //margin: 0 auto;
 }
 
+.page-jumper {
+    overflow: hidden;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-content: center;
+    padding-left: 2px;
+    margin: 10px 0 0 20px;
+    > li {
+        display: inline-block;
+        > input {
+            height: 34px;
+            width: 60px;
+            position: relative;
+            margin-left: -1px;
+            display: block;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: @color_7;
+        }
+    }
+}
+
 .pagination {
     overflow: hidden;
     display: inline-flex;
