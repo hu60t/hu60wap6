@@ -210,7 +210,7 @@ class UbbDisplay extends XUBBP
             $src = $prefix . '/more?mm=' . $imgId;
         }
 
-        return '<a href="' . $src . '"><img src="http://s.image.wap.soso.com/img/' . floor($data['w']) . '_' . floor($data['h']) . '_0_0_' . $src . '" alt="点击查看大图"/></a>';
+        return '<a href="' . $src . '"><img src="link.thumb.jpg?w=' . floor($data['w']) . '&amp;h=' . floor($data['h']) . '&amp;img=' . $src . '" alt="点击查看大图"/></a>';
     }
 
     /*video 视频*/
