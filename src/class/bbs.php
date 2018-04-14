@@ -592,7 +592,8 @@ class bbs
             $page = 1;
         $offset = ($page - 1) * $size;
 
-        if ($this->user && $this->user->islogin && false == $this->user->getInfo('bbs.floorReverse')) {
+        // 默认正序排列楼层
+        if (!($this->user && $this->user->islogin && $this->user->getInfo('bbs.floorReverse'))) {
             //正序排列楼层
             $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? ORDER BY floor ASC LIMIT ?,?', $topic_id, $offset, $size);
             if (!$rs)
