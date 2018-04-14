@@ -30,7 +30,10 @@
   </tr>
   <tr>
     <td>
-      个性签名：{$USER->getinfo('signature')|code}
+      个性签名
+    </td>
+    <td>
+      {$USER->getinfo('signature')|code}
     </td>
   </tr>
   <tr>
@@ -83,7 +86,7 @@
   </tr>
   <tr>
     <td>
-      论坛楼层排序
+      楼层排序
     </td>
     <td>
       {if $floorReverse}
