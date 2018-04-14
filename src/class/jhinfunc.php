@@ -32,8 +32,8 @@ class jhinfunc{
         $meta = DB_A.'bbs_topic_meta';
         $content = DB_A.'bbs_topic_content';
         $forum = DB_A.'bbs_forum_meta';
-        $lastYear = $_SERVER['REQUEST_TIME'] - 365 * 24 * 3600;
-        $res = $db->query("SELECT {$meta}.*,{$meta}.`id` AS `topic_id`,{$forum}.`id` AS `forum_id`,{$forum}.`name` AS `forum_name`,(SELECT COUNT(*) FROM `{$content}` WHERE `reply_id`=`{$meta}`.`id`) AS `reply_count` FROM `{$meta}` LEFT JOIN `{$forum}` ON `{$forum}`.`id`=`{$meta}`.`forum_id` WHERE `{$meta}`.`ctime`> {$lastYear} ORDER BY level DESC, `{$meta}`.`mtime` DESC LIMIT {$offset},{$size}");
+        $lastTime = $_SERVER['REQUEST_TIME'] - 30 * 24 * 3600;
+        $res = $db->query("SELECT {$meta}.*,{$meta}.`id` AS `topic_id`,{$forum}.`id` AS `forum_id`,{$forum}.`name` AS `forum_name`,(SELECT COUNT(*)-1 FROM `{$content}` WHERE `topic_id`=`{$meta}`.`id`) AS `reply_count` FROM `{$meta}` LEFT JOIN `{$forum}` ON `{$forum}`.`id`=`{$meta}`.`forum_id` WHERE `{$meta}`.`ctime`> {$lastTime} ORDER BY level DESC, `{$meta}`.`mtime` DESC LIMIT {$offset},{$size}");
         $topic = $res->fetchAll();
         foreach ($topic as &$v) {
             $v['uinfo'] = new userinfo;
