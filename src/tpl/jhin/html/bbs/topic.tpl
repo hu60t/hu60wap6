@@ -83,10 +83,7 @@
 
 	<div class="widget-page">
 		{if $maxPage > 1}
-		{if $p < $maxPage}<a href="{$cid}.{$pid}.{$tid}.{$p+1}.{$bid}">下一页</a>{/if}
-		{if $p > 1}<a href="{$cid}.{$pid}.{$tid}.{$p-1}.{$bid}">上一页</a>{/if}
-		{$p}/{$maxPage}页,共{$contentCount-1}楼
-		<input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='{$CID}.{$PID}.{$tid}.'+this.value+'.{$BID}'; }">
+            {str::pageFormat($p,$maxPage,"{$cid}.{$pid}.{$tid}.##.{$bid}")}
 		{/if}
 	</div>
 	<!--回复框-->
