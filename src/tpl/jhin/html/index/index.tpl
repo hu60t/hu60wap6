@@ -11,7 +11,7 @@
                 <div>
                     <div class="topic-anchor">
                         <a href="user.info.{$topic.uinfo.uid}.{$BID}">
-                            <img src="{$topic.uinfo->getinfo('avatar.url')}" class="avatar">
+                            <img src="{$topic.uinfo->avatar()}" class="avatar">
                         </a>
                         <a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a>
                     </div>

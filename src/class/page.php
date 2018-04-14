@@ -86,7 +86,7 @@ class page implements ArrayAccess
     }
 
     /*判断是否正在使用https*/
-    public function isHttps() {
+    public static function isHttps() {
         if ($_SERVER['SERVER_PORT'] == 443) {
             return true;
         }
@@ -126,7 +126,7 @@ class page implements ArrayAccess
     }
 
     /*取得文件或目录的访问路径（目录的总是包含结尾的/）*/
-    public function getFileUrl($path)
+    public static function getFileUrl($path)
     {
         $realPath = realpath($path);
 

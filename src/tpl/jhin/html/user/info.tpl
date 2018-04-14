@@ -8,7 +8,7 @@
   <span class="pt_c">用户信息</span>
 </div>
 <!--p class="txt">
-<img src="{$uinfo->getinfo('avatar.url')|code}" width="30"/><br/>
+<img src="{$uinfo->avatar()|code}" width="30"/><br/>
 </p-->
 <table>
   <tr>

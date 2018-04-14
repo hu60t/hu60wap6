@@ -6,7 +6,7 @@
 <span class="pt_y"><a href="user.exit.{$bid}">退出</a></span>
 </div>
 <!--p class="txt">
- <img src="{$USER->getinfo('avatar.url')|code}" width="30"/><br/>
+ <img src="{$USER->avatar()|code}" width="30"/><br/>
 </p-->
 <p class="txt">
  UID：{$USER->uid|code}

@@ -79,6 +79,13 @@ class userinfo implements ArrayAccess
         return TRUE;
     }
 
+    /*取得用户的头像*/
+    public function avatar() {
+        $url = $this->getinfo('avatar.url');
+        if (empty($url)) $url = page::getFileUrl(ROOT_DIR)."upload/default.jpg";
+        return $url;
+    }
+
     /*取得用户的info数据*/
     public function getinfo($index = null)
     {

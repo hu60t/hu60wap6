@@ -102,7 +102,7 @@
                 <p class="failure">{$errMsg}</p>
                 <p></p>
             </div>
-            <div><img id="avatar" src="{$USER->getinfo('avatar.url')}"></div>
+            <div><img id="avatar" src="{$USER->avatar()}"></div>
             <div>
                 <input type="file" id="select-file" style="display: none;">
                 <button id="select-btn">选择图片</button>
