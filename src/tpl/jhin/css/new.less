@@ -58,7 +58,9 @@ h1 {
 }
 .avatar{
     width: 32px;
+    min-width: 32px;
     height: 32px;
+    min-height: 32px;
     border-radius: 50%;
     vertical-align: middle;
 }
@@ -92,6 +94,7 @@ h1 {
                 width: 48px;
                 min-width: 48px;
                 height: 48px;
+                min-height: 48px;
                 border-radius: 50%;
                 vertical-align: middle;
             }
@@ -259,7 +262,9 @@ h1 {
     }
     .userAvatar {
         width: 48px;
+        min-width: 48px;
         height: 48px;
+        min-height: 48px;
         border-radius: 10px;
         border: 3px solid #FFF;
         vertical-align: middle;
@@ -301,38 +306,38 @@ h1 {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        >div:first-child{
-            display: flex;
+        .topic-meta {
+            margin: 0px;
         }
         .topic-reply-count{
+            width: 5%;
             display: flex;
-            >span {
-                display: flex;
-                align-items: center;
-            }
-            .number, .spliter {
-                font-weight: 300;
-                font-size: 30px;
+            font-weight: 300;
+            font-size: 30px;
+            color: gray;
+            a{
                 color: gray;
             }
-            .spliter {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
+        }
+        .topic-forum-name {
+            width: 15%;
+            display: flex;
             a{
                 color: gray;
             }
         }
         .topic-anchor{
-            width: 80px;
+            width: 20%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            word-break: break-all;
             >a{
                 color: gray;
             }
         }
         .topic-title{
+            width: 60%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -354,7 +359,7 @@ h1 {
 
 .topic-content {
     border-top: 2px solid #BED8EA;
-    padding: 8px;
+    padding: 8px 8px 8px 10px;
     background-color: @background_color_1;
     overflow: hidden;
     img {
@@ -364,16 +369,39 @@ h1 {
 
 .topic-meta {
     font-size: 0.8rem;
-    margin-left: 25px;
+    margin-left: 10px;
     margin-bottom: 5px;
     color: @color_5;
+    display: flex;
+    align-items: center;
+    .topic-meta-name {
+        margin-left: 5px;
+        line-height: 1.1rem;
+    }
+    .topic-actions {
+        margin-left: 5px;
+        a {
+            color: gray;
+        }
+    }
 }
 
 .comments-meta {
-    margin-left: 50px;
     font-size: 0.8rem;
     margin-bottom: 5px;
     color: @color_5;
+    display: flex;
+    align-items: center;
+    .comments-meta-name {
+        margin-left: 5px;
+        line-height: 1.1rem;
+    }
+    .comments-actions {
+        margin-left: 5px;
+        a {
+            color: gray;
+        }
+    }
 }
 
 .topic-panel {
@@ -504,7 +532,7 @@ h1 {
     padding: 0;
     > li {
         position: relative;
-        padding: 5px 8px 2px 8px;
+        padding: 5px 8px 2px 0px;
         border-bottom: 2px solid #EEE;
     }
 }
@@ -525,14 +553,12 @@ h1 {
 }
 
 .comments-number {
-    display: block;
     height: 30px;
-    width: 45px;
-    line-height: 25px;
+    width: 40px;
+    line-height: 30px;
+    margin-right: 5px;
     border-radius: 0 10px 10px 0;
     text-align: center;
-    position: absolute;
-    left: 0;
     color: @color_10;
     background-color: @background_color_5;
 }
@@ -670,8 +696,11 @@ h1 {
     color: @color_10;
     display: flex;
     align-items: center;
-    a {
-        color: @color_12;
+    .chat-actions {
+        padding-left: 5px;
+        a {
+            color: gray;
+        }
     }
 }
 
@@ -761,13 +790,14 @@ h1 {
     }
     // 回帖内容缩进
     .comments-content {
-        margin-left: 0;
+        margin-left: 15px;
     }
     // 顶部头像
     .layout-header .header-inner .header-nav .userAvatar {
         width: 32px;
         min-width: 32px;
         height: 32px;
+        min-height: 32px;
     }
     // 首页帖子列表右侧回复数和版块
     .topic-ul > li .topic-reply-count{
@@ -784,12 +814,21 @@ h1 {
         display: block;
         font-size: 14px;
     }
-    // 首页帖子列表发帖人
+    // 首页帖子列表
     .topic-ul > li .topic-anchor > a {
         font-size: 14px;
     }
     .topic-ul > li .topic-title > a {
         font-size: 16px;
+    }
+    .topic-ul > li .topic-reply-count {
+        display: none;
+    }
+    .topic-ul > li .topic-forum-name {
+        display: none;
+    }
+    .topic-ul > li .topic-title {
+        width: 80%;
     }
     // 头像上传页面
     .layout-body .cropper-box {
