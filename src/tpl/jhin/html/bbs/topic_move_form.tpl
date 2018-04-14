@@ -1,4 +1,5 @@
 {extends file='tpl:comm.default'}
+{config_load file="conf:site.info"}
 
 {block name='title'}
 	移动帖子 - {$tMeta.title} - {#BBS_NAME#}

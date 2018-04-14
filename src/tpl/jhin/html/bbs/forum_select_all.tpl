@@ -1,4 +1,5 @@
 {extends file='tpl:comm.default'}
+{config_load file="conf:site.info"}
 
 {block name='title'}
   发帖 - {#BBS_NAME#}

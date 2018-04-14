@@ -1,3 +1,4 @@
+{extends file='tpl:comm.default'}
 {config_load file="conf:site.info"}
 {$url="$CID.topic.$topicId.$p.$BID"}
 {if $fid == 0}

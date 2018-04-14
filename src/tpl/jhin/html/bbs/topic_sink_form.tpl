@@ -1,4 +1,5 @@
 {extends file='tpl:comm.default'}
+{config_load file="conf:site.info"}
 {if $fid == 0}
   {$fName=#BBS_INDEX_NAME#}
 {else}
