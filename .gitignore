@@ -8,7 +8,7 @@
 /.idea/
 /src/0.php
 /src/core
-/src/upload/*
+/src/upload/*.jpg
 *.swp
 *.zip
 *.gz
