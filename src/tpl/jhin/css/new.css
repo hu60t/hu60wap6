@@ -416,7 +416,8 @@ h1 {
   border-bottom: 2px solid #EEE;
 }
 .topic-content,
-.floor-content {
+.floor-content,
+.chat-content {
   transition: height 0.5s;
   transition-timing-function: ease;
   overflow: hidden;
@@ -488,10 +489,9 @@ h1 {
   top: 14px;
 }
 .widget-form {
-  margin: 15px 0;
+  margin: 0;
   padding: 8px;
-  border-top: 2px solid #AAA;
-  border-bottom: 2px solid #AAA;
+  border-bottom: 1px solid #EEE;
 }
 .topic-form-label {
   display: block;
@@ -526,7 +526,7 @@ h1 {
 }
 .chat-list > li {
   margin: 0;
-  padding: 20px 15px 10px 15px;
+  padding: 10px 15px 0px 0px;
   border-bottom: 1px solid #EEE;
   position: relative;
 }
@@ -540,26 +540,29 @@ h1 {
   padding: 0 12px;
   text-align: center;
   font-weight: 700;
-  position: absolute;
   background-color: #EEE;
   color: #999;
-  left: 0;
-  top: 8px;
   border-radius: 0 5px 5px 0;
+  display: flex;
 }
 .chat-meta-name {
   font-size: 1.1rem;
   font-weight: bold;
-  display: inline-block;
+  display: flex;
 }
 .chat-meta {
   font-size: 0.8rem;
   font-weight: 400;
   color: #999;
-  margin-left: 25px;
+  display: flex;
+  align-items: center;
 }
 .chat-meta a {
   color: #88A;
+}
+.chat-avatar {
+  display: flex;
+  padding: 0 5px;
 }
 .Cropper-avatar #avatar {
   border-radius: 50%;
@@ -675,6 +678,9 @@ h1 {
   }
   .topic h1 {
     font-size: 18px;
+  }
+  .chat-content {
+    margin-left: 15px;
   }
 }
 @media screen and (min-width: 800px) {
