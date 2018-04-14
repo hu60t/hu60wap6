@@ -655,4 +655,10 @@ h1 {
   .topic-ul > li .topic-title > a {
     font-size: 16px;
   }
+  .layout-body .cropper-box {
+    display: block;
+  }
+  .layout-body .cropper-box .Cropper-case {
+    max-width: 100%;
+  }
 }

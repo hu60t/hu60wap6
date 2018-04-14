@@ -718,20 +718,25 @@ h1 {
 }
 
 @media screen and (max-width: 600px) {
+    // 帖子列表和顶部列表 <ul> 的左侧默认padding
     .forum-list, .header-nav {
         padding-left: 10px;
     }
+    // 顶部列表 <li>
     .layout-header .header-inner .header-nav > li {
         margin-right: 10px;
     }
+    // 回帖内容缩进
     .comments-content {
         margin-left: 0;
     }
+    // 顶部头像
     .layout-header .header-inner .header-nav .userAvatar {
         width: 32px;
         min-width: 32px;
         height: 32px;
     }
+    // 首页帖子列表右侧回复数和版块
     .topic-ul > li .topic-reply-count{
         display: block;
     }
@@ -746,11 +751,19 @@ h1 {
         display: block;
         font-size: 14px;
     }
+    // 首页帖子列表发帖人
     .topic-ul > li .topic-anchor > a {
         font-size: 14px;
     }
     .topic-ul > li .topic-title > a {
         font-size: 16px;
+    }
+    // 头像上传页面
+    .layout-body .cropper-box {
+        display: block;
+        .Cropper-case {
+            max-width: 100%;
+        }
     }
 }
 
