@@ -28,7 +28,7 @@
                 <ul class="header-nav">
                     {if $user->uid && $user->islogin}
                     <li>
-                        <a href="addin.webplug.{$BID}">个性化</a>
+                        <a href="addin.webplug.{$BID}">插件</a>
                     </li>
                     <li>
                         <a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>
