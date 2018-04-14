@@ -87,7 +87,9 @@
     <footer class="layout-footer">
         <div class="case">
             <div>
-                Power By <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> . <a href="link.tpl.classic.{$BID}?url64={code::b64e($page->geturl())}">经典主题</a>
+                Power By <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> . 
+                <a href="link.tpl.classic.{$BID}?url64={code::b64e($page->geturl())}">经典主题</a> . 
+                <a href="index.index.{$BID}">首页</a>
             </div>
     </footer>
   {block name='script'}{/block}
