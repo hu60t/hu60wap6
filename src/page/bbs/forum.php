@@ -24,7 +24,9 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
     foreach ($forumInfo as &$forum) {
         $forum['newTopic'] = $bbs->topicList($forum['id'], 0, 3);
         foreach ($forum['newTopic'] as &$topic) {
-            $topic += $bbs->topicMeta($topic['topic_id'], 'title');
+            $topic += $bbs->topicMeta($topic['topic_id'], '*');
+            $topic['uinfo'] = new userinfo();
+            $topic['uinfo']->uid($topic['uid']);
         }
     }
     //显示版块列表
@@ -43,7 +45,7 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
     $topicList = $bbs->topicList($fid, $startCount, $num);
 
     foreach ($topicList as &$v) {
-        $v += (array)$bbs->topicMeta($v['topic_id'], 'title,uid,mtime as time,read_count');
+        $v += (array)$bbs->topicMeta($v['topic_id'], '*');
         $v['reply_count'] = $bbs->topicContentCount($v['topic_id']) - 1;
         $uinfo = new userinfo();
         $uinfo->uid($v['uid']);

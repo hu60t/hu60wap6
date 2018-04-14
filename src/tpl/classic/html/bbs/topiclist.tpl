@@ -45,7 +45,7 @@
 			<li>
 				<a href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
 				<br>
-				({$topic.uinfo.name|code}/{$topic.read_count}点击/{$topic.reply_count}回复/{date('Y-m-d H:i',$topic.time)})
+				({$topic.uinfo.name|code}/{$topic.read_count}点击/{$topic.reply_count}回复/{date('Y-m-d H:i',$topic.mtime)})
 			</li>
 		{/foreach}
 	</ol>

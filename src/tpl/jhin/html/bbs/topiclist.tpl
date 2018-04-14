@@ -1,4 +1,6 @@
 {extends file='tpl:comm.default'}
+{config_load file="conf:site.info"}
+
 {if $fid == 0}
 	{$fName=#BBS_INDEX_NAME#}
 	{$title=#BBS_NAME#}
@@ -45,7 +47,7 @@
 <div class="topic-list">
 	{include file='tpl:bbs.list'}
 	<div class="widget-page">
-		{str::pageFormat($p,$pMax,"{$CID}.{$PID}.{$fid}.##.{$BID}")}
+		{jhinfunc::Pager($p,$pMax,"{$CID}.{$PID}.{$fid}.##.{$BID}")}
 	</div>
 </div>
 
