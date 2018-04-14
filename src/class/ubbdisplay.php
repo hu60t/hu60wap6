@@ -195,7 +195,11 @@ class UbbDisplay extends XUBBP
             $url = $prefix . '/more?mm=' . $imgId;
         }
 
-        return '<a href="'.code::html($url).'"><img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . code::html($data['alt']) . '"' : '') . '/></a>';
+        if (!$data['in_link'])
+		return '<a href="'.code::html($url).'"><img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . code::html($data['alt']) . '"' : '') . '/></a>';
+	else
+		return '<img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . code::html($data['alt']) . '"' : '') . '/>';
+
     }
 
     /*thumb 缩略图*/
@@ -210,7 +214,10 @@ class UbbDisplay extends XUBBP
             $src = $prefix . '/more?mm=' . $imgId;
         }
 
-        return '<a href="' . $src . '"><img src="link.thumb.jpg?w=' . floor($data['w']) . '&amp;h=' . floor($data['h']) . '&amp;img=' . $src . '" alt="点击查看大图"/></a>';
+        if (!$data['in_link'])
+        	return '<a href="' . $src . '"><img src="link.thumb.jpg?w=' . floor($data['w']) . '&amp;h=' . floor($data['h']) . '&amp;img=' . $src . '" alt="点击查看大图"/></a>';
+	else
+        	return '<img src="link.thumb.jpg?w=' . floor($data['w']) . '&amp;h=' . floor($data['h']) . '&amp;img=' . $src . '" alt="点击进入链接"/>';
     }
 
     /*video 视频*/

@@ -232,8 +232,8 @@ class UbbParser extends XUBBP
         if (strpos($title, '[img') !== false || strpos($title, '《图片：') !== false || strpos($title, '《缩略图：') !== false) {
             $obj = new ubbParser;
             $obj->setParse(array(
-                '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img', 2, 3)),
-                '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img', array(2, 3))
+                '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img_in_link', 2, 3)),
+                '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img_in_link', array(2, 3))
             ));
             $title = $obj->parse($title);
         }
@@ -244,6 +244,13 @@ class UbbParser extends XUBBP
             'title' => $title,
             'len' => $len
         ));
+    }
+
+    /** @brief 链接中的图片 */
+    public function img_in_link($type, $var, $var2 = '') {
+        $result = $this->img($type, $var, $var2);
+        $result[0]['in_link'] = true;
+        return $result;
     }
 
     /** @brief 图片 */

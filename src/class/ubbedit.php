@@ -105,6 +105,10 @@ class ubbEdit extends XUBBP
         if ($data['title'] == '') {
             $html = '[url]' . self::html($data['url']) . '[/url]';
         } else {
+            if (is_array($data['title'])) {
+                $data['title'] = $this->display($data['title']);
+            }
+
             $html = '[url=' . self::html($data['url']) . ']' . self::html($data['title']) . '[/url]';
         }
         return $html;
