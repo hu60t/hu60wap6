@@ -48,9 +48,4 @@
       {/if}
     </form>
   </div>
-<style>
-  .topic-form-title{
-    width: 100%;
-  }
-</style>
 {/block}

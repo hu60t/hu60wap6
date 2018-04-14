@@ -499,7 +499,7 @@ h1 {
 }
 .topic-form-title {
   display: block;
-  font-size: 1.2rem;
+  font-size: 16px;
   border: 2px solid #EEE;
   border-radius: 0;
   width: 80%;
@@ -667,6 +667,10 @@ h1 {
   }
   textarea {
     min-width: 96%;
+  }
+  .topic-form-title {
+    width: 96%;
+    font-size: 14px;
   }
 }
 @media screen and (min-width: 800px) {
