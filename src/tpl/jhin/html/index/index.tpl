@@ -5,6 +5,13 @@
 {block name='body'}
 
 <div class="widget">
+    <div class="widget">
+        <div class="bar">
+            <a href="bbs.forum.{$BID}">绿虎论坛</a>：
+            <a href="bbs.forum.0.1.{$BID}">新帖</a> |
+            <a href="bbs.newtopic.0.{$BID}">发帖</a>
+        </div>
+    </div>
 	<ul class="topic-ul">
 		{foreach $newTopicList as $topic}
 			<li>

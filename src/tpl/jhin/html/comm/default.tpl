@@ -27,25 +27,27 @@
                 </div>
                 <ul class="header-nav">
                     {if $user->uid && $user->islogin}
-                    <li>
-                        <a href="addin.webplug.{$BID}">插件</a>
-                    </li>
+                        {$MSG=msg::getInstance($USER)}
+                        {$newMSG=$MSG->newMsg()}
+                        {$newATINFO=$MSG->newAtInfo()}
                     <li>
                         <a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>
                     </li>
                     <li>
-                        <a href="msg.index.html">信息</a>
+                        <a href="msg.index.inbox.no.{$bid}">内信{if $newMSG>0}({$newMSG}){/if}</a>
                     </li>
-                    <li><a href="msg.index.@.{$bid}">消息</a></li>
-                    <li>
-                        <a href="user.exit.{$bid}?u={urlencode($page->geturl())}">退出</a>
-                    </li>
+                    <li><a href="msg.index.@.no.{$bid}">提醒{if $newATINFO>0}({$newATINFO}){/if}</a></li>
                     <li>
                         <a href="user.index.{$bid}">资料</a>
                     </li>
                     <li>
+                        <a href="addin.webplug.{$BID}">插件</a>
+                    </li>
+                    <li>
+                        <a href="user.exit.{$bid}?u={urlencode($page->geturl())}">退出</a>
+                    </li>
+                    <li>
                         <a href="user.avatar.{$bid}" title="修改头像"><img src="{$USER->avatar()}" class="userAvatar"></a>
-
                     </li>
                     {elseif !$base}
                     <li><a href="user.login.{$bid}?u={urlencode($page->geturl())}" title="登录" style="margin-right:10px">登录</a></li>
