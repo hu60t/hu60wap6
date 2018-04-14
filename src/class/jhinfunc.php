@@ -9,19 +9,9 @@
 //由于smarty模板限制，一些查询只能有PHP实现，所以写这个类库，做兼容
 
 class jhinfunc{
-    static function forum($id = 0,$depth = 2){
-        if($depth < 0)
-            return [];
+    static function forum($id = 0, $depth = 2){
         $bbs = new bbs();
-        $res = [];
-        foreach($bbs->childForumMeta($id) as $forum){
-            $res[] = [
-                "id"=>$forum["id"],
-                "name"=>$forum["name"],
-                "child"=>jhinfunc::forum($forum['id'],--$depth)
-            ];
-        }
-        return $res;
+        return $bbs->childForumMeta($id, '*', $depth);
     }
     static function IndexTopic(){
         $size = 20;

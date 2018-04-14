@@ -36,18 +36,20 @@
 </div>
     <div class="widget">
         <div class="bar">版块</div>
-        <ul class="forum-list">
+        <div class="forum-list">
             {foreach jhinfunc::forum() as $forum}
-                <li>
-                    <a href="bbs.forum.{$forum.id}.{$BID}" >{$forum.name|code}</a>
+                <div class="forum-list-line">
+                    <div class="forum-list-parent">
+                        <a href="bbs.forum.{$forum.id}.{$BID}" >{$forum.name|code}</a>
+                    </div>
                     {if $forum.child}
-                        <ul class="forum-list-child">
+                        <div class="forum-list-child">
                             {foreach $forum.child as $child}
-                                <li><a href="bbs.forum.{$child.id}.{$BID}" >{$child.name|code}</a></li>
+                                <a href="bbs.forum.{$child.id}.{$BID}" >{$child.name|code}</a>
                             {/foreach}
-                        </ul>
+                        </div>
                     {/if}
-                </li>
+                </div>
             {/foreach}
         </ul>
 

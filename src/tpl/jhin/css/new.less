@@ -102,11 +102,17 @@ h1 {
     }
 }
 .forum-list{
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    >li{
+    display:block;
+    .forum-list-line {
+        display: flex;
+        min-height: 35px;
+    }
+    .forum-list-parent {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
         > a{
+            display: inline-block;
             background: #eee;
             color: #999;
             border-radius: 5px;
@@ -115,24 +121,20 @@ h1 {
             margin: 3px;
             font-weight: 600;
         }
-        display: flex;
     }
     .forum-list-child{
         margin: 0;
         padding: 0;
-        display: flex;
-        list-style-type: none;
-        >li{
+        display: inline-block;
+        > a{
+            display: inline-block;
             margin-left: 10px;
-            a{
-                font-size: 12px;
-                display: block;
-                padding: 5px;
-                margin: 3px;
-                border-radius: 5px;
-                background: #eee;
-                color: #999;
-            }
+            background: #eee;
+            color: #999;
+            border-radius: 5px;
+            font-size: 12px;
+            padding: 5px;
+            margin: 3px;
         }
     }
 }

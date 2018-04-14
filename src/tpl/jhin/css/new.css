@@ -77,14 +77,19 @@ h1 {
   vertical-align: middle;
 }
 .forum-list {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
+  display: block;
 }
-.forum-list > li {
+.forum-list .forum-list-line {
   display: flex;
+  min-height: 35px;
 }
-.forum-list > li > a {
+.forum-list .forum-list-parent {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+.forum-list .forum-list-parent > a {
+  display: inline-block;
   background: #eee;
   color: #999;
   border-radius: 5px;
@@ -96,20 +101,17 @@ h1 {
 .forum-list .forum-list-child {
   margin: 0;
   padding: 0;
-  display: flex;
-  list-style-type: none;
+  display: inline-block;
 }
-.forum-list .forum-list-child > li {
+.forum-list .forum-list-child > a {
+  display: inline-block;
   margin-left: 10px;
-}
-.forum-list .forum-list-child > li a {
-  font-size: 12px;
-  display: block;
-  padding: 5px;
-  margin: 3px;
-  border-radius: 5px;
   background: #eee;
   color: #999;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 5px;
+  margin: 3px;
 }
 .layout-footer {
   height: 50px;
