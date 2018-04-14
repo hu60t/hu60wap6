@@ -19,8 +19,9 @@ try {
             ]));
         }
         move_uploaded_file($_FILES["avatar"]["tmp_name"],
-            "upload/" . $USER->uid.".jpg");
-        $USER->setinfo("avatar.url",$PAGE->getFileUrl(ROOT_DIR)."upload/" . $USER->uid.".jpg");
+            ROOT_DIR."/upload/" . $USER->uid.".jpg");
+	// 地址中加入一个随机数防止缓存问题
+        $USER->setinfo("avatar.url",$PAGE->getFileUrl(ROOT_DIR)."upload/" . $USER->uid.".jpg?r=".time());
         die(json_encode([
             "message"=>"设置成功！"
         ]));

@@ -3,9 +3,6 @@ $tpl = $PAGE->start();
 $USER->start($tpl);
 if (!$USER->islogin) {
     $USER->gotoLogin(true);
-}
-//设置一个头像地址用于测试
-$USER->setinfo('avatar.url', 'http://www.wapvy.cn/uc_server/images/noavatar_small.gif');
 
 if (isset($_GET['floorReverse'])) {
     $USER->setinfo('bbs.floorReverse', (bool)$_GET['floorReverse']);
