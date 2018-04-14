@@ -1,4 +1,5 @@
 {extends file='tpl:comm.default'}
+{$no_webplug=true}
 {config_load file="conf:site.info"}
 {block name='title'}
 	网页插件

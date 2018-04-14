@@ -1,4 +1,5 @@
 {extends file='tpl:comm.default'}
+{$no_webplug=true}
 
 {block name='title'}
   网页插件
@@ -13,6 +14,6 @@
 
 <div>
     保存成功，
-    <a href="index.index.{$BID|code}">点击立即进入</a>。
+    <a href="index.index.{$BID|code}">点击进入首页</a>。
 </div>
 {/block}

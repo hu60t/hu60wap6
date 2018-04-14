@@ -47,7 +47,7 @@
                         <a href="user.avatar.{$bid}" title="修改头像"><img src="{$USER->avatar()}" class="userAvatar"></a>
 
                     </li>
-                    {else}
+                    {elseif !$base}
                     <li><a href="user.login.{$bid}?u={urlencode($page->geturl())}" title="登录" style="margin-right:10px">登录</a></li>
                     <li><a href="user.reg.{$bid}?u={urlencode($page->geturl())}" title="立即注册">立即注册</a></li>
                     {/if}

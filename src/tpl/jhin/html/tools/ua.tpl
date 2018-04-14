@@ -1,4 +1,5 @@
 {extends file='tpl:comm.default'}
+{$base=true}
 {block name='title'}
 	查看HTTP请求
 {/block}

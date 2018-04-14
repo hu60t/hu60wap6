@@ -58,8 +58,8 @@
     <div class="widget">
         <div class="bar">实用工具</div>
         <div class="content-box">
-            <a href="tools.ua.html">查看浏览器UA</a>
-            <a href="tools.coder.html">编码解码器</a>
+            <p><a href="tools.ua.html">查看浏览器UA</a></p>
+            <p><a href="tools.coder.html">编码解码器</a></p>
         </div>
     </div>
     <div class="widget">
