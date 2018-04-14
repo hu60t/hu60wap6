@@ -23,7 +23,7 @@
         <div class="case">
             <div class="header-inner">
                 <div class="header-logo">
-                    <a href="/"><img src="http://m1.local/tpl/jhin/img/hulvlin2.gif"></a>
+                    <a href="/"><img src="{$PAGE->getTplUrl("img/hulvlin2.gif")}"></a>
                 </div>
                 <ul class="header-nav">
                     {if $user->uid && $user->islogin}
