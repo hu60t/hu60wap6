@@ -56,6 +56,7 @@
 			<li>
 				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
 					<span class="comments-number">#{$v.floor}</span>
+					<img src="{$v.uinfo->getinfo('avatar.url')}" class="avatar">
 					{$ubb->display($v.content,true)}
 				</div>
 				<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
