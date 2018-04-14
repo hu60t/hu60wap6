@@ -666,3 +666,9 @@ h1 {
     max-height: 360px;
   }
 }
+@media screen and (min-width: 800px) {
+  img {
+    max-width: 800px;
+    max-height: 600px;
+  }
+}
