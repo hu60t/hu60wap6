@@ -1,5 +1,8 @@
 <ul class="topic-ul">
     {foreach $topicList as $topic}
+        {if !isset($topic.topic_id) && isset($topic.id)}
+            {$topic.topic_id = $topic.id}
+        {/if}
         <li>
             <div class="topic-anchor">
                 <a href="user.info.{$topic.uinfo.uid}.{$BID}">
