@@ -8,9 +8,9 @@
   <span class="pt_c">用户中心</span>
   <span class="pt_y"><a href="user.exit.{$bid}">退出</a></span>
 </div>
-<!--p class="txt">
-<img src="{$USER->avatar()|code}" width="30"/><br/>
-</p-->
+<p class="txt">
+<img src="{$USER->avatar()|code}" width="48"/><br/>
+</p>
 <table>
   <tr>
     <td>

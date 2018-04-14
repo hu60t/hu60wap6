@@ -4,9 +4,9 @@
 <a  href="index.index.{$bid}" title="首页" class="pt_z">回首页</a>
 <span class="pt_c">用户信息</span>
 </div>
-<!--p class="txt">
- <img src="{$uinfo->avatar()|code}" width="30"/><br/>
-</p-->
+<p class="txt">
+ <img src="{$uinfo->avatar()|code}" width="48"/><br/>
+</p>
 <p class="txt">
  UID：{$uinfo->uid|code}
 </p>
