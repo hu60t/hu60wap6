@@ -129,13 +129,13 @@ class str
     public static function ago($t) {
       $d = time() - $t;
       if($d < 60){
-        return "刚刚.";
+        return "刚刚";
       }elseif($d/60 < 60){
-        return (string)round($d/60)."分钟前.";
+        return (string)round($d/60)."分钟前";
       }elseif($d/(60*60) < 24){
-        return (string)round($d/(60*60))."小时前.";
+        return (string)round($d/(60*60))."小时前";
       }elseif($d/(60*60*24) < 2){
-        return "1天前.";
+        return "1天前";
       }elseif(date('Y',time())==date('Y',$t)){
         return date('m-d H:i',$t);
       }else{

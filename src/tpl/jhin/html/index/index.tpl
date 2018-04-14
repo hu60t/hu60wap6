@@ -8,26 +8,23 @@
 	<ul class="topic-ul">
 		{foreach jhinfunc::IndexTopic() as $topic}
 			<li>
-                <div>
-                    <div class="topic-anchor">
-                        <a href="user.info.{$topic.uinfo.uid}.{$BID}">
-                            <img src="{$topic.uinfo->avatar()}" class="avatar">
-                        </a>
-                        <a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a>
-                    </div>
-                    <div class="topic-title">
-                        <a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
-                        <div class="topic-meta">
-                            ({$topic.read_count}点击/{str::ago($topic.mtime)})
-                        </div>
+                <div class="topic-anchor">
+                    <a href="user.info.{$topic.uinfo.uid}.{$BID}">
+                        <img src="{$topic.uinfo->avatar()}" class="avatar">
+                    </a>
+                    <a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a>
+                </div>
+                <div class="topic-title">
+                    <a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
+                    <div class="topic-meta">
+                        {$topic.read_count}点击 / {str::ago($topic.mtime)}
                     </div>
                 </div>
-                <div>
-                    <div class="topic-reply-count">
-                        <span class="number"><a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.reply_count}</a></span>
-                        <span class="spliter">/</span>
-                        <span class="forum"><a href="bbs.forum.{$topic.forum_id}.{$BID}" class="topic-title">{$topic.forum_name}</a></span>
-                    </div>
+                <div class="topic-reply-count">
+                    <a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.reply_count}</a>
+                </div>
+                <div class="topic-forum-name">
+                    <a href="bbs.forum.{$topic.forum_id}.{$BID}" class="topic-title">{$topic.forum_name}</a>
                 </div>
 			</li>
 		{/foreach}

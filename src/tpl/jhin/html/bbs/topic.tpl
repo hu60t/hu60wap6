@@ -29,12 +29,17 @@
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<h1>{$tMeta.title|code}</h1>
 		<div class="topic-meta">
-
-					<img src="{$v.uinfo->avatar()}" class="avatar">
-					<a class="topic-author" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>
-					<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
-			时间: {str::ago($v.mtime)}
-			点击: {$tMeta.read_count}
+            <div class="topic-avator">
+                <img src="{$v.uinfo->avatar()}" class="avatar">
+            </div>
+            <div class="topic-meta-name">
+			    <a class="topic-author" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>
+            </div>
+            <div class="topic-actions">
+			    <a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
+			    {str::ago($v.mtime)}
+			    {$tMeta.read_count}点击
+            </div>
 		</div>
 		<div class="topic-content" data-floorID="0" id="floor_content_0">
 			{$ubb->display($v.content,true)}
@@ -54,19 +59,24 @@
 			{$tmp = $v.uinfo->setUbbOpt($ubb)}
 			<li>
 				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
-					<span class="comments-number">#{$v.floor}</span>
 					<div class="comments-meta">
-						<img src="{$v.uinfo->avatar()}" class="avatar">
-						<a href="user.info.{$v.uinfo.uid}.{$BID}" class="comments-author">{$v.uinfo.name|code}</a>
-						(
-						<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
-						/ {str::ago($v.mtime)}
-						{if $bbs->canEdit($v.uinfo.uid, true)}
-							/ <a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>
-						{/if}
-						{if $bbs->canDel($v.uinfo.uid, true)}
-							/ <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
-						{/if})
+					    <div class="comments-number">{$v.floor}</div>
+						<div class="comments-avatar">
+                            <img src="{$v.uinfo->avatar()}" class="avatar">
+                        </div>
+                        <div class="comments-meta-name">
+    						<a href="user.info.{$v.uinfo.uid}.{$BID}" class="comments-author">{$v.uinfo.name|code}</a>
+                        </div>
+                        <div class="comments-actions">
+    						<a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
+	    					/ {str::ago($v.mtime)}
+		    				{if $bbs->canEdit($v.uinfo.uid, true)}
+			    				/ <a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>
+				    		{/if}
+					    	{if $bbs->canDel($v.uinfo.uid, true)}
+						    	/ <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
+    						{/if}
+                        </div>
 					</div>
 					<div class="comments-content">
 						{$ubb->display($v.content,true)}

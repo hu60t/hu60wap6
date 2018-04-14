@@ -63,15 +63,13 @@
         <div class="chat-meta-name">
             <a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a>
         </div>
-        <span>
-            &nbsp;(
-            <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a> {date("m-d H:i:s",{$k.time})}
+        <div class="chat-actions">
+            <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a>
+            {str::ago({$k.time})}
             {if $chat->canDel($k.uid,true)}
-                /
                 <a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>
             {/if}
-            )
-        </span>
+        </div>
     </div>
     <div class="chat-content" data-floorID="{$k.lid}" id="floor_content_{$k.lid}">
       {$ubbs->display($k.content,true)}
