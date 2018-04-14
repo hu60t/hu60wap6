@@ -3,6 +3,7 @@ $tpl = $PAGE->start();
 $USER->start($tpl);
 if (!$USER->islogin) {
     $USER->gotoLogin(true);
+}
 
 if (isset($_GET['floorReverse'])) {
     $USER->setinfo('bbs.floorReverse', (bool)$_GET['floorReverse']);
