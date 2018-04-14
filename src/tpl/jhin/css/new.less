@@ -306,10 +306,18 @@ h1 {
         }
         .topic-reply-count{
             display: flex;
-            >span{
+            >span {
+                display: flex;
+                align-items: center;
+            }
+            .number, .spliter {
                 font-weight: 300;
                 font-size: 30px;
                 color: gray;
+            }
+            .spliter {
+                padding-left: 15px;
+                padding-right: 15px;
             }
             a{
                 color: gray;
@@ -477,7 +485,7 @@ h1 {
     }
 }
 
-.floor-content {
+.topic-content, .floor-content {
     transition: height 0.5s;
     transition-timing-function: ease;
     overflow: hidden;
@@ -723,6 +731,26 @@ h1 {
         width: 32px;
         min-width: 32px;
         height: 32px;
+    }
+    .topic-ul > li .topic-reply-count{
+        display: block;
+    }
+    .topic-ul > li .topic-reply-count .number {
+        display: block;
+        font-size: 14px;
+    }
+    .topic-ul > li .topic-reply-count .spliter {
+        display: none;
+    }
+    .topic-ul > li .topic-reply-count .forum {
+        display: block;
+        font-size: 14px;
+    }
+    .topic-ul > li .topic-anchor > a {
+        font-size: 14px;
+    }
+    .topic-ul > li .topic-title > a {
+        font-size: 16px;
     }
 }
 

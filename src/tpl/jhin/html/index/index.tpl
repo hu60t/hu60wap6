@@ -24,8 +24,9 @@
                 </div>
                 <div>
                     <div class="topic-reply-count">
-                        <span><a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.reply_count}</a>&nbsp;&nbsp;/&nbsp;&nbsp;</span>
-                        <a href="bbs.forum.{$topic.forum_id}.{$BID}" class="topic-title">{$topic.forum_name}</a>
+                        <span class="number"><a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.reply_count}</a></span>
+                        <span class="spliter">/</span>
+                        <span class="forum"><a href="bbs.forum.{$topic.forum_id}.{$BID}" class="topic-title">{$topic.forum_name}</a></span>
                     </div>
                 </div>
 			</li>
