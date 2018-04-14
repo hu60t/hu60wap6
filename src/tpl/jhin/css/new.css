@@ -78,6 +78,7 @@ h1 {
 }
 .forum-list {
   display: block;
+  padding-left: 40px;
 }
 .forum-list .forum-list-line {
   display: flex;
