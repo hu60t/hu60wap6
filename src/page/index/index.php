@@ -15,7 +15,21 @@ if (count($newTopicList) == 21) {
     unset($newTopicList[20]);
 }
 
+foreach ($newTopicList as &$v) {
+    $forum = $bbs->forumMeta($v['forum_id'], 'name');
+    $v['forum_name'] = $forum['name'];
+
+    $v['reply_count'] = $bbs->topicContentCount($v['id']) - 1;
+
+    $v['uinfo'] = new userinfo();
+    $v['uinfo']->uid($v['uid']);
+}
+
 $tpl->assign('newTopicList', $newTopicList);
 $tpl->assign('topicPage', $p);
+
+// 版块信息
+$forumList = $bbs->childForumMeta(0, '*', 2);
+$tpl->assign('forumList', $forumList);
 
 $tpl->display('tpl:index');

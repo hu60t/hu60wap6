@@ -6,7 +6,7 @@
 
 <div class="widget">
 	<ul class="topic-ul">
-		{foreach jhinfunc::IndexTopic() as $topic}
+		{foreach $newTopicList as $topic}
 			<li>
                 <div class="topic-anchor">
                     <a href="user.info.{$topic.uinfo.uid}.{$BID}">
@@ -37,7 +37,7 @@
     <div class="widget">
         <div class="bar">版块</div>
         <div class="forum-list">
-            {foreach jhinfunc::forum() as $forum}
+            {foreach $forumList as $forum}
                 <div class="forum-list-line">
                     <div class="forum-list-parent">
                         <a href="bbs.forum.{$forum.id}.{$BID}" >{$forum.name|code}</a>
