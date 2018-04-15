@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
   {if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")}{/if}
   <link rel="stylesheet" type="text/css" href="{$css|code}"/>
-  <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css')}?r=8"/>
+  <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css')}?r=9"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')}"/>
   <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
     {block name='style'}{/block}
@@ -23,7 +23,7 @@
         <div class="case">
             <div class="header-inner">
                 <div class="header-logo">
-                    <a href="/"><img src="{$PAGE->getTplUrl("img/hulvlin2.gif")}"></a>
+                    <a href="/"><img src="{$PAGE->getTplUrl("img/logo_u16392_4.png")}"></a>
                 </div>
                 <ul class="header-nav">
                     {if $user->uid && $user->islogin}
