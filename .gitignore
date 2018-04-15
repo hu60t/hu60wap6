@@ -2,6 +2,7 @@
 /src/config/security.php
 /src/config/system.php
 /src/config/site.php
+/src/tpl/classic/html/site/friend_links_data.tpl
 /src/temp/
 /src/userfile/
 /src/wap/
