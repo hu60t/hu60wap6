@@ -22,11 +22,6 @@
 	<p>[<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天</a> | <a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间</a> | <a href="addin.webplug.{$BID}">网页插件</a> | <a href="addin.jhtml.{$BID}">JHTML</a>]</p>
 </div>
 <hr>
-<div class="news">
-	<p>『<a href="addin.speedtest.{$BID}">网速测试（找到我的最佳访问线路）</a>』</p>
-	<p>-机房搬迁，测试数据重置 ↑</p>
-</div>
-<hr>
 <div id="my_heart"><!-- 由@肖申克(uid:21156)命名 -->
 	<p>『用户专区』</p>
 	<p>
