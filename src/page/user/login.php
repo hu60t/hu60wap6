@@ -27,6 +27,7 @@ try {
 
         $user->setcookie();
         $tpl->assign('user', $user);
+        $tpl->assign('USER', $user);
         $tpl->display('tpl:login_success');
     }
 } catch (UserException $ERR) {
