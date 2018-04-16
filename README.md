@@ -63,3 +63,5 @@ Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
    * `$BID` breed id，也就是url中的最后一部分，相当于扩展名，比如`http://你的域名/q.php/bbs.topic.xxx.html`中的`html`
    * `$USER` 当前用户对象，`class/user.php`下`User`类的实例。注意当前用户可能未登录（`$USER->islogin == false`）从而某些属性拿不到。
    * `$PAGE` 当前页面对象，`class/page.php`下`Page`类的实例。`$PAGE`对象可以用来获取当前页面URL中的各种其他细节，也可以用来获取一些静态资源的绝对路径（比如`{$PAGE->getTplUrl("img/hulvlin2.gif")}`，获取`/src/tpl/主题名称/img/hulvlin2.gif`这个文件的绝对URL）。
+10. 模板中可以直接调用PHP函数，比如`{date('Y-m-d')}`或者静态类方法`{str::ago(time()-30)}`。
+11. 如果要输出由用户编写的内容，记得调用`|code`修饰器来进行`htmlspecialchars()`操作，比如：`{$topic.content|code}`。
