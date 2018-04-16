@@ -49,19 +49,30 @@ Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
 
 如何开发新主题
 --------------
-1. 下载源代码，按照上面的说明进行安装。
-2. 进入 `src/tpl` 文件夹，把 `classic` 或者 `jhin` 文件夹复制一份。复制哪个取决于你想拿哪个做为基础主题进行改造。 `classic` 较为简单，但是使用的是较老的模板技术。`jhin` 更复杂，并且使用了模块化（`block`）取代 `classic` 的 `include`。
-3. 接下来，打开 `src/sub/reg_page_bid.php`，在最后一行添加 `page::regTpl('你的主题文件夹名称');`
+
+## 新手难度
+1. 下载源代码，按照上面的说明进行安装。网站根目录是源代码目录中的`src`文件夹，所以下面说的文件夹路径均省略`src`。
+2. 进入 `tpl/classic/html/index`文件夹，里面的`index.tpl`就是首页的内容。按照你的想法改变其html代码，但是在不了解的情况下，不要动任何位于花括号（`{}`）里面的内容，这里面的内容是smarty模板标记。
+3. 进入 `tpl/classic/css` 文件夹，里面的 `default.css` 就是默认css，随你修改。`night.css`是对应的夜间模式css。
+4. `tpl/classic/img` 文件夹里面是图片，比如 `hulvlin2.gif` 是默认logo。里面的`face`文件夹放的是表情包。表情包的文件名命名规则详见 [这里](https://github.com/hu60t/hu60wap6/blob/master/src/tpl/classic/img/face/README.md)。
+5. `tpl/classic/html/bbs` 里面是论坛各种页面的模板。基本上打开文件你就知道是哪个页面了。随意修改。
+6. `tpl/classic/html/user` 是用户中心，`tpl/classic/html/addin` 里面有聊天室的模板，等等。
+7. 如果你想要修改网页的头部和尾部，那么在`tpl/classic/html/comm`里面，分别是`head.tpl`和`foot.tpl`。
+
+## 专家难度
+1. 下载源代码，按照上面的说明进行安装。网站根目录是源代码目录中的`src`文件夹，所以下面说的文件夹路径均省略`src`。
+2. 进入 `tpl` 文件夹，把 `classic` 或者 `jhin` 文件夹复制一份。复制哪个取决于你想拿哪个做为基础主题进行改造。 `classic` 较为简单，但是使用的是较老的模板技术。`jhin` 更复杂，并且使用了模块化（`block`）取代 `classic` 的 `include`。
+3. 接下来，打开 `sub/reg_page_bid.php`，在最后一行添加 `page::regTpl('你的主题文件夹名称');`
 4. 访问 `http://你的域名/q.php/link.tpl.你的主题文件夹名称.html` 切换到你的主题。
-5. 开始修改你的主题吧。`src/tpl/主题名称`下的目录结构还是比较简单的。`html`文件夹里面是页面的`smarty`模板，放在和`url`中第一部分同名的目录中。比如`http://你的域名/q.php/bbs.topic.xxx.html`对应的PHP文件是`src/page/bbs/topic.php`，它里面加载了`tpl:topic`这个模板，对应的就是`src/tpl/主题名称/html/bbs/topic.tpl`。
+5. 开始修改你的主题吧。`tpl/主题名称`下的目录结构还是比较简单的。`html`文件夹里面是页面的`smarty`模板，放在和`url`中第一部分同名的目录中。比如`http://你的域名/q.php/bbs.topic.xxx.html`对应的PHP文件是`page/bbs/topic.php`，它里面加载了`tpl:topic`这个模板，对应的就是`tpl/主题名称/html/bbs/topic.tpl`。
 6. smarty的模板分隔符是默认的`{}`。
 7. 引用模板（`{include file="这里"}`）填写的模板名称格式是这样的：`tpl:模板文件名`或`tpl:目录名.模板文件名`，如`tpl:topic`或者`tpl:bbs.topic`，带`目录名.`的主要是访问与当前文件不在同一目录的模板。同样的，主题下的配置文件（`*.conf`）也可以用类似的名称引用：`conf:配置文件名`或者`conf:目录名.配置文件名`。
-8. `src/tpl/主题名/html/comm`里面的是公共模板，可以放被各个页面引用的模板比如header、footer等。
+8. `tpl/主题名/html/comm`里面的是公共模板，可以放被各个页面引用的模板比如header、footer等。
 9. 模板中有一些可用的全局变量，比如：
    * `$CID` class id，也就是url的第一部分，比如`http://你的域名/q.php/bbs.topic.xxx.html`中的`bbs`
    * `$PID` page id，也就是url中的第二部分，比如`http://你的域名/q.php/bbs.topic.xxx.html`中的`topic`
    * `$BID` breed id，也就是url中的最后一部分，相当于扩展名，比如`http://你的域名/q.php/bbs.topic.xxx.html`中的`html`
    * `$USER` 当前用户对象，`class/user.php`下`User`类的实例。注意当前用户可能未登录（`$USER->islogin == false`）从而某些属性拿不到。
-   * `$PAGE` 当前页面对象，`class/page.php`下`Page`类的实例。`$PAGE`对象可以用来获取当前页面URL中的各种其他细节，也可以用来获取一些静态资源的绝对路径（比如`{$PAGE->getTplUrl("img/hulvlin2.gif")}`，获取`/src/tpl/主题名称/img/hulvlin2.gif`这个文件的绝对URL）。
+   * `$PAGE` 当前页面对象，`class/page.php`下`Page`类的实例。`$PAGE`对象可以用来获取当前页面URL中的各种其他细节，也可以用来获取一些静态资源的绝对路径（比如`{$PAGE->getTplUrl("img/hulvlin2.gif")}`，获取`tpl/主题名称/img/hulvlin2.gif`这个文件的绝对URL）。
 10. 模板中可以直接调用PHP函数，比如`{date('Y-m-d')}`或者静态类方法`{str::ago(time()-30)}`。
 11. 如果要输出由用户编写的内容，记得调用`|code`修饰器来进行`htmlspecialchars()`操作，比如：`{$topic.content|code}`。
