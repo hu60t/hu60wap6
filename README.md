@@ -52,7 +52,7 @@ Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
 1. 下载源代码，按照上面的说明进行安装。
 3. 进入 `src/tpl` 文件夹，把 `classic` 或者 `jhin` 文件夹复制一份。复制哪个取决于你想拿哪个做为基础主题进行改造。 `classic` 较为简单，但是使用的是较老的模板技术。`jhin` 更复杂，并且使用了模块化（`block`）取代 `classic` 的 `include`。
 4. 接下来，打开 `src/sub/reg_page_bid.php`，在最后一行添加 `page::regTpl('你的主题文件夹名称');`
-5. 访问 `你的域名/q.php/link.tpl.你的主题文件夹名称.html` 切换到你的主题。
-6. 开始修改你的主题吧。`src/tpl/主题名称`下的目录结构还是比较简单的。`html`文件夹里面是页面的`smarty`模板，放在和`url`中第一部分同名的目录中。比如`bbs.topic.xxx.html`对应的PHP文件是`src/page/bbs/topic.php`，它里面加载了`tpl:topic`这个模板，对应的就是`src/tpl/主题名称/html/bbs/topic.tpl`。
+5. 访问 `http://你的域名/q.php/link.tpl.你的主题文件夹名称.html` 切换到你的主题。
+6. 开始修改你的主题吧。`src/tpl/主题名称`下的目录结构还是比较简单的。`html`文件夹里面是页面的`smarty`模板，放在和`url`中第一部分同名的目录中。比如`http://你的域名/q.php/bbs.topic.xxx.html`对应的PHP文件是`src/page/bbs/topic.php`，它里面加载了`tpl:topic`这个模板，对应的就是`src/tpl/主题名称/html/bbs/topic.tpl`。
 7. 引用模板（`{include file="这里"}`）填写的模板名称格式是这样的：`tpl:模板文件名`或`tpl:目录名.模板文件名`，如`tpl:topic`或者`tpl:bbs.topic`，带`目录名.`的主要是访问与当前文件不在同一目录的模板。同样的，主题下的配置文件（`*.conf`）也可以用类似的名称引用：`conf:配置文件名`或者`conf:目录名.配置文件名`。
 8. `src/tpl/主题名/html/comm`里面的是公共模板，可以放被各个页面引用的模板比如header、footer等。
