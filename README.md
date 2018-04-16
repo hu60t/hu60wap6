@@ -50,7 +50,7 @@ Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
 如何开发新主题
 --------------
 
-## 新手难度
+### 新手难度
 1. 下载源代码，按照上面的说明进行安装。网站根目录是源代码目录中的`src`文件夹，所以下面说的文件夹路径均省略`src`。
 2. 进入 `tpl/classic/html/index`文件夹，里面的`index.tpl`就是首页的内容。按照你的想法改变其html代码，但是在不了解的情况下，不要动任何位于花括号（`{}`）里面的内容，这里面的内容是smarty模板标记。
 3. 进入 `tpl/classic/css` 文件夹，里面的 `default.css` 就是默认css，随你修改。`night.css`是对应的夜间模式css。
@@ -59,7 +59,7 @@ Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
 6. `tpl/classic/html/user` 是用户中心，`tpl/classic/html/addin` 里面有聊天室的模板，等等。
 7. 如果你想要修改网页的头部和尾部，那么在`tpl/classic/html/comm`里面，分别是`head.tpl`和`foot.tpl`。
 
-## 专家难度
+### 专家难度
 1. 下载源代码，按照上面的说明进行安装。网站根目录是源代码目录中的`src`文件夹，所以下面说的文件夹路径均省略`src`。
 2. 进入 `tpl` 文件夹，把 `classic` 或者 `jhin` 文件夹复制一份。复制哪个取决于你想拿哪个做为基础主题进行改造。 `classic` 较为简单，但是使用的是较老的模板技术。`jhin` 更复杂，并且使用了模块化（`block`）取代 `classic` 的 `include`。
 3. 接下来，打开 `sub/reg_page_bid.php`，在最后一行添加 `page::regTpl('你的主题文件夹名称');`
