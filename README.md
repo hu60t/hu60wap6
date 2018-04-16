@@ -19,10 +19,11 @@ hu60wap6 的主要功能有：论坛、聊天室、内信、@Ta、文件图片�
 安装说明
 -----------------
 
-1. 把 ```src``` 文件夹里的全部文件放在网站根目录。
-2. 进入网站根目录，把 ```config``` 文件夹里的所有 ```xxx.default.php``` 改名成 xxx.php，去掉 ```.default```。
-3. 修改 ```config/db.php``` ，填写好 mysql 信息。
-4. 导入 ```db/mysql.sql``` 到数据库。
+1. 把 `src` 文件夹里的全部文件放在网站根目录。
+2. 进入网站根目录，把 `config` 文件夹里的所有 `xxx.default.php` 都复制一份，改名成 xxx.php，去掉 `.default`。如果你准备用git进行版本控制，建议采用复制而不是删除原文件或者直接给原文件重命名。
+3. 进入 `src/tpl/classic/html/site` 文件夹，把 `friend_links_data.default.tpl` 复制一份，改名为 `friend_links_data.tpl`。
+3. 修改 `config/db.php` ，填写好 mysql 信息。
+4. 导入 `db/mysql.sql` 到数据库。
 5. 访问。
 6. uid 为 1 的用户会成为系统的管理员用户，可以访问后台（虽然后台只有添加版块这一个功能，修改版块的功能是崩溃的。）
 
