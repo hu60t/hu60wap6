@@ -54,5 +54,12 @@ Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
 4. 接下来，打开 `src/sub/reg_page_bid.php`，在最后一行添加 `page::regTpl('你的主题文件夹名称');`
 5. 访问 `http://你的域名/q.php/link.tpl.你的主题文件夹名称.html` 切换到你的主题。
 6. 开始修改你的主题吧。`src/tpl/主题名称`下的目录结构还是比较简单的。`html`文件夹里面是页面的`smarty`模板，放在和`url`中第一部分同名的目录中。比如`http://你的域名/q.php/bbs.topic.xxx.html`对应的PHP文件是`src/page/bbs/topic.php`，它里面加载了`tpl:topic`这个模板，对应的就是`src/tpl/主题名称/html/bbs/topic.tpl`。
+7. smarty的模板分隔符是默认的`{}`。
 7. 引用模板（`{include file="这里"}`）填写的模板名称格式是这样的：`tpl:模板文件名`或`tpl:目录名.模板文件名`，如`tpl:topic`或者`tpl:bbs.topic`，带`目录名.`的主要是访问与当前文件不在同一目录的模板。同样的，主题下的配置文件（`*.conf`）也可以用类似的名称引用：`conf:配置文件名`或者`conf:目录名.配置文件名`。
 8. `src/tpl/主题名/html/comm`里面的是公共模板，可以放被各个页面引用的模板比如header、footer等。
+9. 模板中有一些可用的全局变量，比如：
+   * `$CID` class id，也就是url的第一部分，比如`http://你的域名/q.php/bbs.topic.xxx.html`中的`bbs`
+   * `$PID` page id，也就是url中的第二部分，比如`http://你的域名/q.php/bbs.topic.xxx.html`中的`topic`
+   * `$BID` breed id，也就是url中的最后一部分，相当于扩展名，比如`http://你的域名/q.php/bbs.topic.xxx.html`中的`html`
+   * `$USER` 当前用户对象，`class/user.php`下`User`类的实例。注意当前用户可能未登录（$USER->islogin == false）从而某些属性拿不到。
+   * `$PAGE` 当前页面对象，`class/page.php`下`Page`类的实例。`$PAGE`对象可以用来获取当前页面URL中的各种其他细节，也可以用来获取一些静态资源的绝对路径（比如`{$PAGE->getTplUrl("img/hulvlin2.gif")}`，获取`/src/tpl/主题名称/img/hulvlin2.gif`这个文件的绝对URL）。
