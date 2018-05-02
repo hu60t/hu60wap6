@@ -1,0 +1,143 @@
+//这是一个简单的布局系统
+html, body {
+    margin: 0;
+    padding: 0;
+}
+body{
+    //filter: invert(50%);
+}
+* {
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+}
+button{
+    border-radius: 10%;
+    outline-style: none;
+    cursor: pointer;
+    color: #333;
+    background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+    border: 1px solid #ccc;
+    &:hover{
+        border: 1px solid #f90;
+    }
+}
+.row {
+    display: flex;
+    flex-wrap:wrap;
+    //align-items:stretch;
+    > .col-5-1 {
+        width: 20%;
+    }
+    > .col-4-1 {
+        width: 25%;
+    }
+    > .col-4-2 {
+        width: 50%;
+    }
+    > .col-4-3 {
+        width: 75%;
+    }
+    > .col-4-4 {
+        width: 100%;
+    }
+    > .col-5-4{
+        width: 80%;
+    }
+}
+.row-padding{
+    > div{
+        padding: 5px;
+    }
+}
+
+.container{
+    max-width: 900px;
+    margin:0 auto;
+    position: relative;
+    left: 130px;
+    box-shadow: 0 0 15px #ccc;
+    border-radius: 15px;
+    background-color: #FFF;
+    min-height: 95vh;
+}
+.layout-head-inner{
+    position: relative;
+}
+
+.container-small {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.container-mini {
+    max-width: 320px;
+    margin: 0 auto;
+}
+.right{
+    float: right;
+}
+@media screen and (max-width: 950px) {
+    .container {
+        padding: 0;
+    }
+
+    .row-mobile {
+        flex-direction: column;
+        .col-5-1,.col-4-1, .col-4-2, .col-4-3, .col-4-4,.col-5-4 {
+            width: 100%;
+        }
+    }
+}
+// 修饰组件
+.gap{
+    margin: 3px;
+    padding: 3px;
+}
+.fillet{
+    border: 1px solid #c9c9c9;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+}
+.form{
+    > div{
+        margin-top: 10px;
+    }
+}
+.block-center{
+    display: block;
+    text-align: center;
+}
+
+textarea,input,select{
+    border-radius: 5px;
+    padding: 3px 8px;
+    border: 1px solid #ccc;
+    outline-style: none;
+    &:focus{
+        box-shadow: 0 0 3px 3px #EEE;
+        border: 1px solid #AAA;
+    }
+}
+select{
+    background-color: transparent;
+}
+.list{
+    border-collapse:collapse;
+    width: 100%;
+    tr{
+        border-top: 1px solid #EEE;
+        border-bottom: 1px solid #EEE;
+    }
+
+    th,td{
+        border-left: 1px solid #EEE;
+        padding: 5px;
+        &:first-child{
+            border-left: none;
+        }
+    }
+
+}

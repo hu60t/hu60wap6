@@ -1,1 +1,1 @@
-../../../classic/html/site/friend_links_data.tpl
+../../../classic/html/site/friend_links_data.default.tpl

@@ -36,6 +36,7 @@ try {
         } else {
             $user->setcookie();
             $tpl->assign('user', $user);
+            $tpl->assign('USER', $user);
             $tpl->display('tpl:reg_success');
         }
     }

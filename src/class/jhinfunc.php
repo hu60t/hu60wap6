@@ -32,7 +32,14 @@ class jhinfunc{
         return $topic;
     }
 
-    // 生成翻页器UI的html
+    // 生成翻页UI的html
+    // 其中会将URL中的##换成对于页码
+    /**
+     * @param $page int 当前页
+     * @param $pMax integer 最大页数
+     * @param $url string 网址格式
+     * @return string
+     */
     public static function Pager($page,$pMax,$url){
       $str='';
       $n=3; // 共7页，每一边3页
