@@ -68,6 +68,12 @@
             <p><a href="tools.coder.html">编码解码器</a></p>
         </div>
     </div>
+	<div class="widget">
+        <div class="bar">小说阅读</div>
+        <div class="content-box">
+            <p><a href="book.index.html">小说列表</a></p>
+        </div>
+    </div>
     <div class="widget">
         <div class="bar">友情链接</div>
         <div class="content-box">
