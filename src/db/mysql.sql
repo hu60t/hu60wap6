@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4deb1
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: 2016-11-19 03:35:58
--- 服务器版本： 10.0.27-MariaDB-2
--- PHP Version: 7.0.12-1
+-- Host: localhost:3306
+-- Generation Time: 2018-05-07 17:30:45
+-- 服务器版本： 10.0.28-MariaDB-2
+-- PHP Version: 7.1.13-1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -103,6 +103,46 @@ CREATE TABLE `hu60_bbs_topic_meta` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `hu60_book_chapter`
+--
+
+CREATE TABLE `hu60_book_chapter` (
+  `id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `chapter` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `version` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) NOT NULL,
+  `ctime` bigint(20) NOT NULL DEFAULT '0',
+  `mtime` bigint(20) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `hu60_book_meta`
+--
+
+CREATE TABLE `hu60_book_meta` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `author` varchar(100) NOT NULL DEFAULT '',
+  `type` varchar(255) NOT NULL DEFAULT '',
+  `status` varchar(45) NOT NULL DEFAULT '',
+  `chapter_count` int(11) NOT NULL DEFAULT '0',
+  `referer` varchar(100) NOT NULL DEFAULT '',
+  `referer_url` varchar(255) NOT NULL DEFAULT '',
+  `characters` varchar(255) NOT NULL DEFAULT '',
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `admin_uids` varchar(255) NOT NULL DEFAULT '',
+  `ctime` bigint(20) NOT NULL DEFAULT '0',
+  `mtime` bigint(20) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `hu60_msg`
 --
 
@@ -145,7 +185,7 @@ CREATE TABLE `hu60_token` (
   `lifetime` bigint(20) NOT NULL,
   `token` char(32) NOT NULL,
   `uid` int(11) NOT NULL,
-  `data` BLOB NOT NULL DEFAULT ''
+  `data` blob NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -219,6 +259,20 @@ ALTER TABLE `hu60_bbs_topic_meta`
   ADD KEY `lfmtime` (`level`,`forum_id`,`mtime`);
 
 --
+-- Indexes for table `hu60_book_chapter`
+--
+ALTER TABLE `hu60_book_chapter`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `book_chapter` (`book_id`,`chapter`,`version`) USING BTREE;
+
+--
+-- Indexes for table `hu60_book_meta`
+--
+ALTER TABLE `hu60_book_meta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mtime` (`mtime`);
+
+--
 -- Indexes for table `hu60_msg`
 --
 ALTER TABLE `hu60_msg`
@@ -280,6 +334,16 @@ ALTER TABLE `hu60_bbs_topic_content`
 -- 使用表AUTO_INCREMENT `hu60_bbs_topic_meta`
 --
 ALTER TABLE `hu60_bbs_topic_meta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_book_chapter`
+--
+ALTER TABLE `hu60_book_chapter`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `hu60_book_meta`
+--
+ALTER TABLE `hu60_book_meta`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- 使用表AUTO_INCREMENT `hu60_msg`
