@@ -31,6 +31,13 @@ class userinfo implements ArrayAccess
     protected $uid; //当前用户
 
     /**
+     * 获取一个新实例
+    */
+    public static function getInstance() {
+        return new userinfo();
+    }
+
+    /**
      * 连接数据库
      * 参数：
      * $read_only  如果为true，打开一个只读的数据库连接，只允许查询；否则打开一个可读可写的连接。实现分布式应用的读写分离。

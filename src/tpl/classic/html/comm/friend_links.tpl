@@ -1,32 +1,27 @@
 {include file="tpl:site.friend_links_data" scope="parent"}
-{*$currLinkKeys=array_rand($FRIEND_LINKS, min(count($FRIEND_LINKS), 12))}
-{for $line = 0 to 2}
-	<p>
-	{for $row = 0 to 3}
-		{$i = $line * 4 + $row}
-		{if isset($currLinkKeys[$i])}
-			{$link = $FRIEND_LINKS[$currLinkKeys[$i]]}
-			<a href="{$link[1]|code}">{$link[0]|code}</a>
-		{else}
-			空位
-		{/if}
-		{if $row < 3}|{/if}
-	{/for}
-	<p>
-{/for*}
-{$rows = count($FRIEND_LINKS)/4 - 1}
-{for $line = 0 to $rows}
-    <p>
-    {for $row = 0 to 3}
-    {$i = $line * 4 + $row}
-    {if isset($FRIEND_LINKS[$i])}
-        {$link = $FRIEND_LINKS[$i]}
-        <a href="{$link[1]|code}">{$link[0]|code}</a>
-    {else}
-            空位
+<style>
+.friend-link-item {
+    display: inline-block;
+    margin: 10px;
+}
+.friend-link-item img {
+    height: 32px;
+    width: 32px;
+    min-height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+}
+</style>
+<div class="friend-link-box">
+{$uinfo = userinfo::getInstance()}
+{foreach $FRIEND_LINKS as $link}
+    <div class="friend-link-item">
+        {if isset($link[2])}
+            {$tmp=$uinfo->uid($link[2])}
+            <a href="user.info.{$uinfo->uid}.{$BID}"><img src="{$uinfo->avatar()|code}" alt="{$uinfo->name|code}" /></a>
+        {else}
+            <a href="bbs.topic.86480.{$BID}"><img src="{page::getFileUrl(ROOT_DIR)}upload/default.jpg" alt="默认头像" /></a>
         {/if}
-        {if $row < 3}|{/if}
-    {/for}
-    <p>
-{/for}
-
+		<a href="{$link[1]|code}">{$link[0]|code}</a>
+    </div>
+{/foreach}
