@@ -15,7 +15,7 @@ if ($p < 1) $p = 1;
 elseif ($p>$maxPage) $p = $maxPage;
 
 $begin = ($p - 1) * $size + 1;
-$end = min($begin + $size, $chapterCount);
+$end = min($begin + $size - 1, $chapterCount);
 
 $chapterList = [];
 for ($i=$begin; $i<=$end; $i++) {
