@@ -1,9 +1,4 @@
-{extends file='tpl:comm.default'}
-{block name='title'}
-	{$chapterMeta.title|code} - {$bookMeta.title|code}
-{/block}
-{block name='body'}
-
+{include file="tpl:comm.head" title="{$chapterMeta.title|code} - {$bookMeta.title|code}"}
 <div class="widget">
     <div class="widget">
         <div class="bar">
@@ -19,4 +14,4 @@
         {jhinfunc::Pager($chapter,$chapterCount,"{$cid}.{$pid}.{$bookId}.##.{$bid}")}
 	</div>
 </div>
-{/block}
+{include file="tpl:comm.foot"}

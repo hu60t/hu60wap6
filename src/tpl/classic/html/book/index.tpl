@@ -1,9 +1,4 @@
-{extends file='tpl:comm.default'}
-{block name='title'}
-	小说阅读 - {#SITE_NAME#}
-{/block}
-{block name='body'}
-
+{include file="tpl:comm.head" title="小说阅读 - {#SITE_NAME#}"}
 <div class="widget">
     <div class="widget">
         <div class="bar">
@@ -37,4 +32,4 @@
 		{/if}
 	</div>
 </div>
-{/block}
+{include file="tpl:comm.foot"}

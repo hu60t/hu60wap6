@@ -48,6 +48,11 @@
 	<p>-<a href="tools.coder.{$BID}">编码解码器</a></p>
 </div>
 <hr>
+<div class="books">
+    <p class="bar">『小说阅读』</p>
+	<p>-<a href="book.index.html">小说列表</a></p>
+</div>
+<hr>
 <div id="friend_links">
 	<p>『友情链接』</p>
 	{include file="tpl:comm.friend_links"}
