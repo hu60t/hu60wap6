@@ -2,7 +2,7 @@
 <style>
 .friend-link-item {
     display: inline-block;
-    margin: 10px;
+    margin: 8px 10px;
 }
 .friend-link-item img {
     height: 32px;
@@ -10,6 +10,17 @@
     min-height: 32px;
     min-width: 32px;
     border-radius: 50%;
+}
+@media screen and (max-width: 600px) {
+    .friend-link-item {
+        margin: 3px 5px;
+    }
+    .friend-link-item img {
+        height: 24px;
+        width: 24px;
+        min-height: 24px;
+        min-width: 24px;
+    }
 }
 </style>
 <div class="friend-link-box">
