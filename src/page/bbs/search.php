@@ -20,10 +20,16 @@ if ($keywords != '' || $username != '') {
 
     //获取帖子列表
     $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
+    $maxP = ceil($count / $size);
     $topicList = [];
 
     foreach ($result as $v) {
         $topic = $bbs->topicMeta($v['tid'], '*');
+
+        // 偶尔会有回复内容存在但是主题帖丢失的情况
+        if (empty($topic)) {
+            continue;
+        }
 
         $forum = $bbs->forumMeta($topic['forum_id'], 'name');
         $topic['forum_name'] = $forum['name'];
@@ -35,9 +41,15 @@ if ($keywords != '' || $username != '') {
         $topicList[] = $topic;
     }
 
+    // 列表整个为空时跳转到上一页或最大页
+    if (empty($topicList)) {
+        $u = '?keywords='.urlencode($keywords).'&username='.urlencode($username).'&p='.min($p-1, $maxP);
+        header('Location: '.$u);
+        die;
+    }
+
     $tpl->assign('topicList', $topicList);
     $tpl->assign('count', $count);
-    $maxP = ceil($count / $size);
     $tpl->assign('maxP', $maxP);
 }
 else {
