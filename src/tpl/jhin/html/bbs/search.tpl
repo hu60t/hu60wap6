@@ -18,10 +18,10 @@
     <input type="submit" class="search-form-submit" value="搜索" />
   </form>
 </div>
-{if $topicList}
 <div class="bar">
-    一共{$count}主题
+    找到{$count}个主题
 </div>
+{if $topicList}
 <!--帖子列表-->
 <div class="search-list">
         {include file='tpl:bbs.list'}

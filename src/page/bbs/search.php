@@ -42,7 +42,8 @@ if ($keywords != '' || $username != '') {
     }
 
     // 列表整个为空时跳转到上一页或最大页
-    if (empty($topicList)) {
+    // 避免搜索结果为空时循环重定向
+    if (empty($topicList) && $p > 1) {
         $u = '?keywords='.urlencode($keywords).'&username='.urlencode($username).'&p='.min($p-1, $maxP);
         header('Location: '.$u);
         die;

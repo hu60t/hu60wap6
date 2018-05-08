@@ -13,7 +13,7 @@
 	<input type="submit" value="搜索" />
 </form>
 
-<p class="cr_cb">一共{$count}主题 </p>
+<p class="cr_cb">找到{$count}个主题</p>
 
 {if $topicList}
 <!--帖子列表-->
