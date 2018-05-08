@@ -28,6 +28,7 @@
         #avatar{
             width: 128px;
             height: 128px;
+            border-radius: 50%;
         }
     </style>
 {/block}

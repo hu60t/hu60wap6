@@ -1,4 +1,5 @@
 {config_load file="conf:site.info"}
+{header content_type="text/html" charset="utf-8"}
 <!DOCTYPE html>
 <html>
 <head>
