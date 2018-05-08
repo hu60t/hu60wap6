@@ -33,106 +33,80 @@ class jhinfunc{
     }
 
     // 生成翻页器UI的html
-    public static function Pager($page,$pMax,$url){
-      $str='';
-      $n=3; // 共7页，每一边3页
+    public static function Pager($p, $pMax, $url, $urlPagePlaceholder='##', $length = 7) {
+        $sideLength = (int)(($length - 1) / 2);
 
-      $maxGenPage = 1; // 输出的最大页码
-      $minGenPage = $pMax; // 输出的最小页码
-
-      if(($page-$n) <= 1){
-        // 开头几页
-        for($i=1;$i<=2*$n+1;$i++){
-          $maxGenPage = max($maxGenPage, $i);
-          $minGenPage = min($minGenPage, $i);
-
-          $u=str_replace("##",$i,$url);
-          $str .= ($page==$i)?"<li class=\"active\"><a href=\"{$u}\">{$i}</a></li>"."\n":"<li><a href=\"{$u}\">{$i}</a></li>"."\n";
-          if($i >= $pMax) break;
-        }
-      }elseif(($page+$n) > $pMax){
-        // 末尾几页
-        for($i=$pMax-2*$n;$i<=$pMax;$i++){
-          $maxGenPage = max($maxGenPage, $i);
-          $minGenPage = min($minGenPage, $i);
-
-          $u=str_replace("##",$i,$url);
-          $str .= ($page==$i)?"<li class=\"active\"><a href=\"{$u}\">{$i}</a></li>"."\n":"<li><a href=\"{$u}\">{$i}</a></li>"."\n";
-          if($i >= $pMax) break;
-        }
-      }else{
-        // 中间
-        for($i=$n;$i>0;$i--){
-          $p=$page-$i;
-          if($p < 1){
-            continue;
-          }
-          
-          $maxGenPage = max($maxGenPage, $p);
-          $minGenPage = min($minGenPage, $p);
-
-          $u=str_replace("##",$p,$url);
-          $str .= "<li><a href=\"{$u}\">{$p}</a></li>"."\n";
+        if ($pMax - $p < $sideLength) {
+            // 末尾几页
+            $begin = max($p - $length + 1, 1);
+        } else {
+            // 开头或中间几页
+            $begin = max($p - $sideLength, 1);
         }
 
-        $u=str_replace("##",$page,$url);
-        $str .= "<li class=\"active\"><a href=\"{$u}\">{$page}</a></li>"."\n";
+        $end = min($begin + $length - 1, $pMax);
 
-        for($i=1;$i<=$n;$i++){
-          $p=$page+$i;
-          if($p > $pMax){
-            break;
-          }
-          
-          $maxGenPage = max($maxGenPage, $p);
-          $minGenPage = min($minGenPage, $p);
-          
-          $u=str_replace("##",$p,$url);
-          $str .= "<li><a href=\"{$u}\">{$p}</a></li>"."\n";
+        $html = '';
+
+        for ($i=$begin; $i<=$end; $i++) {
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, $i, $url));
+            if ($i == $p) {
+                $html .= "<li class=\"active\"><a href=\"{$u}\">{$i}</a></li>\n";
+            } else {
+                $html .= "<li><a href=\"{$u}\">{$i}</a></li>\n";
+            }
         }
-      }
-      
-      // 首页按钮
-      if ($minGenPage != 1) {
-        $u=str_replace("##",1,$url);
-        if ($minGenPage != 2) { $str = "<li class=\"disabled\">\n<a href=\"#\">...</a></li>\n".$str; }
-        $str = "<li><a href=\"{$u}\">1</a></li>\n".$str;
-      }
+
+        // 首页按钮
+        if ($begin > 1) {
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, 1, $url));
+            if ($begin > 2) {
+                $html = "<li class=\"disabled\"><a href=\"#\">...</a></li>\n".$html;
+            }
+            $html = "<li><a href=\"{$u}\">1</a></li>\n".$html;
+        }
 
 
-      // 上一页按钮
-      if($page > 1){
-        $u=str_replace("##",$page-1,$url);
-        $str = "<li><a href=\"{$u}\">&lt;</a></li>"."\n".$str;
-      }else{
-        $str = "<li class=\"disabled\"><a href=\"#\">&lt;</a></li>"."\n".$str;
-      }
+        // 上一页按钮
+        if ($p > 1) {
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, $p-1, $url));
+            $html = "<li><a href=\"{$u}\">&lt;</a></li>\n".$html;
+        } else {
+            $html = "<li class=\"disabled\"><a href=\"#\">&lt;</a></li>\n".$html;
+        }
 
-      // 末页按钮
-      if ($maxGenPage != $pMax) {
-        $u=str_replace("##",$pMax,$url);
-        if ($maxGenPage != $pMax-1) { $str .= "<li class=\"disabled\"><a href=\"#\">...</a></li>\n";}
-        $str .= "<li><a href=\"{$u}\">$pMax</a></li>\n";
-      }
+        // 末页按钮
+        if ($end < $pMax) {
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, $pMax, $url));
+            if ($end < $pMax-1) {
+                $html .= "<li class=\"disabled\"><a href=\"#\">...</a></li>\n";
+            }
+            $html .= "<li><a href=\"{$u}\">$pMax</a></li>\n";
+        }
 
-      // 下一页按钮
-      if($page < $pMax){
-        $u=str_replace("##",$page+1,$url);
-        $str .= "<li><a href=\"{$u}\">&gt;</a></li>"."\n";
-      }else{
-        $str .= "<li class=\"disabled\"><a href=\"#\">&gt;</a></li>"."\n";
-      }
+        // 下一页按钮
+        if ($p < $pMax){
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, $p+1, $url));
+            $html .= "<li><a href=\"{$u}\">&gt;</a></li>"."\n";
+        } else {
+            $html .= "<li class=\"disabled\"><a href=\"#\">&gt;</a></li>\n";
+        }
 
-      $str = "<ul class=\"pagination\">\n{$str}\n</ul>\n";
-      
-      // 跳页输入框
-      if ($pMax > 7) {
-        $u = str_replace('##', "'+this.value+'", $url);
-        $js = "if(event.keyCode==13){ location='$u'; }";
-        $str .= '<ul class="page-jumper"><li><input placeholder="跳页" onkeypress="'.$js.'"></li></ul>';
-      }
-      
-      return $str;
+        $html = "<ul class=\"pagination\">\n{$html}\n</ul>\n";
+
+        // 跳页输入框
+        if ($pMax > $length) {
+            $u = explode($urlPagePlaceholder, $url);
+            foreach ($u as &$i) {
+                $i = json_encode($i);
+            }
+            $u = implode(' + this.value + ', $u);
+            $js = "if (event.keyCode == 13){ location = {$u}; }";
+            $html .= '<ul class="page-jumper"><li><input placeholder="跳页" onkeypress=\''.$js.'\'></li></ul>';
+        }
+
+        return $html;
     }
+
 //class end
 }

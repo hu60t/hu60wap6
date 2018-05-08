@@ -26,7 +26,7 @@
 <div class="search-list">
         {include file='tpl:bbs.list'}
         <div class="widget-page">
-            {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;p=##"}
+            {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&p=##"}
             {jhinfunc::Pager($p,$maxP,$url)}
         </div>
 </div>
