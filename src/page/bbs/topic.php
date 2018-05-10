@@ -36,7 +36,9 @@ if (!$tMeta){
 $tpl->assign('tMeta', $tMeta);
 
 //增加帖子点击数
-$bbs->addTopicReadCount($tid);
+if ($USER->uid != $tMeta['uid']) {
+    $bbs->addTopicReadCount($tid);
+}
 
 //读取帖子内容
 
