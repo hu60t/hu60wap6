@@ -7,6 +7,11 @@ $w = (int)$PAGE->ext[0];
 $h = (int)$PAGE->ext[1];
 $img = hex2bin($PAGE->ext[2]);
 
+if (!preg_match('#^https?://#is', $img)) {
+    header('HTTP/1.1 403 Forbidden');
+    die;
+}
+
 $size = getimagesize($img);
 $src_w = $size[0];
 $src_h = $size[1];
