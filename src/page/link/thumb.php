@@ -9,7 +9,7 @@ $img = hex2bin($PAGE->ext[2]);
 
 if (!preg_match('#^https?://#is', $img)) {
     header('HTTP/1.1 403 Forbidden');
-    die;
+    die('<h1>403 Forbidden</h1>');
 }
 
 $size = getimagesize($img);
