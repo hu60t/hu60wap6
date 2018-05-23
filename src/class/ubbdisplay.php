@@ -214,10 +214,12 @@ class UbbDisplay extends XUBBP
             $src = $prefix . '/more?mm=' . $imgId;
         }
 
-        if (!$data['in_link'])
-        	return '<a href="' . $src . '"><img src="link.thumb.jpg?w=' . floor($data['w']) . '&amp;h=' . floor($data['h']) . '&amp;img=' . $src . '" alt="点击查看大图"/></a>';
-	else
-        	return '<img src="link.thumb.jpg?w=' . floor($data['w']) . '&amp;h=' . floor($data['h']) . '&amp;img=' . $src . '" alt="点击进入链接"/>';
+        if (!$data['in_link']) {
+        	return '<a href="' . $src . '"><img src="link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
+        }
+        else {
+        	return '<img src="link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击进入链接"/>';
+        }
     }
 
     /*video 视频*/

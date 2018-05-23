@@ -1,6 +1,6 @@
 {header content_type="text/html" charset="utf-8"}
 <!DOCTYPE html>
-<html>
+<html lang="zh-hans">
 <head>
 	<meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
 	{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}

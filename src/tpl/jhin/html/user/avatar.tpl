@@ -1,7 +1,7 @@
 {extends file='tpl:comm.default'}
 
 {block name='title'}
-    修改联系信息
+    修改头像
 {/block}
 
 {block name='style'}

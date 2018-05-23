@@ -109,3 +109,168 @@ img {
     }
 }
 
+/* 小说阅读器 */
+.topic-ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .topic-ul > li {
+    padding: 5px 10px 2px 10px;
+    border-bottom: 1px solid #995555;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topic-ul > li .topic-meta {
+    margin: 0px;
+  }
+  .topic-ul > li .topic-reply-count {
+    width: 5%;
+    display: flex;
+    font-weight: 300;
+    font-size: 30px;
+    color: gray;
+  }
+  .topic-ul > li .topic-reply-count a {
+    color: gray;
+  }
+  .topic-ul > li .topic-forum-name {
+    width: 15%;
+    display: flex;
+  }
+  .topic-ul > li .topic-forum-name a {
+    color: gray;
+  }
+  .topic-ul > li .topic-anchor {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    word-break: break-all;
+  }
+  .topic-ul > li .topic-anchor > a {
+    color: gray;
+  }
+  .topic-ul > li .topic-title {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .topic-ul > li .topic-title > a {
+    font-size: 18px;
+    display: block;
+  }
+  .page-jumper {
+    overflow: hidden;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-content: center;
+    padding-left: 2px;
+    margin: 10px 0 0 20px;
+  }
+  .page-jumper > li {
+    display: inline-block;
+  }
+  .page-jumper > li > input {
+    height: 22px;
+    width: 38px;
+    position: relative;
+    margin-left: -1px;
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid #717372;
+    border-radius: 5px;
+    color: green;
+    background-color: #ccc;
+  }
+  .pagination {
+    overflow: hidden;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-content: center;
+    padding-left: 2px;
+    margin: 10px 0 0 20px;
+  }
+  .pagination > li {
+    display: inline-block;
+  }
+  .pagination > li:first-child > a {
+    border-radius: 5px 0 0 5px;
+  }
+  .pagination > li:last-child > a {
+    border-radius: 0 5px 5px 0;
+  }
+  .pagination > li > a {
+    position: relative;
+    margin-left: -1px;
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid #717372;
+    color: #337ab7;
+  }
+  .pagination > .disabled > a {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #ccc;
+  }
+  .pagination > .disabled > a:focus {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #ccc;
+  }
+  .pagination > .disabled > a:hover {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #ccc;
+  }
+  .pagination > .active > a {
+    color: #ccc;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+  .pagination > .active > a:focus {
+    color: #ccc;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+  .pagination > .active > a:hover {
+    color: #ccc;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+
+@media screen and (max-width: 600px) {
+  .topic-ul > li .topic-reply-count {
+    display: block;
+  }
+  .topic-ul > li .topic-reply-count .number {
+    display: block;
+    font-size: 14px;
+  }
+  .topic-ul > li .topic-reply-count .spliter {
+    display: none;
+  }
+  .topic-ul > li .topic-reply-count .forum {
+    display: block;
+    font-size: 14px;
+  }
+  .topic-ul > li .topic-anchor > a {
+    font-size: 14px;
+  }
+  .topic-ul > li .topic-title > a {
+    font-size: 16px;
+  }
+  .topic-ul > li .topic-reply-count {
+    display: none;
+  }
+  .topic-ul > li .topic-forum-name {
+    display: none;
+  }
+  .topic-ul > li .topic-title {
+    width: 80%;
+  }
+}

@@ -624,6 +624,9 @@ h1 {
 .Cropper-avatar #avatar {
   border-radius: 50%;
 }
+.book-content {
+  padding: 10px;
+}
 @media screen and (max-width: 1200px) {
   .container {
     position: static;

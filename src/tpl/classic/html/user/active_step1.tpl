@@ -13,10 +13,10 @@
 		<p>
 			<script type="text/javascript">
 				function refreshCaptchaImg() {
-					document.getElementById('captcha_img').src = '{$cid}.active_captcha.png?sid={$smarty.get.sid|code}&r=' + (new Date().getTime());
+					document.getElementById('captcha_img').src = '{$cid}.active_captcha.php?sid={$smarty.get.sid|code}&r=' + (new Date().getTime());
 				}
 			</script>
-			<a href="#" onclick="refreshCaptchaImg()"><img id="captcha_img" src="{$cid}.active_captcha.png?sid={$smarty.get.sid|code}&r={time()}" /></a>
+			<a href="#" onclick="refreshCaptchaImg()"><img id="captcha_img" src="{$cid}.active_captcha.php?sid={$smarty.get.sid|code}&r={time()}" /></a>
 		</p>
 		<p>请输入图形验证码（<a href="#" onclick="refreshCaptchaImg()">刷新</a>）：</p>
 		<p><input type="text" name="captcha" value="" /></p>

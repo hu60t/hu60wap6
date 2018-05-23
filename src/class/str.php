@@ -127,6 +127,9 @@ class str
 
     // 取得自然语言描述的时间差
     public static function ago($t) {
+      if (empty($t) || $t == 0) {
+        return '未记录';
+      }
       $d = time() - $t;
       if($d < 60){
         return "刚刚";

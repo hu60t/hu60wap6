@@ -1,35 +1,49 @@
 <?php
-// 作者: 幻阳化翼
+// 作者：幻阳化翼
 // 来自：https://hu60.net/q.php/bbs.topic.47473.html
-$img=$_GET['img'];
-$size=getimagesize($img);
-$src_w=$size[0];
-$src_h=$size[1];
-$w=($_GET['w']<$src_w)?$_GET['w']:$src_w;
-$h=($_GET['h']<$src_h)?$_GET['h']:$src_h;
-if($h<=0)
-	$h=$src_h*($w/$src_w);
-elseif($w<=0)
-	$w=$src_w*($h/$src_h);
-	$new_image=imagecreatetruecolor($w,$h);
-if($size[2]==1)
-{
-	$src_image=imagecreatefromgif($img);
-	imagecopyresampled($new_image,$src_image,0,0,0,0,$w,$h,$src_w,$src_h);
-	imagegif($new_image,null);
+// 修改：老虎会游泳
+
+$w = (int)$PAGE->ext[0];
+$h = (int)$PAGE->ext[1];
+$img = hex2bin($PAGE->ext[2]);
+
+if (!preg_match('#^https?://#is', $img)) {
+    header('HTTP/1.1 403 Forbidden');
+    die('<h1>403 Forbidden</h1>');
 }
-elseif($size[2]==2)
-{
-	$src_image=imagecreatefromjpeg($img);
-	imagecopyresampled($new_image,$src_image,0,0,0,0,$w,$h,$src_w,$src_h);
-	imagejpeg($new_image,null,80);
+
+$size = getimagesize($img);
+$src_w = $size[0];
+$src_h = $size[1];
+$type  = $size[2];
+
+$w = $w < $src_w ? $w : $src_w;
+$h = $h < $src_h ? $h : $src_h;
+
+if ($h <= 0) {
+    $h = $src_h * ($w / $src_w);
 }
-else
-{
-	$src_image=imagecreatefrompng($img);
-	imagecopyresampled($new_image,$src_image,0,0,0,0,$w,$h,$src_w,$src_h);
-	imagepng($new_image,null);
+elseif ($w <= 0) {
+    $w = $src_w * ($h / $src_h);
 }
+
+$src_image = imagecreatefromstring(file_get_contents($img));
+$new_image = imagecreatetruecolor($w, $h);
+imagecopyresampled($new_image, $src_image, 0, 0, 0, 0, $w, $h, $src_w, $src_h);
+
+if ($type == IMAGETYPE_GIF) {
+    header('Content-Type: image/gif');
+    imagegif($new_image, null);
+}
+elseif ($type == IMAGETYPE_JPEG) {
+    header('Content-Type: image/jpeg');
+    imagejpeg($new_image, null, 80);
+}
+else {
+    header('Content-type: image/png');
+    imagepng($new_image, null);
+}
+
 imagedestroy($new_image);
 imagedestroy($src_image);
 
