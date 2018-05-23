@@ -1,12 +1,14 @@
 html {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 *, *:before, *:after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
-html,body,div{
-  margin: 0;
-  padding: 0;
+
+html, body, div {
+    margin: 0;
+    padding: 0;
 }
 
 .chat-content, .topic-content, .floor-content {
@@ -30,7 +32,7 @@ html,body,div{
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
-    font-size: 24px;  /* Preferred icon size */
+    font-size: 24px; /* Preferred icon size */
     display: inline-block;
     line-height: 1;
     text-transform: none;
@@ -38,7 +40,7 @@ html,body,div{
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
-    vertical-align:middle;
+    vertical-align: middle;
 
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;
@@ -53,7 +55,7 @@ html,body,div{
 }
 
 body {
-  background-color: #EEE;
+    background-color: #EEE;
 }
 
 p {
@@ -65,6 +67,7 @@ p {
     margin: 0px;
     background-color: #E6F3FF;
 }
+
 hr {
     height: 1px;
     border: 1px solid #BED8EA;
@@ -97,6 +100,7 @@ pre, textarea {
 ol, ul {
     margin: 0px;
 }
+
 .text-success {
     color: green;
 }
@@ -108,33 +112,35 @@ ol, ul {
 .text-notice {
     color: #177cb0;
 }
-.text-worning{
-  color: yellow;
-}
 
+.text-worning {
+    color: yellow;
+}
 
 .info-box {
     text-align: center;
     border: solid red 1px;
 }
 
-button,input[type=submit],input[type=button]{
-  background-color: rgb(245, 245, 245);
-  background-image: linear-gradient(to bottom,rgb(255, 255, 255) 50%, rgb(230, 230, 230) 100%);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-  color: rgb(51, 51, 51);
-  display: inline-block;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 0.8rem;
-  font-weight: 400;
-  line-height: 14px;
-  padding: 5px 8px;
-  text-align: center;
-  text-shadow: rgba(255, 255, 255, 0.75) 0px 1px 1px;
-  vertical-align: middle;
+button, input[type=submit], input[type=button] {
+    background-color: rgb(245, 245, 245);
+    background-image: linear-gradient(to bottom, rgb(255, 255, 255) 50%, rgb(230, 230, 230) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    color: rgb(51, 51, 51);
+    display: inline-block;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 14px;
+    padding: 5px 8px;
+    text-align: center;
+    text-shadow: rgba(255, 255, 255, 0.75) 0px 1px 1px;
+    vertical-align: middle;
+    cursor: pointer;
 }
+
 .video {
     width: 600px;
     height: 400px;

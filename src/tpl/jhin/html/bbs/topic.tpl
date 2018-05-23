@@ -120,13 +120,6 @@
 
 	</div>
 </div>
-<style>
-.comments-form-content{
-	width:80%;
-	height:100px;
-	margin:8px 5px;
-}
-</style>
 <script>
 // 自动折叠过长内容
 	$(document).ready(function(){

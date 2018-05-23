@@ -32,34 +32,19 @@ class jhinfunc{
         return $topic;
     }
 
-<<<<<<< HEAD
-    // 生成翻页UI的html
-    // 其中会将URL中的##换成对于页码
     /**
-     * @param $page int 当前页
-     * @param $pMax integer 最大页数
-     * @param $url string 网址格式
-     * @return string
+     * 生成翻页UI的html
+     * 其中会将URL中的##换成对于页码
+     * @param int $p 当前页
+     * @param integer $pMax 最大页数
+     * @param string $url 网址格式
+     * @return string $urlPagePlaceholder 占位符
      */
-    public static function Pager($page,$pMax,$url){
-      $str='';
-      $n=3; // 共7页，每一边3页
-
-      $maxGenPage = 1; // 输出的最大页码
-      $minGenPage = $pMax; // 输出的最小页码
-
-      if(($page-$n) <= 1){
-        // 开头几页
-        for($i=1;$i<=2*$n+1;$i++){
-          $maxGenPage = max($maxGenPage, $i);
-          $minGenPage = min($minGenPage, $i);
-
-          $u=str_replace("##",$i,$url);
-          $str .= ($page==$i)?"<li class=\"active\"><a href=\"{$u}\">{$i}</a></li>"."\n":"<li><a href=\"{$u}\">{$i}</a></li>"."\n";
-          if($i >= $pMax) break;
-=======
-    // 生成翻页器UI的html
     public static function Pager($p, $pMax, $url, $urlPagePlaceholder='##', $length = 7) {
+        // 防止出现0页的情况
+        $p= intval($p)?:1;
+        $pMax= intval($pMax)?:1;
+
         $sideLength = (int)(($length - 1) / 2);
 
         if ($pMax - $p < $sideLength) {
@@ -81,7 +66,6 @@ class jhinfunc{
             } else {
                 $html .= "<li><a href=\"{$u}\">{$i}</a></li>\n";
             }
->>>>>>> c544a3ff00902aab8f8e22b78bdcbbc92de6ac60
         }
 
         // 首页按钮
