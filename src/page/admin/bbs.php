@@ -17,30 +17,23 @@ switch ($PAGE->ext[0]) {
             if (!$ok)
                 throw new Exception('未知原因发帖失败，请重试或联系管理员');
         }
-        $arr = $bbs->childForumMeta(0, '*', 0);
-        $array['父版块'] = 0;
-        foreach ($arr as $v) {
-            $array['父版块：' . $v['name']] = $v['id'];
-        }
+       
         break;
     case 'bk':
         if ($_POST['sc']) {
-
-        } elseif ($_POST['xg']) {
+       $arr = $bbs->plate($_POST['bbid']);
+        } 
+		if ($_POST['xg']) {
             $xg = $bbs->scxg($_POST['bbid'], 'xg');
             $tpl->assign('xg', $xg);
-        } else {
-            $arr = $bbs->plate('lan');
-            foreach ($arr as $v) {
-                if ($v['parent_id'] == 0) {
-                    $n = '父';
-                } else {
-                    $n = '-----子';
-                }
-            }
-            $array[$n . '版块：' . $v['name']] = $v['id'];
-        }
+        } 
+           
         break;
 }
+ $arr = $bbs->childForumMeta(0, '*', 0);
+        $array['父版块'] = 0;
+        foreach ($arr as $v) {
+            $array[$v['name']] = $v['id'];
+        }
 $tpl->assign('array', $array);
 $tpl->display('tpl:bbs');
