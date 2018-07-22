@@ -39,7 +39,7 @@
                     </li>
                     <li><a href="msg.index.@.no.{$bid}">提醒{if $newATINFO>0}({$newATINFO}){/if}</a></li>
                     <li>
-                        <a href="user.index.{$bid}">资料</a>
+                        <a href="user.index.{$bid}">个人</a>
                     </li>
                     <li>
                         <a href="addin.webplug.{$BID}">插件</a>

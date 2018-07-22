@@ -1,5 +1,5 @@
-{include file="tpl:comm.head" title="查看@信息"}
-@信息：
+{include file="tpl:comm.head" title="查看@消息"}
+@消息：
 {if !in_array($PAGE.ext[1],['yes','no'])}全部{else}<a href="msg.index.@.all.{$bid}">全部</a>{/if}&nbsp;
 {if $PAGE.ext[1] == 'no'}未读{else}<a href="msg.index.@.no.{$bid}">未读</a>{/if}&nbsp;
 {if $PAGE.ext[1] == 'yes'}已读{else}<a href="msg.index.@.yes.{$bid}">已读</a>{/if}
@@ -13,9 +13,9 @@
 {if $list}
 <script>
     function checkCleanAll() {
-        var req = prompt("您正在清空@信息，所有发给你的@信息（包括已读和未读）都将被永久删除，此操作不可恢复！\n" +
-                         "请在输入框内输入“我要清空@信息”（不包括引号）并点击确认按钮。");
-        if (req != '我要清空@信息') {
+        var req = prompt("您正在清空@消息，所有发给你的@消息（包括已读和未读）都将被永久删除，此操作不可恢复！\n" +
+                         "请在输入框内输入“我要清空@消息”（不包括引号）并点击确认按钮。");
+        if (req != '我要清空@消息') {
             alert('操作已取消');
             return false;
         }
@@ -27,7 +27,7 @@
     <input type="hidden" name="clean" value="at">
     <input type="hidden" name="actionToken" value="{$actionToken}">
     <input type="submit" name="action" value="全部设为已读">
-    <input type="submit" name="action" value="清空@信息" onclick="return checkCleanAll()">
+    <input type="submit" name="action" value="清空@消息" onclick="return checkCleanAll()">
 </form>
 </div>
 <hr />
@@ -45,7 +45,7 @@
         <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
     </div>
 {else}
-暂无@信息。
+暂无@消息。
 {/if}
 <hr />
 <a href="msg.index.inbox.all.{$bid}">收件箱</a> |

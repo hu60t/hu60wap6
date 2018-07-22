@@ -34,6 +34,6 @@
 <div class="breadcrumb">
 聊天模式 |
 <a href="msg.index.outbox.all.{$bid}">发件箱</a> |
-<a href="msg.index.@.{$bid}">@信息</a>
+<a href="msg.index.@.{$bid}">@消息</a>
 </div>
 {/block}

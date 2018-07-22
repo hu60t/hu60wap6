@@ -1,11 +1,11 @@
 {extends file='tpl:comm.default'}
 {block name='title'}
-查看@信息
+查看@消息
 {/block}
 {block name='body'}
 <div class="breadcrumb">
 
-  @信息：
+  @消息：
   {if !in_array($PAGE.ext[1],['yes','no'])}全部{else}<a href="msg.index.@.all.{$bid}">全部</a>{/if}&nbsp;
   {if $PAGE.ext[1] == 'no'}未读{else}<a href="msg.index.@.no.{$bid}">未读</a>{/if}&nbsp;
   {if $PAGE.ext[1] == 'yes'}已读{else}<a href="msg.index.@.yes.{$bid}">已读</a>{/if}
@@ -24,7 +24,7 @@
   <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
 </div>
 {else}
-暂无@信息。
+暂无@消息。
 {/if}
 <div class="breadcrumb">
   <a href="msg.index.inbox.all.{$bid}">收件箱</a> |

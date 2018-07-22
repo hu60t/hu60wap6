@@ -10,7 +10,7 @@ $msg = new msg($USER);
 $uinfo = new userinfo;
 $ubbs = new ubbdisplay();
 
-// 执行内信/@信息清理操作
+// 执行内信/@消息清理操作
 if (isset($_POST['clean'])) {
     // 检查token
     $token = new token($USER);
@@ -33,9 +33,9 @@ if (isset($_POST['clean'])) {
                 $msg->readAll(msg::TYPE_AT_INFO);
                 $tpl->assign('actionNotice', '已全部设为已读');
             }
-            elseif ($_POST['action'] == '清空@信息') {
+            elseif ($_POST['action'] == '清空@消息') {
                 $msg->deleteAll(msg::TYPE_AT_INFO);
-                $tpl->assign('actionNotice', '@信息已清空');
+                $tpl->assign('actionNotice', '@消息已清空');
             }
         }
     }
@@ -145,7 +145,7 @@ switch ($action) {
         break;
 
     case '@':
-        //@信息查看
+        //@消息查看
         $msgCount = $msg->msgCount(msg::TYPE_AT_INFO, $isread, false);
 
         $maxP = ceil($msgCount / $pageSize);

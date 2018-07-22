@@ -31,5 +31,5 @@
 <hr />
 <a href="msg.index.inbox.all.{$bid}">收件箱</a> |
 <a href="msg.index.outbox.all.{$bid}">发件箱</a> |
-<a href="msg.index.@.{$bid}">@信息</a>
+<a href="msg.index.@.{$bid}">@消息</a>
 {include file="tpl:comm.foot"}

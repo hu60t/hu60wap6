@@ -33,5 +33,5 @@
 <a href="msg.index.outbox.all.{$bid}">全部</a>
 <a href="msg.index.outbox.no.{$bid}">对方未读</a>
 <a href="msg.index.outbox.yes.{$bid}">对方已读</a>
-<a href="msg.index.@.{$bid}">@信息</a>
+<a href="msg.index.@.{$bid}">@消息</a>
 {include file="tpl:comm.foot"}
