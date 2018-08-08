@@ -355,7 +355,7 @@ class page implements ArrayAccess
                 $type = 'Smarty';
                 $code = 4404;
             }
-            throw new pageexception("{$type}文件 \"$name\" 不存在($path)", $code);
+            throw new pageexception("{$type}文件 \"$name\" 不存在", $code);
         }
         $this->tplCache[$ext][$name] = $path;
         return $path;
