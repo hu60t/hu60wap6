@@ -19,6 +19,19 @@
 @background_color_7: #fff;
 @background_color_8: #337ab7;
 @border_color_1: #337ab7;
+/**
+    规范一下颜色，颜色采用茶绿色 外加 轻蓝色 作为辅助颜色
+
+ */
+//@darkPrimaryColor:   #00796B;
+//@primaryColor:       #009688;
+@primaryColor:       #53B1A8;;
+@lightPrimaryColor:  #B2DFDB;
+@textPrimaryColor:   #FFFFFF;
+@accentColor:        #03A9F4;
+@primaryTextColor:   #212121;
+@secondaryTextColor: #757575;
+@dividerColor:       #BDBDBD;
 
 /*主题页面布局*/
 /*页面共用组件*/
@@ -71,8 +84,8 @@ h1 {
 .layout-header{
     //position: fixed;
     width: 100%;
-    background: #53B1A8;
-    color: #FFF;
+    background: @primaryColor;
+    color: @textPrimaryColor;
     height: 80px;
     display: flex;
     align-items: center;
@@ -105,7 +118,8 @@ h1 {
     }
 }
 .forum-list{
-    display:block;
+    display: flex;
+    flex-wrap: wrap;
     padding-left: 40px;
     .forum-list-line {
         display: flex;
@@ -147,7 +161,7 @@ h1 {
     display: flex;
     align-items: center;
     background: white;
-    margin-top: 30px;
+    margin-top: 15px;
     .case{
         display: flex;
         justify-content:space-between;
@@ -289,6 +303,10 @@ h1 {
 .msg-box {
     padding-left: 15px;
     border-bottom: 2px solid #BED8EA;
+    .avatar{
+        width: 32px;
+        height: 32px;
+    }
 }
 
 .forum-name {
@@ -615,7 +633,19 @@ h1 {
     height: 2rem;
     margin: 0 auto;
 }
-
+.comments-form-content{
+    width:80%;
+    height:100px;
+    margin:8px 5px;
+    padding: 10px;
+    border-radius: 5px;
+    outline-style: none;
+    border: 1px solid @lightPrimaryColor;
+    box-shadow: inset 0 0 2px 2px rgba(0,0,0,.075);
+    &:hover{
+        border: 1px solid @primaryColor;
+    }
+}
 .login-label {
     display: inline-block;
     color: @color_10;

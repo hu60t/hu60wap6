@@ -10,6 +10,7 @@
 /src/0.php
 /src/core
 /src/upload/*.jpg
+!/src/upload/default.jpg
 *.swp
 *.zip
 *.gz
@@ -25,3 +26,9 @@
 
 /src/baidu_verify_*.html
 /src/google*.html
+/.gitignore
+/src/tpl/jhin/jhtml
+/src/tpl/jhin/json
+/src/tpl/classic/jhtml
+/src/tpl/classic/js/cropper
+/src/tpl/classic/js/jquery-3.1.1.min.js

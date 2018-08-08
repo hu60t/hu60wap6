@@ -1,6 +1,6 @@
 {extends file='tpl:comm.default'}
 {block name='title'}
-收信箱
+    收信箱
 {/block}
 {block name='body'}
 <div class="breadcrumb">
@@ -10,6 +10,7 @@
   {if $PAGE.ext[1] == 'yes'}已读{else}<a href="msg.index.inbox.yes.{$bid}">已读</a>{/if}&nbsp;
   <a href="msg.index.send.{$bid}">发信</a>
 </div>
+
 {if !empty($list)}
 <script>
     function checkCleanAll() {
@@ -40,12 +41,9 @@
 </div>
 <hr />
 {/foreach}
-<div class="pager">
-  {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
-  {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
-  {$p}/{$maxP}页,共{$msgCount}楼
-  <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
-</div>
+    <div class="widget-page">
+        {jhinfunc::Pager($p,$pMax,"?p=##")}
+    </div>
 {else}
 <div class="msg_empty">
   收件箱里空空的。

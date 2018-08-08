@@ -2,6 +2,10 @@
 $tpl = $PAGE->start();
 $USER->start($tpl);
 $bbs = new bbs($USER);
+$db = new db;
+
+$t_forum = DB_A.'bbs_forum_meta';
+$t_topic = DB_A.'bbs_topic_meta';
 
 if (!$USER->islogin || $USER->uid != 1)
     die('403 Forbidden');
@@ -28,6 +32,39 @@ switch ($PAGE->ext[0]) {
             $tpl->assign('xg', $xg);
         } 
            
+        break;
+    case "forum":
+        $array = $db->query(
+            "SELECT ( SELECT COUNT(*) FROM $t_topic WHERE $t_topic.forum_id = t2.id ) AS topic_sum, ( SELECT `name` FROM $t_forum AS t1 WHERE t1.`id` = t2.parent_id ) AS parent_name, t2.* FROM $t_forum AS t2"
+        )->fetchAll();
+
+        $tpl->assign('forum_list', $array);
+        $tpl->display('tpl:forum');
+        exit();
+        break;
+    case "forum_rename":
+        @$id = intval($_GET['id']);
+        $res = $db->query("SELECT * FROM $t_forum WHERE id = $id")->fetch();
+        if(!$res){
+            exit("所选板块不存在!");
+        }
+
+        $tpl->assign("forum_list",$db->query("SELECT * FROM $t_forum WHERE id != $id")->fetchAll());
+        if($_POST['name']){
+            //TODO: SQL注入需要修复
+//            $_POST['name'] = str_repeat("'","\\'",$_POST['name']);
+            $res = $db->query(sprintf("UPDATE $t_forum SET `name`='%s',`parent_id`=%d WHERE `id`=%d ",$_POST['name'],$_POST['parent_id'],$id));
+            if($res){
+                $tpl->assign("message","保存成功!");
+            }else{
+                $tpl->assign("message","保存失败!");
+            }
+            $tpl->display('tpl:message');
+        }else{
+            $tpl->assign('forum', $res);
+            $tpl->display('tpl:forum_rename');
+        }
+        exit();
         break;
 }
  $arr = $bbs->childForumMeta(0, '*', 0);

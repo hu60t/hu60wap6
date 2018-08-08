@@ -1,17 +1,53 @@
-html,body,div{
+html,
+body {
   margin: 0;
   padding: 0;
 }
-h1 {
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 150%;
-    margin: 0px 0px 10px 0px;
-    padding: 0px;
+* {
+  box-sizing: border-box;
 }
-.container{
+a {
+  text-decoration: none;
+}
+button {
+  border-radius: 10%;
+  outline-style: none;
+  cursor: pointer;
+  color: #333;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  border: 1px solid #ccc;
+}
+button:hover {
+  border: 1px solid #f90;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row > .col-5-1 {
+  width: 20%;
+}
+.row > .col-4-1 {
+  width: 25%;
+}
+.row > .col-4-2 {
+  width: 50%;
+}
+.row > .col-4-3 {
+  width: 75%;
+}
+.row > .col-4-4 {
+  width: 100%;
+}
+.row > .col-5-4 {
+  width: 80%;
+}
+.row-padding > div {
+  padding: 5px;
+}
+.container {
   max-width: 900px;
-  margin:0 auto;
+  margin: 0 auto;
   position: relative;
   left: 130px;
   box-shadow: 0 0 15px #ccc;
@@ -19,6 +55,84 @@ h1 {
   background-color: #FFF;
   min-height: 95vh;
 }
-.layout-head-inner{
+.layout-head-inner {
   position: relative;
+}
+.container-small {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.container-mini {
+  max-width: 320px;
+  margin: 0 auto;
+}
+.right {
+  float: right;
+}
+@media screen and (max-width: 950px) {
+  .container {
+    padding: 0;
+  }
+  .row-mobile {
+    flex-direction: column;
+  }
+  .row-mobile .col-5-1,
+  .row-mobile .col-4-1,
+  .row-mobile .col-4-2,
+  .row-mobile .col-4-3,
+  .row-mobile .col-4-4,
+  .row-mobile .col-5-4 {
+    width: 100%;
+  }
+}
+.gap {
+  margin: 3px;
+  padding: 3px;
+}
+.fillet {
+  border: 1px solid #c9c9c9;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+}
+.form > div {
+  margin-top: 10px;
+}
+.block-center {
+  display: block;
+  text-align: center;
+}
+textarea,
+input,
+select {
+  border-radius: 5px;
+  padding: 3px 8px;
+  border: 1px solid #ccc;
+  outline-style: none;
+}
+textarea:focus,
+input:focus,
+select:focus {
+  box-shadow: 0 0 3px 3px #EEE;
+  border: 1px solid #AAA;
+}
+select {
+  background-color: transparent;
+}
+.list {
+  border-collapse: collapse;
+  width: 100%;
+}
+.list tr {
+  border-top: 1px solid #EEE;
+  border-bottom: 1px solid #EEE;
+}
+.list th,
+.list td {
+  border-left: 1px solid #EEE;
+  padding: 5px;
+}
+.list th:first-child,
+.list td:first-child {
+  border-left: none;
 }

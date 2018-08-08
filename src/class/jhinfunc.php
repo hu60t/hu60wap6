@@ -32,8 +32,19 @@ class jhinfunc{
         return $topic;
     }
 
-    // 生成翻页器UI的html
+    /**
+     * 生成翻页UI的html
+     * 其中会将URL中的##换成对于页码
+     * @param int $p 当前页
+     * @param integer $pMax 最大页数
+     * @param string $url 网址格式
+     * @return string $urlPagePlaceholder 占位符
+     */
     public static function Pager($p, $pMax, $url, $urlPagePlaceholder='##', $length = 7) {
+        // 防止出现0页的情况
+        $p= intval($p)?:1;
+        $pMax= intval($pMax)?:1;
+
         $sideLength = (int)(($length - 1) / 2);
 
         if ($pMax - $p < $sideLength) {
@@ -108,5 +119,92 @@ class jhinfunc{
         return $html;
     }
 
+    /**
+     * 生成翻页UI的html
+     * 其中会将URL中的##换成对于页码
+     * 适配了 Bulma CSS
+     * @param int $p 当前页
+     * @param integer $pMax 最大页数
+     * @param string $url 网址格式
+     * @return string $urlPagePlaceholder 占位符
+     */
+    public static function PagerBulma($p, $pMax, $url, $urlPagePlaceholder='##', $length = 7) {
+        // 防止出现0页的情况
+        $p= intval($p)?:1;
+        $pMax= intval($pMax)?:1;
+
+        $sideLength = (int)(($length - 1) / 2);
+
+        if ($pMax - $p < $sideLength) {
+            // 末尾几页
+            $begin = max($p - $length + 1, 1);
+        } else {
+            // 开头或中间几页
+            $begin = max($p - $sideLength, 1);
+        }
+
+        $end = min($begin + $length - 1, $pMax);
+
+        $html = '';
+
+        for ($i=$begin; $i<=$end; $i++) {
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, $i, $url));
+            if ($i == $p) {
+                $html .= "<li><a class='pagination-link is-current' href=\"{$u}\">{$i}</a></li>\n";
+            } else {
+                $html .= "<li><a class='pagination-link' href=\"{$u}\">{$i}</a></li>\n";
+            }
+        }
+
+        // 首页按钮
+        if ($begin > 1) {
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, 1, $url));
+            if ($begin > 2) {
+                $html = "<li><a class='pagination-link' href=\"#\" disabled>...</a></li>\n".$html;
+            }
+            $html = "<li><a class='pagination-link' href=\"{$u}\">1</a></li>\n".$html;
+        }
+
+
+        // 上一页按钮
+        if ($p > 1) {
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, $p-1, $url));
+            $html = "<li><a class='pagination-link' href=\"{$u}\">&lt;</a></li>\n".$html;
+        } else {
+            $html = "<li><a class='pagination-link' href=\"#\" disabled>&lt;</a></li>\n".$html;
+        }
+
+        // 末页按钮
+        if ($end < $pMax) {
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, $pMax, $url));
+            if ($end < $pMax-1) {
+                $html .= "<li><a class='pagination-link' href=\"#\" disabled>...</a></li>\n";
+            }
+            $html .= "<li><a class='pagination-link' href=\"{$u}\">$pMax</a></li>\n";
+        }
+
+        // 下一页按钮
+        if ($p < $pMax){
+            $u = htmlspecialchars(str_replace($urlPagePlaceholder, $p+1, $url));
+            $html .= "<li><a class='pagination-link' href=\"{$u}\">&gt;</a></li>"."\n";
+        } else {
+            $html .= "<li><a class='pagination-link' href=\"#\" disabled>&gt;</a></li>\n";
+        }
+
+        $html = "<ul class=\"pagination-list\">\n{$html}\n</ul>\n";
+
+        // 跳页输入框
+        if ($pMax > $length) {
+            $u = explode($urlPagePlaceholder, $url);
+            foreach ($u as &$i) {
+                $i = json_encode($i);
+            }
+            $u = implode(' + this.value + ', $u);
+            $js = "if (event.keyCode == 13){ location = {$u}; }";
+            $html .= '<ul class="page-jumper"><li><input placeholder="跳页" onkeypress=\''.$js.'\'></li></ul>';
+        }
+
+        return $html;
+    }
 //class end
 }
