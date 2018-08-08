@@ -8,33 +8,47 @@
         &lt;&lt;
         <a href="admin.site.index.{$bid}">返回</a>
     {else}
-        <form action="admin.site.index.{$bid}" method="post">
-            <div class="row row-mobile">
-                <div class="col-4-1">网站标题：</div>
-                <div class="col-4-3">
-                    <input type="text" name="site_name" value="{#SITE_NAME#}">
-                </div>
-                <div class="col-4-1">网站简称：</div>
-                <div class="col-4-3">
-                    <input type="text" name="site_simple_name" value="{#SITE_SIMPLE_NAME#}">
-                </div>
-                <div class="col-4-1">论坛名称：</div>
-                <div class="col-4-3">
-                    <input type="text" name="bbs_name" value="{#BBS_NAME#}">
-                </div>
-                <div class="col-4-1">论坛首页名称：</div>
+        <div class="columns">
+            <div class="column is-offset-2 is-4">
 
-                <div class="col-4-3">
-                    <input type="text" name="bbs_index_name" value="{#BBS_INDEX_NAME#}">
-                </div>
-                <div class="col-4-1">报时：</div>
-                <div class="col-4-3">
-                    <input type="text" name="clock_name" value="{#CLOCK_NAME#}">
-                </div>
-                <div class="col-4-1"></div>
-                <div class="col-4-3"><input type="submit" name="yes" value="保存"></div>
-                &lt;&lt;<a href="admin.index.{$bid}">返回</a>
+                <form action="admin.site.index.{$bid}" method="post">
+                    <div class="field">
+                        <label class="label">网站标题：</label>
+                        <div class="control">
+                            <input class="input" type="text" name="site_name" value="{#SITE_NAME#}">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">网站简称：</label>
+                        <div class="control">
+                            <input class="input" type="text" name="site_simple_name" value="{#SITE_SIMPLE_NAME#}">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">论坛名称：</label>
+                        <div class="col-4-3">
+                            <input class="input" type="text" name="bbs_name" value="{#BBS_NAME#}">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">论坛首页名称：</label>
+
+                        <div class="col-4-3">
+                            <input class="input" type="text" name="bbs_index_name" value="{#BBS_INDEX_NAME#}">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">报时：</label>
+                        <div class="col-4-3">
+                            <input class="input" type="text" name="clock_name" value="{#CLOCK_NAME#}">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="col-4-3"><input class="button" type="submit" name="yes" value="保存">
+                            <a class="button" href="admin.index.{$bid}">返回</a>
+                        </div>
+                </form>
             </div>
-        </form>
+        </div>
     {/if}
 {/block}

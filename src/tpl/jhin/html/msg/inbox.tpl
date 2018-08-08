@@ -41,14 +41,8 @@
 </div>
 <hr />
 {/foreach}
-<div class="pager">
-  {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
-  {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
-  {$p}/{$maxP}页,共{$msgCount}楼
-  <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
-</div>
     <div class="widget-page">
-        {jhinfunc::Pager($p,$pMax,"msg.index.inbox.{$PAGE.ext[1]}.{$BID}?p=##")}
+        {jhinfunc::Pager($p,$pMax,"?p=##")}
     </div>
 {else}
 <div class="msg_empty">

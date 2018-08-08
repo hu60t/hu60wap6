@@ -51,5 +51,5 @@ $res = $db->query(
 );
 $tpl->assign("users",$res->fetchAll());
 $tpl->assign("order",$order);
-$tpl->assign("page",jhinfunc::Pager($p + 1,ceil($n/$pagesize),"admin.user.{$bid}?p=##"));
+$tpl->assign("page",jhinfunc::PagerBulma($p + 1,ceil($n/$pagesize),"admin.user.{$bid}?p=##"));
 $tpl->display('tpl:user');

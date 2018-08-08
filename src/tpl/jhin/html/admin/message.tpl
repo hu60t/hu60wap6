@@ -3,17 +3,13 @@
     提示
 {/block}
 {block name='body'}
-    <div class="row row-mobile">
-        <div class="col-4-4" id="message">
-            {$message}
+    <div class="columns">
+        <div class="column is-offset-4 is-8">
+            <article class="message">
+                <div class="message-body">
+                    {$message}
+                </div>
+            </article>
         </div>
     </div>
-    <style>
-        #message {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 400px;
-        }
-    </style>
 {/block}
