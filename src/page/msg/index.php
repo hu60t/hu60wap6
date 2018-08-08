@@ -10,6 +10,46 @@ $msg = new msg($USER);
 $uinfo = new userinfo;
 $ubbs = new ubbdisplay();
 
+// 执行内信/@消息清理操作
+if (isset($_POST['clean'])) {
+    // 检查token
+    $token = new token($USER);
+    $ok = $token->check($_POST['actionToken']);
+    $token->delete();
+
+    if ($ok) {
+        if ($_POST['clean'] == 'msg') {
+            if ($_POST['action'] == '全部设为已读') {
+                $msg->readAll(msg::TYPE_MSG);
+                $tpl->assign('actionNotice', '已全部设为已读');
+            }
+            elseif ($_POST['action'] == '清空收件箱') {
+                $msg->deleteAll(msg::TYPE_MSG);
+                $tpl->assign('actionNotice', '收件箱已清空');
+            }
+        }
+        elseif ($_POST['clean'] == 'at') {
+            if ($_POST['action'] == '全部设为已读') {
+                $msg->readAll(msg::TYPE_AT_INFO);
+                $tpl->assign('actionNotice', '已全部设为已读');
+            }
+            elseif ($_POST['action'] == '清空@消息') {
+                $msg->deleteAll(msg::TYPE_AT_INFO);
+                $tpl->assign('actionNotice', '@消息已清空');
+            }
+        }
+    }
+    else {
+        $tpl->assign('actionNotice', '操作已过期，请不要重复刷新页面');
+    }
+}
+
+// 给页面发放清理操作token
+$token = new token($USER);
+$actionToken = $token->create();
+$tpl->assign('actionToken', $actionToken);
+
+
 $action = $PAGE->ext[0];
 
 $p = (int)$_GET['p'];
@@ -105,7 +145,7 @@ switch ($action) {
         break;
 
     case '@':
-        //@信息查看
+        //@消息查看
         $msgCount = $msg->msgCount(msg::TYPE_AT_INFO, $isread, false);
 
         $maxP = ceil($msgCount / $pageSize);

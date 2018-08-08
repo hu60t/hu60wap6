@@ -151,7 +151,7 @@ class msg
             $ubb = new ubbparser;
             $content = $ubb->parse($content, true);
         }
-        $rs = $this->db->insert('msg', 'touid,byuid,type,isread,content,ctime', $touid, $uid, $type, '0', $content, $ctime);
+        $rs = $this->db->insert('msg', 'touid,byuid,type,isread,content,ctime', $touid, $uid, $type, 0, $content, $ctime);
         if (!$rs) return false;
         return true;
     }
@@ -174,9 +174,23 @@ class msg
     public function update_msg($uid, $id)
     {
         $rtime = time();
-        $rs = $this->db->update('msg', 'isread=?,rtime=? WHERE touid=? AND id=?', '1', $rtime, $uid, $id);
+        $rs = $this->db->update('msg', 'isread=1,rtime=? WHERE touid=? AND id=?', $rtime, $uid, $id);
         if (!$rs) return false;
         return true;
+    }
+
+    /**
+     * 全部设为已读
+     */
+    public function readAll($type) {
+        return $this->db->update('msg', 'isread=1,rtime=? WHERE type=? AND touid=? AND isread=0', time(), $type, $this->user->uid);
+    }
+
+    /**
+     * 清空内信
+     */
+    public function deleteAll($type) {
+        return $this->db->delete('msg', 'WHERE type=? AND touid=?', $type, $this->user->uid);
     }
 
     /**

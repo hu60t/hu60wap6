@@ -682,4 +682,18 @@ class bbs
         return true;
     }
 
+    public function scxg($name, $parentId){
+        $rs = $this->db->insert('bbs_forum_meta', 'parent_id,name,mtime', $parentId, $name, time());
+            if (!$rs)
+                throw new bbsException('数据库错误，版块创建失败！', 500);
+            return true;
+        
+    }
+
+    public function  plate($r){
+        $rs = $this->db->delete('bbs_forum_meta', 'WHERE id=?', $r);
+        if (!$rs)
+            throw new bbsException('数据库错误，版块删除失败！', 500);
+        return true;
+    }
 }
