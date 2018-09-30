@@ -84,7 +84,7 @@ h1 {
   vertical-align: middle;
 }
 .forum-list {
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   padding-left: 40px;
 }

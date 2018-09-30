@@ -44,16 +44,18 @@
         <div class="bar">版块</div>
         <div class="forum-list">
             {foreach $forumList as $forum}
+                <div class="forum-list-line">
                     <div class="forum-list-parent">
-                        <a href="bbs.forum.{$forum.id}.{$BID}">{$forum.name|code}</a>
+                        <a href="bbs.forum.{$forum.id}.{$BID}" >{$forum.name|code}</a>
                     </div>
                     {if $forum.child}
                         <div class="forum-list-child">
                             {foreach $forum.child as $child}
-                                <a href="bbs.forum.{$child.id}.{$BID}">{$child.name|code}</a>
+                                <a href="bbs.forum.{$child.id}.{$BID}" >{$child.name|code}</a>
                             {/foreach}
                         </div>
                     {/if}
+                </div>
             {/foreach}
         </div>
 
