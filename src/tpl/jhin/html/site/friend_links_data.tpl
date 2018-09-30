@@ -1,0 +1,1 @@
+../../../../config/tpl/friend_links_data.tpl

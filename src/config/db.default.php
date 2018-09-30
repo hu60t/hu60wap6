@@ -31,21 +31,6 @@ define('DB_TYPE', 'mysql');
 
 
 /**
- * SQLite数据库配置
- *
- * 如果你使用SQLite数据库，则需要配置以下项目
- * 不使用SQLite的用户不需要关心以下项目
- */
-
-/**
- * SQLite数据库文件路径
- *
- * 该文件必须有读写权限
- */
-define('DB_FILE_PATH', ROOT_DIR . '/db/test.db3');
-
-
-/**
  * MYSQL数据库配置
  *
  * 如果你使用MYSQL数据库则需要配置以下项目
@@ -53,11 +38,19 @@ define('DB_FILE_PATH', ROOT_DIR . '/db/test.db3');
  */
 
 /**
- * 是否启用数据库持久连接
- *
- * 在多进程服务器（如fastcgi、php-fpm）中，使用数据库持久连接可以提升服务器性能和抗压能力
+ * 数据库名
  */
-define('DB_PCONNECT', true);
+define('DB_NAME', 'hu60');
+
+/**
+ * 数据库用户名
+ */
+define('DB_USER', 'root');
+
+/**
+ * 数据库用户密码
+ */
+define('DB_PASS', 'root');
 
 /**
  * 主数据库服务器
@@ -88,21 +81,6 @@ define('DB_HOST_RO', '');
 define('DB_PORT_RO', '');
 
 /**
- * 数据库名
- */
-define('DB_NAME', 'hu60org');
-
-/**
- * 数据库用户名
- */
-define('DB_USER', 'hu60org');
-
-/**
- * 数据库用户密码
- */
-define('DB_PASS', '');
-
-/**
  * 数据表名前缀
  *
  * 设置不同的表名前缀可以使你在一个MYSQL中安装多个应用而不因为表名冲突而失败
@@ -112,3 +90,26 @@ define('DB_PASS', '');
  * @see DB
  */
 define('DB_A', 'hu60_');
+
+/**
+ * 是否启用数据库持久连接
+ *
+ * 在多进程服务器（如fastcgi、php-fpm）中，使用数据库持久连接可以提升服务器性能和抗压能力
+ */
+define('DB_PCONNECT', true);
+
+
+/**
+ * SQLite数据库配置
+ *
+ * 如果你使用SQLite数据库，则需要配置以下项目
+ * 不使用SQLite的用户不需要关心以下项目
+ */
+
+/**
+ * SQLite数据库文件路径
+ *
+ * 该文件必须有读写权限
+ */
+define('DB_FILE_PATH', ROOT_DIR . '/db/hu60.db3');
+
