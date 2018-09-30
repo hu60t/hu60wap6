@@ -123,5 +123,5 @@ define('QINIU_STORAGE_BUCKET', 'hu60');
 /**
  * 七牛云存储上传文件的HOST（用于服务器端签名）
  */
-define('QINIU_STORAGE_HOST', 'oeyz1bxso.bkt.clouddn.com');
+define('QINIU_STORAGE_HOST', 'qiniu.img.hu60.cn');
 

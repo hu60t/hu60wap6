@@ -39,6 +39,6 @@
         sessionStorage.topicContent = content;
         sessionStorage.topicContentSaved = '1';
         sessionStorage.topicBackUrl = document.location;
-        document.location = '/tpl/classic/html/bbs/upload_qiniu.html?r=4';
+        document.location = '/tpl/classic/html/bbs/upload_qiniu.html?r=5';
     }
 </script>
