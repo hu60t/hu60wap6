@@ -29,10 +29,34 @@ db::$PCONNECT = DB_PCONNECT;
  * 它已不再是一个数据库连接类，而演变为数据库操作类。
  *
  * <code>
- * $db=new $db;
+ * # 新建数据库对象
+ * $db=new db;
+ * 
+ * # 查询（可以使用预处理参数）
  * $rs=$db->select('uid', 'user', 'WHERE name=? AND pass=?', $name, $pass);
  * var_dump($rs->fetch());
+ * 
+ * # 插入（可以使用预处理参数）
  * $db->insert('user', 'name,pass', $name, $pass);
+ * 
+ * # 更新（可以使用预处理参数）
+ * $this->db->update('bbs_topic_content', 'topic_id=? WHERE id=?', $topic_id, $content_id);
+ * 
+ * # 删除（可以使用预处理参数）
+ * $this->db->delete('bbs_topic_content', 'WHERE id=?', $content_id);
+ * 
+ * # 自定义SQL（可以使用预处理参数）
+ * $res = $db->query("SELECT * from hu60_user where name like ?", '%'.$_POST['user'].'%');
+ * if ($res) {
+ *   var_dump($res->fetchAll());
+ * }
+ * 
+ * $res = $db->query("UPDATE hu60_bbs_forum_meta SET `name`=?,`parent_id`=? WHERE `id`=?", $_POST['name'], $_POST['parent_id'], $id);
+ * if ($res) {
+ *   echo 'ok';
+ * } else {
+ *   echo 'failed';
+ * }
  * </code>
  *
  * 觉得方便吗？快来使用吧！
