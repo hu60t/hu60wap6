@@ -1,7 +1,7 @@
 {config_load file="conf:site.info"}
 {include file="tpl:comm.head" title=#SITE_NAME# no_user=true}
 <div class="tp">
-	<p><img src="{$PAGE->getTplUrl("img/hulvlin2.gif")}"></p>
+	<p><img style="max-width:200px" src="{$PAGE->getTplUrl("img/hulvlin3.png")}"></p>
 	<p>分享阳光，树木变成森林！</p>
 	{if $user->uid}
 		{if $user->islogin}
