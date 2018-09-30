@@ -72,6 +72,15 @@ class msg
         return $rs->fetchAll();
     }
 
+    /**
+     * 根据用户获取对话列表
+     */
+    public function sessions(){
+        $uid = $this->user->uid;
+        if(!$uid){
+            return [];
+        }
+    }
     public function chatCount($chatUid, $read = null)
     {
         $uid = $this->user->uid;
