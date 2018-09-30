@@ -74,13 +74,17 @@ class msg
 
     /**
      * 根据用户获取对话列表
+     * 该函数未完成，所以被注释
      */
+    /*
     public function sessions(){
         $uid = $this->user->uid;
         if(!$uid){
             return [];
         }
     }
+    */
+
     public function chatCount($chatUid, $read = null)
     {
         $uid = $this->user->uid;

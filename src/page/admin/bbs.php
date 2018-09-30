@@ -51,9 +51,7 @@ switch ($PAGE->ext[0]) {
 
         $tpl->assign("forum_list",$db->query("SELECT * FROM $t_forum WHERE id != $id")->fetchAll());
         if($_POST['name']){
-            //TODO: SQL注入需要修复
-//            $_POST['name'] = str_repeat("'","\\'",$_POST['name']);
-            $res = $db->query(sprintf("UPDATE $t_forum SET `name`='%s',`parent_id`=%d WHERE `id`=%d ",$_POST['name'],$_POST['parent_id'],$id));
+            $res = $db->query("UPDATE $t_forum SET `name`=?,`parent_id`=? WHERE `id`=?", $_POST['name'], $_POST['parent_id'], $id);
             if($res){
                 $tpl->assign("message","保存成功!");
             }else{
