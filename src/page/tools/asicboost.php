@@ -25,10 +25,10 @@ function checkAsicBoost($server, $user, &$stat, &$info) {
         $stat ="服务器不能为空";
         return false;
     }
-    if (empty($user)) {
+    /*if (empty($user)) {
         $stat ="子账户名不能为空";
         return false;
-    }
+    }*/
     
     
     // 添加端口
@@ -95,6 +95,7 @@ function checkAsicBoost($server, $user, &$stat, &$info) {
         return false;
     }
     
+    // 某些服务器会在mining.configure完成后立即发送mining.set_version_mask
     if ('mining.set_version_mask' == $subscribeArr['method']) {
         $versionMask = $subscribeArr['params'][0];
         if (hexdec($versionMask) == 0) {
