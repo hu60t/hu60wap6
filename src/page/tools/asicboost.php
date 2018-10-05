@@ -174,7 +174,8 @@ function getStratumError($json) {
 
 function L($str) {
     static $L = [
-        'Invalid Sub-account Name' => '子账户名错误'
+        'Invalid Sub-account Name' => '子账户名错误',
+        "Worker Name Cannot Start with '.'" => '子账户名不能为空',
     ];
     return $L[$str] ?? $str;
 }
