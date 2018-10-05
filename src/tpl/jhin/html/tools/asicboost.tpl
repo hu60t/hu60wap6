@@ -15,11 +15,13 @@
                 <p><input type="submit" name="action" value="测试"></p>
             </form>
         </div>
+        {if $result != null}
         <hr>
         <div id="result">
             <p class="{if $result}text-success{else}text-failure{/if}">{if $result}√{else}×{/if} {$stat}</p>
             <p style="padding-left: 1em">{$info}</p>
         </div>
+        {/if}
     </div>
 </div>
 {/block}
