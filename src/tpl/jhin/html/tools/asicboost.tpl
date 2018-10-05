@@ -8,7 +8,7 @@
     <div class="bar">ASICBoost兼容性测试</div>
     <div class="content-box">
         <div id="server">
-            <form action="{$CID}.{$PID}.{$BID}" method="get">
+            <form action="{$CID}.{$PID}.{$BID}" method="get" style="padding-top: 2px">
                 <p>　服务器: <input name="server" value="{$smarty.get.server|code}"></p>
                 <p>子账户名: <input name="user" value="{$smarty.get.user|code}"></p>
                 <p></p>

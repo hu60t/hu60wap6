@@ -95,6 +95,18 @@ function checkAsicBoost($server, $user, &$stat, &$info) {
         return false;
     }
     
+    if ('mining.set_version_mask' == $subscribeArr['method']) {
+        $versionMask = $subscribeArr['params'][0];
+        if (hexdec($versionMask) == 0) {
+            $stat ="服务器不支持ASICBoost";
+            $info = "错误信息：允许的 version mask 为空 ($versionMask)";
+            return false;
+        }
+        $stat ="服务器支持ASICBoost";
+        $info = "允许的 version mask 为 $versionMask";
+        return true;
+    }
+    
     // ---------------- mining.authorize ----------------
     $stratumMessage = '{"id":2,"method":"mining.authorize","params":['.json_encode($user).']}';
     fwrite($fp, "$stratumMessage\n");
