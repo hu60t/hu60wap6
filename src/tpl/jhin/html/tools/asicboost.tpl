@@ -18,8 +18,15 @@
         {if $stat != null}
         <hr>
         <div id="result">
-            <p class="{if $result}text-success{else}text-failure{/if}">{if $result}√{else}×{/if} {$stat}</p>
-            <p style="padding-left: 1em">{$info}</p>
+            {foreach $stat as $s}
+                {$result=$s[0]}
+                {$text=$s[1]}
+                {if $result === null}
+                    <p style="padding-left: 1em">{$text}</p>
+                {else}
+                    <p class="{if $result}text-success{else}text-failure{/if}">{if $result}√{else}×{/if} {$text}</p>
+                {/if}
+            {/foreach}
         </div>
         {/if}
     </div>
