@@ -103,7 +103,7 @@ function checkAsicBoost($server, $user, &$stat) {
             $stat[] =[null, "错误信息：允许的 version mask 为空 ($versionMask)"];
             return;
         }
-        $stat[] =[false, "服务器支持ASICBoost"];
+        $stat[] =[true, "服务器支持ASICBoost"];
         $stat[] =[null, "允许的 version mask 为 $versionMask"];
         return true;
     }
