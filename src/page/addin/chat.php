@@ -46,7 +46,7 @@ if ($PAGE->ext[0]) {
     $tpl->assign('err_msg', $err_msg);
 
     $chatCount = $chat->chatCount($roomname);
-    $pageSize = 15;
+    $pageSize = isset($_GET['page_size']) ? min(max((int)$_GET['page_size'], 1), 200) : 15;
     $maxP = ceil($chatCount / $pageSize);
 
     if (isset($_GET['level'])) {
@@ -64,7 +64,10 @@ if ($PAGE->ext[0]) {
 
     $offset = ($p - 1) * $pageSize;
 
-    $list = $chat->chatList($roomname, $offset, $pageSize);
+	$startTime = isset($_GET['start_time']) ? (int)$_GET['start_time'] : null;
+	$endTime = isset($_GET['end_time']) ? (int)$_GET['end_time'] : null;
+
+    $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime);
 
     $tpl->assign('list', $list);
     $tpl->assign('count', $chatCount);

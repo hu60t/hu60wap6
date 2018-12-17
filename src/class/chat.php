@@ -111,9 +111,24 @@ class chat
     /**
      * 指定聊天室发言列表
      */
-    public function chatList($name, $offset = 0, $size = 10)
+    public function chatList($name, $offset = 0, $size = 10, $startTime = null, $endTime = null)
     {
-        $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? ORDER BY `time` DESC LIMIT ?,?', $name, $offset, $size);
+		if ($startTime === null) {
+			if ($endTime === null) {
+        		$rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? ORDER BY `time` DESC LIMIT ?,?', $name, $offset, $size);
+			}
+			else {
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND `time`<? ORDER BY `time` DESC LIMIT ?,?', $name, $endTime, $offset, $size);
+			}
+		}
+		else {
+			if ($endTime === null) {
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND `time`>=? ORDER BY `time` ASC LIMIT ?,?', $name, $startTime, $offset, $size);
+			}
+			else {
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND `time`>=? AND `time`<? ORDER BY `time` ASC LIMIT ?,?', $name, $startTime, $endTime, $offset, $size);
+			}
+		}
         
         return $rs->fetchAll();
     }
