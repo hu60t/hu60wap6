@@ -13,6 +13,8 @@ class bbs
     const ACTION_REMOVE_BLOCK_POST = 3;
     /** 加精帖子操作 */
     const ACTION_SET_ESSENCE_TOPIC = 4;
+    /** 取精帖子操作 */
+    const ACTION_UNSET_ESSENCE_TOPIC = 5;
 
     /**
      * 用户对象
@@ -101,6 +103,28 @@ class bbs
                 return true;
             } else {
                 throw new bbsException('您没有权限加精该帖。', 403);
+            }
+        } catch (Exception $e) {
+            if ($noException) {
+                return false;
+            } else {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * 检查用户是否可取精
+     */
+    public function canUnsetEssence($noException = false)
+    {
+        try {
+            $this->checkLogin();
+
+            if ($this->user->hasPermission(User::PERMISSION_SET_ESSENCE_TOPIC)) {
+                return true;
+            } else {
+                throw new bbsException('您没有权限取精该帖。', 403);
             }
         } catch (Exception $e) {
             if ($noException) {
@@ -322,6 +346,20 @@ class bbs
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET essence=? WHERE id=?';
 
         $ok = $this->db->query($sql, 1, $topicId);
+
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
+    }
+
+    /**
+     * 取精帖子
+     */
+    public function unsetEssenceTopic($topicId)
+    {
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET essence=? WHERE id=?';
+
+        $ok = $this->db->query($sql, 0, $topicId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
