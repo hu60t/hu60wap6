@@ -6,6 +6,9 @@
     {if $bbs->canEdit($v.uinfo.uid, true)}
       <a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">edit</i>修改</a>
     {/if}
+    {if ($tMeta.essence==0) && $bbs->canSetEssence(true)}
+      <a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">whatshot</i>加精</a>
+    {/if}
     {if $bbs->canDel($v.uinfo.uid, true)}
       <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">delete</i>删除</a>
     {/if}

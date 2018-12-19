@@ -29,7 +29,7 @@ $tpl->assign('fName', $fIndex[count($fIndex) - 1]['name']);
 $tpl->assign('fIndex', $fIndex);
 
 //读取帖子元信息
-$tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime,locked');
+$tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime,essence,locked');
 if (!$tMeta){
   throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
 }

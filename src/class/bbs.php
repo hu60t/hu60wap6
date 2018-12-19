@@ -11,6 +11,8 @@ class bbs
     const ACTION_ADD_BLOCK_POST = 2;
     /** 解除禁言操作 */
     const ACTION_REMOVE_BLOCK_POST = 3;
+    /** 加精帖子操作 */
+    const ACTION_SET_ESSENCE_TOPIC = 4;
 
     /**
      * 用户对象
@@ -88,6 +90,28 @@ class bbs
     }
 
     /**
+     * 检查用户是否可加精
+     */
+    public function canSetEssence($noException = false)
+    {
+        try {
+            $this->checkLogin();
+
+            if ($this->user->hasPermission(User::PERMISSION_SET_ESSENCE_TOPIC)) {
+                return true;
+            } else {
+                throw new bbsException('您没有权限加精该帖。', 403);
+            }
+        } catch (Exception $e) {
+            if ($noException) {
+                return false;
+            } else {
+                throw $e;
+            }
+        }
+    }
+
+    /**
      * 检查用户是否可沉帖
      */
     public function canSink($ownUid, $noException = false)
@@ -108,8 +132,8 @@ class bbs
             }
         }
     }
-	
-	/**
+
+	  /**
      * 检查用户是否可移帖
      */
     public function canMove($ownUid, $noException = false)
@@ -284,6 +308,20 @@ class bbs
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,mtime=? WHERE id=?';
 
         $ok = $this->db->query($sql, $title, $_SERVER['REQUEST_TIME'], $topicId);
+
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
+    }
+
+    /**
+     * 加精帖子
+     */
+    public function setEssenceTopic($topicId)
+    {
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET essence=? WHERE id=?';
+
+        $ok = $this->db->query($sql, 1, $topicId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');

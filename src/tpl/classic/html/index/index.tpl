@@ -33,7 +33,7 @@
 	<p>『<a href="bbs.forum.{$BID}">绿虎论坛</a> - <a href="bbs.forum.0.1.{$BID}">新帖</a>|新回复|<a href="bbs.newtopic.0.{$BID}">发帖</a>|优秀源码』</p>
 	<ol style="padding-left:2em">
 		{foreach $newTopicList as $topic}
-			<li><a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a></li>
+			<li>{if $topic.essence==1}<span style="color:red;">[精]</span>{/if}<a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a></li>
 		{/foreach}
 	</ol>
 	<p>

@@ -607,6 +607,7 @@ HTML;
             bbs::ACTION_SINK_TOPIC => '下沉',
             bbs::ACTION_ADD_BLOCK_POST => '已将您禁言',
             bbs::ACTION_REMOVE_BLOCK_POST => '将您解除禁言',
+            bbs::ACTION_SET_ESSENCE_TOPIC => '加精',
         ];
 
         $act = $actName[$data['act']];

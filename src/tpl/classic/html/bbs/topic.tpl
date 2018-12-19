@@ -4,7 +4,7 @@
 {else}
 	{$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{include file="tpl:comm.head" title="{$tMeta.title} - {$fName} - {#BBS_NAME#}" onload="foldFloorOnload({count($tContents)})"}
+{include file="tpl:comm.head" title="{if $tMeta.essence}[精]{/if}{$tMeta.title} - {$fName} - {#BBS_NAME#}" onload="foldFloorOnload({count($tContents)})"}
 <script>
 	function foldFold(floor) {
 		var content = document.getElementById('floor_content_' + floor);
@@ -65,7 +65,7 @@
 
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
-		<p>标题: {$tMeta.title|code}</p>
+		<p>标题: {if $tMeta.essence}<span style="color:red;">[精]</span>{/if}{$tMeta.title|code}</p>
 		<p>作者: <a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
 		<p>时间: {date('Y-m-d H:i',$v.mtime)}</p>
 		<p>点击: {$tMeta.read_count}</p>
@@ -75,7 +75,7 @@
 		<script>foldFloorInit(0)</script>
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<hr>
-			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}|设]</p>
+			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}|{if ($tMeta.essence==0) && $bbs->canSetEssence(true)}<a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}">加精</a>{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}|设]</p>
 		{/if}
 	{else}
 		<p>{$tMeta.title|code}</p>

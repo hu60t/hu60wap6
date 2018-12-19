@@ -27,7 +27,7 @@
 
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
-		<h1>{$tMeta.title|code}</h1>
+		<h1>{if $tMeta.essence}<i class="material-icons" style="color:red;">whatshot</i>{/if}{$tMeta.title|code}</h1>
 		<div class="topic-meta">
             <div class="topic-avator">
                 <img src="{$v.uinfo->avatar()}" class="avatar">

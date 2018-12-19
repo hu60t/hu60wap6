@@ -45,3 +45,8 @@ ALTER TABLE `hu60_book_chapter`
 ALTER TABLE `hu60_book_meta`
   ADD PRIMARY KEY (`id`),
   ADD KEY `mtime` (`mtime`);
+
+
+-- 2018年12月18日 11:35
+-- topic添加了essence字段
+ALTER TABLE `hu60_bbs_topic_meta` ADD `essence` TINYINT(1) NOT NULL DEFAULT '0' AFTER `level`;

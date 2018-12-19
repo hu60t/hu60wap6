@@ -96,6 +96,7 @@ CREATE TABLE `hu60_bbs_topic_meta` (
   `ctime` bigint(20) NOT NULL,
   `mtime` bigint(20) NOT NULL,
   `level` tinyint(4) NOT NULL DEFAULT '0',
+  `essence` tinyint(1) NOT NULL DEFAULT '0',
   `forum_id` int(11) NOT NULL,
   `locked` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
