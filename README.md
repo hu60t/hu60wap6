@@ -21,10 +21,25 @@ hu60wap6 的主要功能有：论坛、聊天室、内信、@Ta、文件图片�
 
 1. 把 `src` 文件夹里的全部文件放在网站根目录。
 2. 进入网站根目录，把 `config` 文件夹里的所有 `xxx.default.php` 都复制一份，改名成 xxx.php，去掉 `.default`。如果你准备用git进行版本控制，建议采用复制而不是删除原文件或者直接给原文件重命名。
-3. 进入 `src/tpl/classic/html/site` 文件夹，把 `friend_links_data.default.tpl` 复制一份，改名为 `friend_links_data.tpl`。
+3. 进入 `src/config/tpl` 文件夹，把 `friend_links_data.default.tpl` 复制一份，改名为 `friend_links_data.tpl`。
+3. 进入 `src/config/tpl` 文件夹，把 `site_info.default.conf` 复制一份，改名为 `site_info.conf`。
 3. 修改 `config/db.php` ，填写好 mysql 信息。
 4. 导入 `db/mysql.sql` 到数据库。
 5. 访问。
+5. 在Windows中，你可能会遇到这样的错误：
+   ```
+   Syntax error in config file 'conf:site.info' on line 1 '../../../../config/tpl/site_info.conf'
+   ```
+   这是因为你所使用的Windows版解压缩软件或者git工具不支持符号连接，所以就把链接的源位置做为文本内容保存在了目标位置。
+   要解决该问题，你需要把多个文件从源位置复制到目标位置，分别是：
+   * `src/config/tpl/site_info.conf` -> `src/tpl/classic/html/site/info.conf`
+   * `src/config/tpl/site_info.conf` -> `src/tpl/jhin/html/site/info.conf`
+   * `src/config/tpl/friend_links_data.tpl` -> `src/tpl/classic/html/site/friend_links_data.tpl`
+   * `src/config/tpl/friend_links_data.tpl` -> `src/tpl/jhin/html/site/friend_links_data.tpl`
+   
+   此外还需要提醒你的是：不要将你的这些更改提交到git版本库，因为我们希望保留符号连接，而不是多个相同文件的复制品。
+   如果你想要避免这些麻烦，建议在WSL（Windows Subsystem of Linux，适用于Linux的Windows子系统）中运行`git clone`来获得源代码，WSL中的git可以正确创建符号连接。此外，你也可以在WSL中运行web服务器。
+   新版本的`Git for Windows`如果启用相关选项，也可以创建符号连接，但似乎只适用于符号连接的源文件存在的情况下。在clone本项目时，符号连接的源文件并不存在，所以`Git for Windows`似乎也会创建内容为源位置的文本文件做为替代。
 6. uid 为 1 的用户会成为系统的管理员用户，可以访问后台（虽然后台只有添加版块这一个功能，修改版块的功能是崩溃的。）
 
 
