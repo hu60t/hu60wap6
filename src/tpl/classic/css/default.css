@@ -273,3 +273,50 @@ img {
     width: 80%;
   }
 }
+
+/* 关注与屏蔽列表样式 */
+.relationship-wrapper .empty {
+    width: 100%;
+    text-align: center;
+    color: #999fa5;
+    font-size: 14px;
+}
+.relationship-wrapper .user-item {
+    height: 60px;
+    color: #333333;
+    display: block;
+    border-bottom: 1px solid #f5f5f5;
+}
+.relationship-wrapper .user-item a {
+    text-decoration: none;
+}
+.relationship-wrapper .user-item .avatar {
+    float: left;
+    height: 50px;
+    width: 50px;
+    margin-left: 20px;
+    margin-top: 5px;
+    display: inline-block;
+    border-radius: 50px;
+}
+.relationship-wrapper .user-item .info {
+    float: left;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+.relationship-wrapper .user-item .info .name {
+    font-size: 18px;
+}
+.relationship-wrapper .user-item .info .signature {
+    color: #999fa5;
+    font-size: 12px;
+}
+.relationship-wrapper .user-item .remove {
+    float: right;
+    height: 100%;
+    width: 60px;
+    display: inline-block;
+    padding-top: 20px;
+    color: #ff0000;
+    text-align: center;
+}

@@ -42,6 +42,15 @@
 		{/if}
     </td>
   </tr>
+  {if $user->uid != $uinfo->uid }
+    <tr>
+      <td>发送：</td>
+      <td>
+        {if $isFollow}<a href="javascript:relationship({$uinfo->uid}, 'unfollow')">取消关注</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'follow')">关注</a>{/if}
+        / {if $isBlock}<a href="javascript:relationship({$uinfo->uid}, 'unblock')">取消屏蔽</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'block')">屏蔽</a>{/if}
+      </td>
+    </tr>
+  {/if}
   <tr>
     <td>发送：</td>
     <td>
@@ -63,4 +72,24 @@
     </td>
   </tr>
 </table>
+<script>
+  function relationship(targetUid, type) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'user.relationship.{$bid}', false);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        let data = JSON.parse(xhr.responseText);
+        if (data.success) {
+          window.location.reload();
+        } else {
+          alert(data.message);
+        }
+      } else {
+        alert('请求失败');
+      }
+    };
+    xhr.send('action=' + type + "&targetUid=" + targetUid);
+  }
+</script>
 {/block}

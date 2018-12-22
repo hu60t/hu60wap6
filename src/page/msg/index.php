@@ -113,6 +113,11 @@ switch ($action) {
                 throw new Exception('该用户不存在！');
             }
 
+            $userRelationshipService = new UserRelationshipService($USER);
+            if($userRelationshipService->isBlock($uinfo->uid, $user->uid)) {
+                throw new Exception('该用户已屏蔽您的所有消息！');
+            }
+
             if ($_POST['go']) {
                 if (strlen(trim($_POST['content'])) > 0) {
                     $send = $msg->send_msg($user->uid, '0', $uinfo->uid, $_POST['content']);
