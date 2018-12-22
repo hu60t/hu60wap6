@@ -8,6 +8,8 @@
             <div class="bar">
                 <a href="bbs.forum.{$BID}">绿虎论坛</a>：
                 <a href="bbs.forum.0.1.{$BID}">新帖</a> |
+                <a href="bbs.forum.0.1.1.{$BID}">精华</a> |
+                <a href="bbs.search.{$BID}">搜索</a> |
                 <a href="bbs.newtopic.0.{$BID}">发帖</a>
             </div>
         </div>

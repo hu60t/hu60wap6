@@ -39,6 +39,12 @@
 				{/foreach}
 			</select>
 	{/if}
+	<input
+		type="checkbox"
+		id="only_essence"
+		{if $onlyEssence}checked{/if}
+		onchange="location='{$CID}.{$PID}.{$fid}.1.' + (this.checked ? 1 : 0) + '.{$BID}'"
+	/><label for="only_essence">只看精华</label>
 </div>
 
 

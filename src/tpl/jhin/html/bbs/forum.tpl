@@ -16,13 +16,15 @@
 <div class="breadcrumb">
 	<a  href="index.index.{$bid}">首页</a> &gt;
 	{$fName}
-	(<a href="{$CID}.{$PID}.0.1.{$BID}">新帖</a> | <a href="{$CID}.newtopic.0.{$BID}">发帖</a>)
+	(<a href="{$CID}.{$PID}.0.1.{$BID}">新帖</a> |
+     <a href="bbs.forum.0.1.1.{$BID}">精华</a> |
+	 <a href="{$CID}.newtopic.0.{$BID}">发帖</a>)
 </div>
 
 <!--搜索框-->
 <div class="widget-search">
 	<form method="get" action="{$CID}.search.{$BID}">
-		<input name="keywords" placeholder="搜索词" /><br />
+		<input name="keywords" placeholder="搜索词" />
 		<input name="username" placeholder="用户名" />
 		<input type="submit" value="搜索" />
 	</form>

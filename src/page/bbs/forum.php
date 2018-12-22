@@ -37,8 +37,10 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
     //显示版块列表
     $tpl->display('tpl:forum');
 } else {
+    $onlyEssence = (bool)$PAGE->ext[2];
+
     $num = 20;
-    $totalNumber = $bbs->topicCount($fid);
+    $totalNumber = $bbs->topicCount($fid, $onlyEssence);
     $totalPage = ceil($totalNumber / $num);
 
     //获取帖子页码
@@ -47,7 +49,7 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
     if ($p > $totalPage) $p = $totalPage;
 
     $startCount = ($p - 1) * $num;
-    $topicList = $bbs->topicList($fid, $startCount, $num);
+    $topicList = $bbs->topicList($fid, $startCount, $num, 'mtime', $onlyEssence);
 
     foreach ($topicList as &$v) {
         $v += (array)$bbs->topicMeta($v['topic_id'], '*');
@@ -61,6 +63,7 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
         $v['uinfo'] = $uinfo;
     }
 
+    $tpl->assign('onlyEssence', $onlyEssence);
     $tpl->assign('p', $p);
     $tpl->assign('pMax', $totalPage);
     $tpl->assign('topicCount', $totalNumber);

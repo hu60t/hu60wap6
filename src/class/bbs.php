@@ -584,11 +584,15 @@ class bbs
     /**
      * 获取版块下的帖子总数
      */
-    public function topicCount($forum_id)
+    public function topicCount($forum_id, $onlyEssence = false)
     {
+	    $where = 'WHERE 1=1';
         if ($forum_id != 0) {
-            $where = 'WHERE forum_id IN (' . $this->childForumIdList($forum_id) . ')';
+            $where .= ' AND forum_id IN (' . $this->childForumIdList($forum_id) . ')';
         }
+		if ($onlyEssence) {
+			$where .= ' AND essence=1';
+		}
 
         $rs = $this->db->select('count(*)', 'bbs_topic_meta', $where);
         if (!$rs)
@@ -600,13 +604,17 @@ class bbs
     /**
      * 获取版块下的帖子id
      */
-    public function topicList($forum_id, $page, $size, $orderBy = 'mtime')
+    public function topicList($forum_id, $page, $size, $orderBy = 'mtime', $onlyEssence = false)
     {
+	    $where = 'WHERE 1=1';
         if ($forum_id != 0) {
-            $where = 'WHERE `forum_id` IN (' . $this->childForumIdList($forum_id) . ') ';
+            $where .= ' AND forum_id IN (' . $this->childForumIdList($forum_id) . ')';
         }
+		if ($onlyEssence) {
+			$where .= ' AND essence=1';
+		}
 
-        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . 'ORDER BY `level` DESC, `' . $orderBy . '` DESC LIMIT ?,?', $page, $size);
+        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY `level` DESC, `' . $orderBy . '` DESC LIMIT ?,?', $page, $size);
 
         if (!$rs)
             throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
