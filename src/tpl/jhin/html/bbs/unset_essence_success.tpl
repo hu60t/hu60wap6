@@ -7,7 +7,7 @@
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
 {block name='title'}
-  取精帖子 - {$tMeta.title} - {#BBS_NAME#}
+  取消精华帖子 - {$tMeta.title} - {#BBS_NAME#}
 {/block}
 {block name='body'}
 <!--导航栏-->
@@ -25,7 +25,7 @@
     </div>
     <!--发帖框-->
     <div class='tip'>
-        取精成功，3秒后返回帖子。<br/>
+        取消精华成功，3秒后返回帖子。<br/>
         <a href="{$url|code}">点击立即进入</a>
     </div>
 </div>

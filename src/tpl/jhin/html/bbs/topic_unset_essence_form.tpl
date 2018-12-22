@@ -7,7 +7,7 @@
 {/if}
 
 {block name='title'}
-  取精帖子 - {$tMeta.title} - {#BBS_NAME#}
+  取消精华帖子 - {$tMeta.title} - {#BBS_NAME#}
 {/block}
 {block name='body'}
 <!--导航栏-->
@@ -33,12 +33,12 @@
           <input type="hidden" name="token" value="{$token->token()}">
           </p>
           {if !$selfAct}
-          <p>取精理由：<input name="reason" value="{$smarty.post.editReason|code}" /></p>
+          <p>取消精华理由：<input name="reason" value="{$smarty.post.editReason|code}" /></p>
           {/if}
           <p></p>
-          <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="确认取精" /></p>
+          <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="确认取消精华" /></p>
           {else}
-          取精帖子需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+          取消精华帖子需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
           {/if}
         </p>
       </div>

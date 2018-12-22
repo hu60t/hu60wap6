@@ -4,7 +4,7 @@
 {else}
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{$title="取精帖子 - {$tMeta.title} - {#BBS_NAME#}"}
+{$title="取消精华帖子 - {$tMeta.title} - {#BBS_NAME#}"}
 {include file="tpl:comm.head" title=$title}
 <!--导航栏-->
 <div class="pt">
@@ -29,12 +29,12 @@
       {if $USER->islogin}
         {input type="hidden" name="token" value=$token->token()}
         {if !$selfAct}
-        <p>取精理由：<input name="reason" value="{$smarty.post.editReason|code}" /></p>
+        <p>取消精华理由：<input name="reason" value="{$smarty.post.editReason|code}" /></p>
         {/if}
         <p></p>
-        <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="确认取精" /></p>
+        <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="确认取消精华" /></p>
         {else}
-        取精帖子需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+        取消精华帖子需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
       {/if}
       </div>
     {/form}

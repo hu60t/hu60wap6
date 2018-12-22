@@ -10,7 +10,7 @@
       <a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">whatshot</i>加精</a>
     {/if}
     {if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}
-      <a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i style="color:gray;" class="material-icons">whatshot</i>取精</a>
+      <a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i style="color:gray;" class="material-icons">whatshot</i>取消精华</a>
     {/if}
     {if $bbs->canDel($v.uinfo.uid, true)}
       <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">delete</i>删除</a>

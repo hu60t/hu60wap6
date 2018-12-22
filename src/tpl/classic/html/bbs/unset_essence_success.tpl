@@ -5,7 +5,7 @@
 {else}
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{include file="tpl:comm.head" title="取精帖子 - {$tMeta.title} - {#BBS_NAME#}" time=3 url=$url}
+{include file="tpl:comm.head" title="取消精华帖子 - {$tMeta.title} - {#BBS_NAME#}" time=3 url=$url}
 <!--导航栏-->
 {div class="forum_list"}
     <a href="index.index.{$BID}">首页</a> &gt;
@@ -21,7 +21,7 @@
     {/div}
     <!--发帖框-->
     {div class="tip"}
-        取精成功，3秒后返回帖子。<br/>
+        取消精华成功，3秒后返回帖子。<br/>
         <a href="{$url|code}">点击立即进入</a>
     {/div}
 {/div}
