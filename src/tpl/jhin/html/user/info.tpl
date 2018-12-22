@@ -44,7 +44,7 @@
   </tr>
   {if $user->uid != $uinfo->uid }
     <tr>
-      <td>发送：</td>
+      <td>交友：</td>
       <td>
         {if $isFollow}<a href="javascript:relationship({$uinfo->uid}, 'unfollow')">取消关注</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'follow')">关注</a>{/if}
         / {if $isBlock}<a href="javascript:relationship({$uinfo->uid}, 'unblock')">取消屏蔽</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'block')">屏蔽</a>{/if}
