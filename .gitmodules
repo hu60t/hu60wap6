@@ -1,6 +1,0 @@
-[submodule "bce-bos-uploader"]
-	path = src/tpl/classic/js/bce-bos-uploader
-	url = https://github.com/SwimmingTiger/bce-bos-uploader.git
-[submodule "hu60wap6-nonfree"]
-	path = src/nonfree
-	url = https://github.com/hu60t/hu60wap6-nonfree.git
