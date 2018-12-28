@@ -37,7 +37,7 @@ try {
     $bbs->canSetEssence();
 
 
-    //下沉操作
+    //加精操作
     $go = $_POST['go'];
     if (!empty($go)) {
         $token = new token($USER);

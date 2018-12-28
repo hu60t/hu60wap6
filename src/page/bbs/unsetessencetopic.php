@@ -30,14 +30,14 @@ try {
     $tpl->assign('selfAct', $selfAct);
 
     if ($tMeta['essence']==0) {
-        throw new bbsException('帖子未加精，不能取精！', 3403);
+        throw new bbsException('帖子未加精，不能取消精华！', 3403);
     }
 
     //帖子编辑权限检查
     $bbs->canUnsetEssence();
 
 
-    //下沉操作
+    //取消精华操作
     $go = $_POST['go'];
     if (!empty($go)) {
         $token = new token($USER);
@@ -54,7 +54,7 @@ try {
             $reason = trim($_POST['reason']);
 
             if (empty($reason)) {
-                throw new Exception('取精理由不能为空！');
+                throw new Exception('取消精华理由不能为空！');
             }
 
             $msgTitle = "帖子“{$tMeta['title']}”";
