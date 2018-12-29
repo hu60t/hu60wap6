@@ -50,3 +50,15 @@ ALTER TABLE `hu60_book_meta`
 -- 2018年12月18日 11:35
 -- topic添加了essence字段
 ALTER TABLE `hu60_bbs_topic_meta` ADD `essence` TINYINT(1) NOT NULL DEFAULT '0' AFTER `level`;
+
+-- 2018年12月27日 20:32
+-- 新增了 hu60_topic_favorites 表
+CREATE TABLE `hu60_topic_favorites` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `hu60_topic_favorites`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_uid_and_topicId` (`uid`,`topic_id`);

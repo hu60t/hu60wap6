@@ -211,6 +211,18 @@ CREATE TABLE `hu60_user` (
   `active` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `hu60_topic_favorites`
+--
+
+CREATE TABLE `hu60_topic_favorites` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -306,6 +318,13 @@ ALTER TABLE `hu60_user`
   ADD UNIQUE KEY `main` (`mail`),
   ADD UNIQUE KEY `mail` (`mail`),
   ADD UNIQUE KEY `regphone` (`regphone`);
+
+--
+-- Indexes for table `hu60_topic_favorites`
+--
+ALTER TABLE `hu60_topic_favorites`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_uid_and_topicId` (`uid`,`topic_id`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT

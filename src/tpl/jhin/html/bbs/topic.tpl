@@ -46,6 +46,20 @@
 		</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
 		{include file="tpl:bbs.topic_manager"}
+    {if $bbs->canFavorite($v.uinfo.uid, true)}
+    <hr/>
+    {if $bbs->isFavoriteTopic($v.topic_id)}
+    <div style="background-color: #EEE;">
+      &nbsp;&nbsp;<a href="#" class="favoriteTopic" style="color: #2e4e7e;"><i class="material-icons">star</i>取消收藏</a>
+      <span id="favoriteTopicError" style="color: red;display: none;"></span>
+    </div>
+    {else}
+    <div style="background-color: #EEE;">
+      &nbsp;&nbsp;<a href="#" class="favoriteTopic" style="color: #2e4e7e;"><i class="material-icons">star_border</i>加入收藏</a>
+      <span id="favoriteTopicError" style="color: red;display: none;"></span>
+    </div>
+    {/if}
+    {/if}
 	{else}
 		<p>{$tMeta.title|code}</p>
 	{/if}
@@ -121,8 +135,8 @@
 	</div>
 </div>
 <script>
-// 自动折叠过长内容
 	$(document).ready(function(){
+    // 自动折叠过长内容
 		var maxHeight = 768;
 		$(".topic-content,.floor-content").each(function(){
 			var that =$(this);
@@ -143,6 +157,39 @@
 				});
 			}
 		});
+
+    //帖子收藏与取消
+    $(".favoriteTopic").click(function(e) {
+      e.preventDefault();
+
+      if($(this).attr('disabled')=='disabled')
+        return;
+
+      $(this).attr('disabled', 'disabled');
+      if($(this).find('.material-icons').text()=='star_border') {
+        $.getJSON("{$CID}.setfavoritetopic.{$v.topic_id}.{$BID}", function(r) {
+          if(r.success) {
+            $(".favoriteTopic").html('<i class="material-icons">star</i>取消收藏');
+          } else {
+            $("#favoriteTopicError").text(r.notice);
+            $("#favoriteTopicError").show();
+            setTimeout('$("#favoriteTopicError").hide()', 2000);
+          }
+          $(".favoriteTopic").removeAttr('disabled');
+        });
+      } else {
+        $.getJSON("{$CID}.unsetfavoritetopic.{$v.topic_id}.{$BID}", function(r) {
+          if(r.success) {
+            $(".favoriteTopic").html('<i class="material-icons">star_border</i>加入收藏');
+          } else {
+            $("#favoriteTopicError").text(r.notice);
+            $("#favoriteTopicError").show();
+            setTimeout('$("#favoriteTopicError").hide()', 2000);
+          }
+          $(".favoriteTopic").removeAttr('disabled');
+        });
+      }
+    });
 	});
 
 

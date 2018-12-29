@@ -47,6 +47,7 @@
 			foldFloorInit(i);
 		}
 	}
+
 </script>
 {include file="tpl:comm.at"}
 {$ok=$ubb->setOpt('at.jsFunc', 'atAdd')}
@@ -77,6 +78,20 @@
 			<hr>
 			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}{if ($tMeta.essence==0) && $bbs->canSetEssence(true)}|<a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}">加精</a>{/if}{if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}|<a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$v.id}.{$BID}">取消精华</a>{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}|设]</p>
 		{/if}
+    {if $bbs->canFavorite($v.uinfo.uid, true)}
+    <hr>
+    {if $bbs->isFavoriteTopic($v.topic_id)}
+    <div>
+      &nbsp;&nbsp;<a href="#" class="favoriteTopic" style="background-color: #EEE;color: #2e4e7e;">取消收藏</a>
+      <span id="favoriteTopicError" style="color: red;display: none;"></span>
+    </div>
+    {else}
+    <div>
+      &nbsp;&nbsp;<a href="#" class="favoriteTopic" style="background-color: #EEE;color: #2e4e7e;">加入收藏</a>
+      <span id="favoriteTopicError" style="color: red;display: none;"></span>
+    </div>
+    {/if}
+    {/if}
 	{else}
 		<p>{$tMeta.title|code}</p>
 	{/if}
@@ -121,5 +136,42 @@
         回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。
     {/if}
 </div>
+
+<script>
+  $(document).ready(function() {
+    //帖子收藏与取消
+    $(".favoriteTopic").click(function(e) {
+      e.preventDefault();
+
+      if($(this).attr('disabled')=='disabled')
+        return;
+
+      $(this).attr('disabled', 'disabled');
+      if($(this).text()=='加入收藏') {
+        $.getJSON("{$CID}.setfavoritetopic.{$v.topic_id}.{$BID}", function(r) {
+          if(r.success) {
+            $(".favoriteTopic").text('取消收藏');
+          } else {
+            $("#favoriteTopicError").text(r.notice);
+            $("#favoriteTopicError").show();
+            setTimeout('$("#favoriteTopicError").hide()', 2000);
+          }
+          $(".favoriteTopic").removeAttr('disabled');
+        });
+      } else {
+        $.getJSON("{$CID}.unsetfavoritetopic.{$v.topic_id}.{$BID}", function(r) {
+          if(r.success) {
+            $(".favoriteTopic").text('加入收藏');
+          } else {
+            $("#favoriteTopicError").text(r.notice);
+            $("#favoriteTopicError").show();
+            setTimeout('$("#favoriteTopicError").hide()', 2000);
+          }
+          $(".favoriteTopic").removeAttr('disabled');
+        });
+      }
+    });
+  });
+</script>
 
 {include file="tpl:comm.foot"}

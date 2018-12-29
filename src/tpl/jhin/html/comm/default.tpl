@@ -35,6 +35,9 @@
                         <a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>
                     </li>
                     <li>
+                        <a href="bbs.myfavorite.{$BID}">收藏</a>
+                    </li>
+                    <li>
                         <a href="msg.index.inbox.no.{$bid}">内信{if $newMSG>0}({$newMSG}){/if}</a>
                     </li>
                     <li><a href="msg.index.@.no.{$bid}">提醒{if $newATINFO>0}({$newATINFO}){/if}</a></li>

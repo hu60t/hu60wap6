@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')|code}"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
+  <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")}"></script>
 	<title>{$title|code}</title>
 </head>
 <body{if $onload !== null} onload="{$onload}"{/if}>

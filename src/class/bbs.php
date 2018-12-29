@@ -180,6 +180,28 @@ class bbs
     }
 
     /**
+     * 检查用户是否可以收藏帖子
+     */
+    public function canFavorite($ownUid, $noException = false)
+    {
+        try {
+            $this->checkLogin();
+
+            if ($this->user->uid != $ownUid) {
+                return true;
+            } else {
+                throw new bbsException('您不能收藏自己的帖子。', 403);
+            }
+        } catch (Exception $e) {
+            if ($noException) {
+                return false;
+            } else {
+                throw $e;
+            }
+        }
+    }
+
+    /**
      * 检查板块是否可以发帖
      */
     public function canCreateTopic($fid)
@@ -379,8 +401,73 @@ class bbs
             throw new bbsException('修改失败，数据库错误');
         }
     }
-	
-	/**
+
+    /**
+     * 检查帖子是否已被用户收藏
+     */
+    public function isFavoriteTopic($topicId)
+    {
+        $this->checkLogin();
+
+        $num = $this->db->query('SELECT COUNT(*) FROM ' . DB_A . 'topic_favorites WHERE uid=? AND topic_id=?', $this->user->uid, $topicId)->fetch(db::num);
+
+        if($num[0]==1)
+          return true;
+        else
+          return false;
+    }
+
+    /**
+     * 收藏帖子
+     */
+    public function setFavoriteTopic($topicId)
+    {
+        $this->checkLogin();
+
+        $ok = $this->db->insert('topic_favorites', 'uid,topic_id', $this->user->uid, $topicId);
+
+        if (!$ok) {
+          throw new bbsException('收藏失败，数据库错误');
+        }
+    }
+
+    /**
+     * 取消帖子收藏
+     */
+    public function unsetFavoriteTopic($topicId)
+    {
+        $this->checkLogin();
+
+        $ok = $this->db->delete('topic_favorites', 'WHERE uid=? AND topic_id=?', $this->user->uid, $topicId);
+
+        if (!$ok) {
+            throw new bbsException('取消帖子收藏失败，数据库错误');
+        }
+    }
+
+    /**
+     * 获取收藏帖列表
+     */
+    public function favoriteTopicList($offset = 0, $limit = 20, & $count = true)
+    {
+        $this->checkLogin();
+
+        $sql = 'SELECT bbs.* FROM ' . DB_A . 'bbs_topic_meta AS bbs,' . DB_A . 'topic_favorites AS ft WHERE ft.uid=? AND bbs.id=ft.topic_id ORDER BY bbs.id DESC LIMIT ?,?';
+        $rs = $this->db->prepare($sql);
+
+        if (!$rs || !$rs->execute([$this->user->uid, $offset, $limit])) {
+          throw new Exception('数据库错误');
+        }
+
+        if ($count!==true) {
+          $num = $this->db->query('SELECT COUNT(*) FROM ' . DB_A . 'topic_favorites WHERE uid=?', $this->user->uid)->fetch(db::num);
+          $count = $num[0];
+        }
+
+        return $rs->fetchAll(db::ass);
+    }
+
+	  /**
      * 转移帖子到新版块
      */
     public function moveTopic($topicId, $forumId)
