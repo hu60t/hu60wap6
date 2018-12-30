@@ -187,11 +187,13 @@ class bbs
         try {
             $this->checkLogin();
 
-            if ($this->user->uid != $ownUid) {
+            /*if ($this->user->uid != $ownUid) {
                 return true;
             } else {
                 throw new bbsException('您不能收藏自己的帖子。', 403);
-            }
+            }*/
+	    // 我们希望用户可以收藏自己的帖子
+	    return true;
         } catch (Exception $e) {
             if ($noException) {
                 return false;
