@@ -25,7 +25,11 @@ try {
 
     //收藏操作
     $bbs->setFavoriteTopic($tid);
+    
+    header('Content-Type: application/json; charset=UTF-8');
     echo json_encode(array('success'=>true));
 } catch (Exception $err) {
-   echo json_encode(array('success'=>false,'notice'=>$err->getMessage()));
+    header('Content-Type: application/json; charset=UTF-8');
+    echo json_encode(array('success'=>false,'notice'=>$err->getMessage()));
 }
+

@@ -148,7 +148,7 @@
 
       $(this).attr('disabled', 'disabled');
       if($(this).text()=='加入收藏') {
-        $.getJSON("{$CID}.setfavoritetopic.{$v.topic_id}.{$BID}", function(r) {
+        $.getJSON("{$CID}.setfavoritetopic.{$v.topic_id}.json", function(r) {
           if(r.success) {
             $(".favoriteTopic").text('取消收藏');
           } else {
@@ -159,7 +159,7 @@
           $(".favoriteTopic").removeAttr('disabled');
         });
       } else {
-        $.getJSON("{$CID}.unsetfavoritetopic.{$v.topic_id}.{$BID}", function(r) {
+        $.getJSON("{$CID}.unsetfavoritetopic.{$v.topic_id}.json", function(r) {
           if(r.success) {
             $(".favoriteTopic").text('加入收藏');
           } else {

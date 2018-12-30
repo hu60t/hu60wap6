@@ -167,7 +167,7 @@
 
       $(this).attr('disabled', 'disabled');
       if($(this).find('.material-icons').text()=='star_border') {
-        $.getJSON("{$CID}.setfavoritetopic.{$v.topic_id}.{$BID}", function(r) {
+        $.getJSON("{$CID}.setfavoritetopic.{$v.topic_id}.json", function(r) {
           if(r.success) {
             $(".favoriteTopic").html('<i class="material-icons">star</i>取消收藏');
           } else {
@@ -178,7 +178,7 @@
           $(".favoriteTopic").removeAttr('disabled');
         });
       } else {
-        $.getJSON("{$CID}.unsetfavoritetopic.{$v.topic_id}.{$BID}", function(r) {
+        $.getJSON("{$CID}.unsetfavoritetopic.{$v.topic_id}.json", function(r) {
           if(r.success) {
             $(".favoriteTopic").html('<i class="material-icons">star_border</i>加入收藏');
           } else {
