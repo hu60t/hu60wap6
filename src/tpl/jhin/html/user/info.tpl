@@ -61,7 +61,7 @@
   <tr>
     <td>查看：</td>
     <td>
-      <a href="bbs.search.send.{$bid}?username={$uinfo->name|urlencode}">帖子</a>
+      <a href="bbs.search.send.{$bid}?username={$uinfo->name|urlencode}">帖子</a> / <a href="bbs.search.send.{$bid}?username={$uinfo->name|urlencode}&searchType=reply">回复</a>
     </td>
   </tr>
   <tr>

@@ -15,8 +15,11 @@ $offset = ($p - 1) * $size;
 //获取搜索词
 $keywords = $_GET['keywords'];
 $username = $_GET['username'];
+$searchType = $_GET['searchType'];
 
 if ($keywords != '' || $username != '') {
+
+  if($searchType != 'reply') {
 
     //获取帖子列表
     $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
@@ -52,10 +55,41 @@ if ($keywords != '' || $username != '') {
     $tpl->assign('topicList', $topicList);
     $tpl->assign('count', $count);
     $tpl->assign('maxP', $maxP);
+
+    //显示版块列表
+    $tpl->display('tpl:searchtopic');
+  }
+  else {
+    $result = $search->searchReply($keywords, $username, $offset, $size, $count);
+    $maxP = ceil($count / $size);
+
+    foreach ($result as &$v) {
+        $topic = $bbs->topicMeta($v['reply_id'], '*');
+
+        // 偶尔会有回复内容存在但是主题帖丢失的情况
+        if (empty($topic)) {
+            continue;
+        }
+        $v['topic']=$topic;
+
+        $v['uinfo'] = new userinfo();
+        $v['uinfo']->uid($topic['uid']);
+    }
+    //加载 UBB 组件
+    $ubb = new ubbdisplay();
+    $tpl->assign('ubb', $ubb);
+
+    $tpl->assign('replyList', $result);
+    $tpl->assign('count', $count);
+    $tpl->assign('maxP', $maxP);
+
+    $tpl->display('tpl:searchreply');
+  }
 }
 else {
     $tpl->assign('count', 0);
+    //显示版块列表
+    $tpl->display('tpl:searchtopic');
 }
 
-//显示版块列表
-$tpl->display('tpl:search');
+

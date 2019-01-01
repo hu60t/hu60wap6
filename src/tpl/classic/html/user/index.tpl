@@ -27,7 +27,7 @@
  注册时间：{if $USER->regtime == 0}您是很久以前注册的，那时没有记录注册时间{else}{date('Y年m月d日 H:i:s',$USER->regtime)}{/if}
 </p>
 <p class="txt">
-查看：<a href="msg.index.{$bid}">内信</a>/<a href="msg.index.@.{$bid}">@消息</a>/<a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}">帖子</a>
+查看：<a href="msg.index.{$bid}">内信</a>/<a href="msg.index.@.{$bid}">@消息</a>/<a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}">帖子</a>/<a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}&searchType=reply">回复</a>
     /<a href="user.relationship.follow.{$bid}">关注</a>/<a href="user.relationship.block.{$bid}">黑名单</a><br/>
 </p>
 <p class="txt">

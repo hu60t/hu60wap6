@@ -25,7 +25,7 @@
 <div id="my_heart"><!-- 由@肖申克(uid:21156)命名 -->
 	<p>『用户专区』</p>
 	<p>
-		-我的：<a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>|回复|<a href="msg.index.{$bid}">内信</a>|<a href="msg.index.@.{$bid}">@消息</a>|<a href="bbs.myfavorite.{$BID}">收藏</a>
+		-我的：<a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>|<a href="bbs.search.{$BID}?username={$USER->name|urlencode}&searchType=reply">回复</a>|<a href="msg.index.{$bid}">内信</a>|<a href="msg.index.@.{$bid}">@消息</a>|<a href="bbs.myfavorite.{$BID}">收藏</a>
 	</p>
 </div>
 <hr>
