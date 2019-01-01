@@ -25,14 +25,10 @@ switch ($PAGE->ext[0]) {
         break;
     case 'bk':
         if ($_POST['sc']) {
-       $arr = $bbs->plate($_POST['bbid']);
+            $arr = $bbs->deleteForum($_POST['bbid']);
         } 
-		if ($_POST['xg']) {
-            $xg = $bbs->scxg($_POST['bbid'], 'xg');
-            $tpl->assign('xg', $xg);
-        } 
-           
         break;
+
     case "forum":
         $array = $db->query(
             "SELECT ( SELECT COUNT(*) FROM $t_topic WHERE $t_topic.forum_id = t2.id ) AS topic_sum, ( SELECT `name` FROM $t_forum AS t1 WHERE t1.`id` = t2.parent_id ) AS parent_name, t2.* FROM $t_forum AS t2"

@@ -851,20 +851,20 @@ class bbs
     {
         $rs = $this->db->insert('bbs_forum_meta', 'parent_id,name,mtime', $parentId, $name, time());
         if (!$rs)
-            throw new bbsException('数据库错误，主题内容（' . DB_A . 'bbs_forum_meta）写入失败！', 500);
+            throw new bbsException('数据库错误，版块信息（' . DB_A . 'bbs_forum_meta）写入失败！', 500);
         return true;
     }
 
-    public function scxg($name, $parentId){
-        $rs = $this->db->insert('bbs_forum_meta', 'parent_id,name,mtime', $parentId, $name, time());
-            if (!$rs)
-                throw new bbsException('数据库错误，版块创建失败！', 500);
-            return true;
-        
-    }
-
-    public function  plate($r){
-        $rs = $this->db->delete('bbs_forum_meta', 'WHERE id=?', $r);
+    public function deleteForum($id){
+		$tCount = $this->topicCount($id);
+		$children = $this->childForumId($id);
+		if ($tCount > 0) {
+			throw new bbsException('删除失败，版块中尚有'.$tCount.'个帖子', 400);
+		}
+		if (count($children) > 1) {
+			throw new bbsException('删除失败，版块存在子版块', 400);
+		}
+        $rs = $this->db->delete('bbs_forum_meta', 'WHERE id=?', $id);
         if (!$rs)
             throw new bbsException('数据库错误，版块删除失败！', 500);
         return true;
