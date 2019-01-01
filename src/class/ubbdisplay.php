@@ -232,21 +232,21 @@ class UbbDisplay extends XUBBP
         $iframeUrl = null;
 
         //优酷
-        if (preg_match('#\.youku\.com/.*_([a-zA-Z0-9=]+)#', $url, $arr)) {
-            $iframeUrl = 'http://player.youku.com/embed/'.$arr[1];
+        if (preg_match('#\.youku\.com/.*/id_([a-zA-Z0-9=]+)#', $url, $arr)) {
+            $iframeUrl = 'https://player.youku.com/embed/'.$arr[1];
         }
-        //土豆
-        else if (preg_match('#\.tudou\.com/.*/([a-zA-Z0-9=]+)#', $url, $arr)) {
-            $iframeUrl = 'http://www.tudou.com/programs/view/html5embed.action?code='.$arr[1];
-        }
+        //土豆（失效）
+        //else if (preg_match('#\.tudou\.com/.*/([a-zA-Z0-9=]+)#', $url, $arr)) {
+        //    $iframeUrl = 'https://www.tudou.com/programs/view/html5embed.action?code='.$arr[1];
+        //}
         //腾讯视频
         else if (preg_match('#\.qq\.com/.*/([a-zA-Z0-9=]+)#', $url, $arr)) {
-            $iframeUrl = 'http://v.qq.com/iframe/player.html?vid='.$arr[1].'&tiny=0&auto=0';
+            $iframeUrl = 'https://v.qq.com/iframe/player.html?vid='.$arr[1].'&tiny=0&auto=0';
         }
 
 
         if (null !== $iframeUrl) {
-            return '<p class="video_box"><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless="seamless"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
+            return '<p class="video_box"><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
         }
         else {
             return '<p class="video_box"><a href="'.code::html($url).'">'.code::html($url).'</a></p>';
