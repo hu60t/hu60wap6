@@ -19,7 +19,7 @@ $searchType = $_GET['searchType'];
 
 if ($keywords != '' || $username != '') {
 
-  if($searchType != 'reply') {
+  if($searchType != 'reply' || $keywords != '') {
 
     //获取帖子列表
     $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
