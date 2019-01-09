@@ -796,6 +796,10 @@ h1 {
 .relationship-wrapper .user-item a {
   text-decoration: none;
 }
+.relationship-wrapper .user-item a:nth-child(1) {
+  display: inline-block;
+  width: calc(100% - 60px);
+}
 .relationship-wrapper .user-item .avatar {
   float: left;
   height: 50px;
@@ -806,9 +810,10 @@ h1 {
   border-radius: 50px;
 }
 .relationship-wrapper .user-item .info {
-  float: left;
   margin-left: 15px;
   margin-top: 10px;
+  display: inline-block;
+  width: calc(100% - 100px);
 }
 .relationship-wrapper .user-item .info .name {
   font-size: 18px;
@@ -816,6 +821,9 @@ h1 {
 .relationship-wrapper .user-item .info .signature {
   color: #999fa5;
   font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .relationship-wrapper .user-item .remove {
   float: right;
@@ -826,3 +834,4 @@ h1 {
   color: #ff0000;
   text-align: center;
 }
+/*# sourceMappingURL=new.css.map */
