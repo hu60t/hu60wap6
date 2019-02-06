@@ -925,6 +925,11 @@ h1 {
             text-decoration:none;
         }
 
+        a:nth-child(1) {
+            display: inline-block;
+            width: calc(100% - 60px);
+        }
+
         .avatar {
             float: left;
             height: 50px;
@@ -936,9 +941,10 @@ h1 {
         }
 
         .info {
-            float: left;
             margin-left: 15px;
             margin-top: 10px;
+            display: inline-block;
+            width: calc(100% - 100px);
 
             .name{
                 font-size: 18px;
@@ -947,6 +953,9 @@ h1 {
             .signature {
                 color: #999fa5;
                 font-size: 12px;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
             }
         }
 
@@ -961,4 +970,3 @@ h1 {
         }
     }
 }
-
