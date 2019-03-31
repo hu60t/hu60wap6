@@ -30,6 +30,9 @@
     </div>
   </form>
 </div>
+<div class="widget-page">
+  {jhinfunc::Pager($p,$maxP,"?p=##")}
+</div>
 <ul class="chat-list">
   {foreach $list as $k}
   {if $k.hidden}
