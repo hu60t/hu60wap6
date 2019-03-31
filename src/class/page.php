@@ -158,11 +158,16 @@ class page implements ArrayAccess
     *
     * 格式：bid/cid/pid.ext
     */
-    public function getTplUrl($path)
+    public function getTplUrl($path, $noCache = false)
     {
         $path = TPL_DIR . '/' . $this->page['tpl'] . '/' . $path;
+        $url = $this->getFileUrl($path);
 
-        return $this->getFileUrl($path);
+        if ($noCache) {
+            $url .= '?r=' . filemtime($path);
+        }
+
+        return $url;
     }
 
     /*取得并自动修改页面的mime和bid*/
