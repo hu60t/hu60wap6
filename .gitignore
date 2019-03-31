@@ -14,7 +14,8 @@
 /src/upload/*.jpg
 !/src/upload/default.jpg
 
-/.idea/
+.idea/
+.vscode/
 *.swp
 *.zip
 *.gz
@@ -22,12 +23,14 @@
 *.bz2
 *.xz
 *.rar
+*.tar
 *~
 .htaccess
 
 /src/google*.html
 /src/db/qqwry.dat
 /src/img/face/*.gif
+/src/img/face/*.png
 /src/tpl/*/img/face/
 
 /src/baidu_verify_*.html
