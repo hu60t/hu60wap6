@@ -95,6 +95,15 @@
     </td>
   </tr>
   <tr>
+    <td>底部聊天室个数：</td>
+    <td>
+      <form method="post" action="{$CID}.{$PID}.{$BID}">
+        <input name="newChatNum" type="number" min="1" max="10" value="{$newChatNum}" />
+        <input type="submit" value="保存">
+      </form>
+    </td>
+  </tr>
+  <tr>
     <td>功能：</td>
     <td>
       <a href="addin.webplug.{$BID}">网页插件</a> / 

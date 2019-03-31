@@ -584,6 +584,9 @@ h1 {
   position: relative;
   top: 2px;
 }
+.chat-new p {
+  text-align: left;
+}
 .login-form {
   max-width: 450px;
   margin: 20px auto;

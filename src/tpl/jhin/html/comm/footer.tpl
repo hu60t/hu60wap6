@@ -2,12 +2,19 @@
   {if !$base}
     {if !$no_chat}
       {$chat=chat::getInstance()}
-      {$newChat=$chat->newChat()}
-      {if !empty($newChat)}
+      {if is_object($USER) && $USER->getinfo('chat.newchat_num') > 0}
+        {$newChatNum=$USER->getinfo('chat.newchat_num')}
+      {else}
+        {$newChatNum=1}
+      {/if}
+      {$newChats=$chat->newChats($newChatNum)}
+      {if !empty($newChats)}
         {$ubb=ubbDisplay::getInstance()}
-        {$content=strip_tags($ubb->display($newChat.content, true))}
         <div class="chat-new content-box">
-          [<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>]{$newChat.uname|code}:{str::cut($content,0,20,'…')}
+          {foreach $newChats as $newChat}
+            {$content=strip_tags($ubb->display($newChat.content, true))}
+            <p>[<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>] {$newChat.uname|code}：{str::cut($content,0,20,'…')}</p>
+          {/foreach}
         </div>
       {/if}
     {/if}

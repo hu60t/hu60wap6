@@ -51,6 +51,11 @@
 {/if}
 <br/>
 </p>
+<form class="txt" method="post" action="{$CID}.{$PID}.{$BID}"> 
+	底部聊天室个数：
+	<input name="newChatNum" type="number" min="1" max="10" value="{$newChatNum}" />
+    <input type="submit" value="保存">
+</form>
 <p class="txt">
 功能：<a href="addin.webplug.{$BID}">网页插件</a>
 <br/>

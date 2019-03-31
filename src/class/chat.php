@@ -151,6 +151,18 @@ class chat
     }
 
     /**
+     * 获取最新的几个发言
+     */
+    public function newChats($num)
+    {
+        $sql = "SELECT * FROM `".DB_A."addin_chat_data` WHERE id IN (SELECT max(id) FROM `".DB_A."addin_chat_data` GROUP BY room) AND room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' ORDER BY time DESC LIMIT ?";
+        $rs = $this->db->prepare($sql);
+        $rs->execute([(int)$num]);
+        $data = $rs->fetchAll();
+        return $data;
+    }
+
+    /**
      * 在指定聊天室发言
      */
     public function chatsay($room, $content, $time)
