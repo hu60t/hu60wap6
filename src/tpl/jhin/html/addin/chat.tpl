@@ -30,7 +30,7 @@
     </div>
   </form>
 </div>
-<div class="widget-page">
+<div class="widget-page top-pager">
   {jhinfunc::Pager($p,$maxP,"?p=##")}
 </div>
 <ul class="chat-list">

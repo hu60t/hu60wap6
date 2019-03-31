@@ -189,6 +189,10 @@ h1 {
   display: inline-block;
   padding: 5px 15px;
 }
+.top-pager {
+  border-bottom: 1px solid #EEE;
+  padding-bottom: 10px;
+}
 .profile {
   padding: 5px;
   position: absolute;
@@ -923,3 +927,4 @@ h1 {
   color: #ff0000;
   text-align: center;
 }
+/*# sourceMappingURL=new.css.map */
