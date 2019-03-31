@@ -17,79 +17,62 @@ $keywords = $_GET['keywords'];
 $username = $_GET['username'];
 $searchType = $_GET['searchType'];
 
-if ($keywords != '' || $username != '') {
+if ($keywords == '' && $username == '') {
+  $tpl->assign('count', 0);
+  //显示版块列表
+  $tpl->display('tpl:searchtopic');
+}
 
-  if($searchType != 'reply' || $keywords != '') {
-
-    //获取帖子列表
-    $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
-    $maxP = ceil($count / $size);
-    $topicList = [];
-
-    foreach ($result as $v) {
-        $topic = $bbs->topicMeta($v['tid'], '*');
-
-        // 偶尔会有回复内容存在但是主题帖丢失的情况
-        if (empty($topic)) {
-            continue;
-        }
-
-        $forum = $bbs->forumMeta($topic['forum_id'], 'name');
-        $topic['forum_name'] = $forum['name'];
-        $topic['reply_count'] = $bbs->topicContentCount($v['tid']) - 1;
-
-        $topic['uinfo'] = new userinfo();
-        $topic['uinfo']->uid($topic['uid']);
-
-        $topicList[] = $topic;
+if($searchType != 'reply') {
+  //获取帖子列表
+  $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
+  $maxP = ceil($count / $size);
+  $topicList = [];
+  foreach ($result as $v) {
+    $topic = $bbs->topicMeta($v['tid'], '*');
+    // 偶尔会有回复内容存在但是主题帖丢失的情况
+    if (empty($topic)) {
+        continue;
     }
-
-    // 列表整个为空时跳转到上一页或最大页
-    // 避免搜索结果为空时循环重定向
-    if (empty($topicList) && $p > 1) {
-        $u = '?keywords='.urlencode($keywords).'&username='.urlencode($username).'&p='.min($p-1, $maxP);
-        header('Location: '.$u);
-        die;
-    }
-
-    $tpl->assign('topicList', $topicList);
-    $tpl->assign('count', $count);
-    $tpl->assign('maxP', $maxP);
-
-    //显示版块列表
-    $tpl->display('tpl:searchtopic');
+    $forum = $bbs->forumMeta($topic['forum_id'], 'name');
+    $topic['forum_name'] = $forum['name'];
+    $topic['reply_count'] = $bbs->topicContentCount($v['tid']) - 1;
+    $topic['uinfo'] = new userinfo();
+    $topic['uinfo']->uid($topic['uid']);
+    $topicList[] = $topic;
   }
-  else {
-    $result = $search->searchReply($keywords, $username, $offset, $size, $count);
-    $maxP = ceil($count / $size);
-
-    foreach ($result as &$v) {
-        $topic = $bbs->topicMeta($v['reply_id'], '*');
-
-        // 偶尔会有回复内容存在但是主题帖丢失的情况
-        if (empty($topic)) {
-            continue;
-        }
-        $v['topic']=$topic;
-
-        $v['uinfo'] = new userinfo();
-        $v['uinfo']->uid($topic['uid']);
-    }
-    //加载 UBB 组件
-    $ubb = new ubbdisplay();
-    $tpl->assign('ubb', $ubb);
-
-    $tpl->assign('replyList', $result);
-    $tpl->assign('count', $count);
-    $tpl->assign('maxP', $maxP);
-
-    $tpl->display('tpl:searchreply');
+  // 列表整个为空时跳转到上一页或最大页
+  // 避免搜索结果为空时循环重定向
+  if (empty($topicList) && $p > 1) {
+    $u = '?keywords='.urlencode($keywords).'&username='.urlencode($username).'&p='.min($p-1, $maxP);
+    header('Location: '.$u);
+    die;
   }
+  $tpl->assign('topicList', $topicList);
+  $tpl->assign('count', $count);
+  $tpl->assign('maxP', $maxP);
+  //显示版块列表
+  $tpl->display('tpl:searchtopic');
 }
 else {
-    $tpl->assign('count', 0);
-    //显示版块列表
-    $tpl->display('tpl:searchtopic');
+  $result = $search->searchReply($keywords, $username, $offset, $size, $count);
+  $maxP = ceil($count / $size);
+  foreach ($result as &$v) {
+      $topic = $bbs->topicMeta($v['topic_id'], '*');
+      
+      // 偶尔会有回复内容存在但是主题帖丢失的情况
+      if (empty($topic)) {
+          continue;
+      }
+      $v['topic']=$topic;
+      $v['uinfo'] = new userinfo();
+      $v['uinfo']->uid($topic['uid']);
+  }
+  //加载 UBB 组件
+  $ubb = new ubbdisplay();
+  $tpl->assign('ubb', $ubb);
+  $tpl->assign('replyList', $result);
+  $tpl->assign('count', $count);
+  $tpl->assign('maxP', $maxP);
+  $tpl->display('tpl:searchreply');
 }
-
-

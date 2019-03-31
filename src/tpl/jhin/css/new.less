@@ -372,6 +372,82 @@ h1 {
     }
 }
 
+
+.reply-ul {
+    list-style-type: none;
+    padding: 0;
+    > li {
+        padding: 5px 10px 2px 10px;
+        border-bottom: 1px solid #EEE;
+        .topic-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .topic-meta {
+                margin: 0px;
+            }
+            .topic-reply-count{
+                width: 5%;
+                display: flex;
+                font-weight: 300;
+                font-size: 30px;
+                color: gray;
+                a{
+                    color: gray;
+                }
+            }
+            .topic-anchor{
+                width: 20%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                word-break: break-all;
+                >a{
+                    color: gray;
+                }
+            }
+            .topic-title{
+                width: 65%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                >a{
+                    font-size: 18px;
+                    display: block;
+                }
+                margin-left: 10px;
+            }
+            .reply-floor{
+                margin-left: 10px;
+                width: 15%;
+                display: flex;
+                font-weight: 300;
+                font-size: 30px;
+                color: gray;
+                a {
+                    color: gray;
+                }
+            }
+        }
+        blockquote {
+            background: #f9f9f9;
+            border-left: 10px solid #ccc;
+            margin: 1.5em 10px;
+            padding: 0.5em 10px;
+            max-height: 500px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        blockquote:before {
+            color: #ccc;
+            font-size: 4em;
+            line-height: 0.1em;
+            margin-right: 0.25em;
+            vertical-align: -0.4em;
+        }
+    }
+}
+
 .topic {
     > h1 {
         margin-left: 15px;
@@ -755,6 +831,11 @@ h1 {
     padding: 10px;
 }
 
+// 搜索框选项
+#searchType-label {
+    display: inline-block;
+} 
+
 @media screen and (max-width: 1200px) {
     .container {
         position: static;
@@ -870,6 +951,16 @@ h1 {
     }
     .topic-ul > li .topic-title {
         width: 80%;
+    }
+    // 回复列表
+    .reply-ul > li .topic-anchor > a {
+        font-size: 14px;
+    }
+    .reply-ul > li .topic-title > a {
+        font-size: 16px;
+    }
+    .reply-ul > li .topic-info .reply-floor {
+        font-size: 18px;
     }
     // 头像上传页面
     .layout-body .cropper-box {

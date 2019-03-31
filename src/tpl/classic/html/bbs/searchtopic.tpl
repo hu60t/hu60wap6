@@ -10,12 +10,10 @@
 <form method="get" action="{$CID}.{$PID}.{$BID}">
 	<input name="keywords" value="{$smarty.get.keywords|code}" placeholder="搜索词" />
 	<input name="username" value="{$smarty.get.username|code}" placeholder="用户名" />
-  <br/>
-  搜索类型：
-  <input name="searchType" type="radio" value="topic" {if $smarty.get.searchType!='reply'}checked{/if} />帖子
-  <input name="searchType" type="radio" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />回复
-  <br/>
 	<input type="submit" value="搜索" />
+  <label for="searchType" id="searchType-label">
+    <input name="searchType" id="searchType" type="checkbox" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />搜索用户回复
+  </label>
 </form>
 
 <p class="cr_cb">找到{$count}个主题</p>

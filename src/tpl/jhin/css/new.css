@@ -318,6 +318,80 @@ h1 {
   font-size: 18px;
   display: block;
 }
+.reply-ul {
+  list-style-type: none;
+  padding: 0;
+}
+.reply-ul > li {
+  padding: 5px 10px 2px 10px;
+  border-bottom: 1px solid #EEE;
+}
+.reply-ul > li .topic-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.reply-ul > li .topic-info .topic-meta {
+  margin: 0px;
+}
+.reply-ul > li .topic-info .topic-reply-count {
+  width: 5%;
+  display: flex;
+  font-weight: 300;
+  font-size: 30px;
+  color: gray;
+}
+.reply-ul > li .topic-info .topic-reply-count a {
+  color: gray;
+}
+.reply-ul > li .topic-info .topic-anchor {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  word-break: break-all;
+}
+.reply-ul > li .topic-info .topic-anchor > a {
+  color: gray;
+}
+.reply-ul > li .topic-info .topic-title {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+}
+.reply-ul > li .topic-info .topic-title > a {
+  font-size: 18px;
+  display: block;
+}
+.reply-ul > li .topic-info .reply-floor {
+  margin-left: 10px;
+  width: 15%;
+  display: flex;
+  font-weight: 300;
+  font-size: 30px;
+  color: gray;
+}
+.reply-ul > li .topic-info .reply-floor a {
+  color: gray;
+}
+.reply-ul > li blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  max-height: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.reply-ul > li blockquote:before {
+  color: #ccc;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
 .topic > h1 {
   margin-left: 15px;
   margin-right: 15px;
@@ -648,6 +722,9 @@ h1 {
 .book-content {
   padding: 10px;
 }
+#searchType-label {
+  display: inline-block;
+}
 @media screen and (max-width: 1200px) {
   .container {
     position: static;
@@ -753,6 +830,15 @@ h1 {
   .topic-ul > li .topic-title {
     width: 80%;
   }
+  .reply-ul > li .topic-anchor > a {
+    font-size: 14px;
+  }
+  .reply-ul > li .topic-title > a {
+    font-size: 16px;
+  }
+  .reply-ul > li .topic-info .reply-floor {
+    font-size: 18px;
+  }
   .layout-body .cropper-box {
     display: block;
   }
@@ -834,4 +920,3 @@ h1 {
   color: #ff0000;
   text-align: center;
 }
-/*# sourceMappingURL=new.css.map */

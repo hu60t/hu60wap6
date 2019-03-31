@@ -14,12 +14,10 @@
         <form method="get" action="{$CID}.{$PID}.{$BID}" class="search-form">
             <input name="keywords" value="{$smarty.get.keywords|code}" class="search-form-keyword" placeholder="搜索词"/>
             <input name="username" value="{$smarty.get.username|code}" class="serch-form-user" placeholder="用户名"/>
-            <br/>
-            搜索类型：
-            <input name="searchType" type="radio" value="topic" {if $smarty.get.searchType!='reply'}checked{/if} />帖子
-            <input name="searchType" type="radio" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />回复
-            <br/>
             <input type="submit" class="search-form-submit" value="搜索"/>
+            <label for="searchType" id="searchType-label">
+                <input name="searchType" id="searchType" type="checkbox" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />搜索用户回复
+            </label>
         </form>
     </div>
     <div class="bar">
@@ -28,16 +26,33 @@
     {if $replyList}
         <!--回复列表-->
         <div class="search-list">
-            <div class="reply-list">
-              {foreach $replyList as $reply}
-              <div class="reply-box">
-                <p>回复了 <a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a> 创建的主题 > <a href="bbs.topic.{$reply.reply_id}.{$BID}">{$reply.topic.title|code}</a>  {str::ago($reply.mtime)} </p>
-                <div class="comments-content">
-                {$ubb->display($reply.content,true)}
-                </div>
-              </div>
-              {/foreach}
-            </div>
+            <ul class="reply-ul">
+                {foreach $replyList as $reply}
+                    {$topic=$reply.topic}
+                    <li>
+                        <div class="topic-info">
+                            <div class="topic-anchor">
+                                <a href="user.info.{$reply.uinfo.uid}.{$BID}">
+                                <img src="{$reply.uinfo->avatar()}" class="avatar">
+                                </a>
+                                <a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a>
+                            </div>
+                            <div class="topic-title">
+                                <a href="bbs.topic.{$reply.topic_id}.{$BID}">{$topic.title|code}</a>
+                                <div class="topic-meta">
+                                    {$topic.read_count}点击 / {str::ago($topic.mtime)}
+                                </div>
+                            </div>
+                            <div class="reply-floor">
+                                <a href="bbs.topic.{$reply.topic_id}.{$BID}">{$reply.floor}楼</a>
+                            </div>
+                        </div>
+                        <blockquote class="reply-content">
+                            {$ubb->display($reply.content, true)}
+                        </blockquote>
+                    </li>
+                {/foreach}
+            </ul>
             <div class="widget-page">
                 {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&searchType={$smarty.get.searchType}&p=##"}
                 {jhinfunc::Pager($p,$maxP,$url)}

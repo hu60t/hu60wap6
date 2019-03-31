@@ -182,44 +182,57 @@ class search
     /*
      * 回复搜索
      */
-    public function searchReply($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, & $count = true)
+    public function searchReply($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, &$count = true)
     {
         $words = trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words));
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
 
-        if ($words == '' && $userName == '') {
-            throw new Exception('搜索词和用户名不能都为空');
-        } else if ($words == '') {
-            $uinfo = new userinfo();
-            $uinfo->name($userName);
-            $uid = $uinfo['uid'];
+        if ($userName == '') {
+            throw new Exception('用户名不能为空');
+        }
 
-            if (!$uid) {
-                throw new Exception('用户名不存在');
+        $uinfo = new userinfo();
+        $uinfo->name($userName);
+        $uid = $uinfo['uid'];
+
+        if (!$uid) {
+            throw new Exception('用户名不存在');
+        }
+
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE uid=? AND reply_id!=0';
+        $args = [$uid];
+
+        if ($words != '') {
+            $words = explode(' ', $words);
+            foreach ($words as $w) {
+                $sql .= ' AND content LIKE ?';
+                $args[] = '%'.$w.'%';
             }
+        }
 
-            $sql = 'SELECT * FROM ' . DB_A . 'bbs_topic_content WHERE uid=? AND reply_id!=0 ORDER BY mtime DESC LIMIT ?,?';
-            $rs = db::conn()->prepare($sql);
+        $sql .= ' ORDER BY mtime DESC LIMIT ?,?';
+        $args[] = $offset;
+        $args[] = $limit;
+        $rs = db::conn()->prepare($sql);
 
-            if (!$rs || !$rs->execute([$uid, $offset, $limit])) {
-                throw new Exception('数据库错误');
-            }
+        if (!$rs || !$rs->execute($args)) {
+            throw new Exception('数据库错误');
+        }
 
-            $result = $rs->fetchAll(db::ass);
+        $result = $rs->fetchAll(db::ass);
 
-            if ($count !== true) {
-                $rs = db::conn()->query('SELECT count(*) FROM ' . DB_A . 'bbs_topic_content WHERE reply_id!=0 AND uid=' . (int)$uid);
+        if ($count !== true) {
+            $rs = db::conn()->query('SELECT FOUND_ROWS()');
 
-                if ($rs) {
-                    $count = $rs->fetch(db::num);
+            if ($rs) {
+                $count = $rs->fetch(db::num);
 
-                    if (is_array($count)) {
-                        $count = $count[0];
-                    }
+                if (is_array($count)) {
+                    $count = $count[0];
                 }
             }
-
-            return $result;
         }
+
+        return $result;
     }
 }
