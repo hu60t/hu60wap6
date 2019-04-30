@@ -97,8 +97,9 @@
 				$('#floor_fold_bar_'+id).html("<button data-floorID='"+id+"'>展开隐藏内容</button>");
 				$('#floor_fold_bar_'+id+">button").on('click',function(){
 					var id=this.getAttribute("data-floorID");
-					var that=$("#floor_content_"+id)
-					if(that.height()>maxHeight){
+					var that=$("#floor_content_"+id);
+					// 不要使用that.height()进行判断，返回值是浮点数，不一定精确相等
+					if(this.innerHTML == '折叠超出内容'){
 						that.height(maxHeight);
 						this.innerHTML='展开超出内容';
 					}else{
