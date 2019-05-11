@@ -17,8 +17,12 @@ foreach ($files as $f) {
 	$u->virtualLogin();
 
 	$path = QINIU_AVATAR_PATH . $u->uid.".jpg";
-	$url = qiniu_upload($f, $path);
-	$u->setinfo("avatar.url", $url);
+    try {
+    	$url = qiniu_upload($f, $path);
+        $u->setinfo("avatar.url", $url);
+    } catch (Exception $ex) {
+        $url = $ex->getMessage();
+    }
 
 	echo "uid $uid -> $url\n";
 }
