@@ -271,6 +271,13 @@ class user extends userinfo
         return TRUE;
     }
 
+	/**
+	 * 模拟用户登录，用于实现管理员操作
+	 */
+	public function virtualLogin() {
+		self::$data[$this->uid]['islogin'] = true;
+	}
+
     /**
      * 通过邮箱登录
      */
