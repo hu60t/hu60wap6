@@ -114,3 +114,19 @@ define('PAGE_GZIP', 0);
  * 开发者应该把用户上传的文件统一写入该目录
  */
 define('USERFILE_DIR', ROOT_DIR . '/userfile');
+
+/**
+ * 本地头像文件夹
+ */
+define('AVATOR_DIR', ROOT_DIR.'/upload');
+
+/**
+ * 使用七牛云存储头像
+ */
+define('QINIU_STORAGE_AVATOR', true);
+
+/**
+ * 七牛云头像路径前缀
+ */
+define('QINIU_AVATOR_PATH', 'avator/');
+
