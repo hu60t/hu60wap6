@@ -97,7 +97,7 @@ try {
         $bbs->deleteTopicContent($cid, $content);
 
         if ($delTitle) {
-            $bbs->deleteTopicTitle($tid);
+            $bbs->deleteTopicTitle($tid, $selfDel);
         }
 
         $tpl->assign('tid', $tid);

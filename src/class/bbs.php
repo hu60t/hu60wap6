@@ -486,9 +486,9 @@ class bbs
     /**
      * 删除帖子标题
      */
-    public function deleteTopicTitle($topicId)
+    public function deleteTopicTitle($topicId, $selfDel = false)
     {
-        $title = '【管理员删除了该帖】';
+        $title = $selfDel ? '【楼主删除了该帖】' : '【管理员删除了该帖】';
 
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,locked=?,level=? WHERE id=?';
 
