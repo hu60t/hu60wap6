@@ -2,7 +2,8 @@
     规范一下颜色，颜色采用茶绿色 外加 轻蓝色 作为辅助颜色
 
  */
-.hu60_face {
+.hu60_face,
+#face img {
   width: 32px;
   max-width: 32px;
 }
