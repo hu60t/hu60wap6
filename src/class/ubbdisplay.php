@@ -704,7 +704,7 @@ HTML;
         $path = 'img/face/' . bin2hex($data['face']) . '.gif';
 
         try {
-            $url = $PAGE->getTplUrl($path);
+            $url = $PAGE->getTplUrl($path).'?'.filemtime($path);
 
             if ($PAGE->bid == 'json') {
                 $url = $PAGE->getUrlPrefix() . $url;
