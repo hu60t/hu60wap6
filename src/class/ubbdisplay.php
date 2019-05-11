@@ -710,7 +710,7 @@ HTML;
                 $url = $PAGE->getUrlPrefix() . $url;
             }
 
-            $html = '<img title="' . code::html($data['face']) . '" src="' . code::html($url) . '" />';
+            $html = '<img class="hu60_face" title="' . code::html($data['face']) . '" src="' . code::html($url) . '" />';
         } catch (Exception $e) {
             $html = code::html('{' . $data['face'] . '}');
         }

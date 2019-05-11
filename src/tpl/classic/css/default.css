@@ -349,3 +349,7 @@ img {
 #searchType-label {
   display: inline-block;
 }
+.hu60_face {
+	width: 32px;
+	max-width: 32px;
+}
