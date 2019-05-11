@@ -249,6 +249,10 @@ class UbbDisplay extends XUBBP
         else if (preg_match('#\.qq\.com/.*/([a-zA-Z0-9=]+)#', $url, $arr)) {
             $iframeUrl = 'https://v.qq.com/iframe/player.html?vid='.$arr[1].'&tiny=0&auto=0';
         }
+        //哔哩哔哩
+        else if (preg_match('#\.bilibili\.com/.*/av(\d+)(?:.*\bp=(\d+))?#', $url, $arr)) {
+            $iframeUrl = 'https://player.bilibili.com/player.html?aid='.$arr[1].'&page='.$arr[2];
+        }
 
         if (null !== $iframeUrl) {
             return '<p class="video_box"><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
