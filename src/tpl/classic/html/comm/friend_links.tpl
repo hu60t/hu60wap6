@@ -31,7 +31,7 @@
             {$tmp=$uinfo->uid($link[2])}
             <a href="user.info.{$uinfo->uid}.{$BID}"><img src="{$uinfo->avatar()|code}" alt="{$uinfo->name|code}" /></a>
         {else}
-            <a href="bbs.topic.86480.{$BID}"><img src="{page::getFileUrl(ROOT_DIR)}upload/default.jpg" alt="默认头像" /></a>
+            <a href="bbs.topic.86480.{$BID}"><img src="{page::getFileUrl("{AVATAR_DIR}/default.jpg")}" alt="默认头像" /></a>
         {/if}
 		<a href="{$link[1]|code}">{$link[0]|code}</a>
     </div>

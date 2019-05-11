@@ -92,7 +92,7 @@ class userinfo implements ArrayAccess
     /*取得用户的头像*/
     public function avatar() {
         $url = $this->getinfo('avatar.url');
-        if (empty($url)) $url = page::getFileUrl(ROOT_DIR)."upload/default.jpg";
+        if (empty($url)) $url = page::getFileUrl(AVATAR_DIR."/default.jpg");
         return $url;
     }
 
