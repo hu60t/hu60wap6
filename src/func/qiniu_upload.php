@@ -5,7 +5,7 @@ use Qiniu\Zone;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
 
-function qiniu_upload($localFile, $remoteFile) {
+function qiniu_upload($localFile, $remoteFile, $allowOverwrite = false) {
     $bucket = QINIU_STORAGE_BUCKET;
     $accessKey = QINIU_AK;
     $secretKey = QINIU_SK;
@@ -14,7 +14,7 @@ function qiniu_upload($localFile, $remoteFile) {
     $auth = new Auth($accessKey, $secretKey);
 	
 	// 生成上传 Token
-    $token = $auth->uploadToken($bucket);
+    $token = $auth->uploadToken($bucket, $allowOverwrite ? $remoteFile : null);
 
     $uploadMgr = new UploadManager(new Config(Zone::zone1()));
 	
