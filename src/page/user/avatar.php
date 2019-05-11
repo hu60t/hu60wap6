@@ -1,5 +1,5 @@
 <?php
-if (QINIU_STORAGE_AVATOR) {
+if (QINIU_STORAGE_AVATAR) {
 	require_once FUNC_DIR . '/qiniu_upload.php';
 }
 
@@ -23,13 +23,13 @@ try {
 			]));
 		}
 
-		if (QINIU_STORAGE_AVATOR) {
-			$path = QINIU_AVATOR_PATH . $USER->uid.".jpg";
+		if (QINIU_STORAGE_AVATAR) {
+			$path = QINIU_AVATAR_PATH . $USER->uid.".jpg";
 			$url = qiniu_upload($_FILES["avatar"]["tmp_name"], $path);
 			// 地址中加入一个随机数防止缓存问题
 			$url .= '?'.time();
 		} else {
-			$path = AVATOR_DIR . '/' . $USER->uid.".jpg";
+			$path = AVATAR_DIR . '/' . $USER->uid.".jpg";
 			move_uploaded_file($_FILES["avatar"]["tmp_name"], $path);
 			// 地址中加入一个随机数防止缓存问题
 			$url = $PAGE->getFileUrl($path).'?'.time();

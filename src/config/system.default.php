@@ -118,15 +118,15 @@ define('USERFILE_DIR', ROOT_DIR . '/userfile');
 /**
  * 本地头像文件夹
  */
-define('AVATOR_DIR', ROOT_DIR.'/upload');
+define('AVATAR_DIR', ROOT_DIR.'/upload');
 
 /**
  * 使用七牛云存储头像
  */
-define('QINIU_STORAGE_AVATOR', true);
+define('QINIU_STORAGE_AVATAR', true);
 
 /**
  * 七牛云头像路径前缀
  */
-define('QINIU_AVATOR_PATH', 'avator/');
+define('QINIU_AVATOR_PATH', 'avatar/');
 
