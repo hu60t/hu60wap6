@@ -247,7 +247,7 @@ class UbbDisplay extends XUBBP
         }
         //腾讯视频
         else if (preg_match('#\.qq\.com/.*/([a-zA-Z0-9=]+)#', $url, $arr)) {
-            $iframeUrl = 'https://v.qq.com/iframe/player.html?vid='.$arr[1].'&tiny=0&auto=0';
+            $iframeUrl = 'https://v.qq.com/txp/iframe/player.html?vid='.$arr[1];
         }
         //哔哩哔哩
         else if (preg_match('#\.bilibili\.com/.*/av(\d+)(?:.*\bp=(\d+))?#', $url, $arr)) {
