@@ -30,7 +30,7 @@ try {
 				$key = isset($_GET['key']) ? $_GET['key'] : $_POST['key'];
 				$key = substr(str::word($key), 0, 100);
 				
-				$value = substr($value, 0, 1024);
+				$value = substr($value, 0, 16384);
 				
 				if (strlen($value) > 0) {
 					$USER->setinfo("webplugData.$key", $value);
