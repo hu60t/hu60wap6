@@ -15,7 +15,7 @@
 {$tmp=$uinfo->uid($k.touid)}
 <div class="msg_box">
   <p>{if $k.isread==0}[对方未读] {/if}发给：<a href="user.info.{$k.touid}.{$bid}">{$uinfo.name}</a></p>
-  <p>内容：<a href="msg.index.view.{$k.id}.{$bid}">{str::cut($ubbs->display($k.content,true),0,20,'...')|code}</a></p>
+  <p>内容：<a href="msg.index.view.{$k.id}.{$bid}">{str::cut(html_entity_decode(strip_tags($ubbs->display($k.content,true))),0,100,'...')|code}</a></p>
   <p>时间：{date("Y-m-d H:i:s",$k.ctime)}</p>
 </div>
 <hr />
