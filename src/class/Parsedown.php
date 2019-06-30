@@ -1122,7 +1122,7 @@ class Parsedown
 
         if ($Excerpt['text'][1] === $marker and preg_match($this->StrongRegex[$marker], $Excerpt['text'], $matches))
         {
-            $emphasis = 'strong';
+            $emphasis = 'b';
         }
         elseif (preg_match($this->EmRegex[$marker], $Excerpt['text'], $matches))
         {
