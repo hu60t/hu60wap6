@@ -1,18 +1,8 @@
 <?php
 require_once FUNC_DIR . '/qiniu_upload.php';
 
-header('Content-Type: text/html; charset=utf-8');
-?>
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>文件上传 - 虎绿林</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
-    <link rel="stylesheet" type="text/css" href="/tpl/classic/css/default.css" />
-</head>
-<body>
-<?php
+$tpl = $PAGE->start();
+
 try {
     if (!isset($_FILES) || !isset($_FILES['file']) || !is_file($_FILES['file']['tmp_name'])) {
         throw new Exception('上传的文件为空！');
@@ -39,40 +29,28 @@ try {
 	// 上传
     $url = qiniu_upload($filePath, $key);
 
+    preg_match('#[^/\\\\]*$#s', $realName, $name);
+    $name = $name[0];
+    $sizeName = str::filesize($size);
+
+    if (empty($name)) {
+        $name = "附件{$ext}";
+    }
+
     if (preg_match('/^\.(jpe?g|png|gif)$/s', $ext)) {
         $content = "\n《图片：" . $url . '》';
     } else {
-        preg_match('#[^/\\\\]*$#s', $realName, $name);
-        $name = $name[0];
-        $sizeName = str::filesize($size);
-
-        if (empty($name)) {
-            $name = "附件{$ext}";
-        }
-
         $content = "\n《链接：" . $url . '，' . $name . '（' . $sizeName . '）》';
     }
 
-?>
-<script>
-    sessionStorage.topicContentSaved = '1';
-    sessionStorage.topicContent += <?=json_encode($content, JSON_UNESCAPED_UNICODE)?>;
+	$tpl->assign('url', $url);
+	$tpl->assign('name', $name);
+	$tpl->assign('size', $sizeName);
+	$tpl->assign('content', $content);
 
-    if (sessionStorage && sessionStorage.uploadLegacyBackUrl) {
-        document.location = sessionStorage.uploadLegacyBackUrl;
-    } else {
-        document.location = document.referrer;
-    }
-</script>
-<?php
 } catch (Exception $ex) {
-?>
-<script>
-    alert(<?=json_encode($ex->getMessage(), JSON_UNESCAPED_UNICODE)?>);
-    history.back();
-</script>
-<?php
+    $tpl->assign('ex', $ex);
 }
-?>
-</body>
-</html>
+
+$tpl->display('tpl:upload');
+
