@@ -361,7 +361,7 @@ class userinfo implements ArrayAccess
 	public function addPermission($permission) {
 		unset(self::$data['permission'][$this->uid]);
 
-		$db = self::conn(true);
+		$db = self::conn();
 		$sql = 'UPDATE `'.DB_A.'user` SET `permission` = `permission` | ? WHERE uid = ?';
 		$rs = $db->prepare($sql);
 
@@ -374,7 +374,7 @@ class userinfo implements ArrayAccess
 	public function removePermission($permission) {
 		unset(self::$data['permission'][$this->uid]);		
 
-		$db = self::conn(true);
+		$db = self::conn();
 		$sql = 'UPDATE `'.DB_A.'user` SET `permission` = `permission` & ~ ? WHERE uid = ?';
 		$rs = $db->prepare($sql);
 
@@ -397,7 +397,7 @@ class userinfo implements ArrayAccess
 			$data[] = $key;
 		}
 
-		$db = self::conn();
+		$db = self::conn(true);
 		$rs = $db->prepare($sql);
 		if (!$rs || !$rs->execute($data)) {
 		    throw new UserException('数据库异常，无法查询用户数据！', 11500);
