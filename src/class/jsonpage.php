@@ -2,6 +2,11 @@
 class JsonPage {
 	protected static $isJhtml = false;
 
+	protected const USER_EXTDATA_NAME = 1;
+	protected const USER_EXTDATA_AVATAR = 2;
+	protected const USER_EXTDATA_SIGNATURE = 4;
+	protected const USER_EXTDATA_CONTACT = 8;
+
 	public static function jhtml($isJhtml) {
 		self::$isJhtml = $isJhtml;
 	}
@@ -17,8 +22,55 @@ class JsonPage {
 		}
 		
 	}
+
+	public static function readUserExtraData(&$data, $flag) {
+		$uinfo = new UserInfo();
+		foreach ($data as $k => &$v) {
+			if (is_array($v)) {
+				self::readUserExtraData($v, $flag);
+			} elseif (preg_match('/^(.*)uid$/is', $k, $prefix)) {
+				$prefix = $prefix[1];
+				if (!$uinfo->uid($v)) {
+					continue;
+				}
+				if ($flag & self::USER_EXTDATA_NAME) {
+					$data[$prefix.'_u_name'] = $uinfo->name;
+				}
+				if ($flag & self::USER_EXTDATA_AVATAR) {
+					$data[$prefix.'_u_avatar'] = $uinfo->avatar();
+				}
+				if ($flag & self::USER_EXTDATA_SIGNATURE) {
+					$data[$prefix.'_u_signature'] = $uinfo->getinfo('signature');
+				}
+				if ($flag & self::USER_EXTDATA_CONTACT) {
+					$data[$prefix.'_u_contact'] = $uinfo->getinfo('contact');
+				}
+			}
+		}
+	}
+
+	public static function getUserExtraData(&$data) {
+		if (!isset($_GET['_uinfo']) || !is_array($data)) {
+			return;
+		}
+		
+		$sets = explode(',', $_GET['_uinfo']);
+		
+		$flag = 0;
+		if (in_array('name', $sets)) $flag += self::USER_EXTDATA_NAME;
+		if (in_array('avatar', $sets)) $flag += self::USER_EXTDATA_AVATAR;
+		if (in_array('sign', $sets) || in_array('signature', $sets)) $flag += self::USER_EXTDATA_SIGNATURE;
+		if (in_array('contact', $sets)) $flag += self::USER_EXTDATA_CONTACT;
+
+		if ($flag == 0) {
+			return;
+		}
+
+		self::readUserExtraData($data, $flag);
+	}
 	
 	public static function output($data) {
+		self::getUserExtraData($data);
 		ob_end_clean();
 
 		if (self::$isJhtml) {
