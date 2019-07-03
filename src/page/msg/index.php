@@ -93,6 +93,7 @@ switch ($action) {
 
         $tpl->assign('p', $p);
         $tpl->assign('maxP', $maxP);
+        $tpl->assign('pMax', $maxP);
         $tpl->assign('msgCount', $msgCount);
         
         $tpl->display('tpl:outbox');
@@ -175,6 +176,7 @@ switch ($action) {
 
         $tpl->assign('p', $p);
         $tpl->assign('maxP', $maxP);
+        $tpl->assign('pMax', $maxP);
         $tpl->assign('msgCount', $msgCount);
         
         $tpl->display('tpl:at');
@@ -201,6 +203,7 @@ switch ($action) {
 
         $tpl->assign('p', $p);
         $tpl->assign('maxP', $maxP);
+        $tpl->assign('pMax', $maxP);
         $tpl->assign('msgCount', $msgCount);
     
         $tpl->display('tpl:inbox');
@@ -217,6 +220,7 @@ switch ($action) {
         $maxP = ceil($count / $size);
         $tpl->assign('chatCount', $count);
         $tpl->assign('maxP', $maxP);
+        $tpl->assign('pMax', $maxP);
 
         $p = (int)$_GET['p'];
         if ($p < 1) {
