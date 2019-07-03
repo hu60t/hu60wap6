@@ -23,7 +23,7 @@
 <p>发给：{if $toUser->uid != null}<a href="user.info.{$toUser->uid}.{$BID}">{$toUser->name|code}</a>{else}<input type="text" id="content_title" name="name" placeholder="用户名" value="{$smarty.post.name|code}" />{/if}</p>
 <p>{input type="textarea" name="content" id="content" value=$smarty.post.content}</p>
 <p>
-	{input type="submit" name="go" value="确认发送"}
+	<input type="submit" id="send_msg_button" name="go" value="确认发送"/>
 	<input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
 	{include file="tpl:comm.addfiles"}
 </p>

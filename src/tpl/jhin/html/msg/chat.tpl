@@ -8,7 +8,7 @@
 </div>
 <form action="msg.index.send.{$chatUser->uid}.{$bid}" method="post">
   <textarea name="content" id="content"></textarea><br />
-  <input type="submit" name="go" value="回复">
+    <input type="submit" id="send_msg_button" name="go" value="回复"/>
   <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
   {include file="tpl:comm.addfiles"}
 </form>
