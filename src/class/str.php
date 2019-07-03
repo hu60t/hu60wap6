@@ -55,14 +55,16 @@ class str
         return $f;
     }
 
-    static function cut($str, $off, $len, $add = '', $code = 'utf-8')
-
+    static function cut($str, $off, $len, $add = '', $code = 'utf-8', $notEmpty = false)
     {
         $slen = mb_strlen($str, $code);
         if ($off < 0) $off = $slen - $off;
         $str = mb_substr($str, $off, $len, $code);
         if ($off > 0) $str = $add . $str;
         if ($off + $len < $slen) $str .= $add;
+        if ($notEmpty && empty(trim($str))) {
+            return $add;
+        }
         return $str;
     }
 

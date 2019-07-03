@@ -36,7 +36,7 @@
 {$tmp=$uinfo->uid($k.byuid)}
 <div class="msg_box">
   <p>{if $k.isread==0}[新] {/if}来自：<a href="user.info.{$k.byuid}.{$bid}">{$uinfo.name}</a></p>
-  <p>内容：<a href="msg.index.view.{$k.id}.{$bid}">{str::cut(html_entity_decode(strip_tags($ubbs->display($k.content,true))),0,100,'...')|code}</a></p>
+  <p>内容：<a href="msg.index.view.{$k.id}.{$bid}">{str::cut(html_entity_decode(strip_tags($ubbs->display($k.content,true))),0,100,'...', 'utf-8', true)|code}</a></p>
   <p>时间：{date("Y-m-d H:i:s",$k.ctime)}</p>
 </div>
 <hr />
