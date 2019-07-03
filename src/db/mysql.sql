@@ -3,18 +3,12 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 2018-05-07 17:30:45
--- 服务器版本： 10.0.28-MariaDB-2
--- PHP Version: 7.1.13-1
+-- Generation Time: 2019-07-03 14:12:34
+-- 服务器版本： 10.3.13-MariaDB-1-log
+-- PHP Version: 7.3.3-1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `hu60`
@@ -34,7 +28,8 @@ CREATE TABLE `hu60_addin_chat_data` (
   `uname` varchar(16) NOT NULL,
   `content` mediumblob NOT NULL,
   `time` bigint(20) NOT NULL,
-  `hidden` int(11) NOT NULL DEFAULT '0'
+  `hidden` int(11) NOT NULL DEFAULT 0,
+  `review` tinyint(1) DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -59,8 +54,8 @@ CREATE TABLE `hu60_bbs_forum_meta` (
   `id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `mtime` bigint(20) NOT NULL DEFAULT '0',
-  `notopic` tinyint(1) NOT NULL DEFAULT '0'
+  `mtime` bigint(20) NOT NULL DEFAULT 0,
+  `notopic` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -77,8 +72,8 @@ CREATE TABLE `hu60_bbs_topic_content` (
   `content` mediumblob NOT NULL,
   `uid` int(11) NOT NULL,
   `reply_id` int(11) NOT NULL,
-  `floor` int(11) NOT NULL DEFAULT '0',
-  `locked` tinyint(1) NOT NULL DEFAULT '0'
+  `floor` int(11) NOT NULL DEFAULT 0,
+  `locked` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -91,14 +86,14 @@ CREATE TABLE `hu60_bbs_topic_meta` (
   `id` int(11) NOT NULL,
   `content_id` int(11) NOT NULL,
   `title` varchar(150) CHARACTER SET utf8mb4 NOT NULL,
-  `read_count` int(11) NOT NULL DEFAULT '0',
+  `read_count` int(11) NOT NULL DEFAULT 0,
   `uid` int(11) NOT NULL,
   `ctime` bigint(20) NOT NULL,
   `mtime` bigint(20) NOT NULL,
-  `level` tinyint(4) NOT NULL DEFAULT '0',
-  `essence` tinyint(1) NOT NULL DEFAULT '0',
+  `level` tinyint(4) NOT NULL DEFAULT 0,
+  `essence` tinyint(1) NOT NULL DEFAULT 0,
   `forum_id` int(11) NOT NULL,
-  `locked` tinyint(1) NOT NULL DEFAULT '0'
+  `locked` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -113,10 +108,10 @@ CREATE TABLE `hu60_book_chapter` (
   `chapter` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
-  `version` int(11) NOT NULL DEFAULT '0',
+  `version` int(11) NOT NULL DEFAULT 0,
   `uid` int(11) NOT NULL,
-  `ctime` bigint(20) NOT NULL DEFAULT '0',
-  `mtime` bigint(20) NOT NULL DEFAULT '0'
+  `ctime` bigint(20) NOT NULL DEFAULT 0,
+  `mtime` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -131,14 +126,14 @@ CREATE TABLE `hu60_book_meta` (
   `author` varchar(100) NOT NULL DEFAULT '',
   `type` varchar(255) NOT NULL DEFAULT '',
   `status` varchar(45) NOT NULL DEFAULT '',
-  `chapter_count` int(11) NOT NULL DEFAULT '0',
+  `chapter_count` int(11) NOT NULL DEFAULT 0,
   `referer` varchar(100) NOT NULL DEFAULT '',
   `referer_url` varchar(255) NOT NULL DEFAULT '',
   `characters` varchar(255) NOT NULL DEFAULT '',
-  `uid` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) NOT NULL DEFAULT 0,
   `admin_uids` varchar(255) NOT NULL DEFAULT '',
-  `ctime` bigint(20) NOT NULL DEFAULT '0',
-  `mtime` bigint(20) NOT NULL DEFAULT '0'
+  `ctime` bigint(20) NOT NULL DEFAULT 0,
+  `mtime` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -151,11 +146,11 @@ CREATE TABLE `hu60_msg` (
   `id` int(11) NOT NULL,
   `touid` int(11) NOT NULL,
   `byuid` int(11) NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT '1',
+  `type` tinyint(4) NOT NULL DEFAULT 1,
   `isread` int(11) NOT NULL,
   `content` blob NOT NULL,
   `ctime` bigint(20) NOT NULL,
-  `rtime` bigint(20) NOT NULL DEFAULT '0'
+  `rtime` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -192,28 +187,6 @@ CREATE TABLE `hu60_token` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `hu60_user`
---
-
-CREATE TABLE `hu60_user` (
-  `uid` int(11) NOT NULL,
-  `name` varchar(16) NOT NULL,
-  `pass` char(32) NOT NULL,
-  `sid` varchar(64) NOT NULL,
-  `safety` blob,
-  `regtime` bigint(20) NOT NULL,
-  `sidtime` bigint(20) NOT NULL,
-  `acctime` bigint(20) NOT NULL,
-  `info` blob,
-  `mail` varchar(255) DEFAULT NULL,
-  `regphone` char(11) CHARACTER SET ascii DEFAULT NULL,
-  `permission` bit(8) NOT NULL DEFAULT b'0',
-  `active` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `hu60_topic_favorites`
 --
 
@@ -222,6 +195,53 @@ CREATE TABLE `hu60_topic_favorites` (
   `uid` int(11) NOT NULL,
   `topic_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `hu60_user`
+--
+
+CREATE TABLE `hu60_user` (
+  `uid` int(11) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `pass` char(32) NOT NULL,
+  `sid` varchar(64) NOT NULL,
+  `safety` blob DEFAULT NULL,
+  `regtime` bigint(20) NOT NULL,
+  `sidtime` bigint(20) NOT NULL,
+  `acctime` bigint(20) NOT NULL,
+  `info` blob DEFAULT NULL,
+  `mail` varchar(255) DEFAULT NULL,
+  `regphone` char(11) CHARACTER SET ascii DEFAULT NULL,
+  `permission` bit(8) NOT NULL DEFAULT b'0',
+  `active` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `hu60_userdata`
+--
+
+CREATE TABLE `hu60_userdata` (
+  `uid` int(11) NOT NULL,
+  `key` varchar(255) NOT NULL,
+  `value` mediumblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `hu60_user_relationship`
+--
+
+CREATE TABLE `hu60_user_relationship` (
+  `relationship_id` int(11) NOT NULL,
+  `origin_uid` int(11) NOT NULL,
+  `target_uid` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL COMMENT '关系类型'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -309,6 +329,13 @@ ALTER TABLE `hu60_token`
   ADD UNIQUE KEY `token` (`token`);
 
 --
+-- Indexes for table `hu60_topic_favorites`
+--
+ALTER TABLE `hu60_topic_favorites`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_uid_and_topicId` (`uid`,`topic_id`);
+
+--
 -- Indexes for table `hu60_user`
 --
 ALTER TABLE `hu60_user`
@@ -320,11 +347,16 @@ ALTER TABLE `hu60_user`
   ADD UNIQUE KEY `regphone` (`regphone`);
 
 --
--- Indexes for table `hu60_topic_favorites`
+-- Indexes for table `hu60_userdata`
 --
-ALTER TABLE `hu60_topic_favorites`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_uid_and_topicId` (`uid`,`topic_id`);
+ALTER TABLE `hu60_userdata`
+  ADD PRIMARY KEY (`uid`,`key`);
+
+--
+-- Indexes for table `hu60_user_relationship`
+--
+ALTER TABLE `hu60_user_relationship`
+  ADD PRIMARY KEY (`relationship_id`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT
@@ -381,15 +413,18 @@ ALTER TABLE `hu60_speedtest`
 ALTER TABLE `hu60_token`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
+-- 使用表AUTO_INCREMENT `hu60_topic_favorites`
+--
+ALTER TABLE `hu60_topic_favorites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- 使用表AUTO_INCREMENT `hu60_user`
 --
 ALTER TABLE `hu60_user`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
 --
--- 使用表AUTO_INCREMENT `hu60_topic_favorites`
+-- 使用表AUTO_INCREMENT `hu60_user_relationship`
 --
-ALTER TABLE `hu60_topic_favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ALTER TABLE `hu60_user_relationship`
+  MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT;
+

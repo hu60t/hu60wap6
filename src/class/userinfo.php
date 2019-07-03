@@ -389,5 +389,58 @@ class userinfo implements ArrayAccess
 		$ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
 	}
 
+	public function getData($key = null) {
+		$sql = 'SELECT `key`,`value` FROM `'.DB_A.'userdata` WHERE `uid`=?';
+		$data = [ $this->uid ];
+		if ($key !== null) {
+			$sql .= ' AND `key`=?';
+			$data[] = $key;
+		}
+
+		$db = self::conn();
+		$rs = $db->prepare($sql);
+		if (!$rs || !$rs->execute($data)) {
+		    throw new UserException('数据库异常，无法查询用户数据！', 11500);
+		}
+
+		$resultArr = $rs->fetchAll(db::ass);
+		$result = [];
+		foreach ($resultArr as $v) {
+			$result[$v['key']] = $v['value'];
+		}
+
+		if ($key !== null) {
+			if (isset($result[$key])) {
+				return $result[$key];
+			} else {
+				return null;
+			}
+		} else {
+			return $result;
+		}
+	}
+	
+	public function setData($key = null, $value = null) {
+	    if ($value === null) {
+			$sql = 'DELETE FROM `'.DB_A.'userdata` WHERE `uid`=?';
+			$data = [ $this->uid ];
+			if ($key !== null) {
+				$sql .= ' AND `key`=?';
+				$data[] = $key;
+			}
+		} else {
+			$sql = 'INSERT INTO `'.DB_A.'userdata`(`uid`,`key`,`value`) VALUES(?,?,?) ON DUPLICATE KEY UPDATE `value`=VALUES(`value`)';
+			$data = [ $this->uid, $key, $value ];
+		}
+
+		$db = self::conn();
+		$rs = $db->prepare($sql);
+		if (!$rs || !$rs->execute($data)) {
+		    throw new UserException('数据库异常，无法更新用户数据！', 11500);
+		}
+		return true;
+	}
+
+
     /*class end*/
 }

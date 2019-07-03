@@ -11,12 +11,12 @@ try {
 		// 获取值
 		if (!isset($_GET['value']) && !isset($_POST['value'])) {
 			if (!isset($_GET['key']) && !isset($_POST['key'])) {
-				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin, 'data'=>$USER->getinfo('webplugData')]);
+				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin, 'data'=>$USER->getdata()]);
 			}
 			else {
 				$key = isset($_GET['key']) ? $_GET['key'] : $_POST['key'];
 				$key = substr(str::word($key), 0, 100);
-				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin, 'data'=>$USER->getinfo("webplugData.$key")]);
+				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin, 'data'=>$USER->getdata($key)]);
 			}
 		}
 		// 设置值
@@ -28,17 +28,15 @@ try {
 			}
 			else {
 				$key = isset($_GET['key']) ? $_GET['key'] : $_POST['key'];
-				$key = substr(str::word($key), 0, 100);
+				$key = substr(str::word($key), 0, 255);
 				
-				$value = substr($value, 0, 16384);
+				$value = substr($value, 0, 16777216);
 				
 				if (strlen($value) > 0) {
-					$USER->setinfo("webplugData.$key", $value);
+					$USER->setdata($key, $value);
 				}
 				else {
-					$data = $USER->getinfo('webplugData');
-					unset($data[$key]);
-					$USER->setinfo("webplugData", $data);
+					$USER->setdata($key, null);
 				}
 				
 				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin]);
