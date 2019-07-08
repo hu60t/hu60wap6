@@ -15,7 +15,7 @@ $auth = new Auth($accessKey, $secretKey);
 
 $upToken = $auth->uploadToken($bucket, null, 3600, null);
 
-$data = ['uptoken'=>$upToken];
+$data = ['host'=>QINIU_STORAGE_HOST, 'uptoken'=>$upToken];
 
 header('Content-Type: application/json');
 
