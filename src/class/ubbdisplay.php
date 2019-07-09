@@ -128,14 +128,28 @@ class UbbDisplay extends XUBBP
 		
 		if (empty($data['lang']) && $this->markdownEnable) {
 			return '```' . $data['data'] . '```';
-		}
+        }
 
-        if (isset($data['html'])) {
+        $code = $data['data'];
+
+        // 去除首尾的第一个换行符
+        if (strlen($code) > 1) {
+            if ($code[0] == "\r") {
+                $code = substr($code, 1);
+            }
+            if ($code[0] == "\n") {
+                $code = substr($code, 1);
+            }
+        }
+        
+        return '<pre class="hu60_code"><code class="'.code::html($data['lang']).'">'.code::html($code).'</code></pre>';
+
+        /*if (isset($data['html'])) {
 			return $data['html'];
 		}
 		else {
 			return code::highlight($data['data'], $data['lang']);
-		}
+		}*/
     }
 
     /*time 时间*/

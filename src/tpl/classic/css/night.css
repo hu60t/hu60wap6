@@ -299,3 +299,14 @@ img {
 	width: 32px;
 	max-width: 32px;
 }
+
+/*代码高亮*/
+pre, code, .hu60_code, .hu60_code code {
+  background-color: #002b36 !important;
+}
+
+/*输入框，按钮*/
+input, textarea, .favoriteTopic {
+  color: #ccc !important;
+  background-color: #002b36 !important;
+}

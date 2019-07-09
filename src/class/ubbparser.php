@@ -161,9 +161,9 @@ class UbbParser extends XUBBP
             'len' => $this->len($data)
         ];
 		
-		if ($lang != '') {
+		/*if ($lang != '') {
 			$result['html'] = code::highlight($data, $lang);
-		}
+		}*/
 
         return [ $result ];
     }
@@ -192,7 +192,7 @@ class UbbParser extends XUBBP
             'type' => 'code',
             'lang' => $lang,
             'data' => $data,
-			'html' => code::highlight($data, $lang),
+			//'html' => code::highlight($data, $lang),
             'len' => $this->len($data)
         ));
     }

@@ -153,3 +153,7 @@ button, input[type=submit], input[type=button] {
     border: none;
     max-width: 100%;
 }
+
+.hu60_code code {
+    background-color: #f7f7f7;
+}

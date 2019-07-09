@@ -8,6 +8,10 @@
 	<link rel="stylesheet" type="text/css" href="{$css|code}"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')|code}"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")|code}"/>
+    <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
+    <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
   <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")}"></script>
 	<title>{$title|code}</title>
