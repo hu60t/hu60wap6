@@ -301,7 +301,10 @@ img {
 }
 
 /*代码高亮*/
-pre, code, .hu60_code, .hu60_code code {
+.markdown-body img {
+  background-color: #111312 !important;
+}
+.markdown-body pre, .markdown-body pre code, .hu60_code, .hu60_code code {
   background-color: #002b36 !important;
 }
 
