@@ -44,7 +44,7 @@ try {
         $token = new token($USER);
         $ok = $token->check($_POST['token']);
         if (!$ok)
-            throw new EXception('会话已过期，请重新发布');
+            throw new EXception('检测到重复发言。请先返回帖子确认发言是否成功。');
         $token->delete();
         $bbs = new bbs($USER);
         $topic = $bbs->topicMeta($tid, 'content_id');

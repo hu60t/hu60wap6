@@ -24,7 +24,7 @@ if ($PAGE->ext[0]) {
             $token = new token($USER);
             $ok = $token->check($_POST['token']);
             if (!$ok) {
-                $err_msg = '会话已过期，请重新发布';
+                $err_msg = '检测到重复发言，请先确认发言是否已经成功。';
             } else {
                 $token->delete();
 
