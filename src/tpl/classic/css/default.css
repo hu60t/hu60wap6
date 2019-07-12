@@ -355,6 +355,10 @@ img {
 }
 
 /*代码高亮*/
+.hu60_code code, .markdown-body pre code {
+  white-space: pre-wrap !important;
+  word-wrap: break-all !important;
+}
 .hu60_code code {
   background-color: #f7f7f7;
 }

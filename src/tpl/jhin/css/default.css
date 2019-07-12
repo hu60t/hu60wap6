@@ -154,6 +154,10 @@ button, input[type=submit], input[type=button] {
     max-width: 100%;
 }
 
+.hu60_code code, .markdown-body pre code {
+    white-space: pre-wrap !important;
+    word-wrap: break-all !important;
+}
 .hu60_code code {
     background-color: #f7f7f7;
 }
