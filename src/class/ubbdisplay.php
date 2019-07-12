@@ -126,8 +126,8 @@ class UbbDisplay extends XUBBP
             return code::html($data['data'], '<br/>');
         }
 		
-		if (empty($data['lang']) && $this->markdownEnable) {
-			return '```' . $data['data'] . '```';
+		if (!isset($data['lang'])) {
+			$data['lang'] = '';
         }
 
         $code = $data['data'];
@@ -142,7 +142,7 @@ class UbbDisplay extends XUBBP
             }
         }
         
-        return '<pre class="hu60_code"><code class="'.code::html($data['lang']).'">'.code::html($code).'</code></pre>';
+        return '<pre class="hu60_code"><code class="language-'.code::html($data['lang']).'">'.code::html($code).'</code></pre>';
 
         /*if (isset($data['html'])) {
 			return $data['html'];
