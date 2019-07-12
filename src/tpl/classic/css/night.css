@@ -303,7 +303,8 @@ img {
 /*代码高亮*/
 .hu60_code code, .markdown-body pre code {
   white-space: pre-wrap !important;
-  word-wrap: break-all !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
 }
 .markdown-body img {
   background-color: #111312 !important;
