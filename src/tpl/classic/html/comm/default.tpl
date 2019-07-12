@@ -6,11 +6,11 @@
 	<meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
 	{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}
-	{if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")}{/if}
+	{if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css", true)}{/if}
 	<link rel="stylesheet" type="text/css" href="{$css|code}?r=6"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')|code}"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
-    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")|code}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css", true)|code}"/>
     {block name='style'}{/block}
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
