@@ -16,11 +16,11 @@ try {
 			if (str::getOrPostExists('key')) {
 				$key = str::getOrPost('key');
 				$key = substr(str::word($key), 0, 100);
-				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin, 'data'=>$USER->getdata($key, $prefixMatching, $onlyValueLength)]);
 			}
 			else {
-				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin, 'data'=>$USER->getdata()]);
+				$key = null;
 			}
+			jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin, 'data'=>$USER->getdata($key, $prefixMatching, $onlyValueLength)]);
 		}
 		// 设置值
 		else {

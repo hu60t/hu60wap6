@@ -26,5 +26,38 @@
 		</p>
 	</form>
 </div>
+<hr>
+<div>
+	<p>插件存储的自定义数据：{$plugDataCount}条（{str::filesize($plugDataSize)}）</p>
+	<p>
+		<a href="api.webplug-data.json?onlylen=1">查看数据大小</a> |
+		<a href="api.webplug-data.json">查看完整数据</a> |
+		<a href="api.webplug-file.json?mime=application/octet-stream">下载数据</a> |
+		<a href="bbs.topic.83603.html">数据存储API说明</a>
+	</p>
+	<p>
+		<input name="delete" value="删除所有自定义数据" type="button" onclick="deleteAllData()" />（强烈建议您在删除数据前先下载数据进行备份。）
+	</p>
+	<script>
+		function deleteAllData() {
+			if (prompt("确定删除所有自定义数据？\n由插件存储的所有自定义数据都将永久丢失。\n强烈建议您先下载数据进行备份。\n\n输入yes确定删除。") == 'yes') {
+				$.post('api.webplug-data.json?key=&value=&prefix=1', {
+					key: '',
+					value: '',
+					prefix: 1
+				}, function(result) {
+					if (result.success) {
+						alert('删除成功');
+						location.reload();
+					} else {
+						alert('删除失败' + (result.notice || result.errInfo.message));
+					}
+				})
+			} else {
+				alert('操作已取消。');
+			}
+		}
+	</script>
+</div>
 
 {include file="tpl:comm.foot"}

@@ -17,10 +17,11 @@ try {
 
 		$data = $USER->getdata($key, $prefixMatching, $onlyValueLength);
 
+		header('Content-Type: '.$mime);
+		
 		if (is_array($data)) {
 			jsonpage::output($data);
 		} else {
-			header('Content-Type: '.$mime);
 			header('Content-Length: '.strlen($data));
 			echo $data;
 		}
