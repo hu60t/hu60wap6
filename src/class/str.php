@@ -157,6 +157,20 @@ class str
 	// 密码学安全的随机内容发生器
 	public static function random_bytes($len) {
 		return random_bytes($len);		
-	}
+    }
+    
+    // 获取GET或者POST值
+    public static function getOrPost($key, $defaultValue = null) {
+        if (isset($_GET[$key]))
+            return $_GET[$key];
+        if (isset($_POST[$key]))
+            return $_POST[$key];
+        return $defaultValue;
+    }
+
+    // 判断GET或POST值是否存在
+    public static function getOrPostExists($key) {
+        return isset($_GET[$key]) || isset($_POST[$key]);
+    }
 //class str end
 }

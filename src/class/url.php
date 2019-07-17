@@ -103,6 +103,15 @@ class url
 		global $PAGE;
 		
 		return $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
-	}
+    }
+    
+    // 获得扩展名
+    static function extName($url) {
+        $name = basename(parse_url($url, PHP_URL_PATH));
+        if (FALSE !== ($pos = strrpos($name, '.'))) {
+            $name = substr($name, $pos + 1);
+        }
+        return $name;
+    }
 //class url end
 }
