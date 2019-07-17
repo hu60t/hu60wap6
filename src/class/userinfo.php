@@ -389,12 +389,19 @@ class userinfo implements ArrayAccess
 		$ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
 	}
 
-	public function getData($key = null) {
-		$sql = 'SELECT `key`,`value` FROM `'.DB_A.'userdata` WHERE `uid`=?';
-		$data = [ $this->uid ];
+	public function getData($key = null, $prefixMatching = false, $onlyValueLength = false) {
+        $valueField = $onlyValueLength ? 'LENGTH(`value`) as `value`' : '`value`';
+		$sql = 'SELECT `key`,'.$valueField.' FROM `'.DB_A.'userdata` WHERE `uid`=?';
+        $data = [ $this->uid ];
+        
 		if ($key !== null) {
-			$sql .= ' AND `key`=?';
-			$data[] = $key;
+            if ($prefixMatching) {
+    			$sql .= ' AND `key` LIKE ?';
+                $data[] = $key.'%';
+            } else {
+    			$sql .= ' AND `key`=?';
+                $data[] = $key;
+            }
 		}
 
 		$db = self::conn(true);
@@ -409,7 +416,7 @@ class userinfo implements ArrayAccess
 			$result[$v['key']] = $v['value'];
 		}
 
-		if ($key !== null) {
+		if ($key !== null && !$prefixMatching) {
 			if (isset($result[$key])) {
 				return $result[$key];
 			} else {
@@ -420,15 +427,23 @@ class userinfo implements ArrayAccess
 		}
 	}
 	
-	public function setData($key = null, $value = null) {
+	public function setData($key = null, $value = null, $prefixMatching = false) {
 	    if ($value === null) {
 			$sql = 'DELETE FROM `'.DB_A.'userdata` WHERE `uid`=?';
 			$data = [ $this->uid ];
 			if ($key !== null) {
-				$sql .= ' AND `key`=?';
-				$data[] = $key;
+                if ($prefixMatching) {
+                    $sql .= ' AND `key` LIKE ?';
+                    $data[] = $key.'%';
+                } else {
+                    $sql .= ' AND `key`=?';
+                    $data[] = $key;
+                }
 			}
-		} else {
+        } elseif ($prefixMatching) {
+            $sql = 'UPDATE `'.DB_A.'userdata` SET `value`=? WHERE `uid`=? AND `key` LIKE ?';
+			$data = [ $value, $this->uid, $key.'%' ];
+        } else {
 			$sql = 'INSERT INTO `'.DB_A.'userdata`(`uid`,`key`,`value`) VALUES(?,?,?) ON DUPLICATE KEY UPDATE `value`=VALUES(`value`)';
 			$data = [ $this->uid, $key, $value ];
 		}
