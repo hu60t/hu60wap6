@@ -18,7 +18,7 @@
     <form method="post" action="{$CID}.{$PID}.{$BID}">
 		<p>插件代码：</p>
 		<p>
-			<textarea name="webplug" style="width:80%;height:100px;">{$webplug|code:false:true}</textarea>
+			<textarea name="webplug" style="width:80%;height:300px;">{$webplug|code:false:true}</textarea>
 		<p>
 		<p style="color:green">保存前请先将本页存为书签，如果插件代码发生意外还能从书签进入本页删除。</p>
 		<p>
