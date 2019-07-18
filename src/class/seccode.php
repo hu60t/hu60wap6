@@ -24,7 +24,7 @@ class secCode
         $code = $sms->sendCode($phone);
 
         if (false !== $code) {
-            $arr = ['code' => $code, 'time' => time(), 'errCount' => 0];
+            $arr = ['phone' => $phone, 'code' => $code, 'time' => time(), 'errCount' => 0];
             $this->user->setSafety('secCode.phone', $arr);
 
             return true;
@@ -33,13 +33,17 @@ class secCode
         }
     }
 
-    public function checkFromPhone($code)
+    public function checkFromPhone($phone, $code)
     {
         $arr = $this->user->getSafety('secCode.phone');
 
         if (empty($arr)) {
             throw new secCodeException('请重新获取验证码');
         }
+
+		if ($arr['phone'] != $phone) {
+		    throw new secCodeException('验证码与手机号不匹配');
+		}
 
         if (time() - $arr['time'] > SECCODE_SMS_TIME) {
             throw new secCodeException('验证码已过期，请重新获取');

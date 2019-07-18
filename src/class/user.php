@@ -665,8 +665,9 @@ class user extends userinfo
 
     public function bindPhoneVerify($code)
     {
+        $regPhone = $this->getSafety('user.regPhone');
         $secCode = new SecCode($this);
-        $ok = $secCode->checkFromPhone($code);
+        $ok = $secCode->checkFromPhone($regPhone, $code);
 
         if (false === $ok) {
             throw new UserException('验证码输入错误', 7404);
@@ -675,7 +676,6 @@ class user extends userinfo
         $db = self::conn(false);
         $rs = $db->prepare('UPDATE `' . DB_A . 'user` SET `regphone`=?,`active`=1 WHERE `uid`=?');
 
-        $regPhone = $this->getSafety('user.regPhone');
         $this->setSafety('user.regPhone');
 
         $ok = $rs->execute([$regPhone, $this->uid]);
@@ -701,8 +701,9 @@ class user extends userinfo
 
     public function resetPasswordVerify($code, $newPassword)
     {
+        $regPhone = $this->getRegPhone();
         $secCode = new SecCode($this);
-        $ok = $secCode->checkFromPhone($code);
+        $ok = $secCode->checkFromPhone($regPhone, $code);
 
         if (false === $ok) {
             throw new UserException('验证码输入错误', 7404);
