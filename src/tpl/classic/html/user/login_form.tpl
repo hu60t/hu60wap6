@@ -37,7 +37,11 @@
 <p>
 </p>
     <p><input type="submit" name="go" id="submit" class="cr_login_submit" value="登录" /></p>
-    <a href="user.reg.{$bid}?u={urlencode($u)}" class="cr_login_submit">还没有用户名？立即注册</a></p>    </div>
+	<p>
+		<a href="user.reg.{$bid}?u={urlencode($u)}" class="cr_login_submit">还没有用户名？立即注册</a> |
+		<a href="user.reset_pwd.{$bid}">找回密码</a>
+	</p>
+</div>
 {/form}
 {/div}
 {/if}

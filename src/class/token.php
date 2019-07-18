@@ -8,7 +8,7 @@ class token
 	protected $data = null; // 自定义数据
     protected $lifetime = 0; // 过期时间（unix时间戳）
 
-    public function __construct($user)
+    public function __construct($user = null)
     {
         if (!is_object($user)) {
             $user = new user;

@@ -1,16 +1,5 @@
 <?php
-try {
-    $USER->loginBySid($_GET['sid']);
-} catch (Exception $ex) {
-    // 忽略
-}
-
 $tpl = $PAGE->start();
-$USER->start($tpl);
-
-if (empty($USER->uid)) {
-    die('must login');
-}
 
 // 生成验证码
 // 创建输出缓冲防止cookie无法输出
@@ -19,10 +8,10 @@ $captcha = new SimpleCaptcha();
 $text = $captcha->CreateImage();
 
 // 保存验证码的token
-$token = new token($USER);
+$token = new token();
 
 // 删除保存的旧验证码
-$oldKey = $PAGE->getCookie('active_captcha');
+$oldKey = $PAGE->getCookie('reset_pwd_captcha');
 if (!empty($oldKey) && $token->check($oldKey)) {
 	$token->delete();
 }
@@ -31,4 +20,4 @@ if (!empty($oldKey) && $token->check($oldKey)) {
 $key = $token->create(120, strtolower($text));
 
 // 把token的key保存到cookie
-$PAGE->setCookie('active_captcha', $key);
+$PAGE->setCookie('reset_pwd_captcha', $key);

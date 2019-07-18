@@ -685,6 +685,48 @@ class user extends userinfo
         return $ok;
     }
 
+    public function resetPasswordRequest()
+    {
+        $regPhone = $this->getRegPhone();
+
+        $secCode = new SecCode($this);
+        $ok = $secCode->sendToPhone($regPhone);
+
+        if (false === $ok) {
+            throw new UserException('短信验证码发送失败，请稍后再试。', 7500);
+        }
+
+        return TRUE;
+    }
+
+    public function resetPasswordVerify($code, $newPassword)
+    {
+        $secCode = new SecCode($this);
+        $ok = $secCode->checkFromPhone($code);
+
+        if (false === $ok) {
+            throw new UserException('验证码输入错误', 7404);
+        }
+
+        $hashedPassword = self::mkpass($newPassword);
+
+        $db = self::conn(false);
+        $sql = 'UPDATE ' . DB_A . 'user SET pass=?,sidtime=0 WHERE uid=?';
+        $rs = $db->prepare($sql);
+
+        if (!$rs) {
+            throw new userexception('数据库预处理失败。', 10500);
+        }
+
+        $ok = $rs->execute([$hashedPassword, $this->uid]);
+
+        if (!$ok) {
+            throw new userexception('数据库写入失败。', 10500);
+        }
+
+        return true;
+    }
+
     public function changeName($newName)
     {
         if (!$this->islogin) {
