@@ -2,6 +2,10 @@
 jsonpage::start();
 
 try {
+    if (isset($_GET['value'])) {
+	    throw new Exception('因为容易遭到CSRF攻击，不再允许通过GET请求新增/修改/删除键值。请改用POST方式提交。');
+	}
+
 	$USER->start();
 	
 	if (!$USER->islogin) {

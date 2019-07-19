@@ -46,7 +46,7 @@
 	<script>
 		function deleteAllData() {
 			if (prompt("确定删除所有自定义数据？\n由插件存储的所有自定义数据都将永久丢失。\n强烈建议您先下载数据进行备份。\n\n输入yes确定删除。") == 'yes') {
-				$.post('api.webplug-data.json?key=&value=&prefix=1', {
+				$.post('api.webplug-data.json', {
 					key: '',
 					value: '',
 					prefix: 1
@@ -55,7 +55,7 @@
 						alert('删除成功');
 						location.reload();
 					} else {
-						alert('删除失败' + (result.notice || result.errInfo.message));
+						alert('删除失败' + (result.errmsg || result.notice || result.errInfo.message));
 					}
 				})
 			} else {
