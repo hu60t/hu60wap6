@@ -45,7 +45,7 @@ class book
      */
     public function bookList($offset=0, $size=20, $fetch='*', $orderby='mtime')
     {
-        $rs = $this->db->select($fetch, 'book_meta', "ORDER BY `$orderby` DESC LIMIT ?,?", $offset, $size);
+        $rs = $this->db->select($fetch, 'book_meta', "ORDER BY `$orderby` DESC, id DESC LIMIT ?,?", $offset, $size);
         return $rs->fetchAll();
     }
 	
