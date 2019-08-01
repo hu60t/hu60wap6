@@ -22,3 +22,11 @@ $SAFE_DOMAIN_LIST = [
     'tieba.baidu.com', // 百度贴吧
 ];
 
+/**
+ * 网址替换正则表达式
+ * 用于将特定网址替换为其他网址
+ */
+$URL_REPLACE_REGEXP = [
+	['#^https?://((ipv6|ssl|www|wap|m)\.)?hu60\.(cn|net)/#is', '/'],
+];
+

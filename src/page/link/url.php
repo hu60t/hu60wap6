@@ -11,11 +11,11 @@ $urls = parse_url($url);
 if (is_array($urls) && isset($urls['host']) &&
     in_array(strtolower($urls['scheme']), ['http', 'https']) &&
     isHostSafe(strtolower($urls['host']))) {
-    header('Location: '.$url);
+    header('Location: '.replaceUrl($url));
     return;
 }
 
-$tpl->assign('url', $url);
+$tpl->assign('url', replaceUrl($url));
 
 $tpl->display('tpl:url');
 
@@ -35,5 +35,15 @@ function isHostSafe($host) {
     }
 
     return false;
+}
+
+function replaceUrl($url) {
+	global $URL_REPLACE_REGEXP;
+
+	foreach ($URL_REPLACE_REGEXP as $item) {
+		$url = preg_replace($item[0], $item[1], $url);
+	}
+
+	return $url;
 }
 
