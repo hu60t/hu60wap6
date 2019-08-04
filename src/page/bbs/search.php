@@ -56,6 +56,9 @@ if($searchType != 'reply') {
 }
 else {
   $result = $search->searchReply($keywords, $username, $offset, $size, $count);
+  $uinfo = new UserInfo();
+  $uinfo->name($username);
+
   $maxP = ceil($count / $size);
   foreach ($result as &$v) {
       $topic = $bbs->topicMeta($v['topic_id'], '*');
@@ -68,8 +71,11 @@ else {
       $v['uinfo'] = new userinfo();
       $v['uinfo']->uid($topic['uid']);
   }
+
   //加载 UBB 组件
   $ubb = new ubbdisplay();
+  $uinfo->setUbbOpt($ubb);
+
   $tpl->assign('ubb', $ubb);
   $tpl->assign('replyList', $result);
   $tpl->assign('count', $count);
