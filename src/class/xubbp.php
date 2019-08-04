@@ -368,10 +368,12 @@ class XUBBP
     public function getOpt($index = null)
     {
         $set = $this->opt;
-        $index = explode('.', $index);
-        foreach ($index as $key) {
-            $set = $set[$key];
-        }
+		if ($index !== null) {
+    	    $index = explode('.', $index);
+	        foreach ($index as $key) {
+            	$set = $set[$key];
+        	}
+		}
         return $set;
     }
 

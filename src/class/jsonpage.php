@@ -126,15 +126,18 @@ HTML;
 	}
 
 	public static function selUbbP(&$ubb) {
-		$op = $_GET['_content'];
+		$mode = $_GET['_content'];
+		$opt = $ubb->getOpt();
 
-		switch ($op) {
+		switch ($mode) {
 			case 'ubb':
 				$ubb = new UbbEdit();
 				$ubb->skipUnknown(TRUE);
+				$ubb->setOpt(null, $opt);
 				break;
 			case 'json':
 				$ubb = new UbbJson();
+				$ubb->setOpt(null, $opt);
 				break;
 		}
 	}

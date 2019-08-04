@@ -57,6 +57,17 @@ class ubbEdit extends XUBBP
         return code::html($str, false, true);
     }
 
+    public function display($ubbArray, $serialize = false, $maxLen = null, $page = null)
+    {
+        $disable = $this->getOpt('all.blockPost');
+
+        if ($disable) {
+            return '[div=border:red solid 1px]用户被禁言，发言自动屏蔽。[/div]';
+        }
+
+        return parent::display($ubbArray, $serialize, $maxLen, $page);
+    }
+
     /*text 纯文本*/
     public function text($data)
     {
