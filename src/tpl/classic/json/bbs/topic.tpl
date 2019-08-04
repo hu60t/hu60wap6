@@ -13,7 +13,7 @@
 {$ok=$ubb->setOpt('at.jsFunc', 'atAdd')}
 
 {foreach $tContents as $key=>$v}
-	{$tmp = $ubb->setOpt('style.disable', $v.uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
+    {$tmp = $v.uinfo->setUbbOpt($ubb)}
 	{$tContents.$key.content = $ubb->display($v.content,true)}
 	{$tContents.$key.uinfo = ['name'=>$v.uinfo.name]}
 	{$tContents.$key.canEdit = $bbs->canEdit($v.uinfo.uid, true)}
