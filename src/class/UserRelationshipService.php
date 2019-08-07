@@ -175,7 +175,7 @@ class UserRelationshipService
         }
 
         $targetUser = (new userinfo())->uid($targetUid);
-        if($this->originUid == $targetUid || $targetUser == false || $this->checkRelationship($targetUid, $type)) {
+        if($this->originUid == $targetUid || $targetUser == false || $this->checkRelationship($this->originUid, $targetUid, $type)) {
             return false;
         }
 
