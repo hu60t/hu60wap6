@@ -4,7 +4,7 @@
       管理：
     </div>
     {if $bbs->canEdit($v.uinfo.uid, true)}
-      <a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">edit</i>修改</a>
+      <a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}"><i class="material-icons">edit</i>修改</a>
     {/if}
     {if ($tMeta.essence==0) && $bbs->canSetEssence(true)}
       <a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">whatshot</i>加精</a>

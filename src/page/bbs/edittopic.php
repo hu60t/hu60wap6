@@ -12,6 +12,10 @@ try {
     $fid = $bbs->findTopicForum($tid)[0];
     $tpl->assign('fid', $fid);
 
+    // 楼层所在分页
+    $p = (int)$PAGE->ext[2];
+    $tpl->assign('p', $p);
+
     //读取父版块信息
     $fIndex = $bbs->fatherForumMeta($fid, 'id,name,parent_id,notopic');
     $tpl->assign('fName', $fIndex[count($fIndex) - 1]['name']);
@@ -104,6 +108,9 @@ try {
         if ($editTitle) {
             $ok = $bbs->updateTopicTitle($tid, $title);
         }
+
+        $url = "bbs.topic.$tid.$p.$PAGE[bid]";
+        header("Location: $url");
 
         $tpl->assign('tid', $tid);
         $tpl->display('tpl:editsuccess');

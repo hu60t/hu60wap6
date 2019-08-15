@@ -22,7 +22,7 @@
         {if $err && $USER->islogin}{$err->getMessage()|code}{/if}
     {/div}
 {div class="cr180_form"}
-    {form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$BID}"}
+    {form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$p}.{$BID}"}
 {if $editTitle}
 <p>
 <input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{$title}"/>

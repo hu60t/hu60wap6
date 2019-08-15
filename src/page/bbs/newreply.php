@@ -55,6 +55,11 @@ try {
         $ok = $bbs->newreply($topic['content_id'], $content);
         if (!$ok)
             throw new Exception('未知原因回复失败，请重试或联系管理员');
+        
+        $replyPage = $USER->getInfo('bbs.floorReverse') ? 1 : 999;
+        $url = "bbs.topic.$tid.$replyPage.$PAGE[bid]";
+        header("Location: $url");
+        
         $tpl->display('tpl:replysuccess');
     } else {
         throw new Exception('');

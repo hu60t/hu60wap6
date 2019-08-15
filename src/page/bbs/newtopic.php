@@ -52,10 +52,14 @@ try {
               $content = $_prefix.$content;
             }
             $bbs = new bbs($USER);
-            $ok = $bbs->newtopic($fid, $title, $content);
-            if (!$ok)
+            $tid = $bbs->newtopic($fid, $title, $content);
+            if (!$tid)
                 throw new Exception('未知原因发帖失败，请重试或联系管理员');
-            $tpl->assign('tid', $ok);
+            
+            $url = "bbs.topic.$tid.$PAGE[bid]";
+            header("Location: $url");
+            
+            $tpl->assign('tid', $tid);
             $tpl->display('tpl:topicsuccess');
 
         } else {

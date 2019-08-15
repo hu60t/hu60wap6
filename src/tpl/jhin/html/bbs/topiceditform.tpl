@@ -23,7 +23,7 @@
     {if $err && $USER->islogin}{$err->getMessage()|code}{/if}
   </div>
   <div class='widget-form'>
-    <form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$BID}" class="topic-form">
+    <form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$p}.{$BID}" class="topic-form">
       {if $editTitle}
       <div class="topic-form-label">标题</div>
       <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="" value="{$title}"/>

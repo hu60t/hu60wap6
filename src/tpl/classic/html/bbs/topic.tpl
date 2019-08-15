@@ -76,7 +76,7 @@
 		<script>foldFloorInit(0)</script>
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<hr>
-			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{else}改{/if}{if ($tMeta.essence==0) && $bbs->canSetEssence(true)}|<a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}">加精</a>{/if}{if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}|<a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$v.id}.{$BID}">取消精华</a>{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}|设]</p>
+			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{else}改{/if}{if ($tMeta.essence==0) && $bbs->canSetEssence(true)}|<a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}">加精</a>{/if}{if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}|<a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$v.id}.{$BID}">取消精华</a>{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}|设]</p>
 		{/if}
     {if $bbs->canFavorite($v.uinfo.uid, true)}
     <hr>
@@ -104,7 +104,7 @@
 		<div class="floor_content" id="floor_content_{$v.floor}">{$v.floor}. {$ubb->display($v.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
 		<script>foldFloorInit({$v.floor})</script>
-		<p>(<a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if})</p>
+		<p>(<a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if})</p>
 		<hr>
     {/foreach}
 </div>
