@@ -1,12 +1,6 @@
 -- 数据库升级语句
 -- 请根据实际情况使用
 
-
--- 2018年3月11日 21:39:26
--- token添加了data字段
-ALTER TABLE `hu60_token` ADD `data` BLOB NOT NULL DEFAULT '' AFTER `uid`;
-
-
 -- 2018年5月8日 01:27:13
 -- 新增了 hu60_book_meta 和 hu60_book_capter 两个表
 
@@ -45,23 +39,3 @@ ALTER TABLE `hu60_book_chapter`
 ALTER TABLE `hu60_book_meta`
   ADD PRIMARY KEY (`id`),
   ADD KEY `mtime` (`mtime`);
-
-
--- 2018年12月18日 11:35
--- topic添加了essence字段
-ALTER TABLE `hu60_bbs_topic_meta` ADD `essence` TINYINT(1) NOT NULL DEFAULT '0' AFTER `level`;
-
--- 2018年12月27日 20:32
--- 新增了 hu60_topic_favorites 表
-CREATE TABLE `hu60_topic_favorites` (
-  `id` int(11) NOT NULL,
-  `uid` int(11) NOT NULL,
-  `topic_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-ALTER TABLE `hu60_topic_favorites`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_uid_and_topicId` (`uid`,`topic_id`);
-
-ALTER TABLE `hu60_topic_favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

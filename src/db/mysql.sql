@@ -1,17 +1,19 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: 2019-07-03 14:12:34
--- 服务器版本： 10.3.13-MariaDB-1-log
--- PHP Version: 7.3.3-1
+-- 主机： localhost
+-- 生成日期： 2019-10-14 12:10:58
+-- 服务器版本： 10.3.18-MariaDB-1-log
+-- PHP 版本： 7.3.9-1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Database: `hu60`
+-- 数据库： `hu60`
 --
 
 -- --------------------------------------------------------
@@ -139,6 +141,19 @@ CREATE TABLE `hu60_book_meta` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `hu60_friend_links`
+--
+
+CREATE TABLE `hu60_friend_links` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `uid` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `hu60_msg`
 --
 
@@ -194,7 +209,7 @@ CREATE TABLE `hu60_topic_favorites` (
   `id` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `topic_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -228,7 +243,7 @@ CREATE TABLE `hu60_userdata` (
   `uid` int(11) NOT NULL,
   `key` varchar(255) NOT NULL,
   `value` mediumblob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -244,11 +259,11 @@ CREATE TABLE `hu60_user_relationship` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Indexes for dumped tables
+-- 转储表的索引
 --
 
 --
--- Indexes for table `hu60_addin_chat_data`
+-- 表的索引 `hu60_addin_chat_data`
 --
 ALTER TABLE `hu60_addin_chat_data`
   ADD PRIMARY KEY (`id`),
@@ -258,7 +273,7 @@ ALTER TABLE `hu60_addin_chat_data`
   ADD KEY `room_lid` (`room`,`lid`) USING BTREE;
 
 --
--- Indexes for table `hu60_addin_chat_list`
+-- 表的索引 `hu60_addin_chat_list`
 --
 ALTER TABLE `hu60_addin_chat_list`
   ADD PRIMARY KEY (`id`),
@@ -266,7 +281,7 @@ ALTER TABLE `hu60_addin_chat_list`
   ADD KEY `name` (`name`);
 
 --
--- Indexes for table `hu60_bbs_forum_meta`
+-- 表的索引 `hu60_bbs_forum_meta`
 --
 ALTER TABLE `hu60_bbs_forum_meta`
   ADD PRIMARY KEY (`id`),
@@ -274,7 +289,7 @@ ALTER TABLE `hu60_bbs_forum_meta`
   ADD KEY `mtime` (`mtime`);
 
 --
--- Indexes for table `hu60_bbs_topic_content`
+-- 表的索引 `hu60_bbs_topic_content`
 --
 ALTER TABLE `hu60_bbs_topic_content`
   ADD PRIMARY KEY (`id`),
@@ -282,7 +297,7 @@ ALTER TABLE `hu60_bbs_topic_content`
   ADD KEY `reply_id` (`reply_id`);
 
 --
--- Indexes for table `hu60_bbs_topic_meta`
+-- 表的索引 `hu60_bbs_topic_meta`
 --
 ALTER TABLE `hu60_bbs_topic_meta`
   ADD PRIMARY KEY (`id`),
@@ -292,21 +307,27 @@ ALTER TABLE `hu60_bbs_topic_meta`
   ADD KEY `lfmtime` (`level`,`forum_id`,`mtime`);
 
 --
--- Indexes for table `hu60_book_chapter`
+-- 表的索引 `hu60_book_chapter`
 --
 ALTER TABLE `hu60_book_chapter`
   ADD PRIMARY KEY (`id`),
   ADD KEY `book_chapter` (`book_id`,`chapter`,`version`) USING BTREE;
 
 --
--- Indexes for table `hu60_book_meta`
+-- 表的索引 `hu60_book_meta`
 --
 ALTER TABLE `hu60_book_meta`
   ADD PRIMARY KEY (`id`),
   ADD KEY `mtime` (`mtime`);
 
 --
--- Indexes for table `hu60_msg`
+-- 表的索引 `hu60_friend_links`
+--
+ALTER TABLE `hu60_friend_links`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `hu60_msg`
 --
 ALTER TABLE `hu60_msg`
   ADD PRIMARY KEY (`id`),
@@ -315,28 +336,28 @@ ALTER TABLE `hu60_msg`
   ADD KEY `chat` (`type`,`touid`,`byuid`,`ctime`);
 
 --
--- Indexes for table `hu60_speedtest`
+-- 表的索引 `hu60_speedtest`
 --
 ALTER TABLE `hu60_speedtest`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tag` (`tag`);
 
 --
--- Indexes for table `hu60_token`
+-- 表的索引 `hu60_token`
 --
 ALTER TABLE `hu60_token`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `token` (`token`);
 
 --
--- Indexes for table `hu60_topic_favorites`
+-- 表的索引 `hu60_topic_favorites`
 --
 ALTER TABLE `hu60_topic_favorites`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_uid_and_topicId` (`uid`,`topic_id`);
 
 --
--- Indexes for table `hu60_user`
+-- 表的索引 `hu60_user`
 --
 ALTER TABLE `hu60_user`
   ADD PRIMARY KEY (`uid`),
@@ -347,13 +368,13 @@ ALTER TABLE `hu60_user`
   ADD UNIQUE KEY `regphone` (`regphone`);
 
 --
--- Indexes for table `hu60_userdata`
+-- 表的索引 `hu60_userdata`
 --
 ALTER TABLE `hu60_userdata`
   ADD PRIMARY KEY (`uid`,`key`);
 
 --
--- Indexes for table `hu60_user_relationship`
+-- 表的索引 `hu60_user_relationship`
 --
 ALTER TABLE `hu60_user_relationship`
   ADD PRIMARY KEY (`relationship_id`);
@@ -367,64 +388,82 @@ ALTER TABLE `hu60_user_relationship`
 --
 ALTER TABLE `hu60_addin_chat_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_addin_chat_list`
 --
 ALTER TABLE `hu60_addin_chat_list`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_bbs_forum_meta`
 --
 ALTER TABLE `hu60_bbs_forum_meta`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_bbs_topic_content`
 --
 ALTER TABLE `hu60_bbs_topic_content`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_bbs_topic_meta`
 --
 ALTER TABLE `hu60_bbs_topic_meta`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_book_chapter`
 --
 ALTER TABLE `hu60_book_chapter`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_book_meta`
 --
 ALTER TABLE `hu60_book_meta`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `hu60_friend_links`
+--
+ALTER TABLE `hu60_friend_links`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_msg`
 --
 ALTER TABLE `hu60_msg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_speedtest`
 --
 ALTER TABLE `hu60_speedtest`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_token`
 --
 ALTER TABLE `hu60_token`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_topic_favorites`
 --
 ALTER TABLE `hu60_topic_favorites`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_user`
 --
 ALTER TABLE `hu60_user`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `hu60_user_relationship`
 --
 ALTER TABLE `hu60_user_relationship`
   MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT;
-
+COMMIT;
