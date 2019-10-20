@@ -49,11 +49,14 @@ try {
     $PAGE = new page;
 
 	// Json Page 跨域支持
-	if ($_GET['_origin']) {
+	if (!empty($_GET['_origin'])) {
 		// 坚决禁止跨域 Cookie 访问，否则会形成 XSS 漏洞
 		$PAGE->setNoCookie(true);
 		header('Access-Control-Allow-Origin: ' . preg_replace('/[^a-zA-Z0-9,._*-]/s', '', trim($_GET['_origin'])));
 	}
+    
+	/*跨站数据提交防护*/
+	include SUB_DIR . '/csrf_protect.php';
 
     $PAGE->cutPath();
     page::regBid($PAGE->bid);
