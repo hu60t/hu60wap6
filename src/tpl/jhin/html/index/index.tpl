@@ -81,7 +81,7 @@
         </div>
     </div>
     <div class="widget">
-        <div class="bar">虎友网站展示</div>
+        <div class="bar" id="friend_links_title">虎友网站展示</div>
         <div class="content-box">
             {include file="tpl:comm.friend_links"}
         </div>

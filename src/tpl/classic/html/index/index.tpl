@@ -54,7 +54,7 @@
 </div>
 <hr>
 <div id="friend_links">
-	<p>『虎友网站展示』</p>
+	<p id="friend_links_title">『虎友网站展示』</p>
 	{include file="tpl:comm.friend_links"}
 </div>
 {include file="tpl:comm.foot"}
