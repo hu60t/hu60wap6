@@ -87,17 +87,17 @@ try {
 			$result = mb_convert_encoding(base64_decode($content),'utf-8',$code);
 			break;
 		case 'eb64u':
-                        $result = url::b64e(mb_convert_encoding($content,$code,'utf-8'));
-                        break;
-                case 'db64u':
-                        $result = mb_convert_encoding(url::b64d($content),'utf-8',$code);
-                        break;
+			$result = url::b64e(mb_convert_encoding($content,$code,'utf-8'));
+			break;
+		case 'db64u':
+			$result = mb_convert_encoding(url::b64d($content),'utf-8',$code);
+			break;
 		case 'db64ux':
-                        $result = bin2hex(url::b64d($content));
-                        break;
-                case 'xdb64u':
-                        $result = url::b64e(pack('H*',$content));
-                        break;
+			$result = bin2hex(url::b64d($content));
+			break;
+		case 'xdb64u':
+			$result = url::b64e(pack('H*',$content));
+			break;
 		case 'eurl':
 			$result = urlencode(mb_convert_encoding($content,$code,'utf-8'));
 			break;
@@ -106,9 +106,9 @@ try {
 			break;
 		case 'eurls':
 			$result=urlencode(mb_convert_encoding($content,$code,'utf-8'));
-			for($i=33;$i<=126;$i++)
+			foreach([':','/','?','&','='] as $i)
 			{
-				$str=chr($i);
+				$str=$i;
 				$result=str_replace(urlencode($str),$str,$result);
 			}
 			break;
