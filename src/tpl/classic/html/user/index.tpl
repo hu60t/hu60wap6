@@ -57,7 +57,7 @@
     <input type="submit" value="保存">
 </form>
 <p class="txt">
-功能：<a href="addin.webplug.{$BID}">网页插件</a>
+功能：<a href="addin.webplug.{$BID}">网页插件</a> / <a href="addin.jhtml.{$BID}">JHTML</a>
 <br/>
 </p>
 {if $mmbt}

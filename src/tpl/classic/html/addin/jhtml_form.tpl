@@ -20,8 +20,6 @@
 		<p>
 			<textarea name="jhtml" style="width:80%;height:100px;">{$jhtml|code:false:true}</textarea>
 		<p>
-		<p style="color:green">如果 JHTML 内容无法正常显示，请输入域名访问 html 版进行重置。</p>
-		<p>
 			<input type="submit" name="go" value="保存" />
 		</p>
 	</form>

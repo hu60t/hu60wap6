@@ -93,7 +93,8 @@ HTML;
 				$url = urlencode($PAGE->getUrl());
 				$jhtml = <<<HTML
 <link rel="stylesheet" type="text/css" href="/tpl/classic/css/default.css"/>
-<p><a href="addin.jhtml.html?u=$url">您的JHTML代码为空，请先设置。</a></p>
+<p>您的JHTML代码为空，<a href="addin.jhtml.html?u=$url">请先设置</a>。</p>
+<p>如果不想继续体验JHTML，<a href="index.index.html">点击此处回到常规版本</a>。</p>
 HTML;
 			}
 			

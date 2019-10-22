@@ -1,6 +1,6 @@
 {include file="tpl:comm.head" title="JHTML" no_webplug=true}
 {config_load file="conf:site.info"}
-<div class="breadcrumb">
+<div class="tp">
 	<a href="index.index.{$BID}">首页</a> &gt; JHTML | <a href="bbs.forum.140.html">相关讨论</a> | <a href="index.index.jhtml">进入 JHTML 首页</a>
 </div>
 
@@ -19,8 +19,6 @@
 		<p>JHTML代码：</p>
 		<p>
 			<textarea name="jhtml" style="width:80%;height:100px;">{$jhtml|code:false:true}</textarea>
-		<p>
-		<p style="color:green">如果 JHTML 内容无法正常显示，请输入域名访问 html 版进行重置。</p>
 		<p>
 			<input type="submit" name="go" value="保存" />
 		</p>
