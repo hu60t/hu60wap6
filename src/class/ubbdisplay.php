@@ -264,7 +264,7 @@ class UbbDisplay extends XUBBP
             $iframeUrl = 'https://v.qq.com/txp/iframe/player.html?vid='.$arr[1];
         }
         //哔哩哔哩
-        else if (preg_match('#\.bilibili\.com/.*/av(\d+)(?:.*\bp=(\d+))?#', $url, $arr)) {
+        else if (preg_match('#\b(?:bilibili\.com|b23\.tv)\b.*\bav(\d+)(?:.*\bp=(\d+))?#', $url, $arr)) {
             $iframeUrl = 'https://player.bilibili.com/player.html?aid='.$arr[1].'&page='.$arr[2];
         }
 

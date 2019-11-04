@@ -17,7 +17,6 @@ copyConf('system',   'php');
 
 # tpl
 chdir(dirname(__DIR__).'/config/tpl');
-copyConf('friend_links_data', 'tpl');
 copyConf('site_info',         'conf');
 
 # 拷贝配置文件

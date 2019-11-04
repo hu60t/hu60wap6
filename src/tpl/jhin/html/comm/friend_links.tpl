@@ -1,4 +1,3 @@
-{include file="tpl:site.friend_links_data" scope="parent"}
 <style>
     .friend-link-item {
         display: inline-block;
@@ -28,7 +27,8 @@
 </style>
 <div class="friend-link-box">
     {$uinfo = userinfo::getInstance()}
-    {foreach $FRIEND_LINKS as $link}
+	{$FRIEND_LINKS = FriendLinks::get()}
+    {foreach $FRIEND_LINKS as $k=>$link}
         <div class="friend-link-item">
             {if isset($link[2])}
                 {$tmp=$uinfo->uid($link[2])}
@@ -36,7 +36,7 @@
             {else}
                 <a href="bbs.topic.86480.{$BID}"><img src="{page::getFileUrl("{AVATAR_DIR}/default.jpg")}" alt="默认头像"/></a>
             {/if}
-            <a href="{$link[1]|code}">{$link[0]|code}</a>
+            <a href="{$smarty.server.PHP_SELF}/link.friend.{$k}.html">{$link[0]|code}</a>
         </div>
     {/foreach}
 </div>
