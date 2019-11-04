@@ -1,4 +1,7 @@
 <?php
+// 防止URL中的sid泄露给外链站点
+header('Referrer-Policy: origin-when-cross-origin');
+
 // 作者：幻阳化翼
 // 来自：https://hu60.net/q.php/bbs.topic.47473.html
 // 修改：老虎会游泳
