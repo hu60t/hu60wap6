@@ -5,7 +5,10 @@
         <p><textarea name="content" id="content">{$smarty.post.content|code:false:true}</textarea></p>
         <p>编码所采用的字符集：<select name="code">
                 <option value="UTF-8" {if $smarty.post.code == 'UTF-8'}selected{/if}>UTF-8</option>
+                <option value="GB2312" {if $smarty.post.code == 'GB2312'}selected{/if}>GB2312</option>
                 <option value="GBK" {if $smarty.post.code == 'GBK'}selected{/if}>GBK</option>
+                <option value="GB18030" {if $smarty.post.code == 'GB18030'}selected{/if}>GB18030</option>
+                <option value="BIG5" {if $smarty.post.code == 'BIG5'}selected{/if}>BIG5</option>
                 <option value="UTF-16LE" {if $smarty.post.code == 'UTF-16LE'}selected{/if}>UTF-16LE</option>
                 <option value="UTF-16BE" {if $smarty.post.code == 'UTF-16BE'}selected{/if}>UTF-16BE</option>
                 <option value="UTF-32LE" {if $smarty.post.code == 'UTF-32LE'}selected{/if}>UTF-32LE</option>
