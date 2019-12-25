@@ -22,7 +22,7 @@
 </div>
 
 <!--搜索框-->
-<div class="widget-search">
+<div class="search-box">
 	<form method="get" action="{$CID}.search.{$BID}">
 		<input name="keywords" placeholder="搜索词" />
 		<input name="username" placeholder="用户名" />

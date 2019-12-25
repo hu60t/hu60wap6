@@ -3,7 +3,8 @@
 <html lang="zh-hans">
 <head>
 	<meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
-	{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}
+  {if isset($noindex) && $noindex}<meta name="robots" content="noindex, nofollow" />{/if}
+  {if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}
 	{if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css", true)}{/if}
 	<link rel="stylesheet" type="text/css" href="{$css|code}"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')|code}"/>

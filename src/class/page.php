@@ -388,8 +388,9 @@ class page implements ArrayAccess
 			if ($time > 0 && $time < $_SERVER['REQUEST_TIME']) {
 				$time += $_SERVER['REQUEST_TIME'];
 			}
-
-			return setCookie($name, $value, $time, COOKIE_PATH, COOKIE_DOMAIN, false, true);
+			// 非80端口时候，设置cookie不能携带端口号导致无法正常登录
+            $urlParts = parse_url(COOKIE_DOMAIN);
+            return setCookie($name, $value, $time, COOKIE_PATH, $urlParts["host"], false, true);
 		}
     }
 

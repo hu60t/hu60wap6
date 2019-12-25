@@ -38,6 +38,9 @@ h1 {
   max-width: 1170px;
   margin: 0 auto;
 }
+.no-gap {
+  margin-top: 0!important;
+}
 .content-box {
   padding-left: 5px;
   padding-right: 5px;
@@ -159,11 +162,19 @@ h1 {
   width: 100%;
   max-width: 1170px;
   margin: 0 auto;
+  margin: 10px auto;
   box-shadow: 0 0 15px #ccc;
   border-radius: 3px;
   background-color: #FFF;
-  min-height: 95vh;
   word-wrap: break-word;
+}
+.container > .layout-inner {
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+}
+.container > .layout-inner > .layout-body {
+  flex-grow: 1;
 }
 .layout-foot-inner {
   margin-top: 25px;
@@ -652,6 +663,30 @@ h1 {
   margin: 0;
   padding: 8px;
   border-bottom: 1px solid #EEE;
+}
+.search-box > form {
+  padding: 5px;
+  display: flex;
+}
+.search-box input[name=keywords],
+.search-box input[name=username] {
+  border: 1px solid rgba(212, 212, 212, 0.78);
+  padding: 5px 10px;
+}
+.search-box input[name=keywords]:focus,
+.search-box input[name=username]:focus {
+  outline: none;
+}
+.search-box input[name=username] {
+  border-radius: 0 10px 10px 0;
+  border-right-color: #e6e6e6;
+}
+.search-box input[name=keywords] {
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+}
+.search-box input[type="submit"] {
+  margin-left: 5px;
 }
 .topic-form-label {
   display: block;

@@ -52,6 +52,9 @@ class user extends userinfo
 
     /**
      * 快速初始化用户登陆，并设置$user变量到模板引擎
+     * @return bool|Exception|userexception
+     * @throws userexception
+     * @var Page|null page
      */
     public function start($tpl = null, $page = null, $sid = null)
     {

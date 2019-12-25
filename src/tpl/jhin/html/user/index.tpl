@@ -78,6 +78,28 @@
     </td>
   </tr>
   <tr>
+    <td>禁止索引：</td>
+    <td>
+      是否允许搜索引擎索引我的主题(
+      {if $USER->getinfo('privacy:noindex')}
+        禁止 /<a href="?privacy:noindex=0"> 允许</a>
+      {else}
+        <a href="?privacy:noindex=1">禁止</a> / 允许
+      {/if})
+    </td>
+  </tr>
+  <tr>
+    <td>隐藏帖子：</td>
+    <td>
+      禁止别人搜索我的帖子(
+      {if $USER->getinfo('privacy:hidePost')}
+      开启/<a href="?privacy:hidePost=0"> 关闭</a>
+      {else}
+      <a href="?privacy:hidePost=1">开启</a> / 关闭
+      {/if})
+    </td>
+  </tr>
+  <tr>
     <td>主题：</td>
     <td>
       <a href="link.tpl.classic.{$BID}?url64={code::b64e($page->geturl())}">经典主题</a> / 

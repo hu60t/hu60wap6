@@ -8,7 +8,7 @@
 {block name='body'}
 
 <!--导航栏-->
-<div class="tp">
+<div class="breadcrumb">
     <a href="index.index.{$BID}">首页</a> &gt;
 	<a href="{$CID}.forum.{$BID}">{#BBS_INDEX_NAME#}</a> &gt;
     选择版块

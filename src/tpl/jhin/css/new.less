@@ -70,6 +70,9 @@ h1 {
     max-width: 1170px;
     margin: 0 auto;
 }
+.no-gap{
+    margin-top: 0!important;
+}
 .content-box {
     padding-left: 5px;
     padding-right: 5px;
@@ -192,11 +195,20 @@ h1 {
 }
 .container {
     .case;
+    margin: 10px auto;
     box-shadow: 0 0 15px #ccc;
     border-radius: 3px;
     background-color: @background_color_1;
-    min-height: 95vh;
     word-wrap: break-word;
+    >.layout-inner{
+        //计算规则： 顶栏 80px 加上上下两个边距
+        min-height: calc(~"100vh - 100px");
+        display: flex;
+        flex-direction: column;
+        >.layout-body{
+            flex-grow: 1;
+        }
+    }
 }
 
 
@@ -747,6 +759,31 @@ h1 {
     border-bottom: 1px solid #EEE;
 }
 
+.search-box{
+    >form{
+        padding: 5px;
+        display: flex;
+    }
+    input[name=keywords],input[name=username]{
+        border: 1px solid rgba(212, 212, 212, 0.78);
+        &:focus {
+            outline: none;
+        }
+        padding: 5px 10px;
+    }
+    input[name=username]{
+        border-radius: 0 10px 10px 0;
+        border-right-color: #e6e6e6;
+    }
+    input[name=keywords]{
+        border-right: none;
+        border-radius: 10px 0 0 10px;
+    }
+    input[type="submit"]{
+        margin-left: 5px;
+    }
+}
+
 .topic-form-label {
     display: block;
     background-color: @background_color_3;
@@ -845,7 +882,7 @@ h1 {
 // 搜索框选项
 #searchType-label {
     display: inline-block;
-} 
+}
 
 @media screen and (max-width: 1200px) {
     .container {

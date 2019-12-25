@@ -5,7 +5,7 @@
 {block name='body'}
     <div class="widget">
         <div class="widget">
-            <div class="bar">
+            <div class="bar no-gap">
                 <a href="bbs.forum.{$BID}">绿虎论坛</a>：
                 <a href="bbs.forum.0.1.{$BID}">新帖</a> |
                 <a href="bbs.forum.0.1.1.{$BID}">精华</a> |

@@ -24,8 +24,18 @@ if ($keywords == '' && $username == '') {
 }
 
 if($searchType != 'reply') {
+  $result = [];
+  if(empty($username)){
+    $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
+  }else{
+    // 根据用户隐私设置 是否展示指定用户的所有帖子
+    $targetUser = new userinfo();
+    if($targetUser->name($username) && $targetUser->getinfo("privacy:hidePost")){
+    }else{
+      $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
+    }
+  }
   //获取帖子列表
-  $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
   $maxP = ceil($count / $size);
   $topicList = [];
   foreach ($result as $v) {

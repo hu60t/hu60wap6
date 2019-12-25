@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1">
     <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
     {if $css === null}{$css=$PAGE->getTplUrl("css/default.css", true)}{/if}
+    {if isset($noindex) && $noindex}<meta name="robots" content="noindex, nofollow" />{/if}
     <link rel="stylesheet" type="text/css" href="{$css|code}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css', true)}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')}"/>
@@ -15,7 +16,7 @@
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <title>{block name='title'}{/block}</title>
+    <title>{block name='title'|trim}{/block}</title>
 </head>
 <body>
 <!-- 引入用户自定义代码 -->

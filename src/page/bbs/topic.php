@@ -46,6 +46,12 @@ if ($USER->uid != $tMeta['uid']) {
 $ubb = new ubbdisplay();
 $tpl->assign('ubb', $ubb);
 
+// 根据用户设定，帖子是否允许搜索引擎抓取
+$creator = new userinfo();
+if($creator->uid($tMeta['uid']) && $creator->getinfo("privacy:noindex")){
+  $tpl->assign('noindex', true);
+}
+
 $tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id');
 foreach ($tContents as &$v) {
     $uinfo = new userinfo();

@@ -136,6 +136,7 @@ class userinfo implements ArrayAccess
      *    （为了优化数据库查询，减少不必要的查询。只有在你需要它时设置它为true）
      *     若$getinfo为假，则当访问info信息时将自动重新获取。
      * 返回值：成功返回TRUE，失败（用户名不存在）返回FALSE
+     * @return boolean
      */
     public function name($name, $getinfo = false)
     {

@@ -37,7 +37,23 @@
 绑定：{if $hasRegPhone}已绑定手机号{else}<a href="{$CID}.active.{$BID}?sid={$USER->sid}">手机号</a>{/if}
 </p>
 <p class="txt">
-界面：<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a>/<a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a><br/>
+  是否允许搜索引擎索引我的主题：
+  {if $USER->getinfo('privacy:noindex')}
+  禁止 /<a href="?privacy:noindex=0"> 允许</a>
+  {else}
+  <a href="?privacy:noindex=1">禁止</a> / 允许
+  {/if}
+</p>
+<p class="txt">
+    禁止别人搜索我的帖子：
+    {if $USER->getinfo('privacy:hidePost')}
+    开启/<a href="?privacy:hidePost=0"> 关闭</a>
+    {else}
+    <a href="?privacy:hidePost=1">开启</a> / 关闭
+    {/if}
+</p>
+<p class="txt">
+    界面：<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a>/<a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a><br/>
 </p>
 <p class="txt">
 主题：经典主题/<a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a><br/>
