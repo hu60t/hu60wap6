@@ -8,7 +8,7 @@
 <div class="breadcrumb">
 	<a  href="index.index.{$bid}" title="首页" class="pt_z">回首页</a>
 	<span class="pt_c">登录</span>
-	<span class="pt_y"><a href="{$u|code}">返回来源</a></span>
+	<span class="pt_y"><a href="{$PAGE->getBaseURL()}{$u|code}">返回来源</a></span>
 </div>
 {if $msg}
 <div class="message_f_c" style="padding:50px 10px; background:#f5f5f5">

@@ -154,6 +154,17 @@ class page implements ArrayAccess
         return $url;
     }
 
+	/*
+	* 获取基本访问路径的前缀
+	*/
+	public function getBaseURL() {
+		$url = $this->getFileUrl(ROOT_DIR.'/q.php').'/';
+		if ($this->page['sidInUrl']) {
+			$url .= $this->page['sid'].'/';
+		}
+		return $url;
+	}
+
     /*取得tpl的访问路径
     *
     * 格式：bid/cid/pid.ext
@@ -264,6 +275,7 @@ class page implements ArrayAccess
         if (strpos($info[0], '.') === false) {
             $this->page['sid'] = $info[0];
             array_splice($info, 0, 1);
+			$this->page['sidInUrl'] = true;
         } else {
             $this->page['sid'] = $_COOKIE[COOKIE_A . 'sid'];
         }

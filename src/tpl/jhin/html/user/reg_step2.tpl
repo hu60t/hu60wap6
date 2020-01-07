@@ -8,7 +8,7 @@
 <div class="breadcrumb">
 	<a  href="index.index.{$bid}" title="首页" class="pt_z">回首页</a>
 	<span class="pt_c">确认密码</span>
-	<span class="pt_y"><a href="{$u|code}">返回来源</a></span>
+	<span class="pt_y"><a href="{$PAGE->getBaseURL()}{$u|code}">返回来源</a></span>
 </div>
 <div class='login-form'>
 	<p class="ft_pw">第一步：用户和密码 -> <strong>第二步：确认密码</strong> -> 第三步：注册完成</p>

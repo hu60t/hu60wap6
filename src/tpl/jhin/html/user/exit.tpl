@@ -9,7 +9,7 @@
 	<div class="breadcrumb">
 		<a  href="index.index.{$bid}" title="首页" class="pt_z">回首页</a>
 		<span class="pt_c">注销用户</span>
-		<span class="pt_y"><a href="{$u|code}">返回来源</a></span>
+		<span class="pt_y"><a href="{$PAGE->getBaseURL()}{$u|code}">返回来源</a></span>
 	</div>
 </div>
 {if $smarty.post.exit}
