@@ -1,4 +1,4 @@
-{include file="tpl:comm.head" title="用户登陆" no_user=true}
+{include file="tpl:comm.head" title="用户登录" no_user=true}
 {config_load file="conf:site.info"}
 <div class="pt">
 <div class="cr180_ptzmenu">

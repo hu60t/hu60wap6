@@ -29,7 +29,7 @@
 
 
   			{else}
-  				已掉线，<a href="user.login.{$bid}?u={urlencode($page->geturl())}">重新登陆</a>
+  				已掉线，<a href="user.login.{$bid}?u={urlencode($page->geturl())}">重新登录</a>
   			{/if}
   		{else}
   			<a href="user.login.{$bid}?u={urlencode($page->geturl())}" title="登录" style="margin-right:10px">登录</a>

@@ -13,7 +13,7 @@
 	</div>
 </div>
 {if $smarty.post.exit}
-<div class='msg'>您已成功退出了登陆</div>
+<div class='msg'>您已成功退出了登录</div>
 <a href="index.index.{$bid}">返回首页</a>
 {else}
 <form action="user.exit.{$bid}" method="post">

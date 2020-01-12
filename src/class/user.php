@@ -51,7 +51,7 @@ class user extends userinfo
     }
 
     /**
-     * 快速初始化用户登陆，并设置$user变量到模板引擎
+     * 快速初始化用户登录，并设置$user变量到模板引擎
      */
     public function start($tpl = null, $page = null, $sid = null)
     {
@@ -79,7 +79,7 @@ class user extends userinfo
      */
     public function setCookie()
     {
-        if (!self::$data[$this->uid]['islogin']) throw new userexception('用户未登陆，不能设置身份验证Cookie。', 2503);
+        if (!self::$data[$this->uid]['islogin']) throw new userexception('用户未登录，不能设置身份验证Cookie。', 2503);
         return page::setCookie('sid', self::$data[$this->uid]['sid'], $_SERVER['REQUEST_TIME'] + DEFAULT_LOGIN_TIMEOUT);
     }
 
@@ -100,7 +100,7 @@ class user extends userinfo
      */
     public function setinfo($index, $data)
     {
-        if (!self::$data[$this->uid]['islogin']) throw new userexception('用户未成功登陆，不能写info数据。', 3503);
+        if (!self::$data[$this->uid]['islogin']) throw new userexception('用户未成功登录，不能写info数据。', 3503);
         $set =& self::$info[$this->uid];
         if ($set === NULL) {
             $this->getinfo();
@@ -193,7 +193,7 @@ class user extends userinfo
     }
 
     /**
-     * 用户登陆
+     * 用户登录
      */
     public function login($name, $pass, $isuid = false, $getinfo = true, $getsafety = false)
     {
@@ -326,7 +326,7 @@ class user extends userinfo
 
 
     /**
-     * 通过sid登陆
+     * 通过sid登录
      * 参数：
      *   $sid  用户的sid
      * 返回：
@@ -731,7 +731,7 @@ class user extends userinfo
     public function changeName($newName)
     {
         if (!$this->islogin) {
-            throw new userexception('用户未登陆，不能改名。', 9403);
+            throw new userexception('用户未登录，不能改名。', 9403);
         }
 
         //检查用户名合法性，不合法则抛出异常
@@ -765,7 +765,7 @@ class user extends userinfo
     public function changePassword($oldPassword, $newPassword)
     {
         if (!$this->islogin) {
-            throw new userexception('用户未登陆，不能修改密码。', 9403);
+            throw new userexception('用户未登录，不能修改密码。', 9403);
         }
 
         $ok = self::checkPassword($this->uid, $oldPassword);
