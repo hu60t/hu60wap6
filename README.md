@@ -35,11 +35,21 @@ git submodule update
 -----------------
 
 1. 把 `src` 文件夹里的全部文件放在网站根目录。
+
 2. 进入网站根目录，把 `config` 文件夹里的所有 `xxx.default.php` 都复制一份，改名成 xxx.php，去掉 `.default`。如果你准备用git进行版本控制，建议采用复制而不是删除原文件或者直接给原文件重命名。
-3. 进入 `src/config/tpl` 文件夹，把 `site_info.default.conf` 复制一份，改名为 `site_info.conf`。
+
+   也就是说，把 `config/xxx.default.php` 复制为 `config/xxx.php`。
+
+3. 进入 `config/tpl` 文件夹，把 `site_info.default.conf` 复制一份，改名为 `site_info.conf`。
+
+   也就是说，把 `config/tpl/site_info.default.conf` 复制为 `config/tpl/site_info.conf`。
+
 3. 修改 `config/db.php` ，填写好 mysql 信息。
+
 4. 导入 `db/mysql.sql` 到数据库。
+
 5. 访问。
+
 5. 在Windows中，你可能会遇到这样的错误：
    ```
    Syntax error in config file 'conf:site.info' on line 1 '../../../../config/tpl/site_info.conf'
@@ -52,7 +62,9 @@ git submodule update
    此外还需要提醒你的是：不要将你的这些更改提交到git版本库，因为我们希望保留符号连接，而不是多个相同文件的复制品。
    如果你想要避免这些麻烦，建议在WSL（Windows Subsystem of Linux，适用于Linux的Windows子系统）中运行`git clone`来获得源代码，WSL中的git可以正确创建符号连接。此外，你也可以在WSL中运行web服务器。
    新版本的`Git for Windows`如果启用相关选项，也可以创建符号连接，但似乎只适用于符号连接的源文件存在的情况下。在clone本项目时，符号连接的源文件并不存在，所以`Git for Windows`似乎也会创建内容为源位置的文本文件做为替代。
+
 6. uid 为 1 的用户会成为系统的管理员用户，可以访问后台（虽然后台只有添加版块这一个功能，修改版块的功能是崩溃的。）
+
 7. 要让附件上传功能生效，不仅需要正确设置七牛云AK/SK，修改html中的域名，还需要正确安装本项目的`nonfree`子模块，参考“源代码获取说明”一节。
 
 
