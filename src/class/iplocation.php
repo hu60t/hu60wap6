@@ -236,6 +236,10 @@ class IpLocation
      * @date 2016-8-15 11:38:45
      */
     public function getLocationString($ip) {
+		if (strpos($ip, ':') != FALSE) {
+			return 'IPv6地址';
+		}
+
         $location = $this->getLocation($ip);
         $country = trim($location['country']);
         $area = trim($location['area']);
