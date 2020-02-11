@@ -94,10 +94,20 @@ class UbbParser extends XUBBP
         '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
         '!^(.*)《(?:表情)?(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
     );
+
+	/**
+	* 前置过滤器，删除sid等敏感内容
+	*/
+	public function filter($text) {
+		$text = preg_replace('#/q.php/[a-zA-Z0-9_-]+/#', '/q.php/', $text);
+		return $text;
+	}
 	
 	public function parse($text, $serialize = false) {
 		//把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
         $text = str::nbsp2space($text);
+		$text = $this->filter($text);
+
 		$markdownTag = NULL;
 		
 		// markdown模式检测
