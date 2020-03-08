@@ -13,6 +13,7 @@
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
     <script>
 		hljs.initHighlightingOnLoad();
+
 		var hu60_loaded = false;
         function hu60_onload() {
             var div = document.querySelector('#hu60_load_notice');
@@ -25,13 +26,16 @@
                 if (div) div.style.display = 'block';
             }
         }
-        setTimeout(hu60_loading, 1000);
+        $(document).ready(function() {
+            hu60_onload();
+			{if $onload !== null}{$onload};{/if}
+        });
+        setTimeout(hu60_loading, 3000);
 	</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
-  <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")}"></script>
 	<title>{$title|code}</title>
 </head>
-<body onload="hu60_onload();{if $onload !== null}{$onload}{/if}">
+<body>
 {if !$no_webplug && $USER && $USER->islogin && !empty($USER->getinfo('addin.webplug'))}
     <div id="hu60_load_notice" style="display: none; position:absolute">
         <p>网页插件加载中。如果长时间无法加载，可以考虑<a href="addin.webplug.{$BID}">修改或删除网页插件代码</a>。</p>

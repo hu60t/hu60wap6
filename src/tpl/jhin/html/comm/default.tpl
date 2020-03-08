@@ -15,31 +15,35 @@
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
     <script>
-		hljs.initHighlightingOnLoad();
+        hljs.initHighlightingOnLoad();
 
-		var hu60_loaded = false;
-		function hu60_onload() {
-			var div = document.querySelector('#hu60_load_notice');
-			if (div) div.style.display = 'none';
-			hu60_loaded = true;
-		}
-		function hu60_loading() {
-			if (!hu60_loaded) {
-				var div = document.querySelector('#hu60_load_notice');
-            	if (div) div.style.display = 'block';
-			}
-		}
-		setTimeout(hu60_loading, 1000);
-	</script>
+        var hu60_loaded = false;
+        function hu60_onload() {
+            var div = document.querySelector('#hu60_load_notice');
+            if (div) div.style.display = 'none';
+            hu60_loaded = true;
+        }
+        function hu60_loading() {
+            if (!hu60_loaded) {
+                var div = document.querySelector('#hu60_load_notice');
+                if (div) div.style.display = 'block';
+            }
+        }
+        $(document).ready(function() {
+            hu60_onload();
+            {if $onload !== null}{$onload};{/if}
+        });
+        setTimeout(hu60_loading, 3000);
+    </script>
     <title>{block name='title'}{/block}</title>
 </head>
-<body onload="hu60_onload()">
+<body>
 <!-- 引入用户自定义代码 -->
 {if !$no_webplug && $USER && $USER->islogin && !empty($USER->getinfo('addin.webplug'))}
-	<div id="hu60_load_notice" style="display: none; position:absolute">
-	    <p>网页插件加载中。如果长时间无法加载，可以考虑<a href="addin.webplug.{$BID}">修改或删除网页插件代码</a>。</p>
-		<p>公告：<a href="https://hu60.cn/q.php/bbs.topic.92900.html?_origin=*">如果网站很卡，请修改网页插件内的外链js</a>（为保证能打开，此页未登录）。</p>
-	</div>
+    <div id="hu60_load_notice" style="display: none; position:absolute">
+        <p>网页插件加载中。如果长时间无法加载，可以考虑<a href="addin.webplug.{$BID}">修改或删除网页插件代码</a>。</p>
+        <p>公告：<a href="https://hu60.cn/q.php/bbs.topic.92900.html?_origin=*">如果网站很卡，请修改网页插件内的外链js</a>（为保证能打开，此页未登录）。</p>
+    </div>
     {$USER->getinfo('addin.webplug')}
 {/if}
 <!-- 用户自定义代码结束 -->
