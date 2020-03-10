@@ -89,10 +89,17 @@ define('DEFAULT_PAGE_MIME', 'text/html');
  * cookie作用路径
  */
 define('COOKIE_PATH', '/');
+
 /**
  * cookie作用域名
+ *
+ * 这里只是提供了个默认值，你可以改为你实际的域名，比如 "hu60.cn"。
+ * 也可以写多个，比如 "hu60.cn, hu60.net"。
+ *
+ * 默认值前面的 "http://" 只是为了确保parse_url函数总是会成功，与你是否使用https无关。
  */
-define('COOKIE_DOMAIN', $_SERVER['HTTP_HOST']);
+define('COOKIE_DOMAIN', parse_url("http://$_SERVER[HTTP_HOST]")['host']);
+
 /**
  * Cookie前缀
  */
@@ -123,7 +130,7 @@ define('AVATAR_DIR', ROOT_DIR.'/upload');
 /**
  * 使用七牛云存储头像
  */
-define('QINIU_STORAGE_AVATAR', true);
+define('QINIU_STORAGE_AVATAR', false);
 
 /**
  * 七牛云头像路径前缀
