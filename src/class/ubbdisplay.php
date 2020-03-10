@@ -433,11 +433,11 @@ class UbbDisplay extends XUBBP
 
             switch ($data['tag']) {
                 case 'color':
-                    return '<span style="color:' . code::html($data['opt'], false, true) . '">';
+                    return '<span class="usercss" style="color:' . code::html($data['opt'], false, true) . '">';
                 case 'div':
-                    return '<div style="' . code::html($data['opt'], false, true) . '">';
+                    return '<div class="usercss" style="' . code::html($data['opt'], false, true) . '">';
                 case 'span':
-                    return '<span style="' . code::html($data['opt'], false, true) . '">';
+                    return '<span class="usercss" style="' . code::html($data['opt'], false, true) . '">';
             }
         } else {
             if ($disable) {
