@@ -91,7 +91,7 @@
         {else}
             {$tmp = $uinfo->uid($k.uid)}
             {$tmp = $uinfo->setUbbOpt($ubbs)}
-        <div class="i">
+        <div class="i"><a name="{$k.lid}"></a>
         <div class="floor_content" id="floor_content_{$k.lid}">{$k.lid}. {$ubbs->display($k.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$k.lid}"></div>
 		<script>foldFloorInit({$k.lid})</script>

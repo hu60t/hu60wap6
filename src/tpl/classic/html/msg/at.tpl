@@ -31,10 +31,13 @@
 </form>
 </div>
 <hr />
-{foreach $list as $k}
+{foreach $list as $i=>$k}
     <div class="msg_box">
+	  <div class="floor-content" data-floorID="{$i}" id="floor_content_{$i}">
         {$ubbs->display($k.content,true)}
-        时间：{date("Y-m-d H:i:s",$k.ctime)}
+      </div>
+      <div class="floor_fold_bar" id="floor_fold_bar_{$i}"></div>
+      时间：{date("Y-m-d H:i:s",$k.ctime)}
     </div>
     <hr />
 {/foreach}
@@ -51,4 +54,37 @@
 <a href="msg.index.inbox.all.{$bid}">收件箱</a> |
 <a href="msg.index.outbox.all.{$bid}">发件箱</a> |
 聊天模式
+
+
+<script>
+        $(document).ready(function(){
+    // 自动折叠过长内容
+                var maxHeight = 360;
+                $(".floor-content").each(function(){
+                        var that =$(this);
+                        var id=this.getAttribute("data-floorID");
+                        if(that.height() >  maxHeight){
+                                that.height(maxHeight);
+								var foldBar = document.querySelector('#floor_fold_bar_'+id);
+								foldBar.style.borderTop = '1px solid #BED8EA';
+								foldBar.style.borderBottom = '1px solid #BED8EA';
+								foldBar.style.height = '24px';
+								foldBar.style.textAlign = 'center';
+                                $('#floor_fold_bar_'+id).html("<a href='#' data-floorID='"+id+"'>查看全部</a>");
+                                $('#floor_fold_bar_'+id+">a").on('click',function(){
+                                        var id=this.getAttribute("data-floorID");
+                                        var that=$("#floor_content_"+id);
+                                        // 不要使用that.height()进行判断，返回值是浮点数，不一定精确相等
+                                        if(this.innerHTML == '折叠内容'){
+                                                that.height(maxHeight);
+                                                this.innerHTML='查看全部';
+                                        }else{
+                                                that.height(that[0].scrollHeight);
+                                                this.innerHTML='折叠内容';
+                                        }
+                                });
+                        }
+                });
+        });
+</script>
 {include file="tpl:comm.foot"}

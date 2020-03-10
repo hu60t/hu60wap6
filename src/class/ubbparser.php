@@ -530,7 +530,7 @@ class UbbParser extends XUBBP
             'pos' => $pos,
             'url' => $url,
             'msg' => $msg,
-            'len' => $this->len($user->name . $pos . $url . $msg)
+            'len' => $this->len($user->name . $pos . $url)
         ));
 
         if ($serialize) {

@@ -58,6 +58,7 @@
   {$tmp = $uinfo->uid($k.uid)}
   {$tmp = $uinfo->setUbbOpt($ubbs)}
   <li>
+	<a name="{$k.lid}"></a>
     <div class="chat-meta">
         <div class="chat-number">{$k.lid}</div>
 		<div class="chat-avatar">

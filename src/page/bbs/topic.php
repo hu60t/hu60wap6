@@ -14,6 +14,17 @@ $tpl->assign('contentCount', $contentCount);
 $maxPage = ceil($contentCount / $pageSize);
 $tpl->assign('maxPage', $maxPage);
 
+if (isset($_GET['floor'])) {
+	$oriFloor = $floor = (int)$_GET['floor'];
+	$floorReverse = $USER && $USER->islogin && $USER->getInfo('bbs.floorReverse');
+	if ($floorReverse) $floor = $contentCount - $floor;
+	$floor = max(1, $floor);
+	$floor = min($floor, $contentCount);
+	$p = floor(($floor + 20) / $pageSize);
+	Header("Location: $PAGE[cid].$PAGE[pid].$tid.$p.$PAGE[bid]#$oriFloor");
+	die;
+}
+
 //获取帖子页码
 $p = (int)$PAGE->ext[1];
 if ($p < 1) $p = 1;

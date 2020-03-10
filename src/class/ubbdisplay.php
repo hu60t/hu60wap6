@@ -549,7 +549,11 @@ HTML;
 
         $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
         $pos = code::html($data['pos']);
-        $msg = code::html($data['msg']);
+		if (is_array($data['msg'])) {
+			$msg = $this->display($data['msg']);
+		} else {
+	        $msg = code::html($data['msg']);
+		}
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
 

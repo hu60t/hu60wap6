@@ -544,6 +544,8 @@ class user extends userinfo
             throw new userException('用户未登录，不能注册at消息！', 403);
         }
 
+		$ubb = new ubbparser;
+        $msg = $ubb->parse($msg);
         $this->at = array('pos' => $pos, 'url' => $url, 'msg' => $msg);
     }
 

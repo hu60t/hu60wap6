@@ -280,7 +280,7 @@ class bbs
             $this->db->update('bbs_topic_content', 'topic_id=? WHERE id=?', $topic_id, $content_id);
 
             //注册at消息
-            $this->user->regAt("帖子“{$title}”中", "bbs.topic.{$topic_id}.{\$BID}", mb_substr($content, 0, 200, 'utf-8'));
+            $this->user->regAt("帖子“{$title}”中", "bbs.topic.{$topic_id}.{\$BID}#0", $content);
 
             //更新发帖版块的改动时间
             $this->updateForumTime($fid);
@@ -334,11 +334,12 @@ class bbs
         $time = $_SERVER['REQUEST_TIME'];
         $floor = $this->db->query('SELECT max(floor) FROM ' . DB_A . 'bbs_topic_content WHERE topic_id=?', $topic_id);
         $floor = $floor->fetch(db::num);
-        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor[0] + 1);
+		$floor = $floor[0] + 1;
+        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor);
 
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
-        $this->user->regAt("帖子“{$topicTitle['title']}”的回复中", "bbs.topic.{$topic_id}.{\$BID}", mb_substr($content, 0, 200, 'utf-8'));
+        $this->user->regAt("帖子“{$topicTitle['title']}”的{$floor}楼", "bbs.topic.{$topic_id}.{\$BID}?floor=$floor", $content);
 
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET mtime=? WHERE id=?';
         $this->db->query($sql, $_SERVER['REQUEST_TIME'], $topic_id);

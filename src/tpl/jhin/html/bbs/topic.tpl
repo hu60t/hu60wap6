@@ -27,6 +27,7 @@
 
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
+		<a name="0"></a>
 		<h1>{if $tMeta.essence}<i class="material-icons" style="color:red;">whatshot</i>{/if}<span id="topic_title">{$tMeta.title|code}</span></h1>
 		<div class="topic-meta">
             <div class="topic-avator">
@@ -72,6 +73,7 @@
 			{foreach $tContents as $v}
 			{$tmp = $v.uinfo->setUbbOpt($ubb)}
 			<li>
+				<a name="{$v.floor}"></a>
 				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
 					<div class="comments-meta">
 					    <div class="comments-number">{$v.floor}</div>

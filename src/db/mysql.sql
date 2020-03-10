@@ -163,7 +163,7 @@ CREATE TABLE `hu60_msg` (
   `byuid` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT 1,
   `isread` int(11) NOT NULL,
-  `content` blob NOT NULL,
+  `content` mediumblob NOT NULL,
   `ctime` bigint(20) NOT NULL,
   `rtime` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
