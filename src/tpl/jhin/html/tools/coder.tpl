@@ -34,6 +34,10 @@
 		<option value="db32" {if $smarty.post.action == 'db32'}selected{/if}>base32解码</option>
 		<option value="xdb32" {if $smarty.post.action == 'xdb32'}selected{/if}>base32编码(输入十六进制值)</option>
 		<option value="db32x" {if $smarty.post.action == 'db32x'}selected{/if}>base32解码(显示十六进制结果)</option>
+        <option value="eb58" {if $smarty.post.action == 'eb58'}selected{/if}>base58编码</option>
+        <option value="db58" {if $smarty.post.action == 'db58'}selected{/if}>base58解码</option>
+        <option value="xdb58" {if $smarty.post.action == 'xdb58'}selected{/if}>base58编码(输入十六进制值)</option>
+        <option value="db58x" {if $smarty.post.action == 'db58x'}selected{/if}>base58解码(显示十六进制结果)</option>
                 <option value="eurl" {if $smarty.post.action == 'eurl'}selected{/if}>URL编码</option>
                 <option value="durl" {if $smarty.post.action == 'durl'}selected{/if}>URL解码</option>
                 <option value="eurls" {if $smarty.post.action == 'eurls'}selected{/if}>智能URL编码</option>

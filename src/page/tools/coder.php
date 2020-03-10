@@ -77,6 +77,18 @@ try {
 		case 'ehex':
 			$result = bin2hex(mb_convert_encoding($content,$code,'utf-8'));
 			break;
+		case 'db58x':
+			$result = bin2hex(base58_decode($content));
+			break;
+		case 'xdb58':
+			$result = base58_encode(pack('H*',$content));
+			break;
+		case 'eb58':
+			$result = base58_encode(mb_convert_encoding($content,$code,'utf-8'));
+			break;
+		case 'db58':
+			$result = mb_convert_encoding(base58_decode($content),'utf-8',$code);
+			break;
 		case 'dhex':
 			$result = mb_convert_encoding(pack('H*',$content),'utf-8',$code);
 			break;
@@ -229,5 +241,65 @@ function base32_decode($input) {
 	} catch (Exception $e) {
 		return '';
 	}
+}
+
+function base58_encode($string)
+{
+    $alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+    $base = strlen($alphabet);
+
+    if (is_string($string) === false || !strlen($string)) {
+        return false;
+    }
+
+    $bytes = array_values(unpack('C*', $string));
+    $decimal = $bytes[0];
+    for ($i = 1, $l = count($bytes); $i < $l; ++$i) {
+        $decimal = bcmul($decimal, 256);
+        $decimal = bcadd($decimal, $bytes[$i]);
+    }
+
+    $output = '';
+    while ($decimal >= $base) {
+        $div = bcdiv($decimal, $base, 0);
+        $mod = bcmod($decimal, $base);
+        $output .= $alphabet[$mod];
+        $decimal = $div;
+    }
+    if ($decimal > 0) {
+        $output .= $alphabet[$decimal];
+    }
+    $output = strrev($output);
+
+    return (string) $output;
+}
+
+function base58_decode($base58)
+{
+    $alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+    $base = strlen($alphabet);
+
+    if (is_string($base58) === false || !strlen($base58)) {
+        return false;
+    }
+    $indexes = array_flip(str_split($alphabet));
+    $chars = str_split($base58);
+    foreach ($chars as $char) {
+        if (isset($indexes[$char]) === false) {
+            return false;
+        }
+    }
+    $decimal = $indexes[$chars[0]];
+    for ($i = 1, $l = count($chars); $i < $l; ++$i) {
+        $decimal = bcmul($decimal, $base);
+        $decimal = bcadd($decimal, $indexes[$chars[$i]]);
+    }
+    $output = '';
+    while ($decimal > 0) {
+        $byte = bcmod($decimal, 256);
+        $output = pack('C', $byte).$output;
+        $decimal = bcdiv($decimal, 256, 0);
+    }
+    return $output;
 }
 
