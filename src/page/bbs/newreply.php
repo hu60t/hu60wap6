@@ -52,12 +52,11 @@ try {
         if (!topic)
             throw new Exception('帖子不存在或已删除');
 
-        $ok = $bbs->newreply($topic['content_id'], $content);
-        if (!$ok)
+        $floor = $bbs->newreply($topic['content_id'], $content);
+        if ($floor === FALSE)
             throw new Exception('未知原因回复失败，请重试或联系管理员');
         
-        $replyPage = $USER->getInfo('bbs.floorReverse') ? 1 : 999;
-        $url = "bbs.topic.$tid.$replyPage.$PAGE[bid]";
+        $url = "bbs.topic.$tid.$PAGE[bid]?floor=$floor";
         header("Location: $url");
         
         $tpl->display('tpl:replysuccess');

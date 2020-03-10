@@ -344,7 +344,7 @@ class bbs
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET mtime=? WHERE id=?';
         $this->db->query($sql, $_SERVER['REQUEST_TIME'], $topic_id);
 
-        return $rs ? true : false;
+        return $rs ? $floor : false;
     }
 
     /**
