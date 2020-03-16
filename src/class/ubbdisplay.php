@@ -269,7 +269,7 @@ class UbbDisplay extends XUBBP
         }
 
         if (null !== $iframeUrl) {
-            return '<p class="video_box"><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
+            return '<p class="video_box"><a target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
         }
         else {
             return '<p class="video_box"><a href="'.code::html($url).'">'.code::html($url).'</a></p>';
@@ -290,7 +290,7 @@ class UbbDisplay extends XUBBP
             $url = $prefix . '/more?mm=' . $imgId;
         }
 
-        return '<p class="video_box"><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></video></p><script>(function(){var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
+        return '<p class="video_box"><a target="_blank" href="'.code::html($url).'">视频链接</a><br/><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></video></p><script>(function(){var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
     }
 
     /*audioStream 音频流*/
@@ -305,7 +305,7 @@ class UbbDisplay extends XUBBP
             $url = $prefix . '/more?mm=' . $imgId;
         }
 
-        return '<p class="audio_box"><audio class="audio" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></audio></p>';
+        return '<p class="audio_box"><a target="_blank" href="'.code::html($url).'">音频链接</a><br/><audio class="audio" src="'.code::html($url).'" controls="controls"><a href="'.code::html($url).'">'.code::html($url).'</a></audio></p>';
     }
 
     /*copyright 版权声明*/
