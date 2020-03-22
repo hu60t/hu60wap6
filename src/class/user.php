@@ -1,4 +1,5 @@
 <?php
+require_once FUNC_DIR.'/hash_equals.php';
 
 /**
  * 虎绿林WAP6 用户操作
@@ -236,7 +237,7 @@ class user extends userinfo
             self::$data[$uid] = FALSE;
             throw new userexception(($isuid ? '用户ID' : '用户名') . " \"$name\" 不存在。", 1404);
         }
-        if ($data['pass'] !== $pass) {
+        if (!hash_equals($data['pass'], $pass)) {
             throw new userexception('密码错误。', 1403);
         }
         $this->uid = $data['uid'];
