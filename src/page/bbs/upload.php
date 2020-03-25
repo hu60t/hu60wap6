@@ -39,6 +39,10 @@ try {
 
     if (preg_match('/^\.(jpe?g|png|gif)$/s', $ext)) {
         $content = "\n《图片：" . $url . '》';
+	} elseif (preg_match('/^\.(mp4|m3u8|m4v|ts)$/s', $ext)) {
+		$content = "\n《视频流：" . $url . '》';
+	} elseif (preg_match('/^\.(mp3|wma|m4a|ogg)$/s', $ext)) {
+		$content = "\n《音频流：" . $url . '》';
     } else {
         $content = "\n《链接：" . $url . '，' . $name . '（' . $sizeName . '）》';
     }

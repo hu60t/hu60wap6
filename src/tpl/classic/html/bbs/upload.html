@@ -182,6 +182,10 @@
 
             if (/^\.(jpe?g|png|gif)$/.test(file._ext)) {
                 html = '《图片：' + url + '》';
+            } else if (/^\.(mp4|m3u8|m4v|ts)$/.test(file._ext)) {
+                html = '《视频流：' + url + '》';
+            } else if (/^\.(mp3|wma|m4a|ogg)$/.test(file._ext)) {
+                html = '《音频流：' + url + '》';
             } else {
                 var basename = /[^\/\\]*$/.exec(file.name);
                 var size = humanize.filesize(file.size);
