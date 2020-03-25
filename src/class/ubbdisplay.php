@@ -268,7 +268,7 @@ class UbbDisplay extends XUBBP
             $iframeUrl = 'https://player.bilibili.com/player.html?aid='.$arr[1].'&page='.$arr[2];
         }
         //哔哩哔哩 BV号
-        else if (preg_match('#\b(?:bilibili\.com|b23\.tv)\b.*\bBV([\w]+)(?:.*\bp=(\d+))?#', $url, $arr)) {
+        else if (preg_match('#\b(?:bilibili\.com|b23\.tv)\b.*\b(BV[\w]+)(?:.*\bp=(\d+))?#', $url, $arr)) {
             $iframeUrl = 'https://player.bilibili.com/player.html?bvid='.$arr[1].'&page='.$arr[2];
         }
 
