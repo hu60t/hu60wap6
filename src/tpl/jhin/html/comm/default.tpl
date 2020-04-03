@@ -35,6 +35,16 @@
         });
         setTimeout(hu60_loading, 3000);
     </script>
+	<style>
+    html { 
+        -webkit-filter: grayscale(100%); 
+        -moz-filter: grayscale(100%); 
+        -ms-filter: grayscale(100%); 
+        -o-filter: grayscale(100%); 
+        filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);  
+        _filter:none; 
+    }
+	</style>
     <title>{block name='title'}{/block}</title>
 </head>
 <body>
@@ -81,6 +91,9 @@
     </div>
 </header>
 <div class="container">
+	<div style="text-align: center; width: 100%">
+		<img src="/img/ShenQieAiDao.png" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" />
+	</div>
 
     <div class="layout-inner">
 

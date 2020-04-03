@@ -32,10 +32,21 @@
         });
         setTimeout(hu60_loading, 3000);
 	</script>
+	<style>
+    html {
+        -webkit-filter: grayscale(100%);
+        -moz-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+        -o-filter: grayscale(100%);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+        _filter:none;
+    }
+    </style>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
 	<title>{$title|code}</title>
 </head>
 <body>
+<div><img src="/img/ShenQieAiDao.png" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" /></div><hr/>
 {if !$no_webplug && $USER && $USER->islogin && !empty($USER->getinfo('addin.webplug'))}
     <div id="hu60_load_notice" style="display: none; position:absolute">
         <p>网页插件加载中。如果长时间无法加载，可以考虑<a href="addin.webplug.{$BID}">修改或删除网页插件代码</a>。</p>
@@ -67,3 +78,4 @@
 		<hr>
 	{/if}
 {/if}
+
