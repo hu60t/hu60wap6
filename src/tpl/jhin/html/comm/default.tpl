@@ -35,13 +35,13 @@
         });
         setTimeout(hu60_loading, 3000);
     </script>
-	<style>
+	<style>{$grayRate=min(max((1586016000 - time()) / 4800, 0), 1)}
     html { 
-        -webkit-filter: grayscale(100%); 
-        -moz-filter: grayscale(100%); 
-        -ms-filter: grayscale(100%); 
-        -o-filter: grayscale(100%); 
-        filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);  
+        -webkit-filter: grayscale({$grayRate}); 
+        -moz-filter: grayscale({$grayRate}); 
+        -ms-filter: grayscale({$grayRate}); 
+        -o-filter: grayscale({$grayRate}); 
+        filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale={$grayRate});  
         _filter:none; 
     }
 	</style>
