@@ -9,6 +9,9 @@ if ($forceCopy) {
 }
 
 # php
+chdir(dirname(__DIR__));
+copyConf('config.inc', 'php');
+
 chdir(dirname(__DIR__).'/config');
 copyConf('db',       'php');
 copyConf('security', 'php');

@@ -36,9 +36,16 @@ git submodule update
 
 1. 把 `src` 文件夹里的全部文件放在网站根目录。
 
-2. 进入网站根目录，把 `config` 文件夹里的所有 `xxx.default.php` 都复制一份，改名成 xxx.php，去掉 `.default`。如果你准备用git进行版本控制，建议采用复制而不是删除原文件或者直接给原文件重命名。
+2. 如果你使用Linux，可以用如下命令取代下面两步：
+```bash
+# 先cd到网站根目录
+php script/init.php
+```
+如果你使用Windows，上面的命令可能不能用，请按照下面两步的说明手动复制文件。
 
-   也就是说，把 `config/xxx.default.php` 复制为 `config/xxx.php`。
+2. 进入网站根目录，把`config.inc.default.php`复制一份，改名为`config.inc.php`。然后再把 `config` 文件夹里的所有 `xxx.default.php` 都复制一份，改名成 xxx.php，去掉 `.default`。如果你准备用git进行版本控制，建议采用复制而不是删除原文件或者直接给原文件重命名。
+
+   也就是说，把`config.inc.default.php`复制为`config.inc.php`，再把 `config/xxx.default.php` 复制为 `config/xxx.php`。
 
 3. 进入 `config/tpl` 文件夹，把 `site_info.default.conf` 复制一份，改名为 `site_info.conf`。
 
@@ -117,3 +124,4 @@ Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
    * `$PAGE` 当前页面对象，`class/page.php`下`Page`类的实例。`$PAGE`对象可以用来获取当前页面URL中的各种其他细节，也可以用来获取一些静态资源的绝对路径（比如`{$PAGE->getTplUrl("img/hulvlin2.gif")}`，获取`tpl/主题名称/img/hulvlin2.gif`这个文件的绝对URL）。
 10. 模板中可以直接调用PHP函数，比如`{date('Y-m-d')}`或者静态类方法`{str::ago(time()-30)}`。
 11. 如果要输出由用户编写的内容，记得调用`|code`修饰器来进行`htmlspecialchars()`操作，比如：`{$topic.content|code}`。
+
