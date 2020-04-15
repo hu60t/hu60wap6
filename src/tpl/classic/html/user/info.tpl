@@ -20,7 +20,7 @@
  联系方式：{$uinfo->getinfo('contact')|code}<br/>
 </p>
 <p class="txt">
- 注册时间：{if $uinfo->regtime == 0}该用户是很久以前注册的，那时没有记录注册时间{else}{date('Y年m月d日 H:i:s',$uinfo->regtime)}{/if}
+ 注册时间：{if $uinfo->regtime == 0}{if $uinfo->uid == $USER->uid}您{else}该用户{/if}是很久以前注册的，那时没有记录注册时间{else}{date('Y年m月d日 H:i:s',$uinfo->regtime)}{/if}
 </p>
 {if $user->uid != $uinfo->uid }
 <p class="txt">

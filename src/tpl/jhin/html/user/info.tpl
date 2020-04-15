@@ -36,7 +36,7 @@
     <td>注册时间：</td>
     <td>
 		{if $uinfo->regtime == 0}
-			您是很久以前注册的，那时没有记录注册时间
+			{if $uinfo->uid == $USER->uid}您{else}该用户{/if}是很久以前注册的，那时没有记录注册时间
 		{else}
 			{date('Y年m月d日 H:i:s',$uinfo->regtime)}
 		{/if}
