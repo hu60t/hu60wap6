@@ -191,15 +191,8 @@ class UbbDisplay extends XUBBP
     /*img 图片*/
     public function img($data)
     {
-        /*global $PAGE;
+        global $PAGE;
 
-        if (preg_match('#^data:image/#is', $data['src'])) {
-            $url = $data['src'];
-        } else {
-            $url = $_SERVER['PHP_SELF'] . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($data['src']);
-        }*/
-
-        //减少HTTP请求次数，不再进行跳转
         $url = $data['src'];
 
         //百度输入法多媒体输入
@@ -207,6 +200,10 @@ class UbbDisplay extends XUBBP
             $prefix = $arr[1];
             $imgId = $arr[2];
             $url = $prefix . '/more?mm=' . $imgId;
+        }
+        
+		if (!preg_match('#^data:image/#is', $url)) {
+            $url = $_SERVER['PHP_SELF'] . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
         }
 
         if (!$data['in_link'])
@@ -227,9 +224,11 @@ class UbbDisplay extends XUBBP
             $imgId = $arr[2];
             $src = $prefix . '/more?mm=' . $imgId;
         }
+		
+        $url = $_SERVER['PHP_SELF'] . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
 
         if (!$data['in_link']) {
-        	return '<a href="' . $src . '"><img src="link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
+        	return '<a href="' . $url . '"><img src="link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
         }
         else {
         	return '<img src="link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击进入链接"/>';
