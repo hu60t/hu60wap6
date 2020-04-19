@@ -23,7 +23,7 @@ if (!empty($HTTP_REFERER)) {
 	<p>提交路径：<?=htmlspecialchars($_SERVER['REQUEST_URI'])?>
 	<p>提交内容：</p>
 	<form method="post" action="<?=htmlspecialchars($_SERVER['REQUEST_URI'])?>">
-		<?php array_to_html_form($_POST); ?>
+		<?php form::array_to_html_form($_POST); ?>
 		<p><input type="submit" value="提交" onclick='return "yes" === prompt("确定要提交吗？不明来源的表单提交可能导致您的帖子被修改，\n网页插件丢失甚至账号被盗！请在提交前仔细检查以确认安全。\n如果你不知道为什么会出现这个页面，请勿点击确认。\n输入yes确认提交：")' /></p>
 	</form>
 </body>
@@ -33,19 +33,4 @@ if (!empty($HTTP_REFERER)) {
 	}
 }
 unset($HTTP_REFERER, $HTTP_HOST);
-
-function array_to_html_form($arr, $path = '') {
-	foreach ($arr as $k=>$v) {
-		if ($path !== '') {
-			$k = "{$path}[{$k}]";
-		}
-		if (is_array($v)) {
-			array_to_html_form($v, $k);
-			continue;
-		}
-		$k = htmlspecialchars($k);
-		$v = htmlspecialchars($v);
-		echo "<div><div>$k=</div><textarea name='$k'>$v</textarea></div>";
-	}
-}
 

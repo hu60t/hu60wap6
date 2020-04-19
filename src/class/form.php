@@ -337,5 +337,21 @@ class form
             $value = str_replace(chr(12), "\n", $value);
         return $value;
     }
+
+static function array_to_html_form($arr, $path = '') {
+	foreach ($arr as $k=>$v) {
+		if ($path !== '') {
+			$k = "{$path}[{$k}]";
+		}
+		if (is_array($v)) {
+			array_to_html_form($v, $k);
+			continue;
+		}
+		$k = htmlspecialchars($k);
+		$v = htmlspecialchars($v);
+		echo "<div><div>$k=</div><textarea style='width: 95%; height: 5em' name='$k'>$v</textarea></div>";
+	}
+}
+
     /*CLASS END*/
 }
