@@ -22,6 +22,10 @@ class bbs
     protected $user;
     protected $db;
 
+	// 是否编辑帖子
+	// 如编辑帖子，则不进行标题/内容过滤
+	protected $editTopic = false;
+
     /**
      * 初始化
      *
@@ -46,6 +50,13 @@ class bbs
         else
             throw new bbsException('用户未登录或掉线，请先登录。', 401);
     }
+
+	/**
+	* 设置是否正在编辑帖子
+	*/
+	public function editTopic($edit  = true) {
+		$this->editTopic = $edit;
+	}
 
     /**
      * 检查用户是否可编辑
@@ -262,14 +273,16 @@ class bbs
             //内容处理
             $ubb = new ubbparser;
             $data = $ubb->parse($content, true);
+			//帖子内容是否需要审核
+			$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
             //写主题数据
-            $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id', $time, $time, $data, $this->user->uid, 0, 0);
+            $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,review', $time, $time, $data, $this->user->uid, 0, 0, $review);
             if (!$rs)
                 throw new bbsException('数据库错误，主题内容（' . DB_A . 'bbs_topic_content）写入失败！', 500);
             $content_id = $this->db->lastInsertId();
 
             //写主题标题
-            $rs = $this->db->insert('bbs_topic_meta', 'forum_id,content_id,title,uid,ctime,mtime', $fid, $content_id, $title, $this->user->uid, $time, $time);
+            $rs = $this->db->insert('bbs_topic_meta', 'forum_id,content_id,title,uid,ctime,mtime,review', $fid, $content_id, $title, $this->user->uid, $time, $time, $review);
 
             if (!$rs) {
                 $this->db->delete('bbs_topic_content', 'WHERE id=?', $content_id);
@@ -330,12 +343,14 @@ class bbs
         //内容处理
         $ubb = new ubbparser;
         $data = $ubb->parse($content, true);
+		//帖子内容是否需要审核
+		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
         //写回复数据
         $time = $_SERVER['REQUEST_TIME'];
         $floor = $this->db->query('SELECT max(floor) FROM ' . DB_A . 'bbs_topic_content WHERE topic_id=?', $topic_id);
         $floor = $floor->fetch(db::num);
 		$floor = $floor[0] + 1;
-        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor);
+        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor,review', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor, $review);
 
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
@@ -730,10 +745,23 @@ class bbs
      */
     public function topicMeta($topic_id, $fetch = '*')
     {
+		$fetch = explode(',', $fetch);
+		if (in_array('title', $fetch) && !in_array('review', $fetch)) {
+			$fetch[] = 'review';
+		}
+		$fetch = implode(',', $fetch);
         $rs = $this->db->select($fetch, 'bbs_topic_meta', 'WHERE id=?', $topic_id);
         if (!$rs)
             throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
-        return $rs->fetch();
+        $rs = $rs->fetch();
+		if (!$this->editTopic && isset($rs['review']) && isset($rs['title']) && $rs['review']) {
+			if ($this->user->islogin && $this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
+				$rs['title'] = '【待审核】'.$rs['title'];
+			} else {
+				$rs['title'] = '【帖子待审核】';
+			}
+		}
+		return $rs;
     }
 
     /**
@@ -870,4 +898,21 @@ class bbs
             throw new bbsException('数据库错误，版块删除失败！', 500);
         return true;
     }
+
+	/**
+	* 审核内容
+	*/
+	public function reviewContent($contentId, $topicId = null) {
+		if (!is_object($this->user) || !$this->user->islogin) {
+			throw new bbsException('用户未登录', 403);
+		}
+		if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
+			throw new bbsException('无审核权限', 403);
+		}
+		if ($topicId) {
+			$this->db->update('bbs_topic_meta', 'review=0 WHERE id=?', $topicId);
+		}
+		return $this->db->update('bbs_topic_content', 'review=0 WHERE id=?', $contentId);
+	}
 }
+

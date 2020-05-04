@@ -40,11 +40,10 @@ $tpl->assign('fName', $fIndex[count($fIndex) - 1]['name']);
 $tpl->assign('fIndex', $fIndex);
 
 //读取帖子元信息
-$tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime,essence,locked');
+$tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime,essence,locked,review');
 if (!$tMeta){
   throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
 }
-$tpl->assign('tMeta', $tMeta);
 
 //增加帖子点击数
 if ($USER->uid != $tMeta['uid']) {
@@ -57,12 +56,18 @@ if ($USER->uid != $tMeta['uid']) {
 $ubb = new ubbdisplay();
 $tpl->assign('ubb', $ubb);
 
-$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id');
+$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id,review');
 foreach ($tContents as &$v) {
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);
     $v['uinfo'] = $uinfo;
+
+	if ($v['review']) {
+		$vTid = ($v['floor'] == 0) ? $tid : 0;
+		$v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], $vTid, true);
+	}
 }
+$tpl->assign('tMeta', $tMeta);
 $tpl->assign('tContents', $tContents);
 // var_dump($tContents);die;
 

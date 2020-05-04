@@ -199,7 +199,7 @@ class search
             throw new Exception('用户名不存在');
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE uid=? AND reply_id!=0';
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE uid=? AND reply_id!=0 AND review=0';
         $args = [$uid];
 
         if ($words != '') {

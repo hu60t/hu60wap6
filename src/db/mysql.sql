@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.5deb2
 -- https://www.phpmyadmin.net/
 --
--- 主机： localhost
--- 生成日期： 2019-10-14 12:10:58
--- 服务器版本： 10.3.18-MariaDB-1-log
--- PHP 版本： 7.3.9-1
+-- 主机： localhost:3306
+-- 生成日期： 2020-05-05 03:06:05
+-- 服务器版本： 10.3.22-MariaDB-1-log
+-- PHP 版本： 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -75,7 +75,8 @@ CREATE TABLE `hu60_bbs_topic_content` (
   `uid` int(11) NOT NULL,
   `reply_id` int(11) NOT NULL,
   `floor` int(11) NOT NULL DEFAULT 0,
-  `locked` tinyint(1) NOT NULL DEFAULT 0
+  `locked` tinyint(1) NOT NULL DEFAULT 0,
+  `review` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -95,7 +96,8 @@ CREATE TABLE `hu60_bbs_topic_meta` (
   `level` tinyint(4) NOT NULL DEFAULT 0,
   `essence` tinyint(1) NOT NULL DEFAULT 0,
   `forum_id` int(11) NOT NULL,
-  `locked` tinyint(1) NOT NULL DEFAULT 0
+  `locked` tinyint(1) NOT NULL DEFAULT 0,
+  `review` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -149,7 +151,7 @@ CREATE TABLE `hu60_friend_links` (
   `name` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `uid` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -467,3 +469,4 @@ ALTER TABLE `hu60_user`
 ALTER TABLE `hu60_user_relationship`
   MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
+

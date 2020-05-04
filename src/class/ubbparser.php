@@ -662,6 +662,35 @@ class UbbParser extends XUBBP
         return $data;
     }
 
+	/**
+	* 生成“用户发言需要审核”提醒的XUBBP数据
+	* 
+	* @param $accessUser 访问帖子的用户
+	* @param $authorUinfo 帖子作者
+	* @param $content 帖子内容的XUBBP数据
+	* @param $serialize 是否串行化
+	*/
+	public static function createPostNeedReviewNotice($accessUser, $authorUinfo, $contentId, $content, $topicId, $serialize = false) {
+		$data = array(array(
+			'type' => 'postNeedReview',
+			'contentId' => $contentId,
+			'topicId' => $topicId,
+			'isAdmin' => is_object($accessUser) && $accessUser->islogin && $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST),
+			'len' => 0,
+		));
+		
+		if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin && ($accessUser->uid == $authorUinfo->uid || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
+			if ($serialize) {
+				$content = unserialize($content);
+			}
+			$data = array_merge($data, $content);
+		}
+		if ($serialize) {
+		    $data = serialize($data);
+		}
+		return $data;
+	}
+
     /*按指定分隔符将字符串分成两半*/
     function split($split, $str)
     {

@@ -57,6 +57,7 @@ class UbbDisplay extends XUBBP
         'adminDel' => 'adminDelNotice',
         'delContent' => 'adminDelContent',
         'adminAction' => 'adminActionNotice',
+		'postNeedReview' => 'postNeedReviewNotice',
         /*face 表情*/
         'face' => 'face',
     );
@@ -725,6 +726,27 @@ HTML;
 </div>
 HTML;
     }
+
+	/*待审核的内容*/
+	public function postNeedReviewNotice($data) {
+		$reviewForm = '';
+		if ($data['isAdmin']) {
+			global $PAGE;
+			$reviewForm = <<<HTML
+<form action="bbs.review.$data[contentId].$data[topicId].$PAGE[bid]" method="post">
+	<label><input type="checkbox" name="pass" value="1" />通过审核</label>
+	<input type="submit" value="确定" />
+</form>
+HTML;
+		}
+
+        return <<<HTML
+<div class="tp info-box">
+	发言待审核，仅管理员和作者本人可见。
+	$reviewForm
+</div>
+HTML;
+	}
 
     /*face 表情*/
     public function face($data)

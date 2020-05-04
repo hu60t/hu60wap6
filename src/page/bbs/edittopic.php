@@ -3,6 +3,7 @@ try {
     $tpl = $PAGE->start();
     $USER->start($tpl);
     $bbs = new bbs($USER);
+	$bbs->editTopic();
 
     //获取帖子id
     $tid = (int)$PAGE->ext[0];

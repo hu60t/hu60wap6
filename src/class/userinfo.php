@@ -25,6 +25,12 @@ class userinfo implements ArrayAccess
     /*** 帖子加精权限 */
     const PERMISSION_SET_ESSENCE_TOPIC = 32;
 
+	/*** 用户发言需要审核 */
+	const PERMISSION_POST_NEED_REVIEW = 64;
+
+	/*** 审核用户发言 */
+	const PERMISSION_REVIEW_POST = 128;
+
     //权限列表结束
 
     protected static $data; //用户数据缓存
