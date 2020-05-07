@@ -69,13 +69,22 @@ if ($PAGE->ext[0]) {
 
     $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime);
 
+	// 审核检查
+	$uinfo = new userinfo();
+	foreach ($list as &$v) {
+		$uinfo->uid($v['uid']);
+		if ($v['review']) {
+			$v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], 'chat', true);
+		}
+	}
+
     $tpl->assign('list', $list);
     $tpl->assign('count', $chatCount);
     $tpl->assign('p', $p);
     $tpl->assign('maxP', $maxP);
     $tpl->assign('ubbs', $ubbs);
     $tpl->assign('chat', $chat);
-    $tpl->assign('uinfo', new UserInfo());
+    $tpl->assign('uinfo', $uinfo);
 
     if ($USER->islogin) {
         $token = new token($USER);

@@ -44,6 +44,10 @@ class chat
      */
     public function newchatroom($name)
     {
+		//审核检查
+		if ($this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW)) {
+			throw new Exception('先审后发用户不能创建聊天室。', 403);
+		}
 		//禁言检查
 		if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
 			throw new Exception('您已被禁言，不能创建聊天室。', 403);
@@ -145,7 +149,7 @@ class chat
      */
     public function newChat()
     {
-        $rs = $this->db->select("*", 'addin_chat_data', "WHERE room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' ORDER BY `time` DESC LIMIT 1");
+        $rs = $this->db->select("*", 'addin_chat_data', "WHERE room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' AND review=0 ORDER BY `time` DESC LIMIT 1");
         $data = $rs->fetch();
         return $data;
     }
@@ -155,7 +159,7 @@ class chat
      */
     public function newChats($num)
     {
-        $sql = "SELECT * FROM `".DB_A."addin_chat_data` WHERE id IN (SELECT max(id) FROM `".DB_A."addin_chat_data` GROUP BY room) AND room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' ORDER BY time DESC LIMIT ?";
+        $sql = "SELECT * FROM `".DB_A."addin_chat_data` WHERE id IN (SELECT max(id) FROM `".DB_A."addin_chat_data` GROUP BY room) AND room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' AND review=0 ORDER BY time DESC LIMIT ?";
         $rs = $this->db->prepare($sql);
         $rs->execute([(int)$num]);
         $data = $rs->fetchAll();
@@ -178,7 +182,11 @@ class chat
         $contents = $ubb->parse($content, true);
         $lid = $this->db->select('count(*)', 'addin_chat_data', 'WHERE room=?', $room)->fetch(db::num);
         $lid = $lid[0] + 1;
-        $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,uname,content,time', $room, $lid, $this->user->uid, $this->user->name, $contents, $time);
+		
+		//发言是否需要审核
+		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
+
+        $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,uname,content,time,review', $room, $lid, $this->user->uid, $this->user->name, $contents, $time, $review);
         if ($rs) {
             $this->db->update('addin_chat_list', 'ztime=? WHERE name=?', $time, $room);
             $this->user->regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.{$room}.{\$BID}?level={$lid}#{$lid}", $content);
@@ -251,6 +259,19 @@ class chat
         } else {
             return floor($s / 86400) . '天前';
         }
+    }
+
+    /**
+    * 审核内容
+    */
+    public function reviewContent($contentId) {
+        if (!is_object($this->user) || !$this->user->islogin) {
+            throw new bbsException('用户未登录', 403);
+        }
+        if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
+            throw new bbsException('无审核权限', 403);
+        }
+        return $this->db->update('addin_chat_data', 'review=0 WHERE id=?', $contentId);
     }
     
     /**
