@@ -367,11 +367,13 @@ class bbs
      */
     public function updateTopicTitle($topicId, $newTitle)
     {
+		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
+
         $title = mb_substr(trim($newTitle), 0, 50, 'utf-8');
 
-        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,mtime=? WHERE id=?';
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,mtime=?,review=? WHERE id=?';
 
-        $ok = $this->db->query($sql, $title, $_SERVER['REQUEST_TIME'], $topicId);
+        $ok = $this->db->query($sql, $title, $_SERVER['REQUEST_TIME'], $review, $topicId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
@@ -520,10 +522,12 @@ class bbs
      */
     public function updateTopicContent($contentId, $newContent)
     {
+		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
+
         $ubb = new ubbparser;
         $data = is_array($newContent) ? serialize($newContent) : $ubb->parse($newContent, true);
-        $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,mtime=? WHERE id=?';
-        $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $contentId);
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,mtime=?,review=? WHERE id=?';
+        $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $review, $contentId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
