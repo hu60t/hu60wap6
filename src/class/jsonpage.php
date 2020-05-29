@@ -50,11 +50,11 @@ class JsonPage {
 	}
 
 	public static function getUserExtraData(&$data) {
-		if (!isset($_GET['_uinfo']) || !is_array($data)) {
+		if ((!isset($_GET['_uinfo']) && !isset($_POST['_uinfo'])) || !is_array($data)) {
 			return;
 		}
 		
-		$sets = explode(',', $_GET['_uinfo']);
+		$sets = explode(',', isset($_GET['_uinfo']) ? $_GET['_uinfo'] : $_POST['_uinfo']);
 		
 		$flag = 0;
 		if (in_array('name', $sets)) $flag += self::USER_EXTDATA_NAME;
