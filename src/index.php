@@ -26,4 +26,4 @@ $PAGE = new page;
 $PAGE->getMime();
 $path = dirname($_SERVER['PHP_SELF']);
 if (strlen($path) < 2) $path = '';
-header('Location: //'. $_SERVER['HTTP_HOST'] . $path . '/q.php/index.index.' . $PAGE['bid']);
+header("Location: $path/q.php/index.index.$PAGE[bid]");

@@ -59,6 +59,13 @@ try {
 	include SUB_DIR . '/csrf_protect.php';
 
     $PAGE->cutPath();
+	
+	// 访问 /q.php 时跳转到 /q.php/index.index.html
+	if (strpos($_SERVER['REQUEST_URI'], "$_SERVER[PHP_SELF]/") === FALSE) {
+		header("Location: $_SERVER[PHP_SELF]/index.index.$PAGE[bid]");
+		exit;
+	}
+
     page::regBid($PAGE->bid);
     /*载入注册bid过程*/
     require_once SUB_DIR . '/reg_page_bid.php';
