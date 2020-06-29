@@ -217,6 +217,7 @@ class UbbDisplay extends XUBBP
     /*thumb 缩略图*/
     public function thumb($data)
     {
+		global $PAGE;
         $src = code::html($data['src']);
 
         //百度输入法多媒体输入
@@ -226,7 +227,7 @@ class UbbDisplay extends XUBBP
             $src = $prefix . '/more?mm=' . $imgId;
         }
 		
-        $url = $_SERVER['PHP_SELF'] . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
+        $url = $_SERVER['PHP_SELF'] . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($src);
 
         if (!$data['in_link']) {
         	return '<a href="' . $url . '"><img src="link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
