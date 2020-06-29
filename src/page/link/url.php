@@ -13,7 +13,9 @@ $urls = parse_url($url);
 // 如果为站内链接，就直接跳转
 if (is_array($urls) && isset($urls['host']) &&
     in_array(strtolower($urls['scheme']), ['http', 'https']) &&
-    isHostSafe(strtolower($urls['host']))) {
+    isHostSafe(strtolower($urls['host'])) &&
+	// 防止通过直接链接到 /q.php/link.xxx 来绕过安全措施
+	!preg_match('#link#i', $url)) {
     header('Location: '.replaceUrl($url));
     return;
 }
