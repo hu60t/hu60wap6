@@ -37,14 +37,16 @@ try {
         $name = "附件{$ext}";
     }
 
+	$urlname = $url . '?attname=' . urlencode($name);
+
     if (preg_match('/^\.(jpe?g|png|gif)$/s', $ext)) {
-        $content = "\n《图片：" . $url . '》';
+        $content = "\n《图片：" . $url . '，' . $name . '》';
 	} elseif (preg_match('/^\.(mp4|m3u8|m4v|ts)$/s', $ext)) {
-		$content = "\n《视频流：" . $url . '》';
+		$content = "\n《视频流：" . $urlname . '》';
 	} elseif (preg_match('/^\.(mp3|wma|m4a|ogg)$/s', $ext)) {
-		$content = "\n《音频流：" . $url . '》';
+		$content = "\n《音频流：" . $urlname . '》';
     } else {
-        $content = "\n《链接：" . $url . '，' . $name . '（' . $sizeName . '）》';
+        $content = "\n《链接：" . $urlname . '，' . $name . '（' . $sizeName . '）》';
     }
 
 	$tpl->assign('url', $url);

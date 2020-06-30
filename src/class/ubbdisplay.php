@@ -208,9 +208,9 @@ class UbbDisplay extends XUBBP
         }
 
         if (!$data['in_link'])
-		return '<a href="'.code::html($url).'"><img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . code::html($data['alt']) . '"' : '') . '/></a>';
+		return '<a href="'.code::html($url).'"><img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/></a>';
 	else
-		return '<img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . code::html($data['alt']) . '"' : '') . '/>';
+		return '<img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/>';
 
     }
 
