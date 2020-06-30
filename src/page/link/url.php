@@ -16,6 +16,13 @@ if (is_array($urls) && isset($urls['host']) &&
     isHostSafe(strtolower($urls['host'])) &&
 	// 防止通过直接链接到 /q.php/link.xxx 来绕过安全措施
 	!preg_match('#link#i', str::word(urldecode($url)))) {
+
+	// 禁止七牛云直接显示html
+	if ($urls['host'] == QINIU_STORAGE_HOST && !strpos($url, '?attname=')) {
+		$url .= (strpos($url, '?')===false) ? '?' : '&';
+		$url .= 'attname=';
+	}
+
     header('Location: '.replaceUrl($url));
     return;
 }
