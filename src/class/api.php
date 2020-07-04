@@ -45,7 +45,7 @@ class API
         $data[$prefix . 'uname'] = $uinfo->name;
 
         if (strpos($_GET['uinfo'], 'tx') !== false) {
-            $data[$prefix . 'utoux'] = $uinfo->getinfo('avatar.url');
+            $data[$prefix . 'utoux'] = $uinfo->avatar();
         }
         if (strpos($_GET['uinfo'], 'zc') !== false) {
             $data[$prefix . 'uzhuc'] = $uinfo->regtime;

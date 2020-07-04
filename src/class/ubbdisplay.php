@@ -289,6 +289,10 @@ class UbbDisplay extends XUBBP
         $id ++;
         $url = $data['url'];
 
+		if (QINIU_USE_HTTPS) {
+			$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+		}
+
         //百度输入法多媒体输入
         if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
             $prefix = $arr[1];
@@ -305,6 +309,11 @@ class UbbDisplay extends XUBBP
     public function audioStream($data)
     {
         $url = $data['url'];
+		
+		if (QINIU_USE_HTTPS) {
+			$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+		}
+
 
         //百度输入法多媒体输入
         if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
