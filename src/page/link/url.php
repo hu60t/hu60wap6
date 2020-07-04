@@ -5,8 +5,12 @@ header('Referrer-Policy: origin-when-cross-origin');
 $tpl = $PAGE->start();
 $USER->start($tpl);
 
-$url = code::b64d($_GET['url64']);
+$url = trim(code::b64d($_GET['url64']));
 $url = preg_replace('/^\s*javascript\s*:/is', '', $url);
+
+if (QINIU_USE_HTTPS) {
+	$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+}
 
 $urls = parse_url($url);
 

@@ -125,3 +125,8 @@ define('QINIU_STORAGE_BUCKET', 'hu60');
  */
 define('QINIU_STORAGE_HOST', 'qiniu.img.hu60.cn');
 
+/**
+ * 下载七牛资源时使用HTTPS
+ */
+define('QINIU_USE_HTTPS', false);
+

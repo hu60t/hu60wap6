@@ -2,7 +2,13 @@
 // 防止URL中的sid泄露给外链站点
 header('Referrer-Policy: origin-when-cross-origin');
 
-$url = code::b64d($_GET['url64']);
+$url = trim(code::b64d($_GET['url64']));
+$url = preg_replace('/^\s*javascript\s*:/is', '', $url);
+
+if (QINIU_USE_HTTPS) {
+	$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+}
+
 $urls = parse_url($url);
 
 // 如果为站内链接，就添加'?_origin=*'并去除域名部分
