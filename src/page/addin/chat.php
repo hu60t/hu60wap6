@@ -49,9 +49,9 @@ if ($PAGE->ext[0]) {
     $pageSize = isset($_GET['page_size']) ? min(max((int)$_GET['page_size'], 1), 200) : 15;
     $maxP = ceil($chatCount / $pageSize);
 
-    if (isset($_GET['level'])) {
-        $level = (int)$_GET['level'];
-        $p = ceil(($chatCount - $level + 1) / $pageSize);
+    if (isset($_GET['floor']) || isset($_GET['level'])) {
+        $floor = isset($_GET['floor']) ? (int)$_GET['floor'] : (int)$_GET['level'];
+        $p = ceil(($chatCount - $floor + 1) / $pageSize);
     } else {
         $p = (int)$_GET['p'];
     }

@@ -318,3 +318,8 @@ input, textarea, .favoriteTopic {
   color: #ccc !important;
   background-color: #002b36 !important;
 }
+
+.floor-link {
+  color: #717372;
+}
+

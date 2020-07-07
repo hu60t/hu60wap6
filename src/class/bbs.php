@@ -354,7 +354,7 @@ class bbs
 
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
-        $this->user->regAt("帖子“{$topicTitle['title']}”的{$floor}楼", "bbs.topic.{$topic_id}.{\$BID}?floor=$floor", $content);
+        $this->user->regAt("帖子“{$topicTitle['title']}”的{$floor}楼", "bbs.topic.{$topic_id}.{\$BID}?floor=$floor#$floor", $content);
 
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET mtime=? WHERE id=?';
         $this->db->query($sql, $_SERVER['REQUEST_TIME'], $topic_id);
