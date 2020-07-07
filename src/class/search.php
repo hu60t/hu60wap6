@@ -22,6 +22,15 @@ class search
         if (is_array($rs) && $this->time - $rs['time'] < self::CACHE_TIMEOUT) {
             return $rs['data'];
         }
+		
+		$limitKey = "search/limit/$_SERVER[REMOTE_ADDR]";
+		$limit = (int)cache::get($limitKey);
+		// 每个词会触发3次搜索，所以是30
+		if (++$limit > 30) {
+			throw new Exception('搜索词过多或搜索速度过快。虎绿林仅支持60秒内搜索10个词');
+		}
+		cache::set($limitKey, $limit, 60);
+
 
         $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ? $order LIMIT $limit";
         $db = db::conn();
