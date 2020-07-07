@@ -74,6 +74,16 @@ php script/init.php
 
 7. 要让附件上传功能生效，不仅需要正确设置七牛云AK/SK，修改html中的域名，还需要正确安装本项目的`nonfree`子模块，参考“源代码获取说明”一节。
 
+8. 要让防CC功能生效，对于Linux，需要允许PHP访问`/dev/shm`文件夹（该文件夹为Linux内的共享内存文件夹）。如果是Apache，使用如下配置：
+   ```
+   php_admin_value open_basedir "web根目录:其他路径:/dev/shm/"
+   ```
+   如：
+   ```
+   php_admin_value open_basedir "/var/www/hu60.cn/src/:/tmp/:/usr/share/phpmyadmin/:/usr/share/php/:/etc/phpmyadmin/:/var/lib/phpmyadmin/:/dev/shm/"
+   ```
+   对于Windows，请修改`config.inc.php`中的路径（`$CC_DATA`等）为Windows路径，并创建对应的文件夹。
+
 
 支持的PHP版本
 -----------------
