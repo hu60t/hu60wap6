@@ -1,21 +1,21 @@
 <?php
 # 防止CC攻击
 
-#return; #关闭该功能只要去掉return;前的#号
-#exit(' Please Stop CC ! '); #停止工作只要去掉exit 前的#号
+if (!$ENABLE_CC_BLOCKING) {
+	return;
+}
 
 if(isset($CC_IP_LIMIT[$_SERVER['REMOTE_ADDR']])) {
 	$CC_LIMIT[1]=$CC_IP_LIMIT[$_SERVER['REMOTE_ADDR']];
 }
-unset($CC_IP_LIMIT);
 
 $tm=unpack('v',pack('v',$_SERVER['REQUEST_TIME']));$tm=$tm[1];
 
 $ip = (hexdec(substr(md5($_SERVER['REMOTE_ADDR']), 0, 8)) % (256*256)) * 4;
 
-if($CC_USE_APC) {
-	$key=pack('v',$ip);
-	$jc=apc_fetch($key);
+if($CC_USE_MEMCACHE) {
+	$key="cc/$ip";
+	$jc=cache::get($key);
 } else {
 	if(!is_file($CC_DATA))
 		file_put_contents($CC_DATA,str_repeat(chr(0),256*256*4));
@@ -68,18 +68,20 @@ if(($tm2=$tm-$tm2)<$CC_LIMIT[0] && $tm2>=0)
 	$jc=1;
 }
 $jc=pack('v2',$tm,$jc);
-if($CC_USE_APC) {
-	apc_store($key,$jc);
+if($CC_USE_MEMCACHE) {
+	cache::set($key,$jc,$CC_LIMIT[0]);
 } else {
 	fseek($CC_DATA,$ip);
 	fwrite($CC_DATA,$jc);
 	fclose($CC_DATA);
 }
+
 // 正常用户访问日志
 /*
 $tm2=fopen($CC_ACCESS_LOG,'a+');
 fwrite($tm2,"<正常> $_SERVER[REMOTE_ADDR] <".date('Y-m-d H:i:s',$_SERVER['REQUEST_TIME'])."> [PATH] $_SERVER[REQUEST_URI] [REF] $_SERVER[HTTP_REFERER]\n");
 fclose($tm2);
 */
-unset($ip,$tm,$tm2,$jc,$CC_DATA,$CC_LIMIT,$CC_USE_APC,$key,$CC_BLOCK_LOG,$CC_ACCESS_LOG);
+
+unset($ip,$tm,$tm2,$jc,$key,$CC_DATA,$CC_LIMIT,$CC_USE_MEMCACHE,$CC_BLOCK_LOG,$CC_ACCESS_LOG,$CC_IP_LIMIT,$ENABLE_CC_BLOCKING);
 
