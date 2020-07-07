@@ -36,8 +36,24 @@ if(($tm2=$tm-$tm2)<$CC_LIMIT[0] && $tm2>=0)
 	{
 		header('HTTP/1.1 403 Forbidden');
 		header('Content-Type: text/html; charset=UTF-8');
-		?>
-			<html><head><title>刷新不规范，亲人两行泪</title></head><body>虎绿林第三区交通委提醒您，虎绿林低速网络限速<?php echo $CC_LIMIT[0]; ?>秒最多访问<?php echo $CC_LIMIT[1]; ?>次，您已超速。<br />作为惩罚，吊销您的虎绿林通行证<?php echo $CC_LIMIT[0]-$tm2; ?>秒钟，在这段时间内您将不能访问虎绿林。<br />您的IP地址为<?php echo $_SERVER['REMOTE_ADDR']; ?>， 违章记录已存档。</body></html>
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>刷新不规范，虎友两行泪</title>
+    </head>
+    <body>
+        <h4>
+            虎绿林第三区交通委提醒您：<br />
+            网址千万条，耐心第一条。<br />
+            刷新不规范，虎友两行泪。
+        </h4>
+        虎绿林低速网络限速<?php echo $CC_LIMIT[0]; ?>秒内最多访问<?php echo $CC_LIMIT[1]; ?>次（包括网页和图片），您已超速。<br />
+        作为惩罚，吊销您的虎绿林通行证<?php echo $CC_LIMIT[0]-$tm2; ?>秒钟，在这段时间内您将不能访问虎绿林。<br />
+        您的IP地址为<?php echo $_SERVER['REMOTE_ADDR']; ?>， 违章记录已存档。
+    </body>
+</html>
 <?php
 		// 超速用户访问日志
 		$tm2=fopen($CC_BLOCK_LOG,'a+');
