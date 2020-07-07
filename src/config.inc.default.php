@@ -167,6 +167,24 @@ define('SUB_DIR', ROOT_DIR . '/sub');
 define('SMARTY_DIR', CLASS_DIR . '/smarty/');
 
 /*
+ * 防止CC攻击
+ */
+$CC_USE_APC = false;
+$CC_DATA = '/dev/shm/hu60-cc.dat';
+$CC_BLOCK_LOG = '/dev/shm/hu60-cc.log';
+$CC_ACCESS_LOG = '/dev/shm/hu60-access.log';
+$CC_LIMIT = [
+	10, # n秒内
+	100, # 最多访问n次
+];
+$CC_IP_LIMIT = [
+	# 设置特定IP n秒最多能访问的次数
+	# '127.0.0.1' => 500,
+	# '36.158.18.197' => 50,
+];
+require_once SUB_DIR.'/cc.php';
+
+/*
 * 设置程序开始运行的时间
 * 该步骤对PHP5.2有用，因为它没有 $_SERVER['REQUEST_TIME_FLOAT'] 变量
 */
