@@ -130,3 +130,67 @@ define('QINIU_STORAGE_HOST', 'qiniu.img.hu60.cn');
  */
 define('QINIU_USE_HTTPS', false);
 
+
+/////////////////// 防止CC攻击 ///////////////////
+
+/**
+ * 是否启用防CC模块
+ */
+$ENABLE_CC_BLOCKING = true;
+
+/**
+ * 使用memcache
+ */
+$CC_USE_MEMCACHE = false;
+
+/**
+ * CC行为记录文件
+ *
+ * 请指定到tmpfs文件系统内，否则性能会很差。
+ * 如系统为Windows，请使用memcache，这样就不需要指定该文件。
+ */
+$CC_DATA = '/dev/shm/hu60-cc.dat';
+
+/**
+ * CC行为日志
+ * 
+ * 设为null禁用
+ */
+$CC_BLOCK_LOG = '/dev/shm/hu60-cc.log';
+
+/**
+ * 正常访问日志
+ *
+ * 设为null禁用
+ */
+$CC_ACCESS_LOG = null;
+
+/**
+ * CC判定范围
+ */
+$CC_LIMIT = [
+    5,  // n秒内
+    20, // 最多访问n次
+];
+
+/**
+ * 特定IP判定范围
+ */
+$CC_IP_LIMIT = [
+    // 设置特定IP n秒最多能访问的次数
+    '127.0.0.1' => 100,
+];
+
+/**
+ * 真实IP
+ * 
+ * 开头加#禁用，删除#启用
+ */
+
+// 无代理时使用
+$CC_REAL_IP = $_SERVER['REMOTE_ADDR'];
+
+// 采用CloudFlare或百度云加速代理时使用
+#$CC_REAL_IP = $_SERVER['HTTP_CF_CONNECTING_IP'];
+
+

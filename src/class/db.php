@@ -253,6 +253,9 @@ class db
      */
     static function conn($read_only = false)
     {
+		// 加载防CC模块
+		require_once SUB_DIR.'/cc.php';
+
         if (self::$TYPE == 'sqlite') {
             $db =& self::$db;
             if ($db) return $db;
