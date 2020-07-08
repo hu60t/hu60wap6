@@ -7,6 +7,10 @@ if (!$ENABLE_CC_BLOCKING) {
 	return;
 }
 
+if (empty($CC_REAL_IP)) {
+	$CC_REAL_IP = $_SERVER['REMOTE_ADDR'];
+}
+
 if(isset($CC_IP_LIMIT[$CC_REAL_IP])) {
 	$CC_LIMIT[1]=$CC_IP_LIMIT[$CC_REAL_IP];
 }
