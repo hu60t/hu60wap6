@@ -156,7 +156,7 @@ $CC_DATA = '/dev/shm/hu60-cc.dat';
  * 
  * 设为null禁用
  */
-$CC_BLOCK_LOG = '/dev/shm/hu60-cc.log';
+$CC_BLOCK_LOG = '/tmp/hu60-cc.log';
 
 /**
  * 正常访问日志
@@ -169,8 +169,8 @@ $CC_ACCESS_LOG = null;
  * CC判定范围
  */
 $CC_LIMIT = [
-    5,  // n秒内
-    20, // 最多访问n次
+    10,  // n秒内
+    10, // 最多访问n次
 ];
 
 /**
