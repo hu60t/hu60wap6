@@ -407,7 +407,12 @@ class userinfo implements ArrayAccess
         $valueField = $onlyValueLength ? 'LENGTH(`value`) as `value`' : '`value`';
 		$sql = 'SELECT `key`,'.$valueField.',version FROM `'.DB_A.'userdata` WHERE `uid`=?';
         $data = [ $this->uid ];
-        
+
+        if (preg_match('/^(\d+)_(public_.*)$/', $key, $arr)) {
+            $data = [ $arr[1] ];
+            $key = $arr[2];
+        }
+
 		if ($key !== null) {
             if ($prefixMatching) {
     			$sql .= ' AND `key` LIKE ?';

@@ -15,9 +15,10 @@ try {
 		$prefixMatching = (bool)str::getOrPost('prefix', false);
 		$onlyValueLength = (bool)str::getOrPost('onlylen', false);
 
-		$data = $USER->getdata($key, $prefixMatching, $onlyValueLength);
+		$data = $USER->getdata($key, $prefixMatching, $onlyValueLength, $version);
 
 		header('Content-Type: '.$mime);
+		header('X-Data-Version: '.json_encode($version));
 		
 		if (is_array($data)) {
 			jsonpage::output($data);
