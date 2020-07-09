@@ -93,7 +93,7 @@ function hu60_cc_prevent()
 
 	$lastTimeDiff = $currTime - $lastAccTime;
 	// 上次访问距离这次访问经过了很久，且未超速，重置统计
-	if (!$block && ($lastTimeDiff > $CC_LIMIT[0] * 6 || $lastTimeDiff < 0)) {
+	if (!$block && ($lastTimeDiff > $CC_LIMIT[0] || $lastTimeDiff < 0)) {
 		$firstAccTime = $currTime;
 		$lastAccTime = $currTime;
 		$accCount = 1;
