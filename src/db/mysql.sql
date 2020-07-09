@@ -1,16 +1,21 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5deb2
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- 主机： localhost:3306
--- 生成日期： 2020-05-05 03:06:05
--- 服务器版本： 10.3.22-MariaDB-1-log
--- PHP 版本： 7.4.3
+-- 主机： localhost
+-- 生成日期： 2020-07-09 19:51:21
+-- 服务器版本： 10.3.23-MariaDB-1-log
+-- PHP 版本： 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- 数据库： `hu60`
@@ -32,7 +37,7 @@ CREATE TABLE `hu60_addin_chat_data` (
   `time` bigint(20) NOT NULL,
   `hidden` int(11) NOT NULL DEFAULT 0,
   `review` tinyint(1) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -44,7 +49,7 @@ CREATE TABLE `hu60_addin_chat_list` (
   `id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
   `ztime` bigint(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -58,7 +63,7 @@ CREATE TABLE `hu60_bbs_forum_meta` (
   `name` varchar(50) NOT NULL,
   `mtime` bigint(20) NOT NULL DEFAULT 0,
   `notopic` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -77,7 +82,7 @@ CREATE TABLE `hu60_bbs_topic_content` (
   `floor` int(11) NOT NULL DEFAULT 0,
   `locked` tinyint(1) NOT NULL DEFAULT 0,
   `review` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -98,7 +103,7 @@ CREATE TABLE `hu60_bbs_topic_meta` (
   `forum_id` int(11) NOT NULL,
   `locked` tinyint(1) NOT NULL DEFAULT 0,
   `review` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -116,7 +121,7 @@ CREATE TABLE `hu60_book_chapter` (
   `uid` int(11) NOT NULL,
   `ctime` bigint(20) NOT NULL DEFAULT 0,
   `mtime` bigint(20) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -138,7 +143,7 @@ CREATE TABLE `hu60_book_meta` (
   `admin_uids` varchar(255) NOT NULL DEFAULT '',
   `ctime` bigint(20) NOT NULL DEFAULT 0,
   `mtime` bigint(20) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -151,7 +156,7 @@ CREATE TABLE `hu60_friend_links` (
   `name` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `uid` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -168,7 +173,7 @@ CREATE TABLE `hu60_msg` (
   `content` mediumblob NOT NULL,
   `ctime` bigint(20) NOT NULL,
   `rtime` bigint(20) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -185,7 +190,7 @@ CREATE TABLE `hu60_speedtest` (
   `speed` float DEFAULT NULL,
   `success` tinyint(1) DEFAULT NULL,
   `errCode` varchar(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -199,7 +204,7 @@ CREATE TABLE `hu60_token` (
   `token` char(32) NOT NULL,
   `uid` int(11) NOT NULL,
   `data` blob NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -211,7 +216,7 @@ CREATE TABLE `hu60_topic_favorites` (
   `id` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `topic_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -231,9 +236,9 @@ CREATE TABLE `hu60_user` (
   `info` blob DEFAULT NULL,
   `mail` varchar(255) DEFAULT NULL,
   `regphone` char(11) CHARACTER SET ascii DEFAULT NULL,
-  `permission` bit(8) NOT NULL DEFAULT b'0',
+  `permission` bit(8) NOT NULL DEFAULT b'1000000',
   `active` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -244,8 +249,9 @@ CREATE TABLE `hu60_user` (
 CREATE TABLE `hu60_userdata` (
   `uid` int(11) NOT NULL,
   `key` varchar(255) NOT NULL,
-  `value` mediumblob NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+  `value` mediumblob NOT NULL,
+  `version` bigint(20) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -258,7 +264,7 @@ CREATE TABLE `hu60_user_relationship` (
   `origin_uid` int(11) NOT NULL,
   `target_uid` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL COMMENT '关系类型'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转储表的索引
@@ -470,3 +476,6 @@ ALTER TABLE `hu60_user_relationship`
   MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -403,9 +403,9 @@ class userinfo implements ArrayAccess
 		$ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
 	}
 
-	public function getData($key = null, $prefixMatching = false, $onlyValueLength = false) {
+	public function getData($key = null, $prefixMatching = false, $onlyValueLength = false, &$version = null) {
         $valueField = $onlyValueLength ? 'LENGTH(`value`) as `value`' : '`value`';
-		$sql = 'SELECT `key`,'.$valueField.' FROM `'.DB_A.'userdata` WHERE `uid`=?';
+		$sql = 'SELECT `key`,'.$valueField.',version FROM `'.DB_A.'userdata` WHERE `uid`=?';
         $data = [ $this->uid ];
         
 		if ($key !== null) {
@@ -425,15 +425,23 @@ class userinfo implements ArrayAccess
 		}
 
 		$resultArr = $rs->fetchAll(db::ass);
-		$result = [];
+        $result = [];
+        $version = [];
 		foreach ($resultArr as $v) {
 			$result[$v['key']] = $v['value'];
+			$version[$v['key']] = $v['version'];
 		}
 
 		if ($key !== null && !$prefixMatching) {
 			if (isset($result[$key])) {
+                if (isset($version[$key])) {
+                    $version = $version[$key];
+                } else {
+                    $version = null;
+                }
 				return $result[$key];
 			} else {
+                $version = null;
 				return null;
 			}
 		} else {
@@ -441,7 +449,10 @@ class userinfo implements ArrayAccess
 		}
 	}
 	
-	public function setData($key = null, $value = null, $prefixMatching = false) {
+	public function setData($key = null, $value = null, $prefixMatching = false, &$version = null) {
+        $db = self::conn();
+        $db->beginTransaction();
+
 	    if ($value === null) {
 			$sql = 'DELETE FROM `'.DB_A.'userdata` WHERE `uid`=?';
 			$data = [ $this->uid ];
@@ -453,20 +464,42 @@ class userinfo implements ArrayAccess
                     $sql .= ' AND `key`=?';
                     $data[] = $key;
                 }
-			}
+            }
         } elseif ($prefixMatching) {
-            $sql = 'UPDATE `'.DB_A.'userdata` SET `value`=? WHERE `uid`=? AND `key` LIKE ?';
-			$data = [ $value, $this->uid, $key.'%' ];
+            $sql = 'UPDATE `'.DB_A.'userdata` SET `value`=?, `version`=`version`+1 WHERE `uid`=? AND `key` LIKE ?';
+            $data = [ $value, $this->uid, $key.'%' ];
         } else {
-			$sql = 'INSERT INTO `'.DB_A.'userdata`(`uid`,`key`,`value`) VALUES(?,?,?) ON DUPLICATE KEY UPDATE `value`=VALUES(`value`)';
-			$data = [ $this->uid, $key, $value ];
-		}
+            $sql = 'INSERT INTO `'.DB_A.'userdata`(`uid`,`key`,`value`) VALUES(?,?,?)
+                ON DUPLICATE KEY UPDATE `value`=VALUES(`value`), `version`=`version`+1';
+            $data = [ $this->uid, $key, $value ];
+        }
 
-		$db = self::conn();
+        if ($version !== null) {
+            $oldVersion = [];
+            $this->getData($key, $prefixMatching, true, $oldVersion);
+            if (!is_array($oldVersion)) {
+                $oldVersion = [ $oldVersion ];
+            }
+            foreach ($oldVersion as $v) {
+                if ($v != $version) {
+                    $db->rollback();
+                    return false;
+                }
+            }
+        }
+
 		$rs = $db->prepare($sql);
 		if (!$rs || !$rs->execute($data)) {
+            $db->rollback();
 		    throw new UserException('数据库异常，无法更新用户数据！', 11500);
-		}
+        }
+
+        $this->getData($key, $prefixMatching, true, $version);
+        if ($key !== null && !$prefixMatching && isset($version[$key])) {
+            $version = $version[$key];
+        }
+
+        $db->commit();
 		return true;
 	}
 

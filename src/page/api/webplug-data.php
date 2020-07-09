@@ -9,7 +9,11 @@ try {
 	$USER->start();
 	
 	if (!$USER->islogin) {
-		jsonpage::output(['success'=>false, 'islogin'=>false, 'errmsg'=>'请先登录']);
+		jsonpage::output([
+			'success'=>false,
+			'islogin'=>false,
+			'errmsg'=>'请先登录'
+		]);
 	}
 	else {
 		$prefixMatching = (bool)str::getOrPost('prefix', false);
@@ -24,33 +28,59 @@ try {
 			else {
 				$key = null;
 			}
-			jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin, 'data'=>$USER->getdata($key, $prefixMatching, $onlyValueLength)]);
+			jsonpage::output([
+				'success'=>true,
+				'islogin'=>$USER->islogin,
+				'data'=>$USER->getdata($key, $prefixMatching, $onlyValueLength, $version),
+				'version'=>$version
+			]);
 		}
 		// 设置值
 		else {
 			$value = str::getOrPost('value');
 			
 			if (!str::getOrPostExists('key')) {
-				jsonpage::output(['success'=>false, 'islogin'=>$USER->islogin, 'errmsg'=>'键不能为空']);
+				jsonpage::output([
+					'success'=>false,
+					'islogin'=>$USER->islogin,
+					'errmsg'=>'键不能为空'
+				]);
 			}
 			else {
-				$key = isset($_GET['key']) ? $_GET['key'] : $_POST['key'];
+				$key = str::getOrPost('key');
 				$key = substr(str::word($key), 0, 255);
 				
 				$value = substr($value, 0, 16777216);
-				
-				if (strlen($value) > 0) {
-					$USER->setdata($key, $value, $prefixMatching);
+				if (strlen($value) == 0) {
+					$value = null;
 				}
-				else {
-					$USER->setdata($key, null, $prefixMatching);
+
+				$version = str::getOrPost('version');
+				if ($version !== null) {
+					$version = (int)$version;
 				}
 				
-				jsonpage::output(['success'=>true, 'islogin'=>$USER->islogin]);
+				$ok = $USER->setdata($key, $value, $prefixMatching, $version);
+				
+				$data = [
+					'success'=>$ok,
+					'islogin'=>$USER->islogin,
+					'version'=>$version
+				];
+				if (!$ok) {
+					$data['data'] = $USER->getdata($key, $prefixMatching, $onlyValueLength, $version);
+					$data['version'] = $version;
+				}
+
+				jsonpage::output($data);
 			}
 		}
 	}
 }
 catch (Exception $e) {
-	jsonpage::output(['success'=>false, 'islogin'=>$USER->islogin, 'errmsg'=>$e->getMessage()]);
+	jsonpage::output([
+		'success'=>false,
+		'islogin'=>$USER->islogin,
+		'errmsg'=>$e->getMessage()
+	]);
 }
