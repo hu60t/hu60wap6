@@ -18,6 +18,13 @@ try {
 		$data = $USER->getdata($key, $prefixMatching, $onlyValueLength, $version);
 
 		header('Content-Type: '.$mime);
+
+		$basename = trim(basename($_SERVER['PATH_INFO']));
+		if (empty($basename) || $basename[0] == '.') {
+			$basename = "all-data$basename";
+		}
+		header("Content-Disposition: attachment; filename=\"$basename\"");
+
 		header('X-Data-Version: '.json_encode($version));
 		
 		if (is_array($data)) {
