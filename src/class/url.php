@@ -102,8 +102,15 @@ class url
 	static function getJumpLink($url) {
 		global $PAGE;
 		
-		return $url = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
+		return $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
     }
+
+	//获得图片安全跳转链接
+	static function getJumpImg($url) {
+		global $PAGE;
+
+		return $_SERVER['PHP_SELF'] . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
+	}
     
     // 获得扩展名
     static function extName($url) {
