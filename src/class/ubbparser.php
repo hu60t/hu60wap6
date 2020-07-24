@@ -141,12 +141,11 @@ class UbbParser extends XUBBP
 		$this->parse['!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is'] = array(array(1, 3), 'mdpre', array(2));
 		
 		// 添加新的匹配规则
-		
 		$parseHead = [
 			/*mdcode markdown代码高亮*/
-			'!^(^|.*[\r\n]+)`{3,}(\w+)?([\r\n]+.*?[\r\n]+)`{3,}([\r\n]+.*|$)$!is' => array(array(1, 4), 'mdcode', array(2, 3)),
+			'!^(^|.*[\r\n]+)(```+)(\w+)?([\r\n]+.*?[\r\n]+)\2([\r\n]+.*|$)$!is' => array(array(1, 5), 'mdcode', array(3, 4, 2)),
 			/*inline代码*/
-			'!^(.*?)(`+[^`]*`+)(.*)$!is' => array(array(1, 3), 'mdpre', array(2)),
+			'!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
 		];
 		
 		$this->parse = $parseHead + $this->parse;
@@ -160,7 +159,7 @@ class UbbParser extends XUBBP
 	/**
      * @brief markdown代码高亮
      */
-    public function mdcode($lang, $data)
+    public function mdcode($lang, $data, $quote)
     {
 		$lang = strtolower(trim($lang));
 		
@@ -168,6 +167,7 @@ class UbbParser extends XUBBP
             'type' => 'mdcode',
 			'lang' => $lang,
             'data' => $data,
+            'quote' => $quote,
             'len' => $this->len($data)
         ];
 		

@@ -97,7 +97,8 @@ class ubbEdit extends XUBBP
 	/*markdown风格代码高亮*/
     public function mdcode($data)
     {
-        return '```' . $data['lang'] . self::html($data['data']) . '```';
+        $quote = isset($data['quote']) ? $data['quote'] : '```';
+        return $quote . $data['lang'] . self::html($data['data']) . $quote;
     }
 
     /*time 时间*/
