@@ -240,6 +240,8 @@ class UbbDisplay extends XUBBP
     /*video 视频*/
     public function video($data)
     {
+        global $PAGE;
+
         static $id = 0;
         $id ++;
 
@@ -285,6 +287,8 @@ class UbbDisplay extends XUBBP
     /*videoStream 视频流*/
     public function videoStream($data)
     {
+        global $PAGE;
+
         static $id = 0;
         $id ++;
         $url = $data['url'];
@@ -308,6 +312,8 @@ class UbbDisplay extends XUBBP
     /*audioStream 音频流*/
     public function audioStream($data)
     {
+        global $PAGE;
+
         $url = $data['url'];
 		
 		if (QINIU_USE_HTTPS) {

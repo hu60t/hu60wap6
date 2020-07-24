@@ -72,7 +72,6 @@
  *             'type' => 'url',
  *             'url' => $url,
  *             'title' => $title,
- *             'len' => $this->len($url)+$this->len($title)
  *         ));
  *     }
  *
@@ -81,7 +80,6 @@
  *             'type' => 'url',
  *             'src' => $src,
  *             'alt' => $alt,
- *             'len' => $this->len($url)+$this->len($title)
  *         ));
  *     }
  * }
@@ -269,7 +267,6 @@ class XUBBP
         return array(array(
             'type' => 'text',
             'value' => $text,
-            'len' => $this->len($text)
         ));
     }
 
@@ -289,17 +286,13 @@ class XUBBP
      *
      * @return string 转换后的HTML代码
      */
-    public function display($ubbArray, $serialize = false, $maxLen = null, $page = null)
+    public function display($ubbArray, $serialize = false)
     {
         $this->init();
 		
 		if ($serialize) {
             $ubbArray = unserialize($ubbArray);
 		}
-
-        if ($maxLen != null && $page != null) {
-            $ubbArray = $this->displayPage($ubbArray, $maxLen, $page);
-        }
 
         $html = '';
 
@@ -430,43 +423,6 @@ class XUBBP
             }
         }
         return FALSE;
-    }
-
-    /**
-     * 为UBB数组分页
-     *
-     * @todo 对text和code等长文本内容进行拆分
-     */
-    public function displayPage($ubbArray, $maxLen, $page = null)
-    {
-        if ($maxLen < 1) $maxLen = 1;
-        if (empty($ubbArray))
-            return array();
-
-        $arr = array();
-        $len = 0;
-        $p = &$arr[];
-        $p = array();
-        foreach ($ubbArray as $v) {
-            if ($len >= $maxLen || ($len > 0 && $len + $v['len'] - maxLen >= $maxLen - $len)) {
-                $p = &$arr[];
-                $p = array();
-                $len = 0;
-            }
-            if ($len == 0 || $len + $v['len'] <= $maxLen) {
-                $p[] = $v;
-                $len += $v['len'];
-            } else {
-                throw new XUBBPException('UBB数组分页异常：遗漏元素', 501);
-            }
-        }
-        if ($page != null) {
-            if ($page < 1)
-                $page = 1;
-            if ($page > count($arr))
-                $page = count($arr);
-        }
-        return $page == null ? $arr : $arr[$page - 1];
     }
 
     /**

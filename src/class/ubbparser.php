@@ -152,7 +152,6 @@ class UbbParser extends XUBBP
 		
 		return array(array(
           'type' => 'markdown',
-          'len' => 0
 		));
     }
 	
@@ -168,7 +167,6 @@ class UbbParser extends XUBBP
 			'lang' => $lang,
             'data' => $data,
             'quote' => $quote,
-            'len' => $this->len($data)
         ];
 		
 		/*if ($lang != '') {
@@ -186,7 +184,6 @@ class UbbParser extends XUBBP
         return [[
             'type' => 'mdpre',
             'data' => $data,
-            'len' => $this->len($data)
         ]];
     }
 	
@@ -203,7 +200,6 @@ class UbbParser extends XUBBP
             'lang' => $lang,
             'data' => $data,
 			//'html' => code::highlight($data, $lang),
-            'len' => $this->len($data)
         ));
     }
 
@@ -215,7 +211,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'time',
             'tag' => $tag,
-            'len' => $this->len($tag)
         ));
     }
 
@@ -238,7 +233,7 @@ class UbbParser extends XUBBP
                 $title = $var2;
             }
         }
-        $len = $this->len($url) + $this->len($title);
+
         if (strpos($title, '[img') !== false || strpos($title, '《图片：') !== false || strpos($title, '《缩略图：') !== false) {
             $obj = new ubbParser;
             $obj->setParse(array(
@@ -252,7 +247,6 @@ class UbbParser extends XUBBP
             'type' => $type,
             'url' => trim($url),
             'title' => $title,
-            'len' => $len
         ));
     }
 
@@ -281,7 +275,6 @@ class UbbParser extends XUBBP
                 'src' => trim($url),
                 'w' => $opt[0][0],
                 'h' => $opt[0][1],
-                'len' => $this->len($url)
             ));
         } else {
             if ($type == '图片') {
@@ -299,7 +292,6 @@ class UbbParser extends XUBBP
                 'type' => $type == 'img' ? 'img' : 'imgzh',
                 'src' => trim($src),
                 'alt' => $alt,
-                'len' => $this->len($src) + $this->len($alt)
             ));
         }
     }
@@ -312,7 +304,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'video',
             'url' => trim($url),
-            'len' => $this->len($url)
         ));
     }
 
@@ -324,7 +315,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'videoStream',
             'url' => trim($url),
-            'len' => $this->len($url)
         ));
     }
 
@@ -336,7 +326,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'audioStream',
             'url' => trim($url),
-            'len' => $this->len($url)
         ));
     }
 
@@ -348,7 +337,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'copyright',
             'tag' => trim($tag),
-            'len' => $this->len($tag)
         ));
     }
 
@@ -364,7 +352,6 @@ class UbbParser extends XUBBP
             'name' => trim($info[0]),
             'server' => trim($name[0]),
             'display' => trim($name[1]),
-            'len' => $this->len($tag)
         ));
     }
 
@@ -376,7 +363,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'newline',
             'tag' => $tag,
-            'len' => $this->len($tag)
         ));
     }
 
@@ -385,7 +371,6 @@ class UbbParser extends XUBBP
     {
         return [[
             'type' => 'tab',
-            'len' => 4
         ]];
     }
 
@@ -394,7 +379,6 @@ class UbbParser extends XUBBP
     {
         return [[
             'type' => 'empty',
-            'len' => 0
         ]];
     }
 
@@ -407,7 +391,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'layout',
             'tag' => strtolower($tag),
-            'len' => $this->len($tag)
         ));
     }
 
@@ -420,7 +403,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'layout',
             'tag' => '/' . $tag,
-            'len' => $this->len($tag)
         ));
     }
 
@@ -433,7 +415,6 @@ class UbbParser extends XUBBP
             'type' => 'style',
             'tag' => strtolower($tag),
             'opt' => $opt,
-            'len' => $this->len($tag . $opt)
         ));
     }
 
@@ -446,7 +427,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'style',
             'tag' => '/' . $tag,
-            'len' => $this->len($tag)
         ));
     }
 
@@ -458,7 +438,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'urltxt',
             'url' => trim($url),
-            'len' => $this->len($url)
         ));
     }
 
@@ -470,7 +449,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'mailtxt',
             'mail' => trim($mail),
-            'len' => $this->len($mail)
         ));
     }
 
@@ -503,7 +481,6 @@ class UbbParser extends XUBBP
             'type' => 'at',
             'tag' => trim($tag),
             'uid' => $uid,
-            'len' => $this->len($tag)
         ));
     }
 
@@ -515,7 +492,6 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'face',
             'face' => trim($face),
-            'len' => $this->len($face)
         ));
     }
 
@@ -530,7 +506,6 @@ class UbbParser extends XUBBP
             'pos' => $pos,
             'url' => $url,
             'msg' => $msg,
-            'len' => $this->len($user->name . $pos . $url)
         ));
 
         if ($serialize) {
@@ -561,7 +536,6 @@ class UbbParser extends XUBBP
             'url' => $url,
             'reason' => $reason,
             'oriData' => unserialize($oriData),
-            'len' => $this->len($user->name . $pos . $url . $reason . $oriData)
         ));
 
         if ($serialize) {
@@ -594,7 +568,6 @@ class UbbParser extends XUBBP
             'url' => $url,
             'reason' => $reason,
             'oriData' => unserialize($oriData),
-            'len' => $this->len($user->name . $pos . $url . $reason . $oriData)
         ));
 
         if ($serialize) {
@@ -622,7 +595,6 @@ class UbbParser extends XUBBP
             'ownUid' => $ownUid,
             'reason' => $reason,
             'time' => $_SERVER['REQUEST_TIME'],
-            'len' => $this->len($user->name . $reason . $_SERVER['REQUEST_TIME'])
         ));
 
         if ($serialize) {
@@ -652,7 +624,6 @@ class UbbParser extends XUBBP
             'pos' => $title,
             'url' => $url,
             'reason' => $reason,
-            'len' => $this->len($admin->name . $title . $url . $reason)
         ));
 
         if ($serialize) {
@@ -676,7 +647,6 @@ class UbbParser extends XUBBP
 			'contentId' => $contentId,
 			'topicId' => $topicId,
 			'isAdmin' => is_object($accessUser) && $accessUser->islogin && $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST),
-			'len' => 0,
 		));
 		
 		if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin && ($accessUser->uid == $authorUinfo->uid || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
