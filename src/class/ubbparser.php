@@ -46,7 +46,7 @@ class UbbParser extends XUBBP
 #       '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
 #       '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
         '!^(.*)\[([bh]r)\](.*)$!is' => array(array(1, 3), 'newline', array(2)),
-        '!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
+        //'!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
 
         /*
         * 开始标记
