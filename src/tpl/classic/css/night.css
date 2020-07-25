@@ -323,3 +323,6 @@ input, textarea, .favoriteTopic {
   color: #717372;
 }
 
+latex-js {
+  display: inline-block;
+}

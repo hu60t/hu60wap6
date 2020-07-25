@@ -162,3 +162,7 @@ button, input[type=submit], input[type=button] {
 .hu60_code code {
     background-color: #f7f7f7;
 }
+
+latex-js {
+    display: inline-block;
+}
