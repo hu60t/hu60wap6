@@ -142,6 +142,10 @@ class UbbDisplay extends XUBBP
                 $code = substr($code, 1);
             }
         }
+
+        if ($data['lang'] == 'latex') {
+            return '<pre class="hu60_latex"><latex-js>'.code::html($code).'</latex-js></pre>';
+        }
         
         return '<pre class="hu60_code"><code class="'.code::html($data['lang']).'">'.code::html($code).'</code></pre>';
 

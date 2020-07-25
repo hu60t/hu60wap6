@@ -1,0 +1,143 @@
+{
+  "_from": "latex.js",
+  "_id": "latex.js@0.12.4",
+  "_inBundle": false,
+  "_integrity": "sha512-Gf5YM0MLhWLk1V3wEVYpKvjQd7k0uKnh5TxhKmbqvy1hEMzGWSgkg2xH3qfssyc3WnKo7XPeG+OKbIHHyW+mIQ==",
+  "_location": "/latex.js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "latex.js",
+    "name": "latex.js",
+    "escapedName": "latex.js",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/latex.js/-/latex.js-0.12.4.tgz",
+  "_shasum": "8e420b7dc32925212bcba534b5dbb6297c95f06c",
+  "_spec": "latex.js",
+  "_where": "/parent/work/js",
+  "author": {
+    "name": "Michael Brade",
+    "email": "brade@kde.org"
+  },
+  "bin": {
+    "latex.js": "bin/latex.js"
+  },
+  "browser": "./dist/latex.js",
+  "bugs": {
+    "url": "https://github.com/michael-brade/LaTeX.js/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "commander": "5.x",
+    "fs-extra": "9.x",
+    "hyphenation.de": "*",
+    "hyphenation.en-us": "*",
+    "js-beautify": "1.11.x",
+    "stdin": "*",
+    "svgdom": "^0.1.8"
+  },
+  "deprecated": false,
+  "description": "JavaScript LaTeX to HTML5 translator",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "13.x",
+    "@rollup/plugin-node-resolve": "8.0.x",
+    "@svgdotjs/svg.js": "3.x",
+    "chai": "4.x",
+    "chai-as-promised": "7.x",
+    "codecov": "3.x",
+    "codemirror": "5.54.x",
+    "decache": "4.6.x",
+    "glob": "^7.1.4",
+    "he": "1.2.x",
+    "hypher": "0.x",
+    "katex": "0.10.0",
+    "livescript": "git+https://github.com/michael-brade/LiveScript.git",
+    "livescript-transform-esm": "^3.1.0",
+    "livescript-transform-implicit-async": "^1.1.0",
+    "livescript-transform-object-create": "^1.1.0",
+    "lodash": "4.x",
+    "mkdirp": "1.0.x",
+    "mocha": "7.x",
+    "mocha-junit-reporter": "1.23.x",
+    "nyc": "15.x",
+    "pegjs": "0.10.x",
+    "pixelmatch": "5.2.x",
+    "puppeteer": "3.3.x",
+    "raw-loader": "4.0.x",
+    "rimraf": "3.x",
+    "rollup": "2.x",
+    "rollup-plugin-terser": "6.1.x",
+    "rollup-plugin-visualizer": "4.0.x",
+    "serve-handler": "6.x",
+    "slugify": "1.4.x",
+    "split-grid": "1.0.x",
+    "tmp": "0.x",
+    "vue-codemirror": "4.0.x",
+    "vuepress": "1.5.x"
+  },
+  "engines": {
+    "node": ">= 14.0"
+  },
+  "exports": {
+    "import": "./dist/latex.mjs",
+    "require": "./dist/latex.js"
+  },
+  "files": [
+    "bin/latex.js",
+    "dist/latex.js",
+    "dist/latex.js.map",
+    "dist/latex.mjs",
+    "dist/latex.mjs.map",
+    "dist/css/",
+    "dist/fonts/",
+    "dist/js/",
+    "dist/packages/",
+    "dist/documentclasses/"
+  ],
+  "homepage": "https://latex.js.org",
+  "keywords": [
+    "pegjs",
+    "latex",
+    "parser",
+    "html5"
+  ],
+  "license": "MIT",
+  "main": "./dist/latex.js",
+  "mocha": {
+    "require": "livescript",
+    "file": "test/lib/setup.ls",
+    "reporter": "spec",
+    "inlineDiffs": true,
+    "timeout": 10000,
+    "ui": "bdd",
+    "checkLeaks": true,
+    "globals": "firefox,chrome",
+    "sort": true
+  },
+  "module": "./dist/latex.mjs",
+  "name": "latex.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michael-brade/LaTeX.js.git"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production npm run devbuild;",
+    "clean": "rimraf dist bin test/coverage test/test-results.xml docs/.vuepress/public/js;",
+    "codecov": "codecov;",
+    "devbuild": "rimraf 'dist/**/*.map';mkdirp dist/css;mkdirp dist/js;mkdirp dist/fonts;mkdirp dist/documentclasses;mkdirp dist/packages;rsync -a src/css/ dist/css/;rsync -a src/fonts/ dist/fonts/;rsync -a node_modules/katex/dist/fonts/*.woff dist/fonts/;rsync -a src/js/ dist/js/;mkdirp bin;lsc -bc --no-header -m embedded -p src/cli.ls > bin/latex.js;chmod a+x bin/latex.js;rollup -c;",
+    "devdocs": "npm run devbuild;vuepress dev docs --no-clear-screen;",
+    "docs": "npm run build;[ ! -d website ] && git worktree add website gh-pages;mv website/.git .website.git;vuepress build docs;mv .website.git website/.git;cd website;git add .;git commit -m 'regenerated website';",
+    "iron": "iron-node node_modules/.bin/_mocha test/*.ls;",
+    "test": "mocha test/*.ls;",
+    "testc": "nyc --include=bin --include=src --include=dist -e ls --reporter=html --reporter=text --reporter=lcovonly --report-dir=test/coverage             npx mocha -i -g screenshot --reporter mocha-junit-reporter --reporter-options mochaFile=./test/test-results.xml test/*.ls&&npx mocha -g screenshot --reporter mocha-junit-reporter --reporter-options mochaFile=./test/screenshots/test-results.xml test/*.ls;"
+  },
+  "version": "0.12.4"
+}
