@@ -68,6 +68,12 @@
 
     </div>
     <div class="widget">
+        <div class="bar">Linux游戏</div>
+        <div class="content-box">
+            <p><a href="https://winegame.net/">Wine游戏助手</a></p>
+        </div>
+    </div>
+    <div class="widget">
         <div class="bar">实用工具</div>
         <div class="content-box">
             <p><a href="tools.ua.html">查看浏览器UA</a></p>

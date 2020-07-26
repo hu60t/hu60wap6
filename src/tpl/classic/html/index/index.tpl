@@ -43,6 +43,11 @@
 </div>
 <hr>
 <div id="tools">
+	<p>『Linux游戏』</p>
+	<p>-<a href="https://winegame.net/">Wine游戏助手</a></p>
+</div>
+<hr>
+<div id="tools">
 	<p>『实用工具』</p>
 	<p>-<a href="tools.ua.{$BID}">查看HTTP请求</a></p>
 	<p>-<a href="tools.coder.{$BID}">编码解码器</a></p>
