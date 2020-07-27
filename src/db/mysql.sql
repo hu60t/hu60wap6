@@ -3,19 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-07-09 19:51:21
+-- 生成日期： 2020-07-27 11:31:58
 -- 服务器版本： 10.3.23-MariaDB-1-log
 -- PHP 版本： 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- 数据库： `hu60`
@@ -29,11 +23,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `hu60_addin_chat_data` (
   `id` int(11) NOT NULL,
-  `room` varchar(32) NOT NULL,
+  `room` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
   `lid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `uname` varchar(16) NOT NULL,
-  `content` mediumblob NOT NULL,
+  `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `time` bigint(20) NOT NULL,
   `hidden` int(11) NOT NULL DEFAULT 0,
   `review` tinyint(1) DEFAULT 0
@@ -47,7 +41,7 @@ CREATE TABLE `hu60_addin_chat_data` (
 
 CREATE TABLE `hu60_addin_chat_list` (
   `id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL,
+  `name` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
   `ztime` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -60,7 +54,7 @@ CREATE TABLE `hu60_addin_chat_list` (
 CREATE TABLE `hu60_bbs_forum_meta` (
   `id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `mtime` bigint(20) NOT NULL DEFAULT 0,
   `notopic` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -76,7 +70,7 @@ CREATE TABLE `hu60_bbs_topic_content` (
   `topic_id` int(11) NOT NULL,
   `ctime` bigint(20) NOT NULL,
   `mtime` bigint(20) NOT NULL,
-  `content` mediumblob NOT NULL,
+  `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `uid` int(11) NOT NULL,
   `reply_id` int(11) NOT NULL,
   `floor` int(11) NOT NULL DEFAULT 0,
@@ -115,8 +109,8 @@ CREATE TABLE `hu60_book_chapter` (
   `id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
   `chapter` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `content` text NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `version` int(11) NOT NULL DEFAULT 0,
   `uid` int(11) NOT NULL,
   `ctime` bigint(20) NOT NULL DEFAULT 0,
@@ -170,7 +164,7 @@ CREATE TABLE `hu60_msg` (
   `byuid` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT 1,
   `isread` int(11) NOT NULL,
-  `content` mediumblob NOT NULL,
+  `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `ctime` bigint(20) NOT NULL,
   `rtime` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -475,7 +469,3 @@ ALTER TABLE `hu60_user`
 ALTER TABLE `hu60_user_relationship`
   MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -12,7 +12,7 @@ class search
         $this->time = time();
     }
 
-    protected function searchWord($table, $field, $index, $word, $order = '', $limit = self::SEARCH_LIMIT)
+    protected function searchWord($table, $field, $index, $word, $order = '', $searchLimit = self::SEARCH_LIMIT)
     {
         $wordHash = md5("$table/$field/$word");
         $key = "search/$wordHash";
@@ -32,7 +32,7 @@ class search
 		cache::set($limitKey, $limit, 60);
 
 
-        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ? $order LIMIT $limit";
+        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ? $order LIMIT $searchLimit";
         $db = db::conn();
         $rs = $db->prepare($sql);
 
@@ -127,7 +127,7 @@ class search
 
     public function searchTopic($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, & $count = true)
     {
-        $words = trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words));
+        $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words)));
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
 
         if ($words == '' && $userName == '') {
@@ -193,7 +193,7 @@ class search
      */
     public function searchReply($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, &$count = true)
     {
-        $words = trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words));
+        $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words)));
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
 
         if ($userName == '') {
