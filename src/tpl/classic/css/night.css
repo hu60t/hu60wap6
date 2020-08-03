@@ -326,3 +326,7 @@ input, textarea, .favoriteTopic {
 latex-js {
   display: inline-block;
 }
+
+.topic-content, .floor-content, .chat-content, .floor_content {
+  position: relative;
+}

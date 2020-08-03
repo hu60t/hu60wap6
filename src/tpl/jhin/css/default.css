@@ -166,3 +166,7 @@ button, input[type=submit], input[type=button] {
 latex-js {
     display: inline-block;
 }
+
+.topic-content, .floor-content, .chat-content, .floor_content {
+  position: relative;
+}
