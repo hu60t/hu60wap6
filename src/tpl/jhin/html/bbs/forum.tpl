@@ -3,12 +3,12 @@
 {block name='title'}
 {if $fid == 0}
 	{$fName=#BBS_INDEX_NAME#}
-	{$title=#BBS_NAME#}
+	{$title=#BBS_INDEX_NAME#}
 {else}
 	{$fIndex.0.name=#BBS_INDEX_NAME#}
 	{$title="{$fName} - {#BBS_NAME#}"}
-	{$title}
 {/if}
+{$title}
 {/block}
 
 {block name='body'}
