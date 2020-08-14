@@ -165,7 +165,7 @@ class UbbDisplay extends XUBBP
         // 保护这些内容免受markdown解析的干扰
         if ($this->markdownEnable) {
             $this->mdProtectTexts[] = $html;
-            $html = "\0".count($this->mdProtectTexts)."\0";
+            $html = "\2".count($this->mdProtectTexts)."\3";
             $this->mdProtectTags[] = $html;
         }
         
@@ -305,7 +305,7 @@ class UbbDisplay extends XUBBP
         // 保护这些内容免受markdown解析的干扰
         if ($this->markdownEnable) {
             $this->mdProtectTexts[] = $html;
-            $html = "\0".count($this->mdProtectTexts)."\0";
+            $html = "\2".count($this->mdProtectTexts)."\3";
             $this->mdProtectTags[] = $html;
         }
 
