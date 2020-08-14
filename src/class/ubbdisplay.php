@@ -5,7 +5,10 @@ class UbbDisplay extends XUBBP
 	// markdown解析器
     protected $Parsedown = NULL;
 	// 是否处于markdown模式
-	protected $markdownEnable = false;
+    protected $markdownEnable = false;
+    // markdown受保护内容（防止markdown解析干扰这些内容）
+    protected $mdProtectTags = [];
+    protected $mdProtectTexts = [];
 	
     /*注册显示回调函数*/
     protected $display = array(
@@ -86,7 +89,12 @@ class UbbDisplay extends XUBBP
 				//$this->Parsedown->setUrlsLinked(false); //不解析链接
 			}
 	  
-			$html = '<div class="markdown-body">' . $this->Parsedown->text($html) . '</div>';
+            $html = '<div class="markdown-body">' . $this->Parsedown->text($html) . '</div>';
+
+            // 还原被保护的内容
+            $html = str_replace($this->mdProtectTags, $this->mdProtectTexts, $html);
+            $this->mdProtectTags = [];
+            $this->mdProtectTexts = [];
 		}
 		
 		//$html = nl2br(htmlspecialchars($html)); // debug
@@ -122,18 +130,16 @@ class UbbDisplay extends XUBBP
     public function code($data)
     {
         global $PAGE;
-		
-        if ($PAGE->bid == 'wml') {
-            return code::html($data['data'], '<br/>');
-        }
-		
-		if (empty($data['lang']) && $this->markdownEnable) {
-			return '```' . $data['data'] . '```';
-        }
+        
+        //不再把代码高亮交给markdown引擎处理，而是由PHP统一处理
+		/*if (empty($data['lang']) && $this->markdownEnable) {
+            $quote = isset($data['quote']) ? $data['quote'] : '```';
+			return $quote . $data['data'] . $quote;
+        }*/
 
         $code = $data['data'];
 
-        // 去除首尾的第一个换行符
+        // 去除开头的第一个换行符
         if (strlen($code) > 1) {
             if ($code[0] == "\r") {
                 $code = substr($code, 1);
@@ -144,17 +150,26 @@ class UbbDisplay extends XUBBP
         }
 
         if ($data['lang'] == 'latex') {
-            return '<latex-js>'.htmlspecialchars($code).'</latex-js>';
+            $html = '<latex-js>'.htmlspecialchars($code).'</latex-js>';
+        } else {
+            $html = '<pre class="hu60_code"><code class="'.code::html($data['lang']).'">'.code::html($code).'</code></pre>';
         }
-        
-        return '<pre class="hu60_code"><code class="'.code::html($data['lang']).'">'.code::html($code).'</code></pre>';
 
         /*if (isset($data['html'])) {
-			return $data['html'];
+			$html = $data['html'];
 		}
 		else {
-			return code::highlight($data['data'], $data['lang']);
-		}*/
+			$html = code::highlight($data['data'], $data['lang']);
+        }*/
+
+        // 保护这些内容免受markdown解析的干扰
+        if ($this->markdownEnable) {
+            $this->mdProtectTexts[] = $html;
+            $html = "\0".count($this->mdProtectTexts)."\0";
+            $this->mdProtectTags[] = $html;
+        }
+        
+        return $html;
     }
 
     /*time 时间*/
@@ -280,12 +295,21 @@ class UbbDisplay extends XUBBP
         }
 
         if (null !== $iframeUrl) {
-            return '<p class="video_box"><a target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
+            $html = '<p class="video_box"><a target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
         }
         else {
 			$link = $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
-            return '<p class="video_box"><a target="_blank" href="'.code::html($link).'">'.code::html($url).'</a></p>';
+            $html = '<p class="video_box"><a target="_blank" href="'.code::html($link).'">'.code::html($url).'</a></p>';
         }
+
+        // 保护这些内容免受markdown解析的干扰
+        if ($this->markdownEnable) {
+            $this->mdProtectTexts[] = $html;
+            $html = "\0".count($this->mdProtectTexts)."\0";
+            $this->mdProtectTags[] = $html;
+        }
+
+        return $html;
     }
 
     /*videoStream 视频流*/
