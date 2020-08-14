@@ -143,7 +143,7 @@ class UbbParser extends XUBBP
 		// 添加新的匹配规则
 		$parseHead = [
 			/*mdcode markdown代码高亮*/
-			'!^(^|.*[\r\n]+)(```+)(\w+)?([\r\n]+.*?[\r\n]+)\2([\r\n]+.*|$)$!is' => array(array(1, 5), 'mdcode', array(3, 4, 2)),
+			'!^(^|.*?[\r\n]+)(`{3,})(\w+)?([\r\n]+.*?[\r\n]+)\2([\r\n]+.*|$)$!is' => array(array(1, 5), 'mdcode', array(3, 4, 2)),
 			/*inline代码*/
 			'!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
 		];
