@@ -39,7 +39,29 @@
             {if $onload !== null}{$onload};{/if}
         });
         setTimeout(hu60_loading, 3000);
+
+        MathJax = {
+            options: {
+                renderActions: {
+					find: [10, function (doc) {
+						for (const node of document.querySelectorAll('hu60-math')) {
+							const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], false);
+							const text = document.createTextNode('');
+							node.parentNode.replaceChild(text, node);
+							math.start = {
+                                node: text, delim: '', n: 0
+                            };
+							math.end = {
+                                node: text, delim: '', n: 0
+                            };
+							doc.math.push(math);
+						}
+					}, '']
+                }
+            }
+        };
     </script>
+    <script id="MathJax-script" async src="{$PAGE->getTplUrl("js/mathjax/es5/tex-chtml.js")}"></script>
 	<style>{$grayRate=min(max((1586016000 - time()) / 4800, 0), 1)}
     html { 
         -webkit-filter: grayscale({$grayRate}); 

@@ -44,6 +44,9 @@ class UbbDisplay extends XUBBP
         'copyright' => 'copyright',
         /*battlenet 战网*/
         'battlenet' => 'battlenet',
+        /*math 数学公式*/
+        'math' => 'math',
+        'mathzh' => 'math',
         /*layout 布局*/
         'layout' => 'layout',
         /*style 风格*/
@@ -408,6 +411,20 @@ class UbbDisplay extends XUBBP
 
             return '<a href="http://www.battlenet.com.cn/wow/zh/search?q=' . urlencode($data['name']) . '&amp;f=wowcharacter">' . code::html($data['display']) . '</a>';
         }
+    }
+
+    /*math 数学公式*/
+    public function math($data) {
+        $html = '<hu60-math>'.code::html($data['data']).'</hu60-math>';
+
+        // 保护这些内容免受markdown解析的干扰
+        if ($this->markdownEnable) {
+            $this->mdProtectTexts[] = $html;
+            $html = "\2".count($this->mdProtectTexts)."\3";
+            $this->mdProtectTags[] = $html;
+        }
+
+        return $html;
     }
 
     /*newline 换行*/

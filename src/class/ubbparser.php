@@ -38,6 +38,9 @@ class UbbParser extends XUBBP
         '!^(.*)《版权：(.*?)》(.*)$!is' => array(array(1, 3), 'copyright', array(2)),
         /*battlenet 战网*/
         '!^(.*)《战网：(.*?)》(.*)$!is' => array(array(1, 3), 'battlenet', array(2)),
+        /*math 数学公式*/
+        '!^(.*)\[math\](.*?)\[/math\](.*)$!is' => array(array(1, 3), 'math', array('math', 2)),
+        '!^(.*)《公式：(.*?)》(.*)$!is' => array(array(1, 3), 'math', array('mathzh', 2)),
         /*tab 四个空格*/
         '!^(.*)\[tab\](.*)$!is' => array(array(1, 2), 'tab', array(2)),
         /*empty UBB转义*/
@@ -352,6 +355,17 @@ class UbbParser extends XUBBP
             'name' => trim($info[0]),
             'server' => trim($name[0]),
             'display' => trim($name[1]),
+        ));
+    }
+
+    /**
+     * @brief 数学公式
+     */
+    public function math($type, $data)
+    {
+        return array(array(
+            'type' => $type,
+            'data' => $data,
         ));
     }
 

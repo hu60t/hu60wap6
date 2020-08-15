@@ -37,6 +37,9 @@ class ubbEdit extends XUBBP
         'copyright' => 'copyright',
         /*battlenet 战网*/
         'battlenet' => 'battlenet',
+        /*math 数学公式*/
+        'math' => 'math',
+        'mathzh' => 'math',
         /*layout 布局*/
         'layout' => 'layout',
         /*style 风格*/
@@ -223,6 +226,15 @@ class ubbEdit extends XUBBP
             $name .= "，" . self::html($data['display']);
         }
         return '《战网：' . $name . '》';
+    }
+
+    /*math 数学公式*/
+    public function math($data) {
+        $content = self::html($data['data']);
+        if ($data['type'] == 'math') {
+            return '[math]'.$content.'[/math]';
+        }
+        return '《公式：'.$content.'》';
     }
 
     /*newline 换行*/
