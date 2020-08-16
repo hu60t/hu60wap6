@@ -487,7 +487,12 @@ class UbbDisplay extends XUBBP
 
         if ($data['tag'][0] != '/') {
             if ($disable) {
-                return '<div style="border:red solid 1px">由于该用户使用div和span标签破坏论坛版面，影响其他人正常的发言和聊天，该用户的div和span标签已被禁用。请大家引以为戒！</div>';
+                if ($disable !== 'noticed') {
+                    $this->setOpt('style.disable', 'noticed');
+                    return '<div style="border:red solid 1px">由于该用户使用div和span标签破坏论坛版面，影响其他人正常的发言和聊天，该用户的div和span标签已被禁用。请大家引以为戒！</div>';
+                } else {
+                    return '';
+                }
             }
 
             $dataEnd = $data;
