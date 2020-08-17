@@ -73,7 +73,7 @@ class UbbDisplay extends XUBBP
 		$disable = $this->getOpt('all.blockPost');
 
         if ($disable) {
-            return '<div style="border:red solid 1px">用户被禁言，发言自动屏蔽。</div>';
+            return '<div class="tp info-box">用户被禁言，发言自动屏蔽。</div>';
         }
 		
 		if ($serialize) {
@@ -489,7 +489,7 @@ class UbbDisplay extends XUBBP
             if ($disable) {
                 if ($disable !== 'noticed') {
                     $this->setOpt('style.disable', 'noticed');
-                    return '<div style="border:red solid 1px">由于该用户使用div和span标签破坏论坛版面，影响其他人正常的发言和聊天，该用户的div和span标签已被禁用。请大家引以为戒！</div>';
+                    return '<div class="tp info-box">由于该用户使用div和span标签破坏论坛版面，影响其他人正常的发言和聊天，该用户的div和span标签已被禁用。请大家引以为戒！</div>';
                 } else {
                     return '';
                 }

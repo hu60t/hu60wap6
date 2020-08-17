@@ -65,7 +65,7 @@ class ubbEdit extends XUBBP
         $disable = $this->getOpt('all.blockPost');
 
         if ($disable) {
-            return '[div=border:red solid 1px]用户被禁言，发言自动屏蔽。[/div]';
+            return '用户被禁言，发言自动屏蔽。';
         }
 
         return parent::display($ubbArray, $serialize, $maxLen, $page);

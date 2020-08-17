@@ -70,7 +70,18 @@
 		<p>标题: <span id="topic_title">{if $tMeta.essence}<span style="color:red;">[精]</span>{/if}{$tMeta.title|code}</span></p>
 		<p>作者: <a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
 		<p>时间: {date('Y-m-d H:i',$v.mtime)}</p>
-		<p>点击: {$tMeta.read_count}</p>
+		<div>
+			点击: {$tMeta.read_count}
+			{if $v.review}
+				<div class="topic-status">待审核</div>
+			{/if}
+			{if $v.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+				<div class="topic-status">被禁言</div>
+			{/if}
+			{if $v.locked}
+				<div class="topic-status">被锁定</div>
+			{/if}
+		</div>
 		<hr>
 		<div class="floor_content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
@@ -105,7 +116,15 @@
 		<div class="floor_content" id="floor_content_{$v.floor}"><a class="floor-link" name="{$v.floor}" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a>. {$ubb->display($v.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
 		<script>foldFloorInit({$v.floor})</script>
-		<p>(<a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if})</p>
+		<div>
+			(<a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if}{if $v.review}
+				<div class="topic-status">待审核</div>
+			{/if}{if $v.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+				<div class="topic-status">被禁言</div>
+			{/if}{if $v.locked}
+				<div class="topic-status">被锁定</div>
+			{/if})
+		</div>
 		<hr>
     {/foreach}
 </div>

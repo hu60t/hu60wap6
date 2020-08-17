@@ -56,7 +56,7 @@ if ($USER->uid != $tMeta['uid']) {
 $ubb = new ubbdisplay();
 $tpl->assign('ubb', $ubb);
 
-$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id,review');
+$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id,review,locked');
 foreach ($tContents as &$v) {
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);

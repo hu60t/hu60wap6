@@ -50,6 +50,15 @@
 		{foreach $topicList as $topic}
 			<li>
 				<a href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
+				{if $topic.review}
+					<div class="topic-status">待审核</div>
+				{/if}
+				{if $topic.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+					<div class="topic-status">被禁言</div>
+				{/if}
+				{if $topic.locked}
+					<div class="topic-status">被锁定</div>
+				{/if}
 				<br>
 				({$topic.uinfo.name|code}/{$topic.read_count}点击/{$topic.reply_count}回复/{date('Y-m-d H:i',$topic.mtime)})
 			</li>

@@ -31,6 +31,15 @@
                         </a>
                         <div class="topic-meta">
                             {$topic.read_count}点击 / {str::ago($topic.mtime)}
+                            {if $topic.review}
+                                &nbsp;<div class="topic-status">待审核</div>
+                            {/if}
+                            {if $topic.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+                                &nbsp;<div class="topic-status">被禁言</div>
+                            {/if}
+                            {if $topic.locked}
+                                &nbsp;<div class="topic-status">被锁定</div>
+                            {/if}
                         </div>
                     </div>
                     <div class="topic-reply-count">

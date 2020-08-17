@@ -40,6 +40,15 @@
 			    <a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
 			    {str::ago($v.mtime)}
 			    {$tMeta.read_count}点击
+				{if $v.review}
+					<div class="topic-status">待审核</div>
+				{/if}
+				{if $v.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+					<div class="topic-status">被禁言</div>
+				{/if}
+				{if $v.locked}
+					<div class="topic-status">被锁定</div>
+				{/if}
             </div>
 		</div>
 		<div class="topic-content" data-floorID="0" id="floor_content_0">
@@ -91,6 +100,15 @@
 					    	{if $bbs->canDel($v.uinfo.uid, true)}
 						    	/ <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
     						{/if}
+							{if $v.review}
+								<div class="topic-status">待审核</div>
+							{/if}
+							{if $v.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+								<div class="topic-status">被禁言</div>
+							{/if}
+							{if $v.locked}
+								<div class="topic-status">被锁定</div>
+							{/if}
                         </div>
 					</div>
 					<div class="comments-content">

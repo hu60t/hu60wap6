@@ -330,3 +330,10 @@ latex-js {
 .topic-content, .floor-content, .chat-content, .floor_content {
   position: relative;
 }
+
+.topic-status {
+  display:inline-block;
+  border: 1px solid #995555;
+  font-size: 12px;
+  line-height: 12px;
+}

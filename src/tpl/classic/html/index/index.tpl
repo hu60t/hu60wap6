@@ -33,7 +33,19 @@
 	<p>『<a href="bbs.forum.{$BID}">绿虎论坛</a> - <a href="bbs.forum.0.1.{$BID}">新帖</a>|<a href="bbs.forum.0.1.1.{$BID}">精华</a>|<a href="bbs.newtopic.0.{$BID}">发帖</a>』</p>
 	<ol style="padding-left:2em">
 		{foreach $newTopicList as $topic}
-			<li>{if $topic.essence==1}<span style="color:red;">[精]</span>{/if}<a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a></li>
+			<li>
+				{if $topic.essence==1}<span style="color:red;">[精]</span>{/if}
+				<a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
+				{if $topic.review}
+					<div class="topic-status">待审核</div>
+				{/if}
+				{if $topic.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+					<div class="topic-status">被禁言</div>
+				{/if}
+				{if $topic.locked}
+					<div class="topic-status">被锁定</div>
+				{/if}
+			</li>
 		{/foreach}
 	</ol>
 	<p>
