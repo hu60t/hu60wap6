@@ -19,6 +19,10 @@
 
 <hr>
 
+<div class="text-notice">
+	{$notice|code}
+</div>
+
 <div>
     <form method="post" action="{$CID}.{$PID}.{$BID}">
 		<p>插件代码：</p>
