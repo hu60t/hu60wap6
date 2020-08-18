@@ -101,7 +101,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         ],
         'hideUserCSS' => [
             'targetMethod' => 'hideUserCSS',
-            'actionName' => '隐藏小尾巴'
+            'actionName' => '屏蔽小尾巴'
         ],
         'showUserCSS' => [
             'targetMethod' => 'showUserCSS',
