@@ -91,7 +91,7 @@ class UbbDisplay extends XUBBP
 				//$this->Parsedown->setMarkupEscaped(true); //转义html
 				//$this->Parsedown->setUrlsLinked(false); //不解析链接
 			}
-	  
+
             $html = '<div class="markdown-body">' . $this->Parsedown->text($html) . '</div>';
 
             // 还原被保护的内容
@@ -115,7 +115,39 @@ class UbbDisplay extends XUBBP
 	public function mdpre($data){
 		return $data['data'];
     }
-	
+
+    /* 保护内容免受markdown解析的干扰 */
+    public function markdownProtect($html) {
+        if ($this->markdownEnable) {
+            $this->mdProtectTexts[] = $html;
+            /*
+             * 添加块级的<p>标签是为了确保上下文关系不被破坏，比如
+             * 
+             * aaa
+             * ```
+             * xxx
+             * ```
+             * ------------
+             * 
+             * 这条线本来应该原样保留，如果保护标记不是块级的，
+             * 保护后它和上面的aaa结合，就会使aaa成为二级标题。
+             */
+            $html = "<p>\2".count($this->mdProtectTexts)."\3</p>";
+            $this->mdProtectTags[] = $html;
+        }
+        return $html;
+    }
+
+    /* 保护inline内容免受markdown解析的干扰 */
+    public function markdownProtectInline($html) {
+        if ($this->markdownEnable) {
+            $this->mdProtectTexts[] = $html;
+            $html = "\2".count($this->mdProtectTexts)."\3";
+            $this->mdProtectTags[] = $html;
+        }
+        return $html;
+    }
+
     /*text 纯文本*/
     public function text($data)
     {
@@ -165,14 +197,7 @@ class UbbDisplay extends XUBBP
 			$html = code::highlight($data['data'], $data['lang']);
         }*/
 
-        // 保护这些内容免受markdown解析的干扰
-        if ($this->markdownEnable) {
-            $this->mdProtectTexts[] = $html;
-            $html = "\2".count($this->mdProtectTexts)."\3";
-            $this->mdProtectTags[] = $html;
-        }
-        
-        return $html;
+        return $this->markdownProtect($html);
     }
 
     /*time 时间*/
@@ -305,14 +330,7 @@ class UbbDisplay extends XUBBP
             $html = '<p class="video_box"><a target="_blank" href="'.code::html($link).'">'.code::html($url).'</a></p>';
         }
 
-        // 保护这些内容免受markdown解析的干扰
-        if ($this->markdownEnable) {
-            $this->mdProtectTexts[] = $html;
-            $html = "\2".count($this->mdProtectTexts)."\3";
-            $this->mdProtectTags[] = $html;
-        }
-
-        return $html;
+        return $this->markdownProtect($html);
     }
 
     /*videoStream 视频流*/
@@ -417,14 +435,7 @@ class UbbDisplay extends XUBBP
     public function math($data) {
         $html = '<hu60-math>'.code::html($data['data']).'</hu60-math>';
 
-        // 保护这些内容免受markdown解析的干扰
-        if ($this->markdownEnable) {
-            $this->mdProtectTexts[] = $html;
-            $html = "\2".count($this->mdProtectTexts)."\3";
-            $this->mdProtectTags[] = $html;
-        }
-
-        return $html;
+        return $this->markdownProtect($html);
     }
 
     /*newline 换行*/
@@ -513,11 +524,11 @@ class UbbDisplay extends XUBBP
             $uid = (int)($this->getOpt('uid'));
             switch ($data['tag']) {
                 case 'color':
-                    return '<span class="usercss uid-'.$uid.'" style="color:' . code::html($data['opt'], false, true) . '">';
+                    return '<span class="usercss uid-'.$uid.'" style="color:' . $this->markdownProtectInline(code::html($data['opt'], false, true)) . '">';
                 case 'div':
-                    return '<div class="usercss uid-'.$uid.'" style="' . code::html($data['opt'], false, true) . '">';
+                    return '<div class="usercss uid-'.$uid.'" style="' . $this->markdownProtectInline(code::html($data['opt'], false, true)) . '">';
                 case 'span':
-                    return '<span class="usercss uid-'.$uid.'" style="' . code::html($data['opt'], false, true) . '">';
+                    return '<span class="usercss uid-'.$uid.'" style="' . $this->markdownProtectInline(code::html($data['opt'], false, true)) . '">';
             }
         } else {
             if ($this->getOpt("style.hideUserCSS")) {
