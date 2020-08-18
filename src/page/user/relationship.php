@@ -98,7 +98,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         'unblock' => [
             'targetMethod' => 'unblock',
             'actionName' => '取消屏蔽'
-        ]
+        ],
+        'hideUserCSS' => [
+            'targetMethod' => 'hideUserCSS',
+            'actionName' => '隐藏小尾巴'
+        ],
+        'showUserCSS' => [
+            'targetMethod' => 'showUserCSS',
+            'actionName' => '显示小尾巴'
+        ],
     ];
     if (! array_key_exists($action, $availableActionList)) {
         sendApiResponse(false, 'action不可用');
@@ -114,8 +122,3 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         sendApiResponse(false, $actionName . '失败');
     }
 }
-
-
-
-
-

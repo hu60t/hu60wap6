@@ -486,6 +486,10 @@ class UbbDisplay extends XUBBP
         $disable = $this->getOpt('style.disable');
 
         if ($data['tag'][0] != '/') {
+            if ($this->getOpt("style.hideUserCSS")) {
+                return '';
+            }
+
             if ($disable) {
                 if ($disable !== 'noticed') {
                     $this->setOpt('style.disable', 'noticed');
@@ -515,6 +519,10 @@ class UbbDisplay extends XUBBP
                     return '<span class="usercss" style="' . code::html($data['opt'], false, true) . '">';
             }
         } else {
+            if ($this->getOpt("style.hideUserCSS")) {
+                return '';
+            }
+
             if ($disable) {
                 return '';
             }
@@ -622,15 +630,18 @@ HTML;
     {
         global $PAGE;
 
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+
         $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
         $pos = code::html($data['pos']);
+
 		if (is_array($data['msg'])) {
+            $uinfo->setUbbOpt($this);
 			$msg = $this->display($data['msg']);
 		} else {
 	        $msg = code::html($data['msg']);
 		}
-        $uinfo = new UserInfo();
-        $uinfo->uid($data['uid']);
 
         return <<<HTML
 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 在 <a href="{$url}">{$pos}</a> at你：

@@ -15,7 +15,7 @@
         {*/if*}
     {else}
         {$tmp = $uinfo->uid($v.uid)}
-        {$tmp = $ubbs->setOpt('style.disable', $uinfo->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE))}
+        {$tmp = $uinfo->setUbbOpt($ubbs)}
         {$list.$k.content = $ubbs->display($v.content,true)}
         {$list.$k.canDel = $chat->canDel($v.uid,true)}
     {/if}

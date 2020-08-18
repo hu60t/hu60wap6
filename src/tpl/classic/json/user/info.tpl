@@ -4,7 +4,11 @@
     'name' => $uinfo->name,
     'signature' => $uinfo->getinfo('signature'),
     'contact' => $uinfo->getinfo('contact'),
-    'regtime' => $uinfo->regtime
+    'regtime' => $uinfo->regtime,
+    'blockPostStat' => $blockPostStat,
+    'isFollow' => $isFollow,
+    'isBlock' => $isBlock,
+    'hideUserCSS' => $hideUserCSS
     ]}
 
 {JsonPage::output($jsonData)}

@@ -25,7 +25,8 @@
 {if $user->uid != $uinfo->uid }
 <p class="txt">
  交友：{if $isFollow}<a href="javascript:relationship({$uinfo->uid}, 'unfollow')">取消关注</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'follow')">关注</a>{/if}
- / {if $isBlock}<a href="javascript:relationship({$uinfo->uid}, 'unblock')">取消屏蔽</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'block')">屏蔽</a>{/if}<br/>
+ / {if $isBlock}<a href="javascript:relationship({$uinfo->uid}, 'unblock')">取消屏蔽</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'block')">屏蔽</a>{/if}
+ / {if $hideUserCSS}<a href="javascript:relationship({$uinfo->uid}, 'showUserCSS')">显示小尾巴</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'hideUserCSS')">隐藏小尾巴</a>{/if}<br/>
 </p>
 {/if}
 <p class="txt">

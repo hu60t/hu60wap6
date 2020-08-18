@@ -399,8 +399,14 @@ class userinfo implements ArrayAccess
 
 	
 	public function setUbbOpt($ubb) {
-		$ubb->setOpt('style.disable', $this->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE));
-		$ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
+		global $USER;
+
+        $ubb->setOpt('style.disable', $this->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE));
+        $ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
+
+        if ($USER->islogin) {
+            $ubb->setOpt('style.hideUserCSS', (bool)$USER->getinfo("ubb.hide_user_css.{$this->uid}"));
+        }
 	}
 
 	public function getData($key = null, $prefixMatching = false, $onlyValueLength = false, &$version = null) {

@@ -2,8 +2,7 @@
 $tpl = $PAGE->start();
 $USER->start($tpl);
 
-
-$uid = $PAGE->ext[0];
+$uid = (int)$PAGE->ext[0];
 $uinfo = new userinfo();
 $uinfo->uid($uid);
 $tpl->assign('uinfo', $uinfo);
@@ -15,5 +14,9 @@ $tpl->assign('showBlockButton', $USER->hasPermission(UserInfo::PERMISSION_SET_BL
 $userRelationshipService = new UserRelationshipService($USER);
 $tpl->assign('isFollow', $userRelationshipService->isFollow($uinfo->uid));
 $tpl->assign('isBlock', $userRelationshipService->isBlock($uinfo->uid));
+
+// 是否隐藏用户CSS（小尾巴）
+$hideUserCSS = (bool)$USER->getinfo("ubb.hide_user_css.$uid");
+$tpl->assign('hideUserCSS', $hideUserCSS);
 
 $tpl->display('tpl:info');

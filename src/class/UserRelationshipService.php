@@ -85,6 +85,28 @@ class UserRelationshipService
         return $this->removeRelationship($targetUid, self::RELATIONSHIP_TYPE_BLOCK);
     }
 
+    /***
+     * 隐藏用户CSS（小尾巴）
+     * @param $targetUid
+     * @return bool
+     */
+    public function hideUserCSS($targetUid) {
+        return $this->user->setinfo("ubb.hide_user_css.$targetUid", true);
+    }
+
+    /***
+     * 显示用户CSS（小尾巴）
+     * @param $targetUid
+     * @return bool
+     */
+    public function showUserCSS($targetUid) {
+        $data = $this->user->getinfo("ubb.hide_user_css");
+        if (is_array($data)) {
+            unset($data[$targetUid]);
+        }
+        return $this->user->setinfo("ubb.hide_user_css", $data);
+    }
+
     /**
      * 获取指定关系的总记录数
      * @param $type
