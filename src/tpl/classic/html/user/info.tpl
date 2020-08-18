@@ -22,7 +22,7 @@
 <p class="txt">
  注册时间：{if $uinfo->regtime == 0}{if $uinfo->uid == $USER->uid}您{else}该用户{/if}是很久以前注册的，那时没有记录注册时间{else}{date('Y年m月d日 H:i:s',$uinfo->regtime)}{/if}
 </p>
-{if $user->uid != $uinfo->uid }
+{if $USER->islogin && $USER->uid != $uinfo->uid}
 <p class="txt">
  交友：{if $isFollow}<a href="javascript:relationship({$uinfo->uid}, 'unfollow')">取消关注</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'follow')">关注</a>{/if}
  / {if $isBlock}<a href="javascript:relationship({$uinfo->uid}, 'unblock')">取消屏蔽</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'block')">屏蔽</a>{/if}

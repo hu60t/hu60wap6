@@ -42,7 +42,7 @@
 		{/if}
     </td>
   </tr>
-  {if $user->uid != $uinfo->uid }
+  {if $USER->islogin && $USER->uid != $uinfo->uid}
     <tr>
       <td>交友：</td>
       <td>
