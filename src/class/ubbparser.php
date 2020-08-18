@@ -18,38 +18,38 @@ class UbbParser extends XUBBP
         * 按照顺序解析，顺序非常重要，排在后面的匹配可能会被忽略。
         */
         /*code 代码高亮*/
-        '!^(^|.*[\r\n]+)\[code(?:=(\w+))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
-        '!^(.*)\[code(?:=(\w+))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
+        '!^(^|.*?[\r\n]+)\[code(?:=(\w+))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
+        '!^(.*?)\[code(?:=(\w+))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
         /*time 时间*/
-        '!^(.*)\[time(?:=(.*?))?\](.*)$!is' => array(array(1, 3), 'time', array(2)),
+        '!^(.*?)\[time(?:=(.*?))?\](.*)$!is' => array(array(1, 3), 'time', array(2)),
         /*link 链接*/
-        '!^(.*)\[url(?:=(.*?))?\](.*?)\[/url\](.*)$!is' => array(array(1, 4), 'link', array('url', 2, 3)),
-        '!^(.*)《(链接|外链|锚)：(.*?)》(.*)$!is' => array(array(1, 4), 'link', array(2, 3)),
+        '!^(.*?)\[url(?:=(.*?))?\](.*?)\[/url\](.*)$!is' => array(array(1, 4), 'link', array('url', 2, 3)),
+        '!^(.*?)《(链接|外链|锚)：(.*?)》(.*)$!is' => array(array(1, 4), 'link', array(2, 3)),
         /*img 图片*/
-        '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img', 2, 3)),
-        '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img', array(2, 3)),
+        '!^(.*?)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img', 2, 3)),
+        '!^(.*?)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img', array(2, 3)),
         /*video 视频*/
-        '!^(.*)《视频：(.*?)》(.*)$!is' => array(array(1, 3), 'video', array(2)),
+        '!^(.*?)《视频：(.*?)》(.*)$!is' => array(array(1, 3), 'video', array(2)),
         /*videoStream 视频*/
-        '!^(.*)《视频流：(.*?)》(.*)$!is' => array(array(1, 3), 'videoStream', array(2)),
+        '!^(.*?)《视频流：(.*?)》(.*)$!is' => array(array(1, 3), 'videoStream', array(2)),
         /*audioStream 视频*/
-        '!^(.*)《音频流：(.*?)》(.*)$!is' => array(array(1, 3), 'audioStream', array(2)),
+        '!^(.*?)《音频流：(.*?)》(.*)$!is' => array(array(1, 3), 'audioStream', array(2)),
         /*copyright 版权*/
-        '!^(.*)《版权：(.*?)》(.*)$!is' => array(array(1, 3), 'copyright', array(2)),
+        '!^(.*?)《版权：(.*?)》(.*)$!is' => array(array(1, 3), 'copyright', array(2)),
         /*battlenet 战网*/
-        '!^(.*)《战网：(.*?)》(.*)$!is' => array(array(1, 3), 'battlenet', array(2)),
+        '!^(.*?)《战网：(.*?)》(.*)$!is' => array(array(1, 3), 'battlenet', array(2)),
         /*math 数学公式*/
-        '!^(.*)\[math\](.*?)\[/math\](.*)$!is' => array(array(1, 3), 'math', array('math', 2)),
-        '!^(.*)《公式：(.*?)》(.*)$!is' => array(array(1, 3), 'math', array('mathzh', 2)),
+        '!^(.*?)\[math\](.*?)\[/math\](.*)$!is' => array(array(1, 3), 'math', array('math', 2)),
+        '!^(.*?)《公式：(.*?)》(.*)$!is' => array(array(1, 3), 'math', array('mathzh', 2)),
         /*tab 四个空格*/
-        '!^(.*)\[tab\](.*)$!is' => array(array(1, 2), 'tab', array(2)),
+        '!^(.*?)\[tab\](.*)$!is' => array(array(1, 2), 'tab', array(2)),
         /*empty UBB转义*/
-        '!^(.*)\[empty\](.*)$!is' => array(array(1, 2), 'emptyTag', array(2)),
+        '!^(.*?)\[empty\](.*)$!is' => array(array(1, 2), 'emptyTag', array(2)),
         /*newline 换行*/
-#       '!^(.*)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
-#       '!^(.*)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
-        '!^(.*)\[([bh]r)\](.*)$!is' => array(array(1, 3), 'newline', array(2)),
-        //'!^(.*)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
+#       '!^(.*?)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
+#       '!^(.*?)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
+        '!^(.*?)\[([bh]r)\](.*)$!is' => array(array(1, 3), 'newline', array(2)),
+        //'!^(.*?)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
 
         /*
         * 开始标记
@@ -59,9 +59,9 @@ class UbbParser extends XUBBP
         * 否则会出现代码嵌套错误。
         */
         /*layoutStart 布局开始*/
-        '!^(.*)\[(b|i|u|center|left|right)\](.*)$!is' => array(array(1, 3), 'layoutStart', array(2)),
+        '!^(.*?)\[(b|i|u|center|left|right)\](.*)$!is' => array(array(1, 3), 'layoutStart', array(2)),
         /*style 样式开始*/
-        '!^(.*)\[(color|div|span)=(.*?)\](.*)$!is' => array(array(1, 4), 'styleStart', array(2, 3)),
+        '!^(.*?)\[(color|div|span)=(.*?)\](.*)$!is' => array(array(1, 4), 'styleStart', array(2, 3)),
         /*
         * 结束标记
         *
@@ -85,17 +85,17 @@ class UbbParser extends XUBBP
         * 可能会影响其他标记正常匹配的标记放在这里。
         */
 		/*百度输入法多媒体输入*/
-		'#^(.*)(https?://ci\.baidu\.com/[a-zA-Z0-9]+)(.*)$#is' => array(array(1, 3), 'urltxt', array(2)),
+		'#^(.*?)(https?://ci\.baidu\.com/[a-zA-Z0-9]+)(.*)$#is' => array(array(1, 3), 'urltxt', array(2)),
         /*urltxt 文本链接*/
-        '!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is' => array(array(1, 3), 'urltxt', array(2)),
+        '!^(.*?)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is' => array(array(1, 3), 'urltxt', array(2)),
         #'#^(.*?)((?<!@)[a-zA-Z0-9._-]{1,255}\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$#is' => array(array(1,3), 'urltxt', array(2)),
         /*mailtxt 文本电子邮件地址*/
         '!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is' => array(array(1, 3), 'mailtxt', array(2)),
         /*at @消息*/
         '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)(.*)$!uis' => array(array(1, 3), 'at', array(2)),
         /*face 表情*/
-        '!^(.*)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
-        '!^(.*)《(?:表情)?(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
+        '!^(.*?)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
+        '!^(.*?)《(?:表情)?(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
     );
 
 	/**
@@ -138,7 +138,7 @@ class UbbParser extends XUBBP
 		// 保护markdown内容不受XUBBP解析器干扰
 		
 		/*urltxt 文本链接*/
-		$this->parse['!^(.*)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is'] = array(array(1, 3), 'mdpre', array(2));
+		$this->parse['!^(.*?)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is'] = array(array(1, 3), 'mdpre', array(2));
 		
 		/*mailtxt 文本电子邮件地址*/
 		$this->parse['!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is'] = array(array(1, 3), 'mdpre', array(2));
@@ -146,7 +146,7 @@ class UbbParser extends XUBBP
 		// 添加新的匹配规则
 		$parseHead = [
 			/*mdcode markdown代码高亮*/
-			'!^(^|.*?[\r\n]+)(`{3,})(\w+)?([\r\n]+.*?[\r\n]+)\2([\r\n]+.*|$)$!is' => array(array(1, 5), 'mdcode', array(3, 4, 2)),
+			'!^(^|.*?[\r\n])(`{3,})(\w+)?([\r\n].*?[\r\n])\2([\r\n].*|$)$!is' => array(array(1, 5), 'mdcode', array(3, 4, 2)),
 			/*inline代码*/
 			'!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
 		];
