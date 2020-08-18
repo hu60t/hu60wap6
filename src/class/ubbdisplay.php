@@ -510,13 +510,14 @@ class UbbDisplay extends XUBBP
                 $opt = preg_replace('#position\s*:[^;]*;?#is', '', $opt);
             }
 
+            $uid = (int)($this->getOpt('uid'));
             switch ($data['tag']) {
                 case 'color':
-                    return '<span class="usercss" style="color:' . code::html($data['opt'], false, true) . '">';
+                    return '<span class="usercss uid-'.$uid.'" style="color:' . code::html($data['opt'], false, true) . '">';
                 case 'div':
-                    return '<div class="usercss" style="' . code::html($data['opt'], false, true) . '">';
+                    return '<div class="usercss uid-'.$uid.'" style="' . code::html($data['opt'], false, true) . '">';
                 case 'span':
-                    return '<span class="usercss" style="' . code::html($data['opt'], false, true) . '">';
+                    return '<span class="usercss uid-'.$uid.'" style="' . code::html($data['opt'], false, true) . '">';
             }
         } else {
             if ($this->getOpt("style.hideUserCSS")) {

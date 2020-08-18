@@ -401,6 +401,7 @@ class userinfo implements ArrayAccess
 	public function setUbbOpt($ubb) {
 		global $USER;
 
+        $ubb->setOpt('uid', $this->uid);
         $ubb->setOpt('style.disable', $this->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE));
         $ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
 
