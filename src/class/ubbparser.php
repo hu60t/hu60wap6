@@ -237,22 +237,23 @@ class UbbParser extends XUBBP
             }
         }
 
-        if (stripos($title, '[color=') !== false ||
-            stripos($title, '[div=') !== false ||
-            stripos($title, '[span=') !== false ||
-            stripos($title, '[img') !== false ||
+        if (preg_match('!\[(b|i|u|center|left|right|color|div|span|img)=?!is', $title) ||
             strpos($title, '《图片：') !== false ||
             strpos($title, '《缩略图：') !== false) {
             $obj = new ubbParser;
             $obj->setParse(array(
+                /*layoutStart 布局开始*/
+                '!^(.*?)\[(b|i|u|center|left|right)\](.*)$!is' => array(array(1, 3), 'layoutStart', array(2)),
                 /*style 样式开始*/
                 '!^(.*?)\[(color|div|span)=(.*?)\](.*)$!is' => array(array(1, 4), 'styleStart', array(2, 3)),
 
-                '!^(.*)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img_in_link', 2, 3)),
-                '!^(.*)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img_in_link', array(2, 3)),
+                '!^(.*?)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img_in_link', 2, 3)),
+                '!^(.*?)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img_in_link', array(2, 3)),
 
                 /*style 样式结束*/
                 '!^(.*?)\[/(color|div|span)\](.*)$!is' => array(array(1, 3), 'styleEnd', array(2)),
+                /*layout 布局结束*/
+                '!^(.*?)\[/(b|i|u|center|left|right)\](.*)$!is' => array(array(1, 3), 'layoutEnd', array(2)),
             ));
             $title = $obj->parse($title);
         }

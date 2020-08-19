@@ -214,7 +214,11 @@ class UbbDisplay extends XUBBP
     {
         global $PAGE;
         if (is_array($data['title'])) {
+            $markdownEnable = $this->markdownEnable;
+            // 防止markdown保护干扰UBB解析
+            $this->markdownEnable = false;
             $data['title'] = $this->display($data['title']);
+            $this->markdownEnable = $markdownEnable;
         } else {
             if (trim($data['title']) == '') $data['title'] = $data['url'];
             $data['title'] = code::html($data['title']);
