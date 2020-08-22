@@ -33,7 +33,7 @@
                         <div class="topic-info">
                             <div class="topic-anchor">
                                 <a href="user.info.{$reply.uinfo.uid}.{$BID}">
-                                <img src="{$reply.uinfo->avatar()}" class="avatar">
+                                <img src="{if $reply.uinfo}{$reply.uinfo->avatar()}{/if}" class="avatar">
                                 </a>
                                 <a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a>
                             </div>
