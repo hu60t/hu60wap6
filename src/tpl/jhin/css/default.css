@@ -167,8 +167,16 @@ latex-js {
     display: inline-block;
 }
 
-.topic-content, .floor-content, .chat-content, .floor_content {
+.topic-content, .chat-content, .floor-content, .floor_content {
   position: relative;
+}
+
+.topic-content img, .chat-content img, .floor-content img, .floor_content img {
+  box-shadow: 0 0 5px #ccc;
+}
+
+.hu60_face {
+    box-shadow: none !important;
 }
 
 .topic-status {
