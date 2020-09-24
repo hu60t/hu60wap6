@@ -22,6 +22,20 @@
 {/if}
 {if $wechat}
   <h3>您已订阅虎绿林微信推送服务</h3>
+  <table>
+    <tr>
+      <td>订阅用户：</td>
+      <td>{$wechat.userName|code}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><img src="{$wechat.userHeadImg|code}" alt="{$wechat.userName|code}" /></td>
+    </tr>
+    <tr>
+      <td>订阅时间：</td>
+      <td>{date('Y-m-d H:i:s', $wechat.time / 1000)}</td>
+    </tr>
+  </table>
   <form method="post" action="{$CID}.{$PID}.{$BID}">
     <input type="submit" name="unsubscribe" value="退订" />
   </form>
