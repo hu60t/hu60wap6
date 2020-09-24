@@ -1,6 +1,6 @@
 <?php
 if ('cli' != php_sapi_name()) {
-    die('run in shell: php initialization.php [-f]');
+    die('run in shell: php init.php [-f]');
 }
 
 $forceCopy = isset($argv[1]) && $argv[1]=='-f';

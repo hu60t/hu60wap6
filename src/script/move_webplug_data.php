@@ -1,6 +1,6 @@
 <?php
 if ('cli' != php_sapi_name()) {
-	die('run in shell: php import_bk.php');
+	die('run in shell: php move_webplug_data.php');
 }
 
 include '../config.inc.php';
