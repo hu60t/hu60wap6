@@ -78,6 +78,14 @@ define('SECCODE_SMS_MAX_ERR', 5);
 define('SECCODE_SMS_PROVIDER_INFO', '<p>短信验证码由虎绿林提供</p>');
 
 
+///////////////////// 第三方微信推送服务 /////////////////////
+
+/**
+ * WxPusher微信推送服务的APP_TOKEN
+ */
+define('WXPUSHER_APP_TOKEN', 'AT_e7EADcIGQgjbiFJyZnFBUXZPrCDzc9O6');
+
+
 ///////////////////// 上传附件到百度云存储（BOS） /////////////////////
 
 /**
