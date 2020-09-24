@@ -41,7 +41,7 @@ class token
     {
         $this->lifetime = time() + $lifetime;
 		$this->data = $data;
-        $this->token = str_shuffle(md5($this->user->sid . microtime() . rand(-2147483648, 2147483647)));
+        $this->token = md5(str::random_bytes(128));
         $rs = $this->db->insert('token', 'uid,token,lifetime,data', (int)$this->user->uid, $this->token, (int)$this->lifetime, (string)$this->data);
         if ($rs)
             return $this->token;
