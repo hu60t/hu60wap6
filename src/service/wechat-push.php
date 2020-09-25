@@ -125,7 +125,7 @@ $text
 EOF;
                     } else {
                         $type = '@消息';
-                        $url = SITE_URL_PREFIX.'/q.php/'.$ubb->atMsgUrl;
+                        $url = SITE_URL_PREFIX."/q.php/link.ack.at.$arr[id].html?url64=".code::b64e($ubb->atMsgUrl);
                     }
 
                     @$uinfo->uid($arr['touid']);
