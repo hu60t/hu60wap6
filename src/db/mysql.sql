@@ -227,7 +227,7 @@ CREATE TABLE `hu60_user` (
   `regtime` bigint(20) NOT NULL,
   `sidtime` bigint(20) NOT NULL,
   `acctime` bigint(20) NOT NULL,
-  `info` blob DEFAULT NULL,
+  `info` text CHARACTER SET utf8mb4 DEFAULT NULL,
   `mail` varchar(255) DEFAULT NULL,
   `regphone` char(11) CHARACTER SET ascii DEFAULT NULL,
   `permission` bit(8) NOT NULL DEFAULT b'1000000',
