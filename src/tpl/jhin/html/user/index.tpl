@@ -74,7 +74,8 @@
 			已绑定手机号
 		{else}
 			<a href="{$CID}.active.{$BID}?sid={$USER->sid}">手机号</a>
-		{/if}
+		{/if} /
+    <a href="{$CID}.wechat.{$BID}">微信通知</a>
     </td>
   </tr>
   <tr>

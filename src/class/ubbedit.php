@@ -2,6 +2,9 @@
 
 class ubbEdit extends XUBBP
 {
+    // 解析at通知信息时得到的url
+    public $atMsgUrl = null;
+
     /*注册显示回调函数*/
     protected $display = array(
 		/*开启markdown*/
@@ -54,6 +57,8 @@ class ubbEdit extends XUBBP
         'face' => 'face',
         /*管理员操作*/
         'delContent' => 'adminDelContent',
+        /*at通知信息（用于推送通知）*/
+        'atMsg' => 'atMsg',
     );
 
     protected static function html($str) {
@@ -318,5 +323,31 @@ class ubbEdit extends XUBBP
     /*管理员删除的内容*/
     public function adminDelContent($data) {
         return '';
+    }
+
+    /*at通知信息（用于推送通知）*/
+    public function atMsg($data)
+    {
+        global $PAGE;
+
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+
+        $this->atMsgUrl = str_replace('{$BID}', $PAGE->bid, $data['url']);
+        $pos = $data['pos'];
+
+		if (is_array($data['msg'])) {
+            $uinfo->setUbbOpt($this);
+            $msg = $this->display($data['msg']);
+            $msg = preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $msg);
+		} else {
+	        $msg = $data['msg'];
+		}
+
+        return <<<HTML
+@{$uinfo->name} 在 $pos @你：
+
+{$msg}
+HTML;
     }
 }

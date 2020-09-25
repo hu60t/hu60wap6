@@ -26,6 +26,22 @@ define('MEMCACHED_HOST', 'localhost');
 /** 服务器端口 */
 define('MEMCACHED_PORT', 11211);
 
+
+/**
+ * canal服务设置
+ *
+ * 为虎绿林微信推送服务提供事件通知 
+ */
+/** 服务名称 */
+define('CANAL_NAME', 'hu60');
+/** 服务器主机名 */
+define('CANAL_HOST', 'localhost');
+/** 服务器端口 */
+define('CANAL_PORT', 11111);
+/** 服务订阅id */
+define('CANAL_SUB_ID', 1001);
+
+
 /**
  * Smarty编译设置
  *

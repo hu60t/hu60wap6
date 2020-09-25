@@ -36,8 +36,13 @@
       <td>{date('Y-m-d H:i:s', $wechat.time / 1000)}</td>
     </tr>
   </table>
+  <hr>
   <form method="post" action="{$CID}.{$PID}.{$BID}">
     <input type="submit" name="unsubscribe" value="退订" />
   </form>
 {/if}
+<hr>
+<p class="txt">
+  微信推送服务暂时只会推送内信和@消息，更多功能开发中……
+</p>
 {/block}
