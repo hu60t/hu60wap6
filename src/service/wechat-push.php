@@ -111,7 +111,7 @@ while (true) {
                     $uinfo = new UserInfo();
                     @$uinfo->uid($arr['byuid']);
 
-                    $ubb = new ubbedit();
+                    $ubb = new UbbText();
                     @$text = $ubb->display($arr['content'], true);
                     $text = preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $text);
 
