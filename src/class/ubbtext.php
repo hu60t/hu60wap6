@@ -347,9 +347,9 @@ class UbbText extends XUBBP
 		if (is_array($data['msg'])) {
             $uinfo->setUbbOpt($this);
             $msg = $this->display($data['msg']);
-            $msg = preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $msg);
+            $msg = trim(preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $msg));
 		} else {
-	        $msg = $data['msg'];
+	        $msg = trim($data['msg']);
 		}
 
         return <<<HTML

@@ -113,7 +113,7 @@ while (true) {
 
                     $ubb = new UbbText();
                     @$text = $ubb->display($arr['content'], true);
-                    $text = preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $text);
+                    $text = trim(preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $text));
 
                     if ($arr['type'] == msg::TYPE_MSG) {
                         $type = '内信';
