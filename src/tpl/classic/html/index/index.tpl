@@ -57,6 +57,10 @@
 <div id="tools">
 	<p>『Linux游戏』</p>
 	<p>-<a href="https://winegame.net/">Wine游戏助手</a></p>
+	<p>-<a href="https://winegame.net/games">游戏列表</a></p>
+	<p>-<a href="https://winegame.net/games?genres=26">软件列表</a></p>
+	<p>-<a href="bbs.forum.170.{$BID}">论坛板块</a></p>
+	<p>-<a href="bbs.topic.95988.{$BID}">QQ群/微信群</a></p>
 </div>
 <hr>
 <div id="tools">
