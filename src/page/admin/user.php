@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 18-5-2
- * Time: 下午10:16
- */
-
 $tpl = $PAGE->start();
 $USER->start($tpl);
 if (!$USER->islogin || $USER->uid != 1)

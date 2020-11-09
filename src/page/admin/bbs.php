@@ -17,7 +17,7 @@ switch ($PAGE->ext[0]) {
             } else {
                 $pid = $_POST['parent_id'];
             }
-            $ok = $bbs->createForum($_POST['name'], $pid, $_POST['bz']);
+            $ok = $bbs->createForum($_POST['name'], $pid);
             if (!$ok)
                 throw new Exception('未知原因发帖失败，请重试或联系管理员');
         }
