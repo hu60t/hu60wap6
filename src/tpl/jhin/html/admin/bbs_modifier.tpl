@@ -23,15 +23,6 @@
             </div>
         </div>
     </div>
-
-    {if $xg['parent_id']!=0}
-        <div class="field">
-            <label class="label">版主列表(用ID表示，以“,”隔开)</label>
-            <div class="control">
-                <input class="input" type="text" name="bz" value="{$xg['bz']}">
-            </div>
-        </div>
-    {/if}
     <div class="field">
         <div class="control">
             <input type="submit" name="yes" id="submit" class="button" value="修改"/>

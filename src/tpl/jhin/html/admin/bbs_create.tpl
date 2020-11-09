@@ -18,12 +18,6 @@
         </div>
     </div>
     <div class="field">
-        <label class="label">版主(用户ID，以“|”隔开)</label>
-        <div class="control">
-            <input type="text" name="bz" id="username_LCxiI" class="txt input" value="{$array['bz']}"/>
-        </div>
-    </div>
-    <div class="field">
         <div class="control">
             <input type="submit" name="yes" id="submit" class="cr_login_submit button" value="创建论坛板块"/>
         </div>
