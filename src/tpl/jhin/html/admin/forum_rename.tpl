@@ -26,15 +26,6 @@
                         </div>
                     </div>
                 </div>
-                {*FIXME: 版主列表内容无法保存*}
-                {if $forum['parent_id']!=0}
-                    <div class="field">
-                        <label class="label">版主列表(用ID表示，以“,”隔开)</label>
-                        <div class="control">
-                            <input class="input" type="text" name="bz" value="{$forum['bz']}">
-                        </div>
-                    </div>
-                {/if}
                 <div class="field">
                     <div class="control">
                         <input type="submit" class="button" value="保存"/>

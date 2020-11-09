@@ -20,6 +20,7 @@
                 <a class="navbar-item {if $PID=='bbs' && $PAGE->ext[0] == 'createbk'}is-active{/if}" href="admin.bbs.createbk.{$bid}">创建板块</a>
                 <a class="navbar-item {if $PID=='bbs' && $PAGE->ext[0] != 'createbk'}is-active{/if}" href="admin.bbs.forum.{$bid}">版块管理</a>
                 <a class="navbar-item {if $PID=='user'}is-active{/if}" href="admin.user.{$bid}">用户管理</a>
+                <a class="navbar-item {if $PID=='friend_links'}is-active{/if}" href="admin.friend_links">友链管理</a>
             </div>
         </div>
     </div>
