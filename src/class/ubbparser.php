@@ -316,6 +316,19 @@ class UbbParser extends XUBBP
      */
     public function video($url)
     {
+        // 哔哩哔哩app的分享链接，不能直接播放，需要转换为带BV号的视频链接
+        if (preg_match('#^https?://b23.tv/[a-zA-Z0-9]+#is', $url)) {
+            $headers = get_headers($url, 1, stream_context_create(['http' => ['timeout' => 1]]));
+            if (is_array($headers) && is_array($headers['Location'])) {
+                $newUrl = $headers['Location'][count($headers['Location'])-1];
+            } else {
+                $newUrl = $headers['Location'];
+            }
+            if (preg_match('#\b(?:bilibili\.com|b23\.tv)\b.*\b(BV[\w]+)(?:.*\bp=(\d+))?#', $newUrl)) {
+                $url = $newUrl;
+            }
+        }
+
         return array(array(
             'type' => 'video',
             'url' => trim($url),
