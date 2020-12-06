@@ -269,7 +269,7 @@ class bbs
                 throw new bbsException('版块 ' . $data['name'] . ' 禁止发帖，请重新选择。', 403);
 
             //标题处理
-            $title = mb_substr(trim($title), 0, 50, 'utf-8');
+            $title = mb_substr(trim($title), 0, 100, 'utf-8');
             //内容处理
             $ubb = new ubbparser;
             $data = $ubb->parse($content, true);
@@ -369,7 +369,7 @@ class bbs
     {
 		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
 
-        $title = mb_substr(trim($newTitle), 0, 50, 'utf-8');
+        $title = mb_substr(trim($newTitle), 0, 100, 'utf-8');
 
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,mtime=?,review=? WHERE id=?';
 
