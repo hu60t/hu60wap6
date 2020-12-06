@@ -34,47 +34,51 @@ git submodule update
 安装说明
 -----------------
 
-1. 把 `src` 文件夹里的全部文件放在网站根目录。
+1. 注意: 网站源代码使用符号连接处理“在不同位置有多个内容相同的文件”这种情况。如果网站运行在Windows中，建议在WSL内`git clone`或者解压`zip`，以保留符号连接。如果网站运行在Linux中，请不要在Windows中解压源代码然后重新打包，否则符号连接会丢失，你可以考虑通过命令行下载源代码并解压，或者使用`git clone`命令获取源代码。此外，在`Git for Windows`中启用符号连接支持也无法解决该问题，参见步骤9中的描述。
 
-2. 如果你使用Linux，可以用如下命令取代下面两步：
-```bash
-# 先cd到网站根目录
-php script/init.php
-```
-如果你使用Windows，上面的命令可能不能用，请按照下面两步的说明手动复制文件。
+   如果符号连接已经丢失，你会遇到**配置文件"site.info"不存在**错误，请使用步骤9中的解决方法。注意`site_info.conf`复制到目标文件夹后需要改名为`info.conf`。
 
-2. 进入网站根目录，把`config.inc.default.php`复制一份，改名为`config.inc.php`。然后再把 `config` 文件夹里的所有 `xxx.default.php` 都复制一份，改名成 xxx.php，去掉 `.default`。如果你准备用git进行版本控制，建议采用复制而不是删除原文件或者直接给原文件重命名。
+2. 把 `src` 文件夹里的全部文件放在网站根目录。
+
+3. 如果你使用Linux，可以用如下命令取代下面两步：
+   ```bash
+   # 先cd到网站根目录
+   php script/init.php
+   ```
+   如果你使用Windows，上面的命令可能不能用，请按照下面两步的说明手动复制文件。
+
+4. 进入网站根目录，把`config.inc.default.php`复制一份，改名为`config.inc.php`。然后再把 `config` 文件夹里的所有 `xxx.default.php` 都复制一份，改名成 xxx.php，去掉 `.default`。如果你准备用git进行版本控制，建议采用复制而不是删除原文件或者直接给原文件重命名。
 
    也就是说，把`config.inc.default.php`复制为`config.inc.php`，再把 `config/xxx.default.php` 复制为 `config/xxx.php`。
 
-3. 进入 `config/tpl` 文件夹，把 `site_info.default.conf` 复制一份，改名为 `site_info.conf`。
+5. 进入 `config/tpl` 文件夹，把 `site_info.default.conf` 复制一份，改名为 `site_info.conf`。
 
    也就是说，把 `config/tpl/site_info.default.conf` 复制为 `config/tpl/site_info.conf`。
 
-3. 修改 `config/db.php` ，填写好 mysql 信息。
+6. 修改 `config/db.php` ，填写好 mysql 信息。
 
-4. 导入 `db/mysql.sql` 到数据库。
+7. 导入 `db/mysql.sql` 到数据库。
 
-5. 访问。
+8. 访问。
 
-5. 在Windows中，你可能会遇到这样的错误：
+9. 在Windows中，你可能会遇到这样的错误：
    ```
    Syntax error in config file 'conf:site.info' on line 1 '../../../../config/tpl/site_info.conf'
    ```
    这是因为你所使用的Windows版解压缩软件或者git工具不支持符号连接，所以就把链接的源位置做为文本内容保存在了目标位置。
    要解决该问题，你需要把多个文件从源位置复制到目标位置，分别是：
-   * `src/config/tpl/site_info.conf` -> `src/tpl/classic/html/site/info.conf`
-   * `src/config/tpl/site_info.conf` -> `src/tpl/jhin/html/site/info.conf`
+   * `src/config/tpl/site_info.conf` -> `src/tpl/classic/html/site/info.conf` (注意文件要改名为`info.conf`)
+   * `src/config/tpl/site_info.conf` -> `src/tpl/jhin/html/site/info.conf` (注意文件要改名为`info.conf`)
    
    此外还需要提醒你的是：不要将你的这些更改提交到git版本库，因为我们希望保留符号连接，而不是多个相同文件的复制品。
    如果你想要避免这些麻烦，建议在WSL（Windows Subsystem of Linux，适用于Linux的Windows子系统）中运行`git clone`来获得源代码，WSL中的git可以正确创建符号连接。此外，你也可以在WSL中运行web服务器。
-   新版本的`Git for Windows`如果启用相关选项，也可以创建符号连接，但似乎只适用于符号连接的源文件存在的情况下。在clone本项目时，符号连接的源文件并不存在，所以`Git for Windows`似乎也会创建内容为源位置的文本文件做为替代。
+   新版本的`Git for Windows`如果启用相关选项，也可以创建符号连接，但不适用于本项目。因为在clone本项目时，符号连接的源文件并不存在，所以`Git for Windows`只会创建内容为源文件位置的文本文件做为替代。
 
-6. uid 为 1 的用户会成为系统的管理员用户，可以访问后台（虽然后台只有添加版块这一个功能，修改版块的功能是崩溃的。）
+10. uid 为 1 的用户会成为系统的管理员用户，可以访问后台（虽然后台只有添加版块这一个功能，修改版块的功能是崩溃的。）
 
-7. 要让附件上传功能生效，不仅需要正确设置七牛云AK/SK，修改html中的域名，还需要正确安装本项目的`nonfree`子模块，参考“源代码获取说明”一节。
+11. 要让附件上传功能生效，不仅需要正确设置七牛云AK/SK，修改html中的域名，还需要正确安装本项目的`nonfree`子模块，参考“源代码获取说明”一节。
 
-8. 要让防CC功能生效，对于Linux，需要允许PHP访问`/dev/shm`文件夹（该文件夹为Linux内的共享内存文件夹）。如果是Apache，使用如下配置：
+12. 要让防CC功能生效，对于Linux，需要允许PHP访问`/dev/shm`文件夹（该文件夹为Linux内的共享内存文件夹）。如果是Apache，使用如下配置：
    ```
    php_admin_value open_basedir "web根目录:其他路径:/dev/shm/"
    ```
