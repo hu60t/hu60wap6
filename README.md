@@ -77,6 +77,10 @@ git submodule update
    ```
    Syntax error in config file 'conf:site.info' on line 1 '../../../../config/tpl/site_info.conf'
    ```
+   或者这样的错误：
+   ```
+   Fatal error: Uncaught PageException: 配置文件 "site.info" 不存在
+   ```
    这是因为你所使用的Windows版解压缩软件或者git工具不支持符号连接，所以就把链接的源位置做为文本内容保存在了目标位置。
    要解决该问题，你需要把多个文件从源位置复制到目标位置，分别是：
    * `src/config/tpl/site_info.conf` -> `src/tpl/classic/html/site/info.conf` (注意文件要改名为`info.conf`)
