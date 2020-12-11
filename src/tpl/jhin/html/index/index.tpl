@@ -97,7 +97,7 @@
         <div class="bar">小说阅读</div>
         <div class="content-box">
             <p><a href="book.index.html">小说列表</a></p>
-			<p><a href="http://www.xrzww.com/?t={time()}">联合阅读</a>：承诺不剥削作者，由网文作家月影梧桐创建（公测中）</p>
+			<p><a href="http://www.xrzww.com/?t={time()}">息壤中文网</a>：承诺不剥削作者，由网文作家月影梧桐创建</p>
         </div>
     </div>
     <div class="widget">
