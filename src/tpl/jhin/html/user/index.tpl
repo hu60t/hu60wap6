@@ -75,7 +75,7 @@
 		{else}
 			<a href="{$CID}.active.{$BID}?sid={$USER->sid}">手机号</a>
 		{/if} /
-    <a href="{$CID}.wechat.{$BID}">微信推送</a>
+    <a href="{$CID}.wechat.{$BID}">微信推送</a>: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
     </td>
   </tr>
   <tr>
