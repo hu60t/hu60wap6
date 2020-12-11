@@ -52,7 +52,8 @@
 <div class="breadcrumb">
   <a href="msg.index.inbox.all.{$bid}">收件箱</a> |
   <a href="msg.index.outbox.all.{$bid}">发件箱</a> |
-  聊天模式
+  @消息 |
+  <a href="user.wechat.{$bid}">微信推送</a>: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
 </div>
 
 <script>

@@ -14,17 +14,17 @@
   <span class="pt_y"><a href="user.exit.{$bid}">退出</a></span>
 </div>
 {if $qrcode}
-  <h3>微信扫码订阅虎绿林推送服务</h3>
+  <h3>微信扫码绑定虎绿林推送服务</h3>
   <p class="txt">
     <img src="{$qrcode.url|code}" width="240"/><br/>
   </p>
   <p>扫码后请<a href="{$CID}.{$PID}.{$BID}?r={time()}">手动刷新</a>查看是否成功</p>
 {/if}
 {if $wechat}
-  <h3>您已订阅虎绿林微信推送服务</h3>
+  <h3>您已绑定虎绿林微信推送服务</h3>
   <table>
     <tr>
-      <td>订阅用户：</td>
+      <td>绑定用户：</td>
       <td>{$wechat.userName|code}</td>
     </tr>
     <tr>
@@ -32,17 +32,22 @@
       <td><img src="{$wechat.userHeadImg|code}" alt="{$wechat.userName|code}" /></td>
     </tr>
     <tr>
-      <td>订阅时间：</td>
+      <td>绑定时间：</td>
       <td>{date('Y-m-d H:i:s', $wechat.time / 1000)}</td>
     </tr>
   </table>
   <hr>
   <form method="post" action="{$CID}.{$PID}.{$BID}">
-    <input type="submit" name="unsubscribe" value="退订" />
+    <input type="submit" name="unsubscribe" value="解绑" />
   </form>
 {/if}
 <hr>
 <p class="txt">
   微信推送服务暂时只会推送内信和@消息，更多功能开发中……
 </p>
+<hr>
+<a href="msg.index.inbox.all.{$bid}">收件箱</a> |
+<a href="msg.index.outbox.all.{$bid}">发件箱</a> |
+<a href="msg.index.@.{$bid}">@消息</a> |
+微信推送: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
 {/block}

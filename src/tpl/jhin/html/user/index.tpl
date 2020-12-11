@@ -75,7 +75,7 @@
 		{else}
 			<a href="{$CID}.active.{$BID}?sid={$USER->sid}">手机号</a>
 		{/if} /
-    <a href="{$CID}.wechat.{$BID}">微信通知</a>
+    <a href="{$CID}.wechat.{$BID}">微信推送</a>
     </td>
   </tr>
   <tr>

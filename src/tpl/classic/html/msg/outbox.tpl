@@ -25,7 +25,8 @@
 发件箱里空空的。
 {/if}
 <hr />
-聊天模式 |
 <a href="msg.index.inbox.all.{$bid}">收件箱</a> |
-<a href="msg.index.@.{$bid}">@消息</a>
+发件箱 |
+<a href="msg.index.@.{$bid}">@消息</a> |
+<a href="user.wechat.{$bid}">微信推送</a>: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
 {include file="tpl:comm.foot"}

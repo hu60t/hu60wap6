@@ -50,8 +50,9 @@
 </div>
 {/if}
 <div class="breadcrumb">
-聊天模式 |
+收件箱 |
 <a href="msg.index.outbox.all.{$bid}">发件箱</a> |
-<a href="msg.index.@.{$bid}">@消息</a>
+<a href="msg.index.@.{$bid}">@消息</a> |
+<a href="user.wechat.{$bid}">微信推送</a>: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
 </div>
 {/block}
