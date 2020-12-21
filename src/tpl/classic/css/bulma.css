@@ -6748,6 +6748,10 @@ a.navbar-item:hover, a.navbar-item.is-active,
     background-color: white;
     box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
     padding: 0.5rem 0;
+    display: block;
+  }
+  .navbar-item {
+    display: inline;
   }
   .navbar-menu.is-active {
     display: block;
