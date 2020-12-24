@@ -41,6 +41,7 @@
     <p>
         <input type="submit" id="edit_topic_button" name="go" class="cr_login_submit" value="保存修改" />
         <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+        <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
         {include file="tpl:comm.addfiles"}
     </p>
         {else}

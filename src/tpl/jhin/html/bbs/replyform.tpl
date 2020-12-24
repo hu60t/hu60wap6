@@ -35,6 +35,7 @@
                 {input type="hidden" name="token" value=$token->token()}
                 {input type="submit" id="reply_topic_button" name="go" value="回复"}
                 <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+                <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
                 {include file="tpl:comm.addfiles"}
             {/form}
         {else}

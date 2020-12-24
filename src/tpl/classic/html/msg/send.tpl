@@ -20,6 +20,7 @@
 <p>
 	<input type="submit" id="send_msg_button" name="go" value="确认发送"/>
 	<input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+	<a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
 	{include file="tpl:comm.addfiles"}
 </p>
 {/form}

@@ -38,6 +38,7 @@
         {/if}
         <input type="submit" id="post_topic_button" name="go" class="topic-form-submit" value="保存修改" />
         <input type="button" id="add_files" class="topic-form-submit" value="添加附件" onclick="addFiles()"/>
+        <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
         {include file="tpl:comm.addfiles"}
       {else}
       <p>

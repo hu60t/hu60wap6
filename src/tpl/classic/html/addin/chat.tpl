@@ -61,6 +61,7 @@
                     <input type="hidden" name="token" value="{$token->token()}">
                     <input type="submit" id="quick_chat_button" name="go" id="submit" class="cr_login_submit" value="快速发言"/>
                     <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+                    <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
                     {include file="tpl:comm.addfiles"}
                 {else}
                     必须<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>才能发言。
