@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
         }
     }
 
-    $title = $type == 'follow' ? '关注列表' : '黑名单列表';
+    $title = $type == 'follow' ? '关注列表' : '屏蔽列表';
     $tpl->assign('title', $title);
     $tpl->assign('type', $type);
     $tpl->assign('userList', $userList);

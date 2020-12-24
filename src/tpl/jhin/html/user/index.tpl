@@ -54,8 +54,9 @@
 	    <a href="msg.index.@.{$bid}">@消息</a> / 
 	    <a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}">帖子</a> /
       <a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}&searchType=reply">回复</a> /
+      <a href="bbs.myfavorite.{$bid}">收藏</a> /
       <a href="user.relationship.follow.{$bid}">关注</a> /
-      <a href="user.relationship.block.{$bid}">黑名单</a>
+      <a href="user.relationship.block.{$bid}">屏蔽</a>
     </td>
   </tr>
   <tr>

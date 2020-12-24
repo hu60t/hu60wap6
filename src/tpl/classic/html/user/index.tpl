@@ -27,27 +27,38 @@
  注册时间：{if $USER->regtime == 0}您是很久以前注册的，那时没有记录注册时间{else}{date('Y年m月d日 H:i:s',$USER->regtime)}{/if}
 </p>
 <p class="txt">
-查看：<a href="msg.index.{$bid}">内信</a>/<a href="msg.index.@.{$bid}">@消息</a>/<a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}">帖子</a>/<a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}&searchType=reply">回复</a>
-    /<a href="user.relationship.follow.{$bid}">关注</a>/<a href="user.relationship.block.{$bid}">黑名单</a><br/>
+查看：<a href="msg.index.{$bid}">内信</a> /
+	 <a href="msg.index.@.{$bid}">@消息</a> /
+	 <a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}">帖子</a> /
+	 <a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}&searchType=reply">回复</a> /
+	 <a href="bbs.myfavorite.{$bid}">收藏</a> /
+     <a href="user.relationship.follow.{$bid}">关注</a> /
+	 <a href="user.relationship.block.{$bid}">屏蔽</a><br/>
 </p>
 <p class="txt">
-更改：<a href="{$cid}.avatar.{$bid}">头像</a>/<a href="{$cid}.chname.{$bid}">用户名</a>/<a href="{$cid}.chpwd.{$bid}">密码</a>/<a href="{$cid}.chinfo.{$bid}">个性签名/联系方式</a>
+更改：<a href="{$cid}.avatar.{$bid}">头像</a> /
+	 <a href="{$cid}.chname.{$bid}">用户名</a> /
+	 <a href="{$cid}.chpwd.{$bid}">密码</a> /
+	 <a href="{$cid}.chinfo.{$bid}">个性签名/联系方式</a>
 </p>
 <p class="txt">
-绑定：{if $hasRegPhone}已绑定手机号{else}<a href="{$CID}.active.{$BID}?sid={$USER->sid}">手机号</a>{/if} / <a href="{$CID}.wechat.{$BID}">微信推送</a>: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
+绑定：{if $hasRegPhone}已绑定手机号{else}<a href="{$CID}.active.{$BID}?sid={$USER->sid}">手机号</a>{/if} /
+	 <a href="{$CID}.wechat.{$BID}">微信推送</a>: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
 </p>
 <p class="txt">
-界面：<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a>/<a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a><br/>
+界面：<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a> /
+	 <a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a><br/>
 </p>
 <p class="txt">
-主题：经典主题/<a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a><br/>
+主题：经典主题 /
+	 <a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a><br/>
 </p>
 <p class="txt">
 论坛楼层排序：
 {if $floorReverse}
-	<a href="?floorReverse=0">正序</a>/倒序
+	<a href="?floorReverse=0">正序</a> / 倒序
 {else}
-	正序/<a href="?floorReverse=1">倒序</a>
+	正序 / <a href="?floorReverse=1">倒序</a>
 {/if}
 <br/>
 </p>
