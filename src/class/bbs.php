@@ -658,8 +658,22 @@ class bbs
         return $fIndex;
     }
 
+    public function getBlockUids() {
+        if (!$this->user->uid) {
+            return [];
+        }
+        if (!isset($this->blockUids)) {
+            $this->blockUids = (new UserRelationshipService($this->user))->getTargetUids(UserRelationshipService::RELATIONSHIP_TYPE_BLOCK);
+        }
+        return $this->blockUids;
+    }
+
     public function newTopicList($size = 20, $offset = 0, $where = '')
     {
+        $blockUids = $this->getBlockUids();
+        if (!empty($blockUids)) {
+            $where = (empty(trim($where)) ? 'WHERE ' : $where . ' AND ') . 'uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
         $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY level DESC, mtime DESC LIMIT ?,?', $offset, $size);
         if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $topic = $rs->fetchAll();
@@ -695,7 +709,11 @@ class bbs
      */
     public function topicCount($forum_id, $onlyEssence = false)
     {
-	    $where = 'WHERE 1=1';
+        $where = 'WHERE 1=1';
+        $blockUids = $this->getBlockUids();
+        if (!empty($blockUids)) {
+            $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
         if ($forum_id != 0) {
             $where .= ' AND forum_id IN (' . $this->childForumIdList($forum_id) . ')';
         }
@@ -715,7 +733,11 @@ class bbs
      */
     public function topicList($forum_id, $page, $size, $orderBy = 'mtime', $onlyEssence = false)
     {
-	    $where = 'WHERE 1=1';
+        $where = 'WHERE 1=1';
+        $blockUids = $this->getBlockUids();
+        if (!empty($blockUids)) {
+            $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
         if ($forum_id != 0) {
             $where .= ' AND forum_id IN (' . $this->childForumIdList($forum_id) . ')';
         }

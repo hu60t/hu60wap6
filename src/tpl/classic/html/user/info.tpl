@@ -24,9 +24,24 @@
 </p>
 {if $USER->islogin && $USER->uid != $uinfo->uid}
 <p class="txt">
- 交友：{if $isFollow}<a href="javascript:relationship({$uinfo->uid}, 'unfollow')">取消关注</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'follow')">关注</a>{/if}
- / {if $isBlock}<a href="javascript:relationship({$uinfo->uid}, 'unblock')">取消屏蔽</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'block')">屏蔽</a>{/if}
- / {if $hideUserCSS}<a href="javascript:relationship({$uinfo->uid}, 'showUserCSS')">显示小尾巴</a>{else}<a href="javascript:relationship({$uinfo->uid}, 'hideUserCSS')">屏蔽小尾巴</a>{/if}<br/>
+ 交友：
+  {if $isFollow}
+    <a href="javascript:relationship({$uinfo->uid}, 'unfollow')">取消关注</a>
+  {else}
+    <a href="javascript:relationship({$uinfo->uid}, 'follow')">关注</a>
+  {/if} /
+  {if $isBlock}
+    <a href="javascript:relationship({$uinfo->uid}, 'unblock')">取消屏蔽</a>
+  {else}
+    <a href='javascript:if (confirm(
+      "你确定要屏蔽该用户吗，将执行以下操作：\n1. 你在帖子列表中看不到该用户的帖子（搜索除外）。\n2. 该用户无法向你发送内信和@消息。\n注意仅屏蔽帖子，该用户的回复和聊天室发言不会被屏蔽。"
+    )) relationship({$uinfo->uid}, "block")'>屏蔽</a>
+  {/if} /
+  {if $hideUserCSS}
+    <a href="javascript:relationship({$uinfo->uid}, 'showUserCSS')">显示小尾巴</a>
+  {else}
+    <a href="javascript:relationship({$uinfo->uid}, 'hideUserCSS')">屏蔽小尾巴</a>
+  {/if}
 </p>
 {/if}
 <p class="txt">

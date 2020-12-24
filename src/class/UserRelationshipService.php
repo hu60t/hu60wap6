@@ -162,6 +162,30 @@ class UserRelationshipService
     }
 
     /**
+     * @param $type
+     * @return array
+     */
+    public function getTargetUids($type) {
+        if(is_null($this->originUid)) {
+            return [];
+        }
+
+        $rs = $this->db->select(
+            'target_uid',
+            'user_relationship',
+            'WHERE origin_uid =? AND type =?',
+            (int) $this->originUid,
+            (int) $type
+        );
+
+        if($rs === false) {
+            return [];
+        }
+
+        return $rs->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
+    /**
      * 检查两者关系
      * @param $originUid
      * @param $targetUid 目标用户ID
