@@ -21,7 +21,7 @@
     {/if}
 {/foreach}
 
-{$jsonData=['chatRomName'=>$roomname, 'isLogin'=>$USER->islogin, 'chatCount'=>$count, 'maxPage'=>$maxP, 'chatList'=>$list]}
+{$jsonData=['chatRomName'=>$roomname, 'isLogin'=>$USER->islogin, 'chatCount'=>$count, 'maxPage'=>$maxP, 'chatList'=>$list, 'blockedReply'=>$blockedReply]}
 
 {if $USER->islogin}
 	{$jsonData['token'] = $token->token()}
