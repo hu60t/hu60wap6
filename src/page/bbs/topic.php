@@ -50,14 +50,25 @@ if ($USER->uid != $tMeta['uid']) {
     $bbs->addTopicReadCount($tid);
 }
 
-//读取帖子内容
-
 //加载 UBB 组件
 $ubb = new ubbdisplay();
 $tpl->assign('ubb', $ubb);
 
+// 获取屏蔽用户
+$all = isset($_GET['all']) && (bool)$_GET['all'];
+$blockUids = $bbs->getBlockUids();
+$blockedReply = 0;
+
+//读取帖子内容
 $tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id,review,locked');
-foreach ($tContents as &$v) {
+foreach ($tContents as $k=>&$v) {
+	// 如果屏蔽用户是帖子作者则不屏蔽
+	if (!$all && $v['uid'] != $tMeta['uid'] && in_array($v['uid'], $blockUids)) {
+		unset($tContents[$k]);
+		$blockedReply++;
+		continue;
+	}
+
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);
     $v['uinfo'] = $uinfo;
@@ -69,6 +80,7 @@ foreach ($tContents as &$v) {
 }
 $tpl->assign('tMeta', $tMeta);
 $tpl->assign('tContents', $tContents);
+$tpl->assign('blockedReply', $blockedReply);
 // var_dump($tContents);die;
 
 //获取token

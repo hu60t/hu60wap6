@@ -658,6 +658,7 @@ class bbs
         return $fIndex;
     }
 
+    // 获取被屏蔽的uid列表
     public function getBlockUids() {
         if (!$this->user->uid) {
             return [];

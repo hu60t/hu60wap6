@@ -69,9 +69,21 @@ if ($PAGE->ext[0]) {
 
     $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime);
 
-	// 审核检查
+    // 获取屏蔽用户
+    $all = isset($_GET['all']) && (bool)$_GET['all'];
+    $blockUids = $chat->getBlockUids();
+    $blockedReply = 0;
+
 	$uinfo = new userinfo();
-	foreach ($list as &$v) {
+	foreach ($list as $k=>&$v) {
+        // 处理屏蔽用户
+        if (!$all && in_array($v['uid'], $blockUids)) {
+            unset($list[$k]);
+            $blockedReply++;
+            continue;
+        }
+
+	    // 审核检查
 		$uinfo->uid($v['uid']);
 		if ($v['review']) {
 			$v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], 'chat', true);
@@ -85,6 +97,7 @@ if ($PAGE->ext[0]) {
     $tpl->assign('ubbs', $ubbs);
     $tpl->assign('chat', $chat);
     $tpl->assign('uinfo', $uinfo);
+    $tpl->assign('blockedReply', $blockedReply);
 
     if ($USER->islogin) {
         $token = new token($USER);

@@ -273,6 +273,17 @@ class chat
         }
         return $this->db->update('addin_chat_data', 'review=0 WHERE id=?', $contentId);
     }
+
+    // 获取被屏蔽的uid列表
+    public function getBlockUids() {
+        if (!$this->user->uid) {
+            return [];
+        }
+        if (!isset($this->blockUids)) {
+            $this->blockUids = (new UserRelationshipService($this->user))->getTargetUids(UserRelationshipService::RELATIONSHIP_TYPE_BLOCK);
+        }
+        return $this->blockUids;
+    }
     
     /**
      * class end!

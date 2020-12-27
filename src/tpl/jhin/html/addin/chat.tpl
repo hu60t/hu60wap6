@@ -33,6 +33,7 @@
 </div>
 <div class="widget-page top-pager">
   {jhinfunc::Pager($p,$maxP,"?p=##")}
+  {if $blockedReply}（屏蔽 <a style="padding:0" href="?p={$p}&amp;all=1">{$blockedReply}</a>）{/if}
 </div>
 <ul class="chat-list">
   {foreach $list as $k}
@@ -85,6 +86,7 @@
 </ul>
 <div class="widget-page">
   {jhinfunc::Pager($p,$maxP,"?p=##")}
+  {if $blockedReply}（屏蔽 <a style="padding:0" href="?p={$p}&amp;all=1">{$blockedReply}</a>）{/if}
 </div>
 <script>
 // 自动折叠过长内容

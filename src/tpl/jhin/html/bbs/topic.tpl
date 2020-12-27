@@ -75,7 +75,7 @@
 	{/if}
 </div>
 <div class="comments">
-	<div class="bar">回复列表({$contentCount-1})</div>
+	<div class="bar">回复列表({$contentCount-1}{if $blockedReply}, 屏蔽<a href="?all=1">{$blockedReply}</a>{/if})</div>
 	{if count($tContents)>0}
 	<div class="comments-list">
 		<ul class="comments-ul">
