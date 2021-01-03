@@ -38,7 +38,7 @@
             </div>
             <div class="topic-actions">
 			    <a href="#" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>
-			    {str::ago($v.mtime)}
+			    {str::ago($v.ctime)}{if $v.ctime != $v.mtime}发布，{str::ago($v.mtime)}修改{/if}
 			    {$tMeta.read_count}点击
 				{if $v.review}
 					<div class="topic-status">待审核</div>

@@ -69,7 +69,7 @@
 		<a class="floor-link" name="0"></a>
 		<p>标题: <span id="topic_title">{if $tMeta.essence}<span style="color:red;">[精]</span>{/if}{$tMeta.title|code}</span></p>
 		<p>作者: <a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
-		<p>时间: {date('Y-m-d H:i',$v.mtime)}</p>
+		<p>时间: {str::ago($v.ctime)}{if $v.ctime != $v.mtime}发布，{str::ago($v.mtime)}修改{/if}</p>
 		<div>
 			点击: {$tMeta.read_count}
 			{if $v.review}
