@@ -21,6 +21,7 @@ if ($keywords == '' && $username == '') {
   $tpl->assign('count', 0);
   //显示版块列表
   $tpl->display('tpl:searchtopic');
+  return;
 }
 
 if($searchType != 'reply') {
