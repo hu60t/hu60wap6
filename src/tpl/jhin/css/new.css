@@ -353,14 +353,16 @@ h1 {
 .reply-ul > li .topic-info .topic-reply-count a {
   color: gray;
 }
-.reply-ul > li .topic-info .topic-anchor {
-  width: 20%;
+.reply-ul > li .topic-info .topic-anchor,
+.reply-ul > li .topic-info .comments-anchor {
+  width: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
   word-break: break-all;
 }
-.reply-ul > li .topic-info .topic-anchor > a {
+.reply-ul > li .topic-info .topic-anchor > a,
+.reply-ul > li .topic-info .comments-anchor > a {
   color: gray;
 }
 .reply-ul > li .topic-info .topic-title {
@@ -376,10 +378,10 @@ h1 {
 }
 .reply-ul > li .topic-info .reply-floor {
   margin-left: 10px;
-  width: 15%;
+  width: 10%;
   display: flex;
   font-weight: 300;
-  font-size: 30px;
+  font-size: 16px;
   color: gray;
 }
 .reply-ul > li .topic-info .reply-floor a {

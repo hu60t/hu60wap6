@@ -23,7 +23,7 @@
 <div class="fl cl indexthreadlist">
   {foreach $replyList as $reply}
 	<div class="reply-box">
-    <p>回复了 <a href="bbs.topic.{$reply.topic_id}.{$BID}">{$reply.topic.title|code}</a> （<a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a> 于 {str::ago($reply.mtime)} 发表）</p>
+    <p><a href="user.info.{$uinfo.uid}.{$BID}">{$uinfo.name|code}</a> {$reply.floor}楼回复 <a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a> 的 <a href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$reply.topic.title|code}</a> ({str::ago($reply.mtime)})</p>
     <blockquote class="floor_content">
       {$ubb->display($reply.content, true)}
     </blockquote>

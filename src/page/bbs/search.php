@@ -77,6 +77,7 @@ else {
   $ubb = new ubbdisplay();
   $uinfo->setUbbOpt($ubb);
 
+  $tpl->assign('uinfo', $uinfo);
   $tpl->assign('ubb', $ubb);
   $tpl->assign('replyList', $result);
   $tpl->assign('count', $count);
