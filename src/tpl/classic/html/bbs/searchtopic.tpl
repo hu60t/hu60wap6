@@ -14,9 +14,20 @@
   <label for="searchType" id="searchType-label">
     <input name="searchType" id="searchType" type="checkbox" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />搜索用户回复
   </label>
+  {if $USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
+    <label for="onlyReview" id="onlyReview-label">
+      <input name="onlyReview" id="onlyReview" type="checkbox" value="1" {if $smarty.get.onlyReview}checked{/if} />仅看待审核
+    </label>
+  {/if}
 </form>
 
-<p class="cr_cb">找到{$count}个主题</p>
+<p class="cr_cb">
+  {if $err}
+      {$err->getMessage()|code}
+  {else}
+      找到{$count}个主题
+  {/if}
+</p>
 
 {if $topicList}
 <!--帖子列表-->
@@ -29,7 +40,7 @@
     </ul>
 </div>
 
-{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;p="}
+{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;onlyReview={$smarty.get.onlyReview|urlencode}&amp;p="}
 
 <div class="pager">
 	{if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{/if}

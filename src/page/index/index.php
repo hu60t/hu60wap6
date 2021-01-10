@@ -28,6 +28,9 @@ foreach ($newTopicList as &$v) {
 $tpl->assign('newTopicList', $newTopicList);
 $tpl->assign('topicPage', $p);
 
+// 待审核帖子+回复数量
+$tpl->assign('countReview', $bbs->countReview());
+
 // 版块信息
 $forumList = $bbs->childForumMeta(0, '*', 2);
 $tpl->assign('forumList', $forumList);

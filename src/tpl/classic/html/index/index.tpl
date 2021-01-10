@@ -25,12 +25,25 @@
 <div id="my_heart"><!-- 由@肖申克(uid:21156)命名 -->
 	<p>『用户专区』</p>
 	<p>
-		-我的：<a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>|<a href="bbs.search.{$BID}?username={$USER->name|urlencode}&searchType=reply">回复</a>|<a href="msg.index.{$bid}">内信</a>|<a href="msg.index.@.{$bid}">@消息</a>|<a href="bbs.myfavorite.{$BID}">收藏</a>
+		-我的：
+			<a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a> |
+			<a href="bbs.search.{$BID}?username={$USER->name|urlencode}&searchType=reply">回复</a> |
+			<a href="msg.index.{$bid}">内信</a> |
+			<a href="msg.index.@.{$bid}">@消息</a> |
+			<a href="bbs.myfavorite.{$BID}">收藏</a>
 	</p>
 </div>
 <hr>
 <div>
-	<p>『<a href="bbs.forum.{$BID}">绿虎论坛</a> - <a href="bbs.forum.0.1.{$BID}">新帖</a>|<a href="bbs.forum.0.1.1.{$BID}">精华</a>|<a href="bbs.newtopic.0.{$BID}">发帖</a>』</p>
+	<p>
+		『<a href="bbs.forum.{$BID}">绿虎论坛</a> -
+			<a href="bbs.forum.0.1.{$BID}">新帖</a> |
+			<a href="bbs.forum.0.1.1.{$BID}">精华</a> |
+			<a href="bbs.search.{$BID}">搜索</a> |
+			<a href="bbs.newtopic.0.{$BID}">发帖</a>
+			{if $countReview}| <a href="bbs.search.{$BID}?onlyReview=1">{$countReview}待审核</a>{/if}
+		』
+	</p>
 	<ol style="padding-left:2em">
 		{foreach $newTopicList as $topic}
 			<li>

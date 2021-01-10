@@ -18,7 +18,8 @@
 	{$fName}
 	(<a href="{$CID}.{$PID}.0.1.{$BID}">新帖</a> |
      <a href="bbs.forum.0.1.1.{$BID}">精华</a> |
-	 <a href="{$CID}.newtopic.0.{$BID}">发帖</a>)
+	 <a href="{$CID}.newtopic.0.{$BID}">发帖</a>{if $countReview}
+	| <a href="{$CID}.search.{$BID}?onlyReview=1">{$countReview}待审核</a>{/if})
 </div>
 
 <!--搜索框-->

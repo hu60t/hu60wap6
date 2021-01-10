@@ -940,6 +940,22 @@ class bbs
 			$this->db->update('bbs_topic_meta', 'review=0 WHERE id=?', $topicId);
 		}
 		return $this->db->update('bbs_topic_content', 'review=0 WHERE id=?', $contentId);
-	}
+    }
+    
+    /*
+    * 统计待审核内容数量
+    */
+    public function countReview() {
+		if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
+			return null;
+        }
+        // review可能有如下取值：
+        // 0    审核通过
+        // 1    待审核
+        // 2    审核不通过
+        // 仅统计待审核的行
+        $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE review=1');
+        return $rs->fetch(db::num)[0];
+    }
 }
 

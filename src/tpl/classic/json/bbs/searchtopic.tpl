@@ -4,5 +4,9 @@
 	{$topicList.$key.uinfo = ['name'=>$v.uinfo.name]}
 {/foreach}
 
-{$jsonData=['topicCount'=>$count, 'maxPage'=> $maxP, 'topicList'=>$topicList]}
+{if !$err}
+	{$jsonData=['success'=>true, 'topicCount'=>$count, 'maxPage'=> $maxP, 'topicList'=>$topicList]}
+{else}
+	{$jsonData=['success'=>false, 'notice'=>$err->getMessage()]}
+{/if}
 {JsonPage::output($jsonData)}

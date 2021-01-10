@@ -18,17 +18,26 @@
             <label for="searchType" id="searchType-label">
                 <input name="searchType" id="searchType" type="checkbox" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />搜索用户回复
             </label>
+            {if $USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
+                <label for="onlyReview" id="onlyReview-label">
+                <input name="onlyReview" id="onlyReview" type="checkbox" value="1" {if $smarty.get.onlyReview}checked{/if} />仅看待审核
+                </label>
+            {/if}
         </form>
     </div>
     <div class="bar">
-        找到{$count}个主题
+        {if $err}
+            {$err->getMessage()|code}
+        {else}
+            找到{$count}个主题
+        {/if}
     </div>
     {if $topicList}
         <!--帖子列表-->
         <div class="search-list">
             {include file='tpl:bbs.list'}
             <div class="widget-page">
-                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&p=##"}
+                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&p=##"}
                 {jhinfunc::Pager($p,$maxP,$url)}
             </div>
         </div>

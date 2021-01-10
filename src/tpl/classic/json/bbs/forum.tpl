@@ -7,5 +7,5 @@
 	{$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
 
-{$jsonData=['fName'=>$fName, 'fIndex'=>$fIndex, 'childForum'=>$forumInfo, 'topicList'=>NULL]}
+{$jsonData=['fName'=>$fName, 'fIndex'=>$fIndex, 'childForum'=>$forumInfo, 'topicList'=>NULL, 'countReview'=>$countReview]}
 {JsonPage::output($jsonData)}

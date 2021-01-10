@@ -191,25 +191,41 @@ class search
     /*
      * 回复搜索
      */
-    public function searchReply($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, &$count = true)
+    public function searchReply($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, &$count = true, $onlyReview = false)
     {
         $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words)));
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
 
-        if ($userName == '') {
+        if (!$onlyReview && $userName == '') {
             throw new Exception('用户名不能为空');
         }
 
-        $uinfo = new userinfo();
-        $uinfo->name($userName);
-        $uid = $uinfo['uid'];
+        if ($userName != '') {
+            $uinfo = new userinfo();
+            $uinfo->name($userName);
+            $uid = $uinfo['uid'];
 
-        if (!$uid) {
-            throw new Exception('用户名不存在');
+            if (!$uid) {
+                throw new Exception('用户名不存在');
+            }
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE uid=? AND reply_id!=0 AND review=0';
-        $args = [$uid];
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE ';
+        if ($onlyReview) {
+            // review可能有如下取值：
+            // 0    审核通过
+            // 1    待审核
+            // 2    审核不通过
+            // 仅列出待审核的行
+            $sql .= 'review=1';
+        } else {
+            $sql .= 'reply_id!=0';
+        }
+
+        if (isset($uid)) {
+            $sql .= ' AND uid=? AND reply_id!=0';
+            $args = [$uid];
+        }
 
         if ($words != '') {
             $words = explode(' ', $words);

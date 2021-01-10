@@ -20,5 +20,5 @@
 	{$newTopicList.$k.uinfo = ['name'=>$v.uinfo.name]}
 {/foreach}
 
-{$jsonData=['userInfo'=>$uinfo, 'newTopicList'=>$newTopicList]}
+{$jsonData=['userInfo'=>$uinfo, 'newTopicList'=>$newTopicList, 'countReview'=>$countReview]}
 {JsonPage::output($jsonData)}

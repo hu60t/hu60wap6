@@ -34,6 +34,8 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
             $topic['uinfo']->uid($topic['uid']);
         }
     }
+    // 待审核帖子+回复数量
+    $tpl->assign('countReview', $bbs->countReview());
     //显示版块列表
     $tpl->display('tpl:forum');
 } else {
