@@ -197,7 +197,7 @@ class search
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
 
         if (!$onlyReview && $userName == '') {
-            throw new Exception('用户名不能为空');
+            throw new Exception('勾选“搜索用户回复”时用户名不能为空');
         }
 
         if ($userName != '') {

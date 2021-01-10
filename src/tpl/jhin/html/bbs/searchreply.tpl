@@ -37,19 +37,19 @@
                     <li>
                         <div class="topic-info">
                             <div class="comments-anchor">
-                                <a href="user.info.{$uinfo.uid}.{$BID}">
-                                <img src="{if $uinfo}{$uinfo->avatar()}{/if}" class="avatar">
+                                <a href="user.info.{$reply.uinfo.uid}.{$BID}">
+                                <img src="{if $reply.uinfo}{$reply.uinfo->avatar()}{/if}" class="avatar">
                                 </a>
-                                <a href="user.info.{$uinfo.uid}.{$BID}">{$uinfo.name|code}</a>
+                                <a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a>
                             </div>
                             <div class="reply-floor">
                                 <a href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$reply.floor}楼回复</a>
                             </div>
                             <div class="topic-anchor">
-                                <a href="user.info.{$reply.uinfo.uid}.{$BID}">
-                                <img src="{if $reply.uinfo}{$reply.uinfo->avatar()}{/if}" class="avatar">
+                                <a href="user.info.{$reply.topicUinfo.uid}.{$BID}">
+                                <img src="{if $reply.topicUinfo}{$reply.topicUinfo->avatar()}{/if}" class="avatar">
                                 </a>
-                                <a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a>
+                                <a href="user.info.{$reply.topicUinfo.uid}.{$BID}">{$reply.topicUinfo.name|code}</a>
                             </div>
                             <div class="topic-title">
                                 <a href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$topic.title|code}</a>
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <blockquote class="reply-content">
-                            {$ubb->display($reply.content, true)}
+                            {$reply.ubb->display($reply.content, true)}
                         </blockquote>
                     </li>
                 {/foreach}

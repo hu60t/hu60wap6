@@ -18,7 +18,7 @@ $username = $_GET['username'];
 $onlyReview = (bool)$_GET['onlyReview'];
 $searchReply = ($_GET['searchType'] == 'reply') || $onlyReview;
 
-if ($keywords == '' && $username == '' && !$onlyReview) {
+if ($keywords == '' && $username == '' && !$onlyReview && !$searchReply) {
   $tpl->assign('count', 0);
   //显示版块列表
   $tpl->display('tpl:searchtopic');
@@ -59,15 +59,22 @@ try {
   }
   else {
     $result = $search->searchReply($keywords, $username, $offset, $size, $count, $onlyReview);
-    $uinfo = new UserInfo();
-    $uinfo->name($username);
 
     $maxP = ceil($count / $size);
     foreach ($result as &$v) {
+        // 回复用户
+        $v['uinfo'] = new UserInfo();
+        $v['uinfo']->uid($v['uid']);
+
+        // 待审核
         if ($v['review']) {
           $vTid = ($v['floor'] == 0) ? $v['topic_id'] : 0;
-          $v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], $vTid, true);
+          $v['content'] = UbbParser::createPostNeedReviewNotice($USER, $v['uinfo'], $v['id'], $v['content'], $vTid, true);
         }
+
+        //加载 UBB 组件
+        $v['ubb'] = new ubbdisplay();
+        $v['uinfo']->setUbbOpt($v['ubb']);
 
         $topic = $bbs->topicMeta($v['topic_id'], '*');
         // 偶尔会有回复内容存在但是主题帖丢失的情况
@@ -75,16 +82,18 @@ try {
             continue;
         }
         $v['topic']=$topic;
-        $v['uinfo'] = new userinfo();
-        $v['uinfo']->uid($topic['uid']);
+        // 原帖用户
+        $v['topicUinfo'] = new userinfo();
+        $v['topicUinfo']->uid($topic['uid']);
     }
 
-    //加载 UBB 组件
-    $ubb = new ubbdisplay();
-    $uinfo->setUbbOpt($ubb);
+    if (!empty($username)) {
+      $uinfo = new UserInfo();
+      $uinfo->name($username);
+      $uinfo->setUbbOpt($ubb);
+    }
 
     $tpl->assign('uinfo', $uinfo);
-    $tpl->assign('ubb', $ubb);
     $tpl->assign('replyList', $result);
     $tpl->assign('count', $count);
     $tpl->assign('maxP', $maxP);
