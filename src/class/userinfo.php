@@ -398,15 +398,19 @@ class userinfo implements ArrayAccess
 	}
 
 	
-	public function setUbbOpt($ubb) {
+	public function setUbbOpt($ubb, $review = false) {
 		global $USER;
 
         $ubb->setOpt('uid', $this->uid);
-        $ubb->setOpt('style.disable', $this->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE));
-        $ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
 
-        if ($USER->islogin) {
-            $ubb->setOpt('style.hideUserCSS', (bool)$USER->getinfo("ubb.hide_user_css.{$this->uid}"));
+        // 审核时不屏蔽任何内容
+        if (!$review || !$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
+            $ubb->setOpt('style.disable', $this->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE));
+            $ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
+
+            if ($USER->islogin) {
+                $ubb->setOpt('style.hideUserCSS', (bool)$USER->getinfo("ubb.hide_user_css.{$this->uid}"));
+            }
         }
 	}
 

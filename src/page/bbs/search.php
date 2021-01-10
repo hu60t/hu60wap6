@@ -74,7 +74,7 @@ try {
 
         //加载 UBB 组件
         $v['ubb'] = new ubbdisplay();
-        $v['uinfo']->setUbbOpt($v['ubb']);
+        $v['uinfo']->setUbbOpt($v['ubb'], $onlyReview);
 
         $topic = $bbs->topicMeta($v['topic_id'], '*');
         // 偶尔会有回复内容存在但是主题帖丢失的情况
@@ -87,13 +87,6 @@ try {
         $v['topicUinfo']->uid($topic['uid']);
     }
 
-    if (!empty($username)) {
-      $uinfo = new UserInfo();
-      $uinfo->name($username);
-      $uinfo->setUbbOpt($ubb);
-    }
-
-    $tpl->assign('uinfo', $uinfo);
     $tpl->assign('replyList', $result);
     $tpl->assign('count', $count);
     $tpl->assign('maxP', $maxP);
