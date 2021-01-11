@@ -151,8 +151,18 @@ switch ($action) {
         break;
 
     case '@':
+        $uid = null;
+        if (!empty($_GET['uid'])) {
+            $uid = (int)$_GET['uid'];
+            $uinfo->uid($uid);
+            $_GET['name'] = $uinfo->name;
+        } elseif (!empty($_GET['name'])) {
+            $uinfo->name($_GET['name']);
+            $uid = $uinfo->uid;
+        }
+
         //@消息查看
-        $msgCount = $msg->msgCount(msg::TYPE_AT_INFO, $isread, false);
+        $msgCount = $msg->msgCount(msg::TYPE_AT_INFO, $isread, false, $uid);
 
         $maxP = ceil($msgCount / $pageSize);
 
@@ -162,7 +172,7 @@ switch ($action) {
 
         $offset = ($p - 1) * $pageSize;
 
-        $list = $msg->msgList(msg::TYPE_AT_INFO, $offset, $pageSize, $isread, '*', false);
+        $list = $msg->msgList(msg::TYPE_AT_INFO, $offset, $pageSize, $isread, '*', false, $uid);
 
         foreach ($list as $v) {
             if (!$v['isread']) {

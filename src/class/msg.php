@@ -37,7 +37,7 @@ class msg
         return new msg($user);
     }
 
-    public function msgCount($type, $read = null, $fromSelf = false)
+    public function msgCount($type, $read = null, $fromSelf = false, $byUid = null)
     {
         $uid = $this->user->uid;
 
@@ -46,8 +46,15 @@ class msg
         }
 
         $direction = $fromSelf ? 'byuid' : 'touid';
+        $data = [$uid, $type];
+        
+        $where = '';
+        if ($byUid !== null) {
+            $where = ' AND byuid=?';
+            $data[] = (int)$byUid;
+        }
 
-        $rs = $this->db->select('count(*)', 'msg', 'WHERE ' . $direction . '=? ' . $isread . ' AND type=?', $uid, $type);
+        $rs = $this->db->select('count(*)', 'msg', 'WHERE ' . $direction . '=? ' . $isread . ' AND type=?'.$where, $data);
 
         if (!$rs) return false;
         $n = $rs->fetch(db::num);
@@ -55,7 +62,7 @@ class msg
         return $n[0];
     }
 
-    public function msgList($type, $offset, $size, $read = null, $fetch = '*', $fromSelf = false)
+    public function msgList($type, $offset, $size, $read = null, $fetch = '*', $fromSelf = false, $byUid = null)
     {
         $uid = $this->user->uid;
 
@@ -64,8 +71,18 @@ class msg
         }
 
         $direction = $fromSelf ? 'byuid' : 'touid';
+        $data = [$uid, $type];
+        
+        $where = '';
+        if ($byUid !== null) {
+            $where = ' AND byuid=?';
+            $data[] = (int)$byUid;
+        }
 
-        $rs = $this->db->select($fetch, 'msg', 'WHERE ' . $direction . '=? ' . $isread . ' AND type=? ORDER BY ctime DESC LIMIT ?,?', $uid, $type, $offset, $size);
+        $data[] = $offset;
+        $data[] = $size;
+
+        $rs = $this->db->select($fetch, 'msg', 'WHERE ' . $direction . '=? ' . $isread . ' AND type=?'.$where.' ORDER BY ctime DESC LIMIT ?,?', $data);
 
         if (!$rs) return false;
 

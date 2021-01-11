@@ -23,11 +23,15 @@
     }
 </script>
 <div class="msg_action">
-<form action="{$PAGE->getUrl()}" method="post">
+<form action="{$PAGE->getUrl()}" method="post" style="display: inline-block; margin-right: 10px">
     <input type="hidden" name="clean" value="at">
     <input type="hidden" name="actionToken" value="{$actionToken}">
     <input type="submit" name="action" value="全部设为已读">
     <input type="submit" name="action" value="清空@消息" onclick="return checkCleanAll()">
+</form>
+<form action="{$PAGE->getUrl()}" method="get" style="display: inline-block">
+  <input type="text" name="name" value="{$smarty.get.name|code}" placeholder="用户名" size="10" />
+  <input type="submit" value="只看该用户" />
 </form>
 </div>
 <hr />
@@ -41,12 +45,12 @@
     </div>
     <hr />
 {/foreach}
-    <div class="pager">
-        {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
-        {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
-        {$p}/{$maxP}页,共{$msgCount}楼
-        <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
-    </div>
+<div class="pager">
+  {if $p < $maxP}<a href="?p={$p+1}&amp;uid={$uinfo.uid}">下一页</a>{/if}
+  {if $p > 1}<a href="?p={$p-1}&amp;uid={$uinfo.uid}">上一页</a>{/if}
+  {$p}/{$maxP}页,共{$msgCount}楼
+  <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value+'&uid={$uinfo.uid}'; }">
+</div>
 {else}
 暂无@消息。
 {/if}

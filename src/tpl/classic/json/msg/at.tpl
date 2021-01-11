@@ -8,5 +8,5 @@
 {/foreach}
 {/if}
 
-{$jsonData=['msgCount'=>$msgCount, 'maxPage'=> $maxP, 'msgList'=>$list]}
+{$jsonData=['uid'=>$uinfo->uid, 'msgCount'=>$msgCount, 'maxPage'=> $maxP, 'msgList'=>$list]}
 {JsonPage::output($jsonData)}
