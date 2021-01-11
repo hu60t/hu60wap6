@@ -26,6 +26,9 @@
       {$err->getMessage()|code}
   {else}
       找到{$count}个主题
+      {if !empty($smarty.get.username)}
+        (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlencode}">{$smarty.get.username|code}</a>)
+      {/if}
   {/if}
 </p>
 

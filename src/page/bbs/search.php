@@ -25,6 +25,13 @@ if ($keywords == '' && $username == '' && !$onlyReview && !$searchReply) {
   return;
 }
 
+// 搜索的用户
+$uinfo = new UserInfo;
+$tpl->assign('uinfo', $uinfo);
+if (!empty($username)) {
+  $uinfo->name($username);
+}
+
 try {
   if(!$searchReply) {
     //获取帖子列表

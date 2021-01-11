@@ -5,7 +5,7 @@
 {/foreach}
 
 {if !$err}
-	{$jsonData=['success'=>true, 'topicCount'=>$count, 'maxPage'=> $maxP, 'topicList'=>$topicList]}
+	{$jsonData=['success'=>true, 'uid'=>$uinfo.uid, 'topicCount'=>$count, 'maxPage'=> $maxP, 'topicList'=>$topicList]}
 {else}
 	{$jsonData=['success'=>false, 'notice'=>$err->getMessage()]}
 {/if}

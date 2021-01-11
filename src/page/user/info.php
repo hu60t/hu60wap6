@@ -2,9 +2,16 @@
 $tpl = $PAGE->start();
 $USER->start($tpl);
 
-$uid = (int)$PAGE->ext[0];
 $uinfo = new userinfo();
-$uinfo->uid($uid);
+
+if (!empty($_GET['name'])) {
+    $uinfo->name($_GET['name']);
+    $uid = $uinfo->uid;
+} else {
+    $uid = (int)$PAGE->ext[0];
+    $uinfo->uid($uid);
+}
+
 $tpl->assign('uinfo', $uinfo);
 
 $tpl->assign('blockPostStat', $uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST));

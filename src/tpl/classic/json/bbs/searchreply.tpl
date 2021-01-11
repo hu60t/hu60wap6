@@ -1,9 +1,9 @@
 {JsonPage::start()}
-{JsonPage::selUbbP($ubb)}
 
 {foreach $replyList as $key=>$v}
 	{$replyList.$key.uinfo = ['name'=>$v.uinfo.name]}
-    {$replyList.$key.content = $ubb->display($v.content,true)}
+    {JsonPage::selUbbP($v.ubb)}
+    {$replyList.$key.content = $v.ubb->display($v.content,true)}
 {/foreach}
 
 {$jsonData=['success'=>true, 'uid'=>$uinfo.uid, 'replyCount'=>$count, 'maxPage'=> $maxP, 'replyList'=>$replyList]}

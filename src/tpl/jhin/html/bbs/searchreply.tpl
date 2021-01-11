@@ -27,6 +27,9 @@
     </div>
     <div class="bar">
         找到{$count}个回复
+        {if !empty($smarty.get.username)}
+            (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlencode}">{$smarty.get.username|code}</a>)
+        {/if}
     </div>
     {if $replyList}
         <!--回复列表-->
