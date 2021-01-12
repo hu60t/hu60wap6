@@ -813,7 +813,7 @@ class bbs
     /**
      * 获取帖子楼层的内容
      */
-    public function topicContents($topic_id, $page, $size, $fetch = '*')
+    public function topicContents($topic_id, $page, $size, $fetch = '*', $floorReverse = false)
     {
         if ($size < 1)
             $size = 1;
@@ -822,7 +822,7 @@ class bbs
         $offset = ($page - 1) * $size;
 
         // 默认正序排列楼层
-        if (!($this->user && $this->user->islogin && $this->user->getInfo('bbs.floorReverse'))) {
+        if (!$floorReverse) {
             //正序排列楼层
             $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? ORDER BY floor ASC LIMIT ?,?', $topic_id, $offset, $size);
             if (!$rs)

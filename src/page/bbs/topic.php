@@ -14,10 +14,17 @@ $tpl->assign('contentCount', $contentCount);
 $maxPage = ceil($contentCount / $pageSize);
 $tpl->assign('maxPage', $maxPage);
 
+// 楼层倒序排列
+$floorReverse = false;
+if (isset($_GET['floorReverse'])) {
+	$floorReverse = (bool)$_GET['floorReverse'];
+} elseif ($USER->islogin && $USER->getInfo('bbs.floorReverse') !== null) {
+	$floorReverse = $USER->getInfo('bbs.floorReverse');
+}
+
 if (isset($_GET['floor']) || isset($_GET['level'])) {
 	// 通过楼层计算帖子页码
 	$oriFloor = $floor = isset($_GET['floor']) ? (int)$_GET['floor'] : (int)$_GET['level'];
-	$floorReverse = $USER && $USER->islogin && $USER->getInfo('bbs.floorReverse');
 	if ($floorReverse) $floor = $contentCount - $floor;
 	$floor = max(1, $floor);
 	$floor = min($floor, $contentCount);
@@ -60,7 +67,7 @@ $blockUids = $bbs->getBlockUids();
 $blockedReply = 0;
 
 //读取帖子内容
-$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id,review,locked');
+$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id,review,locked', $floorReverse);
 foreach ($tContents as $k=>&$v) {
 	// 如果屏蔽用户是帖子作者则不屏蔽
 	if (!$all && $v['uid'] != $tMeta['uid'] && in_array($v['uid'], $blockUids)) {
@@ -81,7 +88,7 @@ foreach ($tContents as $k=>&$v) {
 $tpl->assign('tMeta', $tMeta);
 $tpl->assign('tContents', $tContents);
 $tpl->assign('blockedReply', $blockedReply);
-// var_dump($tContents);die;
+$tpl->assign('floorReverse', $floorReverse);
 
 //获取token
 if ($USER->islogin) {
