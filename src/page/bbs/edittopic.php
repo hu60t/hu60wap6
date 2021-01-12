@@ -116,7 +116,7 @@ try {
         $tpl->assign('tid', $tid);
         $tpl->display('tpl:editsuccess');
     } else {
-        $tpl->assign('title', code::html($tMeta['title']));
+        $tpl->assign('title', $tMeta['title']);
         $tpl->assign('content', $ubb->display($tContent['content'], true));
 
         if ($USER->islogin) {

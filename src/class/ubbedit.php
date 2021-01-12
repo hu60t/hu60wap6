@@ -53,17 +53,17 @@ class ubbEdit extends XUBBP
         'mailtxt' => 'mailtxt',
         /*at消息*/
         'at' => 'at',
+        /*at通知信息（用于推送通知）*/
+        'atMsg' => 'atMsg',
         /*face 表情*/
         'face' => 'face',
         /*管理员操作*/
+        'adminEdit' => 'adminEditNotice',
+        'adminDel' => 'adminDelNotice',
         'delContent' => 'adminDelContent',
-        /*at通知信息（用于推送通知）*/
-        'atMsg' => 'atMsg',
+        'adminAction' => 'adminActionNotice',
+		'postNeedReview' => 'postNeedReviewNotice',
     );
-
-    protected static function html($str) {
-        return code::html($str, false, true);
-    }
 
     public function display($ubbArray, $serialize = false, $maxLen = null, $page = null)
     {
@@ -79,7 +79,7 @@ class ubbEdit extends XUBBP
     /*text 纯文本*/
     public function text($data)
     {
-        return self::html($data['value']);
+        return $data['value'];
     }
 
 	/*开启markdown模式*/
@@ -95,41 +95,41 @@ class ubbEdit extends XUBBP
     /*代码高亮*/
     public function code($data)
     {
-        $lang = '=' . self::html($data['lang']);
+        $lang = '=' . $data['lang'];
         if ($lang == '=php') {
             $lang = '';
         }
-        return '[code' . $lang . ']' . self::html($data['data']) . '[/code]';
+        return '[code' . $lang . ']' . $data['data'] . '[/code]';
     }
 	
 	/*markdown风格代码高亮*/
     public function mdcode($data)
     {
         $quote = isset($data['quote']) ? $data['quote'] : '```';
-        return $quote . $data['lang'] . self::html($data['data']) . $quote;
+        return $quote . $data['lang'] . $data['data'] . $quote;
     }
 
     /*time 时间*/
     public function time($data)
     {
-        $tag = '=' . self::html($data['tag']);
+        $tag = '=' . $data['tag'];
         if ($tag == '=Y-m-d H:i:s') {
             $tag = '';
         }
-        return '[time' . $tag . self::html($data['tag']) . ']';
+        return '[time' . $tag . $data['tag'] . ']';
     }
 
     /*link 链接*/
     public function url($data)
     {
         if ($data['title'] == '') {
-            $html = '[url]' . self::html($data['url']) . '[/url]';
+            $html = '[url]' . $data['url'] . '[/url]';
         } else {
             if (is_array($data['title'])) {
                 $data['title'] = $this->display($data['title']);
             }
 
-            $html = '[url=' . self::html($data['url']) . ']' . self::html($data['title']) . '[/url]';
+            $html = '[url=' . $data['url'] . ']' . $data['title'] . '[/url]';
         }
         return $html;
     }
@@ -137,13 +137,13 @@ class ubbEdit extends XUBBP
     public function urlzh($data)
     {
         if ($data['title'] == '') {
-            $html = '《链接：' . self::html($data['url']) . '》';
+            $html = '《链接：' . $data['url'] . '》';
         } else {
             if (is_array($data['title'])) {
                 $data['title'] = $this->display($data['title']);
             }
 
-            $html = '《链接：' . self::html($data['url']) . '，' . self::html($data['title']) . '》';
+            $html = '《链接：' . $data['url'] . '，' . $data['title'] . '》';
         }
         return $html;
     }
@@ -151,9 +151,9 @@ class ubbEdit extends XUBBP
     public function urlout($data)
     {
         if ($data['title'] == '') {
-            $html = '《外链：' . self::html($data['url']) . '》';
+            $html = '《外链：' . $data['url'] . '》';
         } else {
-            $html = '《外链：' . self::html($data['url']) . '，' . self::html($data['title']) . '》';
+            $html = '《外链：' . $data['url'] . '，' . $data['title'] . '》';
         }
         return $html;
     }
@@ -161,9 +161,9 @@ class ubbEdit extends XUBBP
     public function urlname($data)
     {
         if ($data['title'] == '') {
-            $html = '《锚：' . self::html($data['url']) . '》';
+            $html = '《锚：' . $data['url'] . '》';
         } else {
-            $html = '《锚：' . self::html($data['url']) . '，' . self::html($data['title']) . '》';
+            $html = '《锚：' . $data['url'] . '，' . $data['title'] . '》';
         }
         return $html;
     }
@@ -172,9 +172,9 @@ class ubbEdit extends XUBBP
     public function img($data)
     {
         if ($data['alt'] == '') {
-            $html = '[img]' . self::html($data['src']) . '[/img]';
+            $html = '[img]' . $data['src'] . '[/img]';
         } else {
-            $html = '[img=' . self::html($data['src']) . ']' . self::html($data['alt']) . '[/img]';
+            $html = '[img=' . $data['src'] . ']' . $data['alt'] . '[/img]';
         }
         return $html;
     }
@@ -182,9 +182,9 @@ class ubbEdit extends XUBBP
     public function imgzh($data)
     {
         if ($data['alt'] == '') {
-            $html = '《图片：' . self::html($data['src']) . '》';
+            $html = '《图片：' . $data['src'] . '》';
         } else {
-            $html = '《图片：' . self::html($data['src']) . '，' . self::html($data['alt']) . '》';
+            $html = '《图片：' . $data['src'] . '，' . $data['alt'] . '》';
         }
         return $html;
     }
@@ -196,7 +196,7 @@ class ubbEdit extends XUBBP
         if ($data['h'] != '') {
             $opt .= 'x' . (int)$data['h'];
         }
-        return '《缩略图：' . $opt . '，' . self::html($data['src']) . '》';
+        return '《缩略图：' . $opt . '，' . $data['src'] . '》';
     }
 
     /*video 视频*/
@@ -215,31 +215,31 @@ class ubbEdit extends XUBBP
                 break;
         }
 
-        return '《'.$tag.'：' . self::html($data['url']) . '》';
+        return '《'.$tag.'：' . $data['url'] . '》';
     }
 
     /*copyright 版权声明*/
     public function copyright($data)
     {
-        return '《版权：' . self::html($data['tag']) . '》';
+        return '《版权：' . $data['tag'] . '》';
     }
 
     /*battlenet 战网*/
     public function battlenet($data)
     {
-        $name = self::html($data['name']);
+        $name = $data['name'];
         if ($data['server'] != '') {
-            $name .= '@' . self::html($data['server']);
+            $name .= '@' . $data['server'];
         }
         if ($data['display'] != null) {
-            $name .= "，" . self::html($data['display']);
+            $name .= "，" . $data['display'];
         }
         return '《战网：' . $name . '》';
     }
 
     /*math 数学公式*/
     public function math($data) {
-        $content = self::html($data['data']);
+        $content = $data['data'];
         if ($data['type'] == 'math') {
             return '[math]'.$content.'[/math]';
         }
@@ -256,7 +256,7 @@ class ubbEdit extends XUBBP
             $tag = "[$tag]";
         }
 
-        return self::html($tag);
+        return $tag;
     }
 
     /* [tab] */
@@ -274,17 +274,17 @@ class ubbEdit extends XUBBP
     /*layout 布局*/
     public function layout($data)
     {
-        return '[' . self::html($data['tag']) . ']';
+        return '[' . $data['tag'] . ']';
     }
 
     /*style 风格*/
     public function style($data)
     {
-        $opt = '=' . self::html($data['opt']);
+        $opt = '=' . $data['opt'];
         if ($opt == '=') {
             $opt = '';
         }
-        return '[' . self::html($data['tag']) . $opt . ']';
+        return '[' . $data['tag'] . $opt . ']';
     }
 
     /*at消息*/
@@ -296,33 +296,28 @@ class ubbEdit extends XUBBP
         $ok = $uinfo->uid($data['uid']);
 
         if ($ok && $uinfo->name != $data['tag']) {
-            return '@#'.self::html($data['uid']);
+            return '@#'.$data['uid'];
         } else {
-            return '@' . self::html($data['tag']);
+            return '@' . $data['tag'];
         }
     }
 
     /*face 表情*/
     public function face($data)
     {
-        return '{' . self::html($data['face']) . '}';
+        return '{' . $data['face'] . '}';
     }
 
     /*urltxt 链接文本*/
     public function urltxt($data)
     {
-        return self::html($data['url']);
+        return $data['url'];
     }
 
     /*mailtxt 邮件链接文本*/
     public function mailtxt($data)
     {
-        return self::html($data['mail']);
-    }
-
-    /*管理员删除的内容*/
-    public function adminDelContent($data) {
-        return '';
+        return $data['mail'];
     }
 
     /*at通知信息（用于推送通知）*/
@@ -350,4 +345,145 @@ class ubbEdit extends XUBBP
 {$msg}
 HTML;
     }
+
+    /*管理员编辑通知信息*/
+    public function adminEditNotice($data)
+    {
+        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $pos = $data['pos'];
+        $reason = $data['reason'];
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+        $oriData = $this->display($data['oriData']);
+
+        return <<<HTML
+管理员 {$uinfo->name} 编辑了您在 {$pos} {$url} 的发言，编辑理由如下：
+
+{$reason}
+
+您发言的原始内容如下：
+
+{$oriData}
+HTML;
+    }
+
+    /*管理员删除通知信息*/
+    public function adminDelNotice($data)
+    {
+        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $pos = $data['pos'];
+        $reason = $data['reason'];
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+        $oriData = $this->display($data['oriData']);
+
+        if ($data['uid'] == $data['ownUid']) {
+            $own = "您";
+            $reason = "。";
+        } else {
+            $own = "管理员 {$uinfo->name} ";
+
+            $reason = <<<HTML
+，理由如下：
+
+{$reason}
+
+HTML;
+
+        }
+
+        return <<<HTML
+{$own}删除了您在 {$pos} {$url} 的发言{$reason}
+您发言的原始内容如下：
+
+{$oriData}
+HTML;
+    }
+
+    /*管理员操作通知信息*/
+    public function adminActionNotice($data)
+    {
+        $actName = [
+            bbs::ACTION_SINK_TOPIC => '下沉',
+            bbs::ACTION_ADD_BLOCK_POST => '已将您禁言',
+            bbs::ACTION_REMOVE_BLOCK_POST => '将您解除禁言',
+            bbs::ACTION_SET_ESSENCE_TOPIC => '加精',
+            bbs::ACTION_UNSET_ESSENCE_TOPIC => '取精',
+        ];
+
+        $act = $actName[$data['act']];
+        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $pos = $data['pos'];
+        $reason = $data['reason'];
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+
+	    if (in_array($data['act'], [bbs::ACTION_ADD_BLOCK_POST, bbs::ACTION_REMOVE_BLOCK_POST])) {
+		    return <<<HTML
+管理员 {$uinfo->name} {$act}，理由如下：
+
+{$reason}
+HTML;
+	    }
+	    else {
+	        if ($data['uid'] == $data['ownUid']) {
+        	    $own = "您";
+	            $reason = "。";
+	        } else {
+        	    $own = "管理员 {$uinfo->name} ";
+
+	            $reason = <<<HTML
+，理由如下：
+
+{$reason}
+
+HTML;
+
+        	}
+
+	        return <<<HTML
+{$own}{$act}了您的 {$pos} {$url}{$reason}
+HTML;
+	    }
+    }
+
+    /*管理员删除的内容*/
+    public function adminDelContent($data)
+    {
+        $reason = $data['reason'];
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+
+        $admin = $uinfo->name === null ? $data['tag'] : $uinfo->name;
+
+        $time = '';
+
+        if (isset($data['time'])) {
+            $time = '于 ' . date('Y-m-d H:i ', $data['time']);
+        }
+
+        if ($data['uid'] == $data['ownUid']) {
+            $own = '层主';
+            $reason = '。';
+        } else {
+            $own = '管理员';
+
+            $reason = <<<HTML
+，理由如下：
+
+{$reason}
+HTML;
+        }
+
+        return <<<HTML
+{$own} {$admin} {$time}删除了该楼层{$reason}
+HTML;
+    }
+
+	/*待审核的内容*/
+	public function postNeedReviewNotice($data) {
+        return <<<HTML
+发言待审核，仅管理员和作者本人可见。
+HTML;
+	}
 }

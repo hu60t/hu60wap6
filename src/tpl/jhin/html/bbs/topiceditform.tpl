@@ -26,11 +26,11 @@
     <form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$p}.{$BID}" class="topic-form">
       {if $editTitle}
       <div class="topic-form-label">标题</div>
-      <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="" value="{$title}"/>
+      <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="" value="{code::html($title, false, true)}"/>
       {/if}
       {if $USER->islogin}
       <div class="topic-form-label">内容</div>
-      <textarea class="topic-form-content" name="content" id="content">{$content}</textarea>
+      <textarea class="topic-form-content" name="content" id="content">{code::html($content, false, true)}</textarea>
       <input type="hidden" name="token" value="{$token->token()}">
 
         {if $isAdminEdit}

@@ -58,14 +58,14 @@ class UbbDisplay extends XUBBP
         /*at消息*/
         'at' => 'at',
         'atMsg' => 'atMsg',
+        /*face 表情*/
+        'face' => 'face',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
         'delContent' => 'adminDelContent',
         'adminAction' => 'adminActionNotice',
 		'postNeedReview' => 'postNeedReviewNotice',
-        /*face 表情*/
-        'face' => 'face',
     );
 	
 	public function display($ubbArray, $serialize = false, $maxLen = null, $page = null)
@@ -745,15 +745,15 @@ HTML;
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
 
-	if (in_array($data['act'], [bbs::ACTION_ADD_BLOCK_POST, bbs::ACTION_REMOVE_BLOCK_POST])) {
-		return <<<HTML
+	    if (in_array($data['act'], [bbs::ACTION_ADD_BLOCK_POST, bbs::ACTION_REMOVE_BLOCK_POST])) {
+		    return <<<HTML
 管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> {$act}，理由如下：
 <blockquote>
 {$reason}
 </blockquote>
 HTML;
-	}
-	else {
+	    }
+	    else {
 	        if ($data['uid'] == $data['ownUid']) {
         	    $own = "您";
 	            $reason = "。";
@@ -772,7 +772,7 @@ HTML;
 	        return <<<HTML
 {$own}{$act}了您的 <a href="{$url}">{$pos}</a>{$reason}
 HTML;
-	}
+	    }
     }
 
     /*管理员删除的内容*/
@@ -850,7 +850,7 @@ HTML;
             $url = $PAGE->getTplUrl($path).'?'.filemtime($path);
 
             if ($PAGE->bid == 'json') {
-                $url = $PAGE->getUrlPrefix() . $url;
+                $url = SITE_URL_PREFIX . $url;
             }
 
             $html = '<img class="hu60_face" title="' . code::html($data['face']) . '" src="' . code::html($url) . '" />';

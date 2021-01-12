@@ -138,6 +138,12 @@ HTML;
 				break;
 			case 'json':
 				$ubb = new UbbJson();
+				$ubb->skipUnknown(TRUE);
+				$ubb->setOpt(null, $opt);
+				break;
+			case 'text':
+				$ubb = new UbbText();
+				$ubb->skipUnknown(TRUE);
 				$ubb->setOpt(null, $opt);
 				break;
 		}

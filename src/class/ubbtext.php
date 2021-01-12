@@ -53,17 +53,17 @@ class UbbText extends XUBBP
         'mailtxt' => 'mailtxt',
         /*at消息*/
         'at' => 'at',
+        /*at通知信息（用于推送通知）*/
+        'atMsg' => 'atMsg',
         /*face 表情*/
         'face' => 'face',
         /*管理员操作*/
+        'adminEdit' => 'adminEditNotice',
+        'adminDel' => 'adminDelNotice',
         'delContent' => 'adminDelContent',
-        /*at通知信息（用于推送通知）*/
-        'atMsg' => 'atMsg',
+        'adminAction' => 'adminActionNotice',
+		'postNeedReview' => 'postNeedReviewNotice',
     );
-
-    protected static function html($str) {
-        return $str;
-    }
 
     public function display($ubbArray, $serialize = false, $maxLen = null, $page = null)
     {
@@ -95,10 +95,6 @@ class UbbText extends XUBBP
     /*代码高亮*/
     public function code($data)
     {
-        $lang = '=' . self::html($data['lang']);
-        if ($lang == '=php') {
-            $lang = '';
-        }
         return "\n\n".$data['data']."\n\n";
     }
 	
@@ -190,7 +186,7 @@ class UbbText extends XUBBP
     public function thumb($data)
     {
         global $PAGE;
-        $src = code::html($data['src']);
+        $src = $data['src'];
 
         //百度输入法多媒体输入
         if (preg_match('#^(https?://ci\.baidu\.com)/([a-zA-Z0-9]+)$#is', $src, $arr)) {
@@ -236,25 +232,25 @@ class UbbText extends XUBBP
         if ($x == '公有领域' or $x == '公共领域') {
             return '本作品属于公有领域。';
         }
-        return '本作品采用' . code::html($data['tag']) . '进行许可。';
+        return '本作品采用' . $data['tag'] . '进行许可。';
     }
 
     /*battlenet 战网*/
     public function battlenet($data)
     {
-        $name = self::html($data['name']);
+        $name = $data['name'];
         if ($data['server'] != '') {
-            $name .= '@' . self::html($data['server']);
+            $name .= '@' . $data['server'];
         }
         if ($data['display'] != null) {
-            $name .= "，" . self::html($data['display']);
+            $name .= "，" . $data['display'];
         }
         return '《战网：' . $name . '》';
     }
 
     /*math 数学公式*/
     public function math($data) {
-        $content = self::html($data['data']);
+        $content = $data['data'];
         if ($data['type'] == 'math') {
             return '[math]'.$content.'[/math]';
         }
@@ -313,7 +309,7 @@ class UbbText extends XUBBP
     /*face 表情*/
     public function face($data)
     {
-        return '{' . self::html($data['face']) . '}';
+        return '{' . $data['face'] . '}';
     }
 
     /*urltxt 链接文本*/
@@ -326,11 +322,6 @@ class UbbText extends XUBBP
     public function mailtxt($data)
     {
         return $data['mail'];
-    }
-
-    /*管理员删除的内容*/
-    public function adminDelContent($data) {
-        return '';
     }
 
     /*at通知信息（用于推送通知）*/
@@ -358,4 +349,145 @@ class UbbText extends XUBBP
 {$msg}
 HTML;
     }
+
+    /*管理员编辑通知信息*/
+    public function adminEditNotice($data)
+    {
+        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $pos = $data['pos'];
+        $reason = $data['reason'];
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+        $oriData = $this->display($data['oriData']);
+
+        return <<<HTML
+管理员 {$uinfo->name} 编辑了您在 {$pos} {$url} 的发言，编辑理由如下：
+
+{$reason}
+
+您发言的原始内容如下：
+
+{$oriData}
+HTML;
+    }
+
+    /*管理员删除通知信息*/
+    public function adminDelNotice($data)
+    {
+        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $pos = $data['pos'];
+        $reason = $data['reason'];
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+        $oriData = $this->display($data['oriData']);
+
+        if ($data['uid'] == $data['ownUid']) {
+            $own = "您";
+            $reason = "。";
+        } else {
+            $own = "管理员 {$uinfo->name} ";
+
+            $reason = <<<HTML
+，理由如下：
+
+{$reason}
+
+HTML;
+
+        }
+
+        return <<<HTML
+{$own}删除了您在 {$pos} {$url} 的发言{$reason}
+您发言的原始内容如下：
+
+{$oriData}
+HTML;
+    }
+
+    /*管理员操作通知信息*/
+    public function adminActionNotice($data)
+    {
+        $actName = [
+            bbs::ACTION_SINK_TOPIC => '下沉',
+            bbs::ACTION_ADD_BLOCK_POST => '已将您禁言',
+            bbs::ACTION_REMOVE_BLOCK_POST => '将您解除禁言',
+            bbs::ACTION_SET_ESSENCE_TOPIC => '加精',
+            bbs::ACTION_UNSET_ESSENCE_TOPIC => '取精',
+        ];
+
+        $act = $actName[$data['act']];
+        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $pos = $data['pos'];
+        $reason = $data['reason'];
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+
+	    if (in_array($data['act'], [bbs::ACTION_ADD_BLOCK_POST, bbs::ACTION_REMOVE_BLOCK_POST])) {
+		    return <<<HTML
+管理员 {$uinfo->name} {$act}，理由如下：
+
+{$reason}
+HTML;
+	    }
+	    else {
+	        if ($data['uid'] == $data['ownUid']) {
+        	    $own = "您";
+	            $reason = "。";
+	        } else {
+        	    $own = "管理员 {$uinfo->name} ";
+
+	            $reason = <<<HTML
+，理由如下：
+
+{$reason}
+
+HTML;
+        	}
+
+	        return <<<HTML
+{$own}{$act}了您的 {$pos} {$url}{$reason}
+HTML;
+	    }
+    }
+
+    /*管理员删除的内容*/
+    public function adminDelContent($data)
+    {
+        $reason = $data['reason'];
+        $uinfo = new UserInfo();
+        $uinfo->uid($data['uid']);
+
+        $admin = $uinfo->name === null ? $data['tag'] : $uinfo->name;
+
+        $time = '';
+
+        if (isset($data['time'])) {
+            $time = '于 ' . date('Y-m-d H:i ', $data['time']);
+        }
+
+        if ($data['uid'] == $data['ownUid']) {
+            $own = '层主';
+            $reason = '。';
+        } else {
+            $own = '管理员';
+
+            $reason = <<<HTML
+，理由如下：
+
+{$reason}
+HTML;
+        }
+
+        return <<<HTML
+{$own} {$admin} {$time}删除了该楼层{$reason}
+HTML;
+    }
+
+	/*待审核的内容*/
+	public function postNeedReviewNotice($data) {
+        return <<<HTML
+发言待审核，仅管理员和作者本人可见。
+HTML;
+	}
+
 }

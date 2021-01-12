@@ -25,12 +25,12 @@
     {form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$p}.{$BID}"}
 {if $editTitle}
 <p>
-<input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{$title}"/>
+<input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{code::html($title, false, true)}"/>
 </p>
 {/if}
 <p>
         {if $USER->islogin}
-            <textarea class="txt" name="content" id="content">{$content}</textarea>
+            <textarea class="txt" name="content" id="content">{code::html($content, false, true)}</textarea>
             {input type="hidden" name="token" value=$token->token()}
 </p>
     {if $isAdminEdit}
