@@ -25,6 +25,7 @@ if (is_object($USER) && $USER->getinfo('chat.newchat_num') > 0) {
 } else {
     $newChatNum = 1;
 }
+$newChatNum = page::pageSize(1, $newChatNum, 100);
 
 $newChats = $chat->newChats($newChatNum);
 
