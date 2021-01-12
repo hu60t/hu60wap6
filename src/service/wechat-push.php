@@ -54,7 +54,7 @@ while (true) {
             switch ($entry->getEntryType()) {
                 case EntryType::TRANSACTIONBEGIN:
                 case EntryType::TRANSACTIONEND:
-                    continue;
+                    continue 2;
             }
 
             $rowChange = new RowChange();
@@ -112,6 +112,7 @@ while (true) {
                     @$uinfo->uid($arr['byuid']);
 
                     $ubb = new UbbText();
+					$ubb->skipUnknown(TRUE);
                     @$text = $ubb->display($arr['content'], true);
                     $text = trim(preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $text));
 
