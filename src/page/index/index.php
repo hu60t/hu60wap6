@@ -3,7 +3,7 @@ $tpl = $PAGE->start();
 $USER->start($tpl);
 $bbs = new bbs($USER);
 
-$size = 20;
+$size = page::pageSize(1, 20, 1000);
 $p = (int)$_GET['p'];
 if ($p < 1) $p = 1;
 $offset = ($p - 1) * $size;

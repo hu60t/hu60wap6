@@ -8,7 +8,8 @@ $tpl->assign('bbs', $bbs);
 $tid = (int)$PAGE->ext[0];
 $tpl->assign('tid', $tid);
 
-$pageSize = 20;
+$pageSize = page::pageSize(1, 20, 1000);
+
 $contentCount = $bbs->topicContentCount($tid);
 $tpl->assign('contentCount', $contentCount);
 $maxPage = ceil($contentCount / $pageSize);
@@ -28,7 +29,7 @@ if (isset($_GET['floor']) || isset($_GET['level'])) {
 	if ($floorReverse) $floor = $contentCount - $floor;
 	$floor = max(1, $floor);
 	$floor = min($floor, $contentCount);
-	$p = floor(($floor + 20) / $pageSize);
+	$p = floor(($floor + $pageSize) / $pageSize);
 } else {
 	//获取帖子页码
 	$p = (int)$PAGE->ext[1];
@@ -67,7 +68,7 @@ $blockUids = $bbs->getBlockUids();
 $blockedReply = 0;
 
 //读取帖子内容
-$tContents = $bbs->topicContents($tid, $p, 20, 'uid,ctime,mtime,content,floor,id,topic_id,review,locked', $floorReverse);
+$tContents = $bbs->topicContents($tid, $p, $pageSize, 'uid,ctime,mtime,content,floor,id,topic_id,review,locked', $floorReverse);
 foreach ($tContents as $k=>&$v) {
 	// 如果屏蔽用户是帖子作者则不屏蔽
 	if (!$all && $v['uid'] != $tMeta['uid'] && in_array($v['uid'], $blockUids)) {

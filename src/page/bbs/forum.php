@@ -22,7 +22,7 @@ $tpl->assignByRef('forumInfo', $forumInfo);
 //获取帖子列表
 if ($fid == 0 && !isset($PAGE->ext[1])) {
     foreach ($forumInfo as &$forum) {
-        $forum['newTopic'] = $bbs->topicList($forum['id'], 0, 3);
+        $forum['newTopic'] = $bbs->topicList($forum['id'], 0, page::pageSize(1, 3, 100));
         foreach ($forum['newTopic'] as &$topic) {
             $topic += $bbs->topicMeta($topic['topic_id'], '*');
 
@@ -41,7 +41,7 @@ if ($fid == 0 && !isset($PAGE->ext[1])) {
 } else {
     $onlyEssence = (bool)$PAGE->ext[2];
 
-    $num = 20;
+    $num = page::pageSize(1, 20, 1000);
     $totalNumber = $bbs->topicCount($fid, $onlyEssence);
     $totalPage = ceil($totalNumber / $num);
 

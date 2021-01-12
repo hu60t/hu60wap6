@@ -46,7 +46,7 @@ if ($PAGE->ext[0]) {
     $tpl->assign('err_msg', $err_msg);
 
     $chatCount = $chat->chatCount($roomname);
-    $pageSize = isset($_GET['page_size']) ? min(max((int)$_GET['page_size'], 1), 200) : 15;
+    $pageSize = page::pageSize(1, 20, 1000);
     $maxP = ceil($chatCount / $pageSize);
 
     if (isset($_GET['floor']) || isset($_GET['level'])) {

@@ -53,7 +53,7 @@ $tpl->assign('actionToken', $actionToken);
 $action = $PAGE->ext[0];
 
 $p = (int)$_GET['p'];
-$pageSize = 15;
+$pageSize = page::pageSize(1, 20, 1000);
 
 if ($p < 1) {
     $p = 1;

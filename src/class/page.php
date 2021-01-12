@@ -405,6 +405,29 @@ class page implements ArrayAccess
 		}
     }
 
+    /**
+     * 获取页面大小
+     * 
+     * 页面大小可以从$_GET['pageSize']参数中读取。
+     * 如果没有该参数，则使用默认值。
+     * 如果参数超过$min或$max范围，则取$min或$max。
+     */
+    public static function pageSize($min, $default, $max) {
+        if (isset($_GET['page_size']) && !isset($_GET['pageSize'])) {
+            $_GET['pageSize'] = $_GET['page_size'];
+        }
+        if (!isset($_GET['pageSize'])) {
+            return $default;
+        }
+        $pageSize = (int)$_GET['pageSize'];
+        if ($pageSize < $min) {
+            $pageSize = $min;
+        } elseif ($pageSize > $max) {
+            $pageSize = $max;
+        }
+        return $pageSize;
+    }
+
     public function __isset($name)
     {
         return isset($this->page[$name]);
