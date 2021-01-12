@@ -82,12 +82,20 @@ if ($PAGE->ext[0]) {
             $blockedReply++;
             continue;
         }
+        
+        // 删除检查
+        if ($v['hidden']) {
+            $uinfo->uid($v['hidden']);
+            $v['content'] = UbbParser::createAdminDelContent($uinfo, null, true, $v['uid'], true);
+            continue;
+        }
 
 	    // 审核检查
-		$uinfo->uid($v['uid']);
 		if ($v['review']) {
-			$v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], 'chat', true);
-		}
+            $uinfo->uid($v['uid']);
+            $v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], 'chat', true);
+            continue;
+        }
 	}
 
     $tpl->assign('list', $list);

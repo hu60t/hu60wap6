@@ -537,7 +537,7 @@ class UbbParser extends XUBBP
     /**
      * 生成at消息的XUBBP数据
      */
-    public function createAtMsg($user, $pos, $url, $msg, $serialize = false)
+    public static function createAtMsg($user, $pos, $url, $msg, $serialize = false)
     {
         $data = array(array(
             'type' => 'atMsg',
@@ -566,7 +566,7 @@ class UbbParser extends XUBBP
      *
      * @return XUBBP 数据
      */
-    public function createAdminEditNotice($user, $pos, $url, $reason, $oriData, $serialize = false)
+    public static function createAdminEditNotice($user, $pos, $url, $reason, $oriData, $serialize = false)
     {
         $data = array(array(
             'type' => 'adminEdit',
@@ -597,7 +597,7 @@ class UbbParser extends XUBBP
      *
      * @return XUBBP 数据
      */
-    public function createAdminDelNotice($user, $pos, $url, $reason, $oriData, $serialize = false, $ownUid = null)
+    public static function createAdminDelNotice($user, $pos, $url, $reason, $oriData, $serialize = false, $ownUid = null)
     {
         $data = array(array(
             'type' => 'adminDel',
@@ -626,14 +626,14 @@ class UbbParser extends XUBBP
      *
      * @return XUBBP 数据
      */
-    public function createAdminDelContent($user, $reason, $serialize = false, $ownUid = null)
+    public static function createAdminDelContent($user, $reason, $serialize = false, $ownUid = null, $noTime = false)
     {
         $data = array(array(
             'type' => 'delContent',
             'uid' => $user->uid,
             'ownUid' => $ownUid,
             'reason' => $reason,
-            'time' => $_SERVER['REQUEST_TIME'],
+            'time' => $noTime ? null : $_SERVER['REQUEST_TIME'],
         ));
 
         if ($serialize) {
@@ -653,7 +653,7 @@ class UbbParser extends XUBBP
      *
      * @return XUBBP 数据
      */
-    public function createAdminActionNotice($action, $admin, $title, $url, $reason, $ownUid = null, $serialize = false)
+    public static function createAdminActionNotice($action, $admin, $title, $url, $reason, $ownUid = null, $serialize = false)
     {
         $data = array(array(
             'type' => 'adminAction',
@@ -701,7 +701,7 @@ class UbbParser extends XUBBP
 	}
 
     /*按指定分隔符将字符串分成两半*/
-    function split($split, $str)
+    protected static function split($split, $str)
     {
         $pos = strpos($str, $split);
         $data = [];

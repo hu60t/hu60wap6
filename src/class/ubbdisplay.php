@@ -801,14 +801,17 @@ HTML;
 
         if ($data['uid'] == $data['ownUid']) {
             $own = '层主';
-            $reason = '。';
         } else {
             $own = '管理员';
+        }
 
+        if (!empty($reason)) {
             $reason = <<<HTML
 ，理由如下：
 <p>{$reason}</p>
 HTML;
+        } else {
+            $reason = '。';
         }
 
         return <<<HTML

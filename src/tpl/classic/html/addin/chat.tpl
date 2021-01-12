@@ -81,25 +81,14 @@
 <hr>
 <div class="content">
     {foreach $list as $k}
-        {if $k.hidden}
-        <div class="i">
-            {$tmp = $uinfo->uid($k.hidden)}
-            {*if $k.hidden == $k.uid}
-                {$k.lid}. 该楼层已被层主 <a href="#" onclick="atAdd('{$uinfo->name|code}',this);return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 自行删除。
-            {else*}
-                {$k.lid}. 该楼层已被管理员 <a href="#" onclick="atAdd('{$uinfo->name|code}',this);return false">@</a><a href="user.info.{$k.hidden}.{$BID}">{$uinfo->name|code}</a> 删除，层主：<a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@</a><a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a>。
-            {*/if*}
-        </div>
-        {else}
-            {$tmp = $uinfo->uid($k.uid)}
-            {$tmp = $uinfo->setUbbOpt($ubbs)}
+        {$tmp = $uinfo->uid($k.uid)}
+        {$tmp = $uinfo->setUbbOpt($ubbs)}
         <div class="i">
         <div class="floor_content" id="floor_content_{$k.lid}"><a class="floor-link" name="{$k.lid}" href="?{$k.lid}#{$k.lid}">{$k.lid}</a>. {$ubbs->display($k.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$k.lid}"></div>
 		<script>foldFloorInit({$k.lid})</script>
 		<div>(<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a> {date("m-d H:i:s",{$k.time})}{if $chat->canDel($k.uid,true)}/<a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>{/if})</div>
         </div>
-        {/if}
         <hr>
     {/foreach}
 </div>
