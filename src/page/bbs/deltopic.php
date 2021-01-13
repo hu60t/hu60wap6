@@ -84,11 +84,11 @@ try {
         $msgTitle = "帖子“{$tMeta['title']}”";
 
         if ($tContent['floor'] > 1) {
-            $msgTitle .= "的" . ($tContent['floor'] - 1) . "楼";
+            $msgTitle .= "的" . $tContent['floor'] . "楼";
         }
 
         $ubbp = new ubbParser();
-        $msgData = $ubbp->createAdminDelNotice($USER, $msgTitle, "bbs.topic.{$tid}.{$PAGE->bid}", $delReason, $tContent['content'], false, $tContent['uid']);
+        $msgData = $ubbp->createAdminDelNotice($USER, $msgTitle, "bbs.topic.{$tid}.{$PAGE->bid}?floor=$tContent[floor]#$tContent[floor]", $delReason, $tContent['content'], false, $tContent['uid']);
 
         $msg = new Msg($USER);
         $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
