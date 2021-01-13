@@ -7,6 +7,11 @@ class JsonPage {
 	protected const USER_EXTDATA_SIGNATURE = 4;
 	protected const USER_EXTDATA_CONTACT = 8;
 
+	public static function isJsonPage() {
+		global $PAGE;
+		return $PAGE->bid == 'json' || $PAGE->bid == 'jhtml';
+	}
+
 	public static function jhtml($isJhtml) {
 		self::$isJhtml = $isJhtml;
 	}
