@@ -1,6 +1,7 @@
 {config_load file="conf:site.info"}
 {JsonPage::start()}
 {$data=[
+    'SITE_URL_PREFIX' => $SITE_URL_PREFIX,
     'SITE_NAME' => #SITE_NAME#,
     'SITE_SIMPLE_NAME' => #SITE_SIMPLE_NAME#,
     'BBS_NAME' => #BBS_NAME#,
