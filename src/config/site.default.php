@@ -5,6 +5,14 @@
 
 
 /**
+ * 网站网址前缀
+ */
+define('SITE_URL_PREFIX', 'https://hu60.cn');
+define('SITE_ROUTER_PATH', '/q.php');
+define('SITE_URL_BASE', SITE_URL_PREFIX.SITE_ROUTER_PATH.'/');
+
+
+/**
  * 网站注册功能开关
  *
  * 注册功能关闭后，可以配置 tpl/classic/html/site/info.conf 中的 SITE_REG_CLOSE_REASON 来显示注册关闭原因

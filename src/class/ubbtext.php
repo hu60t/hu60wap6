@@ -332,8 +332,14 @@ class UbbText extends XUBBP
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
 
-        $this->atMsgUrl = str_replace('{$BID}', $PAGE->bid, $data['url']);
+        $url = str_replace('{$BID}', $PAGE->bid, $data['url']);
+        $this->setOpt('atMsg.Url', $url);
+
         $pos = $data['pos'];
+        if (!$this->getOpt('atMsg.textWithoutUrl')) {
+            $url = SITE_URL_BASE.$url;
+            $pos .= " $url";
+        }
 
 		if (is_array($data['msg'])) {
             $uinfo->setUbbOpt($this);
@@ -353,7 +359,7 @@ HTML;
     /*管理员编辑通知信息*/
     public function adminEditNotice($data)
     {
-        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $url = SITE_URL_BASE.$data['url'];
         $pos = $data['pos'];
         $reason = $data['reason'];
         $uinfo = new UserInfo();
@@ -374,7 +380,7 @@ HTML;
     /*管理员删除通知信息*/
     public function adminDelNotice($data)
     {
-        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $url = SITE_URL_BASE.$data['url'];
         $pos = $data['pos'];
         $reason = $data['reason'];
         $uinfo = new UserInfo();
@@ -416,7 +422,7 @@ HTML;
         ];
 
         $act = $actName[$data['act']];
-        $url = SITE_URL_PREFIX.'/q.php/'.$data['url'];
+        $url = SITE_URL_BASE.$data['url'];
         $pos = $data['pos'];
         $reason = $data['reason'];
         $uinfo = new UserInfo();

@@ -158,7 +158,7 @@ class page implements ArrayAccess
 	* 获取基本访问路径的前缀
 	*/
 	public function getBaseURL() {
-		$url = $this->getFileUrl(ROOT_DIR.'/q.php').'/';
+		$url = $this->getFileUrl(ROOT_DIR.SITE_ROUTER_PATH).'/';
 		if ($this->page['sidInUrl']) {
 			$url .= $this->page['sid'].'/';
 		}

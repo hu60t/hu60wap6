@@ -112,13 +112,14 @@ while (true) {
                     @$uinfo->uid($arr['byuid']);
 
                     $ubb = new UbbText();
+                    $ubb->setOpt('atMsg.textWithoutUrl', true);
 					$ubb->skipUnknown(TRUE);
                     @$text = $ubb->display($arr['content'], true);
                     $text = trim(preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $text));
 
                     if ($arr['type'] == msg::TYPE_MSG) {
                         $type = '内信';
-                        $url = SITE_URL_PREFIX."/q.php/msg.index.chat.$arr[byuid].html";
+                        $url = SITE_URL_BASE."msg.index.chat.$arr[byuid].html";
                         $text = <<<EOF
 @{$uinfo->name} 给您发来内信：
 
@@ -126,7 +127,7 @@ $text
 EOF;
                     } else {
                         $type = '@消息';
-                        $url = SITE_URL_PREFIX."/q.php/link.ack.at.$arr[id].html?url64=".code::b64e($ubb->atMsgUrl);
+                        $url = SITE_URL_BASE."link.ack.at.$arr[id].html?url64=".code::b64e($ubb->getOpt('atMsg.Url'));
                     }
 
                     @$uinfo->uid($arr['touid']);

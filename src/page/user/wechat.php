@@ -4,7 +4,7 @@ $USER->start($tpl);
 
 if (!$USER->islogin) {
     // 在微信里打开链接时，相对路径跳转有问题，需要用绝对路径
-    header('Location: '.page::getFileUrl(ROOT_DIR.'/q.php').'/user.login.' . $PAGE->bid . '?u=' . urlencode($PAGE->geturl()));
+    header('Location: '.page::getFileUrl(ROOT_DIR.SITE_ROUTER_PATH).'/user.login.' . $PAGE->bid . '?u=' . urlencode($PAGE->geturl()));
     exit;
 }
 
