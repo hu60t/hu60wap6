@@ -224,7 +224,7 @@ class UbbDisplay extends XUBBP
 
 	    if ($data['type'] == 'urlout') $data['url'] = 'http://' . $data['url'];
 
-	    if ($PAGE->bid == 'json' || $data['url'][0] == '#') {
+	    if (JsonPage::isJsonPage() || $data['url'][0] == '#') {
 	        $url = $data['url'];
 	    } else {
 	        $url = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
@@ -252,14 +252,14 @@ class UbbDisplay extends XUBBP
             $url = $prefix . '/more?mm=' . $imgId;
         }
         
-		if (!preg_match('#^data:image/#is', $url)) {
+		if (!JsonPage::isJsonPage() && !preg_match('#^data:image/#is', $url)) {
             $url = SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
         }
 
         if (!$data['in_link'])
-		return '<a href="'.code::html($url).'"><img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/></a>';
-	else
-		return '<img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/>';
+		    return '<a href="'.code::html($url).'"><img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/></a>';
+	    else
+		    return '<img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/>';
 
     }
 
@@ -275,14 +275,20 @@ class UbbDisplay extends XUBBP
             $imgId = $arr[2];
             $src = $prefix . '/more?mm=' . $imgId;
         }
-		
-        $url = SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($src);
+        
+        if (JsonPage::isJsonPage()) {
+            $url = $src;
+            $base = SITE_URL_BASE;
+        } else {
+            $url = SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($src);
+            $base = '';
+        }
 
         if (!$data['in_link']) {
-        	return '<a href="' . $url . '"><img src="link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
+        	return '<a href="' . $url . '"><img src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
         }
         else {
-        	return '<img src="link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击进入链接"/>';
+        	return '<img src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击进入链接"/>';
         }
     }
 
@@ -328,7 +334,11 @@ class UbbDisplay extends XUBBP
             $html = '<p class="video_box"><a target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
         }
         else {
-			$link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+            if (JsonPage::isJsonPage()) {
+                $link = $url;
+            } else {
+                $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+            }
             $html = '<p class="video_box"><a target="_blank" href="'.code::html($link).'">'.code::html($url).'</a></p>';
         }
 
@@ -354,8 +364,12 @@ class UbbDisplay extends XUBBP
             $imgId = $arr[2];
             $url = $prefix . '/more?mm=' . $imgId;
         }
-		
-		$link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+        
+        if (JsonPage::isJsonPage()) {
+            $link = $data['url'];
+        } else {
+            $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+        }
 
         return '<p class="video_box"><a target="_blank" href="'.code::html($link).'">视频链接</a><br/><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"></video></p><script>(function(){var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
     }
@@ -379,7 +393,11 @@ class UbbDisplay extends XUBBP
             $url = $prefix . '/more?mm=' . $imgId;
         }
 
-		$link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+        if (JsonPage::isJsonPage()) {
+            $link = $data['url'];
+        } else {
+            $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+        }
 
         return '<p class="audio_box"><a target="_blank" href="'.code::html($link).'">音频链接</a><br/><audio class="audio" src="'.code::html($url).'" controls="controls"></audio></p>';
     }
@@ -605,7 +623,7 @@ HTML;
 {$script}
 HTML;
         } else {
-            if ($PAGE->bid == 'json') {
+            if (JsonPage::isJsonPage()) {
                 $url = $data['url'];
             } else {
                 $url = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
@@ -852,7 +870,7 @@ HTML;
         try {
             $url = $PAGE->getTplUrl($path).'?'.filemtime($path);
 
-            if ($PAGE->bid == 'json') {
+            if (JsonPage::isJsonPage()) {
                 $url = SITE_URL_PREFIX . $url;
             }
 
