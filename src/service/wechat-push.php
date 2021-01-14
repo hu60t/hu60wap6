@@ -112,7 +112,7 @@ while (true) {
                     @$uinfo->uid($arr['byuid']);
 
                     $ubb = new UbbText();
-                    $ubb->setOpt('atMsg.textWithoutUrl', true);
+                    $ubb->setOpt('display.textWithoutUrl', true);
 					$ubb->skipUnknown(TRUE);
                     @$text = $ubb->display($arr['content'], true);
                     $text = trim(preg_replace("#^<!--\s*markdown\s*-->\s+#s", '', $text));

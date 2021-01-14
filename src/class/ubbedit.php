@@ -332,7 +332,7 @@ class ubbEdit extends XUBBP
         $this->setOpt('atMsg.Url', $url);
 
         $pos = $data['pos'];
-        if (!$this->getOpt('atMsg.textWithoutUrl')) {
+        if (!$this->getOpt('display.textWithoutUrl')) {
             $url = SITE_URL_BASE.$url;
             $pos .= " $url";
         }
@@ -355,15 +355,18 @@ HTML;
     /*管理员编辑通知信息*/
     public function adminEditNotice($data)
     {
-        $url = SITE_URL_BASE.$data['url'];
         $pos = $data['pos'];
+        if (!$this->getOpt('display.textWithoutUrl')) {
+            $url = SITE_URL_BASE.$data['url'];
+            $pos .= " $url";
+        }
         $reason = $data['reason'];
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
         $oriData = $this->display($data['oriData']);
 
         return <<<HTML
-管理员 {$uinfo->name} 编辑了您在 {$pos} {$url} 的发言，编辑理由如下：
+管理员 {$uinfo->name} 编辑了您在 {$pos} 的发言，编辑理由如下：
 
 {$reason}
 
@@ -376,8 +379,11 @@ HTML;
     /*管理员删除通知信息*/
     public function adminDelNotice($data)
     {
-        $url = SITE_URL_BASE.$data['url'];
         $pos = $data['pos'];
+        if (!$this->getOpt('display.textWithoutUrl')) {
+            $url = SITE_URL_BASE.$data['url'];
+            $pos .= " $url";
+        }
         $reason = $data['reason'];
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
@@ -399,7 +405,7 @@ HTML;
         }
 
         return <<<HTML
-{$own}删除了您在 {$pos} {$url} 的发言{$reason}
+{$own}删除了您在 {$pos} 的发言{$reason}
 您发言的原始内容如下：
 
 {$oriData}
@@ -418,8 +424,11 @@ HTML;
         ];
 
         $act = $actName[$data['act']];
-        $url = SITE_URL_BASE.$data['url'];
         $pos = $data['pos'];
+        if (!$this->getOpt('display.textWithoutUrl')) {
+            $url = SITE_URL_BASE.$data['url'];
+            $pos .= " $url";
+        }
         $reason = $data['reason'];
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
@@ -448,7 +457,7 @@ HTML;
         	}
 
 	        return <<<HTML
-{$own}{$act}了您的 {$pos} {$url}{$reason}
+{$own}{$act}了您的 {$pos}{$reason}
 HTML;
 	    }
     }
