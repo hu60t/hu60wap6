@@ -536,7 +536,7 @@ class user extends userinfo
     {
         global $PAGE;
         page::setcookie('sid', false, -1);
-        header('Location: ' . $_SERVER['PHP_SELF'] . '/user.login.' . $PAGE->bid);
+        header('Location: ' . SITE_ROUTER_PATH . '/user.login.' . $PAGE->bid);
     }
 
     public function regAt($pos, $url, $msg)

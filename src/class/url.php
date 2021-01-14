@@ -102,14 +102,14 @@ class url
 	static function getJumpLink($url) {
 		global $PAGE;
 		
-		return $_SERVER['PHP_SELF'] . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
+		return SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($url);
     }
 
 	//获得图片安全跳转链接
 	static function getJumpImg($url) {
 		global $PAGE;
 
-		return $_SERVER['PHP_SELF'] . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
+		return SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
 	}
     
     // 获得扩展名
