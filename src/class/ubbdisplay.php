@@ -73,7 +73,7 @@ class UbbDisplay extends XUBBP
 		$disable = $this->getOpt('all.blockPost');
 
         if ($disable) {
-            return '<div class="tp info-box">用户被禁言，发言自动屏蔽。</div>';
+            return '<div class="tp info-box userblocked">用户被禁言，发言自动屏蔽。</div>';
         }
 		
 		if ($serialize) {
