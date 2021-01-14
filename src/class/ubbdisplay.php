@@ -185,7 +185,7 @@ class UbbDisplay extends XUBBP
         }
 
         if ($data['lang'] == 'latex') {
-            $html = '<latex-js>'.htmlspecialchars($code).'</latex-js>';
+            $html = '<latex-js class="userlatex">'.htmlspecialchars($code).'</latex-js>';
         } else {
             $html = '<pre class="hu60_code"><code class="'.code::html($data['lang']).'">'.code::html($code).'</code></pre>';
         }
@@ -230,12 +230,12 @@ class UbbDisplay extends XUBBP
 	        $url = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
 	    }
 
-        return '<a href="' . code::html($url) . '">' . $data['title'] . '</a>';
+        return '<a class="userlink" href="' . code::html($url) . '">' . $data['title'] . '</a>';
     }
 
     public function urlname($data)
     {
-        return '<a name="' . code::html($data['url']) . '">' . code::html($data['title']) . '</a>';
+        return '<a class="usertarget" name="' . code::html($data['url']) . '">' . code::html($data['title']) . '</a>';
     }
 
     /*img 图片*/
@@ -257,9 +257,9 @@ class UbbDisplay extends XUBBP
         }
 
         if (!$data['in_link'])
-		    return '<a href="'.code::html($url).'"><img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/></a>';
+		    return '<a class="userimglink" href="'.code::html($url).'"><img class="userimg" src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/></a>';
 	    else
-		    return '<img src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/>';
+		    return '<img class="userimg" src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/>';
 
     }
 
@@ -285,10 +285,10 @@ class UbbDisplay extends XUBBP
         }
 
         if (!$data['in_link']) {
-        	return '<a href="' . $url . '"><img src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
+        	return '<a class="userthumblink" href="' . $url . '"><img class="userthumb" src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
         }
         else {
-        	return '<img src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击进入链接"/>';
+        	return '<img class="userthumb" src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击进入链接"/>';
         }
     }
 
@@ -331,7 +331,7 @@ class UbbDisplay extends XUBBP
         }
 
         if (null !== $iframeUrl) {
-            $html = '<p class="video_box"><a target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
+            $html = '<p class="video_box"><a class="uservideosite" target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
         }
         else {
             if (JsonPage::isJsonPage()) {
@@ -339,7 +339,7 @@ class UbbDisplay extends XUBBP
             } else {
                 $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
             }
-            $html = '<p class="video_box"><a target="_blank" href="'.code::html($link).'">'.code::html($url).'</a></p>';
+            $html = '<p class="video_box"><a class="uservideosite" target="_blank" href="'.code::html($link).'">'.code::html($url).'</a></p>';
         }
 
         return $this->markdownProtect($html);
@@ -371,7 +371,7 @@ class UbbDisplay extends XUBBP
             $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
         }
 
-        return '<p class="video_box"><a target="_blank" href="'.code::html($link).'">视频链接</a><br/><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"></video></p><script>(function(){var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
+        return '<p class="video_box"><a class="uservideolink" target="_blank" href="'.code::html($link).'">视频链接</a><br/><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"></video></p><script>(function(){var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
     }
 
     /*audioStream 音频流*/
@@ -399,7 +399,7 @@ class UbbDisplay extends XUBBP
             $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
         }
 
-        return '<p class="audio_box"><a target="_blank" href="'.code::html($link).'">音频链接</a><br/><audio class="audio" src="'.code::html($url).'" controls="controls"></audio></p>';
+        return '<p class="audio_box"><a class="useraudiolink" target="_blank" href="'.code::html($link).'">音频链接</a><br/><audio class="audio" src="'.code::html($url).'" controls="controls"></audio></p>';
     }
 
     /*copyright 版权声明*/
@@ -441,19 +441,19 @@ class UbbDisplay extends XUBBP
                 $data['display'] = "{$data['name']}@{$data['server']}";
             }
 
-            return '<a href="http://www.battlenet.com.cn/wow/zh/character/' . urlencode($data['server']) . '/' . urlencode($data['name']) . '/simple">' . code::html($data['display']) . '</a>';
+            return '<a class="userbattlenet" href="http://www.battlenet.com.cn/wow/zh/character/' . urlencode($data['server']) . '/' . urlencode($data['name']) . '/simple">' . code::html($data['display']) . '</a>';
         } else {
             if ($data['display'] == null) {
                 $data['display'] = "{$data['name']}";
             }
 
-            return '<a href="http://www.battlenet.com.cn/wow/zh/search?q=' . urlencode($data['name']) . '&amp;f=wowcharacter">' . code::html($data['display']) . '</a>';
+            return '<a class="userbattlenet" href="http://www.battlenet.com.cn/wow/zh/search?q=' . urlencode($data['name']) . '&amp;f=wowcharacter">' . code::html($data['display']) . '</a>';
         }
     }
 
     /*math 数学公式*/
     public function math($data) {
-        $html = '<hu60-math>'.code::html($data['data']).'</hu60-math>';
+        $html = '<hu60-math class="usermath">'.code::html($data['data']).'</hu60-math>';
 
         return $this->markdownProtect($html);
     }
@@ -629,14 +629,14 @@ HTML;
                 $url = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
             }
 
-            return '<a href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
+            return '<a class="userlink" href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
         }
     }
 
     /*mailtxt 邮箱文本*/
     public function mailtxt($data)
     {
-        return '<a href="mailto:' . code::html($data['mail']) . '">' . code::html($data['mail']) . '</a>';
+        return '<a class="usermail" href="mailto:' . code::html($data['mail']) . '">' . code::html($data['mail']) . '</a>';
     }
 
     /*at用户名*/
@@ -651,9 +651,9 @@ HTML;
         $name = $uinfo->name === null ? $data['tag'] : $uinfo->name;
 
         if ($jsFunc) {
-            return '<a href="#" onclick="' . $jsFunc . '(\'' . $name . '\',this);return false">@</a><a href="user.info.' . $uid . '.' . $PAGE->bid . '">' . code::html($name) . '</a>';
+            return '<a class="userat" href="#" onclick="' . $jsFunc . '(\'' . $name . '\',this);return false">@</a><a class="userinfo" href="user.info.' . $uid . '.' . $PAGE->bid . '">' . code::html($name) . '</a>';
         } else {
-            return '<a href="user.info.' . $uid . '.' . $PAGE->bid . '">@' . code::html($name) . '</a>';
+            return '<a class="userinfo" href="user.info.' . $uid . '.' . $PAGE->bid . '">@' . code::html($name) . '</a>';
         }
     }
 
@@ -676,7 +676,7 @@ HTML;
 		}
 
         return <<<HTML
-<a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 在 <a href="{$url}">{$pos}</a> at你：
+<a class="userinfo" href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 在 <a class="hu60_pos" href="{$url}">{$pos}</a> at你：
 <blockquote>
 {$msg}
 </blockquote>
@@ -696,7 +696,7 @@ HTML;
         $oriData = $this->display($data['oriData']);
 
         return <<<HTML
-管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 编辑了您在 <a href="{$url}">{$pos}</a> 的发言，编辑理由如下：
+管理员 <a class="userinfo" href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 编辑了您在 <a class="hu60_pos" href="{$url}">{$pos}</a> 的发言，编辑理由如下：
 <blockquote>
 {$reason}
 </blockquote>
@@ -723,7 +723,7 @@ HTML;
             $own = "您";
             $reason = "。";
         } else {
-            $own = "管理员 <a href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
+            $own = "管理员 <a class=\"userinfo\" href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
 
             $reason = <<<HTML
 ，理由如下：
@@ -735,7 +735,7 @@ HTML;
         }
 
         return <<<HTML
-{$own}删除了您在 <a href="{$url}">{$pos}</a> 的发言{$reason}
+{$own}删除了您在 <a class="hu60_pos" href="{$url}">{$pos}</a> 的发言{$reason}
 您发言的原始内容如下：
 <blockquote>
 {$oriData}
@@ -765,7 +765,7 @@ HTML;
 
 	    if (in_array($data['act'], [bbs::ACTION_ADD_BLOCK_POST, bbs::ACTION_REMOVE_BLOCK_POST])) {
 		    return <<<HTML
-管理员 <a href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> {$act}，理由如下：
+管理员 <a class="userinfo" href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> {$act}，理由如下：
 <blockquote>
 {$reason}
 </blockquote>
@@ -776,7 +776,7 @@ HTML;
         	    $own = "您";
 	            $reason = "。";
 	        } else {
-        	    $own = "管理员 <a href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
+        	    $own = "管理员 <a class=\"userinfo\" href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
 
 	            $reason = <<<HTML
 ，理由如下：
@@ -788,7 +788,7 @@ HTML;
         	}
 
 	        return <<<HTML
-{$own}{$act}了您的 <a href="{$url}">{$pos}</a>{$reason}
+{$own}{$act}了您的 <a class="hu60_pos" href="{$url}">{$pos}</a>{$reason}
 HTML;
 	    }
     }
@@ -806,9 +806,9 @@ HTML;
         $name = $uinfo->name === null ? $data['tag'] : $uinfo->name;
 
         if ($jsFunc) {
-            $admin = '<a href="#" onclick="' . $jsFunc . '(\'' . $name . '\',this);return false">@</a><a href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">' . code::html($name) . '</a>';
+            $admin = '<a class="userat" href="#" onclick="' . $jsFunc . '(\'' . $name . '\',this);return false">@</a><a class="userinfo" href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">' . code::html($name) . '</a>';
         } else {
-            $admin = '<a href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">@' . code::html($name) . '</a>';
+            $admin = '<a class="userinfo" href="user.info.' . code::html($data['uid']) . '.' . $PAGE->bid . '">@' . code::html($name) . '</a>';
         }
 
         $time = '';
@@ -845,7 +845,7 @@ HTML;
 		if ($data['isAdmin']) {
 			global $PAGE;
 			$reviewForm = <<<HTML
-<form action="bbs.review.$data[contentId].$data[topicId].$PAGE[bid]" method="post">
+<form class="hu60_review" action="bbs.review.$data[contentId].$data[topicId].$PAGE[bid]" method="post">
 	<label><input type="checkbox" name="pass" value="1" />通过审核</label>
 	<input type="submit" value="确定" />
 </form>
