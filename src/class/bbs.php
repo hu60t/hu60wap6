@@ -13,7 +13,7 @@ class bbs
     const ACTION_REMOVE_BLOCK_POST = 3;
     /** 加精帖子操作 */
     const ACTION_SET_ESSENCE_TOPIC = 4;
-    /** 取精帖子操作 */
+    /** 取消精华帖子操作 */
     const ACTION_UNSET_ESSENCE_TOPIC = 5;
 
     /**
@@ -125,7 +125,7 @@ class bbs
     }
 
     /**
-     * 检查用户是否可取精
+     * 检查用户是否可取消精华
      */
     public function canUnsetEssence($noException = false)
     {
@@ -135,7 +135,7 @@ class bbs
             if ($this->user->hasPermission(User::PERMISSION_SET_ESSENCE_TOPIC)) {
                 return true;
             } else {
-                throw new bbsException('您没有权限取精该帖。', 403);
+                throw new bbsException('您没有权限取消精华帖子。', 403);
             }
         } catch (Exception $e) {
             if ($noException) {
@@ -395,7 +395,7 @@ class bbs
     }
 
     /**
-     * 取精帖子
+     * 取消精华帖子
      */
     public function unsetEssenceTopic($topicId)
     {

@@ -420,7 +420,7 @@ HTML;
             bbs::ACTION_ADD_BLOCK_POST => '已将您禁言',
             bbs::ACTION_REMOVE_BLOCK_POST => '将您解除禁言',
             bbs::ACTION_SET_ESSENCE_TOPIC => '加精',
-            bbs::ACTION_UNSET_ESSENCE_TOPIC => '取精',
+            bbs::ACTION_UNSET_ESSENCE_TOPIC => '取消精华',
         ];
 
         $act = $actName[$data['act']];
@@ -457,7 +457,7 @@ HTML;
         	}
 
 	        return <<<HTML
-{$own}{$act}了您的 {$pos}{$reason}
+{$own}将您的 {$pos} {$act}{$reason}
 HTML;
 	    }
     }
