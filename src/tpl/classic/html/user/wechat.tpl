@@ -18,7 +18,7 @@
   <p class="txt">
     <img src="{$qrcode.url|code}" width="240"/><br/>
   </p>
-  <p>扫码后请<a href="{$CID}.{$PID}.{$BID}?r={time()}">手动刷新</a>查看是否成功</p>
+  <p>扫码并关注公众号，然后<a href="{$CID}.{$PID}.{$BID}?r={time()}">手动刷新</a>查看是否成功</p>
 {/if}
 {if $wechat}
   <h3>您已绑定虎绿林微信推送服务</h3>
