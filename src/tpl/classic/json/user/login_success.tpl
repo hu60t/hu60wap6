@@ -1,3 +1,3 @@
 {JsonPage::start()}
-{$jsonData = ['success'=>true, 'sid'=>$user->sid]}
+{$jsonData = ['success'=>true, 'uid'=>$user->uid, 'sid'=>$user->sid]}
 {JsonPage::output($jsonData)}
