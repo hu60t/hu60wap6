@@ -13,6 +13,8 @@ $newTopicList = $bbs->newTopicList($size + 1, $offset, 'WHERE ctime>' . ($_SERVE
 if (count($newTopicList) == 21) {
     $tpl->assign('hasNextPage', true);
     unset($newTopicList[20]);
+} else {
+    $tpl->assign('hasNextPage', false);
 }
 
 foreach ($newTopicList as &$v) {
