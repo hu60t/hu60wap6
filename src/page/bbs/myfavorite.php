@@ -13,7 +13,7 @@ try {
   if ($p < 1) $p = 1;
   $tpl->assign('p', $p);
 
-  $size = 20;
+  $size = page::pageSize(1, 20, 1000);
   $offset = ($p - 1) * $size;
 
   //获取帖子列表
