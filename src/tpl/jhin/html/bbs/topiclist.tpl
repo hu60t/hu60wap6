@@ -53,7 +53,7 @@
 <div class="topic-list">
 	{include file='tpl:bbs.list'}
 	<div class="widget-page">
-		{jhinfunc::Pager($p,$pMax,"{$CID}.{$PID}.{$fid}.##.$onlyEssence.{$BID}")}
+		{jhinfunc::Pager($p,$pMax,"{$CID}.{$PID}.{$fid}.##.{intval($onlyEssence)}.{$BID}")}
 	</div>
 </div>
 

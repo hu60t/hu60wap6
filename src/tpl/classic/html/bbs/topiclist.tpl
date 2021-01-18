@@ -66,10 +66,10 @@
 	</ol>
 	<hr>
 	<p class="tp">
-		{if $p < $pMax}<a href="{$CID}.{$PID}.{$fid}.{$p+1}.{$onlyEssence}.{$BID}">下一页</a>{/if}
-		{if $p > 1}<a href="{$CID}.{$PID}.{$fid}.{$p-1}.{$onlyEssence}.{$BID}">上一页</a>{/if}
+		{if $p < $pMax}<a href="{$CID}.{$PID}.{$fid}.{$p+1}.{intval($onlyEssence)}.{$BID}">下一页</a>{/if}
+		{if $p > 1}<a href="{$CID}.{$PID}.{$fid}.{$p-1}.{intval($onlyEssence)}.{$BID}">上一页</a>{/if}
 		{$p}/{$pMax}页,共{$topicCount}条
-		<input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='{$CID}.{$PID}.{$fid}.'+this.value+'.{$onlyEssence}.{$BID}'; }">
+		<input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='{$CID}.{$PID}.{$fid}.'+this.value+'.{intval($onlyEssence)}.{$BID}'; }">
 	</p>
 </div>
 
