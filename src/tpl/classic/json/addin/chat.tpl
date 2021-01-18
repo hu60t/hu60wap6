@@ -11,7 +11,15 @@
     {$list.$k.canDel = $chat->canDel($v.uid,true)}
 {/foreach}
 
-{$jsonData=['chatRomName'=>$roomname, 'isLogin'=>$USER->islogin, 'chatCount'=>$count, 'maxPage'=>$maxP, 'chatList'=>$list, 'blockedReply'=>$blockedReply]}
+{$jsonData=[
+    'chatRomName'=>$roomname,
+    'isLogin'=>$USER->islogin,
+    'chatCount'=>$count,
+    'currPage'=>$p,
+    'maxPage'=>$maxP,
+    'chatList'=>$list,
+    'blockedReply'=>$blockedReply
+]}
 
 {if $USER->islogin}
 	{$jsonData['token'] = $token->token()}

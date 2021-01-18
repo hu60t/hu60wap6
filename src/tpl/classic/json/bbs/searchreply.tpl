@@ -6,5 +6,12 @@
     {$replyList.$key.content = $v.ubb->display($v.content,true)}
 {/foreach}
 
-{$jsonData=['success'=>true, 'uid'=>$uinfo.uid, 'replyCount'=>$count, 'maxPage'=> $maxP, 'replyList'=>$replyList]}
+{$jsonData=[
+    'success'=>true,
+    'uid'=>$uinfo.uid,
+    'replyCount'=>$count,
+    'currPage'=>$p,
+    'maxPage'=>$maxP,
+    'replyList'=>$replyList
+]}
 {JsonPage::output($jsonData)}

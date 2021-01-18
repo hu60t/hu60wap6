@@ -5,8 +5,18 @@
 {/foreach}
 
 {if !$err}
-	{$jsonData=['success'=>true, 'uid'=>$uinfo.uid, 'topicCount'=>$count, 'maxPage'=> $maxP, 'topicList'=>$topicList]}
+	{$jsonData=[
+		'success'=>true,
+		'uid'=>$uinfo.uid,
+		'topicCount'=>$count,
+    	'currPage'=>$p,
+		'maxPage'=>$maxP,
+		'topicList'=>$topicList
+	]}
 {else}
-	{$jsonData=['success'=>false, 'notice'=>$err->getMessage()]}
+	{$jsonData=[
+		'success'=>false,
+		'notice'=>$err->getMessage()
+	]}
 {/if}
 {JsonPage::output($jsonData)}

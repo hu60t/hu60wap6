@@ -21,7 +21,18 @@
 	{$tContents.$key.canSink = $bbs->canSink($v.uinfo.uid,true)}
 {/foreach}
 
-{$jsonData=['fName'=>$fName, 'fIndex'=>$fIndex, 'tMeta'=>$tMeta, 'floorCount'=>$contentCount, 'maxPage'=>$maxPage, 'isLogin'=>$USER->islogin, 'tContents'=>$tContents, 'blockedReply'=>$blockedReply, 'floorReverse'=>$floorReverse]}
+{$jsonData=[
+	'fName'=>$fName,
+	'fIndex'=>$fIndex,
+	'tMeta'=>$tMeta,
+	'floorCount'=>$contentCount,
+    'currPage'=>$p,
+	'maxPage'=>$maxPage,
+	'isLogin'=>$USER->islogin,
+	'tContents'=>$tContents,
+	'blockedReply'=>$blockedReply,
+	'floorReverse'=>$floorReverse
+]}
 
 {if $USER->islogin}
 	{$jsonData['token'] = $token->token()}

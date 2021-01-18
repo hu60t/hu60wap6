@@ -10,5 +10,10 @@
 {/foreach}
 {/if}
 
-{$jsonData=['msgCount'=>$msgCount, 'maxPage'=> $maxP, 'msgList'=>$list]}
+{$jsonData=[
+    'msgCount'=>$msgCount,
+    'currPage'=>$p,
+    'maxPage'=>$maxP,
+    'msgList'=>$list
+]}
 {JsonPage::output($jsonData)}

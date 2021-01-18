@@ -8,6 +8,7 @@
     'success' => ($err === null),
     'notice' => $err,
     'topicCount' => $count,
+    'currPage' => $p,
     'maxPage' => $maxP,
     'topicList' => $topicList
 ]}

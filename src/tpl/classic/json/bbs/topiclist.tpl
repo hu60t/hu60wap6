@@ -11,5 +11,14 @@
 	{$topicList.$key.uinfo = ['name'=>$v.uinfo.name]}
 {/foreach}
 
-{$jsonData=['fName'=>$fName, 'fIndex'=>$fIndex, 'topicCount'=>$topicCount, 'maxPage'=>$pMax, 'childForum'=>$forumInfo, 'topicList'=>$topicList]}
+{$jsonData=[
+	'fName'=>$fName,
+	'fIndex'=>$fIndex,
+	'topicCount'=>$topicCount,
+    'currPage'=>$p,
+	'maxPage'=>$pMax,
+	'onlyEssence'=>$onlyEssence,
+	'childForum'=>$forumInfo,
+	'topicList'=>$topicList
+]}
 {JsonPage::output($jsonData)}
