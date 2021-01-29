@@ -19,7 +19,7 @@ if ($USER->islogin) {
 }
 
 // 聊天室新消息
-$chat = new chat;
+$chat = new chat($USER);
 if (is_object($USER) && $USER->getinfo('chat.newchat_num') > 0) {
     $newChatNum = $USER->getinfo('chat.newchat_num');
 } else {

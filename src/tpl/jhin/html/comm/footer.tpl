@@ -1,7 +1,7 @@
 <div class="layout-foot-inner">
   {if !$base}
     {if !$no_chat}
-      {$chat=chat::getInstance()}
+      {$chat=chat::getInstance($USER)}
       {if is_object($USER) && $USER->getinfo('chat.newchat_num') > 0}
         {$newChatNum=$USER->getinfo('chat.newchat_num')}
       {else}
