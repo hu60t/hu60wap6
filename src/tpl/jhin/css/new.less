@@ -19,10 +19,7 @@
 @background_color_7: #fff;
 @background_color_8: #337ab7;
 @border_color_1: #337ab7;
-/**
-    规范一下颜色，颜色采用茶绿色 外加 轻蓝色 作为辅助颜色
-
- */
+/* 规范一下颜色，颜色采用茶绿色 外加 轻蓝色 作为辅助颜色 */
 //@darkPrimaryColor:   #00796B;
 //@primaryColor:       #009688;
 @primaryColor:       #53B1A8;;
@@ -33,11 +30,17 @@
 @secondaryTextColor: #757575;
 @dividerColor:       #BDBDBD;
 
-//表情包
+/*规定rem单位字体大小*/
+html {
+    font-size: 16px !important;
+}
+
+/*表情包*/
 .hu60_face, #face img {
 	width: 32px;
 	max-width: 32px;
 }
+
 /*主题页面布局*/
 /*页面共用组件*/
 /*全局通用组件,这一部分组件以 widget- 开头*/
@@ -65,7 +68,7 @@ h1 {
     margin: 0px 0px 10px 0px;
     padding: 0px;
 }
-//通用组件
+/*通用组件*/
 .case{
     width: 100%;
     max-width: 1170px;
@@ -86,7 +89,7 @@ h1 {
 .pull-right{
     float: right;
 }
-//头部组件
+/*头部组件*/
 .layout-header{
     //position: fixed;
     width: 100%;
@@ -233,7 +236,7 @@ h1 {
         padding: 5px 15px;
     }
 }
-// 顶部翻页器加上一条底线
+/*顶部翻页器加上一条底线*/
 .top-pager {
     border-bottom: 1px solid #EEE;
     padding-bottom: 10px;
@@ -541,13 +544,6 @@ h1 {
     }
 }
 
-.markdown-body {
-    //box-sizing: border-box;
-    //min-width: 200px;
-    //max-width: 980px;
-    //margin: 0 auto;
-}
-
 .page-jumper {
     overflow: hidden;
     display: inline-flex;
@@ -838,17 +834,17 @@ h1 {
     padding: 0 5px;
 }
 
-// 头像上传页面
+/*头像上传页面*/
 .Cropper-avatar #avatar {
     border-radius: 50%;
 }
 
-// 小说阅读
+/*小说阅读*/
 .book-content {
     padding: 10px;
 }
 
-// 搜索框选项
+/*搜索框选项*/
 #searchType-label {
     display: inline-block;
 } 
@@ -919,26 +915,26 @@ h1 {
 }
 
 @media screen and (max-width: 600px) {
-    // 帖子列表和顶部列表 <ul> 的左侧默认padding
+    /*帖子列表和顶部列表 <ul> 的左侧默认padding*/
     .forum-list, .header-nav {
         padding-left: 10px;
     }
-    // 顶部列表 <li>
+    /*顶部列表 <li>*/
     .layout-header .header-inner .header-nav > li {
         margin-right: 10px;
     }
-    // 回帖内容缩进
+    /*回帖内容缩进*/
     .comments-content {
         margin-left: 15px;
     }
-    // 顶部头像
+    /*顶部头像*/
     .layout-header .header-inner .header-nav .userAvatar {
         width: 32px;
         min-width: 32px;
         height: 32px;
         min-height: 32px;
     }
-    // 首页帖子列表右侧回复数和版块
+    /*首页帖子列表右侧回复数和版块*/
     .topic-ul > li .topic-reply-count{
         display: block;
     }
@@ -953,7 +949,7 @@ h1 {
         display: block;
         font-size: 14px;
     }
-    // 首页帖子列表
+    /*首页帖子列表*/
     .topic-ul > li .topic-anchor > a {
         font-size: 14px;
     }
@@ -969,7 +965,7 @@ h1 {
     .topic-ul > li .topic-title {
         width: 80%;
     }
-    // 回复列表
+    /*回复列表*/
     .reply-ul > li .topic-anchor > a {
         font-size: 14px;
     }
@@ -979,7 +975,7 @@ h1 {
     .reply-ul > li .topic-info .reply-floor {
         font-size: 18px;
     }
-    // 头像上传页面
+    /*头像上传页面*/
     .layout-body .cropper-box {
         display: block;
         .Cropper-case {
@@ -987,7 +983,7 @@ h1 {
             max-height: 360px;
         }
     }
-    // 发言框
+    /*发言框*/
     textarea {
         min-width: 96%;
     }
@@ -995,17 +991,17 @@ h1 {
         width: 96%;
         font-size: 14px;
     }
-    // 帖子标题
+    /*帖子标题*/
     .topic h1 {
         font-size: 18px;
     }
-    // 聊天室发言
+    /*聊天室发言*/
     .chat-content {
         margin-left: 15px;
     }
 }
 
-// 避免手机截图在电脑上显示过大
+/*避免手机截图在电脑上显示过大*/
 @media screen and (min-width: 800px) {
     img {
         max-width: 800px;
