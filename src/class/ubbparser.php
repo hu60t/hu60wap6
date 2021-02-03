@@ -107,6 +107,19 @@ class UbbParser extends XUBBP
 	}
 	
 	public function parse($text, $serialize = false) {
+        global $USER, $USER_WORD_BLOCKLIST;
+        
+        // 敏感词检查
+        if ($USER && $USER->uid && is_array($USER_WORD_BLOCKLIST)) {
+            foreach ($USER_WORD_BLOCKLIST as $v) {
+                if (empty($v['users']) || in_array($USER->uid, $v['users'])) {
+                    if (preg_match($v['preg_match'], $text, $arr)) {
+                        throw new Exception('“'.$arr[0].'”是敏感词', 400);
+                    }
+                }
+            }
+        }
+
 		//把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
         $text = str::nbsp2space($text);
 		$text = $this->filter($text);

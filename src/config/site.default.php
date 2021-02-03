@@ -38,3 +38,12 @@ $URL_REPLACE_REGEXP = [
 	['#^https?://((ipv6|ssl|www|wap|m)\.)?hu60\.(cn|net)/#is', '/'],
 ];
 
+/**
+ * 禁止指定用户发特定敏感词
+ * 
+ * @param preg_match 匹配敏感词的正则表达式
+ * @param users 禁止发该内容的uid数字，如果为空或者不存在，则禁止所有用户发该内容
+ */
+$USER_WORD_BLOCKLIST = [
+    ['preg_match' => '/你\s*品/us', 'users' => [1, 17448, 23688]],
+];
