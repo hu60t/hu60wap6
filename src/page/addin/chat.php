@@ -30,7 +30,7 @@ if ($PAGE->ext[0]) {
 
                 $chat->checkroom($roomname);
 
-                if ($_POST['content'] == '')
+                if (trim($_POST['content']) == '')
                     $err_msg = '内容不能为空';
                 else {
                     $chat->chatsay($roomname, $_POST['content'], time());
