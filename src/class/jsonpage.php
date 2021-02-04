@@ -55,6 +55,53 @@ class JsonPage {
 	}
 
 	public static function getUserExtraData(&$data) {
+		global $USER;
+
+		if (!is_array($data)) {
+			return;
+		}
+
+		if ($USER && ($_GET['_myself'] || $_POST['_myself'])) {
+			$data['_myself'] = [
+				'isLogin' => $USER->islogin,
+				'uid' => $USER->uid,
+			];
+			
+			// 新内信和新@消息条数
+			if ($USER->islogin) {
+				$myself = isset($_GET['_myself']) ? $_GET['_myself'] : $_POST['_myself'];
+				if (strpos($myself, 'newMsg') !== FALSE) {
+					$data['_myself']['newMsg'] = msg::getInstance($USER)->newMsg();
+				}
+				if (strpos($myself, 'newAtInfo') !== FALSE) {
+					$data['_myself']['newAtInfo'] = msg::getInstance($USER)->newAtInfo();
+				}
+			}
+			// 聊天室新消息
+			if (strpos($myself, 'newChats') !== FALSE) {
+				$chat = new chat($USER);
+				if (is_object($USER) && $USER->getinfo('chat.newchat_num') > 0) {
+					$newChatNum = $USER->getinfo('chat.newchat_num');
+				} else {
+					$newChatNum = 1;
+				}
+				$newChatNum = page::pageSize(1, $newChatNum, 100);
+
+				$newChats = $chat->newChats($newChatNum);
+
+				$uinfo = new UserInfo;
+				foreach ($newChats as &$v) {
+					$uinfo->uid($v['uid']);
+					$ubb = new UbbDisplay;
+					$uinfo->setUbbOpt($ubb);
+					JsonPage::selUbbP($ubb);
+					$v['content'] = $ubb->display($v['content'], true);
+				}
+
+				$data['_myself']['newChats'] = $newChats;
+			}
+		}
+
 		if ((!isset($_GET['_uinfo']) && !isset($_POST['_uinfo'])) || !is_array($data)) {
 			return;
 		}
