@@ -154,7 +154,7 @@ class chat
         if (!empty($blockUids)) {
             $blockUidsSql = 'uid NOT IN ('.implode(',', $blockUids).') AND';
         }
-        $rs = $this->db->select("*", 'addin_chat_data', "WHERE $blockUidsSql room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' AND review=0 ORDER BY `time` DESC LIMIT 1");
+        $rs = $this->db->select("*", 'addin_chat_data', "WHERE $blockUidsSql room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' AND review=0 AND hidden=0 ORDER BY `time` DESC LIMIT 1");
         $data = $rs->fetch();
         return $data;
     }
@@ -169,7 +169,7 @@ class chat
         if (!empty($blockUids)) {
             $blockUidsSql = 'uid NOT IN ('.implode(',', $blockUids).') AND';
         }
-        $sql = "SELECT * FROM `".DB_A."addin_chat_data` WHERE $blockUidsSql id IN (SELECT max(id) FROM `".DB_A."addin_chat_data` WHERE review=0 GROUP BY room) AND room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' AND review=0 ORDER BY time DESC LIMIT ?";
+        $sql = "SELECT * FROM `".DB_A."addin_chat_data` WHERE $blockUidsSql id IN (SELECT max(id) FROM `".DB_A."addin_chat_data` WHERE review=0 AND hidden=0 GROUP BY room) AND room NOT LIKE '%私%' AND room NOT LIKE '%密%' AND room NOT LIKE '%秘%' AND review=0 AND hidden=0 ORDER BY time DESC LIMIT ?";
         $rs = $this->db->prepare($sql);
         $rs->execute([(int)$num]);
         $data = $rs->fetchAll();
