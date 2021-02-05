@@ -93,6 +93,7 @@
     <div class="widget">
         <div class="bar">实用工具</div>
         <div class="content-box">
+	        <p><a href="addin.webplug.html">网页插件</a></p>
             <p><a href="tools.ua.html">查看浏览器UA</a></p>
             <p><a href="tools.coder.html">编码解码器</a></p>
         </div>
