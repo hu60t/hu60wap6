@@ -59,6 +59,9 @@
 				{if $topic.locked}
 					<div class="topic-status">被锁定</div>
 				{/if}
+                {if $topic.level < 0}
+                    <div class="topic-status">被下沉</div>
+                {/if}
 				<br>
 				({$topic.uinfo.name|code}/{$topic.read_count}点击/{$topic.reply_count}回复/{date('Y-m-d H:i',$topic.mtime)})
 			</li>

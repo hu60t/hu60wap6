@@ -23,6 +23,9 @@
                     {if $topic.locked}
                         &nbsp;<div class="topic-status">被锁定</div>
                     {/if}
+                    {if $topic.level < 0}
+                        &nbsp;<div class="topic-status">被下沉</div>
+                    {/if}
                 </div>
             </div>
             <div class="topic-forum-name">

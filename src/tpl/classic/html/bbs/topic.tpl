@@ -81,6 +81,9 @@
 			{if $v.locked}
 				<div class="topic-status">被锁定</div>
 			{/if}
+            {if $tMeta.level < 0}
+                <div class="topic-status">被下沉</div>
+            {/if}
 		</div>
 		<hr>
 		<div class="floor_content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
