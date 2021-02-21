@@ -344,4 +344,9 @@ latex-js {
   border: 1px solid #995555;
   font-size: 12px;
   line-height: 12px;
+  color: #995555;
+  padding: 2px;
+  border-radius: 3px;
+  position: relative;
+  top: 2px;
 }

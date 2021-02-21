@@ -182,7 +182,9 @@ latex-js {
 .topic-status {
   display:inline-block;
   border: 1px solid #BED8EA;
-  color: #000000;
   font-size: 12px;
   line-height: 12px;
+  color: #7cb1db;
+  padding: 2px;
+  border-radius: 3px;
 }
