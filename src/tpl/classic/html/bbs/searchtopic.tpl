@@ -60,8 +60,11 @@
 
 <div class="pager">
 	{if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{/if}
-    {if $p > 1}<a style="display:inline" href="{$url}{$p-1}">上一页</a>{/if}
-    {if $maxP > 1}({$p} / {$maxP}页){/if}
+  {if $p > 1}<a style="display:inline" href="{$url}{$p-1}">上一页</a>{/if}
+  {if $maxP > 1}
+    ({$p} / {$maxP}页)
+    <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='{$url}'+this.value; }">
+  {/if}
 </div>
 
 {/if}
