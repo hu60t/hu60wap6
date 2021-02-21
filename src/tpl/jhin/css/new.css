@@ -491,11 +491,10 @@ h1 {
   display: inline-block;
 }
 .page-jumper > li > input {
-  height: 34px;
+  height: 33px;
   width: 60px;
-  position: relative;
   margin-left: -1px;
-  display: block;
+  margin-bottom: 3.5px;
   padding: 5px 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
