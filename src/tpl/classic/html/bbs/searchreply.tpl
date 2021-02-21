@@ -7,19 +7,7 @@
 	<a href="{$CID}.forum.{$BID}">{#BBS_NAME#}</a>
 </div>
 
-<form method="get" action="{$CID}.{$PID}.{$BID}">
-	<input name="keywords" value="{$smarty.get.keywords|code}" placeholder="搜索词" />
-	<input name="username" value="{$smarty.get.username|code}" placeholder="用户名" />
-	<input type="submit" value="搜索" />
-  <label for="searchType" id="searchType-label">
-    <input name="searchType" id="searchType" type="checkbox" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />搜索用户回复
-  </label>
-  {if $USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
-    <label for="onlyReview" id="onlyReview-label">
-      <input name="onlyReview" id="onlyReview" type="checkbox" value="1" {if $smarty.get.onlyReview}checked{/if} />仅看待审核
-    </label>
-  {/if}
-</form>
+{include file="tpl:search_form"}
 
 <p class="cr_cb">
   找到{$count}个回复

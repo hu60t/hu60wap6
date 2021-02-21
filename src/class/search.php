@@ -193,6 +193,8 @@ class search
      */
     public function searchReply($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, &$count = true, $onlyReview = false)
     {
+        global $USER;
+
         $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words)));
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
 
@@ -211,13 +213,13 @@ class search
         }
 
         $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE ';
-        if ($onlyReview) {
-            // review可能有如下取值：
-            // 0    审核通过
-            // 1    待审核
-            // 2    审核不通过
-            // 仅列出待审核的行
-            $sql .= 'review=1';
+        if ($onlyReview == -1) {
+            $sql .= 'review_log LIKE ?';
+            $args[] = "%\"uid\":{$USER->uid},%";
+        }
+        elseif ($onlyReview) {
+            $sql .= 'review=?';
+            $args[] = (int)$onlyReview;
         } else {
             $sql .= 'reply_id!=0';
         }

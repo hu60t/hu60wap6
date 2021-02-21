@@ -15,7 +15,7 @@ $offset = ($p - 1) * $size;
 //获取搜索词
 $keywords = $_GET['keywords'];
 $username = $_GET['username'];
-$onlyReview = (bool)$_GET['onlyReview'];
+$onlyReview = (int)$_GET['onlyReview'];
 $searchReply = ($_GET['searchType'] == 'reply') || $onlyReview;
 
 if ($keywords == '' && $username == '' && !$onlyReview && !$searchReply) {
