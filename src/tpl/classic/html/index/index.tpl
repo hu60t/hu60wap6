@@ -50,7 +50,7 @@
 				{if $topic.essence==1}<span style="color:red;">[精]</span>{/if}
 				<a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
 				{if $topic.review}
-					<div class="topic-status">待审核</div>
+					<div class="topic-status">{bbs::getReviewStatName($topic.review)}</div>
 				{/if}
 				{if $topic.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
 					<div class="topic-status">被禁言</div>

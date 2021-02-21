@@ -41,7 +41,7 @@
 			    {str::ago($v.ctime)}{if $v.ctime != $v.mtime}发布，{str::ago($v.mtime)}修改{/if}
 			    {$tMeta.read_count}点击
 				{if $v.review}
-					<div class="topic-status">待审核</div>
+					<div class="topic-status">{bbs::getReviewStatName($v.review)}</div>
 				{/if}
 				{if $v.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
 					<div class="topic-status">被禁言</div>
@@ -104,7 +104,7 @@
 						    	/ <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
     						{/if}
 							{if $v.review}
-								<div class="topic-status">待审核</div>
+								<div class="topic-status">{bbs::getReviewStatName($v.review)}</div>
 							{/if}
 							{if $v.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
 								<div class="topic-status">被禁言</div>
