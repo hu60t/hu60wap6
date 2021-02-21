@@ -847,8 +847,8 @@ HTML;
 		if ($data['isAdmin']) {
 			$reviewForm = <<<HTML
 <form class="hu60_review" action="bbs.review.$data[contentId].$data[topicId].$PAGE[bid]" method="post">
-	<label><input type="radio" name="pass" value="1" />通过审核</label>
-	<label><input type="radio" name="pass" value="0" />未通过审核</label>
+	<label><input type="radio" name="pass" value="1" />审核通过</label>
+	<label><input type="radio" name="pass" value="0" />审核未通过</label>
     <input type="input" name="comment" placeholder="审核未通过理由" />
 	<input type="submit" value="确定" />
 </form>

@@ -1008,13 +1008,13 @@ class bbs
     public static function getReviewActionName($stat) {
         switch ($stat) {
             case bbs::REVIEW_PASS:
-                return '通过审核';
+                return '审核通过';
             case bbs::REVIEW_NEED_REVIEW:
                 return '设为待审核';
             case bbs::REVIEW_ADMIN_BLOCK:
                 return '屏蔽该内容';
             case bbs::REVIEW_REVIEWER_BLOCK:
-                return '未通过审核';
+                return '审核未通过';
             default:
                 return '未知状态';
         }

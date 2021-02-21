@@ -14,7 +14,7 @@
                 <input class="search_option" name="onlyReview" type="checkbox" value="-1" {if $smarty.get.onlyReview == -1}checked{/if} />我审核的内容
             </label>
             <label>
-                <input class="search_option" name="onlyReview" type="checkbox" value="3" {if $smarty.get.onlyReview == 3}checked{/if} />未审核通过
+                <input class="search_option" name="onlyReview" type="checkbox" value="3" {if $smarty.get.onlyReview == 3}checked{/if} />审核未通过
             </label>
             <label>
                 <input class="search_option" name="onlyReview" type="checkbox" value="2" {if $smarty.get.onlyReview == 2}checked{/if} />被站长屏蔽
