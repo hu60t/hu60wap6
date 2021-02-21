@@ -5,7 +5,7 @@
 {else}
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
-{include file="tpl:comm.head" title="删除楼层 - {$tMeta.title} - {#BBS_NAME#}" time=3 url=$url}
+{include file="tpl:comm.head" title="下沉帖子 - {$tMeta.title} - {#BBS_NAME#}" time=3 url=$url}
 <!--导航栏-->
 {div class="forum_list"}
     <a href="index.index.{$BID}">首页</a> &gt;

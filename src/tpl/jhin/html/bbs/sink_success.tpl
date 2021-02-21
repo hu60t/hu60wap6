@@ -7,7 +7,7 @@
 {$fIndex.0.name=#BBS_INDEX_NAME#}
 {/if}
 {block name='title'}
-  删除楼层 - {$tMeta.title} - {#BBS_NAME#}
+  下沉帖子 - {$tMeta.title} - {#BBS_NAME#}
 {/block}
 {block name='body'}
 <!--导航栏-->
