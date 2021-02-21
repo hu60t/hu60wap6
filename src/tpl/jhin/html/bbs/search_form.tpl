@@ -19,6 +19,12 @@
             <label>
                 <input class="search_option" name="onlyReview" type="checkbox" value="2" {if $smarty.get.onlyReview == 2}checked{/if} />被站长屏蔽
             </label>
+            <label>
+                <input class="search_option" name="onlyReview" type="checkbox" value="-2" {if $smarty.get.onlyReview == -2}checked{/if} />被锁定
+            </label>
+            <label>
+                <input class="search_option" name="onlyReview" type="checkbox" value="-3" {if $smarty.get.onlyReview == -3}checked{/if} />被下沉
+            </label>
         {/if}
     </div>
 </form>

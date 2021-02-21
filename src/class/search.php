@@ -217,6 +217,12 @@ class search
             $sql .= 'review_log LIKE ?';
             $args[] = "%\"uid\":{$USER->uid},%";
         }
+        elseif ($onlyReview == -2) {
+            $sql .= 'locked!=0';
+        }
+        elseif ($onlyReview == -3) {
+            $sql .= 'floor=0 AND topic_id IN (SELECT id FROM '.DB_A.'bbs_topic_meta WHERE level < 0)';
+        }
         elseif ($onlyReview) {
             $sql .= 'review=?';
             $args[] = (int)$onlyReview;
