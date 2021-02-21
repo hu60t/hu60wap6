@@ -642,7 +642,7 @@ class bbs
         $fIndex = array();
         $parent_id = $fid;
         if ($fid == 0) { //id为0的是根节点
-            return null;
+            return [];
         } else do {
             $meta = $this->forumMeta($parent_id, $fetch);
             $fIndex[] = $meta;

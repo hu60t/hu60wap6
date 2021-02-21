@@ -31,10 +31,10 @@ if (!empty($Xc)) {
 //删除安全相关的Cookie
 unset($_COOKIE['sid'], $_GET['sid'], $_COOKIE[COOKIE_A . 'sid'], $_GET[COOKIE_A . 'sid'], $_COOKIE['PHPSESSID'], $_GET['PHPSESSID'], $_COOKIE['__cfduid'], $_GET['__cfduid'], $_SERVER['HTTP_X_REWRITE_URL']);
 
+$cookie = [];
 foreach ($_COOKIE as $n => $v) {
     $cookie[] = urlencode($n) . '=' . urlencode($v);
 }
-
 $_SERVER['HTTP_COOKIE'] = implode('; ', $cookie);
 
 foreach ($_GET as $n => $v) {

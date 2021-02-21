@@ -49,7 +49,7 @@ try {
         $bbs = new bbs($USER);
         $topic = $bbs->topicMeta($tid, 'content_id');
 
-        if (!topic)
+        if (!$topic)
             throw new Exception('帖子不存在或已删除');
 
         $floor = $bbs->newreply($topic['content_id'], $content);

@@ -140,10 +140,10 @@ switch ($action) {
     case 'view':
         // 查看信息
         $xx = $msg->read_msg($user->uid, $PAGE->ext[1]);
-        $uinfo->uid($xx[touid]);
-        $xx[toname] = $uinfo->name;
-        $uinfo->uid($xx[byuid]);
-        $xx[byname] = $uinfo->name;
+        $uinfo->uid($xx['touid']);
+        $xx['toname'] = $uinfo->name;
+        $uinfo->uid($xx['byuid']);
+        $xx['byname'] = $uinfo->name;
         //$xx['content'] = $ubbs->display($xx['content'], true);
         $tpl->assign('msg', $xx);
         $tpl->assign('ubbs', $ubbs);
