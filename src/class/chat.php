@@ -302,7 +302,7 @@ class chat
                 IF(`review_log` IS NULL, '', ','),
                 ?,
                 ']'
-            ) WHERE id=?
+            ) WHERE id = ? AND review != 0
         ", $stat, $comment, $contentId);
     }
 
