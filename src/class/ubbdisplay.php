@@ -841,20 +841,47 @@ HTML;
 
 	/*待审核的内容*/
 	public function postNeedReviewNotice($data) {
+        global $PAGE;
+
 		$reviewForm = '';
 		if ($data['isAdmin']) {
-			global $PAGE;
 			$reviewForm = <<<HTML
 <form class="hu60_review" action="bbs.review.$data[contentId].$data[topicId].$PAGE[bid]" method="post">
-	<label><input type="checkbox" name="pass" value="1" />通过审核</label>
+	<label><input type="radio" name="pass" value="1" />通过审核</label>
+	<label><input type="radio" name="pass" value="0" />未通过审核</label>
+    <input type="input" name="comment" placeholder="审核未通过理由" />
 	<input type="submit" value="确定" />
 </form>
 HTML;
 		}
 
+        $reviewLog = '';
+        if (!empty($data['reviewLog'])) {
+            $reviewLog = [];
+            foreach ($data['reviewLog'] as $v) {
+                $user = $this->at([ 'uid' => $v['uid'] ]);
+                $action = bbs::getReviewActionName($v['stat']);
+                $comment = code::html($v['comment'], false, true);
+                $time = str::ago($v['time']);
+                $reviewLog[] = <<<HTML
+<div class="review_log_line">
+    <span class="review_log_time">[$time]</span>
+    <span class="review_log_user">$user</span>
+    <span class="review_log_action">$action</span>:
+    <span class="review_log_comment">$comment</span>
+</div>
+HTML;
+            }
+            $reviewLog = implode("\n", $reviewLog);
+        }
+
+        $stat = bbs::getReviewStatName($data['stat']);
+
+        // 注意：不要产生连续8个空格，否则markdown解析器会把后续内容当作代码块显示！
         return <<<HTML
 <div class="tp info-box">
-	发言待审核，仅管理员和作者本人可见。
+	发言{$stat}，仅管理员和作者本人可见。
+    <div class="review_log">$reviewLog</div>
 	$reviewForm
 </div>
 HTML;

@@ -693,12 +693,14 @@ class UbbParser extends XUBBP
 	* @param $content 帖子内容的XUBBP数据
 	* @param $serialize 是否串行化
 	*/
-	public static function createPostNeedReviewNotice($accessUser, $authorUinfo, $contentId, $content, $topicId, $serialize = false) {
+	public static function createPostNeedReviewNotice($accessUser, $authorUinfo, $contentId, $content, $topicId, $stat, $reviewLog, $serialize = false) {
 		$data = array(array(
 			'type' => 'postNeedReview',
 			'contentId' => $contentId,
 			'topicId' => $topicId,
 			'isAdmin' => is_object($accessUser) && $accessUser->islogin && $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST),
+            'stat' => $stat,
+            'reviewLog' => empty($reviewLog) ? [] : json_decode($reviewLog, true),
 		));
 		
 		if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin && ($accessUser->uid == $authorUinfo->uid || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {

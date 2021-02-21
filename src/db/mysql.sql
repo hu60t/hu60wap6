@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-07-27 11:31:58
--- 服务器版本： 10.3.23-MariaDB-1-log
--- PHP 版本： 7.4.7
+-- 生成日期： 2021-02-21 18:07:16
+-- 服务器版本： 10.5.8-MariaDB-3-log
+-- PHP 版本： 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,8 @@ CREATE TABLE `hu60_addin_chat_data` (
   `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `time` bigint(20) NOT NULL,
   `hidden` int(11) NOT NULL DEFAULT 0,
-  `review` tinyint(1) DEFAULT 0
+  `review` tinyint(4) DEFAULT 0,
+  `review_log` text CHARACTER SET utf8mb4 NOT NULL DEFAULT '[]'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -75,7 +76,8 @@ CREATE TABLE `hu60_bbs_topic_content` (
   `reply_id` int(11) NOT NULL,
   `floor` int(11) NOT NULL DEFAULT 0,
   `locked` tinyint(1) NOT NULL DEFAULT 0,
-  `review` tinyint(4) NOT NULL DEFAULT 0
+  `review` tinyint(4) NOT NULL DEFAULT 0,
+  `review_log` text CHARACTER SET utf8mb4 NOT NULL DEFAULT '[]'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

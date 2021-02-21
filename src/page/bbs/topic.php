@@ -68,7 +68,7 @@ $blockUids = $bbs->getBlockUids();
 $blockedReply = 0;
 
 //读取帖子内容
-$tContents = $bbs->topicContents($tid, $p, $pageSize, 'uid,ctime,mtime,content,floor,id,topic_id,review,locked', $floorReverse);
+$tContents = $bbs->topicContents($tid, $p, $pageSize, 'uid,ctime,mtime,content,floor,id,topic_id,review,review_log,locked', $floorReverse);
 foreach ($tContents as $k=>&$v) {
 	// 如果屏蔽用户是帖子作者则不屏蔽
 	if (!$all && $v['uid'] != $tMeta['uid'] && in_array($v['uid'], $blockUids)) {
@@ -83,7 +83,7 @@ foreach ($tContents as $k=>&$v) {
 
 	if ($v['review']) {
 		$vTid = ($v['floor'] == 0) ? $tid : 0;
-		$v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], $vTid, true);
+		$v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], $vTid, $v['review'], $v['review_log'], true);
 	}
 }
 $tpl->assign('tMeta', $tMeta);

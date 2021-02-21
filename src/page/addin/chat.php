@@ -93,7 +93,7 @@ if ($PAGE->ext[0]) {
 	    // 审核检查
 		if ($v['review']) {
             $uinfo->uid($v['uid']);
-            $v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], 'chat', true);
+            $v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], 'chat', $v['review'], $v['review_log'], true);
             continue;
         }
 	}

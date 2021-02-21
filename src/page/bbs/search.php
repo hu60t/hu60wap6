@@ -76,7 +76,7 @@ try {
         // 待审核
         if ($v['review']) {
           $vTid = ($v['floor'] == 0) ? $v['topic_id'] : 0;
-          $v['content'] = UbbParser::createPostNeedReviewNotice($USER, $v['uinfo'], $v['id'], $v['content'], $vTid, true);
+          $v['content'] = UbbParser::createPostNeedReviewNotice($USER, $v['uinfo'], $v['id'], $v['content'], $vTid, $v['review'], $v['review_log'], true);
         }
 
         //加载 UBB 组件

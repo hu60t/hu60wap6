@@ -16,6 +16,17 @@ class bbs
     /** 取消精华帖子操作 */
     const ACTION_UNSET_ESSENCE_TOPIC = 5;
 
+
+    /** 审核通过 */
+    const REVIEW_PASS = 0;
+    /** 待审核 */
+    const REVIEW_NEED_REVIEW = 1;
+    /** 被站长屏蔽 */
+    const REVIEW_ADMIN_BLOCK = 2;
+    /** 审核未通过 */
+    const REVIEW_REVIEWER_BLOCK = 3;
+
+
     /**
      * 用户对象
      */
@@ -367,7 +378,7 @@ class bbs
      */
     public function updateTopicTitle($topicId, $newTitle)
     {
-		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
+		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
 
         $title = mb_substr(trim($newTitle), 0, 100, 'utf-8');
 
@@ -522,7 +533,7 @@ class bbs
      */
     public function updateTopicContent($contentId, $newContent)
     {
-		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
+		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
 
         $ubb = new ubbparser;
         $data = is_array($newContent) ? serialize($newContent) : $ubb->parse($newContent, true);
@@ -782,10 +793,11 @@ class bbs
             throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $rs = $rs->fetch();
 		if (!$this->editTopic && isset($rs['review']) && isset($rs['title']) && $rs['review']) {
+            $stat = bbs::getReviewStatName($rs['review']);
 			if ($this->user->islogin && $this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
-				$rs['title'] = '【待审核】'.$rs['title'];
+				$rs['title'] = '【'.$stat.'】'.$rs['title'];
 			} else {
-				$rs['title'] = '【帖子待审核】';
+				$rs['title'] = '【帖子'.$stat.'】';
 			}
 		}
 		return $rs;
@@ -929,7 +941,7 @@ class bbs
 	/**
 	* 审核内容
 	*/
-	public function reviewContent($contentId, $topicId = null) {
+	public function reviewContent($contentId, $topicId = null, $stat = 0, $comment = null) {
 		if (!is_object($this->user) || !$this->user->islogin) {
 			throw new bbsException('用户未登录', 403);
 		}
@@ -937,11 +949,33 @@ class bbs
 			throw new bbsException('无审核权限', 403);
 		}
 		if ($topicId) {
-			$this->db->update('bbs_topic_meta', 'review=0 WHERE id=?', $topicId);
+			$this->db->update('bbs_topic_meta', 'review=? WHERE id=?', $stat, $topicId);
 		}
-		return $this->db->update('bbs_topic_content', 'review=0 WHERE id=?', $contentId);
+        if ($stat != bbs::REVIEW_PASS && empty($comment)) {
+            throw new bbsException('审核未通过理由不能为空', 400);
+        }
+
+        $comment = [
+            'time' => time(),
+            'uid' => $this->user->uid,
+            'stat' => $stat,
+            'comment' => $comment
+        ];
+        $comment = json_encode($comment, JSON_UNESCAPED_UNICODE);
+
+        return $this->db->update('bbs_topic_content', "review=?, review_log=
+            CONCAT(
+                IF(`review_log` IS NULL,
+                    '[',
+                    SUBSTR(`review_log`, 1, LENGTH(`review_log`) - 1)
+                ),
+                IF(`review_log` IS NULL, '', ','),
+                ?,
+                ']'
+            ) WHERE id=?
+        ", $stat, $comment, $contentId);
     }
-    
+
     /*
     * 统计待审核内容数量
     */
@@ -949,13 +983,41 @@ class bbs
 		if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
 			return null;
         }
-        // review可能有如下取值：
-        // 0    审核通过
-        // 1    待审核
-        // 2    审核不通过
         // 仅统计待审核的行
-        $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE review=1');
+        $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE review=?', self::REVIEW_NEED_REVIEW);
         return $rs->fetch(db::num)[0];
+    }
+
+    /** 获取审核状态的名称 */
+    public static function getReviewStatName($stat) {
+        switch ($stat) {
+            case bbs::REVIEW_PASS:
+                return '已通过审核';
+            case bbs::REVIEW_NEED_REVIEW:
+                return '待审核';
+            case bbs::REVIEW_ADMIN_BLOCK:
+                return '被站长屏蔽';
+            case bbs::REVIEW_REVIEWER_BLOCK:
+                return '未通过审核';
+            default:
+                return '未知状态';
+        }
+    }
+
+    /** 获取审核操作的名称 */
+    public static function getReviewActionName($stat) {
+        switch ($stat) {
+            case bbs::REVIEW_PASS:
+                return '通过审核';
+            case bbs::REVIEW_NEED_REVIEW:
+                return '设为待审核';
+            case bbs::REVIEW_ADMIN_BLOCK:
+                return '屏蔽该内容';
+            case bbs::REVIEW_REVIEWER_BLOCK:
+                return '未通过审核';
+            default:
+                return '未知状态';
+        }
     }
 }
 

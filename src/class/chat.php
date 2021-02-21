@@ -274,14 +274,36 @@ class chat
     /**
     * 审核内容
     */
-    public function reviewContent($contentId) {
+    public function reviewContent($contentId, $stat = 0, $comment = null) {
         if (!is_object($this->user) || !$this->user->islogin) {
             throw new bbsException('用户未登录', 403);
         }
         if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
             throw new bbsException('无审核权限', 403);
         }
-        return $this->db->update('addin_chat_data', 'review=0 WHERE id=?', $contentId);
+        if ($stat != bbs::REVIEW_PASS && empty($comment)) {
+            throw new bbsException('审核未通过理由不能为空', 400);
+        }
+
+        $comment = [
+            'time' => time(),
+            'uid' => $this->user->uid,
+            'stat' => $stat,
+            'comment' => $comment
+        ];
+        $comment = json_encode($comment, JSON_UNESCAPED_UNICODE);
+
+        return $this->db->update('addin_chat_data', "review=?, review_log=
+            CONCAT(
+                IF(`review_log` IS NULL,
+                    '[',
+                    SUBSTR(`review_log`, 1, LENGTH(`review_log`) - 1)
+                ),
+                IF(`review_log` IS NULL, '', ','),
+                ?,
+                ']'
+            ) WHERE id=?
+        ", $stat, $comment, $contentId);
     }
 
     // 获取被屏蔽的uid列表
