@@ -847,9 +847,9 @@ HTML;
 		if ($data['isAdmin']) {
 			$reviewForm = <<<HTML
 <form class="hu60_review" action="bbs.review.$data[contentId].$data[topicId].$PAGE[bid]" method="post">
-	<label><input type="radio" name="pass" value="1" />审核通过</label>
-	<label><input type="radio" name="pass" value="0" />审核未通过</label>
-    <input type="input" name="comment" placeholder="审核未通过理由" />
+	<label><input id="hu60_review_pass_$data[contentId]" type="radio" name="pass" value="1" />审核通过</label>
+	<label><input id="hu60_review_nopass_$data[contentId]" type="radio" name="pass" value="0" checked />审核未通过</label>
+    <input type="input" name="comment" placeholder="审核未通过理由" onclick="document.querySelector('#hu60_review_nopass_$data[contentId]').checked = true" />
 	<input type="submit" value="确定" />
 </form>
 HTML;
@@ -868,7 +868,7 @@ HTML;
     <span class="review_log_time">[$time]</span>
     <span class="review_log_user">$user</span>
     <span class="review_log_action">$action</span>:
-    <span class="review_log_comment">$comment</span>
+    <div class="review_log_comment">$comment</div>
 </div>
 HTML;
             }
