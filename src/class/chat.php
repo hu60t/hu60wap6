@@ -297,7 +297,7 @@ class chat
             CONCAT(
                 IF(`review_log` IS NULL,
                     '[',
-                    SUBSTR(`review_log`, 1, LENGTH(`review_log`) - 1)
+                    SUBSTR(`review_log`, 1, CHAR_LENGTH(`review_log`) - 1)
                 ),
                 IF(`review_log` IS NULL, '', ','),
                 ?,
