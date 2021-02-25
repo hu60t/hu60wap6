@@ -240,7 +240,10 @@ class UbbDisplay extends XUBBP
 
     /*从url中解析出图片大小、旋转参数，将参数转换为CSS或者七牛云图像处理URL*/
     protected function parseImgStyleFromUrl(&$url) {
-        $pos = strpos($url, '#');
+        $pos = strpos($url, '#'); // 半角#号
+        if ($pos === FALSE) {
+            $pos = strpos($url, '＃'); // 全角＃号
+        }
         if ($pos === FALSE) {
             return '';
         }
@@ -286,10 +289,10 @@ class UbbDisplay extends XUBBP
             $css[] = 'transform: scaleX(-1);';
         }
         if ($width > 0) {
-            $css[] = "width: $width";
+            $css[] = "width: {$width}px";
         }
         if ($height > 0) {
-            $css[] = "height: $height";
+            $css[] = "height: {$height}px";
         }
         return ' style="' . implode('; ', $css) . '"';
     }
