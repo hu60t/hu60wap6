@@ -133,8 +133,6 @@ h1 {
 }
 .layout-footer {
   height: 50px;
-  display: flex;
-  align-items: center;
   background: white;
   margin-top: 15px;
 }

@@ -16,6 +16,9 @@
 			{if strpos($smarty.server.REMOTE_ADDR, ':') !== FALSE}[<a href="tools.ua.{$BID}">IPv6</a>]{/if}
 			本站由 <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> 驱动
 		</p>
+		<p>
+			{#SITE_RECORD_NUMBER#}
+		</p>
 		{if !$no_chat}
 			{$chat=chat::getInstance($USER)}
 			{if is_object($USER) && $USER->getinfo('chat.newchat_num') > 0}
