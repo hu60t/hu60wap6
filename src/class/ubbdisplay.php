@@ -238,12 +238,69 @@ class UbbDisplay extends XUBBP
         return '<a class="usertarget" name="' . code::html($data['url']) . '">' . code::html($data['title']) . '</a>';
     }
 
+    /*从url中解析出图片大小、旋转参数，将参数转换为CSS或者七牛云图像处理URL*/
+    protected function parseImgStyleFromUrl(&$url) {
+        $pos = strpos($url, '#');
+        if ($pos === FALSE) {
+            return '';
+        }
+        
+        $param = substr($url, $pos);
+        $url = substr($url, 0, $pos);
+
+        $orientation = 0; // 方向（度）
+        $flip = false; // 翻转
+        $width = 0; // 宽
+        $height = 0; // 高
+
+        if (strpos($param, '上') || strpos($param, '正')) {
+            $orientation = 0;
+        }
+        elseif (strpos($param, '下') || strpos($param, '倒')) {
+            $orientation = 180;
+        }
+        elseif (strpos($param, '左')) {
+            $orientation = 90;
+        }
+        elseif (strpos($param, '右')) {
+            $orientation = 270;
+        }
+
+        if (strpos($param, '翻')) {
+            $flip = true;
+        }
+
+        if (preg_match('/(\d+)x(\d+)/i', $param, $arr)) {
+            $width = (int)$arr[1];
+            $height = (int)$arr[2];
+        }
+        elseif (preg_match('/(\d+)/', $param, $arr)) {
+            $width = (int)$arr[1];
+        }
+
+        $css = [];
+        if ($orientation != 0) {
+            $url .= "?imageMogr2/rotate/$orientation";
+        }
+        if ($flip) {
+            $css[] = 'transform: scaleX(-1);';
+        }
+        if ($width > 0) {
+            $css[] = "width: $width";
+        }
+        if ($height > 0) {
+            $css[] = "height: $height";
+        }
+        return ' style="' . implode('; ', $css) . '"';
+    }
+
     /*img 图片*/
     public function img($data)
     {
         global $PAGE;
 
         $url = $data['src'];
+        $style = $this->parseImgStyleFromUrl($url);
 
         //百度输入法多媒体输入
         if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
@@ -257,9 +314,9 @@ class UbbDisplay extends XUBBP
         }
 
         if (!$data['in_link'])
-		    return '<a class="userimglink" href="'.code::html($url).'"><img class="userimg" src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/></a>';
+		    return '<a class="userimglink" href="'.code::html($url).'"><img class="userimg" src="' . code::html($url) . '"' . $style . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/></a>';
 	    else
-		    return '<img class="userimg" src="' . code::html($url) . '"' . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/>';
+		    return '<img class="userimg" src="' . code::html($url) . '"' . $style . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/>';
 
     }
 
