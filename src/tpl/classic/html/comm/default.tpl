@@ -11,9 +11,12 @@
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')|code}"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css", true)|code}"/>
+	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/video.js/video-js.min.css")|code}"/>
     {block name='style'}{/block}
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
+    <script src="{$PAGE->getTplUrl("js/video.js/video.min.js")|code}"></script>
+    <script src="{$PAGE->getTplUrl("js/videojs-http-streaming/videojs-http-streaming.min.js")|code}"></script>
     <script>
         hljs.initHighlightingOnLoad();
 
