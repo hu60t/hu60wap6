@@ -41,7 +41,7 @@ try {
 
     if (preg_match('/^\.(jpe?g|png|gif)$/s', $ext)) {
         $content = "《图片：" . $url . '，' . $name . '》';
-	} elseif (preg_match('/^\.(mp4|m3u8|m4v|ts|mov)$/s', $ext)) {
+	} elseif (preg_match('/^\.(mp4|m3u8|m4v|ts|mov|flv)$/s', $ext)) {
 		$content = "《视频流：" . $urlname . '》';
 	} elseif (preg_match('/^\.(mp3|wma|m4a|ogg)$/s', $ext)) {
 		$content = "《音频流：" . $urlname . '》';

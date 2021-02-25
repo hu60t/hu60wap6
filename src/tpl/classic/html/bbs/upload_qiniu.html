@@ -243,7 +243,7 @@
 
             if (/^\.(jpe?g|png|gif)$/.test(file._ext)) {
                 html = '《图片：' + url + '，' + basename + '》';
-            } else if (/^\.(mp4|m3u8|m4v|ts|mov)$/.test(file._ext)) {
+            } else if (/^\.(mp4|m3u8|m4v|ts|mov|flv)$/.test(file._ext)) {
                 html = '《视频流：' + urlname + '》';
             } else if (/^\.(mp3|wma|m4a|ogg)$/.test(file._ext)) {
                 html = '《音频流：' + urlname + '》';
