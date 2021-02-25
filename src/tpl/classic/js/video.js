@@ -1,0 +1,1 @@
+../../jhin/js/video.js
