@@ -253,7 +253,7 @@ class chat
         $chatInfo = $chatInfo->fetch(db::ass);
 
         if ($this->canDel($chatInfo['uid'])) {
-            $this->db->update('addin_chat_data', 'hidden=? WHERE id=?', $USER->uid, $id);
+            $this->db->update('addin_chat_data', 'hidden=?,review=? WHERE id=?', $USER->uid, 0, $id);
         }
     }
 

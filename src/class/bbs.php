@@ -519,9 +519,9 @@ class bbs
     {
         $title = $selfDel ? '【楼主删除了该帖】' : '【管理员删除了该帖】';
 
-        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,locked=?,level=? WHERE id=?';
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,locked=?,review=?,level=? WHERE id=?';
 
-        $ok = $this->db->query($sql, $title, 1, -1, $topicId);
+        $ok = $this->db->query($sql, $title, 1, 0, -1, $topicId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
@@ -560,8 +560,8 @@ class bbs
     {
         $ubb = new ubbparser;
         $data = is_array($deleteNotice) ? serialize($deleteNotice) : $ubb->parse($deleteNotice, true);
-        $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,locked=? WHERE id=?';
-        $ok = $this->db->query($sql, $data, 1, $contentId);
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,locked=?,review=? WHERE id=?';
+        $ok = $this->db->query($sql, $data, 1, 0, $contentId);
 
         if (!$ok) {
             throw new bbsException('删除失败，数据库错误');
