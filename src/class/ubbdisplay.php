@@ -239,17 +239,23 @@ class UbbDisplay extends XUBBP
     }
 
     /*从url中解析出图片大小、旋转参数，将参数转换为CSS或者七牛云图像处理URL*/
-    protected function parseImgStyleFromUrl(&$url) {
-        $pos = strpos($url, '#'); // 半角#号
-        if ($pos === FALSE) {
-            $pos = strpos($url, '＃'); // 全角＃号
-        }
-        if ($pos === FALSE) {
+    protected function parseImgStyleFromUrl(&$url, &$alt) {
+        $pos1 = strpos($url, '#'); // 半角#号
+        $pos1 = (FALSE !== $pos1) ? $pos1 : strpos($url, '＃'); // 全角＃号
+        $pos2 = strpos($alt, '#'); // 半角#号
+        $pos2 = (FALSE !== $pos2) ? $pos2 : strpos($alt, '＃'); // 全角＃号
+
+        if ($pos1 === FALSE && $pos2 === FALSE) {
             return '';
         }
-        
-        $param = substr($url, $pos);
-        $url = substr($url, 0, $pos);
+        if ($pos1 !== FALSE) {
+            $param = substr($url, $pos1);
+            $url = substr($url, 0, $pos1);
+        }
+        elseif ($pos2 !== FALSE) {
+            $param = substr($alt, $pos2);
+            $alt = substr($alt, 0, $pos2);
+        }
 
         $orientation = 0; // 方向（度）
         $flip = false; // 翻转
@@ -303,7 +309,8 @@ class UbbDisplay extends XUBBP
         global $PAGE;
 
         $url = $data['src'];
-        $style = $this->parseImgStyleFromUrl($url);
+        $alt = $data['alt'];
+        $style = $this->parseImgStyleFromUrl($url, $alt);
 
         //百度输入法多媒体输入
         if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
@@ -317,9 +324,9 @@ class UbbDisplay extends XUBBP
         }
 
         if (!$data['in_link'])
-		    return '<a class="userimglink" href="'.code::html($url).'"><img class="userimg" src="' . code::html($url) . '"' . $style . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/></a>';
+		    return '<a class="userimglink" href="'.code::html($url).'"><img class="userimg" src="' . code::html($url) . '"' . $style . ($alt != '' ? ' alt="' . ($alt = code::html($alt)) . '" title="' . $alt . '"' : '') . '/></a>';
 	    else
-		    return '<img class="userimg" src="' . code::html($url) . '"' . $style . ($data['alt'] != '' ? ' alt="' . ($alt = code::html($data['alt'])) . '" title="' . $alt . '"' : '') . '/>';
+		    return '<img class="userimg" src="' . code::html($url) . '"' . $style . ($alt != '' ? ' alt="' . ($alt = code::html($alt)) . '" title="' . $alt . '"' : '') . '/>';
 
     }
 
