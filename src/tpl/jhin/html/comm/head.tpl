@@ -3,6 +3,7 @@
 <html lang="zh-hans">
 <head>
 	<meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
 	{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}
 	{if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css", true)}{/if}
 	<link rel="stylesheet" type="text/css" href="{$css|code}"/>
@@ -10,28 +11,19 @@
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css")|code}"/>
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
-    <script>
-        hljs.initHighlightingOnLoad();
-
-        var hu60_loaded = false;
-        function hu60_onload() {
-            var div = document.querySelector('#hu60_load_notice');
-            if (div) div.style.display = 'none';
-            hu60_loaded = true;
-        }
-        function hu60_loading() {
-            if (!hu60_loaded) {
-                var div = document.querySelector('#hu60_load_notice');
-                if (div) div.style.display = 'block';
-            }
-        }
-        $(document).ready(function() {
-            hu60_onload();
-            {if $onload !== null}{$onload};{/if}
-        });
-        setTimeout(hu60_loading, 3000);
+    <script src="{$PAGE->getTplUrl("js/flv.js/flv.min.js")|code}"></script>
+    <script type="module">
+        // 载入LaTeX支持
+        import { LaTeXJSComponent } from "{$PAGE->getTplUrl("js/latex.js/dist/latex.m.js")}";
+        customElements.define("latex-js", LaTeXJSComponent);
     </script>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
+    <script async src="{$PAGE->getTplUrl("js/mathjax/es5/tex-chtml.js")}"></script>
+    <script src="{$PAGE->getTplUrl("js/hu60/header.js", true)|code}"></script>
+    {if $onload !== null}<script>
+        $(document).ready(function() {
+            {$onload};
+        });
+    </script>{/if}
 	<title>{$title|code}</title>
 </head>
 <body>

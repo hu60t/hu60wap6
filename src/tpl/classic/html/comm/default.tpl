@@ -10,31 +10,23 @@
 	<link rel="stylesheet" type="text/css" href="{$css|code}?r=6"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')|code}"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
-    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css", true)|code}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")|code}"/>
     {block name='style'}{/block}
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
-    <script>
-        hljs.initHighlightingOnLoad();
-
-        var hu60_loaded = false;
-        function hu60_onload() {
-            var div = document.querySelector('#hu60_load_notice');
-            if (div) div.style.display = 'none';
-            hu60_loaded = true;
-        }
-        function hu60_loading() {
-            if (!hu60_loaded) {
-                var div = document.querySelector('#hu60_load_notice');
-                if (div) div.style.display = 'block';
-            }
-        }
-        $(document).ready(function() {
-            hu60_onload();
-            {if $onload !== null}{$onload};{/if}
-        });
-        setTimeout(hu60_loading, 3000);
+    <script src="{$PAGE->getTplUrl("js/flv.js/flv.min.js")|code}"></script>
+    <script type="module">
+        // 载入LaTeX支持
+        import { LaTeXJSComponent } from "{$PAGE->getTplUrl("js/latex.js/dist/latex.m.js")}";
+        customElements.define("latex-js", LaTeXJSComponent);
     </script>
+    <script async src="{$PAGE->getTplUrl("js/mathjax/es5/tex-chtml.js")}"></script>
+    <script src="{$PAGE->getTplUrl("js/hu60/header.js", true)|code}"></script>
+    {if $onload !== null}<script>
+        $(document).ready(function() {
+            {$onload};
+        });
+    </script>{/if}
 	<title>{block name='title'}{/block}</title>
 </head>
 <body>
@@ -114,7 +106,6 @@
 {/if}
 <a id="bottom" href="#top" accesskey="3"></a>
 {block name='script'}{/block}
-<!--css前缀自动补全-->
-<script src="{$PAGE->getTplUrl("js/prefixfree/prefixfree.min.js")}"></script>
+<script src="{$PAGE->getTplUrl("js/hu60/footer.js", true)|code}"></script>
 </body>
 </html>

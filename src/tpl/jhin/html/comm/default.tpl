@@ -10,68 +10,23 @@
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css', true)}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
-    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css", true)|code}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css")|code}"/>
     {block name='style'}{/block}
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
+    <script src="{$PAGE->getTplUrl("js/flv.js/flv.min.js")|code}"></script>
     <script type="module">
         // 载入LaTeX支持
         import { LaTeXJSComponent } from "{$PAGE->getTplUrl("js/latex.js/dist/latex.m.js")}";
         customElements.define("latex-js", LaTeXJSComponent);
     </script>
-    <script>
-        hljs.initHighlightingOnLoad();
-
-        var hu60_loaded = false;
-        function hu60_onload() {
-            var div = document.querySelector('#hu60_load_notice');
-            if (div) div.style.display = 'none';
-            hu60_loaded = true;
-        }
-        function hu60_loading() {
-            if (!hu60_loaded) {
-                var div = document.querySelector('#hu60_load_notice');
-                if (div) div.style.display = 'block';
-            }
-        }
+    <script async src="{$PAGE->getTplUrl("js/mathjax/es5/tex-chtml.js")}"></script>
+    <script src="{$PAGE->getTplUrl("js/hu60/header.js", true)|code}"></script>
+    {if $onload !== null}<script>
         $(document).ready(function() {
-            hu60_onload();
-            {if $onload !== null}{$onload};{/if}
+            {$onload};
         });
-        setTimeout(hu60_loading, 3000);
-
-        MathJax = {
-            options: {
-                renderActions: {
-					find: [10, function (doc) {
-						for (const node of document.querySelectorAll('hu60-math')) {
-							const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], false);
-							const text = document.createTextNode('');
-							node.parentNode.replaceChild(text, node);
-							math.start = {
-                                node: text, delim: '', n: 0
-                            };
-							math.end = {
-                                node: text, delim: '', n: 0
-                            };
-							doc.math.push(math);
-						}
-					}, '']
-                }
-            }
-        };
-    </script>
-    <script id="MathJax-script" async src="{$PAGE->getTplUrl("js/mathjax/es5/tex-chtml.js")}"></script>
-	<style>{$grayRate=min(max((1586016000 - time()) / 4800, 0), 1)}
-    html { 
-        -webkit-filter: grayscale({$grayRate}); 
-        -moz-filter: grayscale({$grayRate}); 
-        -ms-filter: grayscale({$grayRate}); 
-        -o-filter: grayscale({$grayRate}); 
-        filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale={$grayRate});  
-        _filter:none; 
-    }
-	</style>
+    </script>{/if}
     <title>{block name='title'}{/block}</title>
 </head>
 <body>
@@ -164,7 +119,6 @@
     </div>
 </footer>
 {block name='script'}{/block}
-<!--css前缀自动补全-->
-{*<script src="{$PAGE->getTplUrl("js/prefixfree/prefixfree.min.js")}"></script>*}
+<script src="{$PAGE->getTplUrl("js/hu60/footer.js", true)|code}"></script>
 </body>
 </html>

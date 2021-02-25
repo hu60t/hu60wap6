@@ -25,9 +25,6 @@
               <a href="msg.index.@.no.{$bid}">{$newATINFO}条新@消息</a>
             </div>
           {/if}
-
-
-
   			{else}
   				已掉线，<a href="user.login.{$bid}?u={urlencode($page->geturl())}">重新登录</a>
   			{/if}

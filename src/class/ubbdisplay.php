@@ -350,8 +350,6 @@ class UbbDisplay extends XUBBP
     {
         global $PAGE;
 
-        static $id = 0;
-        $id ++;
         $url = $data['url'];
 
 		if (QINIU_USE_HTTPS) {
@@ -371,7 +369,12 @@ class UbbDisplay extends XUBBP
             $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
         }
 
-        return '<p class="video_box"><a class="uservideolink" target="_blank" href="'.code::html($link).'">视频链接</a><br/><video class="video" id="video_stream_'.$id.'" src="'.code::html($url).'" controls="controls"></video></p><script>(function(){var box=document.getElementById("video_stream_'.$id.'");box.style.height=(box.offsetWidth*2/3)+\'px\';})()</script>';
+        return '
+<p class="video_box">
+    <a class="uservideolink" target="_blank" href="'.code::html($link).'">视频链接</a><br/>
+    <video class="video" src="'.code::html($url).'" controls></video>
+</p>
+';
     }
 
     /*audioStream 音频流*/
@@ -399,7 +402,12 @@ class UbbDisplay extends XUBBP
             $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
         }
 
-        return '<p class="audio_box"><a class="useraudiolink" target="_blank" href="'.code::html($link).'">音频链接</a><br/><audio class="audio" src="'.code::html($url).'" controls="controls"></audio></p>';
+        return '
+<p class="audio_box">
+    <a class="useraudiolink" target="_blank" href="'.code::html($link).'">音频链接</a><br/>
+    <audio class="audio" src="'.code::html($url).'" controls></audio>
+</p>
+';
     }
 
     /*copyright 版权声明*/
@@ -594,25 +602,6 @@ class UbbDisplay extends XUBBP
             static $id = 0;
             $id ++;
 
-            if (1 === $id) {
-                $script = <<<HTML
-<script>
-    if ('function' != typeof baidu_media_change) {
-    baidu_media_change = function (id, hideTag, showTag) {
-    console.log(id,hideTag,showTag);
-        var hideDom = document.getElementById('baidu_media_' + hideTag + '_' + id);
-        var showDom = document.getElementById('baidu_media_' + showTag + '_' + id);
-        if ('audio' == showTag) { showDom.src = hideDom.src; }
-        hideDom.style.display = 'none';
-        showDom.style.display = 'inline';
-    }}
-</script>
-HTML;
-            } else {
-                $script = '';
-            }
-
-
             return <<<HTML
 <div class="baidu_media_box">
     <p>多媒体输入（<a id="baidu_media_link_{$id}" href="{$url}">{$url}</a>）</p>
@@ -620,7 +609,6 @@ HTML;
     <audio id="baidu_media_audio_{$id}" class="audio" style="display:none" controls="controls" onerror="baidu_media_change({$id}, 'audio', 'txt')"></audio>
     <span id="baidu_media_txt_{$id}" style="display:none">内容无法解析，请点击上方链接查看↑</span>
 </div>
-{$script}
 HTML;
         } else {
             if (JsonPage::isJsonPage()) {

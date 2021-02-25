@@ -40,7 +40,6 @@
 	</div>
 {/if}
 <a id="bottom" href="#top" accesskey="3"></a>
-<!--css前缀自动补全-->
-<script src="{$PAGE->getTplUrl("js/prefixfree/prefixfree.min.js")}"></script>
+<script src="{$PAGE->getTplUrl("js/hu60/footer.js", true)|code}"></script>
 </body>
 </html>
