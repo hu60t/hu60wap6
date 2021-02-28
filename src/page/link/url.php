@@ -6,7 +6,7 @@ $tpl = $PAGE->start();
 $USER->start($tpl);
 
 $url = trim(code::b64d($_GET['url64']));
-$url = preg_replace('/^\s*javascript\s*:/is', '', $url);
+$url = preg_replace('/^\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:/is', '', $url);
 
 if (QINIU_USE_HTTPS) {
 	$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
