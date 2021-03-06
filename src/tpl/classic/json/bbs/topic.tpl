@@ -16,9 +16,9 @@
     {$tmp = $v.uinfo->setUbbOpt($ubb)}
 	{$tContents.$key.content = $ubb->display($v.content,true)}
 	{$tContents.$key.uinfo = ['name'=>$v.uinfo.name]}
-	{$tContents.$key.canEdit = $bbs->canEdit($v.uinfo.uid, true)}
-	{$tContents.$key.canDel = $bbs->canDel($v.uinfo.uid, true)}
-	{$tContents.$key.canSink = $bbs->canSink($v.uinfo.uid,true)}
+	{$tContents.$key.canEdit = !$v.locked && $bbs->canEdit($v.uinfo.uid, true)}
+	{$tContents.$key.canDel = !$v.locked && $bbs->canDel($v.uinfo.uid, true)}
+	{$tContents.$key.canSink = !$v.locked && $bbs->canSink($v.uinfo.uid,true)}
 {/foreach}
 
 {$jsonData=[

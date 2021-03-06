@@ -8,7 +8,7 @@
     {$tmp = $uinfo->uid($v.uid)}
     {$tmp = $uinfo->setUbbOpt($ubbs)}
     {$list.$k.content = $ubbs->display($v.content,true)}
-    {$list.$k.canDel = $chat->canDel($v.uid,true)}
+    {$list.$k.canDel = !$v.hidden && $chat->canDel($v.uid,true)}
 {/foreach}
 
 {$jsonData=[
