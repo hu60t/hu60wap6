@@ -4,13 +4,12 @@
 
 {if $USER->islogin}
     {$jsonData.token = $token->token()}
-
     {$jsonData.needReason = !$selfAct}
+{/if}
 
-    {if $smarty.post.go && $err}
-        {$jsonData.success=false}
-        {$jsonData.notice=$err->getMessage()}
-    {/if}
+{if $err}
+    {$jsonData.success=false}
+    {$jsonData.notice=$err->getMessage()}
 {/if}
 
 {JsonPage::output($jsonData)}
