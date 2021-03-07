@@ -62,7 +62,7 @@
   <tr>
     <td>更改：</td>
     <td>
-      <a href="{$cid}.avatar.{$pid}">头像</a> / 
+    <a href="{$cid}.avatar.{$bid}">头像</a> / 
 	  <a href="{$cid}.chname.{$bid}">用户名</a> / 
 	  <a href="{$cid}.chpwd.{$bid}">密码</a> / 
 	  <a href="{$cid}.chinfo.{$bid}">个性签名&amp;联系方式</a>
