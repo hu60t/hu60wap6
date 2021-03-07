@@ -700,7 +700,7 @@ class UbbParser extends XUBBP
 			'topicId' => $topicId,
 			'isAdmin' => is_object($accessUser) && $accessUser->islogin && $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST),
             'stat' => $stat,
-            'reviewLog' => empty($reviewLog) ? [] : json_decode($reviewLog, true),
+            'reviewLog' => $reviewLog ? $reviewLog : [],
 		));
 		
 		if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin && ($accessUser->uid == $authorUinfo->uid || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {

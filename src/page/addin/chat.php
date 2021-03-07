@@ -82,6 +82,11 @@ if ($PAGE->ext[0]) {
             $blockedReply++;
             continue;
         }
+
+        // 审核日志
+        if (isset($v['review_log'])) {
+            $v['review_log'] = json_decode($v['review_log'], true);
+        }
         
         // 删除检查
         if ($v['hidden']) {

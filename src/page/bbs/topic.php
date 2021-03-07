@@ -77,6 +77,11 @@ foreach ($tContents as $k=>&$v) {
 		continue;
 	}
 
+    // 审核日志
+	if (isset($v['review_log'])) {
+		$v['review_log'] = json_decode($v['review_log'], true);
+	}
+
     $uinfo = new userinfo();
     $uinfo->uid($v['uid']);
     $v['uinfo'] = $uinfo;

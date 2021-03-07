@@ -69,6 +69,11 @@ try {
 
     $maxP = ceil($count / $size);
     foreach ($result as &$v) {
+        // 审核日志
+        if (isset($v['review_log'])) {
+          $v['review_log'] = json_decode($v['review_log'], true);
+        }
+
         // 回复用户
         $v['uinfo'] = new UserInfo();
         $v['uinfo']->uid($v['uid']);
