@@ -18,7 +18,7 @@
     {/if}
 {/if}
 
-{if $err}
+{if is_object($err) && $err->getMessage()}
     {$jsonData.success=false}
     {$jsonData.notice=$err->getMessage()}
 {/if}

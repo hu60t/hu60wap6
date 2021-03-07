@@ -2,7 +2,7 @@
 
 {$jsonData=['isLogin'=>$USER->islogin, 'tMeta'=>$tMeta, 'forums'=>$forums]}
 
-{if $err}
+{if is_object($err) && $err->getMessage()}
     {$jsonData.success=false}
     {$jsonData.notice=$err->getMessage()}
 {/if}
