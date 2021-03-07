@@ -8,7 +8,8 @@
     'blockPostStat' => $blockPostStat,
     'isFollow' => $isFollow,
     'isBlock' => $isBlock,
-    'hideUserCSS' => $hideUserCSS
+    'hideUserCSS' => $hideUserCSS,
+    'permissions' => $uinfo->getPermissionArray()
     ]}
 
 {JsonPage::output($jsonData)}

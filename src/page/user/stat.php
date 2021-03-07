@@ -6,6 +6,7 @@ $data = [
     'uid' => $USER->uid,
     'name' => $USER->name,
     'isLogin' => $USER->islogin,
+    'permissions' => $USER->getPermissionArray(),
     'newMsg' => 0,
     'newAtInfo' => 0,
     'newChats' => [],

@@ -8,7 +8,8 @@
     'regtime' => $USER->regtime,
 	'hasRegPhone' => $hasRegPhone,
 	'floorReverse' => $floorReverse,
-	'siteAdmin' => 'admin'===$mmbt
+	'siteAdmin' => 'admin'===$mmbt,
+    'permissions' => $USER->getPermissionArray()
     ]}
 
 {JsonPage::output($jsonData)}

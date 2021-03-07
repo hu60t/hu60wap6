@@ -5,33 +5,38 @@
  */
 class userinfo implements ArrayAccess
 {
-    //权限列表开始
+    // 权限列表开始
+    // 权限有两种，一种是管理员具有的管理权限，一种是用户被管理员设置的负面状态。
+    // 两者的作用完全不同，但是存储在一起，请注意区分。
 
-    /*** 帖子编辑权限 */
+    /*** 管理员权限: 帖子编辑权限 */
     const PERMISSION_EDIT_TOPIC = 1;
 
-    /*** 禁止使用div和span标签 */
+    /*** 用户负面状态: 用户被禁止使用div和span标签
+     * 
+     * 该状态未开放给版主，只有站长通过SQL才能设置该状态。
+    */
     const PERMISSION_UBB_DISABLE_STYLE = 2;
 
-    /*** 用户被禁言 */
+    /*** 用户负面状态: 用户被禁言 */
     const PERMISSION_BLOCK_POST = 4;
 
-    /*** 用户被禁止@他人 */
+    /*** 用户负面状态: 用户被禁止@他人 */
     const PERMISSION_BLOCK_ATINFO = 8;
 
-    /*** 设置禁言的权限 */
+    /*** 管理员权限: 设置禁言的权限 */
     const PERMISSION_SET_BLOCK_POST = 16;
 
-    /*** 帖子加精权限 */
+    /*** 管理员权限: 帖子加精权限 */
     const PERMISSION_SET_ESSENCE_TOPIC = 32;
 
-	/*** 用户发言需要审核 */
+	/*** 用户负面状态: 用户发言需要审核 */
 	const PERMISSION_POST_NEED_REVIEW = 64;
 
-	/*** 审核用户发言 */
+	/*** 管理员权限: 审核用户发言的权限 */
 	const PERMISSION_REVIEW_POST = 128;
 
-    //权限列表结束
+    // 权限列表结束
 
     protected static $data; //用户数据缓存
     protected static $name; //用户名到uid对应关系的缓存
@@ -518,6 +523,35 @@ class userinfo implements ArrayAccess
         $db->commit();
 		return true;
 	}
+
+    public function getPermissionArray() {
+        $arr = [];
+        if ($this->hasPermission(self::PERMISSION_EDIT_TOPIC)) {
+            $arr[] = 'PERMISSION_EDIT_TOPIC';
+        }
+        if ($this->hasPermission(self::PERMISSION_UBB_DISABLE_STYLE)) {
+            $arr[] = 'PERMISSION_UBB_DISABLE_STYLE';
+        }
+        if ($this->hasPermission(self::PERMISSION_BLOCK_POST)) {
+            $arr[] = 'PERMISSION_BLOCK_POST';
+        }
+        if ($this->hasPermission(self::PERMISSION_BLOCK_ATINFO)) {
+            $arr[] = 'PERMISSION_BLOCK_ATINFO';
+        }
+        if ($this->hasPermission(self::PERMISSION_SET_BLOCK_POST)) {
+            $arr[] = 'PERMISSION_SET_BLOCK_POST';
+        }
+        if ($this->hasPermission(self::PERMISSION_SET_ESSENCE_TOPIC)) {
+            $arr[] = 'PERMISSION_SET_ESSENCE_TOPIC';
+        }
+        if ($this->hasPermission(self::PERMISSION_POST_NEED_REVIEW)) {
+            $arr[] = 'PERMISSION_POST_NEED_REVIEW';
+        }
+        if ($this->hasPermission(self::PERMISSION_REVIEW_POST)) {
+            $arr[] = 'PERMISSION_REVIEW_POST';
+        }
+        return $arr;
+    }
 
 
     /*class end*/
