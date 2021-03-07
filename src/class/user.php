@@ -554,7 +554,7 @@ class user extends userinfo
     {
         static $atUid = array();
 
-        if ($this->hasPermission(self::PERMISSION_BLOCK_ATINFO)) {
+        if ($this->hasPermission(self::DEBUFF_BLOCK_ATINFO)) {
             throw new UserException("您被举报通过@功能骚扰其他用户，已被禁止使用@。若要正常发言，请删除所有的@标记。", 403);
         }
 

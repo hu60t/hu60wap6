@@ -24,7 +24,7 @@ try {
 				]));
 			}
 			
-			$review = $USER->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW);
+			$review = $USER->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW);
 
 			if (QINIU_STORAGE_AVATAR) {
 				$path = QINIU_AVATAR_PATH . ($review ? 'review_' : '') . $USER->uid.".jpg";

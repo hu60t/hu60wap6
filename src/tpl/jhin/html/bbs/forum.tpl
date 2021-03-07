@@ -52,7 +52,7 @@
 					{if $topic.review}
                         &nbsp;<div class="topic-status">{bbs::getReviewStatName($topic.review)}</div>
                     {/if}
-                    {if $topic.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+                    {if $topic.uinfo->hasPermission(UserInfo::DEBUFF_BLOCK_POST)}
                         &nbsp;<div class="topic-status">被禁言</div>
                     {/if}
                     {if $topic.locked}

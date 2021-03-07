@@ -22,12 +22,12 @@ if (isset($_POST['isBlock'])) {
         }
 
 	if ($isBlock) {
-		$uinfo->addPermission(UserInfo::PERMISSION_BLOCK_POST);
+		$uinfo->addPermission(UserInfo::DEBUFF_BLOCK_POST);
 		$action = bbs::ACTION_ADD_BLOCK_POST;
 		$msgTitle = "您已被禁言";
 	}
 	else {
-		$uinfo->removePermission(UserInfo::PERMISSION_BLOCK_POST);
+		$uinfo->removePermission(UserInfo::DEBUFF_BLOCK_POST);
 		$action = bbs::ACTION_REMOVE_BLOCK_POST;
 		$msgTitle = "您被解除禁言";
 	}
@@ -41,7 +41,7 @@ if (isset($_POST['isBlock'])) {
 	$tpl->assign('setBlockSuccess', true);
 }
 
-$tpl->assign('blockPostStat', $uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
+$tpl->assign('blockPostStat', $uinfo->hasPermission(UserInfo::DEBUFF_BLOCK_POST));
 $tpl->assign('hasBlockPermission', $hasBlockPermission);
 
 $tpl->display('tpl:block_post');

@@ -14,7 +14,7 @@ if (!empty($_GET['name'])) {
 
 $tpl->assign('uinfo', $uinfo);
 
-$tpl->assign('blockPostStat', $uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
+$tpl->assign('blockPostStat', $uinfo->hasPermission(UserInfo::DEBUFF_BLOCK_POST));
 $tpl->assign('showBlockButton', $USER->hasPermission(UserInfo::PERMISSION_SET_BLOCK_POST));
 
 // 是否关注与屏蔽

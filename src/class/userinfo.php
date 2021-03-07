@@ -16,13 +16,13 @@ class userinfo implements ArrayAccess
      * 
      * 该状态未开放给版主，只有站长通过SQL才能设置该状态。
     */
-    const PERMISSION_UBB_DISABLE_STYLE = 2;
+    const DEBUFF_UBB_DISABLE_STYLE = 2;
 
     /*** 用户负面状态: 用户被禁言 */
-    const PERMISSION_BLOCK_POST = 4;
+    const DEBUFF_BLOCK_POST = 4;
 
     /*** 用户负面状态: 用户被禁止@他人 */
-    const PERMISSION_BLOCK_ATINFO = 8;
+    const DEBUFF_BLOCK_ATINFO = 8;
 
     /*** 管理员权限: 设置禁言的权限 */
     const PERMISSION_SET_BLOCK_POST = 16;
@@ -31,7 +31,7 @@ class userinfo implements ArrayAccess
     const PERMISSION_SET_ESSENCE_TOPIC = 32;
 
 	/*** 用户负面状态: 用户发言需要审核 */
-	const PERMISSION_POST_NEED_REVIEW = 64;
+	const DEBUFF_POST_NEED_REVIEW = 64;
 
 	/*** 管理员权限: 审核用户发言的权限 */
 	const PERMISSION_REVIEW_POST = 128;
@@ -410,8 +410,8 @@ class userinfo implements ArrayAccess
 
         // 审核时不屏蔽任何内容
         if (!$review || !$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
-            $ubb->setOpt('style.disable', $this->hasPermission(UserInfo::PERMISSION_UBB_DISABLE_STYLE));
-            $ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::PERMISSION_BLOCK_POST));
+            $ubb->setOpt('style.disable', $this->hasPermission(UserInfo::DEBUFF_UBB_DISABLE_STYLE));
+            $ubb->setOpt('all.blockPost', $this->hasPermission(UserInfo::DEBUFF_BLOCK_POST));
 
             if ($USER->islogin) {
                 $ubb->setOpt('style.hideUserCSS', (bool)$USER->getinfo("ubb.hide_user_css.{$this->uid}"));
@@ -529,14 +529,14 @@ class userinfo implements ArrayAccess
         if ($this->hasPermission(self::PERMISSION_EDIT_TOPIC)) {
             $arr[] = 'PERMISSION_EDIT_TOPIC';
         }
-        if ($this->hasPermission(self::PERMISSION_UBB_DISABLE_STYLE)) {
-            $arr[] = 'PERMISSION_UBB_DISABLE_STYLE';
+        if ($this->hasPermission(self::DEBUFF_UBB_DISABLE_STYLE)) {
+            $arr[] = 'DEBUFF_UBB_DISABLE_STYLE';
         }
-        if ($this->hasPermission(self::PERMISSION_BLOCK_POST)) {
-            $arr[] = 'PERMISSION_BLOCK_POST';
+        if ($this->hasPermission(self::DEBUFF_BLOCK_POST)) {
+            $arr[] = 'DEBUFF_BLOCK_POST';
         }
-        if ($this->hasPermission(self::PERMISSION_BLOCK_ATINFO)) {
-            $arr[] = 'PERMISSION_BLOCK_ATINFO';
+        if ($this->hasPermission(self::DEBUFF_BLOCK_ATINFO)) {
+            $arr[] = 'DEBUFF_BLOCK_ATINFO';
         }
         if ($this->hasPermission(self::PERMISSION_SET_BLOCK_POST)) {
             $arr[] = 'PERMISSION_SET_BLOCK_POST';
@@ -544,8 +544,8 @@ class userinfo implements ArrayAccess
         if ($this->hasPermission(self::PERMISSION_SET_ESSENCE_TOPIC)) {
             $arr[] = 'PERMISSION_SET_ESSENCE_TOPIC';
         }
-        if ($this->hasPermission(self::PERMISSION_POST_NEED_REVIEW)) {
-            $arr[] = 'PERMISSION_POST_NEED_REVIEW';
+        if ($this->hasPermission(self::DEBUFF_POST_NEED_REVIEW)) {
+            $arr[] = 'DEBUFF_POST_NEED_REVIEW';
         }
         if ($this->hasPermission(self::PERMISSION_REVIEW_POST)) {
             $arr[] = 'PERMISSION_REVIEW_POST';

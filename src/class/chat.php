@@ -45,11 +45,11 @@ class chat
     public function newchatroom($name)
     {
 		//审核检查
-		if ($this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW)) {
+		if ($this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
 			throw new Exception('先审后发用户不能创建聊天室。', 403);
 		}
 		//禁言检查
-		if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
+		if ($this->user->hasPermission(UserInfo::DEBUFF_BLOCK_POST)) {
 			throw new Exception('您已被禁言，不能创建聊天室。', 403);
 		}
 		
@@ -184,7 +184,7 @@ class chat
         global $PAGE;
 		
 		//禁言检查
-		if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
+		if ($this->user->hasPermission(UserInfo::DEBUFF_BLOCK_POST)) {
 			throw new Exception('您已被禁言，不能发言。', 403);
 		}
 		
@@ -194,7 +194,7 @@ class chat
         $lid = $lid[0] + 1;
 		
 		//发言是否需要审核
-		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
+		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
 
         $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,uname,content,time,review', $room, $lid, $this->user->uid, $this->user->name, $contents, $time, $review);
         if ($rs) {

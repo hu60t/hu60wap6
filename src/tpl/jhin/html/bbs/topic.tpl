@@ -43,7 +43,7 @@
 				{if $v.review}
 					<div class="topic-status">{bbs::getReviewStatName($v.review)}</div>
 				{/if}
-				{if $v.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+				{if $v.uinfo->hasPermission(UserInfo::DEBUFF_BLOCK_POST)}
 					<div class="topic-status">被禁言</div>
 				{/if}
 				{if $v.locked}
@@ -106,7 +106,7 @@
 							{if $v.review}
 								<div class="topic-status">{bbs::getReviewStatName($v.review)}</div>
 							{/if}
-							{if $v.uinfo->hasPermission(UserInfo::PERMISSION_BLOCK_POST)}
+							{if $v.uinfo->hasPermission(UserInfo::DEBUFF_BLOCK_POST)}
 								<div class="topic-status">被禁言</div>
 							{/if}
 							{if $v.locked}

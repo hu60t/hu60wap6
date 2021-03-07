@@ -263,7 +263,7 @@ class bbs
             $this->checkLogin();
 			
 			//禁言检查
-			if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
+			if ($this->user->hasPermission(UserInfo::DEBUFF_BLOCK_POST)) {
 				throw new bbsException('您已被禁言，不能发帖。', 403);
 			}
 
@@ -285,7 +285,7 @@ class bbs
             $ubb = new ubbparser;
             $data = $ubb->parse($content, true);
 			//帖子内容是否需要审核
-			$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
+			$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
             //写主题数据
             $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,review', $time, $time, $data, $this->user->uid, 0, 0, $review);
             if (!$rs)
@@ -343,7 +343,7 @@ class bbs
         $this->checkLogin();
 		
 		//禁言检查
-		if ($this->user->hasPermission(UserInfo::PERMISSION_BLOCK_POST)) {
+		if ($this->user->hasPermission(UserInfo::DEBUFF_BLOCK_POST)) {
 			throw new bbsException('您已被禁言，不能回帖。', 403);
 		}
 		
@@ -355,7 +355,7 @@ class bbs
         $ubb = new ubbparser;
         $data = $ubb->parse($content, true);
 		//帖子内容是否需要审核
-		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? 1 : 0;
+		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
         //写回复数据
         $time = $_SERVER['REQUEST_TIME'];
         $floor = $this->db->query('SELECT max(floor) FROM ' . DB_A . 'bbs_topic_content WHERE topic_id=?', $topic_id);
@@ -378,7 +378,7 @@ class bbs
      */
     public function updateTopicTitle($topicId, $newTitle)
     {
-		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
+		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
 
         $title = mb_substr(trim($newTitle), 0, 100, 'utf-8');
 
@@ -533,7 +533,7 @@ class bbs
      */
     public function updateTopicContent($contentId, $newContent)
     {
-		$review = $this->user->hasPermission(UserInfo::PERMISSION_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
+		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
 
         $ubb = new ubbparser;
         $data = is_array($newContent) ? serialize($newContent) : $ubb->parse($newContent, true);
