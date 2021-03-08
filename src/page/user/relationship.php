@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     $userRelationshipService = new UserRelationshipService($USER);
     $count = $userRelationshipService->countTargetUidByType($availableTypeList[$type]);
-    $pageSize = 10;
+    $pageSize = page::pageSize(1, 20, 1000);
     $totalPage = ceil($count / $pageSize);
 
     // 修正错误的页码

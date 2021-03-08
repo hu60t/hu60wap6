@@ -7,6 +7,8 @@
     ]}
 {/foreach}
 {$jsonData = [
+    'currPage' => $currentPage,
+    'maxPage' => $totalPage,
     'userList' => $userList
 ]}
 {JsonPage::output($jsonData)}
