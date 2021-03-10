@@ -939,6 +939,7 @@ HTML;
     <div class="review_log">$reviewLog</div>
 	$reviewForm
 </div>
+
 HTML;
 	}
 
