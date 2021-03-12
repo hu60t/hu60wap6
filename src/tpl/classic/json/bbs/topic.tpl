@@ -20,7 +20,7 @@
 	{$tContents.$key.canDel = !$v.locked && $bbs->canDel($v.uinfo.uid, true)}
 	{if $v.floor == 0}
 		{$tContents.$key.canSink = !$v.locked && $bbs->canSink($v.uinfo.uid,true)}
-		{$tContents.$key.canSetEssence = !$v.locked && $bbs->canSetEssence($v.uinfo.uid,true)}
+		{$tContents.$key.canSetEssence = !$v.locked && $bbs->canSetEssence(true)}
 		{$tContents.$key.canMove = !$v.locked && $bbs->canMove($v.uinfo.uid,true)}
 	{/if}
 {/foreach}
