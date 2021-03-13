@@ -60,7 +60,7 @@ try {
             $msgTitle = "帖子“{$tMeta['title']}”";
 
             $ubbp = new ubbParser();
-            $msgData = $ubbp->createAdminActionNotice(bbs::ACTION_UNSET_ESSENCE_TOPIC, $USER, $msgTitle, "bbs.topic.{$tid}.{$PAGE->bid}", $reason, $tMeta['uid'], false);
+            $msgData = $ubbp->createAdminActionNotice(bbs::ACTION_UNSET_ESSENCE_TOPIC, $USER, $msgTitle, "bbs.topic.{$tid}.{\$BID}", $reason, $tMeta['uid'], false);
 
             $msg = new Msg($USER);
             $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tMeta['uid'], $msgData);

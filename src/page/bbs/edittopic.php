@@ -98,7 +98,7 @@ try {
             }
 
             $ubbp = new ubbParser();
-            $msgData = $ubbp->createAdminEditNotice($USER, $msgTitle, "bbs.topic.{$tid}.{$PAGE->bid}?floor=$tContent[floor]#$tContent[floor]", $editReason, $tContent['content']);
+            $msgData = $ubbp->createAdminEditNotice($USER, $msgTitle, "bbs.topic.{$tid}.{\$BID}?floor=$tContent[floor]#$tContent[floor]", $editReason, $tContent['content']);
 
             $msg = new Msg($USER);
             $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);

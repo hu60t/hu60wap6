@@ -743,7 +743,7 @@ HTML;
     {
         global $PAGE;
 
-        $url = code::html($data['url']);
+        $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
         $pos = code::html($data['pos']);
         $reason = code::html($data['reason']);
         $uinfo = new UserInfo();
@@ -767,7 +767,7 @@ HTML;
     {
         global $PAGE, $USER;
 
-        $url = code::html($data['url']);
+        $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
         $pos = code::html($data['pos']);
         $reason = code::html($data['reason']);
         $uinfo = new UserInfo();
@@ -812,7 +812,7 @@ HTML;
         ];
 
         $act = $actName[$data['act']];
-        $url = code::html($data['url']);
+        $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
         $pos = code::html($data['pos']);
         $reason = code::html($data['reason']);
         $uinfo = new UserInfo();

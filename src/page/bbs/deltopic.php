@@ -88,7 +88,7 @@ try {
         }
 
         $ubbp = new ubbParser();
-        $msgData = $ubbp->createAdminDelNotice($USER, $msgTitle, "bbs.topic.{$tid}.{$PAGE->bid}?floor=$tContent[floor]#$tContent[floor]", $delReason, $tContent['content'], false, $tContent['uid']);
+        $msgData = $ubbp->createAdminDelNotice($USER, $msgTitle, "bbs.topic.{$tid}.{\$BID}?floor=$tContent[floor]#$tContent[floor]", $delReason, $tContent['content'], false, $tContent['uid']);
 
         $msg = new Msg($USER);
         $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
