@@ -28,6 +28,7 @@ class UbbParser extends XUBBP
         /*img 图片*/
         '!^(.*?)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img', 2, 3)),
         '!^(.*?)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img', array(2, 3)),
+        '!^(.*?)《表情(?:：|:)(.*?)》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
         /*video 视频*/
         '!^(.*?)《视频：(.*?)》(.*)$!is' => array(array(1, 3), 'video', array(2)),
         /*videoStream 视频*/
@@ -95,7 +96,7 @@ class UbbParser extends XUBBP
         '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)(.*)$!uis' => array(array(1, 3), 'at', array(2)),
         /*face 表情*/
         '!^(.*?)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
-        '!^(.*?)《(?:表情)?(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
+        '!^(.*?)《(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
     );
 
 	/**

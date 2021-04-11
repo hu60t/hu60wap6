@@ -948,14 +948,25 @@ HTML;
     {
         global $PAGE;
 
-        $path = 'img/face/' . bin2hex($data['face']) . '.gif';
-
         try {
-            $url = $PAGE->getTplUrl($path).'?'.filemtime($path);
+			$face = $data['face'];
+			
+			if (preg_match('#^data:image/#is', $face)) {
+				$url = $face;
+			} elseif (preg_match('#^https?://#is', $face)) {
+				if (JsonPage::isJsonPage()) {
+					$url = $face;
+				} else {
+					$url = SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($face);
+				}
+			} else {
+            	$path = 'img/face/' . bin2hex($data['face']) . '.gif';
+				$url = $PAGE->getTplUrl($path).'?'.filemtime($path);
 
-            if (JsonPage::isJsonPage()) {
-                $url = SITE_URL_PREFIX . $url;
-            }
+	            if (JsonPage::isJsonPage()) {
+    	            $url = SITE_URL_PREFIX . $url;
+        	    }
+			}
 
             $html = '<img class="hu60_face" title="' . code::html($data['face']) . '" src="' . code::html($url) . '" />';
         } catch (Exception $e) {

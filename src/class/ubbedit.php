@@ -305,7 +305,11 @@ class ubbEdit extends XUBBP
     /*face 表情*/
     public function face($data)
     {
-        return '{' . $data['face'] . '}';
+		if (preg_match('#^(ok|[\x{4e00}-\x{9fa5}]{1,3})$#uis', $data['face'])) {
+        	return '{' . $data['face'] . '}';
+		} else {
+        	return '《表情：' . $data['face'] . '》';
+		}
     }
 
     /*urltxt 链接文本*/
