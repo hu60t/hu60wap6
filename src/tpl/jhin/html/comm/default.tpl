@@ -27,6 +27,14 @@
             {$onload};
         });
     </script>{/if}
+
+    <!-- HEIF/HEIC 图片支持 -->
+    <script src="{$PAGE->getRootURL()}/nonfree/js/heif/libde265.min.js"></script>
+    <script src="{$PAGE->getRootURL()}/nonfree/js/heif/heif-api.js"></script>
+    <script src="{$PAGE->getRootURL()}/nonfree/js/heif/heif-extension.js"></script>
+    <script src="{$PAGE->getRootURL()}/nonfree/js/heif/hevc-decoder.js"></script>
+    <script src="{$PAGE->getRootURL()}/nonfree/js/heif/image-provider.js"></script>
+
     <title>{block name='title'}{/block}</title>
 </head>
 <body>

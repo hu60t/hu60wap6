@@ -320,7 +320,8 @@ class UbbDisplay extends XUBBP
         }
         
 		if (!JsonPage::isJsonPage() && !preg_match('#^data:image/#is', $url)) {
-            $url = SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
+            $url = str_replace('http', 'https', $url);
+            //$url = SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
         }
 
         if (!$data['in_link'])

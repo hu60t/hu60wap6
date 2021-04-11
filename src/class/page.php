@@ -154,6 +154,17 @@ class page implements ArrayAccess
         return $url;
     }
 
+    /*
+    * 获取 ROOT_DIR 的访问路径
+    */
+    public function getRootURL() {
+        $url = $this->getFileUrl(ROOT_DIR);
+        if ($url == '/') {
+            $url = '';
+        }
+        return $url;
+    }
+
 	/*
 	* 获取基本访问路径的前缀
 	*/
