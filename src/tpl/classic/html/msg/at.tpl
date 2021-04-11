@@ -79,12 +79,12 @@
                                         var id=this.getAttribute("data-floorID");
                                         var that=$("#floor_content_"+id);
                                         // 不要使用that.height()进行判断，返回值是浮点数，不一定精确相等
-                                        if(this.innerHTML == '折叠内容'){
+                                        if(this.innerHTML == '折叠过长内容'){
                                                 that.height(maxHeight);
                                                 this.innerHTML='查看全部';
                                         }else{
                                                 that.height(that[0].scrollHeight);
-                                                this.innerHTML='折叠内容';
+                                                this.innerHTML='折叠过长内容';
                                         }
                                 });
                         }

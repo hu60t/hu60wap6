@@ -21,7 +21,7 @@
 		
 		content.style.maxHeight = '';
 		foldBar.innerHTML = '<a id="floor_fold_' + floor +
-				'" href="#" onclick="foldFold(' + floor + ');return false">折叠内容</a>';
+				'" href="#" onclick="foldFold(' + floor + ');return false">折叠过长内容</a>';
 	}
 	
 	function foldFloorInit(floor) {

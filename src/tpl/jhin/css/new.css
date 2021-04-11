@@ -576,8 +576,12 @@ h1 {
   margin-left: 50px;
 }
 .floor_fold_bar {
-  text-align: center;
-  margin: 10px 0;
+  width: 100%;
+  margin: 0;
+}
+.floor_fold_bar button {
+  height: 32px;
+  width: 100%;
 }
 .comments-number {
   height: 25px;
