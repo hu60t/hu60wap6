@@ -575,7 +575,10 @@ class user extends userinfo
         // 检查是否被屏蔽
         $userRelationshipService = new UserRelationshipService($this);
         if($userRelationshipService->isBlock($uid, $this->uid)) {
-            throw new UserException('用户['. $uinfo->name .']已屏蔽了您的At消息', 403);
+            throw new UserException('用户['. $uinfo->name .']屏蔽了您的@消息', 403);
+        }
+        if($userRelationshipService->isBlock($this->uid, $uid)) {
+            throw new UserException('您屏蔽了用户['. $uinfo->name .']，不能@Ta', 403);
         }
 
 

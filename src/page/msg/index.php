@@ -116,7 +116,10 @@ switch ($action) {
 
             $userRelationshipService = new UserRelationshipService($USER);
             if($userRelationshipService->isBlock($uinfo->uid, $user->uid)) {
-                throw new Exception('该用户已屏蔽您的所有消息！');
+                throw new Exception('用户['.$uinfo->name.']屏蔽了您的内信');
+            }
+            if($userRelationshipService->isBlock($user->uid, $uinfo->uid)) {
+                throw new Exception('您屏蔽了用户['.$uinfo->name.']，不能给Ta发内信');
             }
 
             if ($_POST['go']) {
