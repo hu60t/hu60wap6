@@ -430,7 +430,7 @@ class UbbDisplay extends XUBBP
             $url = $prefix . '/more?mm=' . $imgId;
         }
         
-        if (JsonPage::isJsonPage()) {
+		if (JsonPage::isJsonPage() || preg_match('#^data:(video|audio)/#is', $url)) {
             $link = $data['url'];
         } else {
             $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
@@ -463,7 +463,7 @@ class UbbDisplay extends XUBBP
             $url = $prefix . '/more?mm=' . $imgId;
         }
 
-        if (JsonPage::isJsonPage()) {
+		if (JsonPage::isJsonPage() || preg_match('#^data:(video|audio)/#is', $url)) {
             $link = $data['url'];
         } else {
             $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
