@@ -123,7 +123,7 @@ switch ($action) {
             }
 
             if ($_POST['go']) {
-                if (strlen(trim($_POST['content'])) > 0) {
+                if (!str::isEmptyPost($_POST['content'])) {
                     $send = $msg->send_msg($user->uid, '0', $uinfo->uid, $_POST['content']);
                     $tpl->assign('send', $send);
                 } else {

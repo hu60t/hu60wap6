@@ -41,7 +41,7 @@ try {
             $content = $_POST['content'];
             if (trim($title) == '')
                 throw new Exception('标题不能为空');
-            if (trim($content) == '')
+            if (str::isEmptyPost($content))
                 throw new Exception('内容不能为空');
             $token = new token($USER);
             $ok = $token->check($_POST['token']);

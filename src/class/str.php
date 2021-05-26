@@ -172,5 +172,12 @@ class str
     public static function getOrPostExists($key) {
         return isset($_GET[$key]) || isset($_POST[$key]);
     }
+
+    // 判断发言是否为空
+    public static function isEmptyPost($content) {
+        $content = preg_replace('/\s+/', '', $content);
+        $content = preg_replace('@\[/?[^\]]*\]@', '', $content);
+        return in_array($content, ['', '<!md>', '<!--markdown-->']);
+    }
 //class str end
 }

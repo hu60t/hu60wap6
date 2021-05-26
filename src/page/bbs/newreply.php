@@ -39,7 +39,7 @@ try {
     $go = $_POST['go'];
     if (!empty($go)) {
         $content = $_POST['content'];
-        if (trim($content) == '')
+        if (str::isEmptyPost($content))
             throw new Exception('回复内容不能为空');
         $token = new token($USER);
         $ok = $token->check($_POST['token']);

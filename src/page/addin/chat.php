@@ -30,9 +30,9 @@ if ($PAGE->ext[0]) {
 
                 $chat->checkroom($roomname);
 
-                if (trim($_POST['content']) == '')
+        		if (str::isEmptyPost($_POST['content'])) {
                     $err_msg = '内容不能为空';
-                else {
+                } else {
                     $chat->chatsay($roomname, $_POST['content'], time());
                     //清空发言框的内容
                     $_POST['content'] = '';
