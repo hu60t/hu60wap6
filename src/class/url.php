@@ -22,6 +22,16 @@ class url
 	    return base64_decode(strtr($code, array('-'=>'+', '_'=>'/')));
     }
 
+    static function decodeUrl64InLink($url, &$multiEncode = null) {
+      if (preg_match('/\burl64=([^&]+)\b/', $url, $arr)) {
+        // 对多重编码进行解码
+        $url = trim(code::b64d($arr[1]));
+        $url = self::decodeUrl64InLink($url);
+        $multiEncode = true;
+      }
+      return trim($url);
+    }
+
     static function realpath
     ($url, $iurl = '')
     {

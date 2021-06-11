@@ -152,7 +152,7 @@ class UbbParser extends XUBBP
 		// 保护markdown内容不受XUBBP解析器干扰
 		
 		/*urltxt 文本链接*/
-		$this->parse['!^(.*?)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\[\]\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is'] = array(array(1, 3), 'mdpre', array(2));
+		$this->parse['!^(.*?)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\[\]\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is'] = array(array(1, 3), 'mdlink', array(2));
 		
 		/*mailtxt 文本电子邮件地址*/
 		$this->parse['!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is'] = array(array(1, 3), 'mdpre', array(2));
@@ -203,7 +203,18 @@ class UbbParser extends XUBBP
             'data' => $data,
         ]];
     }
-	
+
+    /**
+     * @brief markdown受保护链接（不被XUBBP解析器干扰）
+     */
+    public function mdlink($data)
+    {
+        return [[
+            'type' => 'mdpre',
+            'data' => url::decodeUrl64InLink($data),
+        ]];
+    }
+
     /**
      * @brief 代码高亮
      */
@@ -274,7 +285,7 @@ class UbbParser extends XUBBP
 
         return array(array(
             'type' => $type,
-            'url' => trim($url),
+            'url' => url::decodeUrl64InLink($url),
             'title' => $title,
         ));
     }
@@ -319,7 +330,7 @@ class UbbParser extends XUBBP
             }
             return array(array(
                 'type' => $type == 'img' ? 'img' : 'imgzh',
-                'src' => trim($src),
+                'src' => url::decodeUrl64InLink($src),
                 'alt' => $alt,
             ));
         }
@@ -490,7 +501,7 @@ class UbbParser extends XUBBP
     {
         return array(array(
             'type' => 'urltxt',
-            'url' => trim($url),
+            'url' => url::decodeUrl64InLink($url),
         ));
     }
 
