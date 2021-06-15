@@ -23,7 +23,7 @@ try {
     $tpl->assign('fIndex', $fIndex);
 
     //读取帖子元信息
-    $tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime,locked', 'WHERE id=?', $fid);
+    $tMeta = $bbs->topicMeta($tid, 'title,read_count,uid,ctime,mtime,locked,review', 'WHERE id=?', $fid);
 
     if (!$tMeta) {
         throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
@@ -31,6 +31,9 @@ try {
 
     if ($tMeta['locked']) {
         throw new bbsException('锁定的帖子不能回复！', 2403);
+    }
+    if ($tMeta['review'] && !$USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
+        throw new bbsException('为了减少无关评论，未审核通过的帖子只有管理员可以回复。', 3403);
     }
 
     $tpl->assign('tMeta', $tMeta);

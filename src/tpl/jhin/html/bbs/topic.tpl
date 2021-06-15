@@ -137,6 +137,8 @@
 		<div class="bar">添加新回复</div>
 		{if $tMeta.locked}
 		<div class="text-notice">该帖子已锁定，不能回复。</div>
+		{elseif $tMeta.review && !$USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
+		<div class="text-notice">为了减少无关评论，未审核通过的帖子只有管理员可以回复。</div>
 		{elseif $USER->islogin}
 		<form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}" class="comments-form">
 			<textarea id="content" name="content" class="comments-form-content">{$smarty.post.content}</textarea>

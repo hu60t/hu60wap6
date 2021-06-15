@@ -33,9 +33,12 @@
     'currPage'=>$p,
 	'maxPage'=>$maxPage,
 	'isLogin'=>$USER->islogin,
-	'tContents'=>$tContents,
 	'blockedReply'=>$blockedReply,
-	'floorReverse'=>$floorReverse
+	'floorReverse'=>$floorReverse,
+	'canReply' => $USER->islogin && !$v.locked && (
+			!$tMeta.review || $USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)
+		),
+	'tContents'=>$tContents
 ]}
 
 {if $USER->islogin}
