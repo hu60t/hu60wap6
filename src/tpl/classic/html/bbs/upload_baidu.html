@@ -221,6 +221,7 @@
         max_file_size: '0',
         bos_multipart_min_size: '1024G', // 禁止分片上传
         flash_swf_url: '../../js/moxie/bin/flash/Moxie.swf',
+        max_retries: 999,                // 上传失败最大重试次数
         init: {
             FilesFilter: function (_, files) {
                 var allowFiles = [];
