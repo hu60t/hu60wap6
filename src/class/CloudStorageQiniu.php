@@ -33,7 +33,7 @@ class CloudStorageQiniu implements CloudStorageInterface {
         return $url;
     }
 
-    public function getUploadToken() {
+    public function getUploadToken($key = null) {
         $auth = new Auth(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK);
         $zone = Zone::queryZone(CLOUD_STORAGE_AK, CLOUD_STORAGE_BUCKET);
         $upToken = $auth->uploadToken(CLOUD_STORAGE_BUCKET, null, 3600, null);

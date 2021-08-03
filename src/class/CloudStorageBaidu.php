@@ -10,7 +10,7 @@ class CloudStorageBaidu implements CloudStorageInterface {
         // TODO
     }
     
-    public function getUploadToken() {
+    public function getUploadToken($key = null) {
         // TODO
     }
 }

@@ -21,5 +21,5 @@ interface CloudStorageInterface {
      * 
      * @return array 带有上传Token数据的数组，经过JSON编码后发给客户端
      */
-    public function getUploadToken();
+    public function getUploadToken($key = null);
 }
