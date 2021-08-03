@@ -1,6 +1,4 @@
 <?php
-require_once FUNC_DIR . '/qiniu_upload.php';
-
 $tpl = $PAGE->start();
 
 try {
@@ -24,10 +22,10 @@ try {
     $md5Sum = md5_file($filePath);
 
 	// 上传到七牛后保存的文件名
-    $key = 'file-hash-' . $type . '-' . $md5Sum . $size . $ext;
+    $key = 'file-' . $type . '/' . $md5Sum . $size . $ext;
 
 	// 上传
-    $url = qiniu_upload($filePath, $key);
+    $url = CloudStorage::getInstance()->upload($filePath, $key, false);
 
     preg_match('#[^/\\\\]*$#s', $realName, $name);
     $name = $name[0];

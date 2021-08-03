@@ -1,8 +1,4 @@
 <?php
-if (QINIU_STORAGE_AVATAR) {
-	require_once FUNC_DIR . '/qiniu_upload.php';
-}
-
 try {
 	$tpl = $PAGE->start();
 	$USER->start($tpl);
@@ -26,9 +22,9 @@ try {
 			
 			$review = $USER->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW);
 
-			if (QINIU_STORAGE_AVATAR) {
-				$path = QINIU_AVATAR_PATH . ($review ? 'review_' : '') . $USER->uid.".jpg";
-				$url = qiniu_upload($_FILES["avatar"]["tmp_name"], $path, true);
+			if (CLOUD_STORAGE_AVATAR) {
+				$path = CLOUD_STORAGE_AVATAR_PATH . ($review ? 'review_' : '') . $USER->uid.".jpg";
+				$url = CloudStorage::getInstance()->upload($_FILES["avatar"]["tmp_name"], $path, true);
 				// 地址中加入一个随机数防止缓存问题
 				$url .= '?'.time();
 			} else {

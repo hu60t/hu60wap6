@@ -110,33 +110,48 @@ define('BAIDUBCE_BOS_BUCKET', 'hu60');
 define('BAIDUBCE_BOS_HOST', 'bj.bcebos.com');
 
 
-///////////////////// 上传附件到七牛云 /////////////////////
+///////////////////// 上传附件到云存储 /////////////////////
 
 /**
- * 七牛云 的 AK 和 SK
+ * 云存储服务商
+ * 
+ * 可选值:
+ * CloudStorage::SERVICE_BAIDU      百度BOS云存储
+ * CloudStorage::SERVICE_QINIU      七牛云对象存储
+ * CloudStorage::SERVICE_ALIYUN     阿里云OSS
  */
-define('QINIU_AK', '');
-define('QINIU_SK', '');
+define('CLOUD_STORAGE_SERVICE', CloudStorage::SERVICE_ALIYUN);
 
 /**
- * 七牛云存储上传文件最大限制（单位：字节，用于服务器端签名）
+ * 云存储的 AK 和 SK
  */
-define('QINIU_STORAGE_MAX_FILESIZE', 10485760);
+define('CLOUD_STORAGE_AK', '');
+define('CLOUD_STORAGE_SK', '');
 
 /**
- * 七牛云存储上传文件的Bucket（用于服务器端签名）
+ * 云存储上传文件最大限制（单位：字节，用于服务器端签名）
  */
-define('QINIU_STORAGE_BUCKET', 'hu60');
+define('CLOUD_STORAGE_MAX_FILESIZE', 10485760);
 
 /**
- * 七牛云存储上传文件的HOST（用于服务器端签名）
+ * 云存储上传文件的Bucket
  */
-define('QINIU_STORAGE_HOST', 'file.hu60.cn');
+define('CLOUD_STORAGE_BUCKET', 'hu60');
 
 /**
- * 下载七牛资源时使用HTTPS
+ * 云存储上传文件的HOST
  */
-define('QINIU_USE_HTTPS', false);
+define('CLOUD_STORAGE_UPLOAD_HOST', 'file.hu60.cn');
+
+/**
+ * 云存储下载文件的HOST
+ */
+define('CLOUD_STORAGE_DOWNLOAD_HOST', 'file.hu60.cn');
+
+/**
+ * 下载资源时使用HTTPS
+ */
+define('CLOUD_STORAGE_USE_HTTPS', false);
 
 
 /////////////////// 防止CC攻击 ///////////////////

@@ -144,12 +144,11 @@ define('USERFILE_DIR', ROOT_DIR . '/userfile');
 define('AVATAR_DIR', ROOT_DIR.'/upload');
 
 /**
- * 使用七牛云存储头像
+ * 头像上传到云存储
  */
-define('QINIU_STORAGE_AVATAR', false);
+define('CLOUD_STORAGE_AVATAR', true);
 
 /**
- * 七牛云头像路径前缀
+ * 云存储头像路径前缀
  */
-define('QINIU_AVATOR_PATH', 'avatar/');
-
+define('CLOUD_STORAGE_AVATAR_PATH', 'avatar/');
