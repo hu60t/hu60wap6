@@ -454,7 +454,7 @@
             },
             UploadProgress: function (_, file) {
                 fileList.setProgress(file._id, file.percent);
-                fileList.setSpeed(file.speed, file.size - file.loaded);
+                fileList.setSpeed(uploader.total.bytesPerSec, file.size - file.loaded);
             },
             FileUploaded: function (_, file, info) {
                 var actionHtml = '<a href="' + fileList.downloadUrlPrefix + htmlSpecialChars(file._hashName) + '">下载地址</a> ' +
