@@ -139,9 +139,9 @@ define('CLOUD_STORAGE_MAX_FILESIZE', 10485760);
 define('CLOUD_STORAGE_BUCKET', 'hu60');
 
 /**
- * 云存储上传文件的HOST
+ * 云存储上传文件的Endpoint（七牛云不用填）
  */
-define('CLOUD_STORAGE_UPLOAD_HOST', 'file.hu60.cn');
+define('CLOUD_STORAGE_ENDPOINT', 'http://oss-cn-beijing.aliyuncs.com');
 
 /**
  * 云存储下载文件的HOST
