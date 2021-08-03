@@ -23,4 +23,22 @@ class CloudStorage {
                 throw new Exception("未知的云存储类型: ".CLOUD_STORAGE_SERVICE, 500);
         }
     }
+
+    public static function getUploadPageUrl() {
+        $file = TPL_DIR . '/classic/html/bbs/';
+        switch (CLOUD_STORAGE_SERVICE) {
+            case self::SERVICE_BAIDU:
+                $file .= 'upload_baidu.html';
+                break;
+            case self::SERVICE_QINIU:
+                $file .= 'upload_qiniu.html';
+                break;
+            case self::SERVICE_ALIYUN:
+                $file .= 'upload_aliyun.html';
+                break;
+            default:
+                throw new Exception("未知的云存储类型: ".CLOUD_STORAGE_SERVICE, 500);
+        }
+        return page::getFileUrl($file, true);
+    }
 }

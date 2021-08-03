@@ -40,7 +40,7 @@ class CloudStorageQiniu implements CloudStorageInterface {
         
         return [
             'zone'=>$zone,
-            'host'=>QINIU_STORAGE_HOST,
+            'host'=>CLOUD_STORAGE_DOWNLOAD_HOST,
             'uptoken'=>$upToken
         ];
     }

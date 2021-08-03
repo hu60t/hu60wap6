@@ -440,7 +440,7 @@
             BeforeUpload: function(up, file) {
                 fileList.setState(file._id, '上传中...');
                 up.setOption({
-                    'url': fileList.upToken.host,
+                    'url': fileList.upToken.endpoint,
                     'multipart_params': {
                         'key' : file._hashName,
                         'policy': fileList.upToken.policy,

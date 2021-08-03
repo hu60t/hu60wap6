@@ -55,7 +55,8 @@ class CloudStorageAliyun implements CloudStorageInterface {
 
         $response = array();
         $response['accessid'] = CLOUD_STORAGE_AK;
-        $response['host'] = CLOUD_STORAGE_CLIENT_ENDPOINT;
+        $response['host'] = CLOUD_STORAGE_DOWNLOAD_HOST;
+        $response['endpoint'] = CLOUD_STORAGE_CLIENT_ENDPOINT;
         $response['policy'] = $base64_policy;
         $response['signature'] = $signature;
         $response['expire'] = $end;

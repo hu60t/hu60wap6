@@ -126,7 +126,7 @@ class page implements ArrayAccess
     }
 
     /*取得文件或目录的访问路径（目录的总是包含结尾的/）*/
-    public static function getFileUrl($path)
+    public static function getFileUrl($path, $noCache = false)
     {
         $realPath = realpath($path);
 
@@ -149,6 +149,10 @@ class page implements ArrayAccess
 
         if (is_dir($realPath)) {
             $url .= '/';
+        }
+
+        if ($noCache) {
+            $url .= '?r=' . filemtime($path);
         }
 
         return $url;
