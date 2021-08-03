@@ -22,7 +22,7 @@ try {
     $md5Sum = md5_file($filePath);
 
 	// 上传到七牛后保存的文件名
-    $key = 'file-' . $type . '/' . $md5Sum . $size . $ext;
+    $key = 'file/hash/' . $type . '/' . $md5Sum . $size . $ext;
 
 	// 上传
     $url = CloudStorage::getInstance()->upload($filePath, $key, false);

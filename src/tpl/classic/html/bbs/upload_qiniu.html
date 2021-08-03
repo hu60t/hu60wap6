@@ -276,15 +276,15 @@
                     var ext = /\.[a-zA-Z0-9_-]{1,10}$/.exec(file.name);
 
                     file._ext = (null === ext) ? '.dat' : ext[0].toLowerCase();
-                    var type = file._ext.substr(1) + '-';
+                    var type = file._ext.substr(1) + '/';
 
                     file._md5sum.done(function (md5) {
-                        file._hashName = 'file-hash-' + type + md5 + file.size + file._ext;
+                        file._hashName = 'file/hash/' + type + md5 + file.size + file._ext;
                         next();
                     });
 
                     file._md5sum.fail(function () {
-                        file._hashName = 'file-uuid-' + type + file.id + file.size + file._ext;
+                        file._hashName = 'file/uuid/' + type + file.id + file.size + file._ext;
                         next();
                     });
                 }
