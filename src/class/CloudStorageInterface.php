@@ -14,12 +14,12 @@ interface CloudStorageInterface {
      * 
      * @return string 文件下载URL
      */
-    function upload($localFile, $remoteFile, $allowOverwrite = false);
+    public function upload($localFile, $remoteFile, $allowOverwrite = false);
 
     /**
      * 获取客户端上传Token
      * 
      * @return array 带有上传Token数据的数组，经过JSON编码后发给客户端
      */
-    function getUploadToken();
+    public function getUploadToken();
 }
