@@ -419,8 +419,8 @@ class UbbDisplay extends XUBBP
 
         $url = $data['url'];
 
-		if (QINIU_USE_HTTPS) {
-			$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+		if (CLOUD_STORAGE_USE_HTTPS) {
+			$url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 		}
 
         //百度输入法多媒体输入
@@ -451,8 +451,8 @@ class UbbDisplay extends XUBBP
 
         $url = $data['url'];
 		
-		if (QINIU_USE_HTTPS) {
-			$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+		if (CLOUD_STORAGE_USE_HTTPS) {
+			$url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 		}
 
 

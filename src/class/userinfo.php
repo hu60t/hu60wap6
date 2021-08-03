@@ -108,8 +108,8 @@ class userinfo implements ArrayAccess
 			$url = page::getFileUrl(AVATAR_DIR."/default.jpg");
 		}
 		
-		if (QINIU_USE_HTTPS) {
-			$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+		if (CLOUD_STORAGE_USE_HTTPS) {
+			$url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 		}
 
         return $url;

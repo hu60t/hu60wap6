@@ -9,8 +9,8 @@ $multiEncode = false;
 $url = url::decodeUrl64InLink(url::b64d($_GET['url64']), $multiEncode);
 $url = preg_replace('/^(\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:)+/is', '', $url);
 
-if (QINIU_USE_HTTPS) {
-    $url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+if (CLOUD_STORAGE_USE_HTTPS) {
+    $url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 }
 
 $urls = parse_url($url);
@@ -23,7 +23,7 @@ if (!$multiEncode && is_array($urls) && isset($urls['host']) &&
 	!preg_match('#link#i', str::word(urldecode($url)))) {
 
 	// 禁止七牛云直接显示html
-	if ($urls['host'] == QINIU_STORAGE_HOST && !strpos($url, '?attname=')) {
+	if ($urls['host'] == CLOUD_STORAGE_DOWNLOAD_HOST && !strpos($url, '?attname=')) {
 		$url .= (strpos($url, '?')===false) ? '?' : '&';
 		$url .= 'attname=';
 	}

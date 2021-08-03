@@ -16,7 +16,7 @@ foreach ($files as $f) {
 	}
 	$u->virtualLogin();
 
-	$path = QINIU_AVATAR_PATH . $u->uid.".jpg";
+	$path = CLOUD_STORAGE_AVATAR_PATH . $u->uid.".jpg";
     try {
     	$url = $cloudStorage->upload($f, $path, true);
         $u->setinfo("avatar.url", $url);

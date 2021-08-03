@@ -5,15 +5,15 @@ header('Referrer-Policy: origin-when-cross-origin');
 $url = trim(code::b64d($_GET['url64']));
 $url = preg_replace('/^(\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:)+/is', '', $url);
 
-if (QINIU_USE_HTTPS) {
-	$url = preg_replace('#^http://'.QINIU_STORAGE_HOST.'/#i', 'https://'.QINIU_STORAGE_HOST.'/', $url);
+if (CLOUD_STORAGE_USE_HTTPS) {
+	$url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 }
 
 $urls = parse_url($url);
 
 // 如果为站内链接，就添加'?_origin=*'并去除域名部分
 if (is_array($urls) && isset($urls['host']) &&
-    $urls['host'] != QINIU_STORAGE_HOST &&
+    $urls['host'] != CLOUD_STORAGE_DOWNLOAD_HOST &&
     in_array(strtolower($urls['scheme']), ['http', 'https']) &&
     isHostSafe(strtolower($urls['host']))) {
 	
