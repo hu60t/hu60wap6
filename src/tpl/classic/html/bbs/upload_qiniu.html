@@ -130,6 +130,18 @@
         computingMd5Files: [], //正在计算md5的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
         previewFiles: [], //可供预览的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
 
+        upTokenUrl: '/q.php/api.upload-token.json', // 获取上传token的URL
+        upToken: {}, // 上传token
+        downloadUrlPrefix: 'http://file.hu60.cn/', // 下载URL前缀（占位符，真实的值将从upTokenUrl获取）
+
+        /**
+         * 获取上传token
+         */
+        getUpToken: async function() {
+            fileList.upToken = await $.get(fileList.upTokenUrl);
+            fileList.downloadUrlPrefix = 'http://' + fileList.upToken.host + '/';
+        },
+
         /**
          * 压缩图片
          * @param img 任何可被canvas绘制的2d图像
@@ -230,7 +242,7 @@
         },
         addToContent: function (fid) {
             var file = this.uploadedFiles[fid];
-            var url = downloadUrlPrefix + file._hashName;
+            var url = fileList.downloadUrlPrefix + file._hashName;
             var basename = /[^\/\\]*$/.exec(file.name);
             var size = humanize.filesize(file.size);
 
@@ -365,7 +377,6 @@
             return deferred.promise();
         }
     };
-    var downloadUrlPrefix = 'http://file.hu60.cn/';
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',      // 上传模式，依次退化
         browse_button: 'file',         // 上传选择的点选按钮，必需
@@ -374,16 +385,16 @@
         // 其中uptoken是直接提供上传凭证，uptoken_url是提供了获取上传凭证的地址，如果需要定制获取uptoken的过程则可以设置uptoken_func
         // uptoken : '<Your upload token>', // uptoken是上传凭证，由其他程序生成
         uptoken_url: '/q.php/api.upload-token.json',         // Ajax请求uptoken的Url，强烈建议设置（服务端提供）
-        // uptoken_func: function(file){    // 在需要获取uptoken时，该方法会被调用
-        //    // do something
-        //    return uptoken;
-        // },
+        //uptoken_func: function(file) {    // 在需要获取uptoken时，该方法会被调用
+        //    console.log('token', fileList.upToken.uptoken);
+        //    return fileList.upToken.uptoken;
+        //},
         get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
         // downtoken_url: '/downtoken',
         // Ajax请求downToken的Url，私有空间时使用，JS-SDK将向该地址POST文件的key和domain，服务端返回的JSON必须包含url字段，url值为该文件的下载地址
         // unique_names: true,              // 默认false，key为文件名。若开启该选项，JS-SDK会为每个文件自动生成key（文件名）
         // save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
-        domain: 'qiniu.img.hu60.cn',     // bucket域名，下载资源时用到，必需
+        domain: 'file.hu60.cn',     // bucket域名，下载资源时用到，必需（占位符，真实的值将从upTokenUrl获取）
         container: 'file_selector',             // 上传区域DOM ID，默认是browser_button的父元素
         max_file_size: '0',             // 最大文件体积限制
         flash_swf_url: '../../js/plupload/js/Moxie.swf',  //引入flash，相对路径
@@ -454,7 +465,7 @@
                 fileList.setSpeed(file.speed, file.size - file.loaded);
             },
             FileUploaded: function (_, file, info) {
-                var actionHtml = '<a href="' + downloadUrlPrefix + htmlSpecialChars(file._hashName) + '">下载地址</a> ' +
+                var actionHtml = '<a href="' + fileList.downloadUrlPrefix + htmlSpecialChars(file._hashName) + '">下载地址</a> ' +
                         '<a href="#" onclick="fileList.addToContent(' + file._id + ');return false">添加附件</a>';
 
                 fileList.fileUploaded(file);
@@ -610,6 +621,9 @@
 
     // 页面加载完成后执行
     $(function(){
+        // 获取上传token
+        fileList.getUpToken();
+
         //加载保存的帖子内容
         if (sessionStorage.topicContentSaved == '1') {
             $('#content').val(sessionStorage.topicContent);

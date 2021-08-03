@@ -128,14 +128,17 @@
         uploadedFiles: [], //保存已上传完成的file对象，格式：['1'=> file, '2'=> file, ...]，key为fid
         computingMd5Files: [], //正在计算md5的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
         previewFiles: [], //可供预览的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
+
         upTokenUrl: '/q.php/api.upload-token.json', // 获取上传token的URL
         upToken: {}, // 上传token
+        downloadUrlPrefix: 'http://file.hu60.cn/', // 下载URL前缀（占位符，真实的值将从upTokenUrl获取）
 
         /**
          * 获取上传token
          */
         getUpToken: async function() {
-            fileList.upToken = await $.get(fileList.upTokenUrl)
+            fileList.upToken = await $.get(fileList.upTokenUrl);
+            fileList.downloadUrlPrefix = 'http://' + fileList.upToken.host + '/';
         },
 
         /**
@@ -238,7 +241,7 @@
         },
         addToContent: function (fid) {
             var file = this.uploadedFiles[fid];
-            var url = downloadUrlPrefix + file._hashName;
+            var url = fileList.downloadUrlPrefix + file._hashName;
             var basename = /[^\/\\]*$/.exec(file.name);
             var size = humanize.filesize(file.size);
 
@@ -373,7 +376,6 @@
             return deferred.promise();
         }
     };
-    var downloadUrlPrefix = 'http://file.hu60.cn/';
     var uploader = new plupload.Uploader({
         runtimes: 'html5,flash,html4',      // 上传模式，依次退化
         browse_button: 'file',         // 上传选择的点选按钮，必需
@@ -387,7 +389,7 @@
         auto_start: false,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
         multi_selection: true,
         unique_names: false,
-        url : 'http://oss.aliyuncs.com',
+        url : 'http://oss.aliyuncs.com', // 上传地址（占位符，真实的值将从upTokenUrl获取）
         init: {
             FilesAdded: function (_, files) {
                 if (files.length) {
@@ -455,7 +457,7 @@
                 fileList.setSpeed(file.speed, file.size - file.loaded);
             },
             FileUploaded: function (_, file, info) {
-                var actionHtml = '<a href="' + downloadUrlPrefix + htmlSpecialChars(file._hashName) + '">下载地址</a> ' +
+                var actionHtml = '<a href="' + fileList.downloadUrlPrefix + htmlSpecialChars(file._hashName) + '">下载地址</a> ' +
                         '<a href="#" onclick="fileList.addToContent(' + file._id + ');return false">添加附件</a>';
 
                 fileList.fileUploaded(file);
