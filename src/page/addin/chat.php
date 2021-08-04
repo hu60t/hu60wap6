@@ -49,8 +49,11 @@ if ($PAGE->ext[0]) {
     $ubbs = new ubbdisplay();
     $ubbs->setOpt('at.jsFunc', 'atAdd');
     $tpl->assign('err_msg', $err_msg);
-
-    $chatCount = $chat->chatCount($roomname);
+    if ($onlyReview) {
+        $chatCount = $chat->chatReviewCount();
+    } else {
+        $chatCount = $chat->chatCount($roomname);
+    }
     $pageSize = page::pageSize(1, 20, 1000);
     $maxP = ceil($chatCount / $pageSize);
 
