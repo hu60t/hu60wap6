@@ -17,13 +17,6 @@ abstract class CloudStorageBase {
     abstract public function upload($localFile, $remoteFile, $allowOverwrite = false);
 
     /**
-     * 获取客户端上传Token
-     * 
-     * @return array 带有上传Token数据的数组，经过JSON编码后发给客户端
-     */
-    abstract public function getUploadToken($key = null, $fileName = null);
-
-    /**
      * 获取客户端文件直传表单模板
      * 
      * @return array 带有上传表单模板的数组，经过JSON编码后发给客户端

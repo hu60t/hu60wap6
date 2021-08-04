@@ -33,18 +33,6 @@ class CloudStorageQiniu extends CloudStorageBase {
         return $url;
     }
 
-    public function getUploadToken($key = null, $fileName = null) {
-        $auth = new Auth(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK);
-        $zone = Zone::queryZone(CLOUD_STORAGE_AK, CLOUD_STORAGE_BUCKET);
-        $upToken = $auth->uploadToken(CLOUD_STORAGE_BUCKET, null, 3600, null);
-        
-        return [
-            'zone'=>$zone,
-            'host'=>CLOUD_STORAGE_DOWNLOAD_HOST,
-            'uptoken'=>$upToken
-        ];
-    }
-
     public function getUploadForm($key, $fileName, $fileSize, $fileMd5 = null) {
         // TODO
     }

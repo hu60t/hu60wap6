@@ -9,10 +9,6 @@ class CloudStorageBaidu extends CloudStorageBase {
     public function upload($localFile, $remoteFile, $allowOverwrite = false) {
         // TODO
     }
-    
-    public function getUploadToken($key = null, $fileName = null) {
-        // TODO
-    }
 
     public function getUploadForm($key, $fileName, $fileSize, $fileMd5 = null) {
         // TODO
