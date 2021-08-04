@@ -10,7 +10,7 @@ use Qiniu\Storage\UploadManager;
  * 
  * 实现七牛云对象存储的文件上传、下载、服务器端签名
  */
-class CloudStorageQiniu implements CloudStorageInterface {
+class CloudStorageQiniu extends CloudStorageBase {
     public function upload($localFile, $remoteFile, $allowOverwrite = false) {
         // 构建鉴权对象
         $auth = new Auth(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK);
@@ -33,7 +33,7 @@ class CloudStorageQiniu implements CloudStorageInterface {
         return $url;
     }
 
-    public function getUploadToken($key = null) {
+    public function getUploadToken($key = null, $fileName = null) {
         $auth = new Auth(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK);
         $zone = Zone::queryZone(CLOUD_STORAGE_AK, CLOUD_STORAGE_BUCKET);
         $upToken = $auth->uploadToken(CLOUD_STORAGE_BUCKET, null, 3600, null);
@@ -43,5 +43,9 @@ class CloudStorageQiniu implements CloudStorageInterface {
             'host'=>CLOUD_STORAGE_DOWNLOAD_HOST,
             'uptoken'=>$upToken
         ];
+    }
+
+    public function getUploadForm($key, $fileName, $fileSize, $fileMd5 = null) {
+        // TODO
     }
 }
