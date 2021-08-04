@@ -59,7 +59,7 @@ abstract class CloudStorageBase {
 
     public static function getFileUrl($key, $fileName) {
         $url = 'http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/'.$key;
-        $fileName = urlencode(str::basename(trim($fileName)));
+        $fileName = rawurlencode(str::basename(trim($fileName)));
         if ($fileName !== '') {
             $url .= '?attname='.$fileName;
         }
