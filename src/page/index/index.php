@@ -2,6 +2,7 @@
 $tpl = $PAGE->start();
 $USER->start($tpl);
 $bbs = new bbs($USER);
+$chat = new chat($USER);
 
 $size = page::pageSize(1, 20, 1000);
 $p = (int)$_GET['p'];
@@ -32,6 +33,8 @@ $tpl->assign('topicPage', $p);
 
 // 待审核帖子+回复数量
 $tpl->assign('countReview', $bbs->countReview());
+// 待审核聊天室发言数量
+$tpl->assign('chatCountReview', $chat->chatReviewCount());
 
 // 版块信息
 $forumList = $bbs->childForumMeta(0, '*', 2);

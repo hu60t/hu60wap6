@@ -42,6 +42,7 @@
 			<a href="bbs.search.{$BID}">搜索</a> |
 			<a href="bbs.newtopic.0.{$BID}">发帖</a>
 			{if $countReview}| <a href="bbs.search.{$BID}?onlyReview=1">{$countReview}待审核</a>{/if}
+            {if $chatCountReview}| <a href="addin.chat.@.{$BID}">{$chatCountReview}聊天待审核</a>{/if}
 		』
 	</p>
 	<ol style="padding-left:2em">

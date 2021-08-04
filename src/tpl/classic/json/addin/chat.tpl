@@ -18,7 +18,8 @@
     'currPage'=>$p,
     'maxPage'=>$maxP,
     'chatList'=>$list,
-    'blockedReply'=>$blockedReply
+    'blockedReply'=>$blockedReply,
+    'onlyReview'=>$onlyReview
 ]}
 
 {if $USER->islogin}

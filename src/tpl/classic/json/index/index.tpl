@@ -25,6 +25,7 @@
 	'currPage'=>$topicPage,
 	'hasNextPage'=>$hasNextPage,
 	'newTopicList'=>$newTopicList,
-	'countReview'=>$countReview
+	'countReview'=>$countReview,
+	'chatCountReview'=>$chatCountReview
 ]}
 {JsonPage::output($jsonData)}

@@ -50,6 +50,7 @@
     <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?rand={time()}">刷新</a></span>
 </div>
 <div class="failure">{$err_msg}</div>
+{if !$onlyReview}
 <div class="topic_area">
     <form method="post" action="addin.chat.{$roomname}.{$bid}">
         <div>
@@ -71,6 +72,7 @@
     </form>
 </div>
 <hr>
+{/if}
 <div class="pager">
     {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
     {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
@@ -84,7 +86,7 @@
         {$tmp = $uinfo->uid($k.uid)}
         {$tmp = $uinfo->setUbbOpt($ubbs)}
         <div class="i">
-        <div class="floor_content" id="floor_content_{$k.lid}"><a class="floor-link" name="{$k.lid}" href="?{$k.lid}#{$k.lid}">{$k.lid}</a>. {$ubbs->display($k.content,true)}</div>
+        <div class="floor_content" id="floor_content_{$k.lid}">{if $onlyReview}<a class="floor-link" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}">{$k.room} {$k.lid}楼</a>{else}<a class="floor-link" name="{$k.lid}" href="?{$k.lid}#{$k.lid}">{$k.lid}</a>{/if}. {$ubbs->display($k.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$k.lid}"></div>
 		<script>foldFloorInit({$k.lid})</script>
 		<div>(<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a> {date("m-d H:i:s",{$k.time})}{if $chat->canDel($k.uid,true)}/<a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>{/if})</div>

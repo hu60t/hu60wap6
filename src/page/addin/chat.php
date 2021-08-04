@@ -6,7 +6,12 @@ $chat = new chat($USER);
 if ($PAGE->ext[0]) {
     $roomname = $PAGE->ext[0];
     $tpl->assign('roomname', $roomname);
-    $chat->checkName($roomname);
+    // @表示显示待审核内容
+    if ($roomname == '@') {
+        $onlyReview = true;
+    } else {
+        $chat->checkName($roomname);
+    }
 
     if (isset($_GET['del'])) {
         try {
@@ -67,7 +72,11 @@ if ($PAGE->ext[0]) {
 	$startTime = isset($_GET['start_time']) ? (int)$_GET['start_time'] : null;
 	$endTime = isset($_GET['end_time']) ? (int)$_GET['end_time'] : null;
 
-    $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime);
+    if ($onlyReview) {
+        $list = $chat->chatReviewList($offset, $pageSize, $startTime, $endTime);
+    } else {
+        $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime);
+    }
 
     // 获取屏蔽用户
     $all = isset($_GET['all']) && (bool)$_GET['all'];
@@ -111,6 +120,7 @@ if ($PAGE->ext[0]) {
     $tpl->assign('chat', $chat);
     $tpl->assign('uinfo', $uinfo);
     $tpl->assign('blockedReply', $blockedReply);
+    $tpl->assign('onlyReview', $onlyReview);
 
     if ($USER->islogin) {
         $token = new token($USER);
