@@ -77,7 +77,7 @@ class CloudStorageAliyun extends CloudStorageBase {
         ];
 
         $fileName = rawurlencode(str::basename(trim($fileName)));
-        if ($fileName !== '') {
+        if ($fileName !== '' && !self::noAttrname($fileName)) {
             $data['formData']['Content-Disposition'] = "attachment; filename=\"$fileName\"; filename*=utf-8''$fileName";
         }
 

@@ -60,7 +60,7 @@ abstract class CloudStorageBase {
     public static function getFileUrl($key, $fileName) {
         $url = 'http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/'.$key;
         $fileName = rawurlencode(str::basename(trim($fileName)));
-        if ($fileName !== '') {
+        if ($fileName !== '' && !self::noAttrname($fileName)) {
             $url .= '?attname='.$fileName;
         }
         return $url;
@@ -121,5 +121,13 @@ abstract class CloudStorageBase {
         }
 
         return $content;
+    }
+
+    public static function noAttrname($fileName) {
+        // 不要给图片添加 attrname 参数，以防查看大图变成下载
+        if (preg_match('/\.(jpe?g|png|gif)$/si', trim($fileName))) {
+            return true;
+        }
+        return false;
     }
 }
