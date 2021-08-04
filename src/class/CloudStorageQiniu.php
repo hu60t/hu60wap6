@@ -27,10 +27,6 @@ class CloudStorageQiniu extends CloudStorageBase {
         if ($err !== null) {
             throw new Exception($err->message());
         }
-
-        $url = 'http://' . CLOUD_STORAGE_DOWNLOAD_HOST . '/' . $remoteFile;
-
-        return $url;
     }
 
     public function getUploadForm($key, $fileName, $fileSize, $fileMd5 = null) {

@@ -12,29 +12,58 @@ abstract class CloudStorageBase {
      * @param $remoteFile 远程文件路径
      * @param $allowOverwrite 如果远程文件已存在，是否允许覆盖。默认不允许。
      * 
-     * @return string 文件下载URL
+     * @return null 上传成功没有返回值
+     * @throws Exception 上传失败抛出异常
      */
     abstract public function upload($localFile, $remoteFile, $allowOverwrite = false);
 
     /**
      * 获取客户端文件直传表单模板
      * 
+     * @param $key 上传到的路径
+     * @param $fileName 待上传文件的原始文件名
+     * @param $fileSize 待上传的文件大小
+     * @param $fileMd5 待上传文件的MD5值，可为null。
+     * 
      * @return array 带有上传表单模板的数组，经过JSON编码后发给客户端
+     * @throws Exception 出错时抛出异常
      */
     abstract public function getUploadForm($key, $fileName, $fileSize, $fileMd5 = null);
+
+    public function uploadLocalFile($filePath, $fileName, $allowOverwrite = false) {
+        $fileSize = filesize($filePath);
+        $fileMd5 = md5_file($filePath);
+        $key = self::getFileKey($fileName, $fileSize, $fileMd5);
+
+        // 上传文件，成功没有返回值，失败抛出异常
+        $this->upload($filePath, $key, $allowOverwrite);
+
+        $url = self::getFileUrl($key, $fileName);
+        return [
+            'url' => $url,
+            'name' => str::basename($fileName),
+            'size' => str::filesize($fileSize),
+            'content' => self::getFileUbb($url, $fileName, $fileSize),
+        ];
+    }
 
     public function getFileUploadForm($fileName, $fileSize, $fileMd5 = null) {
         $key = self::getFileKey($fileName, $fileSize, $fileMd5);
         $data = $this->getUploadForm($key, $fileName, $fileSize, $fileMd5);
 
-        $data['downloadUrl'] = 'http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/'.$key;
-        if ($fileName !== '') {
-            $data['downloadUrl'] .= '?attname='.urlencode(str::basename(trim($fileName)));
-        }
-
-        $data['contentUbb'] = $this->getFileUbb($data['downloadUrl'], $fileName, $fileSize);
+        $data['downloadUrl'] = self::getFileUrl($key, $fileName);
+        $data['contentUbb'] = self::getFileUbb($data['downloadUrl'], $fileName, $fileSize);
 
         return $data;
+    }
+
+    public static function getFileUrl($key, $fileName) {
+        $url = 'http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/'.$key;
+        $fileName = urlencode(str::basename(trim($fileName)));
+        if ($fileName !== '') {
+            $url .= '?attname='.$fileName;
+        }
+        return $url;
     }
 
     public static function getFileKey($fileName, $fileSize, $fileMd5 = null) {

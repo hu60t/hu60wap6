@@ -10,16 +10,13 @@ use OSS\OssClient;
  */
 class CloudStorageAliyun extends CloudStorageBase {
     public function upload($localFile, $remoteFile, $allowOverwrite = false) {
-        $url = 'http://' . CLOUD_STORAGE_DOWNLOAD_HOST . '/' . $remoteFile;
-
         $ossClient = new OssClient(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK, CLOUD_STORAGE_ENDPOINT);
 
         if (!$allowOverwrite && $ossClient->doesObjectExist(CLOUD_STORAGE_BUCKET, $remoteFile)) {
-            return $url;
+            return;
         }
 
         $ossClient->uploadFile(CLOUD_STORAGE_BUCKET, $remoteFile, $localFile);
-        return $url;
     }
 
     private static function gmt_iso8601($time) {

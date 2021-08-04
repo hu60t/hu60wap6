@@ -11,50 +11,15 @@ try {
 	//真实文件名
     $realName = $_FILES['file']['name'];
 
-    if (preg_match('/\.[a-zA-Z0-9_-]{1,10}$/s', $realName, $ext)) {
-        $ext = strtolower($ext[0]);
-    } else {
-        $ext = '.dat';
-    }
+    $data = CloudStorage::getInstance()->uploadLocalFile($filePath, $realName, false);
 
-    $type = substr($ext, 1);
-    $size = filesize($filePath);
-    $md5Sum = md5_file($filePath);
-
-	// 上传到七牛后保存的文件名
-    $key = 'file/hash/' . $type . '/' . $md5Sum . $size . $ext;
-
-	// 上传
-    $url = CloudStorage::getInstance()->upload($filePath, $key, false);
-
-    preg_match('#[^/\\\\]*$#s', $realName, $name);
-    $name = $name[0];
-    $sizeName = str::filesize($size);
-
-    if (empty($name)) {
-        $name = "附件{$ext}";
-    }
-
-	$urlname = $url . '?attname=' . urlencode($name);
-
-    if (preg_match('/^\.(jpe?g|png|gif)$/s', $ext)) {
-        $content = "《图片：" . $url . '，' . $name . '》';
-	} elseif (preg_match('/^\.(mp4|m3u8|m4v|ts|mov|flv)$/s', $ext)) {
-		$content = "《视频流：" . $urlname . '》';
-	} elseif (preg_match('/^\.(mp3|wma|m4a|ogg)$/s', $ext)) {
-		$content = "《音频流：" . $urlname . '》';
-    } else {
-        $content = "《链接：" . $urlname . '，' . $name . '（' . $sizeName . '）》';
-    }
-
-	$tpl->assign('url', $url);
-	$tpl->assign('name', $name);
-	$tpl->assign('size', $sizeName);
-	$tpl->assign('content', $content);
+	$tpl->assign('url', $data['url']);
+	$tpl->assign('name', $data['name']);
+	$tpl->assign('size', $data['size']);
+	$tpl->assign('content', $data['content']);
 
 } catch (Exception $ex) {
     $tpl->assign('ex', $ex);
 }
 
 $tpl->display('tpl:upload');
-
