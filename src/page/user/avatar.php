@@ -26,12 +26,12 @@ try {
 				$path = CLOUD_STORAGE_AVATAR_PATH . ($review ? 'review_' : '') . $USER->uid.".jpg";
 				$url = CloudStorage::getInstance()->upload($_FILES["avatar"]["tmp_name"], $path, true);
 				// 地址中加入一个随机数防止缓存问题
-				$url .= '?'.time();
+				$url = CloudStorage::getUrl($path, true);
 			} else {
 				$path = AVATAR_DIR . '/' . ($review ? 'review_' : '') . $USER->uid.".jpg";
 				move_uploaded_file($_FILES["avatar"]["tmp_name"], $path);
 				// 地址中加入一个随机数防止缓存问题
-				$url = $PAGE->getFileUrl($path).'?'.time();
+				$url = $PAGE->getFileUrl($path).'?r='.time();
 			}
 
 			if ($review) {

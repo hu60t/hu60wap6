@@ -18,7 +18,8 @@ foreach ($files as $f) {
 
 	$path = CLOUD_STORAGE_AVATAR_PATH . $u->uid.".jpg";
     try {
-    	$url = $cloudStorage->upload($f, $path, true);
+    	$cloudStorage->upload($f, $path, true);
+		$url = CloudStorage::getUrl($path, true);
         $u->setinfo("avatar.url", $url);
     } catch (Exception $ex) {
         $url = $ex->getMessage();

@@ -41,4 +41,11 @@ class CloudStorage {
         }
         return page::getFileUrl($file, true);
     }
+
+    public static function getUrl($key, $noCache = false) {
+        $url = 'http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/'.$key;
+        // 地址中加入一个随机数防止缓存问题
+        if ($noCache) $url .= '?r='.time();
+        return $url;
+    }
 }
