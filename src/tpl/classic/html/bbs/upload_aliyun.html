@@ -205,7 +205,6 @@
             fileList.setState(file._id, stat);
             fileList.setAction(file._id, actionHtml);
 
-            console.log(document.querySelector('#auto_add').checked);
             if (document.querySelector('#auto_add').checked) {
                 fileList.addToContent(file._id);
             }
@@ -263,12 +262,15 @@
         },
         legacyMode: function () {
             $('#file').toggle();
+            $('#addImg').toggle();
             $('#upload').toggle();
             $('#to_legacy_mode').toggle();
             $('#to_modern_mode').toggle();
             $('#file_list').toggle();
             $('#legacy_mode_form').toggle();
             $('#img_select_bar').toggle();
+            $('#upload_state_bar').toggle();
+            $('#options').toggle();
 
             localStorage.uploadLegacyMode = ('1' == localStorage.uploadLegacyMode) ? '0' : '1';
         },
@@ -387,6 +389,12 @@
                         if (!nativeFile._id) {
                             fileList.setFid(file);
                             fileList.add(file);
+
+                            // 为图片添加预览按钮
+                            if (/image/.test(nativeFile.type)) {
+                                fileList.modifySize(file._id, '（<a href="#" onclick="fileList.preview('+file._id+');return false">预览</a>）');
+                                fileList.previewFiles[file._id] = nativeFile;
+                            }
                         } else {
                             //压缩后的图片，已经有_id
                             file._id = nativeFile._id;
