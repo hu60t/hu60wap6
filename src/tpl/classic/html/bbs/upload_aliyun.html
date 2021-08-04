@@ -67,7 +67,8 @@
 <div id="file_drop_area">
     <div id="file_selector" class="tp">
         <div id="file_select_bar">
-            <input type="button" id="file" value="选择文件" />
+            <input type="button" id="file" value="选择文件/原图" />
+            <input type="button" id="addImg" value="压缩图片" onclick="$('#img_selector').trigger('click')" />
             <input type="button" id="upload" value="上传" disabled />
             <input type="button" id="save" value="暂存" />
             <input type="button" id="load" value="载入" />
@@ -76,8 +77,10 @@
         </div>
         <div id="img_select_bar">
             <input id="img_selector" type="file" accept="image/*" multiple />
-            <input type="button" id="addImg" value="选择图片" onclick="$('#img_selector').trigger('click')" />
-            压缩比<input type="range" id="img_quality" min="0" max="9" value="4" />
+            图片压缩画质：高画质<input type="range" id="img_quality" min="0" max="9" value="4" />小体积
+        </div>
+        <div id="options">
+            <label><input type="checkbox" id="auto_add" />上传完成后自动添加附件到文本框</label>
         </div>
     </div>
     <div id="upload_state_bar"></div>
@@ -195,12 +198,17 @@
             });
         },
         finish: function (file, stat) {
-            var actionHtml = '<a href="' + file._uploadForm.downloadUrl + '">下载地址</a> ' +
+            var actionHtml = '<a target="_blank" href="' + file._uploadForm.downloadUrl + '">下载地址</a> ' +
                 '<a href="#" onclick="fileList.addToContent(' + file._id + ');return false">添加附件</a>';
 
             fileList.fileUploaded(file);
             fileList.setState(file._id, stat);
             fileList.setAction(file._id, actionHtml);
+
+            console.log(document.querySelector('#auto_add').checked);
+            if (document.querySelector('#auto_add').checked) {
+                fileList.addToContent(file._id);
+            }
         },
         modifySize: function (fid, size) {
             $('#upload_fid_' + fid + ' .file_size .box_value').append(size);
