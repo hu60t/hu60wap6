@@ -86,30 +86,6 @@ define('SECCODE_SMS_PROVIDER_INFO', '<p>短信验证码由虎绿林提供</p>');
 define('WXPUSHER_APP_TOKEN', 'AT_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
 
-///////////////////// 上传附件到百度云存储（BOS） /////////////////////
-
-/**
- * 百度 BCE 的 AK 和 SK
- */
-define('BAIDUBCE_AK', '');
-define('BAIDUBCE_SK', '');
-
-/**
- * 百度 BCE BOS 上传文件最大限制（单位：字节，用于服务器端签名）
- */
-define('BAIDUBCE_BOS_MAX_FILESIZE', 10485760);
-
-/**
- * 百度 BCE BOS 上传文件的Bucket（用于服务器端签名）
- */
-define('BAIDUBCE_BOS_BUCKET', 'hu60');
-
-/**
- * 百度 BCE BOS 上传文件的HOST（用于服务器端签名）
- */
-define('BAIDUBCE_BOS_HOST', 'bj.bcebos.com');
-
-
 ///////////////////// 上传附件到云存储 /////////////////////
 
 /**
@@ -131,7 +107,7 @@ define('CLOUD_STORAGE_SK', '');
 /**
  * 云存储上传文件最大限制（单位：字节，用于服务器端签名）
  */
-define('CLOUD_STORAGE_MAX_FILESIZE', 10485760);
+define('CLOUD_STORAGE_MAX_FILESIZE', 10485760); // 10MB
 
 /**
  * 云存储上传文件的Bucket
