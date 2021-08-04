@@ -25,7 +25,16 @@ abstract class CloudStorageBase {
 
     public function getFileUploadForm($fileName, $fileSize, $fileMd5 = null) {
         $key = self::getFileKey($fileName, $fileSize, $fileMd5);
-        return $this->getUploadForm($key, $fileName, $fileSize, $fileMd5);
+        $data = $this->getUploadForm($key, $fileName, $fileSize, $fileMd5);
+
+        $data['downloadUrl'] = 'http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/'.$key;
+        if ($fileName !== '') {
+            $data['downloadUrl'] .= '?attname='.urlencode(str::basename(trim($fileName)));
+        }
+
+        $data['contentUbb'] = $this->getFileUbb($data['downloadUrl'], $fileName, $fileSize);
+
+        return $data;
     }
 
     public static function getFileKey($fileName, $fileSize, $fileMd5 = null) {
@@ -55,5 +64,33 @@ abstract class CloudStorageBase {
         }
 
         return $key;
+    }
+
+    public static function getFileUbb($url, $fileName, $fileSize) {
+        $fileName = str::basename(trim($fileName));
+
+        if (preg_match('/\.[a-zA-Z0-9_-]{1,10}$/s', $fileName, $ext)) {
+            $ext = strtolower($ext[0]);
+        } else {
+            $ext = '.dat';
+        }
+
+        $sizeName = str::filesize($fileSize);
+
+        if (empty($fileName)) {
+            $fileName = "附件{$ext}";
+        }
+
+        if (preg_match('/^\.(jpe?g|png|gif)$/s', $ext)) {
+            $content = "《图片：" . $url . '，' . $fileName . '》';
+        } elseif (preg_match('/^\.(mp4|m3u8|m4v|ts|mov|flv)$/s', $ext)) {
+            $content = "《视频流：" . $url . '》';
+        } elseif (preg_match('/^\.(mp3|wma|m4a|ogg)$/s', $ext)) {
+            $content = "《音频流：" . $url . '》';
+        } else {
+            $content = "《链接：" . $url . '，' . $fileName . '（' . $sizeName . '）》';
+        }
+
+        return $content;
     }
 }

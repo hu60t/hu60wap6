@@ -259,27 +259,7 @@
         },
         addToContent: function (fid) {
             var file = this.uploadedFiles[fid];
-            var url = file._uploadForm.downloadUrl;
-            var basename = /[^\/\\]*$/.exec(file.name);
-            var size = humanize.filesize(file.size);
-
-            if (basename.length == 0 || basename[0].length == 0) {
-                basename = '附件' + ext;
-            }
-
-            var html = '';
-
-            if (/^\.(jpe?g|png|gif)$/.test(file._ext)) {
-                html = '《图片：' + url + '，' + basename + '》';
-            } else if (/^\.(mp4|m3u8|m4v|ts|mov|flv)$/.test(file._ext)) {
-                html = '《视频流：' + url + '》';
-            } else if (/^\.(mp3|wma|m4a|ogg)$/.test(file._ext)) {
-                html = '《音频流：' + url + '》';
-            } else {
-                html = '《链接：' + url + '，' + basename + '（' + size + '）》';
-            }
-
-			this.insertText(document.getElementById('content'), html);
+			this.insertText(document.getElementById('content'), file._uploadForm.contentUbb);
         },
         legacyMode: function () {
             $('#file').toggle();

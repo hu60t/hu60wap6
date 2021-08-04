@@ -27,17 +27,10 @@ class CloudStorageAliyun extends CloudStorageBase {
     }
 
     public function getUploadForm($key, $fileName, $fileSize, $fileMd5 = null) {
-        $fileName = urlencode(str::basename(trim($fileName)));
-        $url = 'http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/'.$key;
-        if ($fileName !== '') {
-            $url .= '?attname='.$fileName;
-        }
-
         $ossClient = new OssClient(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK, CLOUD_STORAGE_ENDPOINT);
         if ($ossClient->doesObjectExist(CLOUD_STORAGE_BUCKET, $key)) {
             return [
                 'fileExists' => true,
-                'downloadUrl' => $url
             ];
         }
 
@@ -74,7 +67,6 @@ class CloudStorageAliyun extends CloudStorageBase {
         // 上传表单模板
         $data = [
             'fileExists' => false,
-            'downloadUrl' => $url,
             'requestUrl' => CLOUD_STORAGE_CLIENT_ENDPOINT,
             'method' => 'POST',
             'enctype' => 'multipart/form-data',
@@ -87,6 +79,7 @@ class CloudStorageAliyun extends CloudStorageBase {
             'fileFieldName' => 'file',
         ];
 
+        $fileName = urlencode(str::basename(trim($fileName)));
         if ($fileName !== '') {
             $data['formData']['Content-Disposition'] = "attachment; filename=\"$fileName\"; filename*=utf-8''$fileName";
         }
