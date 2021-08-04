@@ -31,7 +31,7 @@ abstract class CloudStorageBase {
     public static function getFileKey($fileName, $fileSize, $fileMd5 = null) {
         $fileSize = (int)$fileSize;
         if ($fileSize > CLOUD_STORAGE_MAX_FILESIZE) {
-            throw new Exception("文件太大，文件大小不能超过".str::filesize(CLOUD_STORAGE_MAX_FILESIZE), 413);
+            throw new Exception("文件太大，文件大小不能超过 ".str::filesize(CLOUD_STORAGE_MAX_FILESIZE), 413);
         }
 
         $fileName = trim($fileName);
