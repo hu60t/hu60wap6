@@ -138,7 +138,7 @@ class CloudStorageAliyun extends CloudStorageBase {
         $data = [
             'fileExists' => false,
             'downloadUrl' => $url,
-            'requestUrl' => CLOUD_STORAGE_ENDPOINT,
+            'requestUrl' => CLOUD_STORAGE_CLIENT_ENDPOINT,
             'method' => 'POST',
             'enctype' => 'multipart/form-data',
             'formData' => [

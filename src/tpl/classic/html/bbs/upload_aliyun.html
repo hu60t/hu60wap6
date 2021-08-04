@@ -129,16 +129,18 @@
         computingMd5Files: [], //正在计算md5的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
         previewFiles: [], //可供预览的文件，格式：['1'=> file, '2'=> file, ...]，key为fid
 
-        upTokenUrl: '/q.php/api.upload-token.json', // 获取上传token的URL
-        upToken: {}, // 上传token
-        downloadUrlPrefix: 'http://file.hu60.cn/', // 下载URL前缀（占位符，真实的值将从upTokenUrl获取）
+        // 上传表单API
+        uploadFormApi: '/q.php/api.upload-form.json',
 
         /**
-         * 获取上传token
+         * 获取上传表单
          */
-        getUpToken: async function() {
-            fileList.upToken = await $.get(fileList.upTokenUrl);
-            fileList.downloadUrlPrefix = 'http://' + fileList.upToken.host + '/';
+        getUploadForm: function(file) {
+            return $.post(fileList.uploadFormApi, {
+                name: file.name,
+                size: file.size,
+                md5: file._md5
+            })
         },
 
         /**
@@ -192,6 +194,14 @@
                 $(this).remove();
             });
         },
+        finish: function (file, stat) {
+            var actionHtml = '<a href="' + file._uploadForm.downloadUrl + '">下载地址</a> ' +
+                '<a href="#" onclick="fileList.addToContent(' + file._id + ');return false">添加附件</a>';
+
+            fileList.fileUploaded(file);
+            fileList.setState(file._id, stat);
+            fileList.setAction(file._id, actionHtml);
+        },
         modifySize: function (fid, size) {
             $('#upload_fid_' + fid + ' .file_size .box_value').append(size);
         },
@@ -241,7 +251,7 @@
         },
         addToContent: function (fid) {
             var file = this.uploadedFiles[fid];
-            var url = fileList.downloadUrlPrefix + file._hashName;
+            var url = file._uploadForm.downloadUrl;
             var basename = /[^\/\\]*$/.exec(file.name);
             var size = humanize.filesize(file.size);
 
@@ -249,17 +259,16 @@
                 basename = '附件' + ext;
             }
 
-			var urlname = url + '?attname=' + encodeURIComponent(basename);
             var html = '';
 
             if (/^\.(jpe?g|png|gif)$/.test(file._ext)) {
                 html = '《图片：' + url + '，' + basename + '》';
             } else if (/^\.(mp4|m3u8|m4v|ts|mov|flv)$/.test(file._ext)) {
-                html = '《视频流：' + urlname + '》';
+                html = '《视频流：' + url + '》';
             } else if (/^\.(mp3|wma|m4a|ogg)$/.test(file._ext)) {
-                html = '《音频流：' + urlname + '》';
+                html = '《音频流：' + url + '》';
             } else {
-                html = '《链接：' + urlname + '，' + basename + '（' + size + '）》';
+                html = '《链接：' + url + '，' + basename + '（' + size + '）》';
             }
 
 			this.insertText(document.getElementById('content'), html);
@@ -283,26 +292,15 @@
                     uploader.start();
                 } else {
                     var file = fileList.computingMd5Files.pop();
-
-                    var ext = /\.[a-zA-Z0-9_-]{1,10}$/.exec(file.name);
-
-                    file._ext = (null === ext) ? '.dat' : ext[0].toLowerCase();
-                    var type = file._ext.substr(1) + '/';
-
-                    file._md5sum.done(function (md5) {
-                        file._hashName = 'file/hash/' + type + md5 + file.size + file._ext;
+                    file._md5sum.done(function () {
                         next();
                     });
-
                     file._md5sum.fail(function () {
-                        file._hashName = 'file/uuid/' + type + file.id + file.size + file._ext;
                         next();
                     });
                 }
             }
-
             next();
-
         },
         /**
          *  @author leeight
@@ -419,50 +417,73 @@
                     function computeMd5() {
                         var file = files[md5Pos];
 
+                        var ext = /\.[a-zA-Z0-9_-]{1,10}$/.exec(file.name);
+                        file._ext = (null === ext) ? '.dat' : ext[0].toLowerCase();
+
                         fileList.setState(file._id, '计算md5中...');
                         fileList.computingMd5Files.push(file);
 
                         file._md5sum = fileList.md5sum(file.getNative());
 
-                        file._md5sum.done(function () {
-                            fileList.setState(file._id, '待上传');
-
+                        function next() {
                             if (md5Pos < md5PosEnd) {
                                 md5Pos++;
                                 computeMd5();
                             }
+                        }
+
+                        function setUploadForm(stat) {
+                            fileList.setState(file._id, '获取上传凭证...');
+                            fileList.getUploadForm(file).done(function(data) {
+                                console.log(data);
+                                file._uploadForm = data;
+
+                                if (file._uploadForm.fileExists) {
+                                    fileList.finish(file, '已秒传');
+                                } else {
+                                    fileList.setState(file._id, stat);
+                                }
+
+                                next();
+                            });
+                            fileList.getUploadForm(file).fail(function() {
+                                file._uploadForm = null;
+                                fileList.setState(file._id, '获取上传凭证失败');
+                                next();
+                            });
+                        }
+
+                        file._md5sum.done(function(md5) {
+                            file._md5 = md5;
+                            setUploadForm('待上传');
                         });
 
                         file._md5sum.fail(function () {
-                            fileList.setState(file._id, 'md5计算失败');
+                            file._md5 = md5;
+                            setUploadForm('md5计算失败');
                         });
                     }
                 }
             },
             BeforeUpload: function(up, file) {
+                if (!file._uploadForm || file._uploadForm.fileExists) {
+                    up.removeFile(file.id);
+                    return;
+                }
+
                 fileList.setState(file._id, '上传中...');
-                up.setOption({
-                    'url': fileList.upToken.endpoint,
-                    'multipart_params': {
-                        'key' : file._hashName,
-                        'policy': fileList.upToken.policy,
-                        'OSSAccessKeyId': fileList.upToken.accessId, 
-                        'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
-                        'signature': fileList.upToken.signature,
-                    }
-                });
+                var params = {
+                    'url': file._uploadForm.requestUrl,
+                    'multipart_params': file._uploadForm.formData
+                }
+                up.setOption(params);
             },
             UploadProgress: function (_, file) {
                 fileList.setProgress(file._id, file.percent);
                 fileList.setSpeed(uploader.total.bytesPerSec, file.size - file.loaded);
             },
             FileUploaded: function (_, file, info) {
-                var actionHtml = '<a href="' + fileList.downloadUrlPrefix + htmlSpecialChars(file._hashName) + '">下载地址</a> ' +
-                        '<a href="#" onclick="fileList.addToContent(' + file._id + ');return false">添加附件</a>';
-
-                fileList.fileUploaded(file);
-                fileList.setState(file._id, '已完成');
-                fileList.setAction(file._id, actionHtml);
+                fileList.finish(file, '已完成');
             },
             Error: function (_, error, file) {
                 var errorMessage = $.isPlainObject(error) ? JSON.stringify(error) : String(error);
@@ -613,8 +634,6 @@
 
     // 页面加载完成后执行
     $(function(){
-        // 获取上传token
-        fileList.getUpToken();
         // 初始化上传控件
         uploader.init();
 
