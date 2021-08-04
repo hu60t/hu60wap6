@@ -90,7 +90,7 @@ class CloudStorageAliyun extends CloudStorageBase {
     }
 
     public function getUploadForm($key, $fileName, $fileSize, $fileMd5 = null) {
-        $fileName = urlencode(trim($fileName));
+        $fileName = urlencode(str::basename(trim($fileName)));
         $url = 'http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/'.$key;
         if ($fileName !== '') {
             $url .= '?attname='.$fileName;

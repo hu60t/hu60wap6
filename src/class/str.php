@@ -68,6 +68,16 @@ class str
         return $str;
     }
 
+    // 同时兼容 C:\xxx 风格和 /mnt/xxx 风格的 basename
+    static function basename($path) {
+        return basename(str_replace('\\', '/', $path));
+    }
+
+    // 同时兼容 C:\xxx 风格和 /mnt/xxx 风格的 dirname
+    static function dirname($path) {
+        return dirname(str_replace('\\', '/', $path));
+    }
+
     /*
      * 规范化手机号码
      *
