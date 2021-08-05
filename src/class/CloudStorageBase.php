@@ -15,7 +15,7 @@ abstract class CloudStorageBase {
      * @return null 上传成功没有返回值
      * @throws Exception 上传失败抛出异常
      */
-    abstract public function upload($localFile, $remoteFile, $allowOverwrite = false);
+    abstract public function upload($localFile, $remoteFile, $allowOverwrite = false, $fileName = null);
 
     /**
      * 获取客户端文件直传表单模板
@@ -36,7 +36,7 @@ abstract class CloudStorageBase {
         $key = self::getFileKey($fileName, $fileSize, $fileMd5);
 
         // 上传文件，成功没有返回值，失败抛出异常
-        $this->upload($filePath, $key, $allowOverwrite);
+        $this->upload($filePath, $key, $allowOverwrite, $fileName);
 
         $url = self::getFileUrl($key, $fileName);
         return [

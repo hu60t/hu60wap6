@@ -9,14 +9,24 @@ use OSS\OssClient;
  * 实现阿里云OSS云存储的文件上传、下载、服务器端签名
  */
 class CloudStorageAliyun extends CloudStorageBase {
-    public function upload($localFile, $remoteFile, $allowOverwrite = false) {
+    public function upload($localFile, $remoteFile, $allowOverwrite = false, $fileName = null) {
         $ossClient = new OssClient(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK, CLOUD_STORAGE_ENDPOINT);
 
         if (!$allowOverwrite && $ossClient->doesObjectExist(CLOUD_STORAGE_BUCKET, $remoteFile)) {
             return;
         }
 
-        $ossClient->uploadFile(CLOUD_STORAGE_BUCKET, $remoteFile, $localFile);
+        $options = [
+            OssClient::OSS_HEADERS => [],
+        ];
+        $headers = &$options[OssClient::OSS_HEADERS];
+
+        $fileName = rawurlencode(str::basename(trim($fileName)));
+        if ($fileName !== '' && !self::noAttrname($fileName)) {
+            $headers[OssClient::OSS_CONTENT_DISPOSTION] = "attachment; filename=\"$fileName\"; filename*=utf-8''$fileName";
+        }
+
+        $ossClient->uploadFile(CLOUD_STORAGE_BUCKET, $remoteFile, $localFile, $options);
     }
 
     private static function gmt_iso8601($time) {
