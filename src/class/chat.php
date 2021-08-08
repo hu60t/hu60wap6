@@ -116,6 +116,9 @@ class chat
      * 聊天室待审核发言数量
      */
     public function chatReviewCount() {
+		if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
+			return null;
+        }
         $rs = $this->db->select("count(*)", 'addin_chat_data', 'WHERE review=1');
         $n = $rs->fetch(db::num);
         return $n[0];
