@@ -21,7 +21,7 @@
 </div>
 <div class='topic_area'>
     <div class='title'>
-        <span class='titletext'><a href="{$url|code}">{$tMeta.title|code}</a></span>
+        <span class='titletext'><a class="user-title" href="{$url|code}">{$tMeta.title|code}</a></span>
     </div>
     <!--发帖框-->
     <div class='tip'>

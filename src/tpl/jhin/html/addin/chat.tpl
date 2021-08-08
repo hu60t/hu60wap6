@@ -58,7 +58,7 @@
             {/if}
         </div>
     </div>
-    <div class="chat-content" data-floorID="{$k.lid}" id="floor_content_{$k.lid}">
+    <div class="chat-content user-content" data-floorID="{$k.lid}" id="floor_content_{$k.lid}">
       {$ubbs->display($k.content,true)}
 	</div>
 	<div class="floor_fold_bar" id="floor_fold_bar_{$k.lid}"></div>

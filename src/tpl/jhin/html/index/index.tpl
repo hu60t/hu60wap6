@@ -25,9 +25,9 @@
                         <a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a>
                     </div>
                     <div class="topic-title">
-                        <a href="bbs.topic.{$topic.topic_id}.{$BID}">
+                        <a class="user-title" href="bbs.topic.{$topic.topic_id}.{$BID}">
                         {if $topic.essence}
-                        <i class="material-icons" style="color:red;">whatshot</i>
+                        <i class="material-icons" style="color:red;">[精]</i>
                         {/if}
                         {$topic.title|code}
                         </a>

@@ -28,7 +28,7 @@
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<a class="floor-link" name="0"></a>
-		<h1>{if $tMeta.essence}<i class="material-icons" style="color:red;">whatshot</i>{/if}<span id="topic_title">{$tMeta.title|code}</span></h1>
+		<h1>{if $tMeta.essence}<i class="material-icons" style="color:red;">[精]</i>{/if}<span class="user-title" id="topic_title">{$tMeta.title|code}</span></h1>
 		<div class="topic-meta">
             <div class="topic-avator">
                 <img src="{$v.uinfo->avatar()}" class="avatar">
@@ -54,7 +54,7 @@
 				{/if}
             </div>
 		</div>
-		<div class="topic-content" data-floorID="0" id="floor_content_0">
+		<div class="topic-content user-content" data-floorID="0" id="floor_content_0">
 			{$ubb->display($v.content,true)}
 		</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
@@ -74,7 +74,7 @@
     {/if}
     {/if}
 	{else}
-		<p>{$tMeta.title|code}</p>
+		<p class="user-title">{$tMeta.title|code}</p>
 	{/if}
 </div>
 <div class="comments">
@@ -114,7 +114,7 @@
 							{/if}
                         </div>
 					</div>
-					<div class="comments-content">
+					<div class="comments-content user-content">
 						{$ubb->display($v.content,true)}
 					</div>
 				</div>
@@ -153,9 +153,6 @@
 		{else}
 		回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。
 		{/if}
-	</div>
-	<div class="ubb-content">
-
 	</div>
 </div>
 <script>

@@ -46,7 +46,7 @@
                 <a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a>
             </div>
             <div class="topic-title">
-                <a href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
+                <a class="user-title" href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
                 <div class="topic-meta">
                     {$topic.read_count}点击 / {str::ago($topic.mtime)}
 					{if $topic.review}

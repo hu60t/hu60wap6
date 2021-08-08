@@ -97,7 +97,7 @@
         <div class="chat-new content-box">
           {foreach $newChats as $newChat}
             {$content=strip_tags($ubb->display($newChat.content, true))}
-            <p>[<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>] {$newChat.uname|code}：{str::cut($content,0,50,'…')}</p>
+            <p class="user-content">[<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>] {$newChat.uname|code}：{str::cut($content,0,50,'…')}</p>
           {/foreach}
         </div>
       {/if}

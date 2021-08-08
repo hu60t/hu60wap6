@@ -19,7 +19,7 @@
 </script>
 
 <div class="breadcrumb">
-	{$tMeta.title|code} | <a href="{$CID}.topic.{$topicId}.{$BID}">返回帖子</a>
+	<span class="user-title">{$tMeta.title|code}</span> | <a href="{$CID}.topic.{$topicId}.{$BID}">返回帖子</a>
 </div>
 <h3>选择新版块：</h3>
 <div id="move_forum_list">

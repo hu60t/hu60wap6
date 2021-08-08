@@ -37,7 +37,7 @@
 <hr />
 {foreach $list as $i=>$k}
     <div class="msg_box">
-	  <div class="floor-content" data-floorID="{$i}" id="floor_content_{$i}">
+	  <div class="floor-content user-content" data-floorID="{$i}" id="floor_content_{$i}">
         {$ubbs->display($k.content,true)}
       </div>
       <div class="floor_fold_bar" id="floor_fold_bar_{$i}"></div>

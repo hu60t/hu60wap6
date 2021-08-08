@@ -19,9 +19,9 @@
   {foreach $chatList as $k}
   <div class="chat_box">
     {$ok=$uinfo->uid($k.byuid)}
-    {if $k.isread==0}[{if $k.touid == $USER->uid}新{else}对方未读{/if}] {/if}来自：<a href="user.info.{$k.byuid}.{$bid}">{$uinfo.name}</a><br />
-    时间：{date("Y-m-d H:i:s",$k.ctime)}<br />
-    {$ubb->display($k.content, true)}
+    {if $k.isread==0}[{if $k.touid == $USER->uid}新{else}对方未读{/if}] {/if}来自：<a href="user.info.{$k.byuid}.{$bid}">{$uinfo.name}</a>
+    <div>时间：{date("Y-m-d H:i:s",$k.ctime)}</div>
+    <div class="user-content">{$ubb->display($k.content, true)}</div>
   </div>
   <hr />
   {/foreach}

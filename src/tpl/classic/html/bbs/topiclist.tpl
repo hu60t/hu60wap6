@@ -49,7 +49,7 @@
 	<ol style="padding-left:2em">
 		{foreach $topicList as $topic}
 			<li>
-				<a href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
+				<a class="user-title" href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
 				{if $topic.review}
 					<div class="topic-status">{bbs::getReviewStatName($topic.review)}</div>
 				{/if}

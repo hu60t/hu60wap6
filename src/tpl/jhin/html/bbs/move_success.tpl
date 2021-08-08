@@ -16,7 +16,7 @@
 {/block}
 {block name='body'}
   <div class="breadcrumb">
-    {$tMeta.title|code} | <a href="{$CID}.topic.{$topicId}.{$BID}">返回帖子</a>
+    <span class="user-title">{$tMeta.title|code}</span> | <a href="{$CID}.topic.{$topicId}.{$BID}">返回帖子</a>
   </div>
   <div class="text-notice">
     移动成功，3秒后返回帖子。<br/>

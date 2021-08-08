@@ -43,13 +43,13 @@
                                 <a href="user.info.{$reply.topicUinfo.uid}.{$BID}">{$reply.topicUinfo.name|code}</a>
                             </div>
                             <div class="topic-title">
-                                <a href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$topic.title|code}</a>
+                                <a class="user-title" href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$topic.title|code}</a>
                                 <div class="topic-meta">
                                     {$topic.read_count}点击 / {str::ago($topic.mtime)}
                                 </div>
                             </div>
                         </div>
-                        <blockquote class="reply-content">
+                        <blockquote class="reply-content user-content">
                             {$reply.ubb->display($reply.content, true)}
                         </blockquote>
                     </li>

@@ -25,7 +25,7 @@
 <div class="fl cl indexthreadlist">
 	<ul>
         {foreach $topicList as $topic}
-			<li><a href="{$CID}.topic.{$topic.id}.{$BID}">{$topic.title|code}</a>
+			<li><a class="user-title" href="{$CID}.topic.{$topic.id}.{$BID}">{$topic.title|code}</a>
       	{if $topic.review}
 					<div class="topic-status">{bbs::getReviewStatName($topic.review)}</div>
 				{/if}

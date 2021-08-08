@@ -67,7 +67,7 @@
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<a class="floor-link" name="0"></a>
-		<p>标题: <span id="topic_title">{if $tMeta.essence}<span style="color:red;">[精]</span>{/if}{$tMeta.title|code}</span></p>
+		<p>标题: <span class="user-title" id="topic_title">{if $tMeta.essence}<span style="color:red;">[精]</span>{/if}{$tMeta.title|code}</span></p>
 		<p>作者: <a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
 		<p>时间: {str::ago($v.ctime)}{if $v.ctime != $v.mtime}发布，{str::ago($v.mtime)}修改{/if}</p>
 		<div>
@@ -86,7 +86,7 @@
             {/if}
 		</div>
 		<hr>
-		<div class="floor_content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
+		<div class="floor_content user-content" id="floor_content_0">{$ubb->display($v.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
 		<script>foldFloorInit(0)</script>
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
@@ -108,7 +108,7 @@
     {/if}
     {/if}
 	{else}
-		<p>{$tMeta.title|code}</p>
+		<p class="user-title">{$tMeta.title|code}</p>
 	{/if}
 </div>
 <hr>
@@ -116,7 +116,7 @@
 <div>
     {foreach $tContents as $v}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
-		<div class="floor_content" id="floor_content_{$v.floor}"><a class="floor-link" name="{$v.floor}" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a>. {$ubb->display($v.content,true)}</div>
+		<div class="floor_content user-content" id="floor_content_{$v.floor}"><a class="floor-link" name="{$v.floor}" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a>. {$ubb->display($v.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
 		<script>foldFloorInit({$v.floor})</script>
 		<div>
