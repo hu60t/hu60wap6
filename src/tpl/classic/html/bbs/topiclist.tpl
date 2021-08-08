@@ -49,6 +49,7 @@
 	<ol style="padding-left:2em">
 		{foreach $topicList as $topic}
 			<li>
+				{if $topic.essence}<span style="color:red;">[精]</span>{/if}
 				<a class="user-title" href="{$CID}.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
 				{if $topic.review}
 					<div class="topic-status">{bbs::getReviewStatName($topic.review)}</div>

@@ -7,10 +7,10 @@
       <a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}"><i class="material-icons">edit</i>修改</a>
     {/if}
     {if ($tMeta.essence==0) && $bbs->canSetEssence(true)}
-      <a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">[精]</i>加精</a>
+      <a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">whatshot</i>加精</a>
     {/if}
     {if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}
-      <a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i style="color:gray;" class="material-icons">[精]</i>取消精华</a>
+      <a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$v.id}.{$BID}"><i style="color:gray;" class="material-icons">whatshot</i>取消精华</a>
     {/if}
     {if $bbs->canDel($v.uinfo.uid, true)}
       <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}"><i class="material-icons">delete</i>删除</a>

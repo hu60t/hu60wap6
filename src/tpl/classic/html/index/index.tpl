@@ -48,7 +48,7 @@
 	<ol style="padding-left:2em">
 		{foreach $newTopicList as $topic}
 			<li>
-				{if $topic.essence==1}<span style="color:red;">[精]</span>{/if}
+				{if $topic.essence}<span style="color:red;">[精]</span>{/if}
 				<a class="user-title" href="bbs.topic.{$topic.topic_id}.{$BID}">{$topic.title|code}</a>
 				{if $topic.review}
 					<div class="topic-status">{bbs::getReviewStatName($topic.review)}</div>

@@ -27,7 +27,7 @@
                     <div class="topic-title">
                         <a class="user-title" href="bbs.topic.{$topic.topic_id}.{$BID}">
                         {if $topic.essence}
-                        <i class="material-icons" style="color:red;">[精]</i>
+                        <i class="material-icons" style="color:red;">whatshot</i>
                         {/if}
                         {$topic.title|code}
                         </a>

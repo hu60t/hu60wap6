@@ -28,7 +28,7 @@
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<a class="floor-link" name="0"></a>
-		<h1>{if $tMeta.essence}<i class="material-icons" style="color:red;">[精]</i>{/if}<span class="user-title" id="topic_title">{$tMeta.title|code}</span></h1>
+		<h1>{if $tMeta.essence}<i class="material-icons" style="color:red;">whatshot</i>{/if}<span class="user-title" id="topic_title">{$tMeta.title|code}</span></h1>
 		<div class="topic-meta">
             <div class="topic-avator">
                 <img src="{$v.uinfo->avatar()}" class="avatar">
