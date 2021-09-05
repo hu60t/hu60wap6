@@ -35,6 +35,8 @@ class UbbText extends XUBBP
         /*video 视频*/
         'video' => 'video',
         'videoStream' => 'video',
+        /*audio 音频*/
+        'audio' => 'video',
         'audioStream' => 'video',
         /*copyright 版权声明*/
         'copyright' => 'copyright',

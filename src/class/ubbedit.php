@@ -35,6 +35,8 @@ class ubbEdit extends XUBBP
         /*video 视频*/
         'video' => 'video',
         'videoStream' => 'video',
+        /*audio 音频*/
+        'audio' => 'video',
         'audioStream' => 'video',
         /*copyright 版权声明*/
         'copyright' => 'copyright',
@@ -209,6 +211,9 @@ class ubbEdit extends XUBBP
                 break;
             case 'videoStream':
                 $tag = '视频流';
+                break;
+            case 'audio':
+                $tag = '音频';
                 break;
             case 'audioStream':
                 $tag = '音频流';

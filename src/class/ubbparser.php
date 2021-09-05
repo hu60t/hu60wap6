@@ -33,6 +33,8 @@ class UbbParser extends XUBBP
         '!^(.*?)《视频：(.*?)》(.*)$!is' => array(array(1, 3), 'video', array(2)),
         /*videoStream 视频*/
         '!^(.*?)《视频流：(.*?)》(.*)$!is' => array(array(1, 3), 'videoStream', array(2)),
+        /*audio 音频*/
+        '!^(.*?)《音频：(.*?)》(.*)$!is' => array(array(1, 3), 'audio', array(2)),
         /*audioStream 视频*/
         '!^(.*?)《音频流：(.*?)》(.*)$!is' => array(array(1, 3), 'audioStream', array(2)),
         /*copyright 版权*/
@@ -356,6 +358,17 @@ class UbbParser extends XUBBP
 
         return array(array(
             'type' => 'video',
+            'url' => trim($url),
+        ));
+    }
+
+    /**
+     * @brief 音频
+     */
+    public function audio($url)
+    {
+        return array(array(
+            'type' => 'audio',
             'url' => trim($url),
         ));
     }

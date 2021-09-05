@@ -39,6 +39,8 @@ class UbbDisplay extends XUBBP
         /*video 视频*/
         'video' => 'video',
         'videoStream' => 'videoStream',
+        /*audio 视频*/
+        'audio' => 'audio',
         'audioStream' => 'audioStream',
         /*copyright 版权声明*/
         'copyright' => 'copyright',
@@ -407,6 +409,35 @@ class UbbDisplay extends XUBBP
                 $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
             }
             $html = '<p class="video_box"><a class="uservideosite" target="_blank" href="'.code::html($link).'">'.code::html($url).'</a></p>';
+        }
+
+        return $this->markdownProtect($html);
+    }
+
+    /*audio 音频*/
+    public function audio($data)
+    {
+        global $PAGE;
+
+        $url = $data['url'];
+        $iframe = null;
+
+        if (preg_match('#kg.*\.qq\.com/.*\bs=([a-zA-Z0-9=]+)#', $url)) {
+            return $this->video($data);
+        }
+        elseif (preg_match('#music\.163\.com/.*\bid=(\d+)#', $url, $arr)) {
+            $iframe = '<iframe class="audio" height="86" seamless src="https://music.163.com/outchain/player?type=2&id='.$arr[1].'&auto=0&height=66"></iframe>';
+        }
+
+        if (null === $iframe) {
+            if (JsonPage::isJsonPage()) {
+                $link = $url;
+            } else {
+                $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
+            }
+            $html = '<p class="audio_box"><a class="useraudiosite" target="_blank" href="'.code::html($link).'">'.code::html($url).'</a></p>';
+        } else {
+            $html = '<p class="audio_box"><a class="useraudiosite" target="_blank" href="'.code::html($url).'">音频链接</a><br/>'.$iframe.'</p>';
         }
 
         return $this->markdownProtect($html);
