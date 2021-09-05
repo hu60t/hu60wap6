@@ -135,7 +135,7 @@ class UbbDisplay extends XUBBP
             $html = "<p>\2".count($this->mdProtectTexts)."\3</p>";
             $this->mdProtectTags[] = $html;
         }
-        return $html;
+        return "\n$html\n";
     }
 
     /* 保护inline内容免受markdown解析的干扰 */
