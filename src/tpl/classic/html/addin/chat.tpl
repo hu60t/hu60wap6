@@ -94,6 +94,9 @@
         <hr>
     {/foreach}
 </div>
+
+{include file="tpl:bbs.review-all"}
+
 <div class="pager">
     {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
     {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}

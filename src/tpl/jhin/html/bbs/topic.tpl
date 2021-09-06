@@ -127,6 +127,8 @@
 	<div class="text-notice">帖子没有回复</div>
 	{/if}
 
+	{include file="tpl:bbs.review-all"}
+
 	<div class="widget-page">
 		{if $maxPage > 1}
             {jhinfunc::Pager($p,$maxPage,"{$cid}.{$pid}.{$tid}.##.{$bid}")}

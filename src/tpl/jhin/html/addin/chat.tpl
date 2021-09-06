@@ -65,6 +65,9 @@
   </li>
   {/foreach}
 </ul>
+
+{include file="tpl:bbs.review-all"}
+
 <div class="widget-page">
   {jhinfunc::Pager($p,$maxP,"?p=##")}
   {if $blockedReply}（屏蔽 <a style="padding:0" href="?p={$p}&amp;all=1">{$blockedReply}</a>）{/if}

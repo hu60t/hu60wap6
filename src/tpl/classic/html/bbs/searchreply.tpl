@@ -29,6 +29,8 @@
   {/foreach}
 </div>
 
+{include file="tpl:bbs.review-all"}
+
 {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;searchType={$smarty.get.searchType}&amp;onlyReview={$smarty.get.onlyReview|urlencode}&amp;p="}
 
 <div class="pager">

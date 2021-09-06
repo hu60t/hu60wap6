@@ -55,6 +55,9 @@
                     </li>
                 {/foreach}
             </ul>
+
+            {include file="tpl:bbs.review-all"}
+
             <div class="widget-page">
                 {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&searchType={$smarty.get.searchType}&onlyReview={$smarty.get.onlyReview|urlencode}&p=##"}
                 {jhinfunc::Pager($p,$maxP,$url)}

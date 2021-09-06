@@ -132,6 +132,8 @@
     {/foreach}
 </div>
 
+{include file="tpl:bbs.review-all"}
+
 <div>
     {if $maxPage > 1}
         {if $p < $maxPage}<a href="{$cid}.{$pid}.{$tid}.{$p+1}.{$bid}">下一页</a>{/if}
