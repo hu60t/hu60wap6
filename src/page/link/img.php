@@ -13,10 +13,10 @@ $urls = parse_url($url);
 
 // 如果为站内链接，就添加'?_origin=*'并去除域名部分
 if (is_array($urls) && isset($urls['host']) &&
-    $urls['host'] != CLOUD_STORAGE_DOWNLOAD_HOST &&
+    strtolower($urls['host']) != CLOUD_STORAGE_DOWNLOAD_HOST &&
     in_array(strtolower($urls['scheme']), ['http', 'https']) &&
-    isHostSafe(strtolower($urls['host']))) {
-	
+    isSelfHost(strtolower($urls['host']))) {
+
 	// _origin参数可以禁止hu60wap6程序读取和设置cookie，
 	// 可防止通过引用本站URL来代替用户执行操作。
 	$url .= (strpos($url, '?')===false) ? '?' : '&';
@@ -24,13 +24,12 @@ if (is_array($urls) && isset($urls['host']) &&
 	$url = replaceUrl($url);
 }
 
-//echo $url;
 Header('Location: ' . $url);
 
-function isHostSafe($host) {
-    global $SAFE_DOMAIN_LIST;
+function isSelfHost($host) {
+    global $SITE_DOMAIN_LIST;
 
-    foreach ($SAFE_DOMAIN_LIST as $safeHost) {
+    foreach ($SITE_DOMAIN_LIST as $safeHost) {
         if (substr($safeHost, 0, 1) === '/') {
             if (preg_match($safeHost, $host)) {
                 return true;

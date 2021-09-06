@@ -23,7 +23,7 @@ if (!$multiEncode && is_array($urls) && isset($urls['host']) &&
 	!preg_match('#link#i', str::word(urldecode($url)))) {
 
 	// 禁止七牛云直接显示html
-	if ($urls['host'] == CLOUD_STORAGE_DOWNLOAD_HOST && !strpos($url, '?attname=')) {
+	if (strtolower($urls['host']) == CLOUD_STORAGE_DOWNLOAD_HOST && !strpos($url, '?attname=')) {
 		$url .= (strpos($url, '?')===false) ? '?' : '&';
 		$url .= 'attname=';
 	}
@@ -37,9 +37,9 @@ $tpl->assign('url', replaceUrl($url));
 $tpl->display('tpl:url');
 
 function isHostSafe($host) {
-    global $SAFE_DOMAIN_LIST;
+    global $SAFE_DOMAIN_LIST, $SITE_DOMAIN_LIST;
 
-    foreach ($SAFE_DOMAIN_LIST as $safeHost) {
+    foreach (array_merge($SAFE_DOMAIN_LIST, $SITE_DOMAIN_LIST) as $safeHost) {
         if (substr($safeHost, 0, 1) === '/') {
             if (preg_match($safeHost, $host)) {
                 return true;
