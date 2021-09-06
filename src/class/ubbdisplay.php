@@ -237,7 +237,7 @@ class UbbDisplay extends XUBBP
 
     public function urlname($data)
     {
-        return '<a class="usertarget" name="' . code::html($data['url']) . '">' . code::html($data['title']) . '</a>';
+        return '<a class="usertarget" name="' . code::html($data['url']) . '">' . code::html($data['title']) . '</a><a name="/' . code::html($data['url']) . '"></a>';
     }
 
     /*从url中解析出图片大小、旋转参数，将参数转换为CSS或者七牛云图像处理URL*/
