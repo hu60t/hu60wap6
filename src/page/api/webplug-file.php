@@ -26,7 +26,7 @@ try {
 		header("Content-Disposition: attachment; filename=\"$basename\"");
 
 		header('X-Data-Version: '.json_encode($version));
-		header('Etag: '.md5("{$USER->uid}:$key:$version"));
+		header('Etag: '.md5("{$USER->uid}:$key:$prefixMatching:$onlyValueLength:$version"));
 		header('Cache-Control: max-age=300'); // 缓存5分钟
 
 		if (is_array($data)) {
