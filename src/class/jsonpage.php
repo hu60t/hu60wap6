@@ -61,7 +61,7 @@ class JsonPage {
 			return;
 		}
 
-		if ($USER && ($_GET['_myself'] || $_POST['_myself'])) {
+		if ($USER && $_GET['_myself']) {
 			$data['_myself'] = [
 				'isLogin' => $USER->islogin,
 				'uid' => $USER->uid,
@@ -69,7 +69,7 @@ class JsonPage {
 			
 			// 新内信和新@消息条数
 			if ($USER->islogin) {
-				$myself = isset($_GET['_myself']) ? $_GET['_myself'] : $_POST['_myself'];
+				$myself = $_GET['_myself'];
 				if (strpos($myself, 'newMsg') !== FALSE) {
 					$data['_myself']['newMsg'] = msg::getInstance($USER)->newMsg();
 				}
@@ -102,11 +102,11 @@ class JsonPage {
 			}
 		}
 
-		if ((!isset($_GET['_uinfo']) && !isset($_POST['_uinfo'])) || !is_array($data)) {
+		if (!isset($_GET['_uinfo']) || !is_array($data)) {
 			return;
 		}
 		
-		$sets = explode(',', isset($_GET['_uinfo']) ? $_GET['_uinfo'] : $_POST['_uinfo']);
+		$sets = explode(',', $_GET['_uinfo']);
 		
 		$flag = 0;
 		if (in_array('name', $sets)) $flag += self::USER_EXTDATA_NAME;

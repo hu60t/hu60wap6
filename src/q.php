@@ -45,6 +45,8 @@ require_once dirname(__FILE__) . '/config.inc.php';
 
 
 try {
+    include SUB_DIR . '/header_post_to_get.php';
+
     /*分析URL*/
     $PAGE = new page;
 

@@ -280,8 +280,10 @@ class page implements ArrayAccess
             $this->page['sid'] = $info[0];
             array_splice($info, 0, 1);
 			$this->page['sidInUrl'] = true;
-        } else {
+        } elseif (isset($_COOKIE[COOKIE_A . 'sid'])) {
             $this->page['sid'] = $_COOKIE[COOKIE_A . 'sid'];
+        } elseif (isset($_GET['_sid'])) {
+            $this->page['sid'] = $_GET['_sid'];
         }
         $info2 = explode('.', $info[0]);
         $info[0] = '';

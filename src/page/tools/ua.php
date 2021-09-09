@@ -29,7 +29,25 @@ if (!empty($Xc)) {
 //生成HTTP请求行
 
 //删除安全相关的Cookie
-unset($_COOKIE['sid'], $_GET['sid'], $_COOKIE[COOKIE_A . 'sid'], $_GET[COOKIE_A . 'sid'], $_COOKIE['PHPSESSID'], $_GET['PHPSESSID'], $_COOKIE['__cfduid'], $_GET['__cfduid'], $_SERVER['HTTP_X_REWRITE_URL']);
+unset(
+    $_GET['_sid'],
+    $_GET['sid'],
+    $_GET[COOKIE_A . 'sid'],
+    $_GET['PHPSESSID'],
+    $_GET['__cfduid'],
+    $_POST['sid'],
+    $_POST['_sid'],
+    $_POST[COOKIE_A . 'sid'],
+    $_POST['PHPSESSID'],
+    $_POST['__cfduid'],
+    $_COOKIE['_sid'],
+    $_COOKIE['sid'],
+    $_COOKIE[COOKIE_A . 'sid'],
+    $_COOKIE['PHPSESSID'],
+    $_COOKIE['__cfduid'],
+    $_SERVER['HTTP_X_SID'],
+    $_SERVER['HTTP_X_REWRITE_URL']
+);
 
 $cookie = [];
 foreach ($_COOKIE as $n => $v) {
