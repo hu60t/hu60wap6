@@ -553,6 +553,24 @@ class userinfo implements ArrayAccess
         return $arr;
     }
 
+    public static function search($namePattern, $offset = 0, $limit = 50) {
+        $namePattern = trim(strtr($namePattern, ['*' => '%', '?' => '_']));
+        $offset = max(0, (int)$offset);
+        $limit = min(1000, max(0, (int)$limit));
+
+        $db = self::conn(true);
+        $rs = $db->prepare('SELECT SQL_CALC_FOUND_ROWS `uid`,`name` FROM `'.DB_A.'user` WHERE `name` like ? ORDER BY `acctime` DESC LIMIT ?,?');
+        $rs->execute([$namePattern, $offset, $limit]);
+        $list = $rs->fetchAll(db::ass);
+        $count = $db->query('SELECT FOUND_ROWS()')->fetch(db::num)[0];
+
+        return [
+            'count' => $count,
+            'offset' => $offset,
+            'limit' => $limit,
+            'list' => $list,
+        ];
+    }
 
     /*class end*/
 }
