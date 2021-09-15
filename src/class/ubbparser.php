@@ -590,6 +590,7 @@ class UbbParser extends XUBBP
             'scrolling',
             'style',
             'seamless',
+            'border',
         ];
         $data = [];
         preg_match_all('/([a-zA-Z0-9_-]+)(?:=(?:([\'"])(.*?)\\2|([^\s]+)))?/', $str, $arr, PREG_SET_ORDER);
