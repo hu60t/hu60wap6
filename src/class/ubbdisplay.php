@@ -1014,6 +1014,7 @@ HTML;
         global $PAGE;
 
         $data = $data['data'];
+        $data['allow'] = 'fullscreen';
         $data['sandbox'] = 'allow-forms allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts';
 
         if (isset($data['style'])) {

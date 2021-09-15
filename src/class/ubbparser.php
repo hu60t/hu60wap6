@@ -570,10 +570,7 @@ class UbbParser extends XUBBP
     function iframe($str)
     {
         $allowKeys = [
-            'allow',
             'allowfullscreen',
-            'allowpaymentrequest',
-            'csp',
             'height',
             'importance',
             'name',
