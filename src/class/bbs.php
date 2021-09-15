@@ -356,7 +356,6 @@ class bbs
         $data = $ubb->parse($content, true);
 		//帖子内容是否需要审核
 		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
-		if ($topic_id == 101412) { $review = 1; }
         //写回复数据
         $time = $_SERVER['REQUEST_TIME'];
         $floor = $this->db->query('SELECT max(floor) FROM ' . DB_A . 'bbs_topic_content WHERE topic_id=?', $topic_id);
