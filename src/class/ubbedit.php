@@ -59,6 +59,8 @@ class ubbEdit extends XUBBP
         'atMsg' => 'atMsg',
         /*face 表情*/
         'face' => 'face',
+        /*iframe 网页嵌入*/
+        'iframe' => 'iframe',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -315,6 +317,16 @@ class ubbEdit extends XUBBP
 		} else {
         	return '《表情：' . $data['face'] . '》';
 		}
+    }
+
+    /*iframe 网页嵌入*/
+    public function iframe($data) {
+        $data = $data['data'];
+        $props = [];
+        foreach ($data as $k=>$v) {
+            $props[] = htmlspecialchars($k).'="'.htmlspecialchars($v).'"';
+        }
+        return '<iframe '.implode(' ', $props).'></iframe>';
     }
 
     /*urltxt 链接文本*/

@@ -62,6 +62,8 @@ class UbbDisplay extends XUBBP
         'atMsg' => 'atMsg',
         /*face 表情*/
         'face' => 'face',
+        /*iframe 网页嵌入*/
+        'iframe' => 'iframe',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -400,7 +402,7 @@ class UbbDisplay extends XUBBP
         }
 
         if (null !== $iframeUrl) {
-            $html = '<p class="video_box"><a class="uservideosite" target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
+            $html = '<p class="video_box"><a class="uservideosite" target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen sandbox="allow-scripts allow-forms allow-same-origin allow-popups"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
         }
         else {
             if (JsonPage::isJsonPage()) {
@@ -426,7 +428,7 @@ class UbbDisplay extends XUBBP
             return $this->video($data);
         }
         elseif (preg_match('#music\.163\.com/.*\bid=(\d+)#', $url, $arr)) {
-            $iframe = '<iframe class="audio" height="86" seamless src="https://music.163.com/outchain/player?type=2&id='.$arr[1].'&auto=0&height=66"></iframe>';
+            $iframe = '<iframe class="audio" height="86" seamless sandbox="allow-scripts allow-forms allow-same-origin allow-popups" src="https://music.163.com/outchain/player?type=2&id='.$arr[1].'&auto=0&height=66"></iframe>';
         }
 
         if (null === $iframe) {
@@ -1005,5 +1007,26 @@ HTML;
         }
 
         return $html;
+    }
+
+    /*iframe 网页嵌入*/
+    public function iframe($data) {
+        $data = $data['data'];
+        $data['sandbox'] = 'allow-forms allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts';
+
+        if (isset($data['style'])) {
+            $data['style'] = preg_replace('#/\*.*\*/#sU', '', $data['style']);
+            $data['style'] = preg_replace('#position\s*:[^;]*;?#is', '', $data['style']);
+            $data['style'] = $this->markdownProtectInline($data['style']);
+        }
+        if (isset($data['srcdoc'])) {
+            $data['srcdoc'] = $this->markdownProtectInline($data['srcdoc']);
+        }
+
+        $props = [];
+        foreach ($data as $k=>$v) {
+            $props[] = htmlspecialchars($k).'="'.htmlspecialchars($v).'"';
+        }
+        return '<iframe class="useriframe" '.implode(' ', $props).'></iframe>';
     }
 }

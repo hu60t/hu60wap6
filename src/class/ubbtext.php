@@ -59,6 +59,8 @@ class UbbText extends XUBBP
         'atMsg' => 'atMsg',
         /*face 表情*/
         'face' => 'face',
+        /*iframe 网页嵌入*/
+        'iframe' => 'iframe',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -312,6 +314,18 @@ class UbbText extends XUBBP
     public function face($data)
     {
         return '{' . $data['face'] . '}';
+    }
+
+    /*iframe 网页嵌入*/
+    public function iframe($data) {
+        $data = $data['data'];
+        if (isset($data['src'])) {
+            return $data['src'];
+        }
+        if (isset($data['srcdoc'])) {
+            return strip_tags($data['srcdoc']);
+        }
+        return '';
     }
 
     /*urltxt 链接文本*/

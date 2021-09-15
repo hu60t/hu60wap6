@@ -53,6 +53,9 @@ class UbbParser extends XUBBP
 #       '!^(.*?)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
         '!^(.*?)\[([bh]r)\](.*)$!is' => array(array(1, 3), 'newline', array(2)),
         //'!^(.*?)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
+        
+        /* iframe 网页嵌入 */
+        '!^(.*?)<iframe\s(.*?)>.*?</iframe>(.*)$!is' => array(array(1, 3), 'iframe', array(2)),
 
         /*
         * 开始标记
@@ -558,6 +561,50 @@ class UbbParser extends XUBBP
             'type' => 'at',
             'tag' => trim($tag),
             'uid' => $uid,
+        ));
+    }
+
+    /**
+     * @brief iframe 网页嵌入
+     */
+    function iframe($str)
+    {
+        $allowKeys = [
+            'allow',
+            'allowfullscreen',
+            'allowpaymentrequest',
+            'csp',
+            'height',
+            'importance',
+            'name',
+            'referrerpolicy',
+            'src',
+            'srcdoc',
+            'width',
+            'align',
+            'frameborder',
+            'framespacing',
+            'longdesc',
+            'marginheight',
+            'marginwidth',
+            'scrolling',
+            'style',
+            'seamless',
+        ];
+        $data = [];
+        preg_match_all('/([a-zA-Z0-9_-]+)=([\'"]?)(.*?)\\2/', $str, $arr, PREG_SET_ORDER);
+
+        foreach ($arr as $v) {
+            $k = strtolower($v[1]);
+            if (in_array($k, $allowKeys)) {
+                $v = html_entity_decode($v[3]);
+                $data[$k] = $v;
+            }
+        }
+
+        return array(array(
+            'type' => 'iframe',
+            'data' => $data,
         ));
     }
 
