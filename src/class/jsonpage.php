@@ -120,9 +120,31 @@ class JsonPage {
 
 		self::readUserExtraData($data, $flag);
 	}
-	
+
+	public static function getTopicExtraData(&$data) {
+		if (!isset($_GET['_topic_summary']) || !is_array($data)) {
+			return;
+		}
+		
+		$len = max((int)$_GET['_topic_summary'], 0);
+		self::readTopicExtraData($data, $len);
+	}
+
+	public static function readTopicExtraData(&$data, $len) {
+		global $USER;
+		$bbs = new bbs($USER);
+		foreach ($data as $k => &$v) {
+			if (is_array($v)) {
+				self::readTopicExtraData($v, $len);
+			} elseif ($k == 'topic_id') {
+				$data['_topic_summary'] = $bbs->getTopicSummary($v, $len);
+			}
+		}
+	}
+
 	public static function output($data) {
 		self::getUserExtraData($data);
+		self::getTopicExtraData($data);
 		ob_end_clean();
 
 		if (self::$isJhtml) {

@@ -49,6 +49,7 @@ try {
       $topic['reply_count'] = $bbs->topicContentCount($v['tid']) - 1;
       $topic['uinfo'] = new userinfo();
       $topic['uinfo']->uid($topic['uid']);
+      $topic['topic_id'] = $topic['id'];
       $topicList[] = $topic;
     }
     // 列表整个为空时跳转到上一页或最大页

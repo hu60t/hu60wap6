@@ -1020,5 +1020,21 @@ class bbs
                 return '未知状态';
         }
     }
+
+    public function getTopicSummary($topicId, $len = null) {
+        try {
+            $rs = $this->db->select('content', 'bbs_topic_content', 'WHERE topic_id=? AND floor=0 LIMIT 1', $topicId);
+            $content = $rs->fetch(db::num)[0];
+            $ubb = new UbbText();
+            $ubb->skipUnknown(TRUE);
+            $text = $ubb->display($content, true);
+            $fullLen = mb_strlen($text, 'UTF-8');
+            $text = mb_substr($text, 0, $len, 'UTF-8');
+            if ($fullLen > $len) { $text.='…'; }
+            return $text;
+        } catch (Throwable $ex) {
+            return '内容无法获取';
+        }
+    }
 }
 
