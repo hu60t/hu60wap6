@@ -1011,6 +1011,8 @@ HTML;
 
     /*iframe 网页嵌入*/
     public function iframe($data) {
+        global $PAGE;
+
         $data = $data['data'];
         $data['sandbox'] = 'allow-forms allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts';
 
@@ -1023,6 +1025,15 @@ HTML;
             $data['srcdoc'] = $this->markdownProtectInline($data['srcdoc']);
         }
 
+        $url = '#';
+        if (isset($data['src'])) {
+            if (JsonPage::isJsonPage()) {
+                $url = $data['src'];
+            } else {
+                $url = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['src']);
+            }
+        }
+
         $props = [];
         foreach ($data as $k=>$v) {
             $props[] = htmlspecialchars($k).'="'.htmlspecialchars($v).'"';
@@ -1030,6 +1041,6 @@ HTML;
 
         static $id = 0;
         $id ++;
-        return '<iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe><script>(function(){var box=document.getElementById("user_iframe_'.$id.'");if(box.clientWidth>box.parentElement.clientWidth){box.style.height=(box.clientHeight*box.parentElement.clientWidth/box.clientWidth)+\'px\';box.style.width=box.parentElement.clientWidth+\'px\';}})()</script>';
+        return '<p class="iframe_box"><a class="useriframelink" target="_blank" href="'.code::html($url).'">网页链接</a><br/><iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe></p><script>(function(){var box=document.getElementById("user_iframe_'.$id.'");if(box.clientWidth>box.parentElement.clientWidth){box.style.height=(box.clientHeight*box.parentElement.clientWidth/box.clientWidth)+\'px\';box.style.width=box.parentElement.clientWidth+\'px\';}})()</script>';
     }
 }
