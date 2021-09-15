@@ -1027,6 +1027,9 @@ HTML;
         foreach ($data as $k=>$v) {
             $props[] = htmlspecialchars($k).'="'.htmlspecialchars($v).'"';
         }
-        return '<iframe class="useriframe" '.implode(' ', $props).'></iframe>';
+
+        static $id = 0;
+        $id ++;
+        return '<iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe><script>(function(){var box=document.getElementById("user_iframe_'.$id.'");if(box.clientWidth>box.parentElement.clientWidth){box.style.height=(box.clientHeight*box.parentElement.clientWidth/box.clientWidth)+\'px\';box.style.width=box.parentElement.clientWidth+\'px\';}})()</script>';
     }
 }
