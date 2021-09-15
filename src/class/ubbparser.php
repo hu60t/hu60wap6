@@ -592,12 +592,12 @@ class UbbParser extends XUBBP
             'seamless',
         ];
         $data = [];
-        preg_match_all('/([a-zA-Z0-9_-]+)=([\'"]?)(.*?)\\2/', $str, $arr, PREG_SET_ORDER);
+        preg_match_all('/([a-zA-Z0-9_-]+)(?:=(?:([\'"])(.*?)\\2|([^\s]+)))?/', $str, $arr, PREG_SET_ORDER);
 
         foreach ($arr as $v) {
             $k = strtolower($v[1]);
             if (in_array($k, $allowKeys)) {
-                $v = html_entity_decode($v[3]);
+                $v = html_entity_decode($v[3].$v[4]);
                 $data[$k] = $v;
             }
         }
