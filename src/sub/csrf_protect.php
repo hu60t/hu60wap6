@@ -2,6 +2,9 @@
 // 防止URL中的sid泄露给外链站点
 header('Referrer-Policy: origin-when-cross-origin');
 
+// 防止页面被嵌入iframe
+header('X-Frame-Options: deny');
+
 $HTTP_REFERER = $_SERVER['HTTP_REFERER'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 if (!empty($HTTP_REFERER)) {
