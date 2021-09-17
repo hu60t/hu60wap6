@@ -324,7 +324,14 @@ class ubbEdit extends XUBBP
         $data = $data['data'];
         $props = [];
         foreach ($data as $k=>$v) {
-            $props[] = htmlspecialchars($k).'="'.htmlspecialchars($v).'"';
+            if (FALSE === strpos($v, '"')) {
+                $v = '"'.$v.'"';
+            } elseif (FALSE === strpos($v, "'")) {
+                $v = "'".$v."'";
+            } else {
+                $v = '"'.htmlspecialchars($v).'"';
+            }
+            $props[] = $k.'='.$v;
         }
         return '<iframe '.implode(' ', $props).'></iframe>';
     }
