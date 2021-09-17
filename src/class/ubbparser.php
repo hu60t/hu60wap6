@@ -56,6 +56,8 @@ class UbbParser extends XUBBP
         
         /* iframe 网页嵌入 */
         '!^(.*?)<iframe((?:\s+[a-zA-Z0-9_-]+(?:=(?:\'[^\']*\'|"[^"]*"|[^\s]*))?)*)>.*?</iframe>(.*)$!is' => array(array(1, 3), 'iframe', array(2)),
+        /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
+        '!^(.*?)\[html(=.*?)?\](.*?)\[/html\](.*)$!is' => array(array(1, 4), 'html', array(2, 3)),
 
         /*
         * 开始标记
@@ -602,6 +604,18 @@ class UbbParser extends XUBBP
 
         return array(array(
             'type' => 'iframe',
+            'data' => $data,
+        ));
+    }
+
+    /**
+     * @brief 通过iframe的srcdoc属性实现的HTML内容嵌入
+     */
+    public function html($opt, $data)
+    {
+        return array(array(
+            'type' => 'html',
+            'opt' => $opt,
             'data' => $data,
         ));
     }

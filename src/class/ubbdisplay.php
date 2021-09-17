@@ -64,6 +64,8 @@ class UbbDisplay extends XUBBP
         'face' => 'face',
         /*iframe 网页嵌入*/
         'iframe' => 'iframe',
+        /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
+        'html' => 'html',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -1013,6 +1015,9 @@ HTML;
     public function iframe($data) {
         global $PAGE;
 
+        static $id = 0;
+        $id ++;
+
         $data = $data['data'];
         $data['allow'] = 'fullscreen';
         $data['sandbox'] = 'allow-forms allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts';
@@ -1025,13 +1030,23 @@ HTML;
             $data['style'] = preg_replace('#position\s*:[^;]*;?#is', '', $data['style']);
         }
 
-        $url = '#';
         if (isset($data['src'])) {
             if (JsonPage::isJsonPage()) {
                 $url = $data['src'];
             } else {
                 $url = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['src']);
             }
+        } else {
+            $url = '#';
+        }
+
+        if (isset($data['srcdoc'])) {
+            $data['srcdoc'] = trim($data['srcdoc']);
+            $link = '<a class="useriframelink" href="#" onclick="user_iframe_toggle_'.$id.'(); return false">HTML代码</a><br/><textarea class="useriframecode" id="user_iframe_code_'.$id.'" style="display:none;min-width:150px;min-height:150px"></textarea>';
+            $script = 'function user_iframe_toggle_'.$id.'(){var f=document.getElementById("user_iframe_'.$id.'");var t=document.getElementById("user_iframe_code_'.$id.'");if(t.style.display==\'none\'){t.value=f.srcdoc;t.style.width=f.offsetWidth+\'px\';t.style.height=f.offsetHeight+\'px\';t.style.display=\'inline\';f.style.display=\'none\';}else{t.style.display=\'none\';f.style.display=\'inline\';}}';
+        } else {
+            $link = '<a class="useriframelink" target="_blank" href="'.code::html($url).'">网页链接</a><br/>';
+            $script = '';
         }
 
         $props = [];
@@ -1039,9 +1054,32 @@ HTML;
             $props[] = htmlspecialchars($k).'="'.htmlspecialchars($v).'"';
         }
 
-        static $id = 0;
-        $id ++;
-        $html = '<p class="iframe_box"><a class="useriframelink" target="_blank" href="'.code::html($url).'">网页链接</a><br/><iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe></p><script>(function(){var box=document.getElementById("user_iframe_'.$id.'");if(box.offsetWidth>box.parentElement.clientWidth){var pw=box.parentElement.clientWidth+box.clientWidth-box.offsetWidth;box.style.height=(box.clientHeight*pw/box.clientWidth)+\'px\';box.style.width=pw+\'px\';}})()</script>';
+        $html = '<p class="iframe_box">'.$link.'<iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe></p><script>'.$script.'(function(){var box=document.getElementById("user_iframe_'.$id.'");if(box.offsetWidth>box.parentElement.clientWidth){var pw=box.parentElement.clientWidth+box.clientWidth-box.offsetWidth;box.style.height=(box.clientHeight*pw/box.clientWidth)+\'px\';box.style.width=pw+\'px\';}})()</script>';
 		return $this->markdownProtect($html);
+    }
+
+    /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
+    public function html($data) {
+        $width = '100%';
+        $height = '100%';
+        preg_match_all('/\d+/', $data['opt'], $arr);
+        if (isset($arr[0])) {
+            $arr = $arr[0];
+            if (count($arr) >= 2) {
+                $width = $arr[0];
+                $height = $arr[1];
+            } elseif (count($arr) == 1) {
+                $height = $arr[0];
+            }
+        }
+        return $this->iframe([
+            'data' => [
+                'srcdoc' => $data['data'],
+                'seamless' => 'seamless',
+                'width' => $width,
+                'height' => $height,
+                'style' => 'border: none',
+            ]
+        ]);
     }
 }

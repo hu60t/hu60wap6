@@ -61,6 +61,8 @@ class ubbEdit extends XUBBP
         'face' => 'face',
         /*iframe 网页嵌入*/
         'iframe' => 'iframe',
+        /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
+        'html' => 'html',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -334,6 +336,12 @@ class ubbEdit extends XUBBP
             $props[] = $k.'='.$v;
         }
         return '<iframe '.implode(' ', $props).'></iframe>';
+    }
+
+    /*html 通过iframe的srcdoc属性实现的HTML内容嵌入*/
+    public function html($data)
+    {
+        return '[html'.$data['opt'].']'.$data['data'].'[/html]';
     }
 
     /*urltxt 链接文本*/

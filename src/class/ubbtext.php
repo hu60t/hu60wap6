@@ -61,6 +61,8 @@ class UbbText extends XUBBP
         'face' => 'face',
         /*iframe 网页嵌入*/
         'iframe' => 'iframe',
+        /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
+        'html' => 'html',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -326,6 +328,11 @@ class UbbText extends XUBBP
             return strip_tags($data['srcdoc']);
         }
         return '';
+    }
+
+    /*html 通过iframe的srcdoc属性实现的HTML内容嵌入*/
+    public function html($data) {
+        return strip_tags($data['data']);
     }
 
     /*urltxt 链接文本*/
