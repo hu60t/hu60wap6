@@ -55,7 +55,7 @@ class UbbParser extends XUBBP
         //'!^(.*?)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
         
         /* iframe 网页嵌入 */
-        '!^(.*?)<iframe\s(.*?)>.*?</iframe>(.*)$!is' => array(array(1, 3), 'iframe', array(2)),
+        '!^(.*?)<iframe((?:\s+[a-zA-Z0-9_-]+(?:=(?:\'[^\']*\'|"[^"]*"|[^\s]*))?)*)>.*?</iframe>(.*)$!is' => array(array(1, 3), 'iframe', array(2)),
 
         /*
         * 开始标记
@@ -590,12 +590,12 @@ class UbbParser extends XUBBP
             'border',
         ];
         $data = [];
-        preg_match_all('/([a-zA-Z0-9_-]+)(?:=(?:([\'"])(.*?)\\2|([^\s]+)))?/', $str, $arr, PREG_SET_ORDER);
+        preg_match_all('/([a-zA-Z0-9_-]+)(?:=(?:\'([^\']*)\'|"([^"]*)"|([^\s]*)))?/s', $str, $arr, PREG_SET_ORDER);
 
         foreach ($arr as $v) {
             $k = strtolower($v[1]);
             if (in_array($k, $allowKeys)) {
-                $v = html_entity_decode($v[3].$v[4]);
+                $v = html_entity_decode($v[2].$v[3].$v[4]);
                 $data[$k] = $v;
             }
         }
