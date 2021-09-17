@@ -1043,7 +1043,7 @@ HTML;
         if (isset($data['srcdoc'])) {
             $data['srcdoc'] = trim($data['srcdoc']);
             $link = '<a class="useriframelink" href="#" onclick="user_iframe_toggle_'.$id.'(); return false">HTML代码</a><br/><textarea class="useriframecode" id="user_iframe_code_'.$id.'" style="display:none;min-width:150px;min-height:150px"></textarea>';
-            $script = 'function user_iframe_toggle_'.$id.'(){var f=document.getElementById("user_iframe_'.$id.'");var t=document.getElementById("user_iframe_code_'.$id.'");if(t.style.display==\'none\'){t.value=f.srcdoc;t.style.width=f.offsetWidth+\'px\';t.style.height=f.offsetHeight+\'px\';t.style.display=\'inline\';f.style.display=\'none\';}else{t.style.display=\'none\';f.style.display=\'inline\';}}';
+            $script = 'function user_iframe_toggle_'.$id.'(){var f=document.getElementById("user_iframe_'.$id.'");var t=document.getElementById("user_iframe_code_'.$id.'");if(t.style.display==\'none\'){t.value=f.srcdoc;t.style.width=f.offsetWidth+\'px\';t.style.height=f.offsetHeight+\'px\';t.style.display=\'inline\';f.style.display=\'none\';}else{f.srcdoc=t.value;t.style.display=\'none\';f.style.display=\'inline\';}}';
         } else {
             $link = '<a class="useriframelink" target="_blank" href="'.code::html($url).'">网页链接</a><br/>';
             $script = '';
