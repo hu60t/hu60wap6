@@ -1015,7 +1015,10 @@ HTML;
 
         $data = $data['data'];
         $data['allow'] = 'fullscreen';
-        $data['sandbox'] = 'allow-forms allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts';
+        $data['sandbox'] = 'allow-forms allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts';
+		if (!isset($data['srcdoc'])) {
+			$data['sandbox'] .= ' allow-same-origin';
+		}
 
         if (isset($data['style'])) {
             $data['style'] = preg_replace('#/\*.*\*/#sU', '', $data['style']);
