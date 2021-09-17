@@ -1020,10 +1020,6 @@ HTML;
         if (isset($data['style'])) {
             $data['style'] = preg_replace('#/\*.*\*/#sU', '', $data['style']);
             $data['style'] = preg_replace('#position\s*:[^;]*;?#is', '', $data['style']);
-            $data['style'] = $this->markdownProtectInline($data['style']);
-        }
-        if (isset($data['srcdoc'])) {
-            $data['srcdoc'] = $this->markdownProtectInline($data['srcdoc']);
         }
 
         $url = '#';
@@ -1042,6 +1038,7 @@ HTML;
 
         static $id = 0;
         $id ++;
-        return '<p class="iframe_box"><a class="useriframelink" target="_blank" href="'.code::html($url).'">网页链接</a><br/><iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe></p><script>(function(){var box=document.getElementById("user_iframe_'.$id.'");if(box.offsetWidth>box.parentElement.clientWidth){var pw=box.parentElement.clientWidth+box.clientWidth-box.offsetWidth;box.style.height=(box.clientHeight*pw/box.clientWidth)+\'px\';box.style.width=pw+\'px\';}})()</script>';
+        $html = '<p class="iframe_box"><a class="useriframelink" target="_blank" href="'.code::html($url).'">网页链接</a><br/><iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe></p><script>(function(){var box=document.getElementById("user_iframe_'.$id.'");if(box.offsetWidth>box.parentElement.clientWidth){var pw=box.parentElement.clientWidth+box.clientWidth-box.offsetWidth;box.style.height=(box.clientHeight*pw/box.clientWidth)+\'px\';box.style.width=pw+\'px\';}})()</script>';
+		return $this->markdownProtect($html);
     }
 }
