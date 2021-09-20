@@ -6,11 +6,11 @@
         </div>
     </div>
     <div class="field">
-        <label class="label">上级节点</label>
+        <label class="label">父版块</label>
         <div class="control">
             <div class="select">
                 <select name="parent_id">
-                    {foreach $array as $name=>$id}
+                    {foreach $forumList as $name=>$id}
                         <option value="{$id}">{$name}</option>
                     {/foreach}
                 </select>

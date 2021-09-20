@@ -13,14 +13,12 @@
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">上级节点</label>
+                    <label class="label">父版块</label>
                     <div class="control">
                         <div class="select">
                             <select name="parent_id">
-                                <option value="0">顶级板块</option>
-                                {foreach $forum_list as $f}
-                                    <option value="{$f.id}"
-                                            {if $f.id eq $forum.parent_id}selected{/if}>{$f.name}</option>
+                                {foreach $forumList as $name=>$id}
+                                    <option value="{$id}" {if $id == $forum.parent_id}selected{/if}>{$name}</option>
                                 {/foreach}
                             </select>
                         </div>
