@@ -81,6 +81,9 @@ class chat
      */
     public function deleteroom($name)
     {
+        if (!$this->user->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)) {
+			throw new Exception('没有权限删除聊天室', 403);
+		}
         $this->db->delete('addin_chat_list', 'WHERE name=?', $name);
         $this->db->delete('addin_chat_data', 'WHERE room=?', $name);
     }
@@ -88,6 +91,9 @@ class chat
     // 清空指定聊天室内容
     public function emptyroom($name)
     {
+        if (!$this->user->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)) {
+			throw new Exception('没有权限清空聊天室', 403);
+		}
         $this->db->delete('addin_chat_data', 'WHERE room=?', $name);
     }
 

@@ -133,6 +133,16 @@ if ($PAGE->ext[0]) {
 
     $tpl->display("tpl:chat");
 } else {
+    if ($_POST['deleteroom']) {
+        $chat->deleteroom($_POST['deleteroom']);
+        header("Location: addin.chat.$PAGE[bid]?r=".time());
+        exit;
+    }
+    if ($_POST['emptyroom']) {
+        $chat->emptyroom($_POST['emptyroom']);
+        header("Location: addin.chat.$PAGE[bid]?r=".time());
+        exit;
+    }
     if ($_POST['roomname']) {
         $url = 'addin.chat.' . urlencode($_POST['roomname']) . '.' . $PAGE->bid;
         header("Location: $url");

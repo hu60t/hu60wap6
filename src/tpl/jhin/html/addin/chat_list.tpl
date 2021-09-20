@@ -24,8 +24,26 @@
     {foreach $list as $k}
     <li>
       <a href="addin.chat.{urlencode($k.name)}.{$bid}">{$k.name} ({chat::time_trun(time()-$k.ztime)})</a>
+      {if $USER->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)}
+        <form style="display: inline" action="addin.chat.{$bid}" method="post">
+          <input type="hidden" name="deleteroom" value="{$k.name}" />
+          <input type="submit" value="删除" onclick="return deleteChatRoomConfirm('{$k.name}')" />
+        </form>
+        <form style="display: inline" action="addin.chat.{$bid}" method="post">
+          <input type="hidden" name="emptyroom" value="{$k.name}" />
+          <input type="submit" value="清空" onclick="return emptyChatRoomConfirm('{$k.name}')" />
+        </form>
+      {/if}
     </li>
     {/foreach}
   </ul>
 </div>
+<script>
+  function deleteChatRoomConfirm(name) {
+    return prompt("确定删除聊天室“"+name+"”？\n\n输入yes确定删除。") == 'yes'
+  }
+  function emptyChatRoomConfirm(name) {
+    return prompt("确定清空聊天室“"+name+"”？\n\n输入yes确定清空。") == 'yes'
+  }
+</script>
 {/block}
