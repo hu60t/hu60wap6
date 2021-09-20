@@ -57,7 +57,7 @@
                 </tbody>
 
             </table>
-            {$page}
+            {$pager}
         </div>
     </div>
 {/block}
