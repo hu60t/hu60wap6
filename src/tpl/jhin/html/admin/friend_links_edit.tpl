@@ -15,13 +15,13 @@
                 <div class="field">
                     <label class="label">网址</label>
                     <div class="control">
-                        <input class="input" type="text" name="url" value="{$link.url}" />
+                        <input class="input" type="text" name="url" value="{$link.url|code}" />
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">名称</label>
                     <div class="control">
-                        <input class="input" type="text" name="name" value="{$link.name}" />
+                        <input class="input" type="text" name="name" value="{$link.name|code}" />
                     </div>
                 </div>
                 <div class="field">

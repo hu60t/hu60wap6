@@ -42,7 +42,7 @@
                         <td>
                             <a href="admin.friend_links.edit.{$bid}?id={$link.id}">修改</a>
                             <a href="javascript:
-                                if(confirm('你确定要删除 {$link.url|code} ({$link.name|code}) 吗？'))
+                                if(confirm('你确定要删除 {str_replace("'", "\'", $link.url)|code} ({str_replace("'", "\'", $link.name)|code}) 吗？'))
                                     document.querySelector('#del_link_{$link.id}').submit();">删除</a>
                             <form id="del_link_{$link.id}" action="admin.friend_links.del.{$bid}" method="post">
                                 <input type="hidden" name="id" value="{$link.id}" />
