@@ -434,6 +434,24 @@ class page implements ArrayAccess
         return $pageSize;
     }
 
+    /**
+     * 检测是不是跨站POST提交
+     */
+    public static function isCsrfPost() {
+        if (empty($_POST) || !empty($_GET['_origin'])) {
+            return false;
+        }
+        if (isset($_SERVER['HTTP_SEC_FETCH_SITE'])) {
+            return $_SERVER['HTTP_SEC_FETCH_SITE'] !== 'same-origin';
+        }
+        if (!isset($_SERVER['HTTP_REFERER'])) {
+            return false;
+        }
+        $host = $_SERVER['HTTP_HOST'];
+        $ref = parse_url($_SERVER['HTTP_REFERER']);
+        return $ref['host'] !== $host || $ref['path'] == '/';
+    }
+
     public function __isset($name)
     {
         return isset($this->page[$name]);

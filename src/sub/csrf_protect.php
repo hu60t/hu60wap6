@@ -5,11 +5,7 @@ header('Referrer-Policy: origin-when-cross-origin');
 // 防止页面被嵌入iframe
 header('X-Frame-Options: deny');
 
-$HTTP_REFERER = $_SERVER['HTTP_REFERER'];
-$HTTP_HOST = $_SERVER['HTTP_HOST'];
-if (!empty($HTTP_REFERER)) {
-	$HTTP_REFERER = parse_url($HTTP_REFERER);
-	if ($HTTP_REFERER['host'] !== $HTTP_HOST && !empty($_POST) && empty($_GET['_origin'])) {
+if (page::isCsrfPost()) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-hans">
@@ -32,8 +28,5 @@ if (!empty($HTTP_REFERER)) {
 </body>
 </html>
 <?php
-		exit();
-	}
+	exit();
 }
-unset($HTTP_REFERER, $HTTP_HOST);
-
