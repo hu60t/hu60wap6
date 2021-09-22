@@ -27,3 +27,6 @@ post_to_get('_myself');
 
 header_to_get('HTTP_X_SID', '_sid');
 post_to_get('_sid');
+
+header_to_get('HTTP_X_TOPIC_SUMMARY', '_topic_summary');
+post_to_get('_topic_summary');
