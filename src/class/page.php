@@ -407,7 +407,7 @@ class page implements ArrayAccess
 				$time += $_SERVER['REQUEST_TIME'];
 			}
 
-			return setCookie($name, $value, $time, COOKIE_PATH, COOKIE_DOMAIN, false, true);
+			return setCookie($name, $value, $time, COOKIE_PATH, COOKIE_DOMAIN, $_SERVER['HTTPS'] == 'on', true);
 		}
     }
 

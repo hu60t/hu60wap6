@@ -8,10 +8,6 @@ require SUB_DIR.'/csrf_protect.php';
 $url = trim(code::b64d($_GET['url64']));
 
 if ($PAGE->isRegTpl($tpl)) {
-    if (isset($_COOKIE[COOKIE_A . 'tpl'])) {
-		setCookie(COOKIE_A . 'tpl', false, -1);
-	}
-	
     page::setCookie('tpl', $tpl, 3600 * 24 * 3650);
 }
 
