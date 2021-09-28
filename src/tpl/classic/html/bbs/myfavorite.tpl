@@ -13,7 +13,7 @@
 	<ul>
         {foreach $topicList as $topic}
 			<li><a class="user-title" href="{$CID}.topic.{$topic.id}.{$BID}">{$topic.title|code}</a>
-			{$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.mtime)} 发表</li>
+			{$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.ctime)} 发布</li>
         {/foreach}
     </ul>
 </div>

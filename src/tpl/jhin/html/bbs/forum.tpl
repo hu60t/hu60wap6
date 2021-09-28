@@ -48,7 +48,7 @@
             <div class="topic-title">
                 <a class="user-title" href="bbs.topic.{$topic.topic_id}.{$BID}">{if $topic.essence}<i class="material-icons" style="color:red;">whatshot</i>{/if}{$topic.title|code}</a>
                 <div class="topic-meta">
-                    {$topic.read_count}点击 / {str::ago($topic.mtime)}
+                    {$topic.read_count}点击 / {str::ago($topic.ctime)}发布 / {str::ago($topic.mtime)}回复
 					{if $topic.review}
                         &nbsp;<div class="topic-status">{bbs::getReviewStatName($topic.review)}</div>
                     {/if}

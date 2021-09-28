@@ -45,7 +45,7 @@
                             <div class="topic-title">
                                 <a class="user-title" href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$topic.title|code}</a>
                                 <div class="topic-meta">
-                                    {$topic.read_count}点击 / {str::ago($topic.mtime)}
+                                    {$topic.read_count}点击 / {str::ago($topic.ctime)}发布 / {str::ago($reply.mtime)}回复
                                 </div>
                             </div>
                         </div>

@@ -41,7 +41,7 @@
           <div class="topic-status">被下沉</div>
         {/if}
         <br>
-			{$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.mtime)} 发表</li>
+			  (<a href="user.info.{$topic.uinfo.uid}.{$BID}">{$topic.uinfo.name|code}</a> / {str::ago($topic.ctime)}发布 / {str::ago($topic.mtime)}回复)</li>
         {/foreach}
     </ul>
 </div>

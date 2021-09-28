@@ -46,7 +46,7 @@ try {
             $token = new token($USER);
             $ok = $token->check($_POST['token']);
             if (!$ok)
-                throw new EXception('检测到重复发帖。请先返回版块确认帖子是否发表成功。');
+                throw new EXception('检测到重复发帖。请先返回版块确认帖子是否发布成功。');
             $token->delete();
             if(@$_POST['useMarkdown'] == '1'){
               $content = $_prefix.$content;
