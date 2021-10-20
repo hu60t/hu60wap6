@@ -4,6 +4,59 @@
 {block name='title'}
 	网页插件
 {/block}
+
+{block name='style'}
+	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('js/codemirror/codemirror.min.css')}"/>
+	<style>
+		.CodeMirror {
+			border: 1px solid #ddd;
+		}
+	</style>
+{/block}
+
+{block name='script'}
+	<script src="{$PAGE->getTplUrl("js/layer/layer.js")}"></script>
+	<script src="{$PAGE->getTplUrl("js/codemirror/codemirror.min.js")}"></script>
+	<script src="{$PAGE->getTplUrl("js/codemirror/mode/xml/xml.min.js")}"></script>
+	<script src="{$PAGE->getTplUrl("js/codemirror/mode/javascript/javascript.min.js")}"></script>
+	<script src="{$PAGE->getTplUrl("js/codemirror/mode/css/css.min.js")}"></script>
+	<script src="{$PAGE->getTplUrl("js/codemirror/mode/htmlmixed/htmlmixed.min.js")}"></script>
+	<script src="{$PAGE->getTplUrl("js/codemirror/addon/edit/matchbrackets.min.js")}"></script>
+	<script>
+		$(document).ready(function(){
+			CodeMirror.fromTextArea($('#webplug-content')[0], {
+				mode: "text/html",
+				lineNumbers: true,
+				matchBrackets: true,
+				extraKeys: {
+				  'Ctrl-S': () => $('#webplug-form').trigger('submit')
+				}
+			}).on('change', editor => {
+				editor.save();
+			});
+
+			$('#webplug-form').submit(function(){
+				var loading = layer.load();
+				var data = {
+					webplug: $('#webplug-content').val(),
+					go: '保存'
+				}
+
+				$.post('/q.php/addin.webplug.json', data, function(data){
+					layer.close(loading);
+					if (!data.success) {
+						layer.alert('保存失败');
+					} else {
+						layer.msg('保存成功');
+					}
+				});
+
+				return false;
+			});
+		});
+	</script>
+{/block}
+
 {block name='body'}
 <div class="breadcrumb">
 	<a href="index.index.{$BID}">首页</a> &gt; 网页插件 | <a href="bbs.forum.140.html">论坛：网页插件专版</a>
@@ -24,10 +77,10 @@
 </div>
 
 <div>
-    <form method="post" action="{$CID}.{$PID}.{$BID}">
+	<form method="post" action="{$CID}.{$PID}.{$BID}" id="webplug-form">
 		<p>插件代码：</p>
 		<p>
-			<textarea name="webplug" style="width:80%;height:300px;">{$webplug|code:false:true}</textarea>
+			<textarea name="webplug" id="webplug-content" style="width:80%;height:300px;">{$webplug|code:false:true}</textarea>
 		<p>
 		<p style="color:green">保存前请先将本页存为书签，如果插件代码发生意外还能从书签进入本页删除。</p>
 		<p>
