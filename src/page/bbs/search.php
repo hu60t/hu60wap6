@@ -34,8 +34,10 @@ if (!empty($username)) {
 
 try {
   if(!$searchReply) {
+    // 排序方法
+    $order = $_GET['order'];
     //获取帖子列表
-    $result = $search->searchTopic($keywords, $username, $offset, $size, $count);
+    $result = $search->searchTopic($keywords, $username, $offset, $size, $count, $order);
     $maxP = ceil($count / $size);
     $topicList = [];
     foreach ($result as $v) {
@@ -55,13 +57,14 @@ try {
     // 列表整个为空时跳转到上一页或最大页
     // 避免搜索结果为空时循环重定向
     if (empty($topicList) && $p > 1) {
-      $u = '?keywords='.urlencode($keywords).'&username='.urlencode($username).'&p='.min($p-1, $maxP);
+      $u = '?keywords='.urlencode($keywords).'&username='.urlencode($username).'&p='.min($p-1, $maxP).'&order='.$order;
       header('Location: '.$u);
       die;
     }
     $tpl->assign('topicList', $topicList);
     $tpl->assign('count', $count);
     $tpl->assign('maxP', $maxP);
+    $tpl->assign('order', $order);
     //显示版块列表
     $tpl->display('tpl:searchtopic');
   }

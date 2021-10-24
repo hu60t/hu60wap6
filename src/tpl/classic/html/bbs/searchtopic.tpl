@@ -17,10 +17,18 @@
       {if !empty($smarty.get.username)}
         (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlencode}">{$smarty.get.username|code}</a>)
       {/if}
+      {if $order}
+          <br/>排序:
+          {if $order == 'ctime'}
+              发布时间 | <a href="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&order=mtime">回复时间</a>
+          {else}
+              <a href="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&order=ctime">发布时间</a> | 回复时间
+          {/if}
+      {/if}
   {/if}
 </p>
-
 {if $topicList}
+<hr/>
 <!--帖子列表-->
 <div class="fl cl indexthreadlist">
 	<ul>
@@ -46,7 +54,7 @@
     </ul>
 </div>
 
-{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;onlyReview={$smarty.get.onlyReview|urlencode}&amp;p="}
+{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;onlyReview={$smarty.get.onlyReview|urlencode}&amp;order={$order}&amp;p="}
 
 <div class="pager">
 	{if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{/if}

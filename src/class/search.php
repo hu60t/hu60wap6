@@ -125,7 +125,7 @@ class search
         }
     }
 
-    public function searchTopic($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, & $count = true)
+    public function searchTopic($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, & $count = true, &$order = 'ctime')
     {
         $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words)));
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
@@ -141,7 +141,16 @@ class search
                 throw new Exception('用户名不存在');
             }
 
-            $sql = 'SELECT id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? ORDER BY level desc, mtime DESC LIMIT ?,?';
+            switch ($order) {
+                case 'ctime':
+                case 'mtime':
+                    break;
+                default:
+                    $order = 'ctime';
+                    break;
+            }
+
+            $sql = 'SELECT id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? ORDER BY level DESC, '.$order.' DESC LIMIT ?,?';
             $rs = db::conn()->prepare($sql);
 
             if (!$rs || !$rs->execute([$uid, $offset, $limit])) {
@@ -165,6 +174,7 @@ class search
             return $result;
         }
 
+        $order = null;
         $result = $this->getAllResult($words);
 
         if ($userName != '') {

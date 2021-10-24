@@ -21,6 +21,15 @@
             {if !empty($smarty.get.username)}
                 (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlencode}">{$smarty.get.username|code}</a>)
             {/if}
+            {if $order}
+                <div style="display: inline-block">排序:
+                {if $order == 'ctime'}
+                    发布时间 | <a href="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&order=mtime">回复时间</a>
+                {else}
+                    <a href="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&order=ctime">发布时间</a> | 回复时间
+                {/if}
+                </div>
+            {/if}
         {/if}
     </div>
     {if $topicList}
@@ -28,7 +37,7 @@
         <div class="search-list">
             {include file='tpl:bbs.list'}
             <div class="widget-page">
-                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&p=##"}
+                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&order={$order}&p=##"}
                 {jhinfunc::Pager($p,$maxP,$url)}
             </div>
         </div>
