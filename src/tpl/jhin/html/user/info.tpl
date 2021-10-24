@@ -76,8 +76,8 @@
   <tr>
     <td>查看：</td>
     <td>
-      <a href="bbs.search.send.{$bid}?username={$uinfo->name|urlencode}">帖子</a> /
-      <a href="bbs.search.send.{$bid}?username={$uinfo->name|urlencode}&searchType=reply">回复</a> /
+      <a href="bbs.search.{$bid}?username={$uinfo->name|urlencode}">帖子</a> /
+      <a href="bbs.search.{$bid}?username={$uinfo->name|urlencode}&searchType=reply">回复</a> /
       <a href="msg.index.chat.{$uinfo.uid}.{$bid}">内信</a> /
       <a href="msg.index.@.all.{$bid}?uid={$uinfo->uid}">@消息</a>
     </td>

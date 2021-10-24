@@ -29,8 +29,8 @@
 <p class="txt">
 查看：<a href="msg.index.{$bid}">内信</a> /
 	 <a href="msg.index.@.{$bid}">@消息</a> /
-	 <a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}">帖子</a> /
-	 <a href="bbs.search.send.{$bid}?username={$USER->name|urlencode}&searchType=reply">回复</a> /
+	 <a href="bbs.search.{$bid}?username={$USER->name|urlencode}">帖子</a> /
+	 <a href="bbs.search.{$bid}?username={$USER->name|urlencode}&searchType=reply">回复</a> /
 	 <a href="bbs.myfavorite.{$bid}">收藏</a> /
      <a href="user.relationship.follow.{$bid}">关注</a> /
 	 <a href="user.relationship.block.{$bid}">屏蔽</a><br/>
