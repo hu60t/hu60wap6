@@ -39,7 +39,7 @@ for ($offset = 0; true; $offset += $size) {
 
 function mkinfo($qianm, $lianx)
 {
-    return serialize(['signature' => $qianm, 'contact' => $lianx]);
+    return data::serialize(['signature' => $qianm, 'contact' => $lianx]);
 }
 
 function mkpass($pass)

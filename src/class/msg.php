@@ -167,7 +167,7 @@ class msg
 
         $ctime = time();
         if (is_array($content)) {
-            $content = serialize($content);
+            $content = data::serialize($content);
         } else {
             $ubb = new ubbparser;
             $content = $ubb->parse($content, true);

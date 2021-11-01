@@ -147,7 +147,7 @@ class UbbParser extends XUBBP
 		}
 		
 		if ($serialize) {
-			$result = serialize($result);
+			$result = data::serialize($result);
 		}
 		
 		return $result;
@@ -645,7 +645,7 @@ class UbbParser extends XUBBP
         ));
 
         if ($serialize) {
-            $data = serialize($data);
+            $data = data::serialize($data);
         }
 
         return $data;
@@ -671,11 +671,11 @@ class UbbParser extends XUBBP
             'pos' => $pos,
             'url' => $url,
             'reason' => $reason,
-            'oriData' => unserialize($oriData),
+            'oriData' => data::unserialize($oriData),
         ));
 
         if ($serialize) {
-            $data = serialize($data);
+            $data = data::serialize($data);
         }
 
         return $data;
@@ -703,11 +703,11 @@ class UbbParser extends XUBBP
             'pos' => $pos,
             'url' => $url,
             'reason' => $reason,
-            'oriData' => unserialize($oriData),
+            'oriData' => data::unserialize($oriData),
         ));
 
         if ($serialize) {
-            $data = serialize($data);
+            $data = data::serialize($data);
         }
 
         return $data;
@@ -734,7 +734,7 @@ class UbbParser extends XUBBP
         ));
 
         if ($serialize) {
-            $data = serialize($data);
+            $data = data::serialize($data);
         }
 
         return $data;
@@ -763,7 +763,7 @@ class UbbParser extends XUBBP
         ));
 
         if ($serialize) {
-            $data = serialize($data);
+            $data = data::serialize($data);
         }
 
         return $data;
@@ -789,12 +789,12 @@ class UbbParser extends XUBBP
 		
 		if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin && ($accessUser->uid == $authorUinfo->uid || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
 			if ($serialize) {
-				$content = unserialize($content);
+				$content = data::unserialize($content);
 			}
 			$data = array_merge($data, $content);
 		}
 		if ($serialize) {
-		    $data = serialize($data);
+		    $data = data::serialize($data);
 		}
 		return $data;
 	}

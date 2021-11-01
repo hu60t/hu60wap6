@@ -33,20 +33,20 @@ class user extends userinfo
     /*生成info数据的字符串*/
     protected static function makeinfo($uid)
     {
-        return serialize(self::$info[$uid]);
+        return data::serialize(self::$info[$uid]);
     }
 
     /*生成safety数据的字符串*/
     protected static function makesafety($uid)
     {
-        return serialize(self::$safety[$uid]);
+        return data::serialize(self::$safety[$uid]);
     }
 
 
     /*解析用户的safety数据*/
     protected static function parsesafety($uid, $info)
     {
-        $info = unserialize($info);
+        $info = data::unserialize($info);
         if ($info === NULL) $info = array();
         self::$safety[$uid] = $info;
     }

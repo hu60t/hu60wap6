@@ -150,7 +150,7 @@ function printlog($msg) {
 function updateUserInfo($uid, $name, $info) {
     global $wechatBinds;
 
-    $data = unserialize($info);
+    $data = data::unserialize($info);
     if (!is_array($data) || !isset($data['wechat']) || !isset($data['wechat']['uid'])) {
         if (isset($wechatBinds[$uid])) {
             unset($wechatBinds[$uid]);

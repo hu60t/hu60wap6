@@ -536,7 +536,7 @@ class bbs
 		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
 
         $ubb = new ubbparser;
-        $data = is_array($newContent) ? serialize($newContent) : $ubb->parse($newContent, true);
+        $data = is_array($newContent) ? data::serialize($newContent) : $ubb->parse($newContent, true);
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,mtime=?,review=? WHERE id=?';
         $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $review, $contentId);
 
@@ -559,7 +559,7 @@ class bbs
     public function deleteTopicContent($contentId, $deleteNotice)
     {
         $ubb = new ubbparser;
-        $data = is_array($deleteNotice) ? serialize($deleteNotice) : $ubb->parse($deleteNotice, true);
+        $data = is_array($deleteNotice) ? data::serialize($deleteNotice) : $ubb->parse($deleteNotice, true);
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,locked=?,review=? WHERE id=?';
         $ok = $this->db->query($sql, $data, 1, 0, $contentId);
 

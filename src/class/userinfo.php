@@ -141,7 +141,7 @@ class userinfo implements ArrayAccess
     /*解析用户的info数据*/
     protected static function parseinfo($uid, $info)
     {
-        $info = unserialize($info);
+        $info = data::unserialize($info);
         if ($info === NULL) $info = array();
 
         self::$info[$uid] = $info;

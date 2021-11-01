@@ -83,7 +83,7 @@ class UbbDisplay extends XUBBP
         }
 		
 		if ($serialize) {
-            $ubbArray = unserialize($ubbArray);
+            $ubbArray = data::unserialize($ubbArray);
 		}
 		
 		$this->markdownEnable = false;

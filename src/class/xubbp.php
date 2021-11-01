@@ -21,9 +21,9 @@
  * 而该类克服了这一缺点，因为它的解析是分两步进行的：
  * 第一步，用正则和回调函数分析UBB并产生UBB资源数组；
  * 第二步，用回调函数遍历分析UBB资源数组，产生HTML代码。
- * 该类加速的秘诀是：通过 serialize() 函数处理数组，
+ * 该类加速的秘诀是：通过 data::serialize() 函数处理数组，
  * 可以把第一步的结果以字符串的形式保留下来，
- * 当需要显示时，用 unserialize() 还原数组并直接交给第二步处理，
+ * 当需要显示时，用 data::unserialize() 还原数组并直接交给第二步处理，
  * 免除了重复的正则匹配工作。
  *
  *
@@ -203,7 +203,7 @@ class XUBBP
      * 对UBB文本进行解析
      *
      * 该方法对含有UBB代码的文本进行解析并返回UBB资源数组，
-     * 或者返回该数组经 serialize() 函数处理后生成的字符串（第二个参数为true时）。
+     * 或者返回该数组经 data::serialize() 函数处理后生成的字符串（第二个参数为true时）。
      * 你无须关注该数组的具体结构，只要把它传递给 display() 方法即可获得可显示的解析结果。
      * 以保存UBB资源数组来代替保存原文，可以避免每次显示时都重新分析UBB代码，能够大大加快UBB的解析速度。
      *
@@ -218,7 +218,7 @@ class XUBBP
         $this->tmp_parse_result = null;
         $this->tmp_parse_param = null;
         $this->rmEndTag(NULL, $arr);
-        if ($serialize) return serialize($arr);
+        if ($serialize) return data::serialize($arr);
         else return $arr;
     }
 
@@ -291,7 +291,7 @@ class XUBBP
         $this->init();
 		
 		if ($serialize) {
-            $ubbArray = unserialize($ubbArray);
+            $ubbArray = data::unserialize($ubbArray);
 		}
 
         $html = '';
