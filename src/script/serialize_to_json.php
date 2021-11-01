@@ -4,6 +4,8 @@ if ('cli' != php_sapi_name()) {
     die('run in shell: php serialize_to_json.php');
 }
 
+ini_set('max_execution_time', 0);
+
 include '../config.inc.php';
 
 convert_table(DB_A.'user', 'uid', 'info');
@@ -35,7 +37,7 @@ function convert_table($table, $idField, $dataField, $stepSize = 1000) {
 
 function convert_table_step($table, $idField, $dataField, $offset, $stepSize, &$counter) {
     $db = db::conn();
-    $query = $db->query("SELECT `$idField`,`$dataField` FROM `$table` LIMIT $offset,$stepSize");
+    $query = $db->query("SELECT `$idField`,`$dataField` FROM `$table` ORDER BY `$idField` LIMIT $offset,$stepSize");
     $update = $db->prepare("UPDATE `$table` SET `$dataField`=? WHERE `$idField`=?");
 
     $num = 0;
