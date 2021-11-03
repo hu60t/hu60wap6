@@ -24,6 +24,10 @@ if (is_array($urls) && isset($urls['host']) &&
 	$url = replaceUrl($url);
 }
 
+if (empty($url)) {
+	throw new Exception('链接不能为空');
+}
+
 Header('Location: ' . $url);
 
 function isSelfHost($host) {

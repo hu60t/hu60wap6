@@ -9,6 +9,10 @@ $multiEncode = false;
 $url = url::decodeUrl64InLink(url::b64d($_GET['url64']), $multiEncode);
 $url = preg_replace('/^(\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:)+/is', '', $url);
 
+if (empty($url)) {
+	throw new Exception('链接不能为空');
+}
+
 if (CLOUD_STORAGE_USE_HTTPS) {
     $url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 }
