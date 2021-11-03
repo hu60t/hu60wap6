@@ -7,7 +7,6 @@ class url
     // base64URL编码，把+/替换为-_
     static function b64e($data)
     {
-
 	    return strtr(base64_encode($data), array('+'=>'-', '/'=>'_'));
     }
 
@@ -23,18 +22,18 @@ class url
     }
 
     static function decodeUrl64InLink($url, &$multiEncode = null) {
-      if (preg_match('/\burl64=([^&]+)\b/', $url, $arr)) {
-        // 对多重编码进行解码
-        $url = trim(code::b64d($arr[1]));
-        $url = self::decodeUrl64InLink($url);
-        $multiEncode = true;
-      }
-      return trim($url);
+        // 链接可能是这样的：
+        // https://hu60.cn/q.php/link.img.html?url64=aHR0c省略mpwZw..#20
+        if (preg_match('/\burl64=([^&#]+)(#.*)?\b/s', $url, $arr)) {
+                // 对多重编码进行解码
+                $url = trim(code::b64d($arr[1]).$arr[2]);
+                $url = self::decodeUrl64InLink($url);
+                $multiEncode = true;
+        }
+        return trim($url);
     }
 
-    static function realpath
-    ($url, $iurl = '')
-    {
+    static function realpath($url, $iurl = '') {
         /*取得URL的最简绝对路径
         $url 目标URL
         如果$url是一个相对路径，则必须指定参考路径$iurl
@@ -70,10 +69,8 @@ class url
         return $url;
     }
 
-    static function getQueryArray($query, $isurl = false)
-
-    {
-#取得查询字符串数组
+    static function getQueryArray($query, $isurl = false) {
+        #取得查询字符串数组
         if ($isurl) {
             $query = parse_url($query);
             $query = $query['query'];
