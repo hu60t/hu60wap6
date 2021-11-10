@@ -110,7 +110,7 @@ abstract class CloudStorageBase {
             $fileName = "附件{$ext}";
         }
 
-        if (preg_match('/^\.(jpe?g|png|gif)$/s', $ext)) {
+        if (preg_match('/^\.(jpe?g|png|gif|bmp|webp)$/s', $ext)) {
             $content = "《图片：" . $url . '，' . $fileName . '》';
         } elseif (preg_match('/^\.(mp4|m3u8|m4v|ts|mov|flv)$/s', $ext)) {
             $content = "《视频流：" . $url . '》';
@@ -125,7 +125,7 @@ abstract class CloudStorageBase {
 
     public static function noAttrname($fileName) {
         // 不要给图片添加 attrname 参数，以防查看大图变成下载
-        if (preg_match('/\.(jpe?g|png|gif)$/si', trim($fileName))) {
+        if (preg_match('/\.(jpe?g|png|gif|bmp|webp)$/si', trim($fileName))) {
             return true;
         }
         return false;
