@@ -165,12 +165,8 @@
         },
         //预览图片
         preview: function (fid) {
-            var fr = new FileReader();
-            fr.onload = function(e) {
-                var data = e.target.result;
-                $('#upload_fid_' + fid + ' .preview').html('<img src="' + data + '" />');
-            };
-            fr.readAsDataURL(this.previewFiles[fid]);
+            var url = URL.createObjectURL(this.previewFiles[fid]);
+            $('#upload_fid_' + fid + ' .preview').html('<img src="' + url + '" />');
         },
         fileUploaded: function (file){
             this.uploadedFiles[file._id] = file;
