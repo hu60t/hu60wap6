@@ -36,7 +36,6 @@
 
         sessionStorage.topicContent = content;
         sessionStorage.topicContentSaved = '1';
-        sessionStorage.topicBackUrl = document.location;
         document.location = '{CloudStorage::getUploadPageUrl()}';
     }
 </script>

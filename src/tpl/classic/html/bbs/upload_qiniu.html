@@ -567,7 +567,13 @@
 
         sessionStorage.topicContentSaved = '1';
         sessionStorage.topicContent = $('#content').val();
-        document.location = sessionStorage.topicBackUrl;
+        
+        if (!document.referrer) {
+            alert("无法自动返回发言页面，请自行复制内容后粘贴到发言框。\n点击底部的“返回上级”按钮回到发言页面。");
+            return;
+        }
+
+        document.location = document.referrer;
     });
 
     $('#legacy_mode_upload').click(function () {
