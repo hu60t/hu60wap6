@@ -10,14 +10,11 @@
 <body>
 <script>
 {if !isset($ex)}
-    sessionStorage.topicContentSaved = '1';
-    sessionStorage.topicContent += {json_encode($content, JSON_UNESCAPED_UNICODE)};
-
-    if (sessionStorage && sessionStorage.uploadLegacyBackUrl) {
-        document.location = sessionStorage.uploadLegacyBackUrl;
-    } else {
-        document.location = document.referrer;
-    }
+    var obj = JSON.parse(decodeURIComponent(location.hash.substr(10)));
+    obj.content += {json_encode($content, JSON_UNESCAPED_UNICODE)};
+    var url = obj.uploadUrl;
+    obj.uploadUrl = undefined;
+    document.location = url + '#addfiles=' + encodeURIComponent(JSON.stringify(obj));
 {else}
     alert({json_encode($ex->getMessage(), JSON_UNESCAPED_UNICODE)});
 	history.back();
@@ -25,4 +22,3 @@
 </script>
 </body>
 </html>
-

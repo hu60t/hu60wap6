@@ -86,7 +86,7 @@
         效率: 0秒（这是一个静态页面）
     </p>
     <p>
-        [<a href="javascript:history.back()">返回上级</a>]
+        [<a href="javascript:fileList.back()">返回上级</a>]
         [<a href="/q.php/index.index.html">首页</a>]
         [<a href="javascript:scroll(0,0)">回顶</a>]
     </p>
@@ -105,8 +105,22 @@
         return str;
     }
     var fileList = {
+        topic: {}, //保存的帖子内容
         fidCounter: 0, //文件id计数器
         uploadedFiles: [], //保存已上传完成的file对象，格式：['1'=> file, '2'=> file, ...]，key为fid
+        /**
+         * 返回上级
+         */
+         back: function() {
+            var url = fileList.topic.url;
+            if (!url) {
+                alert('无法返回来源页面，请自行复制内容并粘贴到发言框。');
+                return;
+            }
+            fileList.topic.url = undefined;
+            fileList.topic.content = $('#content').val();
+            document.location = url + '#addfiles=' + encodeURIComponent(JSON.stringify(fileList.topic));
+        },
         fileUploaded: function (file){
             this.uploadedFiles[file._id] = file;
         },
@@ -370,46 +384,20 @@
     });
 
     $('#finish').click(function () {
-        $(window).unbind('beforeunload');
-
-        //不支持web存储，不跳转
-        if ('object' !== typeof sessionStorage || 'string' !== typeof sessionStorage.topicContentSaved) {
-            alert("浏览器不支持web存储API，你的修改不会被保存！请自行复制内容后粘贴到发言框。\n点击底部的“返回上级”按钮回到发言页面。");
-            return;
-        }
-
-        sessionStorage.topicContentSaved = '1';
-        sessionStorage.topicContent = $('#content').val();
-        
-        if (!document.referrer) {
-            alert("无法自动返回发言页面，请自行复制内容后粘贴到发言框。\n点击底部的“返回上级”按钮回到发言页面。");
-            return;
-        }
-
-        document.location = document.referrer;
+        fileList.back();
     });
 
     $('#legacy_mode_upload').click(function () {
-        $(window).unbind('beforeunload');
-        sessionStorage.topicContentSaved = '1';
-        sessionStorage.topicContent = $('#content').val();
-        sessionStorage.uploadLegacyBackUrl = document.location;
-        $('#legacy_mode_form').submit();
-    });
-
-    //没有按完成就离开页面
-    $(window).bind('beforeunload', function () {
-        var content = $('#content').val();
-
-        if (content.length > 0 && ('object' !== typeof sessionStorage || 'string' !== typeof sessionStorage.topicContentSaved)) {
-            return '浏览器不支持web存储API，你的修改不会被保存！请点击留在此页，自行复制内容后粘贴到发言框。';
+        var url = document.location.href;
+        var pos = url.indexOf('#');
+        if (pos >=0) {
+            url = url.substr(0, pos);
         }
-
-        //sessionStorage只支持string的存储
-        if ('0' == sessionStorage.topicContentSaved) {
-            sessionStorage.topicContentSaved = '1';
-            sessionStorage.topicContent = content;
-        }
+        fileList.topic.uploadUrl = url;
+        fileList.topic.content = $('#content').val();
+        var form = document.querySelector('#legacy_mode_form');
+        form.action += '#addfiles=' + encodeURIComponent(JSON.stringify(fileList.topic));
+        form.submit();
     });
 
     // 对Date的扩展，将 Date 转化为指定格式的String
@@ -437,9 +425,9 @@
     // 页面加载完成后执行
     $(function(){
         //加载保存的帖子内容
-        if (sessionStorage.topicContentSaved == '1') {
-            $('#content').val(sessionStorage.topicContent);
-            sessionStorage.topicContent = '';
+        if (location.hash.startsWith('#addfiles=')) {
+            fileList.topic = JSON.parse(decodeURIComponent(location.hash.substr(10)));
+            $('#content').val(fileList.topic.content);
         }
 
         if ('1' == localStorage.uploadLegacyMode) {
@@ -447,9 +435,6 @@
             // legacyMode()会反转状态，这里保持状态一致
             localStorage.uploadLegacyMode = '1';
         }
-
-        //sessionStorage只支持string的存储
-        sessionStorage.topicContentSaved = '0';
 
         //显示时间
         showTime();
