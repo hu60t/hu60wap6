@@ -80,7 +80,7 @@
             图片压缩画质：高画质<input type="range" id="img_quality" min="0" max="9" value="4" />小体积
         </div>
         <div id="options">
-            <label><input type="checkbox" id="auto_add" />上传完成后自动添加附件到文本框</label>
+            <label><input type="checkbox" id="auto_add" onclick="fileList.updateAutoAdd()" />上传完成后自动添加附件到文本框</label>
         </div>
     </div>
     <div id="upload_state_bar"></div>
@@ -135,6 +135,10 @@
 
         // 上传表单API
         uploadFormApi: '/q.php/api.upload-form.json',
+
+        updateAutoAdd: function() {
+            localStorage.uploadAutoAdd = document.querySelector('#auto_add').checked ? '1' : '0';
+        },
 
         /**
          * 返回上级
@@ -634,6 +638,10 @@
             fileList.legacyMode();
             // legacyMode()会反转状态，这里保持状态一致
             localStorage.uploadLegacyMode = '1';
+        }
+
+        if ('1' == localStorage.uploadAutoAdd) {
+            document.querySelector('#auto_add').checked = true;
         }
 
         if (undefined != localStorage.uploadImgQuality && 0 <= localStorage.uploadImgQuality && localStorage.uploadImgQuality <= 9) {
