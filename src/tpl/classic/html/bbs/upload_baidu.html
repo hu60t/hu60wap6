@@ -47,7 +47,7 @@
         }
     </style>
 </head>
-<body>
+<body id="file_drop_area">
 <div id="desc" class="tp">
     <p>文件保存在虎绿林的 BCE BOS 云存储中，任何人都可以查看。</p>
     <p>若空间占用过大，老文件可能会被删除，请不要保存重要内容。</p>
@@ -227,6 +227,8 @@
     };
     var downloadUrlPrefix = 'http://hu60.bj.bcebos.com/';
     var uploader = new baidubce.bos.Uploader({
+        dragdrop: true, // 开启可拖曳上传
+        drop_element: 'file_drop_area', // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
         browse_button: '#file',
         bos_bucket: 'hu60',
         bos_endpoint: location.protocol + '//bj.bcebos.com',
