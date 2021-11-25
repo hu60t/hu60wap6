@@ -28,7 +28,7 @@ try {
 			break;
 		case 'json2serialize':
 			$arr = json_decode($content,true);
-			$result = urlencode(serialize($arr));
+			$result = serialize($arr);
 			break;
 		case 'djson':
 			ob_start();
@@ -37,7 +37,7 @@ try {
 			break;
 		case 'njson2serialize':
 			$arr = json_decode(preg_replace('/\s+/su','',$content),true);
-			$result = urlencode(serialize($arr));
+			$result = serialize($arr);
 			break;
 		case 'ndjson':
 			ob_start();

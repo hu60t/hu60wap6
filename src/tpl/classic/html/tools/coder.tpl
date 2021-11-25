@@ -40,8 +40,8 @@
                 <option value="djson" {if $smarty.post.action == 'djson'}selected{/if}>JSON解码</option>
                 <option value="ndjson" {if $smarty.post.action == 'ndjson'}selected{/if}>JSON解码（移除所有空白）</option>
                 <option value="ejson" {if $smarty.post.action == 'ejson'}selected{/if}>JSON编码</option>
-                <option value="json2serialize" {if $smarty.post.action == 'json2serialize'}selected{/if}>JSON转serialize+url编码</option>
-                <option value="njson2serialize" {if $smarty.post.action == 'njson2serialize'}selected{/if}>JSON转serialize+url编码（移除所有空白）</option>
+                <option value="json2serialize" {if $smarty.post.action == 'json2serialize'}selected{/if}>JSON转serialize</option>
+                <option value="njson2serialize" {if $smarty.post.action == 'njson2serialize'}selected{/if}>JSON转serialize（移除所有空白）</option>
                 <option value="date" {if $smarty.post.action == 'date'}selected{/if}>时间戳转日期</option>
                 <option value="str2time" {if $smarty.post.action == 'str2time'}selected{/if}>日期转时间戳</option>
 		<option value="str2lower" {if $smarty.post.action == 'str2lower'}selected{/if}>字母转为小写</option>
