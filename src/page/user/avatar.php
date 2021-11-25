@@ -20,7 +20,7 @@ try {
 				]));
 			}
 			
-			$review = $USER->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW);
+			$review = AVATAR_NEED_REVIEW && $USER->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW);
 
 			if (CLOUD_STORAGE_AVATAR) {
 				$path = CLOUD_STORAGE_AVATAR_PATH . ($review ? 'review_' : '') . $USER->uid.".jpg";
