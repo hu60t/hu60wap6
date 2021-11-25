@@ -58,6 +58,7 @@
     <p>文件保存在虎绿林的阿里云OSS云存储中，任何人都可以查看。</p>
     <p>若空间占用过大，老文件可能会被删除，请不要保存重要内容。</p>
     <p>可一次上传多个文件，若浏览器不支持多选，可以分多次添加。</p>
+    <p>也可直接拖放或粘贴文件，电脑截图后可按Ctrl+V直接粘贴。</p>
 </div>
 <hr>
 <div id="topic_content">
@@ -647,6 +648,22 @@
         if (undefined != localStorage.uploadImgQuality && 0 <= localStorage.uploadImgQuality && localStorage.uploadImgQuality <= 9) {
             $('#img_quality').val(localStorage.uploadImgQuality);
         }
+
+        // 允许粘贴文件
+        document.addEventListener('paste', function (event) {
+            console.log('hello', event);
+            var clipboardData = (event.clipboardData || event.originalEvent.clipboardData);
+            var files = [];
+            for (var i=0; i<clipboardData.items.length; i++) {
+                var file = clipboardData.items[i];
+                if (file.kind === 'file') {
+                    var file = file.getAsFile();
+                    if (file) {
+                        uploader.addFile(file);
+                    }
+                }
+            }
+        });
 
         //显示时间
         showTime();
