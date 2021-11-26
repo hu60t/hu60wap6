@@ -35,7 +35,15 @@ if (!empty($username)) {
 try {
   if(!$searchReply) {
     // 排序方法
-    $order = $_GET['order'];
+    $order = str::word($_GET['order']);
+    $orderFromCookie = str::word(page::getCookie('topic_order'));
+    if (!empty($order) && empty($orderFromCookie)) {
+      page::setCookie('topic_order', $order, 3600 * 24 * 3650);
+    }
+    if (empty($order) && !empty($orderFromCookie)) {
+      $order = $orderFromCookie;
+    }
+
     //获取帖子列表
     $result = $search->searchTopic($keywords, $username, $offset, $size, $count, $order);
     $maxP = ceil($count / $size);
