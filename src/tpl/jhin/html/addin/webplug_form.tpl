@@ -24,16 +24,39 @@
 	<script src="{$PAGE->getTplUrl("js/codemirror/addon/edit/matchbrackets.min.js")}"></script>
 	<script>
 		$(document).ready(function(){
-			CodeMirror.fromTextArea($('#webplug-content')[0], {
-				mode: "text/html",
-				lineNumbers: true,
-				matchBrackets: true,
-				extraKeys: {
-				  'Ctrl-S': () => $('#webplug-form').trigger('submit')
+			var editor;
+			function enableHighlight() {
+				editor = CodeMirror.fromTextArea($('#webplug-content')[0], {
+					mode: "text/html",
+					lineNumbers: true,
+					matchBrackets: true,
+					extraKeys: {
+					'Ctrl-S': () => $('#webplug-form').trigger('submit')
+					}
+				});
+				editor.on('change', editor => {
+					editor.save();
+				});
+			}
+			function toggleHighLight() {
+				var enabled = document.querySelector('#enable_highlight').checked
+				if (enabled) {
+					enableHighlight();
+				} else {
+					editor.toTextArea();
 				}
-			}).on('change', editor => {
-				editor.save();
-			});
+				localStorage.webplugEnableHighlight = enabled ? '1' : '0';
+			}
+			var checkbox = document.querySelector('#enable_highlight');
+			checkbox.onclick = toggleHighLight;
+			if (localStorage.webplugEnableHighlight == undefined) {
+				checkbox.checked = true;
+			} else {
+				checkbox.checked = (localStorage.webplugEnableHighlight == '1') ? true : false;
+			}
+			if (checkbox.checked) {
+				enableHighlight();
+			}
 
 			$('#webplug-form').submit(function(){
 				var loading = layer.load();
@@ -77,8 +100,16 @@
 </div>
 
 <div>
+	<label>
+		<input type="checkbox" id="enable_highlight">启用代码高亮（如果代码高亮导致编辑不方便，可以点此禁用）
+	</label>
+</div>
+
+<hr>
+
+<div>
+	<p>插件代码：</p>
 	<form method="post" action="{$CID}.{$PID}.{$BID}" id="webplug-form">
-		<p>插件代码：</p>
 		<p>
 			<textarea name="webplug" id="webplug-content" style="width:80%;height:300px;">{$webplug|code:false:true}</textarea>
 		<p>
