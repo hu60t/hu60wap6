@@ -138,7 +138,7 @@ class UbbDisplay extends XUBBP
              * 这条线本来应该原样保留，如果保护标记不是块级的，
              * 保护后它和上面的aaa结合，就会使aaa成为二级标题。
              */
-            $html = "<p>\2".count($this->mdProtectTexts)."\3</p>";
+            $html = "<p>\2#".count($this->mdProtectTexts)."\3Markdown代码块格式不正确，反引号前后不能有空格或特殊字符</p>";
             $this->mdProtectTags[] = $html;
         }
         return "\n$html\n";
