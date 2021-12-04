@@ -11,6 +11,14 @@ use Qiniu\Storage\UploadManager;
  * 实现七牛云对象存储的文件上传、下载、服务器端签名
  */
 class CloudStorageQiniu extends CloudStorageBase {
+    public function exists($key) {
+        // TODO
+    }
+
+    public function copy($fromKey, $toKey) {
+        // TODO
+    }
+
     public function upload($localFile, $remoteFile, $allowOverwrite = false, $fileName = null) {
         // 构建鉴权对象
         $auth = new Auth(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK);

@@ -142,6 +142,25 @@ define('CLOUD_STORAGE_DOWNLOAD_HOST', 'file.hu60.cn');
  */
 define('CLOUD_STORAGE_USE_HTTPS', false);
 
+/**
+ * 保存被和谐文件的备份文件夹
+ * 
+ * 版主和谐图片、视频时，原始文件会被移到这里。
+ * 请务必修改路径，加上复杂随机内容，防止用户猜到。
+ * 此外还要对路径保密，否则用户自己修改路径后还是可以访问到。
+ */
+define('CLOUD_STORAGE_BLOCK_DIR', 'file/block/backup');
+
+/**
+ * 用于和谐图片、视频的模板文件
+ * 
+ * 版主和谐图片、视频时，将使用这些资源进行替换。
+ */
+$CLOUD_STORAGE_BLOCK_TEMPLATE = [
+    'image' => 'file/block/template/block.jpg',
+    'video' => 'file/block/template/block.mp4',
+];
+
 
 /////////////////// 防止CC攻击 ///////////////////
 

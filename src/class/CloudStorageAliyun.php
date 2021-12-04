@@ -9,10 +9,22 @@ use OSS\OssClient;
  * 实现阿里云OSS云存储的文件上传、下载、服务器端签名
  */
 class CloudStorageAliyun extends CloudStorageBase {
-    public function upload($localFile, $remoteFile, $allowOverwrite = false, $fileName = null) {
-        $ossClient = new OssClient(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK, CLOUD_STORAGE_ENDPOINT);
+    private $ossClient;
 
-        if (!$allowOverwrite && $ossClient->doesObjectExist(CLOUD_STORAGE_BUCKET, $remoteFile)) {
+    public function __construct() {
+        $this->ossClient = new OssClient(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK, CLOUD_STORAGE_ENDPOINT);
+    }
+
+    public function exists($key) {
+        return $this->ossClient->doesObjectExist(CLOUD_STORAGE_BUCKET, $key);
+    }
+
+    public function copy($fromKey, $toKey) {
+        $this->ossClient->copyObject(CLOUD_STORAGE_BUCKET, $fromKey, CLOUD_STORAGE_BUCKET, $toKey);
+    }
+
+    public function upload($localFile, $remoteFile, $allowOverwrite = false, $fileName = null) {
+        if (!$allowOverwrite && $this->exists($remoteFile)) {
             return;
         }
 
@@ -26,7 +38,7 @@ class CloudStorageAliyun extends CloudStorageBase {
             $headers[OssClient::OSS_CONTENT_DISPOSTION] = "attachment; filename=\"$fileName\"; filename*=utf-8''$fileName";
         }
 
-        $ossClient->uploadFile(CLOUD_STORAGE_BUCKET, $remoteFile, $localFile, $options);
+        $this->ossClient->uploadFile(CLOUD_STORAGE_BUCKET, $remoteFile, $localFile, $options);
     }
 
     private static function gmt_iso8601($time) {
@@ -34,8 +46,7 @@ class CloudStorageAliyun extends CloudStorageBase {
     }
 
     public function getUploadForm($key, $fileName, $fileSize, $fileMd5 = null) {
-        $ossClient = new OssClient(CLOUD_STORAGE_AK, CLOUD_STORAGE_SK, CLOUD_STORAGE_ENDPOINT);
-        if ($ossClient->doesObjectExist(CLOUD_STORAGE_BUCKET, $key)) {
+        if ($this->ossClient->doesObjectExist(CLOUD_STORAGE_BUCKET, $key)) {
             return [
                 'fileExists' => true,
             ];

@@ -6,6 +6,16 @@
  */
 abstract class CloudStorageBase {
     /**
+     * 判断文件是否存在
+     */
+    abstract public function exists($key);
+
+    /**
+     * 拷贝云存储中的文件到另一位置
+     */
+    abstract public function copy($fromKey, $toKey);
+
+    /**
      * 上传文件到云存储
      * 
      * @param $localFile 本地文件路径
@@ -95,39 +105,50 @@ abstract class CloudStorageBase {
         return $key;
     }
 
-    public static function getFileUbb($url, $fileName, $fileSize) {
-        $fileName = str::basename(trim($fileName));
-
-        if (preg_match('/\.[a-zA-Z0-9_-]{1,10}$/s', $fileName, $ext)) {
-            $ext = strtolower($ext[0]);
-        } else {
-            $ext = '.dat';
-        }
-
-        $sizeName = str::filesize($fileSize);
-
-        if (empty($fileName)) {
-            $fileName = "附件{$ext}";
-        }
-
-        if (preg_match('/^\.(jpe?g|png|gif|bmp|webp)$/s', $ext)) {
-            $content = "《图片：" . $url . '，' . $fileName . '》';
-        } elseif (preg_match('/^\.(mp4|m3u8|m4v|ts|mov|flv)$/s', $ext)) {
-            $content = "《视频流：" . $url . '》';
-        } elseif (preg_match('/^\.(mp3|wma|m4a|ogg)$/s', $ext)) {
-            $content = "《音频流：" . $url . '》';
-        } else {
-            $content = "《链接：" . $url . '，' . $fileName . '（' . $sizeName . '）》';
-        }
-
-        return $content;
-    }
-
     public static function noAttrname($fileName) {
         // 不要给图片添加 attrname 参数，以防查看大图变成下载
         if (preg_match('/\.(jpe?g|png|gif|bmp|webp)$/si', trim($fileName))) {
             return true;
         }
         return false;
+    }
+
+    public static function getFileUbb($url, $fileName, $fileSize) {
+        $fileName = str::basename(trim($fileName));
+        $fileSize = str::filesize($fileSize);
+        $type = self::getFileType($fileName);
+
+        if (empty($fileName)) {
+            $fileName = "附件.dat";
+        }
+
+        switch ($type) {
+            case 'image':
+                return "《图片：" . $url . '，' . $fileName . '》';
+            case 'video':
+                return "《视频流：" . $url . '》';
+            case 'audio':
+                return "《音频流：" . $url . '》';
+            default:
+                return "《链接：" . $url . '，' . $fileName . '（' . $fileSize . '）》';
+        }
+    }
+
+    public static function getFileType($key) {
+        if (preg_match('/\.(jpe?g|png|gif|bmp|webp)$/s', $key)) {
+            return 'image';
+        }
+        if (preg_match('/\.(mp4|m3u8|m4v|ts|mov|flv)$/s', $key)) {
+            return 'video';
+        }
+        if (preg_match('/\.(mp3|wma|m4a|ogg)$/s', $key)) {
+            return 'audio';
+        }
+        return 'others';
+    }
+
+    public static function getBlockTemplate($key) {
+        global $CLOUD_STORAGE_BLOCK_TEMPLATE;
+        return $CLOUD_STORAGE_BLOCK_TEMPLATE[self::getFileType($key)];
     }
 }

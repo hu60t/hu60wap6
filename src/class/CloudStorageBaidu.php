@@ -6,6 +6,14 @@
  * 实现百度云BOS对象存储的文件上传、下载、服务器端签名
  */
 class CloudStorageBaidu extends CloudStorageBase {
+    public function exists($key) {
+        // TODO
+    }
+
+    public function copy($fromKey, $toKey) {
+        // TODO
+    }
+
     public function upload($localFile, $remoteFile, $allowOverwrite = false, $fileName = null) {
         // TODO
     }
