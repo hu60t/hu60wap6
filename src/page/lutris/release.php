@@ -1,4 +1,5 @@
 <?php
+ob_start();
 jsonpage::start();
 
 $project = strtolower(str::word($PAGE->ext[0]));
@@ -26,3 +27,8 @@ foreach ($rs as $v) {
 }
 
 jsonpage::output($data);
+
+// 修复 lutris 提示“Failed to read content length on response”的问题
+$len = ob_get_length();
+header('Content-Length: ' . $len);
+ob_end_flush();
