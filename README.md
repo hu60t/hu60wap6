@@ -104,19 +104,29 @@ git submodule update
    ```
    对于Windows，请修改`config.inc.php`中的路径（`$CC_DATA`等）为Windows路径，并创建对应的文件夹。
 
+支持的MySQL版本
+-----------------
+
+* [MariaDB](https://mariadb.org/) 10.2.1或更高。
+
+不支持的MySQL版本
+-----------------
+
+* MySQL 5，不支持`text`字段上的默认值。（[文档](https://dev.mysql.com/doc/refman/5.7/en/data-type-defaults.html)）
+* MySQL 8，对`text`字段上的默认值有怪异的语法要求（[文档](https://dev.mysql.com/doc/refman/8.0/en/data-type-defaults.html)），与hu60wap6导出的[mysql.sql](src/db/mysql.sql)不兼容。
+   如果把SQL中的`DEFAULT '[]'`替换为`DEFAULT ('[]')`，也许可以兼容，但我没有试过。
 
 支持的PHP版本
 -----------------
 
-PHP 5.4 或以上。
-
-PHP 7 或以上。
-
+* PHP 5.4 或以上。
+* PHP 7 或以上。
+* PHP 8。
 
 不支持的PHP版本
 -----------------
 
-PHP 5.2，PHP 5.3。
+* PHP 5.2，PHP 5.3。
 
 如果你使用的PHP版本小于5.4，你将会遇到如下错误：
 
