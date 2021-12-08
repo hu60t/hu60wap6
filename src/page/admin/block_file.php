@@ -3,6 +3,9 @@ jsonpage::start();
 $USER->start();
 
 try {
+    $url = $_POST['url'];
+    $placeholder = (bool)$_POST['placeholder'];
+
     if (!$USER->islogin) {
         throw new Exception('用户未登录');
     }
@@ -10,7 +13,6 @@ try {
         throw new Exception('您没有审核权限');
     }
 
-    $url = $_POST['url'];
     if (empty($url)) {
         throw new Exception('URL不能为空');
     }
@@ -27,7 +29,8 @@ try {
     $cloud = CloudStorage::getInstance();
     $templateKey = $cloud->getBlockTemplate($key);
 
-    if (!$cloud->exists($key)) {
+    $exists = $cloud->exists($key);
+    if (!$exists && !$placeholder) {
         throw new Exception('要和谐的文件不存在');
     }
     if ($cloud->exists($bakKey)) {
@@ -36,7 +39,9 @@ try {
     if (!$cloud->exists($templateKey)) {
         throw new Exception('用于和谐的模板文件 '.$templateKey.' 不存在');
     }
-    $cloud->copy($key, $bakKey);
+    if ($exists) {
+        $cloud->copy($key, $bakKey);
+    }
     $cloud->copy($templateKey, $key);
 
     jsonpage::output([
