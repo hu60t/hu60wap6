@@ -166,11 +166,11 @@ class UbbParser extends XUBBP
 		
 		// 添加新的匹配规则
 		$parseHead = [
-			/*mdcode markdown代码高亮*/
-			'!^(^ *|.*?[\r\n] *)(`{3,})( *[^`\r\n]+?)?( *[\r\n].*?[\r\n] *)\2( *[\r\n].*| *$)$!is' => array(array(1, 5), 'mdcode', array(3, 4, 2)),
-			/*inline代码*/
-			'!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
-		];
+            /*mdcode markdown代码高亮*/
+            '!^(^|.*?[\r\n])( *)(`{3,})( *[^`\r\n]+?)?( *[\r\n].*?[\r\n] *)\3( *[\r\n].*| *$)$!is' => array(array(1, 6), 'mdcode', array(4, 5, 3, 2)),
+            /*inline代码*/
+            '!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
+        ];
 		
 		$this->parse = $parseHead + $this->parse;
 		
@@ -182,7 +182,7 @@ class UbbParser extends XUBBP
 	/**
      * @brief markdown代码高亮
      */
-    public function mdcode($lang, $data, $quote)
+    public function mdcode($lang, $data, $quote, $indent)
     {
 		$lang = strtolower(trim($lang));
 		
@@ -192,7 +192,11 @@ class UbbParser extends XUBBP
             'data' => $data,
             'quote' => $quote,
         ];
-		
+
+        if (!empty($indent)) {
+            $result['indent'] = $indent;
+        }
+
 		/*if ($lang != '') {
 			$result['html'] = code::highlight($data, $lang);
 		}*/

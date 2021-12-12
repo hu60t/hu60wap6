@@ -123,7 +123,7 @@ class UbbDisplay extends XUBBP
     }
 
     /* 保护内容免受markdown解析的干扰 */
-    public function markdownProtect($html) {
+    public function markdownProtect($html, $data = null) {
         if ($this->markdownEnable) {
             $this->mdProtectTexts[] = $html;
             /*
@@ -140,6 +140,9 @@ class UbbDisplay extends XUBBP
              */
             $html = "<p>\2#".count($this->mdProtectTexts)."\3Markdown代码块格式不正确，反引号前后不能有空格或特殊字符</p>";
             $this->mdProtectTags[] = $html;
+        }
+        if (is_array($data) && isset($data['indent'])) {
+            $html = $data['indent'] . $html;
         }
         return "\n$html\n";
     }
@@ -180,14 +183,17 @@ class UbbDisplay extends XUBBP
 
         $code = $data['data'];
 
+        // 去除缩进
+        if (isset($data['indent'])) {
+            $code = preg_replace('/^'.preg_quote($data['indent'], '/').'/m', '', $code);
+        }
+
         // 去除开头的第一个换行符
-        if (strlen($code) > 1) {
-            if ($code[0] == "\r") {
-                $code = substr($code, 1);
-            }
-            if ($code[0] == "\n") {
-                $code = substr($code, 1);
-            }
+        if (strlen($code) > 1 && $code[0] == "\r") {
+            $code = substr($code, 1);
+        }
+        if (strlen($code) > 1 && $code[0] == "\n") {
+            $code = substr($code, 1);
         }
 
         if ($data['lang'] == 'latex') {
@@ -203,7 +209,7 @@ class UbbDisplay extends XUBBP
 			$html = code::highlight($data['data'], $data['lang']);
         }*/
 
-        return $this->markdownProtect($html);
+        return $this->markdownProtect($html, $data);
     }
 
     /*time 时间*/

@@ -112,7 +112,7 @@ class ubbEdit extends XUBBP
     public function mdcode($data)
     {
         $quote = isset($data['quote']) ? $data['quote'] : '```';
-        return $quote . $data['lang'] . $data['data'] . $quote;
+        return $data['indent'] . $quote . $data['lang'] . $data['data'] . $quote;
     }
 
     /*time 时间*/
