@@ -204,7 +204,7 @@
                     '<p class="file_progress"><span class="box_title">进度</span><span class="box_value">0%</span></p>' +
                     '<p class="preview"></p>' +
                 '</div>');
-            $('#upload').removeAttr('disabled');
+            $('#upload').attr("disabled", false);
         },
         remove: function (fid, uuid) {
             uploader.removeFile(uuid);
@@ -298,10 +298,10 @@
                     uploader.start();
                 } else {
                     var file = fileList.computingMd5Files.pop();
-                    file._md5sum.done(function () {
+                    file._workToBeDone.done(function () {
                         next();
                     });
-                    file._md5sum.fail(function () {
+                    file._workToBeDone.fail(function () {
                         next();
                     });
                 }
@@ -435,7 +435,9 @@
                         fileList.setState(file._id, '计算md5中...');
                         fileList.computingMd5Files.push(file);
 
-                        file._md5sum = fileList.md5sum(file.getNative());
+                        var md5sum = fileList.md5sum(file.getNative());
+                        var getToken = $.Deferred();
+                        file._workToBeDone = getToken.promise();
 
                         function next() {
                             if (md5Pos < md5PosEnd) {
@@ -456,22 +458,24 @@
                                     fileList.setState(file._id, stat);
                                 }
 
+                                getToken.resolve();
                                 next();
                             });
                             fileList.getUploadForm(file).fail(function() {
                                 file._uploadForm = null;
                                 fileList.setState(file._id, '获取上传凭证失败');
+                                getToken.reject();
                                 next();
                             });
                         }
 
-                        file._md5sum.done(function(md5) {
+                        md5sum.done(function(md5) {
                             file._md5 = md5;
                             setUploadForm('待上传');
                         });
 
-                        file._md5sum.fail(function () {
-                            file._md5 = md5;
+                        md5sum.fail(function () {
+                            file._md5 = null;
                             setUploadForm('md5计算失败');
                         });
                     }
