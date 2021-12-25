@@ -46,7 +46,7 @@ class chat
     {
 		//审核检查
 		if ($this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
-			throw new Exception('先审后发用户不能创建聊天室。', 403);
+			throw new Exception('您没有创建聊天室的权限', 403);
 		}
 		//禁言检查
 		if ($this->user->hasPermission(UserInfo::DEBUFF_BLOCK_POST)) {
@@ -192,6 +192,10 @@ class chat
      */
     public function newChat()
     {
+        if (!$this->user->unlimit()) {
+            return null;
+        }
+
         $blockUids = $this->getBlockUids();
         $blockUidsSql = '';
         if (!empty($blockUids)) {
@@ -207,6 +211,10 @@ class chat
      */
     public function newChats($num)
     {
+        if (!$this->user->unlimit()) {
+            return null;
+        }
+
         $blockUids = $this->getBlockUids();
         $blockUidsSql = '';
         if (!empty($blockUids)) {
@@ -285,8 +293,6 @@ class chat
     // 删除指定聊天室楼层
     public function delete($id)
     {
-        global $USER;
-
         $chatInfo = $this->db->select('uid', 'addin_chat_data', 'WHERE id=?', $id);
         
         if (!$chatInfo) {
@@ -296,7 +302,7 @@ class chat
         $chatInfo = $chatInfo->fetch(db::ass);
 
         if ($this->canDel($chatInfo['uid'])) {
-            $this->db->update('addin_chat_data', 'hidden=?,review=? WHERE id=?', $USER->uid, 0, $id);
+            $this->db->update('addin_chat_data', 'hidden=?,review=? WHERE id=?', $this->user->uid, 0, $id);
         }
     }
 

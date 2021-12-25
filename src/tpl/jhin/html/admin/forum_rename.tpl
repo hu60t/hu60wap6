@@ -17,11 +17,17 @@
                     <div class="control">
                         <div class="select">
                             <select name="parent_id">
-                                {foreach $forumList as $name=>$id}
-                                    <option value="{$id}" {if $id == $forum.parent_id}selected{/if}>{$name}</option>
+                                {foreach $forumList as $v}
+                                    <option value="{$v.id}" {if $v.id == $forum.parent_id}selected{/if}>{$v.title}</option>
                                 {/foreach}
                             </select>
                         </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">可访问用户组</label>
+                    <div class="control">
+                        <input class="input" type="text" name="access" value="{str::bitset2str($forum.access)}">
                     </div>
                 </div>
                 <div class="field">

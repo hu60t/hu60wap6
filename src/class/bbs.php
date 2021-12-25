@@ -268,7 +268,7 @@ class bbs
 			}
 
             //版块有效性检查
-            $sql = 'SELECT id,name,notopic FROM ' . DB_A . 'bbs_forum_meta WHERE id=?';
+            $sql = 'SELECT id,name,notopic,access FROM ' . DB_A . 'bbs_forum_meta WHERE id=?';
             $rs = $this->db->prepare($sql);
             if (!$rs) throw new bbsException('数据库错误，论坛元数据表（' . DB_A . 'bbs_forum_meta）异常！', 500);
             $rs->bindParam(1, $fid);
@@ -278,6 +278,7 @@ class bbs
                 throw new bbsException('版块id' . $fid . '不存在，请重新选择。', 404);
             if ($data['notopic'])
                 throw new bbsException('版块 ' . $data['name'] . ' 禁止发帖，请重新选择。', 403);
+            $access = $data['access'];
 
             //标题处理
             $title = mb_substr(trim($title), 0, 100, 'utf-8');
@@ -287,13 +288,13 @@ class bbs
 			//帖子内容是否需要审核
 			$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
             //写主题数据
-            $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,review', $time, $time, $data, $this->user->uid, 0, 0, $review);
+            $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,review,access', $time, $time, $data, $this->user->uid, 0, 0, $review, $access);
             if (!$rs)
                 throw new bbsException('数据库错误，主题内容（' . DB_A . 'bbs_topic_content）写入失败！', 500);
             $content_id = $this->db->lastInsertId();
 
             //写主题标题
-            $rs = $this->db->insert('bbs_topic_meta', 'forum_id,content_id,title,uid,ctime,mtime,review', $fid, $content_id, $title, $this->user->uid, $time, $time, $review);
+            $rs = $this->db->insert('bbs_topic_meta', 'forum_id,content_id,title,uid,ctime,mtime,review,access', $fid, $content_id, $title, $this->user->uid, $time, $time, $review, $access);
 
             if (!$rs) {
                 $this->db->delete('bbs_topic_content', 'WHERE id=?', $content_id);
@@ -347,10 +348,11 @@ class bbs
 			throw new bbsException('您已被禁言，不能回帖。', 403);
 		}
 		
-        $data = $this->topicContent($reply_id, 'topic_id');
+        $data = $this->topicContent($reply_id, 'topic_id,access');
         if (!$data)
             throw new bbsException('帖子内容 id=' . $reply_id . ' 不存在！', 404);
         $topic_id = $data['topic_id'];
+        $access = $data['access'];
         //内容处理
         $ubb = new ubbparser;
         $data = $ubb->parse($content, true);
@@ -361,7 +363,7 @@ class bbs
         $floor = $this->db->query('SELECT max(floor) FROM ' . DB_A . 'bbs_topic_content WHERE topic_id=?', $topic_id);
         $floor = $floor->fetch(db::num);
 		$floor = $floor[0] + 1;
-        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor,review', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor, $review);
+        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor,review,access', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor, $review, $access);
 
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
@@ -601,7 +603,7 @@ class bbs
     {
         $fetch .= ',id';
 
-        $rs = $this->db->select($fetch, 'bbs_forum_meta', 'WHERE parent_id=? ORDER BY mtime DESC', $fid);
+        $rs = $this->db->select($fetch, 'bbs_forum_meta', 'WHERE parent_id=? AND ((access = 0) OR (access & ?)) ORDER BY mtime DESC', $fid, $this->user->getAccess());
         if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_forum_meta不可读', 500);
         $forum = $rs->fetchAll();
 
@@ -619,9 +621,12 @@ class bbs
      */
     public function childForumId($fid, &$result = [])
     {
-        $result[] = (int)$fid;
-
-        $rs = $this->db->select('id', 'bbs_forum_meta', 'WHERE parent_id=?', $fid);
+        if ($fid == 0) {
+            $rs = $this->db->select('id', 'bbs_forum_meta', 'WHERE ((access = 0) OR (access & ?))', $this->user->getAccess());
+        } else {
+            $result[] = (int)$fid;
+            $rs = $this->db->select('id', 'bbs_forum_meta', 'WHERE parent_id=? AND ((access = 0) OR (access & ?))', $fid, $this->user->getAccess());
+        }
 
         if (!$rs) {
             throw new Exception('数据库错误，表' . DB_A . 'bbs_forum_meta不可读', 500);
@@ -639,7 +644,7 @@ class bbs
     /**
      * 获取逗号分隔的子版块id列表
      */
-    protected function childForumIdList($fid)
+    public function childForumIdList($fid)
     {
         return implode(',', $this->childForumId($fid));
     }
@@ -686,7 +691,8 @@ class bbs
         if (!empty($blockUids)) {
             $where = (empty(trim($where)) ? 'WHERE ' : $where . ' AND ') . 'uid NOT IN (' . implode(',', $blockUids) . ')';
         }
-        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY level DESC, mtime DESC LIMIT ?,?', $offset, $size);
+        $where = (empty(trim($where)) ? 'WHERE ' : $where . ' AND ') . '((access = 0) OR (access & ?))';
+        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY level DESC, mtime DESC LIMIT ?,?', $this->user->getAccess(), $offset, $size);
         if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $topic = $rs->fetchAll();
         foreach ($topic as &$v) {
@@ -721,7 +727,7 @@ class bbs
      */
     public function topicCount($forum_id, $onlyEssence = false)
     {
-        $where = 'WHERE 1=1';
+        $where = 'WHERE ((access = 0) OR (access & ?))';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
@@ -733,7 +739,7 @@ class bbs
 			$where .= ' AND essence=1';
 		}
 
-        $rs = $this->db->select('count(*)', 'bbs_topic_meta', $where);
+        $rs = $this->db->select('count(*)', 'bbs_topic_meta', $where, $this->user->getAccess());
         if (!$rs)
             throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $rs = $rs->fetch(db::num);
@@ -745,7 +751,7 @@ class bbs
      */
     public function topicList($forum_id, $page, $size, $orderBy = 'mtime', $onlyEssence = false)
     {
-        $where = 'WHERE 1=1';
+        $where = 'WHERE ((access = 0) OR (access & ?))';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
@@ -757,7 +763,7 @@ class bbs
 			$where .= ' AND essence=1';
 		}
 
-        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY `level` DESC, `' . $orderBy . '` DESC LIMIT ?,?', $page, $size);
+        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY `level` DESC, `' . $orderBy . '` DESC LIMIT ?,?', $this->user->getAccess(), $page, $size);
 
         if (!$rs)
             throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);

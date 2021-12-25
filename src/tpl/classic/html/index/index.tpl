@@ -71,6 +71,7 @@
 	</p>
 </div>
 <hr>
+{if $USER->unlimit()}
 <div id="tools">
 	<p>『Linux游戏』</p>
 	<p>-<a href="https://winegame.net/">Wine游戏助手</a></p>
@@ -80,6 +81,7 @@
 	<p>-<a href="bbs.topic.95988.{$BID}">QQ群/微信群</a></p>
 </div>
 <hr>
+{/if}
 <div id="tools">
 	<p>『实用工具』</p>
 	<p>-<a href="addin.webplug.{$BID}">网页插件</a></p>
@@ -87,6 +89,7 @@
 	<p>-<a href="tools.coder.{$BID}">编码解码器</a></p>
 </div>
 <hr>
+{if $USER->unlimit()}
 <div class="books">
     <p class="bar">『小说阅读』</p>
 	<p>-<a href="book.index.html">小说列表</a></p>
@@ -97,4 +100,5 @@
 	<p id="friend_links_title">『虎友网站展示』</p>
 	{include file="tpl:comm.friend_links"}
 </div>
+{/if}
 {include file="tpl:comm.foot"}

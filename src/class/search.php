@@ -14,8 +14,11 @@ class search
 
     protected function searchWord($table, $field, $index, $word, $order = '', $searchLimit = self::SEARCH_LIMIT)
     {
+        global $USER;
+
+        $access = (int)$USER->getAccess();
         $wordHash = md5("$table/$field/$word");
-        $key = "search/$wordHash";
+        $key = "search/$wordHash/$access";
 
         $rs = cache::get($key);
 
@@ -32,11 +35,11 @@ class search
 		cache::set($limitKey, $limit, 60);
 
 
-        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ? $order LIMIT $searchLimit";
+        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ?  AND ((access = 0) OR (access & ?)) $order LIMIT $searchLimit";
         $db = db::conn();
         $rs = $db->prepare($sql);
 
-        if (!$rs || !$rs->execute(["%$word%"])) {
+        if (!$rs || !$rs->execute(["%$word%", $access])) {
             throw new Exception("数据库错误");
         }
 
@@ -48,8 +51,11 @@ class search
 
     protected function getAllResult($words)
     {
+        global $USER;
+
+        $access = (int)$USER->getAccess();
         $wordsHash = md5($words);
-        $key = "search/result/$wordsHash";
+        $key = "search/result/$wordsHash/$access";
 
         $rs = cache::get($key);
 
@@ -127,6 +133,8 @@ class search
 
     public function searchTopic($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, & $count = true, &$order = 'ctime')
     {
+        global $USER;
+
         $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words)));
         $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
 
@@ -150,17 +158,18 @@ class search
                     break;
             }
 
-            $sql = 'SELECT id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? ORDER BY level DESC, '.$order.' DESC LIMIT ?,?';
+            $bbs = new bbs($USER);
+            $sql = 'SELECT SQL_CALC_FOUND_ROWS id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? AND ((access = 0) OR (access & ?)) ORDER BY level DESC, '.$order.' DESC LIMIT ?,?';
             $rs = db::conn()->prepare($sql);
 
-            if (!$rs || !$rs->execute([$uid, $offset, $limit])) {
+            if (!$rs || !$rs->execute([$uid, $USER->getAccess(), $offset, $limit])) {
                 throw new Exception('数据库错误');
             }
 
             $result = $rs->fetchAll(db::ass);
 
             if ($count !== true) {
-                $rs = db::conn()->query('SELECT count(*) FROM ' . DB_A . 'bbs_topic_meta WHERE uid=' . (int)$uid);
+                $rs = db::conn()->query('SELECT FOUND_ROWS()');
 
                 if ($rs) {
                     $count = $rs->fetch(db::num);
@@ -222,7 +231,8 @@ class search
             }
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE ';
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE ((access = 0) OR (access & ?)) AND ';
+        $args = [$USER->getAccess()];
         if ($onlyReview == -1) {
             $sql .= 'review_log LIKE ?';
             $args[] = "%\"uid\":{$USER->uid},%";
@@ -242,7 +252,7 @@ class search
 
         if (isset($uid)) {
             $sql .= ' AND uid=? AND reply_id!=0';
-            $args = [$uid];
+            $args[] = $uid;
         }
 
         if ($words != '') {

@@ -204,5 +204,35 @@ class str
         // Output the 36 character UUID.
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
+
+    public static function bitset2str($bitset) {
+        $bitset = (int)$bitset;
+        if ($bitset == 0) {
+            return 'all';
+        }
+        $result = [];
+        for ($i=0; $i<32; $i++) {
+            $mask = 1 << $i;
+            if ($bitset & $mask) {
+                $result[] = $i + 1;
+            }
+        }
+        return implode(',', $result);
+    }
+
+    public static function str2bitset($str) {
+        $str = strtolower(trim($str));
+        if ($str == 'all') {
+            return 0;
+        }
+        $groups = explode(',', $str);
+        $bitset = 0;
+        foreach ($groups as $i) {
+            $i = (int)(trim($i));
+            $mask = 1 << ($i - 1);
+            $bitset |= $mask;
+        }
+        return $bitset;
+    }
 //class str end
 }

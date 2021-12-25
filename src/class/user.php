@@ -216,7 +216,7 @@ class user extends userinfo
             }
         }
         $pass = self::mkpass($pass);
-        $sql = 'SELECT `active`,`uid`,`name`,`pass`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`';
+        $sql = 'SELECT `active`,`uid`,`name`,`pass`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`,`permission`,`access`';
         if ($getinfo) {
             $sql .= ',`info`';
         }
@@ -351,7 +351,7 @@ class user extends userinfo
         static $rs, $x_getinfo;
         if (!$rs || $getinfo != $x_getinfo) {
             $db = self::conn(true);
-            $rs = $db->prepare('SELECT `active`,`uid`,`name`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`' . ($getinfo ? ',`info`' : '') . ' FROM `' . DB_A . 'user` WHERE `sid`=?');
+            $rs = $db->prepare('SELECT `active`,`uid`,`name`,`mail`,`sid`,`sidtime`,`regtime`,`acctime`,`permission`,`access`' . ($getinfo ? ',`info`' : '') . ' FROM `' . DB_A . 'user` WHERE `sid`=?');
 
             $x_getinfo = $getinfo;
         }

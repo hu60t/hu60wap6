@@ -16,8 +16,8 @@
         <div class="control">
             <div class="select">
                 <select name="parent_id">
-                    {foreach $forumList as $name=>$id}
-                        <option value="{$id}">{$name}</option>
+                    {foreach $forumList as $v}
+                        <option value="{$v.id}">{$v.title}</option>
                     {/foreach}
                 </select>
             </div>

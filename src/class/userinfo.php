@@ -36,6 +36,9 @@ class userinfo implements ArrayAccess
 	/*** 管理员权限: 审核用户发言的权限 */
 	const PERMISSION_REVIEW_POST = 128;
 
+    /*** 访问权限：受限资源 */
+    const ACCESS_RESTRICTED = 1;
+
     // 权限列表结束
 
     protected static $data; //用户数据缓存
@@ -358,6 +361,30 @@ class userinfo implements ArrayAccess
     public function offsetUnset($name)
     {
         throw new userexception('不能从类外部删除用户信息', 503);
+    }
+
+    public function unlimit() {
+        return $this->canAccess(UserInfo::ACCESS_RESTRICTED);
+    }
+
+    public function getAccess() {
+        if (NULL === self::$data['access'][$this->uid]) {
+            $db = self::conn(true);
+            $sql = 'SELECT `access` FROM `'.DB_A.'user` WHERE uid = ?';
+            $rs = $db->prepare($sql);
+
+            if (!$rs || !$rs->execute([$this->uid])) {
+                throw new UserException('数据库异常，无法读取权限信息！', 10500);
+            }
+
+            $data = $rs->fetch(db::num);
+            self::$data['access'][$this->uid] = $data[0];
+        }
+        return self::$data['access'][$this->uid];
+    }
+
+    public function canAccess($access) {
+        return (bool) ($access & $this->getAccess());
     }
 
     public function hasPermission($permission) {

@@ -57,14 +57,12 @@ switch ($PAGE->ext[0]) {
         }
 
         $arr = $bbs->childForumMeta(0, '*', 0);
-        $array = [
-            '顶层版块' => 0,
-        ];
+        $array = [['title'=>'顶层版块', 'id'=>0]];
         genForumList(1, $arr, $array, $id);
         $tpl->assign('forumList', $array);
 
         if ($_POST['name']) {
-            $res = $db->query("UPDATE $t_forum SET `name`=?,`parent_id`=? WHERE `id`=?", $_POST['name'], $_POST['parent_id'], $id);
+            $res = $db->query("UPDATE $t_forum SET `name`=?,`parent_id`=?,`access`=? WHERE `id`=?", $_POST['name'], (int)$_POST['parent_id'], str::str2bitset($_POST['access']), $id);
             if ($res) {
                 $tpl->assign("message", "保存成功!");
             } else {
@@ -80,9 +78,7 @@ switch ($PAGE->ext[0]) {
 }
 
 $array = $bbs->childForumMeta(0, '*', 0);
-$forumList = [
-    '顶层版块' => 0,
-];
+$forumList = [['title'=>'顶层版块', 'id'=>0]];
 genForumList(1, $array, $forumList);
 $tpl->assign('forumList', $forumList);
 $tpl->display('tpl:bbs');
@@ -93,7 +89,8 @@ function genForumList($level, $arr, &$result, $without = null)
         if ($v['id'] == $without) {
             continue;
         }
-        $result[str_repeat('　　', $level) . $v['name']] = $v['id'];
+        $v['title'] = str_repeat('　　', $level) . $v['name'];
+        $result[] = $v;
         if (isset($v['child'])) {
             genForumList($level + 1, $v['child'], $result, $without);
         }
