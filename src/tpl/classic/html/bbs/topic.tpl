@@ -112,7 +112,7 @@
 	{/if}
 </div>
 <hr>
-<p>『回复列表({$contentCount-1}{if $blockedReply}, 屏蔽<a href="?all=1">{$blockedReply}</a>{/if})』</p>
+<p>『回复列表({$contentCount-1-$blockedReply})』</p>
 <div>
     {foreach $tContents as $v}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
