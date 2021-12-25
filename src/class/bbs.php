@@ -505,10 +505,13 @@ class bbs
      */
     public function moveTopic($topicId, $forumId)
     {
-        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET forum_id=? WHERE id=?';
-
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET forum_id=?, access=(SELECT access FROM ' . DB_A . 'bbs_forum_meta WHERE id=?) WHERE id=?';
+        $ok = $this->db->query($sql, $forumId, $forumId, $topicId);
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET access=(SELECT access FROM ' . DB_A . 'bbs_forum_meta WHERE id=?) WHERE topic_id=?';
         $ok = $this->db->query($sql, $forumId, $topicId);
-
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
         }
