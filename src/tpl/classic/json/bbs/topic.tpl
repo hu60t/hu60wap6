@@ -19,9 +19,10 @@
 	{$tContents.$key.canEdit = !$v.locked && $bbs->canEdit($v.uinfo.uid, true)}
 	{$tContents.$key.canDel = !$v.locked && $bbs->canDel($v.uinfo.uid, true, $tMeta.uid)}
 	{if $v.floor == 0}
-		{$tContents.$key.canSink = !$v.locked && $bbs->canSink($v.uinfo.uid,true)}
-		{$tContents.$key.canSetEssence = !$v.locked && $bbs->canSetEssence(true)}
-		{$tContents.$key.canMove = !$v.locked && $bbs->canMove($v.uinfo.uid,true)}
+		{$tContents.$key.canSink = $bbs->canSink($tMeta.uid,true)}
+		{$tContents.$key.canSetEssence = $bbs->canSetEssence(true)}
+		{$tContents.$key.canMove = $bbs->canMove($tMeta.uid,true)}
+		{$tContents.$key.canLockReply = (!$tMeta.locked || $tMeta.locked==2) && $bbs->canEdit($v.uinfo.uid, true)}
 	{/if}
 {/foreach}
 
@@ -35,9 +36,15 @@
 	'isLogin'=>$USER->islogin,
 	'blockedReply'=>$blockedReply,
 	'floorReverse'=>$floorReverse,
-	'canReply' => $USER->islogin && !$v.locked && (
+	'canReply' => $USER->islogin && (
+			!$tMeta.locked || ($tMeta.locked == 2 && $USER.uid == $tMeta.uid)
+		) && (
 			!$tMeta.review || $USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)
 		),
+	'canLockReply' => (!$tMeta.locked || $tMeta.locked==2) && $bbs->canEdit($v.uinfo.uid, true),
+	'canSink' => $bbs->canSink($tMeta.uid,true),
+	'canSetEssence' => $bbs->canSetEssence(true),
+	'canMove' => $bbs->canMove($tMeta.uid,true),
 	'tContents'=>$tContents
 ]}
 

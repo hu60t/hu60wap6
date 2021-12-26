@@ -63,7 +63,6 @@
 
 <div>
 	{if $p == 1}
-
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<a class="floor-link" name="0"></a><a name="/0"></a>
@@ -91,7 +90,7 @@
 		<script>foldFloorInit(0)</script>
 		{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 			<hr>
-			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{else}改{/if}{if ($tMeta.essence==0) && $bbs->canSetEssence(true)}|<a href="{$CID}.setessencetopic.{$v.topic_id}.{$v.id}.{$BID}">加精</a>{/if}{if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}|<a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$v.id}.{$BID}">取消精华</a>{/if}|续|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}|设]</p>
+			<p>[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{else}改{/if}{if ($tMeta.essence==0) && $bbs->canSetEssence(true)}|<a href="{$CID}.setessencetopic.{$v.topic_id}.{$BID}">加精</a>{/if}{if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}|<a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$BID}">取消精华</a>{/if}|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}|{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}|{if $tMeta.locked == 2}<a href="{$CID}.lockreply.{$v.topic_id}.{$BID}?lock=0">开放评论</a>{else}<a href="{$CID}.lockreply.{$v.topic_id}.{$BID}?lock=1">关闭评论</a>{/if}]</p>
 		{/if}
     {if $bbs->canFavorite($v.uinfo.uid, true)}
     <hr>
@@ -145,11 +144,16 @@
 </div>
 <!--回复框-->
 <div>
-	{if $tMeta.locked}
+	{if $tMeta.locked == 2 && $USER.uid != $tMeta.uid}
+		<div class="notice">该帖子已关闭评论，仅楼主可回复。</div>
+	{elseif $tMeta.locked && $tMeta.locked != 2}
 		<div class="notice">该帖子已锁定，不能回复。</div>
 	{elseif $tMeta.review && !$USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
 		<div class="text-notice">为了减少无关评论，未审核通过的帖子只有管理员可以回复。</div>
     {elseif $USER->islogin}
+		{if $tMeta.locked == 2}
+			<div class="notice">该帖子已关闭评论，仅楼主可回复。</div>
+		{/if}
         <form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}">
             <textarea id="content" name="content" style="width:80%;height:100px">{$smarty.post.content}</textarea>
             <input type="hidden" name="token" value="{$token->token()}">

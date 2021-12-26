@@ -15,6 +15,10 @@ class bbs
     const ACTION_SET_ESSENCE_TOPIC = 4;
     /** 取消精华帖子操作 */
     const ACTION_UNSET_ESSENCE_TOPIC = 5;
+    /** 关闭评论操作 */
+    const ACTION_REPLY_LOCK = 6;
+    /** 开放评论操作 */
+    const ACTION_REPLY_UNLOCK = 7;
 
 
     /** 审核通过 */
@@ -401,9 +405,19 @@ class bbs
     public function setEssenceTopic($topicId)
     {
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET essence=? WHERE id=?';
-
         $ok = $this->db->query($sql, 1, $topicId);
+        if (!$ok) {
+            throw new bbsException('修改失败，数据库错误');
+        }
+    }
 
+    /**
+     * 关闭评论/开放评论
+     */
+    public function lockReply($topicId, $lockOrUnlock)
+    {
+        $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET locked=? WHERE id=?';
+        $ok = $this->db->query($sql, $lockOrUnlock ? 2 : 0, $topicId);
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
         }

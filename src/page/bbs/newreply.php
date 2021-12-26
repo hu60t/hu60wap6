@@ -29,7 +29,10 @@ try {
         throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
     }
 
-    if ($tMeta['locked']) {
+    if ($tMeta['locked'] == 2 && $USER->uid != $tMeta['uid']) {
+        throw new bbsException('评论已关闭，仅楼主可回复', 5403);
+    }
+    if ($tMeta['locked'] && $tMeta['locked'] != 2) {
         throw new bbsException('锁定的帖子不能回复！', 2403);
     }
     if ($tMeta['review'] && !$USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {

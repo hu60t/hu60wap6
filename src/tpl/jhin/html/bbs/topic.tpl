@@ -137,23 +137,28 @@
 	<!--回复框-->
 	<div class="comments-replay">
 		<div class="bar">添加新回复</div>
-		{if $tMeta.locked}
-		<div class="text-notice">该帖子已锁定，不能回复。</div>
+		{if $tMeta.locked == 2 && $USER.uid != $tMeta.uid}
+			<div class="notice">该帖子已关闭评论，仅楼主可回复。</div>
+		{elseif $tMeta.locked && $tMeta.locked != 2}
+			<div class="text-notice">该帖子已锁定，不能回复。</div>
 		{elseif $tMeta.review && !$USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
-		<div class="text-notice">为了减少无关评论，未审核通过的帖子只有管理员可以回复。</div>
+			<div class="text-notice">为了减少无关评论，未审核通过的帖子只有管理员可以回复。</div>
 		{elseif $USER->islogin}
-		<form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}" class="comments-form">
-			<textarea id="content" name="content" class="comments-form-content">{$smarty.post.content}</textarea>
-			<input type="hidden" name="token" value="{$token->token()}">
-			<p>
-				<input type="submit" id="reply_topic_button" name="go" value="评论该帖子"/>
-				<input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
-				<a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
-				{include file="tpl:comm.addfiles"}
-			</p>
-		</form>
+			{if $tMeta.locked == 2}
+				<div class="notice">该帖子已关闭评论，仅楼主可回复。</div>
+			{/if}
+			<form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}" class="comments-form">
+				<textarea id="content" name="content" class="comments-form-content">{$smarty.post.content}</textarea>
+				<input type="hidden" name="token" value="{$token->token()}">
+				<p>
+					<input type="submit" id="reply_topic_button" name="go" value="评论该帖子"/>
+					<input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
+					<a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
+					{include file="tpl:comm.addfiles"}
+				</p>
+			</form>
 		{else}
-		回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。
+			回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。
 		{/if}
 	</div>
 </div>

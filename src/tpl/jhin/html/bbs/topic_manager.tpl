@@ -21,6 +21,11 @@
     {if $bbs->canMove($v.uinfo.uid,true)}
       <a href="{$CID}.movetopic.{$v.topic_id}.{$BID}"><i class="material-icons">content_cut</i>移动</a>
     {/if}
+    {if $tMeta.locked == 2}
+      <a href="{$CID}.lockreply.{$v.topic_id}.{$BID}?lock=0">开放评论</a>
+    {else}
+      <a href="{$CID}.lockreply.{$v.topic_id}.{$BID}?lock=1">关闭评论</a>
+    {/if}
   </div>
   <div style="clear:both;"></div>
 {/if}

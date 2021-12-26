@@ -449,6 +449,8 @@ HTML;
             bbs::ACTION_REMOVE_BLOCK_POST => '将您解除禁言',
             bbs::ACTION_SET_ESSENCE_TOPIC => '加精',
             bbs::ACTION_UNSET_ESSENCE_TOPIC => '取消精华',
+            bbs::ACTION_REPLY_LOCK => '关闭评论',
+            bbs::ACTION_REPLY_UNLOCK => '开放评论',
         ];
 
         $act = $actName[$data['act']];
