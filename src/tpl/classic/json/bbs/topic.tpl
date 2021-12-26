@@ -17,7 +17,7 @@
 	{$tContents.$key.content = $ubb->display($v.content,true)}
 	{$tContents.$key.uinfo = ['name'=>$v.uinfo.name]}
 	{$tContents.$key.canEdit = !$v.locked && $bbs->canEdit($v.uinfo.uid, true)}
-	{$tContents.$key.canDel = !$v.locked && $bbs->canDel($v.uinfo.uid, true)}
+	{$tContents.$key.canDel = !$v.locked && $bbs->canDel($v.uinfo.uid, true, $tMeta.uid)}
 	{if $v.floor == 0}
 		{$tContents.$key.canSink = !$v.locked && $bbs->canSink($v.uinfo.uid,true)}
 		{$tContents.$key.canSetEssence = !$v.locked && $bbs->canSetEssence(true)}

@@ -120,7 +120,7 @@
 		<div class="floor_fold_bar" id="floor_fold_bar_{$v.floor}"></div>
 		<script>foldFloorInit({$v.floor})</script>
 		<div>
-			(<a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if}{if $v.review}
+			(<a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>/<a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a>/{date('Y-m-d H:i',$v.mtime)}{if $bbs->canEdit($v.uinfo.uid, true)}/<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{/if}{if $bbs->canDel($v.uinfo.uid, true, $tMeta.uid)}/<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{/if}{if $v.review}
 				<div class="topic-status">{bbs::getReviewStatName($v.review)}</div>
 			{/if}{if $v.uinfo->hasPermission(UserInfo::DEBUFF_BLOCK_POST)}
 				<div class="topic-status">被禁言</div>

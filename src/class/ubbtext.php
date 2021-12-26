@@ -420,7 +420,8 @@ HTML;
             $own = "您";
             $reason = "。";
         } else {
-            $own = "管理员 {$uinfo->name} ";
+            $who = ($data['uid'] == $data['topicUid']) ? '楼主' : '管理员';
+            $own = "$who {$uinfo->name} ";
 
             $reason = <<<HTML
 ，理由如下：
@@ -506,6 +507,8 @@ HTML;
 
         if ($data['uid'] == $data['ownUid']) {
             $own = '层主';
+        } elseif ($data['uid'] == $data['topicUid']) {
+            $own = '楼主';
         } else {
             $own = '管理员';
         }

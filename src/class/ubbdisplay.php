@@ -819,7 +819,8 @@ HTML;
             $own = "您";
             $reason = "。";
         } else {
-            $own = "管理员 <a class=\"userinfo\" href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
+            $who = ($data['uid'] == $data['topicUid']) ? '楼主' : '管理员';
+            $own = "$who <a class=\"userinfo\" href=\"user.info.{$uinfo->uid}.{$PAGE->bid}\">{$uinfo->name}</a> ";
 
             $reason = <<<HTML
 ，理由如下：
@@ -915,6 +916,8 @@ HTML;
 
         if ($data['uid'] == $data['ownUid']) {
             $own = '层主';
+        } elseif ($data['uid'] == $data['topicUid']) {
+            $own = '楼主';
         } else {
             $own = '管理员';
         }

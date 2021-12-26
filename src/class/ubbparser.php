@@ -698,12 +698,13 @@ class UbbParser extends XUBBP
      *
      * @return XUBBP 数据
      */
-    public static function createAdminDelNotice($user, $pos, $url, $reason, $oriData, $serialize = false, $ownUid = null)
+    public static function createAdminDelNotice($user, $pos, $url, $reason, $oriData, $serialize = false, $ownUid = null, $topicUid = null)
     {
         $data = array(array(
             'type' => 'adminDel',
             'uid' => $user->uid,
             'ownUid' => $ownUid,
+            'topicUid' => $topicUid,
             'pos' => $pos,
             'url' => $url,
             'reason' => $reason,
@@ -727,7 +728,7 @@ class UbbParser extends XUBBP
      *
      * @return XUBBP 数据
      */
-    public static function createAdminDelContent($user, $reason, $serialize = false, $ownUid = null, $noTime = false)
+    public static function createAdminDelContent($user, $reason, $serialize = false, $ownUid = null, $noTime = false, $topicUid = null)
     {
         $data = array(array(
             'type' => 'delContent',
@@ -736,6 +737,9 @@ class UbbParser extends XUBBP
             'reason' => $reason,
             'time' => $noTime ? null : $_SERVER['REQUEST_TIME'],
         ));
+        if (!empty($topicUid)) {
+            $data[0]['topicUid'] = $topicUid;
+        }
 
         if ($serialize) {
             $data = data::serialize($data);

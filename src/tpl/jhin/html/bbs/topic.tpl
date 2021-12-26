@@ -100,7 +100,7 @@
 		    				{if $bbs->canEdit($v.uinfo.uid, true)}
 			    				/ <a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>
 				    		{/if}
-					    	{if $bbs->canDel($v.uinfo.uid, true)}
+					    	{if $bbs->canDel($v.uinfo.uid, true, $tMeta.uid)}
 						    	/ <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
     						{/if}
 							{if $v.review}

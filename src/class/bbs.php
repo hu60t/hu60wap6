@@ -94,12 +94,14 @@ class bbs
     /**
      * 检查用户是否可删除
      */
-    public function canDel($ownUid, $noException = false)
+    public function canDel($ownUid, $noException = false, $topicUid = null)
     {
         try {
             $this->checkLogin();
 
-            if ($this->user->uid == $ownUid || $this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
+            if ($this->user->uid == $ownUid
+                || (!empty($topicUid) && $this->user->uid == $topicUid)
+                || $this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
                 return true;
             } else {
                 throw new bbsException('您没有权限删除当前楼层。', 403);
