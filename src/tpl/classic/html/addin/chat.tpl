@@ -78,7 +78,6 @@
     {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
     {$p}/{$maxP}页,共{$count}楼
     <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
-    {if $blockedReply}(屏蔽 <a style="padding:0" href="?p={$p}&amp;all=1">{$blockedReply}</a>){/if}
 </div>
 <hr>
 <div class="content">
@@ -102,6 +101,5 @@
     {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
     {$p}/{$maxP}页,共{$count}楼
     <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
-    {if $blockedReply}(屏蔽 <a style="padding:0" href="?p={$p}&amp;all=1">{$blockedReply}</a>){/if}
 </div>
 {include file="tpl:comm.foot"}
