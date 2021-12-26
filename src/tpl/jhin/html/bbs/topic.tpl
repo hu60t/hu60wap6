@@ -52,6 +52,9 @@
 				{if $tMeta.level < 0}
 					<div class="topic-status">被下沉</div>
 				{/if}
+				{if $tMeta.locked == 2}
+				    <div class="topic-status">评论关闭</div>
+				{/if}
             </div>
 		</div>
 		<div class="topic-content user-content" data-floorID="0" id="floor_content_0">

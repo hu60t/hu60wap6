@@ -39,7 +39,9 @@
                             {if $topic.uinfo->hasPermission(UserInfo::DEBUFF_BLOCK_POST)}
                                 &nbsp;<div class="topic-status">被禁言</div>
                             {/if}
-                            {if $topic.locked}
+                            {if $topic.locked == 2}
+				    	        &nbsp;<div class="topic-status">评论关闭</div>
+			    	        {elseif $topic.locked}
                                 &nbsp;<div class="topic-status">被锁定</div>
                             {/if}
                             {if $topic.level < 0}
