@@ -53,6 +53,14 @@ if (!$tMeta){
   throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
 }
 
+if ($tMeta['locked'] && $tMeta['locked'] != 2 && !$USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $bbs->countReplyInTopic($tid) < 1) {
+	throw new bbsException('帖子 id=' . $tid . ' 已删除！', 3404);
+}
+
+if ($tMeta['review'] == 2 && !$USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $bbs->countReplyInTopic($tMeta['id']) < 1) {
+	throw new bbsException('帖子 id=' . $tid . ' 被站长屏蔽！', 3403);
+}
+
 //增加帖子点击数
 if ($USER->uid != $tMeta['uid']) {
     $bbs->addTopicReadCount($tid);

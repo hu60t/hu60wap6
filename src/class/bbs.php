@@ -66,6 +66,17 @@ class bbs
             throw new bbsException('用户未登录或掉线，请先登录。', 401);
     }
 
+    /**
+     * 统计某人在某帖中的回复次数
+     */
+    public function countReplyInTopic($topicId) {
+        $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE topic_id=? AND uid=?', $topicId, $this->user->uid);
+        if (!$rs) {
+            throw new bbsException('数据库错误，表'.DB_A.'bbs_topic_content不可读', 500);
+        }
+        return $rs->fetch(PDO::FETCH_COLUMN, 0);
+    }
+
 	/**
 	* 设置是否正在编辑帖子
 	*/
@@ -704,13 +715,13 @@ class bbs
         return $this->blockUids;
     }
 
-    public function newTopicList($size = 20, $offset = 0, $where = '')
+    public function newTopicList($size = 20, $offset = 0)
     {
+        $where = 'WHERE ctime > ' . ($_SERVER['REQUEST_TIME'] - 30 * 24 * 3600) . ' AND review < 2 AND ((access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
-            $where = (empty(trim($where)) ? 'WHERE ' : $where . ' AND ') . 'uid NOT IN (' . implode(',', $blockUids) . ')';
+            $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
         }
-        $where = (empty(trim($where)) ? 'WHERE ' : $where . ' AND ') . '((access = 0) OR (access & ?))';
         $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY level DESC, mtime DESC LIMIT ?,?', $this->user->getAccess(), $offset, $size);
         if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $topic = $rs->fetchAll();
@@ -746,7 +757,7 @@ class bbs
      */
     public function topicCount($forum_id, $onlyEssence = false)
     {
-        $where = 'WHERE ((access = 0) OR (access & ?))';
+        $where = 'WHERE review < 2 AND ((access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
@@ -770,7 +781,7 @@ class bbs
      */
     public function topicList($forum_id, $page, $size, $orderBy = 'mtime', $onlyEssence = false)
     {
-        $where = 'WHERE ((access = 0) OR (access & ?))';
+        $where = 'WHERE review < 2 AND ((access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
