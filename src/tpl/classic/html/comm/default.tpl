@@ -79,7 +79,7 @@
 			[<a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a>]
 		</p>
 		<p>
-			本站由 <a href="https://github.com/hu60t/hu60wap6">hu60wap6</a> 驱动
+			本站由 <a href="https://gitee.com/hu60t/hu60wap6">hu60wap6</a> 驱动
 		</p>
 		<p>
 			{#SITE_RECORD_NUMBER#}

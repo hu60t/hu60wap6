@@ -109,7 +109,7 @@
     <div class="case">
         <div>
 			{if strpos($smarty.server.REMOTE_ADDR, ':') !== FALSE}<a href="tools.ua.{$BID}">[IPv6]</a>{/if}
-            本站由<a href="https://github.com/hu60t/hu60wap6">hu60wap6</a>驱动 . 
+            本站由<a href="https://gitee.com/hu60t/hu60wap6">hu60wap6</a>驱动 . 
             <a href="link.tpl.classic.{$BID}?url64={code::b64e($page->geturl())}">经典主题</a> .
             <a href="index.index.{$BID}">首页</a>
         </div>
