@@ -13,12 +13,14 @@
 <p class="txt">
  用户名：{$uinfo->name|code}<br/>
 </p>
+{if $USER->unlimit() || $uinfo->hasPermission(UserInfo::PERMISSION_REVIEW_POST)}
 <p class="txt">
  个性签名：{$uinfo->getinfo('signature')|code}<br/>
 </p>
 <p class="txt">
  联系方式：{$uinfo->getinfo('contact')|code}<br/>
 </p>
+{/if}
 <p class="txt">
  注册时间：{if $uinfo->regtime == 0}{if $uinfo->uid == $USER->uid}您{else}该用户{/if}是很久以前注册的，那时没有记录注册时间{else}{date('Y年m月d日 H:i:s',$uinfo->regtime)}{/if}
 </p>

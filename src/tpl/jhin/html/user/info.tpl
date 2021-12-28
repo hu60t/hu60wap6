@@ -24,6 +24,7 @@
       <td>用户名：</td>
       <td>{$uinfo->name|code}</td>
   </tr>
+{if $USER->unlimit() || $uinfo->hasPermission(UserInfo::PERMISSION_REVIEW_POST)}
   <tr>
     <td>个性签名：</td>
     <td>{$uinfo->getinfo('signature')|code}</td>
@@ -32,6 +33,7 @@
     <td>联系方式：</td>
     <td>{$uinfo->getinfo('contact')|code}</td>
   </tr>
+{/if}
   <tr>
     <td>注册时间：</td>
     <td>
