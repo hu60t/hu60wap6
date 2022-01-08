@@ -1019,8 +1019,15 @@ class bbs
 		if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
 			return null;
         }
+
+        $where = '';
+        $blockUids = $this->getBlockUids();
+        if (!empty($blockUids)) {
+            $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
+
         // 仅统计待审核的行
-        $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE review=?', self::REVIEW_NEED_REVIEW);
+        $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE review=?'.$where, self::REVIEW_NEED_REVIEW);
         return $rs->fetch(db::num)[0];
     }
 

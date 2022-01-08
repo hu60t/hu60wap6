@@ -246,6 +246,11 @@ class search
         elseif ($onlyReview) {
             $sql .= 'review=?';
             $args[] = (int)$onlyReview;
+
+            $blockUids = (new bbs($USER))->getBlockUids();
+            if (!empty($blockUids)) {
+                $sql .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+            }
         } else {
             $sql .= 'reply_id!=0';
         }

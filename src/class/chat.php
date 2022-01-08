@@ -125,7 +125,14 @@ class chat
 		if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
 			return null;
         }
-        $rs = $this->db->select("count(*)", 'addin_chat_data', 'WHERE review=1');
+
+        $where = '';
+        $blockUids = $this->getBlockUids();
+        if (!empty($blockUids)) {
+            $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
+
+        $rs = $this->db->select("count(*)", 'addin_chat_data', 'WHERE review=1'.$where);
         $n = $rs->fetch(db::num);
         return $n[0];
     }
@@ -135,20 +142,26 @@ class chat
      */
     public function chatReviewList($offset = 0, $size = 10, $startTime = null, $endTime = null)
     {
+        $where = '';
+        $blockUids = $this->getBlockUids();
+        if (!empty($blockUids)) {
+            $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
+
 		if ($startTime === null) {
 			if ($endTime === null) {
-        		$rs = $this->db->select("*", 'addin_chat_data', 'WHERE review=1 ORDER BY `time` DESC LIMIT ?,?', $offset, $size);
+        		$rs = $this->db->select("*", 'addin_chat_data', 'WHERE review=1'.$where.' ORDER BY `time` DESC LIMIT ?,?', $offset, $size);
 			}
 			else {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE review=1 AND `time`<? ORDER BY `time` DESC LIMIT ?,?', $endTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE review=1'.$where.' AND `time`<? ORDER BY `time` DESC LIMIT ?,?', $endTime, $offset, $size);
 			}
 		}
 		else {
 			if ($endTime === null) {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE review=1 AND `time`>=? ORDER BY `time` ASC LIMIT ?,?', $startTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE review=1'.$where.' AND `time`>=? ORDER BY `time` ASC LIMIT ?,?', $startTime, $offset, $size);
 			}
 			else {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE review=1 AND `time`>=? AND `time`<? ORDER BY `time` ASC LIMIT ?,?', $startTime, $endTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE review=1'.$where.' AND `time`>=? AND `time`<? ORDER BY `time` ASC LIMIT ?,?', $startTime, $endTime, $offset, $size);
 			}
 		}
         
