@@ -142,7 +142,7 @@ Parse error: syntax error, unexpected '[' in /web/class/page.php on line 34
 2. 访问网站并切换到`经典主题`。因为`经典主题`比较容易修改。
 2. 进入 `tpl/classic/html/index`文件夹（`经典主题`的文件夹），里面的`index.tpl`就是首页的内容。按照你的想法改变其html代码，但是在不了解的情况下，不要动任何位于花括号（`{}`）里面的内容，这里面的内容是smarty模板标记。
 3. 进入 `tpl/classic/css` 文件夹，里面的 `default.css` 就是默认css，随你修改。`night.css`是对应的夜间模式css。
-4. `tpl/classic/img` 文件夹里面是图片，比如 `hulvlin2.gif` 是默认logo。里面的`face`文件夹放的是表情包。表情包的文件名命名规则详见 [这里](src/tpl/classic/img/face/README.md)。
+4. `tpl/classic/img` 文件夹里面是图片，比如 `hulvlin2.gif` 是默认logo。里面的`face`文件夹放的是表情包。表情包的文件名命名规则详见 [这里](src/img/face/README.md)。
 5. `tpl/classic/html/bbs` 里面是论坛各种页面的模板。基本上打开文件你就知道是哪个页面了。随意修改。
 6. `tpl/classic/html/user` 是用户中心，`tpl/classic/html/addin` 里面有聊天室的模板，等等。
 7. 如果你想要修改网页的头部和尾部，那么在`tpl/classic/html/comm`里面，分别是`head.tpl`和`foot.tpl`。
