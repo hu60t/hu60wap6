@@ -74,8 +74,8 @@ try {
                 throw new Exception('标题不能为空');
         }
         $content = $_POST['content'];
-        if (trim($content) == '')
-            throw new Exception('内容不能为空');
+        /*if (trim($content) == '')
+            throw new Exception('内容不能为空');*/
         $token = new token($USER);
         $ok = $token->check($_POST['token']);
         if (!$ok)
