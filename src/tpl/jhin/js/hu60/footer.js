@@ -15,6 +15,10 @@
                 });
                 flvPlayer.attachMediaElement(video);
                 flvPlayer.load();
+            } else if (url.match(/\.m3u8\b/i) && Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
             }
         });
     });

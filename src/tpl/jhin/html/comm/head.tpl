@@ -12,6 +12,7 @@
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/flv.js/flv.min.js")|code}"></script>
+    <script src="{$PAGE->getTplUrl("js/hls.js/hls.min.js")|code}"></script>
     <script type="module">
         // 载入LaTeX支持
         import { LaTeXJSComponent } from "{$PAGE->getTplUrl("js/latex.js/dist/latex.m.js")}";
