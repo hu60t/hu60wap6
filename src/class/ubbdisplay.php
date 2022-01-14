@@ -324,6 +324,10 @@ class UbbDisplay extends XUBBP
         $alt = $data['alt'];
         $style = $this->parseImgStyleFromUrl($url, $alt);
 
+        if (empty($alt)) {
+            $alt = basename(parse_url($url, PHP_URL_PATH));
+        }
+
         //百度输入法多媒体输入
         if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
             $prefix = $arr[1];
