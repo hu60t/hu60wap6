@@ -107,7 +107,7 @@ abstract class CloudStorageBase {
 
     public static function noAttrname($fileName) {
         // 不要给图片添加 attrname 参数，以防查看大图变成下载
-        if (preg_match('/\.(jpe?g|png|gif|bmp|webp|hei[cf])$/si', trim($fileName))) {
+        if (preg_match('/\.(jpe?g|png|gif|bmp|webp|hei[cf])$/is', trim($fileName))) {
             return true;
         }
         return false;
@@ -135,13 +135,13 @@ abstract class CloudStorageBase {
     }
 
     public static function getFileType($key) {
-        if (preg_match('/\.(jpe?g|png|gif|bmp|webp|hei[cf])$/s', $key)) {
+        if (preg_match('/\.(jpe?g|png|gif|bmp|webp|hei[cf])$/is', $key)) {
             return 'image';
         }
-        if (preg_match('/\.(mp4|m3u8|m4v|ts|mov|flv)$/s', $key)) {
+        if (preg_match('/\.(mp4|m3u8|m4v|ts|mov|flv)$/is', $key)) {
             return 'video';
         }
-        if (preg_match('/\.(mp3|wma|m4a|ogg)$/s', $key)) {
+        if (preg_match('/\.(mp3|wma|m4a|ogg)$/is', $key)) {
             return 'audio';
         }
         return 'others';
