@@ -30,7 +30,7 @@
         x.addEventListener('error', async function() {
             if (x.alt.match(/\.hei[cf]\b/i)) {
                 if (!document.ConvertHeicToPng) {
-                    await $.getScript('/tpl/jhin/js/heif-web-display/dist/main.js?r=7');
+                    await $.getScript('/tpl/jhin/js/heif-web-display/dist/main.js?r=8');
                 }
                 console.log('ConvertHeicToPng:', x.src);
                 x.src = await document.ConvertHeicToPng(x.src);
