@@ -120,5 +120,29 @@
     </td>
     {/if}
   </tr>
+  <tr>
+    <td>HEIF图片缓存：</td>
+    <td>
+      <span id="cache_size">计算中...</span>
+      <input id="clean_cache" type="button" value="清除缓存" />
+    </td>
+  </tr>
 </table>
+<script src="{$PAGE->getTplUrl('js/humanize/humanize.js')}"></script>
+<script src="{$PAGE->getTplUrl('js/heif-web-display/dist/utils.js')}"></script>
+<script>
+(function() {
+    async function getCacheSize() {
+        const cacheSize = await document.HeicToPngCacheSize();
+        console.log(cacheSize);
+        document.querySelector('#cache_size').innerText = cacheSize.count + '条, ' + humanize.filesize(cacheSize.size);
+    }
+    async function cleanCache() {
+        await document.CleanHeicToPngCache();
+        getCacheSize();
+    }
+    window.addEventListener('load', getCacheSize);
+    document.querySelector('#clean_cache').addEventListener('click', cleanCache);
+})()
+</script>
 {/block}
