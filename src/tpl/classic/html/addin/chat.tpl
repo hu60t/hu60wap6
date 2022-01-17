@@ -20,6 +20,7 @@
 	
 	function foldFloorInit(floor) {
 		var content = document.getElementById('floor_content_' + floor);
+        if (!content) return;
 		var height = content.offsetHeight;
 		
 		if (height > 768) {
