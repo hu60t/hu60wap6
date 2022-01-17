@@ -442,7 +442,8 @@ class page implements ArrayAccess
             return false;
         }
         if (isset($_SERVER['HTTP_SEC_FETCH_SITE'])) {
-            return $_SERVER['HTTP_SEC_FETCH_SITE'] !== 'same-origin';
+            return $_SERVER['HTTP_SEC_FETCH_SITE'] !== 'same-origin'
+                && $_SERVER['HTTP_SEC_FETCH_SITE'] !== 'none';
         }
         if (!isset($_SERVER['HTTP_REFERER'])) {
             return false;
