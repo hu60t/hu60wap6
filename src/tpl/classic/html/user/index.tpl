@@ -76,6 +76,7 @@
 进入：<a href='admin.index.{$bid}' class="cr_login_submit">管理后台</a>
 <br/>
 </p>
+{/if}
 <p class="txt">
   HEIF图片缓存：
   <span id="cache_size">计算中...</span>
@@ -99,5 +100,4 @@
     document.querySelector('#clean_cache').addEventListener('click', cleanCache);
 })()
 </script>
-{/if}
 {include file="tpl:comm.foot"}
