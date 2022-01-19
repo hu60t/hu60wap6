@@ -49,7 +49,6 @@
     }
     // 加载 H.265/HEVC 播放支持
     async function loadH265Extension(video) {
-        console.log(video);
         const url = 'https://dev.hu60.cn/tpl/jhin/js/h265web.js/player/#' + escapeHtml(video.src);
         video.outerHTML = `<iframe id="${video.id}" class="${video.class}" width="${video.clientWidth}" height="${video.clientHeight}" src="${url}" seamless allowfullscreen sandbox="allow-scripts allow-forms allow-same-origin allow-popups" style="border: none"><a href="${url}">${url}</a></iframe>`;
     }
