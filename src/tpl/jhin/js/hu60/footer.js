@@ -62,12 +62,12 @@
         document._userVideoIndex = 0;
         document.querySelectorAll('.video').forEach(async video => {
             video.id = 'user_video_' + (++document._userVideoIndex);
+            console.log(video.id, video.readyState, video.videoWidth);
             if (!video._tryExt && !video.duration) {
                 loadVideoExtension(video);
             } else if (video.readyState >= 2 && video.videoWidth == 0) {
                 loadH265Extension(video);
             } else {
-                console.log(video.id, video.readyState, video.videoWidth);
                 video.addEventListener('canplay', (e) => {
                     const v = e.target;
                     if (v.videoWidth == 0) {
