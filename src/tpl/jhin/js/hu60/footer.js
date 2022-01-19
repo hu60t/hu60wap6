@@ -48,7 +48,7 @@
         }
     }
     // 加载 H.265/HEVC 播放支持
-    async function loadH265Extension(video) {
+    function loadH265Extension(video) {
         const url = 'https://dev.hu60.cn/tpl/jhin/js/h265web.js/player/#' + escapeHtml(video.src);
         video.outerHTML = `<iframe id="${video.id}" class="${video.class}" width="${video.clientWidth}" height="${video.clientHeight}" src="${url}" seamless allowfullscreen sandbox="allow-scripts allow-forms allow-same-origin allow-popups" style="border: none"><a href="${url}">${url}</a></iframe>`;
     }
@@ -65,7 +65,15 @@
             if (!video._tryExt && !video.duration) {
                 loadVideoExtension(video);
             } else if (video.readyState >= 2 && video.videoWidth == 0) {
-                await loadH265Extension(video);
+                loadH265Extension(video);
+            } else {
+                console.log(video.id, video.readyState, video.videoWidth);
+                video.addEventListener('canplay', (e) => {
+                    const v = e.target;
+                    if (v.videoWidth == 0) {
+                        loadH265Extension(v);
+                    }
+                });
             }
         });
     });
