@@ -385,7 +385,6 @@ class UbbDisplay extends XUBBP
 
         $url = $data['url'];
         $iframeUrl = null;
-		$heightJs = 'box.offsetWidth*2/3';
 
         //优酷
         if (preg_match('#\.youku\.com/.*/id_([a-zA-Z0-9=]+)#', $url, $arr)) {
@@ -398,7 +397,6 @@ class UbbDisplay extends XUBBP
 		//全民K歌
         else if (preg_match('#kg.*\.qq\.com/.*\bs=([a-zA-Z0-9=]+)#', $url, $arr)) {
             $iframeUrl = 'https://kg.qq.com/node/play?s='.$arr[1];
-			$heightJs = 'box.offsetWidth';
         }
         //腾讯视频
         else if (preg_match('#\.qq\.com/.*/([a-zA-Z0-9=]+)#', $url, $arr)) {
@@ -414,7 +412,7 @@ class UbbDisplay extends XUBBP
         }
 
         if (null !== $iframeUrl) {
-            $html = '<p class="video_box"><a class="uservideosite" target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen sandbox="allow-scripts allow-forms allow-same-origin allow-popups"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p><script>(function(){var box=document.getElementById("video_site_'.$id.'");box.style.height=('.$heightJs.')+\'px\';})()</script>';
+            $html = '<p class="video_box"><a class="uservideosite" target="_blank" href="'.code::html($url).'">视频链接</a><br/><iframe class="video" id="video_site_'.$id.'" src="'.code::html($iframeUrl).'" seamless allowfullscreen sandbox="allow-scripts allow-forms allow-same-origin allow-popups"><a href="'.code::html($url).'">'.code::html($url).'</a></iframe></p>';
         }
         else {
             if (JsonPage::isJsonPage()) {
@@ -484,7 +482,7 @@ class UbbDisplay extends XUBBP
         return '
 <p class="video_box">
     <a class="uservideolink" target="_blank" href="'.code::html($link).'">视频链接</a><br/>
-    <video class="video" src="'.code::html($url).'" controls></video>
+    <video class="video" src="'.code::html($url).'" controls onerror="userVideoError(this)" onloadeddata="userVideoLoaded(this)"></video>
 </p>
 ';
     }
@@ -1059,11 +1057,9 @@ HTML;
 
         if (isset($data['srcdoc'])) {
             $data['srcdoc'] = trim($data['srcdoc']);
-            $link = '<a class="useriframelink" href="#" onclick="user_iframe_toggle_'.$id.'(); return false">HTML代码</a><br/><textarea class="useriframecode" id="user_iframe_code_'.$id.'" style="display:none;min-width:150px;min-height:150px"></textarea>';
-            $script = 'function user_iframe_toggle_'.$id.'(){var f=document.getElementById("user_iframe_'.$id.'");var t=document.getElementById("user_iframe_code_'.$id.'");if(t.style.display==\'none\'){t.value=f.srcdoc;t.style.width=f.offsetWidth+\'px\';t.style.height=f.offsetHeight+\'px\';t.style.display=\'inline\';f.style.display=\'none\';}else{f.srcdoc=t.value;t.style.display=\'none\';f.style.display=\'inline\';}}';
+            $link = '<a class="useriframelink" href="#" onclick="user_iframe_toggle('.$id.'); return false">HTML代码</a><br/><textarea class="useriframecode" id="user_iframe_code_'.$id.'" style="display:none;min-width:150px;min-height:150px"></textarea>';
         } else {
             $link = '<a class="useriframelink" target="_blank" href="'.code::html($url).'">网页链接</a><br/>';
-            $script = '';
         }
 
         $props = [];
@@ -1071,7 +1067,7 @@ HTML;
             $props[] = htmlspecialchars($k).'="'.htmlspecialchars($v).'"';
         }
 
-        $html = '<p class="iframe_box">'.$link.'<iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe></p><script>'.$script.'(function(){var box=document.getElementById("user_iframe_'.$id.'");if(box.offsetWidth>box.parentElement.clientWidth){var pw=box.parentElement.clientWidth+box.clientWidth-box.offsetWidth;box.style.height=(box.clientHeight*pw/box.clientWidth)+\'px\';box.style.width=pw+\'px\';}})()</script>';
+        $html = '<p class="iframe_box">'.$link.'<iframe class="useriframe" id="user_iframe_'.$id.'" '.implode(' ', $props).'></iframe></p>';
 		return $this->markdownProtect($html);
     }
 
