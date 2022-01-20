@@ -30,3 +30,18 @@ document.querySelectorAll('.useriframe').forEach(box => {
         box.style.width=pw+'px';
     }
 });
+
+// 点击图片查看大图
+document.querySelectorAll('.userimg, .userthumb').forEach(img => {
+    if (!img.parentNode.href) {
+        img.onclick = () => {
+            window.open(img._origin_src ? img._origin_src : img.src, '_blank');
+        };
+    }
+    if (!img.alt) {
+        img.alt = img.parentNode.href ? '点击打开链接' : '点击查看大图';
+    }
+    if (!img.title) {
+        img.title = img.alt;
+    }
+});

@@ -339,11 +339,7 @@ class UbbDisplay extends XUBBP
             $url = SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
         }
 
-        if (!$data['in_link'])
-		    return '<a class="userimglink" href="'.code::html($url).'"><img class="userimg" src="' . code::html($url) . '"' . $style . ($alt != '' ? ' alt="' . ($alt = code::html($alt)) . '" title="' . $alt . '"' : '') . '/></a>';
-	    else
-		    return '<img class="userimg" src="' . code::html($url) . '"' . $style . ($alt != '' ? ' alt="' . ($alt = code::html($alt)) . '" title="' . $alt . '"' : '') . '/>';
-
+        return '<img class="userimg" src="' . code::html($url) . '"' . $style . ($alt != '' ? ' alt="' . ($alt = code::html($alt)) . '" title="' . $alt . '"' : '') . ' onerror="userImageError(this)" />';
     }
 
     /*thumb 缩略图*/
@@ -367,12 +363,7 @@ class UbbDisplay extends XUBBP
             $base = '';
         }
 
-        if (!$data['in_link']) {
-        	return '<a class="userthumblink" href="' . $url . '"><img class="userthumb" src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击查看大图"/></a>';
-        }
-        else {
-        	return '<img class="userthumb" src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" alt="点击进入链接"/>';
-        }
+        return '<img class="userthumb" src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" />';
     }
 
     /*video 视频*/

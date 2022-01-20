@@ -137,6 +137,7 @@ MathJax = {
                 }
                 await document.LoadConvertHeicToPng;
             }
+            x._origin_src = x.src;
             x.src = await document.ConvertHeicToPng(x.src, stat => x.alt = stat);
         }
     }

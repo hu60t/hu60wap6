@@ -1713,13 +1713,16 @@ class Parsedown
                         continue;
                     }
 
+                    $class = '';
                     if ($name == 'href') {
                         $value = url::getJumpLink($value);
+                        $class = ' class="userlink"';
                     } elseif ($name == 'src') {
                         $value = url::getJumpImg($value);
+                        $class = ' class="userimg"';
                     }
 
-                    $markup .= " $name=\"".self::escape($value).'"';
+                    $markup .= " $name=\"".self::escape($value).'"'.$class;
                 }
             }
         }
