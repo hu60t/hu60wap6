@@ -130,10 +130,10 @@ MathJax = {
     // 实现解码显示 heic/heif 图片
     async function loadImageExtension(x) {
         x._heifTry = true;
-        if (/\.hei[cf]\b/i.test(x.alt) || /\.hei[cf]\b/i.test(decodeUrl(x.src))) {
+        if (/\.(hei[cf]|avif)\b/i.test(x.alt) || /\.(hei[cf]|avif)\b/i.test(decodeUrl(x.src))) {
             if (!document.ConvertHeicToPng) {
                 if (!document.LoadConvertHeicToPng) {
-                    document.LoadConvertHeicToPng = import('/tpl/jhin/js/heif-web-display/dist/main.js?r=11');
+                    document.LoadConvertHeicToPng = import('/tpl/jhin/js/heif-web-display/dist/main.js?r=12');
                 }
                 await document.LoadConvertHeicToPng;
             }
