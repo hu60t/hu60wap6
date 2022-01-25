@@ -83,7 +83,6 @@
         </div>
 
     </div>
-    {if $USER->unlimit()}
     <div class="widget">
         <div class="bar">Linux游戏</div>
         <div class="content-box">
@@ -94,7 +93,6 @@
 			<p><a href="bbs.topic.95988.{$BID}">QQ群/微信群</a></p>
         </div>
     </div>
-    {/if}
     <div class="widget">
         <div class="bar">实用工具</div>
         <div class="content-box">

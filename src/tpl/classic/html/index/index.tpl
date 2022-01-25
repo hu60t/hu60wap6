@@ -73,7 +73,6 @@
 	</p>
 </div>
 <hr>
-{if $USER->unlimit()}
 <div id="tools">
 	<p>『Linux游戏』</p>
 	<p>-<a href="https://winegame.net/">Wine游戏助手</a></p>
@@ -83,7 +82,6 @@
 	<p>-<a href="bbs.topic.95988.{$BID}">QQ群/微信群</a></p>
 </div>
 <hr>
-{/if}
 <div id="tools">
 	<p>『实用工具』</p>
 	<p>-<a href="addin.webplug.{$BID}">网页插件</a></p>
