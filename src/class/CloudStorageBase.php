@@ -141,7 +141,7 @@ abstract class CloudStorageBase {
         if (preg_match('/\.(mp4|m3u8|m4v|ts|mov|flv)$/is', $key)) {
             return 'video';
         }
-        if (preg_match('/\.(mp3|wma|m4a|ogg)$/is', $key)) {
+        if (preg_match('/\.(mp3|wma|m4a|ogg|aac|flac)$/is', $key)) {
             return 'audio';
         }
         return 'others';
