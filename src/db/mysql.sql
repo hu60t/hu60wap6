@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2021-02-21 18:07:16
--- 服务器版本： 10.5.8-MariaDB-3-log
--- PHP 版本： 8.0.1
+-- 生成日期： 2022-01-31 21:08:36
+-- 服务器版本： 10.5.10-MariaDB-log
+-- PHP 版本： 8.0.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `hu60_addin_chat_data` (
   `time` bigint(20) NOT NULL,
   `hidden` int(11) NOT NULL DEFAULT 0,
   `review` tinyint(4) DEFAULT 0,
-  `review_log` text CHARACTER SET utf8mb4 NOT NULL DEFAULT '[]'
+  `review_log` text CHARACTER SET utf8mb4 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -43,7 +43,8 @@ CREATE TABLE `hu60_addin_chat_data` (
 CREATE TABLE `hu60_addin_chat_list` (
   `id` int(11) NOT NULL,
   `name` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
-  `ztime` bigint(20) NOT NULL
+  `ztime` bigint(20) NOT NULL,
+  `access` bit(32) NOT NULL DEFAULT b'1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -57,7 +58,8 @@ CREATE TABLE `hu60_bbs_forum_meta` (
   `parent_id` int(11) NOT NULL,
   `name` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `mtime` bigint(20) NOT NULL DEFAULT 0,
-  `notopic` tinyint(1) NOT NULL DEFAULT 0
+  `notopic` tinyint(1) NOT NULL DEFAULT 0,
+  `access` int(10) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -76,8 +78,9 @@ CREATE TABLE `hu60_bbs_topic_content` (
   `reply_id` int(11) NOT NULL,
   `floor` int(11) NOT NULL DEFAULT 0,
   `locked` tinyint(1) NOT NULL DEFAULT 0,
+  `access` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `review` tinyint(4) NOT NULL DEFAULT 0,
-  `review_log` text CHARACTER SET utf8mb4 NOT NULL DEFAULT '[]'
+  `review_log` text CHARACTER SET utf8mb4 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -98,6 +101,7 @@ CREATE TABLE `hu60_bbs_topic_meta` (
   `essence` tinyint(1) NOT NULL DEFAULT 0,
   `forum_id` int(11) NOT NULL,
   `locked` tinyint(1) NOT NULL DEFAULT 0,
+  `access` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `review` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -153,6 +157,21 @@ CREATE TABLE `hu60_friend_links` (
   `url` varchar(255) NOT NULL,
   `uid` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `hu60_lutris_release`
+--
+
+CREATE TABLE `hu60_lutris_release` (
+  `project` varchar(255) NOT NULL,
+  `version` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `ctime` bigint(20) NOT NULL,
+  `mtime` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -231,8 +250,9 @@ CREATE TABLE `hu60_user` (
   `acctime` bigint(20) NOT NULL,
   `info` text CHARACTER SET utf8mb4 DEFAULT NULL,
   `mail` varchar(255) DEFAULT NULL,
-  `regphone` char(11) CHARACTER SET ascii DEFAULT NULL,
-  `permission` bit(8) NOT NULL DEFAULT b'1000000',
+  `regphone` varchar(20) CHARACTER SET ascii DEFAULT NULL,
+  `permission` int(10) UNSIGNED NOT NULL DEFAULT 64,
+  `access` int(10) UNSIGNED NOT NULL DEFAULT 1,
   `active` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -329,6 +349,13 @@ ALTER TABLE `hu60_book_meta`
 --
 ALTER TABLE `hu60_friend_links`
   ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `hu60_lutris_release`
+--
+ALTER TABLE `hu60_lutris_release`
+  ADD PRIMARY KEY (`project`,`version`),
+  ADD KEY `project_ctime` (`project`,`ctime`) USING BTREE;
 
 --
 -- 表的索引 `hu60_msg`
