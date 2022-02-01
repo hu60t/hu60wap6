@@ -7,7 +7,7 @@ if ($step == 1 || $step > 3) {
     return;
 }
 
-$regphone = trim($_POST['phone']);
+$regphone = trim((string)$_POST['phone']);
 $ok = $USER->regphone($regphone);
 
 if (!$ok) {

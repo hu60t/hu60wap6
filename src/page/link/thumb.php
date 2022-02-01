@@ -35,6 +35,9 @@ elseif ($w <= 0) {
     $w = $src_w * ($h / $src_h);
 }
 
+$w = (int)$w;
+$h = (int)$h;
+
 $src_image = imagecreatefromstring(file_get_contents($img));
 $new_image = imagecreatetruecolor($w, $h);
 imagecopyresampled($new_image, $src_image, 0, 0, 0, 0, $w, $h, $src_w, $src_h);

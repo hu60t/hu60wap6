@@ -18,7 +18,7 @@ class url
 
     static function b64d($code)
     {
-	    return base64_decode(strtr($code, array('-'=>'+', '_'=>'/')));
+	    return base64_decode(strtr((string)$code, array('-'=>'+', '_'=>'/')));
     }
 
     static function decodeUrl64InLink($url, &$multiEncode = null) {

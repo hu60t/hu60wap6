@@ -79,9 +79,9 @@ class search
         foreach ($wordList as $word) {
             $wordWV--;
 
-            $data[200 * $wordWV][] = $this->searchWord('bbs_topic_meta', 'title', 'id', $word, 'ORDER BY mtime DESC');
-            $data[100 * $wordWV][] = $this->searchWord('bbs_topic_content', 'reply_id=0 AND content', 'topic_id', $word, 'ORDER BY mtime DESC');
-            $data[0.01 * $wordWV][] = $this->searchWord('bbs_topic_content', 'reply_id!=0 AND content', 'topic_id', $word, 'ORDER BY mtime DESC');
+            $data[strval(200 * $wordWV)][] = $this->searchWord('bbs_topic_meta', 'title', 'id', $word, 'ORDER BY mtime DESC');
+            $data[strval(100 * $wordWV)][] = $this->searchWord('bbs_topic_content', 'reply_id=0 AND content', 'topic_id', $word, 'ORDER BY mtime DESC');
+            $data[strval(0.01 * $wordWV)][] = $this->searchWord('bbs_topic_content', 'reply_id!=0 AND content', 'topic_id', $word, 'ORDER BY mtime DESC');
 
         }
 
