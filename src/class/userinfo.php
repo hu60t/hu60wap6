@@ -451,7 +451,7 @@ class userinfo implements ArrayAccess
 		$sql = 'SELECT `key`,'.$valueField.',version FROM `'.DB_A.'userdata` WHERE `uid`=?';
         $data = [ $this->uid ];
 
-        if (preg_match('/^(\d+)_(public_.*)$/', $key, $arr)) {
+        if (preg_match('/^(\d+)_(public_.*)$/', (string)$key, $arr)) {
             $data = [ $arr[1] ];
             $key = $arr[2];
         }
