@@ -192,7 +192,7 @@ $jhtml
 HTML;
 		}
 		else {
-			echo json_encode($data, (false === strpos($_GET['_json'], 'object') ? 0 : JSON_FORCE_OBJECT) | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | (false !== strpos($_GET['_json'], 'compact') ? 0 : JSON_PRETTY_PRINT));
+			echo json_encode($data, (false === strpos((string)$_GET['_json'], 'object') ? 0 : JSON_FORCE_OBJECT) | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | (false !== strpos((string)$_GET['_json'], 'compact') ? 0 : JSON_PRETTY_PRINT));
 		}
 	}
 
