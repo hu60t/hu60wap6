@@ -230,7 +230,7 @@ class UbbDisplay extends XUBBP
             $ubb->opt = $this->opt;
             $data['title'] = $ubb->display($data['title']);
         } else {
-            if (trim($data['title']) == '') $data['title'] = $data['url'];
+            if (!$data['title'] || trim($data['title']) == '') $data['title'] = $data['url'];
             $data['title'] = code::html($data['title']);
         }
 
