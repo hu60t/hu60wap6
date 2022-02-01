@@ -214,8 +214,8 @@ class search
     {
         global $USER;
 
-        $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words)));
-        $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
+        $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', (string)$words)));
+        $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', (string)$userName);
 
         if (!$onlyReview && $userName == '') {
             throw new Exception('勾选“搜索用户回复”时用户名不能为空');
