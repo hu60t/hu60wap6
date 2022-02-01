@@ -110,7 +110,7 @@ try {
             $ok = $bbs->updateTopicTitle($tid, $title);
         }
 
-        $url = "bbs.topic.$tid.$p.$PAGE[bid]";
+        $url = "bbs.topic.$tid.$p.$PAGE[bid]?floor=$tContent[floor]#$tContent[floor]";
         header("Location: $url");
 
         $tpl->assign('tid', $tid);
