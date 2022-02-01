@@ -20,6 +20,11 @@ $src_w = $size[0];
 $src_h = $size[1];
 $type  = $size[2];
 
+if ($src_w == 0 || $src_h == 0) {
+    header('HTTP/1.1 400 Bad Request');
+    die('<h1>not a image</h1>');
+}
+
 $w = $w < $src_w ? $w : $src_w;
 $h = $h < $src_h ? $h : $src_h;
 
