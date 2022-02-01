@@ -135,8 +135,8 @@ class search
     {
         global $USER;
 
-        $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', $words)));
-        $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', $userName);
+        $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', (string)$words)));
+        $userName = preg_replace('![^a-zA-Z0-9\x{4e00}-\x{9fa5}_-]!ius', '', (string)$userName);
 
         if ($words == '' && $userName == '') {
             throw new Exception('搜索词和用户名不能都为空');
