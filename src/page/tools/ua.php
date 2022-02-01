@@ -6,9 +6,9 @@ $tpl = $PAGE->START();
 
 $remote = $_SERVER['REMOTE_ADDR'] . '（' . quip($_SERVER['REMOTE_ADDR']) . '）';
 
-$Xa = trim($_SERVER['HTTP_CLIENT_IP']);
-$Xb = str_replace(' ', '', trim($_SERVER['HTTP_X_FORWARDED_FOR']));
-$Xc = trim($_SERVER['HTTP_VIA']);
+$Xa = trim((string)$_SERVER['HTTP_CLIENT_IP']);
+$Xb = str_replace(' ', '', trim((string)$_SERVER['HTTP_X_FORWARDED_FOR']));
+$Xc = trim((string)$_SERVER['HTTP_VIA']);
 $proxy = NULL;
 
 if (!empty($Xa)) {
