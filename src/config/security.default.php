@@ -167,7 +167,7 @@ $CLOUD_STORAGE_BLOCK_TEMPLATE = [
 /**
  * 是否启用防CC模块
  */
-$ENABLE_CC_BLOCKING = true;
+$ENABLE_CC_BLOCKING = false;
 
 /**
  * 使用memcache
