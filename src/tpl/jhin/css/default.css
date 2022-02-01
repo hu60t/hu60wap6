@@ -173,6 +173,7 @@ latex-js {
 
 .topic-content img, .chat-content img, .floor-content img, .floor_content img {
   box-shadow: 0 0 5px #ccc;
+  margin-bottom: 15px;
 }
 
 .hu60_face {
