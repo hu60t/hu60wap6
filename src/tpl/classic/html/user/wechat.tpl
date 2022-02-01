@@ -33,7 +33,7 @@
     </tr>
     <tr>
       <td>绑定时间：</td>
-      <td>{date('Y-m-d H:i:s', $wechat.time / 1000)}</td>
+      <td>{date('Y-m-d H:i:s', (int)($wechat.time / 1000))}</td>
     </tr>
   </table>
   <hr>
