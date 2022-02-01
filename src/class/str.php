@@ -49,7 +49,7 @@ class str
 
     static function word($f, $tolower = false)
     {
-        $f = preg_replace('![^a-zA-Z0-9_\\-]!', '', $f);
+        $f = preg_replace('![^a-zA-Z0-9_\\-]!', '', (string)$f);
         if ($tolower)
             $f = strtolower($f);
         return $f;

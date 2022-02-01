@@ -474,22 +474,22 @@ class page implements ArrayAccess
     }
 
     /*下面是ArrayAccess接口*/
-    public function offsetExists($name)
+    public function offsetExists($name) : bool
     {
         return isset($this->page[$name]);
     }
 
-    public function offsetGet($name)
+    public function offsetGet($name) : mixed
     {
         return $this->page[$name];
     }
 
-    public function offsetSet($name, $value)
+    public function offsetSet($name, $value) : void
     {
         throw new pageexception('不能从类外部修改PAGE的属性', 1503);
     }
 
-    public function offsetUnset($name)
+    public function offsetUnset($name) : void
     {
         throw new pageexception('不能从类外部删除PAGE的属性', 1503);
     }

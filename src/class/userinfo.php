@@ -343,22 +343,22 @@ class userinfo implements ArrayAccess
     }
 
     /*下面是ArrayAccess接口*/
-    public function offsetExists($name)
+    public function offsetExists($name) : bool
     {
         return isset(self::$data[$this->uid][$name]);
     }
 
-    public function offsetGet($name)
+    public function offsetGet($name) : mixed
     {
         return self::$data[$this->uid][$name];
     }
 
-    public function offsetSet($name, $value)
+    public function offsetSet($name, $value) : void
     {
         throw new userexception('不能从类外部修改用户信息', 503);
     }
 
-    public function offsetUnset($name)
+    public function offsetUnset($name) : void
     {
         throw new userexception('不能从类外部删除用户信息', 503);
     }

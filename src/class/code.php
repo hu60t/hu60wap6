@@ -28,7 +28,7 @@ class code
     static function html($str, $br = false, $NOnbsp = false)
     {
         global $PAGE;
-        $str = htmlspecialchars($str, ENT_QUOTES, 'utf-8');
+        $str = htmlspecialchars((string)$str, ENT_QUOTES, 'utf-8');
         if ($br !== false) {
             if ($br === true || $br == 1) $br = '&#13;&#10;';
             elseif ($br == 2) $br = '<br/>';
