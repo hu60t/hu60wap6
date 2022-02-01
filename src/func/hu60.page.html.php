@@ -3,7 +3,7 @@
 function hu60_page_html(&$mime)
 {
     $mime = 'text/html';
-    $ac = $_SERVER['HTTP_ACCEPT'];
+    $ac = (string)$_SERVER['HTTP_ACCEPT'];
     if (strpos($ac, $mime) !== false)
         return true;
     else

@@ -252,6 +252,9 @@ class UbbDisplay extends XUBBP
 
     /*从url中解析出图片大小、旋转参数，将参数转换为CSS或者七牛云图像处理URL*/
     protected function parseImgStyleFromUrl(&$url, &$alt) {
+        $url = (string)$url;
+        $alt = (string)$alt;
+
         $pos1 = strpos($url, '#'); // 半角#号
         $pos1 = (FALSE !== $pos1) ? $pos1 : strpos($url, '＃'); // 全角＃号
         $pos2 = strpos($alt, '#'); // 半角#号
