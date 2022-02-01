@@ -366,7 +366,7 @@ class SimpleCaptcha {
         $k = rand(1, 100);
         for ($i = 0; $i < ($this->width*$this->scale); $i++) {
             imagecopy($this->im, $this->im,
-                $i-1, sin($k+$i/$xp) * ($this->scale*$this->Xamplitude),
+                $i-1, intval(sin($k+$i/$xp) * ($this->scale*$this->Xamplitude)),
                 $i, 0, 1, $this->height*$this->scale);
         }
 
@@ -375,7 +375,7 @@ class SimpleCaptcha {
         $yp = $this->scale*($this->Yperiod)*rand(1,2) * $wdf; 
         for ($i = 0; $i < ($this->height*$this->scale); $i++) {
             imagecopy($this->im, $this->im,
-                sin($k+$i/$yp) * ($this->scale*$this->Yamplitude), $i-1,
+                intval(sin($k+$i/$yp) * ($this->scale*$this->Yamplitude)), $i-1,
                 0, $i, $this->width*$this->scale, 1);
         }
     }

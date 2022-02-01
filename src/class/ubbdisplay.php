@@ -328,7 +328,7 @@ class UbbDisplay extends XUBBP
         $style = $this->parseImgStyleFromUrl($url, $alt);
 
         if (empty($alt)) {
-            $alt = basename(parse_url($url, PHP_URL_PATH));
+            $alt = basename((string)parse_url($url, PHP_URL_PATH));
         }
 
         //百度输入法多媒体输入

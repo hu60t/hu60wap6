@@ -62,6 +62,7 @@ class JsonPage {
 		}
 
 		if ($USER && $_GET['_myself']) {
+			$myself = (string)$_GET['_myself'];
 			$data['_myself'] = [
 				'isLogin' => $USER->islogin,
 				'uid' => $USER->uid,
@@ -69,7 +70,6 @@ class JsonPage {
 			
 			// 新内信和新@消息条数
 			if ($USER->islogin) {
-				$myself = $_GET['_myself'];
 				if (strpos($myself, 'newMsg') !== FALSE) {
 					$data['_myself']['newMsg'] = msg::getInstance($USER)->newMsg();
 				}
