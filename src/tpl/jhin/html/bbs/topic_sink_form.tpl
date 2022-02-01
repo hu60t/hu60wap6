@@ -38,7 +38,7 @@
         <p class="text-notice">下沉后不可恢复，是否继续？</p>
         <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="确认下沉" /></p>
         {else}
-        下沉楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+        下沉楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
       </p>
       {/if}
     </div>

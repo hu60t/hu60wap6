@@ -12,7 +12,7 @@
 <p class="cr_cb">
   找到{$count}个回复
   {if !empty($smarty.get.username)}
-    (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlencode}">{$smarty.get.username|code}</a>)
+    (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlenc}">{$smarty.get.username|code}</a>)
   {/if}
 </p>
 
@@ -31,7 +31,7 @@
 
 {include file="tpl:bbs.review-all"}
 
-{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;searchType={$smarty.get.searchType}&amp;onlyReview={$smarty.get.onlyReview|urlencode}&amp;p="}
+{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&amp;username={$smarty.get.username|urlenc}&amp;searchType={$smarty.get.searchType}&amp;onlyReview={$smarty.get.onlyReview|urlenc}&amp;p="}
 
 <div class="pager">
 	{if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{/if}

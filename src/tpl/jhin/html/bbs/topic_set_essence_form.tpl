@@ -38,7 +38,7 @@
           <p></p>
           <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="确认加精" /></p>
           {else}
-          加精帖子需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+          加精帖子需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
           {/if}
         </p>
       </div>

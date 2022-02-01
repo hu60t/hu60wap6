@@ -35,7 +35,7 @@
 </p>
     <p><input type="submit" id="edit_topic_button" name="go" id="submit" class="cr_login_submit" value="确认删除" /></p>
         {else}
-            删除楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+            删除楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
 </p>
         {/if}
 </div>

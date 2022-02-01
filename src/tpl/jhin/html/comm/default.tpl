@@ -52,7 +52,7 @@
                     {$newMSG=$MSG->newMsg()}
                     {$newATINFO=$MSG->newAtInfo()}
                     <li>
-                        <a href="bbs.search.{$BID}?username={$USER->name|urlencode}">帖子</a>
+                        <a href="bbs.search.{$BID}?username={$USER->name|urlenc}">帖子</a>
                     </li>
                     <li>
                         <a href="bbs.myfavorite.{$BID}">收藏</a>

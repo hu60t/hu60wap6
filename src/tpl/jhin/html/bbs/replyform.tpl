@@ -39,7 +39,7 @@
                 {include file="tpl:comm.addfiles"}
             {/form}
         {else}
-            回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+            回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
             请自行复制您的回复内容以免数据丢失：<br/>
             {input type="textarea" name="content" id="content" value=$smarty.post.content size=array("25","3")}
         {/if}

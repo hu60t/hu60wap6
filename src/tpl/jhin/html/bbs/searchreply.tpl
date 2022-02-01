@@ -16,7 +16,7 @@
     <div class="bar">
         找到{$count}个回复
         {if !empty($smarty.get.username)}
-            (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlencode}">{$smarty.get.username|code}</a>)
+            (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlenc}">{$smarty.get.username|code}</a>)
         {/if}
     </div>
     {if $replyList}
@@ -59,7 +59,7 @@
             {include file="tpl:bbs.review-all"}
 
             <div class="widget-page">
-                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&searchType={$smarty.get.searchType}&onlyReview={$smarty.get.onlyReview|urlencode}&p=##"}
+                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&username={$smarty.get.username|urlenc}&searchType={$smarty.get.searchType}&onlyReview={$smarty.get.onlyReview|urlenc}&p=##"}
                 {jhinfunc::Pager($p,$maxP,$url)}
             </div>
         </div>

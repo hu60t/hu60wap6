@@ -46,7 +46,7 @@
     </p>
         {else}
 <p>
-            修改楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。<br/>
+            修改楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
             请自行复制您的楼层内容以免数据丢失：<br/>
             <textarea class="txt" name="content" id="content">{$content}</textarea>
 </p>

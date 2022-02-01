@@ -27,6 +27,9 @@ require_once SUB_DIR . '/correct_php_self.php';
 //虎绿林已放弃PHP5兼容性，不再需要
 //require_once FUNC_DIR . '/array_column.php';
 
+/*修复 PHP8.1 的参数为 null 警告*/
+require_once FUNC_DIR . '/nullable_functions.php';
+
 
 /*载入其他配置文件*/
 require_once CONFIG_DIR . '/system.php';

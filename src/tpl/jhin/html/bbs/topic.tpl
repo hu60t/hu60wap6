@@ -161,7 +161,7 @@
 				</p>
 			</form>
 		{else}
-			回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>。
+			回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。
 		{/if}
 	</div>
 </div>

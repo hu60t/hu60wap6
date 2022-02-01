@@ -15,14 +15,14 @@
   {else}
       找到{$count}个主题
       {if !empty($smarty.get.username)}
-        (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlencode}">{$smarty.get.username|code}</a>)
+        (用户: <a href="user.info.{$BID}?name={$smarty.get.username|urlenc}">{$smarty.get.username|code}</a>)
       {/if}
       {if $order}
           <br/>排序:
           {if $order == 'ctime'}
-              发布时间 | <a href="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&order=mtime">回复时间</a>
+              发布时间 | <a href="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&username={$smarty.get.username|urlenc}&onlyReview={$smarty.get.onlyReview|urlenc}&order=mtime">回复时间</a>
           {else}
-              <a href="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&username={$smarty.get.username|urlencode}&onlyReview={$smarty.get.onlyReview|urlencode}&order=ctime">发布时间</a> | 回复时间
+              <a href="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&username={$smarty.get.username|urlenc}&onlyReview={$smarty.get.onlyReview|urlenc}&order=ctime">发布时间</a> | 回复时间
           {/if}
       {/if}
   {/if}
@@ -56,7 +56,7 @@
     </ul>
 </div>
 
-{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlencode}&amp;username={$smarty.get.username|urlencode}&amp;onlyReview={$smarty.get.onlyReview|urlencode}&amp;order={$order}&amp;p="}
+{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&amp;username={$smarty.get.username|urlenc}&amp;onlyReview={$smarty.get.onlyReview|urlenc}&amp;order={$order}&amp;p="}
 
 <div class="pager">
 	{if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{/if}

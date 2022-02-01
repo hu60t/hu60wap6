@@ -66,7 +66,7 @@
                     <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
                     {include file="tpl:comm.addfiles"}
                 {else}
-                    必须<a href="user.login.{$BID}?u={$PAGE->geturl()|urlencode}">登录</a>才能发言。
+                    必须<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>才能发言。
                 {/if}
             </p>
         </div>
