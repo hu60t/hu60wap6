@@ -93,7 +93,7 @@
 <div class="books">
     <p class="bar">『小说阅读』</p>
 	<p>-<a href="book.index.html">小说列表</a></p>
-	<p>-<a href="http://www.xrzww.com/?t={time()}">息壤中文网</a>：承诺不剥削作者，由网文作家月影梧桐创建</p>
+	<p>-<a href="https://xrzww.com/?t={time()}">息壤中文网</a>：承诺不剥削作者，由网文作家月影梧桐创建</p>
 </div>
 <hr>
 <div id="friend_links">
