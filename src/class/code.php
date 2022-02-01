@@ -77,7 +77,7 @@ class code
      */
     static function b64d($code)
     {
-        return base64_decode(strtr($code, array('-' => '+', '_' => '/', '.' => '=')));
+        return base64_decode(strtr((string)$code, array('-' => '+', '_' => '/', '.' => '=')));
     }
 	
 	// 代码高亮
