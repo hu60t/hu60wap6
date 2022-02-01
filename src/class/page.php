@@ -285,7 +285,7 @@ class page implements ArrayAccess
         } elseif (isset($_GET['_sid'])) {
             $this->page['sid'] = $_GET['_sid'];
         }
-        $info2 = explode('.', $info[0]);
+        $info2 = explode('.', (string)$info[0]);
         $info[0] = '';
         $this->page['cid'] = str::word($info2[0], true);
         $this->page['pid'] = str::word($info2[1], true);

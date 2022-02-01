@@ -366,7 +366,7 @@ class UbbDisplay extends XUBBP
             $base = '';
         }
 
-        return '<img class="userthumb" src="' . $base . 'link.thumb.' . floor($data['w']) . '.' . floor($data['h']) . '.' . bin2hex($src) . '.png" />';
+        return '<img class="userthumb" src="' . $base . 'link.thumb.' . ((int)$data['w']) . '.' . ((int)$data['h']) . '.' . bin2hex($src) . '.png" />';
     }
 
     /*video 视频*/
