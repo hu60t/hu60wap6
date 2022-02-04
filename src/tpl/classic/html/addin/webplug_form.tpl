@@ -36,11 +36,14 @@
 	<p>
 		<a href="api.webplug-data.json?onlylen=1">查看数据大小</a> |
 		<a href="api.webplug-data.json">查看完整数据</a> |
-		<a href="api.webplug-file.json?mime=application/octet-stream">下载数据</a> |
+		<a href="api.webplug-file.json?mime=application/octet-stream">下载数据备份</a> |
 		<a href="bbs.topic.83603.html">数据存储API说明</a>
 	</p>
 	<p>
-		<input name="delete" value="删除所有自定义数据" type="button" onclick="deleteAllData()" />（强烈建议您在删除数据前先下载数据进行备份。）
+		<input name="delete" value="删除所有自定义数据" type="button" onclick="deleteAllData()" />（强烈建议您在删除数据前先下载数据备份）
+	</p>
+	<p>
+		<input name="import" value="导入数据备份" type="button" onclick="importData()" />（可导入下载的数据备份）
 	</p>
 	<script>
 		function deleteAllData() {
@@ -60,6 +63,45 @@
 			} else {
 				alert('操作已取消。');
 			}
+		}
+
+		// 导入备份文件选择器
+		var fileSelector = document.createElement('input');
+		fileSelector.id = 'fileSelector';
+		fileSelector.style.display = 'none';
+		fileSelector.type = 'file';
+		fileSelector.onchange = function (e) {
+			if (e.target.files && e.target.files[0]) {
+				importFile(e.target.files[0]);
+			}
+		}
+
+		function importData() {
+			fileSelector.click();
+		}
+
+		function importFile(file) {
+			console.log('importFile:', file);
+
+			var fd = new FormData();
+            fd.append('file', file);
+            $.ajax({
+                type: 'POST',
+                url: '/q.php/api.webplug-data-import.json',
+                data: fd,
+                processData: false,
+                contentType: false
+            }).done(function (ret) {
+                fileSelector.value = '';
+                console.debug(ret);
+                if (ret.success) {
+                    alert('成功导入 ' + ret.count.success + ' 条数据');
+                } else {
+                    alert('导入失败：' + ret.errmsg);
+                }
+            }).fail(function (ret) {
+				alert('文件上传失败：' + JSON.stringify(ret));
+			});
 		}
 	</script>
 </div>
