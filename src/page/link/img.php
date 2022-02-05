@@ -13,9 +13,9 @@ $urls = parse_url($url);
 
 // 如果为站内链接，就添加'?_origin=*'并去除域名部分
 if (is_array($urls) && isset($urls['host']) &&
-    strtolower($urls['host']) != CLOUD_STORAGE_DOWNLOAD_HOST &&
-    in_array(strtolower($urls['scheme']), ['http', 'https']) &&
-    isSelfHost(strtolower($urls['host']))) {
+    strtolower((string)$urls['host']) != CLOUD_STORAGE_DOWNLOAD_HOST &&
+    in_array(strtolower((string)$urls['scheme']), ['http', 'https']) &&
+    isSelfHost(strtolower((string)$urls['host']))) {
 
 	// _origin参数可以禁止hu60wap6程序读取和设置cookie，
 	// 可防止通过引用本站URL来代替用户执行操作。

@@ -33,7 +33,7 @@ class CloudStorageAliyun extends CloudStorageBase {
         ];
         $headers = &$options[OssClient::OSS_HEADERS];
 
-        $fileName = rawurlencode(str::basename(trim($fileName)));
+        $fileName = rawurlencode(str::basename(trim((string)$fileName)));
         if ($fileName !== '' && !self::noAttrname($fileName)) {
             $headers[OssClient::OSS_CONTENT_DISPOSTION] = "attachment; filename=\"$fileName\"; filename*=utf-8''$fileName";
         }

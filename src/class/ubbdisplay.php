@@ -852,7 +852,6 @@ HTML;
         ];
 
         $act = $actName[$data['act']];
-        $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
         $pos = code::html($data['pos']);
         $reason = code::html($data['reason']);
         $uinfo = new UserInfo();
@@ -882,6 +881,7 @@ HTML;
 
         	}
 
+            $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
 	        return <<<HTML
 {$own}将您的 <a class="hu60_pos" href="{$url}">{$pos}</a> {$act}{$reason}
 HTML;

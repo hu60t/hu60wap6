@@ -21,13 +21,13 @@ $urls = parse_url($url);
 
 // 如果为站内链接，就直接跳转，但是多重编码的不跳转
 if (!$multiEncode && is_array($urls) && isset($urls['host']) &&
-    in_array(strtolower($urls['scheme']), ['http', 'https']) &&
-    isHostSafe(strtolower($urls['host'])) &&
+    in_array(strtolower((string)$urls['scheme']), ['http', 'https']) &&
+    isHostSafe(strtolower((string)$urls['host'])) &&
 	// 防止通过直接链接到 /q.php/link.xxx 来绕过安全措施
 	!preg_match('#link#i', str::word(urldecode($url)))) {
 
 	// 禁止七牛云直接显示html
-	if (strtolower($urls['host']) == CLOUD_STORAGE_DOWNLOAD_HOST && !strpos($url, '?attname=')) {
+	if (strtolower((string)$urls['host']) == CLOUD_STORAGE_DOWNLOAD_HOST && !strpos($url, '?attname=')) {
 		$url .= (strpos($url, '?')===false) ? '?' : '&';
 		$url .= 'attname=';
 	}
