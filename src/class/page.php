@@ -450,7 +450,7 @@ class page implements ArrayAccess
         }
         $host = $_SERVER['HTTP_HOST'];
         $ref = parse_url($_SERVER['HTTP_REFERER']);
-        return $ref['host'] !== $host || $ref['path'] == '/';
+        return ($ref['host'] !== $host && "$ref[host]:$ref[port]" !== $host) || $ref['path'] == '/';
     }
 
     public function __isset($name)
