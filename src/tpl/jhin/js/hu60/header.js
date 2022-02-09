@@ -104,7 +104,8 @@ MathJax = {
         setTimeout(() => {
             console.log('video loaded: ', video.videoWidth, video.videoHeight, video.src);
             if (video.videoWidth == 0) {
-                loadH265Extension(video);
+                // 因为在UC浏览器上干扰m3u8播放，暂时停用HEVC播放器
+                //loadH265Extension(video);
             }
         }, 1000);
     };
