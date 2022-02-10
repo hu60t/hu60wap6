@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>文件上传 - 虎绿林</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="/tpl/classic/css/default.css" />
 </head>
 <body>

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh-hans">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
     {if $css === null}{$css=$PAGE->getTplUrl("css/default.css", true)}{/if}
     <link rel="stylesheet" type="text/css" href="{$css|code}"/>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
     {if isset($css)}<link rel="stylesheet" type="text/css" href="{$css|code}?r=4"/>{/if}
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/bulma.css')}?r=4"/>
