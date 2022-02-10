@@ -162,7 +162,7 @@ class search
             $where = '';
             if ($uid != $USER->uid) {
                 if (!$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
-                    $where .= ' AND review = 0';
+                    $where .= ' AND review < 2';
                 }
                 if (!$USER->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)) {
                     $where .= ' AND (locked = 0 OR locked = 2)';
@@ -269,7 +269,7 @@ class search
             $args[] = $uid;
             if ($uid != $USER->uid) {
                 if (!$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
-                    $sql .= ' AND review = 0';
+                    $sql .= ' AND review < 2';
                 }
                 if (!$USER->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)) {
                     $sql .= ' AND locked = 0';
