@@ -159,7 +159,16 @@ class search
             }
 
             $bbs = new bbs($USER);
-            $sql = 'SELECT SQL_CALC_FOUND_ROWS id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? AND ((access = 0) OR (access & ?)) ORDER BY level DESC, '.$order.' DESC LIMIT ?,?';
+            $where = '';
+            if ($uid != $USER->uid) {
+                if (!$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
+                    $where .= ' AND review = 0';
+                }
+                if (!$USER->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)) {
+                    $where .= ' AND (locked = 0 OR locked = 2)';
+                }
+            }
+            $sql = 'SELECT SQL_CALC_FOUND_ROWS id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? AND ((access = 0) OR (access & ?))'.$where.' ORDER BY level DESC, '.$order.' DESC LIMIT ?,?';
             $rs = db::conn()->prepare($sql);
 
             if (!$rs || !$rs->execute([$uid, $USER->getAccess(), $offset, $limit])) {
@@ -258,6 +267,14 @@ class search
         if (isset($uid)) {
             $sql .= ' AND uid=? AND reply_id!=0';
             $args[] = $uid;
+            if ($uid != $USER->uid) {
+                if (!$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
+                    $sql .= ' AND review = 0';
+                }
+                if (!$USER->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)) {
+                    $sql .= ' AND locked = 0';
+                }
+            }
         }
 
         if ($words != '') {
