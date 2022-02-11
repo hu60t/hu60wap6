@@ -20,9 +20,13 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
         ]],
         'follow_me' => [UserRelationshipService::RELATIONSHIP_TYPE_FOLLOW_ME, '关注我的', [
             'follow' => '也关注Ta',
+        ], [
+            'unfollow' => '已互相关注',
         ]],
         'block_me' => [UserRelationshipService::RELATIONSHIP_TYPE_BLOCK_ME, '屏蔽我的', [
             'block' => '也屏蔽Ta',
+        ], [
+            'unblock' => '已互相屏蔽',
         ]],
     ];
 
@@ -48,13 +52,22 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     $offset = ($page - 1) * $pageSize;
     $targetUidList = $userRelationshipService->getTargetUidByType($meta[0], $offset, $pageSize);
-    $userList = [];
 
-    foreach ($targetUidList as $item)  {
+    $userList = [];
+    foreach ($targetUidList as $uid)  {
         $userInfo = new userinfo();
-        if($userInfo->uid($item)) {
+        if($userInfo->uid($uid)) {
             $userList[] = $userInfo;
         }
+    }
+
+    if ($meta[0] > 10) {
+        $inverseRelationship = [];
+        foreach ($targetUidList as $uid)  {
+            $inverseRelationship[$uid] = $userRelationshipService->checkRelationship($USER->uid, $uid, $meta[0] - 10);
+        }
+        $tpl->assign('inverseRelationship', $inverseRelationship);
+        $tpl->assign('inverseActions', $meta[3]);
     }
 
     $tpl->assign('title', $meta[1]);

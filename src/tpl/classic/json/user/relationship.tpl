@@ -14,4 +14,8 @@
     'maxPage' => $totalPage,
     'userList' => $userList
 ]}
+{if $inverseRelationship}
+    {$jsonData.inverseRelationship = $inverseRelationship}
+    {$jsonData.inverseActions = $inverseActions}
+{/if}
 {JsonPage::output($jsonData)}

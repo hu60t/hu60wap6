@@ -28,9 +28,15 @@
                                 <a href="user.info.{$user->uid|code}.{$BID}">{$user->name|code}</a>
                             </div>
                             <div class="action_bar">
-                                {foreach $actions as $action=>$actionName}
-                                    <a class="action" href="javascript:relationship({$user->uid}, '{$action}')">{$actionName}</a>
-                                {/foreach}
+                                {if !$inverseRelationship || !$inverseRelationship[$user->uid]}
+                                    {foreach $actions as $action=>$actionName}
+                                        <a class="action" href="javascript:relationship({$user->uid}, '{$action}')">{$actionName}</a>
+                                    {/foreach}
+                                {else}
+                                    {foreach $inverseActions as $action=>$actionName}
+                                        <a class="action" href="javascript:relationship({$user->uid}, '{$action}')">{$actionName}</a>
+                                    {/foreach}
+                                {/if}
                             </div>
                         </div>
                         <div class="signature">{$user->getinfo('signature')|code}</div>

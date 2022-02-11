@@ -214,7 +214,7 @@ class UserRelationshipService
      * @param $type 关系类型
      * @return bool
      */
-    private function checkRelationship($originUid, $targetUid, $type) {
+    public function checkRelationship($originUid, $targetUid, $type) {
         if(is_null($this->originUid)) {
             return false;
         }
