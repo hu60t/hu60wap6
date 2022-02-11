@@ -11,4 +11,9 @@
     {/if}
 {/if}
 
+{if $preview}
+    {JsonPage::selUbbP($ubb)}
+    {$jsonData.preview = $ubb->display($preview, false)}
+{/if}
+
 {JsonPage::output($jsonData)}

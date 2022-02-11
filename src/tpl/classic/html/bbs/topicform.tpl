@@ -38,6 +38,7 @@
 </p>
     <p>
         <input type="submit" id="post_topic_button" name="go" class="cr_login_submit" value="确认发布帖子" />
+        <input type="submit" id="reply_preview_button" name="preview" value="预览"/>
         <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
         <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
         {include file="tpl:comm.addfiles"}
@@ -51,5 +52,14 @@
         {/if}
     {/form}
     {/div}
-    {/div}
+{/div}
+{if $preview}
+    <hr>
+    <div class="tp" style="margin-bottom: 10px">
+        预览：
+    </div>
+    <div class="topic-content user-content">
+	    {$ubb->display($preview, false)}
+	</div>
+{/if}
 {include file="tpl:comm.foot"}

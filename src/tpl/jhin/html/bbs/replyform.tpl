@@ -18,11 +18,11 @@
         <a href="{$CID}.forum.{$forum.id}.{$BID}">{$forum.name|code}</a>
         {if $forum.id != $fid}&gt;{/if}
     {/foreach}
-    {if !$forum.notopic}<span class='righttext button'><a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a></span>{/if}
+    {if !$forum.notopic}<span class='righttext button'> (<a href="{$CID}.newtopic.{$forum.id}.{$BID}">发帖</a>)</span>{/if}
 </div>
 <div class='topic_area'>
-    <div class='title'>
-        <span class='titletext'><a class="user-title" href="{$url|code}">{$tMeta.title|code}</a></span>
+    <div class="title bar">
+        回复：<span class='titletext'><a class="user-title" href="{$url|code}">{$tMeta.title|code}</a></span>
     </div>
     <!--发帖框-->
     <div class='tip'>
@@ -31,9 +31,10 @@
         </div>{/if}
         {if $USER->islogin}
             {form method="post" action="{$CID}.newreply.{$topicId}.{$p}.{$BID}"}
-                {input type="textarea" name="content" id="content" value=$smarty.post.content size=array("25","3")}
+                <textarea class="topic-form-content" name="content" id="content">{code::html($smarty.post.content, false, true)}</textarea>
                 {input type="hidden" name="token" value=$token->token()}
                 {input type="submit" id="reply_topic_button" name="go" value="回复"}
+                {input type="submit" id="reply_preview_button" name="preview" value="预览"}
                 <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
                 <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
                 {include file="tpl:comm.addfiles"}
@@ -41,8 +42,17 @@
         {else}
             回复需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
             请自行复制您的回复内容以免数据丢失：<br/>
-            {input type="textarea" name="content" id="content" value=$smarty.post.content size=array("25","3")}
+            <textarea class="topic-form-content" name="content" id="content">{code::html($smarty.post.content, false, true)}</textarea>
         {/if}
     </div>
+{if $preview}
+    <hr>
+    <div class="bar">
+        预览：
+    </div>
+    <div class="topic-content user-content" style="border: none">
+	    {$ubb->display($preview, false)}
+	</div>
+{/if}
 </div>
 {/block}

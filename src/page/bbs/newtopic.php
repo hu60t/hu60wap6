@@ -63,13 +63,7 @@ try {
             $tpl->display('tpl:topicsuccess');
 
         } else {
-            if ($USER->islogin) {
-                $token = new token($USER);
-                $token->create();
-                $tpl->assign('token', $token);
-            }
-
-            $tpl->display('tpl:topicform');
+            throw new Exception('');
         }
     }
 
@@ -84,6 +78,16 @@ try {
 
     $tpl->assign('title', code::html($_POST['title']));
     $tpl->assign('content', code::html($_POST['content']));
+
+    // 预览内容
+    if (isset($_POST['content']) && !empty($_POST['content'])) {
+        $ubbParser = new UbbParser();
+        $content = $ubbParser->parse($_POST['content'], false);
+        $tpl->assign('preview', $content);
+
+        $ubb = new ubbdisplay();
+        $tpl->assign('ubb', $ubb);
+    }
 
     $tpl->display('tpl:topicform');
 }

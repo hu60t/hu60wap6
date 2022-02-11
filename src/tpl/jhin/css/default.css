@@ -102,6 +102,10 @@ input[name="editReason"] {
     width: calc(100% - 95px);
 }
 
+#ubbHelp {
+    display: inline-block;
+}  
+
 pre, textarea {
     white-space: pre-wrap;
     word-wrap: break-word;

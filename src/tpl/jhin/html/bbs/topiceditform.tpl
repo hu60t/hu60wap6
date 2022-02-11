@@ -37,6 +37,7 @@
         <p>编辑理由：<input name="editReason" value="{$smarty.post.editReason|code}" /></p>
         {/if}
         <input type="submit" id="post_topic_button" name="go" class="topic-form-submit" value="保存修改" />
+        <input type="submit" id="reply_preview_button" name="preview" value="预览"/>
         <input type="button" id="add_files" class="topic-form-submit" value="添加附件" onclick="addFiles()"/>
         <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
         {include file="tpl:comm.addfiles"}
@@ -49,4 +50,13 @@
       {/if}
     </form>
   </div>
+{if $preview}
+    <hr>
+    <div class="bar">
+        预览：
+    </div>
+    <div class="topic-content user-content" style="border: none">
+	    {$ubb->display($preview, false)}
+	</div>
+{/if}
 {/block}

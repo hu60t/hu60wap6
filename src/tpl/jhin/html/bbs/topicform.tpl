@@ -41,6 +41,7 @@
         <!-- <label for="useMarkdown">使用Markdown语法</label> -->
         <!-- <br/> -->
         <input type="submit" id="post_topic_button" name="go" class="topic-form-submit" value="确认发布帖子" />
+        <input type="submit" id="reply_preview_button" name="preview" value="预览"/>
         <input type="button" id="add_files" class="topic-form-submit" value="添加附件" onclick="addFiles()"/>
         <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
         {include file="tpl:comm.addfiles"}
@@ -54,11 +55,13 @@
     </form>
   </div>
 </div>
-<style>
-.useMarkdown{
-}
-input[type='checkbox']:checked+label {
-
-}
-</style>
+{if $preview}
+    <hr>
+    <div class="bar">
+        预览：
+    </div>
+    <div class="topic-content user-content" style="border: none">
+	    {$ubb->display($preview, false)}
+	</div>
+{/if}
 {/block}

@@ -70,7 +70,11 @@ input[name="editReason"] {
 }
 
 .topic-form-content {
-  height: 300px;
+    height: 300px;
+}
+
+#ubbHelp {
+    display: inline-block;
 }
 
 pre, textarea {
