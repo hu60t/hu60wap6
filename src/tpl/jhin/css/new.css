@@ -913,35 +913,42 @@ h1 {
   font-size: 14px;
 }
 .relationship-wrapper .user-item {
+  width: 100%;
+  max-width: 100%;
   height: 60px;
   color: #333333;
-  display: block;
+  display: flex;
   border-bottom: 1px solid #f5f5f5;
 }
-.relationship-wrapper .user-item a {
-  text-decoration: none;
-}
-.relationship-wrapper .user-item a:nth-child(1) {
-  display: inline-block;
-  width: calc(100% - 60px);
-}
 .relationship-wrapper .user-item .avatar {
-  float: left;
-  height: 50px;
+  width: 80px;
+  min-width: 80px;
+  height: 100%;
+  text-align: center;
+}
+.relationship-wrapper .user-item .avatar img {
   width: 50px;
-  margin-left: 20px;
-  margin-top: 5px;
-  display: inline-block;
+  height: 50px;
   border-radius: 50px;
 }
 .relationship-wrapper .user-item .info {
-  margin-left: 15px;
-  margin-top: 10px;
-  display: inline-block;
-  width: calc(100% - 100px);
+  flex: 1;
+  max-width: calc(100% - 80px);
+  padding-top: 10px;
 }
-.relationship-wrapper .user-item .info .name {
+.relationship-wrapper .user-item .info .name_action {
   font-size: 18px;
+  display: flex;
+}
+.relationship-wrapper .user-item .info .name_action .name {
+  flex: 2;
+}
+.relationship-wrapper .user-item .info .name_action .action_bar {
+  flex: 1;
+}
+.relationship-wrapper .user-item .info .name_action .action_bar .action {
+  display: inline-block;
+  color: #ff0000;
 }
 .relationship-wrapper .user-item .info .signature {
   color: #999fa5;
@@ -949,14 +956,5 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.relationship-wrapper .user-item .remove {
-  float: right;
-  height: 100%;
-  width: 60px;
-  display: inline-block;
-  padding-top: 20px;
-  color: #ff0000;
-  text-align: center;
 }
 /*# sourceMappingURL=new.css.map */

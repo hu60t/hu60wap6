@@ -12,8 +12,18 @@ $USER->start($tpl);
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
     $USER->gotoLogin(true);
     $availableTypeList = [
-        'follow' => UserRelationshipService::RELATIONSHIP_TYPE_FOLLOW ,
-        'block' => UserRelationshipService::RELATIONSHIP_TYPE_BLOCK
+        'follow' => [UserRelationshipService::RELATIONSHIP_TYPE_FOLLOW, '我关注的', [
+            'unfollow' => '取消关注',
+        ]],
+        'block' => [UserRelationshipService::RELATIONSHIP_TYPE_BLOCK, '我屏蔽的', [
+            'unblock' => '取消屏蔽',
+        ]],
+        'follow_me' => [UserRelationshipService::RELATIONSHIP_TYPE_FOLLOW_ME, '关注我的', [
+            'follow' => '也关注Ta',
+        ]],
+        'block_me' => [UserRelationshipService::RELATIONSHIP_TYPE_BLOCK_ME, '屏蔽我的', [
+            'block' => '也屏蔽Ta',
+        ]],
     ];
 
     $type = $PAGE->ext[0];
@@ -23,9 +33,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
         header('Location: user.relationship.follow.'. $PAGE->bid);
         exit;
     }
+    $meta = $availableTypeList[$type];
 
     $userRelationshipService = new UserRelationshipService($USER);
-    $count = $userRelationshipService->countTargetUidByType($availableTypeList[$type]);
+    $count = $userRelationshipService->countTargetUidByType($meta[0]);
     $pageSize = page::pageSize(1, 20, 1000);
     $totalPage = ceil($count / $pageSize);
 
@@ -36,18 +47,18 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 
     $offset = ($page - 1) * $pageSize;
-    $targetUidList = $userRelationshipService->getTargetUidByType($availableTypeList[$type], $offset, $pageSize);
+    $targetUidList = $userRelationshipService->getTargetUidByType($meta[0], $offset, $pageSize);
     $userList = [];
 
     foreach ($targetUidList as $item)  {
         $userInfo = new userinfo();
-        if($userInfo->uid($item['target_uid'])) {
+        if($userInfo->uid($item)) {
             $userList[] = $userInfo;
         }
     }
 
-    $title = $type == 'follow' ? '关注列表' : '屏蔽列表';
-    $tpl->assign('title', $title);
+    $tpl->assign('title', $meta[1]);
+    $tpl->assign('actions', $meta[2]);
     $tpl->assign('type', $type);
     $tpl->assign('userList', $userList);
     $tpl->assign('currentPage', $page);

@@ -8,18 +8,33 @@
         <a href="index.index.html">首页</a>
     </div>
 
+    <div class="bar breadcrumb">
+        {if $type == "follow"}我关注的{else}<a href="{$CID}.{$PID}.follow.{$BID}">我关注的</a>{/if} |
+        {if $type == "block"}我屏蔽的{else}<a href="{$CID}.{$PID}.block.{$BID}">我屏蔽的</a>{/if} |
+        {if $type == "follow_me"}关注我的{else}<a href="{$CID}.{$PID}.follow_me.{$BID}">关注我的</a>{/if} |
+        {if $type == "block_me"}屏蔽我的{else}<a href="{$CID}.{$PID}.block_me.{$BID}">屏蔽我的</a>{/if}
+    </div>
+
     <div class="relationship-wrapper">
         {if count($userList) > 0 }
             {foreach $userList as $user}
-                <div  class="user-item">
-                    <a href="user.info.{$user->uid|code}.{$BID}">
-                        <img src="{$user->avatar()}" class="avatar">
-                        <div class="info">
-                            <div class="name">{$user->name|code}</div>
-                            <div class="signature">{$user->getinfo('signature')|code}</div>
+                <div class="user-item">
+                    <div class="avatar">
+                        <a href="user.info.{$user->uid|code}.{$BID}"><img src="{$user->avatar()}"></a>
+                    </div>
+                    <div class="info">
+                        <div class="name_action">
+                            <div class="name">
+                                <a href="user.info.{$user->uid|code}.{$BID}">{$user->name|code}</a>
+                            </div>
+                            <div class="action_bar">
+                                {foreach $actions as $action=>$actionName}
+                                    <a class="action" href="javascript:relationship({$user->uid}, '{$action}')">{$actionName}</a>
+                                {/foreach}
+                            </div>
                         </div>
-                    </a>
-                    <a class="remove" href="javascript:relationship({$user->uid}, 'un{$type}')">移除</a>
+                        <div class="signature">{$user->getinfo('signature')|code}</div>
+                    </div>
                 </div>
             {/foreach}
         {else}

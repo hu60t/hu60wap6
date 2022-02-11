@@ -9,10 +9,14 @@
 class UserRelationshipService
 {
 
-    // 关注
+    // 我关注的
     const RELATIONSHIP_TYPE_FOLLOW = 1;
-    // 屏蔽
+    // 我屏蔽的
     const RELATIONSHIP_TYPE_BLOCK = 2;
+    // 关注我的
+    const RELATIONSHIP_TYPE_FOLLOW_ME = 11;
+    // 屏蔽我的
+    const RELATIONSHIP_TYPE_BLOCK_ME = 12;
 
     private $user;
     private $originUid;
@@ -117,10 +121,17 @@ class UserRelationshipService
             return 0;
         }
 
+        if ($type > 10) {
+            $type -= 10;
+            $origin = 'target_uid';
+        } else {
+            $origin = 'origin_uid';
+        }
+
         $rs = $this->db->select(
             'count(relationship_id) as count',
             'user_relationship',
-            'WHERE origin_uid =?  AND type =?',
+            "WHERE $origin=?  AND type =?",
             (int) $this->originUid,
             (int) $type
         );
@@ -135,6 +146,8 @@ class UserRelationshipService
 
 
     /**
+     * 获取“我关注的”或“我屏蔽的”列表
+     * 
      * @param $type
      * @param $offset
      * @param $num
@@ -145,10 +158,19 @@ class UserRelationshipService
             return [];
         }
 
+        if ($type > 10) {
+            $type -= 10;
+            $target = 'origin_uid';
+            $origin = 'target_uid';
+        } else {
+            $target = 'target_uid';
+            $origin = 'origin_uid';
+        }
+
         $rs = $this->db->select(
-            'target_uid',
+            $target,
             'user_relationship',
-            'WHERE origin_uid =? AND type =? ORDER BY relationship_id DESC LIMIT ?,?',
+            "WHERE $origin=? AND type=? ORDER BY relationship_id DESC LIMIT ?,?",
             (int) $this->originUid,
             (int) $type,
             $offset, $num
@@ -158,7 +180,7 @@ class UserRelationshipService
             return [];
         }
 
-        return $rs->fetchAll();
+        return $rs->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
     /**
