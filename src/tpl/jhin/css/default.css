@@ -86,9 +86,13 @@ img, input, textarea {
 }
 
 textarea {
-    width: 270px;
-    height: 55px;
-    overflow-y: visible;
+    min-width: 96%;
+    height: 100px;
+    font-size: 16px;
+}
+
+input {
+    font-size: 16px;
 }
 
 pre, textarea {

@@ -18,7 +18,7 @@
     <form method="post" action="{$CID}.{$PID}.{$BID}">
 		<p>JHTML代码：</p>
 		<p>
-			<textarea name="jhtml" style="width:80%;height:100px;">{$jhtml|code:false:true}</textarea>
+			<textarea name="jhtml" style="height:300px;">{$jhtml|code:false:true}</textarea>
 		<p>
 			<input type="submit" name="go" value="保存" />
 		</p>

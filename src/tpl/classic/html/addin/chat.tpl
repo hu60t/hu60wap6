@@ -56,7 +56,7 @@
     <form method="post" action="addin.chat.{$roomname}.{$bid}">
         <div>
             <p>
-                <textarea class="txt" id="content" name="content" style="width:80%;height:100px;">{$smarty.post.content|code:false:true}</textarea>
+                <textarea class="txt" id="content" name="content">{$smarty.post.content|code:false:true}</textarea>
             </p>
             <p>
                 {if $USER->islogin}

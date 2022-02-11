@@ -1,3 +1,8 @@
+/*规定rem单位字体大小*/
+html {
+  font-size: 16px !important;
+}
+
 body {
     word-wrap: break-word;
     word-break: break-all;
@@ -47,9 +52,13 @@ hr {
 }
 
 textarea {
-    width: 270px;
-    height: 55px;
-    overflow-y: visible;
+    min-width: 96%;
+    height: 100px;
+    font-size: 16px;
+}
+
+input {
+    font-size: 16px;
 }
 
 pre, textarea {
