@@ -55,6 +55,7 @@ textarea {
     min-width: 96%;
     height: 100px;
     font-size: 16px;
+    margin: 8px 5px;
 }
 
 input {
