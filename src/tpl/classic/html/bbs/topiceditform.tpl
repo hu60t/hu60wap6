@@ -30,7 +30,7 @@
 {/if}
 <p>
         {if $USER->islogin}
-            <textarea class="txt" name="content" id="content">{code::html($content, false, true)}</textarea>
+            <textarea class="topic-form-content" name="content" id="content">{code::html($content, false, true)}</textarea>
             {input type="hidden" name="token" value=$token->token()}
 </p>
     {if $isAdminEdit}

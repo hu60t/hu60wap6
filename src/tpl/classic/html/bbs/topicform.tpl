@@ -31,7 +31,7 @@
 </p>
 <p>
         {if $USER->islogin}
-            <textarea class="txt" name="content" id="content">{$content}</textarea>
+            <textarea class="topic-form-content" name="content" id="content">{$content}</textarea>
             {input type="hidden" name="token" value=$token->token()}
 </p>
 <p>

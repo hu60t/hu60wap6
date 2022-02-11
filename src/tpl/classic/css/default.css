@@ -69,6 +69,10 @@ input[name="editReason"] {
     width: calc(100% - 95px);
 }
 
+.topic-form-content {
+  height: 300px;
+}
+
 pre, textarea {
     white-space: pre-wrap;
     word-wrap: break-word;
