@@ -10,6 +10,14 @@ $msg = new msg($USER);
 $uinfo = new userinfo;
 $ubbs = new ubbdisplay();
 
+// 预览内容
+if (isset($_POST['preview']) && !empty($_POST['content'])) {
+    $ubbParser = new UbbParser();
+    $preview = $ubbParser->parse($_POST['content'], false);
+    $tpl->assign('preview', $preview);
+    $tpl->assign('ubbs', $ubbs);
+}
+
 // 执行内信/@消息清理操作
 if (isset($_POST['clean'])) {
     // 检查token

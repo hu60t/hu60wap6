@@ -14,4 +14,8 @@
 	{$jsonData.toUinfo = ['name'=>$toUser->name]}
 {/if}
 
+{if $preview}
+    {$jsonData.preview = $ubbs->display($preview, false)}
+{/if}
+
 {JsonPage::output($jsonData)}

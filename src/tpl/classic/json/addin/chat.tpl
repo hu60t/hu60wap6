@@ -2,6 +2,11 @@
 
 {JsonPage::selUbbP($ubbs)}
 
+{if $preview}
+    {*放在最前面，防止下面的setUbbOpt产生有害干扰*}
+    {$preview = $ubbs->display($preview, false)}
+{/if}
+
 {foreach $list as $k=>$v}
     {$list.$k.uinfo = ['name'=>$v.uname]}
     {JsonPage::_unset($list.$k, 'uname')}
@@ -21,6 +26,10 @@
     'blockedReply'=>$blockedReply,
     'onlyReview'=>$onlyReview
 ]}
+
+{if $preview}
+    {$jsonData.preview = $preview}
+{/if}
 
 {if $USER->islogin}
 	{$jsonData['token'] = $token->token()}

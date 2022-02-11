@@ -82,8 +82,8 @@ try {
     // 预览内容
     if (isset($_POST['content']) && !empty($_POST['content'])) {
         $ubbParser = new UbbParser();
-        $content = $ubbParser->parse($_POST['content'], false);
-        $tpl->assign('preview', $content);
+        $preview = $ubbParser->parse($_POST['content'], false);
+        $tpl->assign('preview', $preview);
 
         $ubb = new ubbdisplay();
         $tpl->assign('ubb', $ubb);

@@ -131,6 +131,13 @@ if ($PAGE->ext[0]) {
         $tpl->assign('token', $token);
     }
 
+    // 预览内容
+    if (isset($_POST['preview']) && !empty($_POST['content'])) {
+        $ubbParser = new UbbParser();
+        $preview = $ubbParser->parse($_POST['content'], false);
+        $tpl->assign('preview', $preview);
+    }
+
     $tpl->display("tpl:chat");
 } else {
     if ($_POST['deleteroom']) {

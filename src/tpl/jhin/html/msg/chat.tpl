@@ -9,6 +9,7 @@
 <form action="msg.index.send.{$chatUser->uid}.{$bid}" method="post">
   <textarea name="content" id="content"></textarea><br />
   <input type="submit" id="send_msg_button" name="go" value="回复"/>
+  <input type="submit" id="preview_button" name="preview" value="预览"/>
   <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
   <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
   {include file="tpl:comm.addfiles"}

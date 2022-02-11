@@ -62,6 +62,7 @@
                 {if $USER->islogin}
                     <input type="hidden" name="token" value="{$token->token()}">
                     <input type="submit" id="quick_chat_button" name="go" id="submit" class="cr_login_submit" value="快速发言"/>
+                    <input type="submit" id="preview_button" name="preview" value="预览"/>
                     <input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
                     <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
                     {include file="tpl:comm.addfiles"}
@@ -73,6 +74,15 @@
     </form>
 </div>
 <hr>
+{/if}
+{if $preview}
+    <div class="tp" style="margin-bottom: 10px">
+        预览：
+    </div>
+    <div class="topic-content user-content">
+	    {$ubbs->display($preview, false)}
+	</div>
+    <hr>
 {/if}
 <div class="pager">
     {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}

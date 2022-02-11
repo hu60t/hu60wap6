@@ -22,6 +22,7 @@
         {if $USER->islogin}
         <input type="hidden" name="token" value="{$token->token()}">
         <input type="submit" id="quick_chat_button" name="go" id="submit" class="chat-form-submit" value="快速发言"/>
+        <input type="submit" id="preview_button" name="preview" value="预览"/>
         <input type="button" id="add_files" value="添加附件" class="chat-form-submit" onclick="addFiles()"/>
         <a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
         {include file="tpl:comm.addfiles"}
@@ -32,6 +33,16 @@
     </div>
   </form>
 </div>
+{/if}
+{if $preview}
+  <hr>
+  <div class="bar">
+    预览：
+  </div>
+  <div class="topic-content user-content" style="border: none">
+	  {$ubbs->display($preview, false)}
+	</div>
+  <hr>
 {/if}
 <div class="widget-page top-pager">
   {jhinfunc::Pager($p,$maxP,"?p=##")}

@@ -19,6 +19,7 @@
 <p>{input type="textarea" name="content" id="content" value=$smarty.post.content}</p>
 <p>
 	<input type="submit" id="send_msg_button" name="go" value="确认发送"/>
+	<input type="submit" id="preview_button" name="preview" value="预览"/>
 	<input type="button" id="add_files" value="添加附件" onclick="addFiles()"/>
 	<a id="ubbHelp" href="bbs.topic.80645.{$BID}">UBB说明</a>
 	{include file="tpl:comm.addfiles"}
@@ -26,6 +27,15 @@
 {/form}
 {/if}
 <hr />
+{if $preview}
+    <div class="tp" style="margin-bottom: 10px">
+        预览：
+    </div>
+    <div class="topic-content user-content">
+	    {$ubbs->display($preview, false)}
+	</div>
+    <hr>
+{/if}
 发件箱：
 <a href="msg.index.outbox.all.{$bid}">全部</a>
 <a href="msg.index.outbox.no.{$bid}">对方未读</a>
