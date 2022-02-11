@@ -86,14 +86,20 @@ img, input, textarea {
 }
 
 textarea {
-    min-width: 96%;
+    width: calc(100% - 10px);
     height: 100px;
     font-size: 16px;
     margin: 8px 5px;
+    box-sizing: border-box;
 }
 
 input {
     font-size: 16px;
+}
+
+input[name="editReason"] {
+    border: 1px solid #ccc;
+    width: calc(100% - 95px);
 }
 
 pre, textarea {

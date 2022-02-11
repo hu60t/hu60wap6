@@ -638,7 +638,7 @@ h1 {
   margin: 0 auto;
 }
 .comments-form-content {
-  width: 80%;
+  width: calc(100% - 10px);
   height: 100px;
   margin: 8px 5px;
   padding: 10px;
@@ -672,7 +672,7 @@ h1 {
   font-size: 16px;
   border: 2px solid #EEE;
   border-radius: 0;
-  width: 80%;
+  width: calc(100% - 10px);
   margin: 5px;
   padding: 5px;
 }
@@ -681,12 +681,12 @@ h1 {
   border: 2px solid #EEE;
   min-height: 160px;
   border-radius: 0;
-  width: 80%;
+  width: calc(100% - 10px);
   margin: 5px;
   padding: 5px;
 }
 .chat-form-content {
-  width: 80%;
+  width: calc(100% - 10px);
   height: 100px;
 }
 .chat-list {
@@ -883,11 +883,11 @@ h1 {
   }
   /*发言框*/
   textarea {
-    min-width: 96%;
+    width: calc(100% - 10px);
   }
   .topic-form-title {
-    width: 96%;
-    font-size: 14px;
+    width: calc(100% - 10px);
+    font-size: 16px;
   }
   /*帖子标题*/
   .topic h1 {
