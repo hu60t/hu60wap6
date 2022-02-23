@@ -36,7 +36,7 @@ function updateLutrisUrl($url, $query, $update, $time) {
     // example:
     //   https://example.com/path/to/dxvk-1.9.2L-3e64e1b.tar.gz
     //   https://example.com/path/to/dxvk-nvapi-v0.5.tar.xz
-    preg_match('#/(([a-z0-9._-]+)-(v[a-z0-9._-]+)\.tar\.[a-z0-9]+)$#is', $url, $arr) || preg_match('#/(([a-z0-9._]+)-([a-z0-9._-]+)(?:\.tar)?\.[a-z0-9]+)$#is', $url, $arr);;
+    preg_match('#/(([a-z0-9._-]+)-(v[a-z0-9._-]+)\.tar\.[a-z0-9]+)$#is', $url, $arr) || preg_match('#/(([a-z0-9._]+)-([a-z0-9._-]+?)(?:\.tar)?\.[a-z0-9]+)$#is', $url, $arr);;
     $name = $arr[1];
     $project = $arr[2];
     $version = $arr[3];
