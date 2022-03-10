@@ -1040,6 +1040,9 @@ HTML;
         }
 
         if (isset($data['src'])) {
+            // 禁止网易云音乐自动播放
+            $data['src'] = preg_replace('#(//music\.163\.com/.*\bauto)=[^&]+#is', '\\1=0', $data['src']);
+            
             if (JsonPage::isJsonPage()) {
                 $url = $data['src'];
             } else {
