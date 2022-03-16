@@ -21,7 +21,7 @@ try {
 	//显示全部版块
 	if (0 == $fid) {
 		//论坛版块列表
-		$forums = $bbs->childForumMeta(0, 'id,name,notopic', 0);
+		$forums = $bbs->childForumMeta(0, 'id,name,notopic,access', 0);
 		$tpl->assign('forums', $forums);
 
 		$tpl->display('tpl:forum_select_all');
