@@ -91,7 +91,7 @@ class UbbDisplay extends XUBBP
 		$html = parent::display($ubbArray, false, $maxLen, $page);
 		
 		if ($this->markdownEnable) {
-			if (!$this->Parsedown) {
+            if (!$this->Parsedown) {
 				$this->Parsedown = new Parsedown();
 				$this->Parsedown->setBreaksEnabled(true); //自动换行
 				//$this->Parsedown->setMarkupEscaped(true); //转义html
@@ -567,7 +567,7 @@ class UbbDisplay extends XUBBP
     public function math($data) {
         $html = '<hu60-math class="usermath">'.code::html($data['data']).'</hu60-math>';
 
-        return $this->markdownProtect($html);
+        return $this->markdownProtectInline($html);
     }
 
     /*newline 换行*/
