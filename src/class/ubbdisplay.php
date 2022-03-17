@@ -955,7 +955,8 @@ HTML;
         $reviewLog = '';
         if (!empty($data['reviewLog'])) {
             $reviewLog = [];
-            foreach ($data['reviewLog'] as $v) {
+            for ($i = max(count($data['reviewLog'])-5, 0); $i < count($data['reviewLog']); $i++) {
+                $v = $data['reviewLog'][$i];
                 $user = $this->at([ 'uid' => $v['uid'] ]);
                 $action = bbs::getReviewActionName($v['stat']);
                 $comment = code::html($v['comment'], false, true);
