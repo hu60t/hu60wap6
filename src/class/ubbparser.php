@@ -22,6 +22,10 @@ class UbbParser extends XUBBP
         '!^(.*?)\[code(?:=(\w+))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
         /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
         '!^(.*?)\[html(=.*?)?\](.*?)\[/html\](.*)$!is' => array(array(1, 4), 'html', array(2, 3)),
+
+        /* iframe 网页嵌入 */
+        '!^(.*?)<iframe((?:\s+[a-zA-Z0-9_-]+(?:=(?:\'[^\']*\'|"[^"]*"|[^\s]*))?)*)>.*?</iframe>(.*)$!is' => array(array(1, 3), 'iframe', array(2)),
+
         /*time 时间*/
         '!^(.*?)\[time(?:=(.*?))?\](.*)$!is' => array(array(1, 3), 'time', array(2)),
         /*link 链接*/
@@ -55,9 +59,6 @@ class UbbParser extends XUBBP
 #       '!^(.*?)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
         '!^(.*?)\[([bh]r)\](.*)$!is' => array(array(1, 3), 'newline', array(2)),
         //'!^(.*?)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
-        
-        /* iframe 网页嵌入 */
-        '!^(.*?)<iframe((?:\s+[a-zA-Z0-9_-]+(?:=(?:\'[^\']*\'|"[^"]*"|[^\s]*))?)*)>.*?</iframe>(.*)$!is' => array(array(1, 3), 'iframe', array(2)),
 
         /*
         * 开始标记
