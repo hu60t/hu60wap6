@@ -22,6 +22,8 @@ class UbbParser extends XUBBP
         '!^(.*?)\[code(?:=(\w+))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
         /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
         '!^(.*?)\[html(=.*?)?\](.*?)\[/html\](.*)$!is' => array(array(1, 4), 'html', array(2, 3)),
+        /* textbox 文本框 */
+        '!^(.*?)\[text(?:=(.*?))?\](.*?)\[/text\](.*)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
 
         /* iframe 网页嵌入 */
         '!^(.*?)<iframe((?:\s+[a-zA-Z0-9_-]+(?:=(?:\'[^\']*\'|"[^"]*"|[^\s]*))?)*)>.*?</iframe>(.*)$!is' => array(array(1, 3), 'iframe', array(2)),
@@ -621,6 +623,18 @@ class UbbParser extends XUBBP
         return array(array(
             'type' => 'html',
             'opt' => $opt,
+            'data' => $data,
+        ));
+    }
+
+    /**
+     * @brief textbox 文本框
+     */
+    public function textbox($style, $data)
+    {
+        return array(array(
+            'type' => 'textbox',
+            'style' => $style,
             'data' => $data,
         ));
     }

@@ -66,6 +66,8 @@ class UbbDisplay extends XUBBP
         'iframe' => 'iframe',
         /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
         'html' => 'html',
+        /* textbox 文本框 */
+        'textbox' => 'textbox',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -1092,5 +1094,22 @@ HTML;
                 'style' => 'border: none',
             ]
         ]);
+    }
+
+    public function textbox($data) {
+        static $id = 0;
+        $id ++;
+
+        $opt = $data['style'];
+        $disable = $this->getOpt('style.disable');
+        if ($disable) {
+            $opt = '';
+        }
+        if (!empty($opt)) {
+            $opt = preg_replace('#/\*.*\*/#sU', '', $opt);
+            $opt = preg_replace('#position\s*:[^;]*;?#is', '', $opt);
+        }
+
+        return '<div><a class="usertextboxlink" href="#" onclick="user_textbox_toggle('.$id.'); return false">编辑文本</a></div><div class="usertextbox" id="user_textbox_'.$id.'" style="'.htmlspecialchars($opt).'">'.code::html($data['data'], 2).'</div><textarea class="usertextboxedit" id="user_textbox_edit_'.$id.'" style="display:none;min-width:150px;min-height:150px"></textarea>';
     }
 }

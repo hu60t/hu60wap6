@@ -63,6 +63,8 @@ class ubbEdit extends XUBBP
         'iframe' => 'iframe',
         /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
         'html' => 'html',
+        /* textbox 文本框 */
+        'textbox' => 'textbox',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -342,6 +344,13 @@ class ubbEdit extends XUBBP
     public function html($data)
     {
         return '[html'.$data['opt'].']'.$data['data'].'[/html]';
+    }
+
+    /*textbox 文本框*/
+    public function textbox($data)
+    {
+        if (!empty($data['style'])) $data['style'] = '='.$data['style'];
+        return '[text'.$data['style'].']'.$data['data'].'[/text]';
     }
 
     /*urltxt 链接文本*/

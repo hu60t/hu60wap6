@@ -21,6 +21,23 @@ function user_iframe_toggle(id) {
     }
 }
 
+// 用户文本框切换代码显示模式
+function user_textbox_toggle(id) {
+    var f = document.getElementById("user_textbox_" + id);
+    var t = document.getElementById("user_textbox_edit_" + id);
+    if (t.style.display == 'none') {
+        t.value = f.innerText;
+        t.style.width = f.offsetWidth + 'px';
+        t.style.height = f.offsetHeight + 'px';
+        t.style.display = 'block';
+        f.style.display = 'none';
+    } else {
+        f.innerText = t.value;
+        t.style.display = 'none';
+        f.style.display = 'block';
+    }
+}
+
 // 处理用户 iframe 窗口
 document.querySelectorAll('.useriframe').forEach(box => {
     // 调整窗口大小

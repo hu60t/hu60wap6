@@ -63,6 +63,8 @@ class UbbText extends XUBBP
         'iframe' => 'iframe',
         /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
         'html' => 'html',
+        /* textbox 文本框 */
+        'textbox' => 'textbox',
         /*管理员操作*/
         'adminEdit' => 'adminEditNotice',
         'adminDel' => 'adminDelNotice',
@@ -333,6 +335,11 @@ class UbbText extends XUBBP
     /*html 通过iframe的srcdoc属性实现的HTML内容嵌入*/
     public function html($data) {
         return strip_tags($data['data']);
+    }
+
+    /*textbox 文本框*/
+    public function textbox($data) {
+        return $data['data'];
     }
 
     /*urltxt 链接文本*/
