@@ -71,7 +71,7 @@
 		<p>作者: <a class="user_info_link" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a> <a href="#" class="user_at_link" onclick="atAdd('{$v.uinfo.name|code}',this);return false">@Ta</a></p>
 		<p>时间: {str::ago($v.ctime)}{if $v.ctime != $v.mtime}发布，{str::ago($v.mtime)}修改{/if}</p>
 		<div>
-			点击: {$tMeta.read_count}
+			<a class="floor-link" href="?floor=0#0">点击: {$tMeta.read_count}</a>
 			{if $v.review}
 				<div class="topic-status">{bbs::getReviewStatName($v.review)}</div>
 			{/if}
