@@ -173,7 +173,10 @@
 		$(".topic-content,.floor-content").each(function(){
 			var that =$(this);
 			var id=this.getAttribute("data-floorID");
-			if(that.height() >  maxHeight){
+			// 不折叠楼层链接指向的楼层
+			if (location.hash == '#'+id) return;
+
+			if(that.height() > maxHeight){
 				that.height(maxHeight);
 				$('#floor_fold_bar_'+id).html("<button data-floorID='"+id+"'>查看全部</button>");
 				$('#floor_fold_bar_'+id+">button").on('click',function(){
