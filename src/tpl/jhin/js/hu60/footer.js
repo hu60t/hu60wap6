@@ -4,6 +4,32 @@ document.querySelectorAll('.video').forEach(box => {
     box.style.height = (box.offsetWidth * 2 / 3) + "px";
 });
 
+// 开启/关闭用户定义CSS
+function hu60_user_style_toggle(node, enabled) {
+    if (enabled === undefined) {
+        enabled = node._hu60_user_style_toggle;
+    }
+    node._hu60_user_style_toggle = !enabled;
+
+    let toggle = (node, enabled) => {
+        if (enabled) {
+            if (node._hu60_style) {
+                $(node).attr('style', node._hu60_style);
+                node._hu60_style = null;
+            }
+        } else {
+            if ($(node).attr('style') != '') {
+                node._hu60_style = $(node).attr('style');
+                $(node).attr('style', '');
+            }
+        }
+        if (node.childNodes) {
+            node.childNodes.forEach(x => toggle(x, enabled));
+        }
+    };
+    toggle(node, enabled);
+}
+
 // 用户 iframe 切换代码显示模式
 function user_iframe_toggle(id) {
     var f = document.getElementById("user_iframe_" + id);

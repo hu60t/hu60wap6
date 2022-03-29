@@ -115,5 +115,10 @@
 				return true;
 			};
 		}
+
+		// 点审核通过按钮时移除用户自定义CSS，防止用户通过CSS隐藏恶意信息
+		document.querySelectorAll('.hu60_review input').forEach(x => x.onclick = function () {
+			hu60_user_style_toggle(this.parentNode.parentNode.parentNode.parentNode, false);
+		});
 	}
 </script>

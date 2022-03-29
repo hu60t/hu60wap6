@@ -946,10 +946,10 @@ HTML;
 		if ($data['isAdmin']) {
 			$reviewForm = <<<HTML
 <form class="hu60_review" action="bbs.review.$data[contentId].$data[topicId].$PAGE[bid]" method="post" data-content-id="$data[contentId]" data-topic-id="$data[topicId]">
-	<label><input id="hu60_review_pass_$data[contentId]" type="radio" name="pass" value="1" />审核通过</label>
-	<label><input id="hu60_review_nopass_$data[contentId]" type="radio" name="pass" value="0" checked />审核未通过</label>
-    <input type="input" name="comment" placeholder="审核未通过理由" onclick="document.querySelector('#hu60_review_nopass_$data[contentId]').checked = true" />
-	<input type="submit" value="确定" />
+	<label><input class="hu60_review_pass" id="hu60_review_pass_$data[contentId]" type="radio" name="pass" value="1" />审核通过</label>
+	<label><input class="hu60_review_nopass" id="hu60_review_nopass_$data[contentId]" type="radio" name="pass" value="0" checked />审核未通过</label>
+    <input class="hu60_review_comment" type="input" name="comment" placeholder="审核未通过理由" onclick="document.querySelector('#hu60_review_nopass_$data[contentId]').checked = true" />
+	<input class="hu60_review_submit" type="submit" value="确定" />
 </form>
 HTML;
 		}
