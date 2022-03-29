@@ -34,6 +34,13 @@ function hu60_user_style_toggle(node, enabled) {
 function user_iframe_toggle(id) {
     var f = document.getElementById("user_iframe_" + id);
     var t = document.getElementById("user_iframe_code_" + id);
+    if (!t) {
+        t = document.createElement('textarea');
+        t.class = 'useriframecode';
+        t.id = "user_iframe_code_" + id;
+        $(t).attr('style', 'display:none;min-width:150px;min-height:150px;max-width:99%');
+        $(f).before(t);
+    }
     if (t.style.display == 'none') {
         t.value = f.srcdoc;
         t.style.width = f.offsetWidth + 'px';
@@ -51,6 +58,13 @@ function user_iframe_toggle(id) {
 function user_textbox_toggle(id) {
     var f = document.getElementById("user_textbox_" + id);
     var t = document.getElementById("user_textbox_edit_" + id);
+    if (!t) {
+        t = document.createElement('textarea');
+        t.class = 'usertextboxedit';
+        t.id = "user_textbox_edit_" + id;
+        $(t).attr('style', 'display:none;min-width:150px;min-height:150px;max-width:99%');
+        $(f).after(t);
+    }
     if (t.style.display == 'none') {
         t.value = f.innerText.replace(/[\u00a0\u2002]/g, '\u0020');
         t.style.width = f.offsetWidth + 'px';

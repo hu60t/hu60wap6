@@ -1057,7 +1057,7 @@ HTML;
 
         if (isset($data['srcdoc'])) {
             $data['srcdoc'] = trim($data['srcdoc']);
-            $link = '<a class="useriframelink" href="#" onclick="user_iframe_toggle('.$id.'); return false">HTML代码</a><br/><textarea class="useriframecode" id="user_iframe_code_'.$id.'" style="display:none;min-width:150px;min-height:150px"></textarea>';
+            $link = '<a class="useriframelink" href="#" onclick="user_iframe_toggle('.$id.'); return false">HTML代码</a><br/>';
         } else {
             $link = '<a class="useriframelink" target="_blank" href="'.code::html($url).'">网页链接</a><br/>';
         }
@@ -1110,6 +1110,6 @@ HTML;
             $opt = preg_replace('#position\s*:[^;]*;?#is', '', $opt);
         }
 
-        return '<div><a class="usertextboxlink" href="#" onclick="user_textbox_toggle('.$id.'); return false">文本框</a></div><div class="usertextbox" id="user_textbox_'.$id.'" style="'.htmlspecialchars($opt).'">'.code::html($data['data'], 2).'</div><textarea class="usertextboxedit" id="user_textbox_edit_'.$id.'" style="display:none;min-width:150px;min-height:150px"></textarea>';
+        return '<div><a class="usertextboxlink" href="#" onclick="user_textbox_toggle('.$id.'); return false">文本框</a></div><div class="usertextbox" id="user_textbox_'.$id.'" style="'.htmlspecialchars($opt).'">'.code::html($data['data'], 2).'</div>';
     }
 }
