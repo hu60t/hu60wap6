@@ -26,13 +26,13 @@ function user_textbox_toggle(id) {
     var f = document.getElementById("user_textbox_" + id);
     var t = document.getElementById("user_textbox_edit_" + id);
     if (t.style.display == 'none') {
-        t.value = f.innerText;
+        t.value = f.innerText.replace(/[\u00a0\u2002]/g, '\u0020');
         t.style.width = f.offsetWidth + 'px';
         t.style.height = f.offsetHeight + 'px';
         t.style.display = 'block';
         f.style.display = 'none';
     } else {
-        f.innerText = t.value;
+        f.innerText = t.value.replace(/\u0020/g, '\u00a0');
         t.style.display = 'none';
         f.style.display = 'block';
     }
