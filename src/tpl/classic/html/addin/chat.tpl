@@ -99,7 +99,7 @@
         <div class="floor_content user-content" id="floor_content_{$k.lid}">{if $onlyReview}<a class="floor-link" name="{$k.lid}" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}">{$k.room} {$k.lid}楼</a>{else}<a class="floor-link" name="{$k.lid}" href="?{$k.lid}#{$k.lid}">{$k.lid}</a>{/if}<a name="/{$k.lid}"></a>. {$ubbs->display($k.content,true)}</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_{$k.lid}"></div>
 		<script>foldFloorInit({$k.lid})</script>
-		<div>(<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a> {date("m-d H:i:s",{$k.time})}{if $chat->canDel($k.uid,true)}/<a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>{/if})</div>
+		<div>(<a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a> <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a> {date("m-d H:i:s",{$k.time})}{if $chat->canDel($k.uid,true)}/<a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>/{/if}<a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_{$k.lid}'))">样</a>/<a href="javascript:hu60_content_display_ubb('addin.chat', {$k.id}, 'floor_content_{$k.lid}')">源</a>)</div>
         </div>
         <hr>
     {/foreach}

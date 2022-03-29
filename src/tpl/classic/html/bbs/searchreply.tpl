@@ -21,8 +21,8 @@
 <div class="fl cl indexthreadlist">
   {foreach $replyList as $reply}
 	<div class="reply-box">
-    <p><a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a> {$reply.floor}楼回复 <a href="user.info.{$reply.topicUinfo.uid}.{$BID}">{$reply.topicUinfo.name|code}</a> 的 <a class="user-title" href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$reply.topic.title|code}</a> ({str::ago($reply.mtime)})</p>
-    <blockquote class="floor_content user-content">
+    <p><a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a> {$reply.floor}楼回复 <a href="user.info.{$reply.topicUinfo.uid}.{$BID}">{$reply.topicUinfo.name|code}</a> 的 <a class="user-title" href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$reply.topic.title|code}</a> ({str::ago($reply.mtime)}/<a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_{$reply.floor}'))">样</a>/<a href="javascript:hu60_content_display_ubb('bbs.search', {$reply.id}, 'floor_content_{$reply.floor}')">源</a>)</p>
+    <blockquote class="floor_content user-content" id="floor_content_{$reply.floor}">
       {$reply.ubb->display($reply.content, true)}
     </blockquote>
   </div>

@@ -24,7 +24,6 @@
 
 <div class="topic">
 	{if $p == 1}
-
 		{$v=array_shift($tContents)}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<a class="floor-link" name="0"></a><a name="/0"></a>
@@ -62,20 +61,21 @@
 		</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
 		{include file="tpl:bbs.topic_manager"}
-    {if $bbs->canFavorite($v.uinfo.uid, true)}
-    <hr/>
-    {if $bbs->isFavoriteTopic($v.topic_id)}
-    <div style="background-color: #EEE;">
-      &nbsp;&nbsp;<a href="#" class="favoriteTopic" style="color: #2e4e7e;"><i class="material-icons">star</i>取消收藏</a>
-      <span id="favoriteTopicError" style="color: red;display: none;"></span>
-    </div>
-    {else}
-    <div style="background-color: #EEE;">
-      &nbsp;&nbsp;<a href="#" class="favoriteTopic" style="color: #2e4e7e;"><i class="material-icons">star_border</i>加入收藏</a>
-      <span id="favoriteTopicError" style="color: red;display: none;"></span>
-    </div>
-    {/if}
-    {/if}
+		<hr/>
+		<div style="background-color: #EEE;">
+			{if $bbs->canFavorite($v.uinfo.uid, true)}
+				&nbsp;&nbsp;<a href="#" class="favoriteTopic" style="color: #2e4e7e;">
+					{if $bbs->isFavoriteTopic($v.topic_id)}
+						<i class="material-icons">star</i>取消收藏
+					{else}
+						<i class="material-icons">star_border</i>加入收藏
+					{/if}
+				</a>
+				<span id="favoriteTopicError" style="color: red;display: none;"></span>
+			{/if}
+			&nbsp;&nbsp;<a style="color: #2e4e7e;" href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_0'))">隐藏样式</a>
+	  		&nbsp;&nbsp;<a style="color: #2e4e7e;" href="javascript:hu60_content_display_ubb('bbs.topic', {$v.id}, 'floor_content_0')">查看源码</a>
+		</div>
 	{else}
 		<p class="user-title">{$tMeta.title|code}</p>
 	{/if}
@@ -88,7 +88,7 @@
 			{foreach $tContents as $v}
 			{$tmp = $v.uinfo->setUbbOpt($ubb)}
 			<li>
-				<div class="floor-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
+				<div class="floor-content" data-floorID="{$v.floor}">
 					<div class="comments-meta">
 					    <div class="comments-number"><a class="floor-link" name="{$v.floor}" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a><a name="/{$v.floor}"></a></div>
 						<div class="comments-avatar">
@@ -106,6 +106,8 @@
 					    	{if $bbs->canDel($v.uinfo.uid, true, $tMeta.uid)}
 						    	/ <a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>
     						{/if}
+							/ <a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_{$v.floor}'))">样</a>
+							/ <a href="javascript:hu60_content_display_ubb('bbs.topic', {$v.id}, 'floor_content_{$v.floor}')">源</a>
 							{if $v.review}
 								<div class="topic-status">{bbs::getReviewStatName($v.review)}</div>
 							{/if}
@@ -117,7 +119,7 @@
 							{/if}
                         </div>
 					</div>
-					<div class="comments-content user-content">
+					<div class="comments-content user-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
 						{$ubb->display($v.content,true)}
 					</div>
 				</div>

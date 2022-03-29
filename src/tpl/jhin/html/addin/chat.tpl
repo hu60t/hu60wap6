@@ -63,9 +63,13 @@
         <div class="chat-actions">
             <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a>
             {str::ago({$k.time})}
-            {if $chat->canDel($k.uid,true)}
-                <a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a>
-            {/if}
+            <div style="display: inline-block">
+              {if $chat->canDel($k.uid,true)}
+                  <a href="?del={$k.id}&amp;p={$p}&amp;t={$smarty.server.REQUEST_TIME}" onclick="return confirm('您确定要删除该楼层？')">删</a> /
+              {/if}
+              <a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_{$k.lid}'))">样</a> /
+              <a href="javascript:hu60_content_display_ubb('addin.chat', {$k.id}, 'floor_content_{$k.lid}')">源</a>
+            </div>
         </div>
     </div>
     <div class="chat-content user-content" data-floorID="{$k.lid}" id="floor_content_{$k.lid}">
