@@ -45,11 +45,11 @@
                             <div class="topic-title">
                                 <a class="user-title" href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$topic.title|code}</a>
                                 <div class="topic-meta">
-                                    {$topic.read_count}点击 / {str::ago($topic.ctime)}发布 / {str::ago($reply.mtime)}回复
-                                    &nbsp;/&nbsp;
-                                    <a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_{$reply.floor}'))">样</a>
-                                    &nbsp;/&nbsp;
-                                    <a href="javascript:hu60_content_display_ubb('bbs.search', {$reply.id}, 'floor_content_{$reply.floor}')">源</a>
+                                    <span>
+                                        {$topic.read_count}点击 / {str::ago($topic.ctime)}发布 / {str::ago($reply.mtime)}回复 /
+                                        <a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_{$reply.floor}'))">样</a> /
+                                        <a href="javascript:hu60_content_display_ubb('bbs.search', {$reply.id}, 'floor_content_{$reply.floor}')">源</a>
+                                    </span>
                                 </div>
                             </div>
                         </div>
