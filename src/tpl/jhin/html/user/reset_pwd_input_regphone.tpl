@@ -25,7 +25,7 @@
         <input type="hidden" name="step" value="2" />
 	</form>
 	{if $msg}
-        <div class="message_f_c" style="padding:50px 10px; background:#f5f5f5">
+        <div class="message_f_c" style="padding:10px; background:#f5f5f5">
             <div id="messagetext">
                 <p>{$msg|code:true}</p>
             </div>

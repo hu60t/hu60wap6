@@ -10,17 +10,6 @@
 	<span class="pt_c">登录</span>
 	<span class="pt_y"><a href="{$PAGE->getBaseURL()}{$u|code}">返回来源</a></span>
 </div>
-{if $msg}
-<div class="message_f_c" style="padding:50px 10px; background:#f5f5f5">
-	<div id="messagetext">
-		<p>
-			抱歉，{$msg|code:true}
-			{if $active}(<a href="{$CID}.active.{$BID}?sid={$activeSid}">立即激活</a>){/if}
-		</p>
-		<p><a href="javascript:history.back();">[ 点击这里返回上一页 ]</a></p>
-	</div>
-</div>
-{else}
 
 <div class='login-form'>
 	<form action="user.login.{$bid}?u={urlencode($u)}" method="post">
@@ -40,13 +29,39 @@
 			<input type="password" name="pass" id="login-password" class="login-form-password" value="{$smarty.post.pass}" placeholder="密码" />
 		</div>
 		<div class="input-group">
+			<label><input name="pwdInputType" id="pwdInputType" type="checkbox" onclick="switchPasswordInput(this)" {if $smarty.post.pwdInputType}checked{/if} />显示密码/输入中文密码</label>
+		</div>
+		<div class="input-group">
 			<input type="submit" name="go" id="submit" class="login-form-submit" value="登录" />
 		</div>
+
+		{if $msg}
+		<div class="message_f_c" style="padding:10px; background:#f5f5f5">
+			<div id="messagetext">
+				<p>
+					{$msg|code:true}
+					{if $active}(<a href="{$CID}.active.{$BID}?sid={$activeSid}">立即激活</a>){/if}
+				</p>
+			</div>
+		</div>
+		{/if}
+
 		<p>
 			<a href="user.reg.{$bid}?u={urlencode($u)}" class="cr_login_submit">还没有用户名？立即注册</a> |
 			<a href="user.reset_pwd.{$bid}">找回密码</a>
 		</p>
 	</form>
 </div>
-{/if}
+<script>
+function switchPasswordInput(checkbox) {
+	if (checkbox.checked) {
+		document.querySelector('#login-password').type = 'text';
+	} else {
+		document.querySelector('#login-password').type = 'password';
+	}
+}
+$(document).ready(function() {
+	switchPasswordInput(document.querySelector('#pwdInputType'));
+});
+</script>
 {/block}

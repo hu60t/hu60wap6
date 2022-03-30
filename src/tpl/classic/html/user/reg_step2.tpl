@@ -13,16 +13,31 @@
 {form action="user.reg.{$bid}?u={urlencode($u)}" method="post"}
 <div class="bm cr180_login">
 <div>
+<span>还记得刚刚设置的密码吗？请再输入一遍：</span>
 <p>
-<input type="password" name="pass2" id="password3_LCxiI" class="txt" value="" placeholder="确认密码" />
-<span style="color:#aaa; font-size:12px">#你还记得你刚刚设置的密码吗？请再输入一遍：</span>
+<input type="password" name="pass2" id="password" class="txt" value="" placeholder="确认密码" />
 {input type="hidden" name="name" value=$smarty.post.name}
 {input type="hidden" name="pass" value=$smarty.post.pass}
 {input type="hidden" name="mail" value=$smarty.post.mail}
+</p>
+<p>
+	<label><input name="pwdInputType" id="pwdInputType" type="checkbox" onclick="switchPasswordInput(this)" {if $smarty.post.pwdInputType}checked{/if} />显示密码/输入中文密码</label>
 </p>
 <p><input type="submit" name="go" id="submit" class="cr_login_submit" value="提交完成注册" /></p>
 {/div}
 {/div}
 {/form}
 {/div}
+<script>
+function switchPasswordInput(checkbox) {
+	if (checkbox.checked) {
+		document.querySelector('#password').type = 'text';
+	} else {
+		document.querySelector('#password').type = 'password';
+	}
+}
+$(document).ready(function() {
+	switchPasswordInput(document.querySelector('#pwdInputType'));
+});
+</script>
 {include file="tpl:comm.foot"}
