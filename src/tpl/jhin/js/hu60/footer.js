@@ -6,38 +6,43 @@ document.querySelectorAll('.video').forEach(box => {
 
 // 获取内容UBB
 async function hu60_get_content_ubb(type, id) {
-    if (document._hu60_content_ubb && document._hu60_content_ubb[id] !== undefined) {
+    try {
+        if (document._hu60_content_ubb && document._hu60_content_ubb[id] !== undefined) {
+            return document._hu60_content_ubb[id];
+        }
+
+        // 把 /q.php/bbs.topic.102829.2.html?floor=21 这样的链接转换成 /q.php/bbs.topic.102829.2.json?floor=21&_content=ubb
+        let urlParts = location.pathname.match('^(.*/)([^/]*$)');
+        let urlIDs = urlParts[2].split('.');
+        if (urlIDs.length < 3) {
+            urlIDs.push('json');
+        } else {
+            urlIDs[urlIDs.length - 1] = 'json';
+        }
+        let url = urlParts[1] + urlIDs.join('.') + location.search + (location.search ? '&' : '?') + '_content=ubb';
+
+        let content = await $.get(url);
+        if (content && content.tContents) {
+            document._hu60_content_ubb = {};
+            content.tContents.forEach(x => document._hu60_content_ubb[x.id] = x.content);
+        } else if (content && content.replyList) {
+            document._hu60_content_ubb = {};
+            content.replyList.forEach(x => document._hu60_content_ubb[x.id] = x.content);
+        } else if (content && content.chatList) {
+            document._hu60_content_ubb = {};
+            content.chatList.forEach(x => document._hu60_content_ubb[x.id] = x.content);
+        } else {
+            return '加载UBB源码失败：服务器返回格式异常';
+        }
+        if (!document._hu60_content_ubb || document._hu60_content_ubb[id] === undefined) {
+            return '加载UBB源码失败：当前页面找不到该回复';
+        }
+
         return document._hu60_content_ubb[id];
+    } catch (ex) {
+        console.log(ex);
+        return '加载UBB源码失败：' + JSON.stringify(ex);
     }
-
-    // 把 /q.php/bbs.topic.102829.2.html?floor=21 这样的链接转换成 /q.php/bbs.topic.102829.2.json?floor=21&_content=ubb
-    let urlParts = location.pathname.match('^(.*/)([^/]*$)');
-    let urlIDs = urlParts[2].split('.');
-    if (urlIDs.length < 3) {
-        urlIDs.push('json');
-    } else {
-        urlIDs[urlIDs.length - 1] = 'json';
-    }
-    let url = urlParts[1] + urlIDs.join('.') + location.search + (location.search ? '&' : '?') + '_content=ubb';
-
-    let content = await $.get(url);
-    if (content && content.tContents) {
-        document._hu60_content_ubb = {};
-        content.tContents.forEach(x => document._hu60_content_ubb[x.id] = x.content);
-    } else if (content && content.replyList) {
-        document._hu60_content_ubb = {};
-        content.replyList.forEach(x => document._hu60_content_ubb[x.id] = x.content);
-    } else if (content && content.chatList) {
-        document._hu60_content_ubb = {};
-        content.chatList.forEach(x => document._hu60_content_ubb[x.id] = x.content);
-    } else {
-        return '加载UBB源码失败';
-    }
-    if (!document._hu60_content_ubb || document._hu60_content_ubb[id] === undefined) {
-        return '加载UBB源码失败';
-    }
-
-    return document._hu60_content_ubb[id];
 }
 
 // 显示内容UBB
