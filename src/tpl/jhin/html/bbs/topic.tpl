@@ -88,7 +88,7 @@
 			{foreach $tContents as $v}
 			{$tmp = $v.uinfo->setUbbOpt($ubb)}
 			<li>
-				<div class="floor-content" data-floorID="{$v.floor}">
+				<div class="floor-content-box" data-floorID="{$v.floor}">
 					<div class="comments-meta">
 					    <div class="comments-number"><a class="floor-link" name="{$v.floor}" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a><a name="/{$v.floor}"></a></div>
 						<div class="comments-avatar">
@@ -119,7 +119,7 @@
 							{/if}
                         </div>
 					</div>
-					<div class="comments-content user-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
+					<div class="floor-content comments-content user-content" data-floorID="{$v.floor}" id="floor_content_{$v.floor}">
 						{$ubb->display($v.content,true)}
 					</div>
 				</div>
