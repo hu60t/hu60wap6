@@ -32,26 +32,26 @@ class UbbParser extends XUBBP
         '!^(.*?)\[time(?:=(.*?))?\](.*)$!is' => array(array(1, 3), 'time', array(2)),
         /*link 链接*/
         '!^(.*?)\[url(?:=(.*?))?\](.*?)\[/url\](.*)$!is' => array(array(1, 4), 'link', array('url', 2, 3)),
-        '!^(.*?)《(链接|外链|锚)：(.*?)》(.*)$!is' => array(array(1, 4), 'link', array(2, 3)),
+        '!^(.*?)《(链接|外链|锚)[：:∶](.*?)》(.*)$!uis' => array(array(1, 4), 'link', array(2, 3)),
         /*img 图片*/
         '!^(.*?)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img', 2, 3)),
-        '!^(.*?)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img', array(2, 3)),
-        '!^(.*?)《表情(?:：|:)(.*?)》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
+        '!^(.*?)《(图片|缩略图)[：:∶](.*?)》(.*)$!uis' => array(array(1, 4), 'img', array(2, 3)),
+        '!^(.*?)《表情[：:∶](.*?)》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
         /*video 视频*/
-        '!^(.*?)《视频：(.*?)》(.*)$!is' => array(array(1, 3), 'video', array(2)),
+        '!^(.*?)《视频[：:∶](.*?)》(.*)$!uis' => array(array(1, 3), 'video', array(2)),
         /*videoStream 视频*/
-        '!^(.*?)《视频流：(.*?)》(.*)$!is' => array(array(1, 3), 'videoStream', array(2)),
+        '!^(.*?)《视频流[：:∶](.*?)》(.*)$!uis' => array(array(1, 3), 'videoStream', array(2)),
         /*audio 音频*/
-        '!^(.*?)《音频：(.*?)》(.*)$!is' => array(array(1, 3), 'audio', array(2)),
+        '!^(.*?)《音频[：:∶](.*?)》(.*)$!uis' => array(array(1, 3), 'audio', array(2)),
         /*audioStream 视频*/
-        '!^(.*?)《音频流：(.*?)》(.*)$!is' => array(array(1, 3), 'audioStream', array(2)),
+        '!^(.*?)《音频流[：:∶](.*?)》(.*)$!uis' => array(array(1, 3), 'audioStream', array(2)),
         /*copyright 版权*/
-        '!^(.*?)《版权：(.*?)》(.*)$!is' => array(array(1, 3), 'copyright', array(2)),
+        '!^(.*?)《版权[：:∶](.*?)》(.*)$!uis' => array(array(1, 3), 'copyright', array(2)),
         /*battlenet 战网*/
-        '!^(.*?)《战网：(.*?)》(.*)$!is' => array(array(1, 3), 'battlenet', array(2)),
+        '!^(.*?)《战网[：:∶](.*?)》(.*)$!uis' => array(array(1, 3), 'battlenet', array(2)),
         /*math 数学公式*/
         '!^(.*?)\[math\](.*?)\[/math\](.*)$!is' => array(array(1, 3), 'math', array('math', 2)),
-        '!^(.*?)《公式：(.*?)》(.*)$!is' => array(array(1, 3), 'math', array('mathzh', 2)),
+        '!^(.*?)《公式[：:∶](.*?)》(.*)$!uis' => array(array(1, 3), 'math', array('mathzh', 2)),
         /*tab 四个空格*/
         '!^(.*?)\[tab\](.*)$!is' => array(array(1, 2), 'tab', array(2)),
         /*empty UBB转义*/
@@ -106,7 +106,7 @@ class UbbParser extends XUBBP
         '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)(.*)$!uis' => array(array(1, 3), 'at', array(2)),
         /*face 表情*/
         '!^(.*?)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
-        '!^(.*?)《(?:：|:)(ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
+        '!^(.*?)《[：:∶](ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
     );
 
 	/**
@@ -277,8 +277,8 @@ class UbbParser extends XUBBP
         }
 
         if (preg_match('!\[(b|i|u|center|left|right|color|div|span|img)=?!is', $title) ||
-            strpos($title, '《图片：') !== false ||
-            strpos($title, '《缩略图：') !== false) {
+            strpos($title, '《图片') !== false ||
+            strpos($title, '《缩略图') !== false) {
             $obj = new ubbParser;
             $obj->setParse(array(
                 /*layoutStart 布局开始*/
@@ -287,7 +287,7 @@ class UbbParser extends XUBBP
                 '!^(.*?)\[(color|div|span)=(.*?)\](.*)$!is' => array(array(1, 4), 'styleStart', array(2, 3)),
 
                 '!^(.*?)\[img(?:=(.*?))?\](.*?)\[/img\](.*)$!is' => array(array(1, 4), 'img', array('img_in_link', 2, 3)),
-                '!^(.*?)《(图片|缩略图)：(.*?)》(.*)$!is' => array(array(1, 4), 'img_in_link', array(2, 3)),
+                '!^(.*?)《(图片|缩略图)[：:∶](.*?)》(.*)$!uis' => array(array(1, 4), 'img_in_link', array(2, 3)),
 
                 /*style 样式结束*/
                 '!^(.*?)\[/(color|div|span)\](.*)$!is' => array(array(1, 3), 'styleEnd', array(2)),
