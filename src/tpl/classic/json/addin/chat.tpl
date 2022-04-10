@@ -27,6 +27,11 @@
     'onlyReview'=>$onlyReview
 ]}
 
+{if $err_msg}
+    {$jsonData.success = false}
+    {$jsonData.notice = $err_msg}
+{/if}
+
 {if $preview}
     {$jsonData.preview = $preview}
 {/if}

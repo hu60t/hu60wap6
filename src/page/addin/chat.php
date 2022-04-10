@@ -41,6 +41,9 @@ if ($PAGE->ext[0]) {
                     $chat->chatsay($roomname, $_POST['content'], time());
                     //清空发言框的内容
                     $_POST['content'] = '';
+                    // 发送一个302跳转以防浏览器重发POST
+                    header('Location: '.$PAGE->getUrl().'?rand='.time());
+                    exit;
                 }
             }
         }
