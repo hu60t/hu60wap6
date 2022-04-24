@@ -126,8 +126,10 @@ function hu60_cc_log($file, $stat, $timeDiff, $accCount)
 function hu60_cc_output($needWaitSeconds, $timeDiff, $accCount)
 {
 	global $CC_LIMIT, $CC_REAL_IP;
+    $needWaitSeconds = ceil($needWaitSeconds);
 
-	header('HTTP/1.1 403 Forbidden');
+	header('HTTP/1.1 503 Service Unavailable');
+    header('Retry-After: '.$needWaitSeconds);
 	header('Content-Type: text/html; charset=UTF-8');
 ?>
 <!DOCTYPE html>
@@ -144,7 +146,7 @@ function hu60_cc_output($needWaitSeconds, $timeDiff, $accCount)
 	</h4>
 	虎绿林低速网络限速<?=$CC_LIMIT[0]?>秒内最多访问<?=$CC_LIMIT[1]?>次（每秒<?=round($CC_LIMIT[1] / $CC_LIMIT[0], 2)?>次）。<br/>
 	您在<?=$timeDiff?>秒内访问了<?=$accCount?>次（每秒<?=round($accCount / $timeDiff, 2)?>次），您已超速。<br/>
-	作为惩罚，吊销您的虎绿林通行证<?=round($needWaitSeconds, 2)?>秒钟，在这段时间内您将不能访问虎绿林。<br/>
+	作为惩罚，吊销您的虎绿林通行证<?=$needWaitSeconds?>秒钟，在这段时间内您将不能访问虎绿林。<br/>
 	您的IP地址为<?php echo $CC_REAL_IP; ?>，违章记录已存档。
 	请勿反复刷新，否则违章记录将延续。<br/>
 </body>
