@@ -75,11 +75,19 @@ function hu60_cc_prevent()
 		$timeDiff = $CC_LIMIT[0];
 	}
 
+	$accRate = $accCount / $timeDiff;
+	$allowRate = $CC_LIMIT[1] / $CC_LIMIT[0];
+
 	$block = false;
-	if ($accCount / $timeDiff > $CC_LIMIT[1] / $CC_LIMIT[0]) {
+	if ($accRate > $allowRate) {
 		$block = true;
-		$needWaitSeconds = ($accCount / $timeDiff - $CC_LIMIT[1] / $CC_LIMIT[0]) * $CC_LIMIT[0];
-		hu60_cc_output($needWaitSeconds, $timeDiff, $accCount);
+		// 10 秒内访问 434 次
+        // 设访问速度下降到每秒 5 次的最短等待时间是 t
+        // (434 + 1) / (10 + t) = 5
+		// 10 + t = (434 + 1) / 5
+        // t = (434 + 1) / 5 - 10
+		$needWaitSeconds = ceil(($accCount + 1) / $allowRate - $timeDiff);
+		hu60_cc_output($needWaitSeconds, $timeDiff, $accCount, $accRate, $allowRate);
 		// 超速访问日志
 		if ($CC_BLOCK_LOG) {
 			hu60_cc_log($CC_BLOCK_LOG, '超速', $timeDiff, $accCount);
@@ -123,10 +131,9 @@ function hu60_cc_log($file, $stat, $timeDiff, $accCount)
 	fclose($fp);
 }
 
-function hu60_cc_output($needWaitSeconds, $timeDiff, $accCount)
+function hu60_cc_output($needWaitSeconds, $timeDiff, $accCount, $accRate, $allowRate)
 {
 	global $CC_LIMIT, $CC_REAL_IP;
-    $needWaitSeconds = ceil($needWaitSeconds);
 
 	header('HTTP/1.1 503 Service Unavailable');
     header('Retry-After: '.$needWaitSeconds);
@@ -144,8 +151,8 @@ function hu60_cc_output($needWaitSeconds, $timeDiff, $accCount)
 		网址千万条，耐心第一条。<br/>
 		刷新不规范，虎友两行泪。
 	</h4>
-	虎绿林低速网络限速<?=$CC_LIMIT[0]?>秒内最多访问<?=$CC_LIMIT[1]?>次（每秒<?=round($CC_LIMIT[1] / $CC_LIMIT[0], 2)?>次）。<br/>
-	您在<?=$timeDiff?>秒内访问了<?=$accCount?>次（每秒<?=round($accCount / $timeDiff, 2)?>次），您已超速。<br/>
+	虎绿林低速网络限速<?=$CC_LIMIT[0]?>秒内最多访问<?=$CC_LIMIT[1]?>次（每秒<?=round($allowRate, 2)?>次）。<br/>
+	您在<?=$timeDiff?>秒内访问了<?=$accCount?>次（每秒<?=round($accRate, 2)?>次），您已超速。<br/>
 	作为惩罚，吊销您的虎绿林通行证<?=$needWaitSeconds?>秒钟，在这段时间内您将不能访问虎绿林。<br/>
 	您的IP地址为<?php echo $CC_REAL_IP; ?>，违章记录已存档。
 	请勿反复刷新，否则违章记录将延续。<br/>
