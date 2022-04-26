@@ -26,7 +26,7 @@
 	
 	function foldFloorInit(floor) {
 		// 不折叠楼层链接指向的楼层
-		if (location.hash == '#'+floor) return;
+		if (location.hash == '#'+floor || (location.hash.length > 1 && id == 0)) return;
 		
 		var content = document.getElementById('floor_content_' + floor);
         if (!content) return;

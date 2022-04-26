@@ -176,7 +176,7 @@
 			var that =$(this);
 			var id=this.getAttribute("data-floorID");
 			// 不折叠楼层链接指向的楼层
-			if (location.hash == '#'+id) return;
+			if (location.hash == '#'+id || (location.hash.length > 1 && id == 0)) return;
 
 			if(that.height() > maxHeight){
 				that.height(maxHeight);
