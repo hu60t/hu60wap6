@@ -138,7 +138,7 @@ abstract class CloudStorageBase {
         if (preg_match('/\.(jpe?g|png|gif|bmp|webp|hei[cf]|avif)$/is', $key)) {
             return 'image';
         }
-        if (preg_match('/\.(mp4|m3u8|m4v|ts|mov|flv)$/is', $key)) {
+        if (preg_match('/\.(mp4|m3u8|m4v|ts|mov|flv|webm|mkv)$/is', $key)) {
             return 'video';
         }
         if (preg_match('/\.(mp3|wma|m4a|ogg|aac|flac)$/is', $key)) {

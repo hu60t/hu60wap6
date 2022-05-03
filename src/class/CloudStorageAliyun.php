@@ -106,6 +106,11 @@ class CloudStorageAliyun extends CloudStorageBase {
             $data['formData']['Content-MD5'] = $fileMd5;
         }
 
+        if (preg_match('/\.mkv$/i', $fileName)) {
+            // webm是mkv的子集，浏览器只支持webm在线播放，所以把mkv伪装成webm
+            $data['formData']['x-oss-content-type'] = 'video/webm';
+        }
+
         return $data;
     }
 }
