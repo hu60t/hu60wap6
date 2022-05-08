@@ -47,6 +47,8 @@
 <div class="widget-page top-pager">
   {jhinfunc::Pager($p,$maxP,"?p=##")}
 </div>
+
+{if count($list) > 0}
 <ul class="chat-list">
   {foreach $list as $k}
   {$tmp = $uinfo->uid($k.uid)}
@@ -79,6 +81,11 @@
   </li>
   {/foreach}
 </ul>
+{elseif $blockedReply > 0}
+	<div class="text-notice">已屏蔽本页的所有发言</div>
+{else}
+	<div class="text-notice">聊天室暂无发言</div>
+{/if}
 
 {include file="tpl:bbs.review-all"}
 

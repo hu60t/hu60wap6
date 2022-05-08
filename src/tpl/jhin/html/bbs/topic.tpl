@@ -82,7 +82,7 @@
 </div>
 <div class="comments">
 	<div class="bar">回复列表({$contentCount-1-$blockedReply})</div>
-	{if count($tContents)>0}
+	{if count($tContents) > 0}
 	<div class="comments-list">
 		<ul class="comments-ul">
 			{foreach $tContents as $v}
@@ -128,6 +128,8 @@
 			{/foreach}
 		</ul>
 	</div>
+	{elseif $blockedReply > 0}
+	<div class="text-notice">已屏蔽本页的所有回复</div>
 	{else}
 	<div class="text-notice">帖子没有回复</div>
 	{/if}

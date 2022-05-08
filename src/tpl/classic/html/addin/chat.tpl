@@ -92,6 +92,7 @@
 </div>
 <hr>
 <div class="content">
+{if count($list) > 0}
     {foreach $list as $k}
         {$tmp = $uinfo->uid($k.uid)}
         {$tmp = $uinfo->setUbbOpt($ubbs)}
@@ -103,6 +104,11 @@
         </div>
         <hr>
     {/foreach}
+{elseif $blockedReply > 0}
+	<div class="text-notice">已屏蔽本页的所有发言</div>
+{else}
+	<div class="text-notice">聊天室暂无发言</div>
+{/if}    
 </div>
 
 {include file="tpl:bbs.review-all"}

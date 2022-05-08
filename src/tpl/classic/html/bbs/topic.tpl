@@ -122,6 +122,7 @@
 <hr>
 <p>『回复列表({$contentCount-1-$blockedReply})』</p>
 <div>
+{if count($tContents) > 0}
     {foreach $tContents as $v}
 		{$tmp = $v.uinfo->setUbbOpt($ubb)}
 		<div class="floor_content user-content" id="floor_content_{$v.floor}"><a class="floor-link" name="{$v.floor}" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a><a name="/{$v.floor}"></a>. {$ubb->display($v.content,true)}</div>
@@ -139,6 +140,11 @@
 		<hr>
     {/foreach}
 </div>
+{elseif $blockedReply > 0}
+	<div class="text-notice">已屏蔽本页的所有回复</div>
+{else}
+	<div class="text-notice">帖子没有回复</div>
+{/if}
 
 {include file="tpl:bbs.review-all"}
 
