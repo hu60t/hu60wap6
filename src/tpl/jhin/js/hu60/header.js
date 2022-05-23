@@ -111,27 +111,27 @@ MathJax = {
     };
 })();
 
+// 解码参数中的 url64（适用于URL的base64）
+function hu60_decode_url64(url) {
+    try {
+        let parts = url.match(/\burl64=([^&#]+)(#.*)?\b/);
+        if (parts) {
+            parts = parts[1].replace(/-/g, '+').replace(/_/g, '/').replace(/\./g, '=');
+            url = atob(parts);
+        }
+    } catch (e) {
+        // ignore
+        console.log(e);
+    }
+    return url;
+}
+
 // 图片解码插件
 (() => {
-    // 解码参数中的 url64
-    function decodeUrl(url) {
-        try {
-            let parts = url.match(/\burl64=([^&#]+)(#.*)?\b/);
-            if (parts) {
-                parts = parts[1].replace(/-/g, '+').replace(/_/g, '/').replace(/\./g, '=');
-                url = atob(parts);
-            }
-        } catch (e) {
-            // ignore
-            console.log(e);
-        }
-        return url;
-    }
-
     // 实现解码显示 heic/heif 图片
     async function loadImageExtension(x) {
         x._heifTry = true;
-        if (/\.(hei[cf]|avif)\b/i.test(x.alt) || /\.(hei[cf]|avif)\b/i.test(decodeUrl(x.src))) {
+        if (/\.(hei[cf]|avif)\b/i.test(x.alt) || /\.(hei[cf]|avif)\b/i.test(hu60_decode_url64(x.src))) {
             if (!document.ConvertHeicToPng) {
                 if (!document.LoadConvertHeicToPng) {
                     document.LoadConvertHeicToPng = import('/tpl/jhin/js/heif-web-display/dist/main.js?r=12');
