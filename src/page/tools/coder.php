@@ -26,6 +26,7 @@ try {
 			$parsedown->setMarkupEscaped(true); //转义html
 			$result = $parsedown->text($content);
 			break;
+
 		case 'json2serialize':
 			$arr = json_decode($content,true);
 			$result = serialize($arr);
@@ -47,6 +48,7 @@ try {
 		case 'ejson':
 			$result = json_encode($content);
 			break;
+
 		case 'emd5':
 			$result = md5(mb_convert_encoding($content,$code,'utf-8'));
 			break;
@@ -56,12 +58,14 @@ try {
 		case 'esha256':
 			$result = hash('sha256', mb_convert_encoding($content,$code,'utf-8'));
 			break;
+
 		case 'db64x':
 			$result = bin2hex(base64_decode($content));
 			break;
 		case 'xdb64':
 			$result = base64_encode(pack('H*',$content));
 			break;
+
 		case 'db32x':
 			$result = bin2hex(base32_decode($content));
 			break;
@@ -74,9 +78,14 @@ try {
 		case 'db32':
 			$result = mb_convert_encoding(base32_decode($content),'utf-8',$code);
 			break;
+
 		case 'ehex':
 			$result = bin2hex(mb_convert_encoding($content,$code,'utf-8'));
 			break;
+		case 'dhex':
+			$result = mb_convert_encoding(pack('H*',$content),'utf-8',$code);
+			break;
+
 		case 'db58x':
 			$result = bin2hex(base58_decode($content));
 			break;
@@ -89,9 +98,7 @@ try {
 		case 'db58':
 			$result = mb_convert_encoding(base58_decode($content),'utf-8',$code);
 			break;
-		case 'dhex':
-			$result = mb_convert_encoding(pack('H*',$content),'utf-8',$code);
-			break;
+
 		case 'eb64':
 			$result = base64_encode(mb_convert_encoding($content,$code,'utf-8'));
 			break;
@@ -110,6 +117,7 @@ try {
 		case 'xdb64u':
 			$result = url::b64e(pack('H*',$content));
 			break;
+
 		case 'eurl':
 			$result = urlencode(mb_convert_encoding($content,$code,'utf-8'));
 			break;
@@ -124,18 +132,21 @@ try {
 				$result=str_replace(urlencode($str),$str,$result);
 			}
 			break;
+
 		case 'date':
 			$result = date('Y-m-d H:i:s',$content);
 			break;
 		case 'str2time':
 			$result = strtotime($content);
 			break;
+
 		case 'jsurd':
 			$result = preg_replace_callback('/%(u[0-9a-f]{4}|[0-9a-f]{2})/i',"jsurd",$content);
 			break;
 		case 'jsure':
 			$result = preg_replace_callback('/(.)/us',"jsure",$content);
 			break;
+
 		case 'str2lower':
 			$result = strtolower($content);
 			break;
@@ -145,8 +156,19 @@ try {
 		case 'str2ucwords':
 			$result = ucwords($content);
 			break;
+
 		case 'nbsp2space':
 			$result = str::nbsp2space($content);
+			break;
+		
+		case 'htmlspecialchars':
+			$result = htmlspecialchars($content);
+			break;
+		case 'htmlentities':
+			$result = htmlentities($content);
+			break;
+		case 'html_entity_decode':
+			$result = html_entity_decode($content);
 			break;
 	}
 } catch (Exception $ex) {
