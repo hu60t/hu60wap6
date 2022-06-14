@@ -566,7 +566,7 @@ class user extends userinfo
             $uinfo->name($tag);
         }
 
-        if ($uinfo->uid < 1) {
+        if (!$uinfo->uid) {
             return false;
         }
 

@@ -98,8 +98,7 @@ class userinfo implements ArrayAccess
     {
         $x_uid = (string)$x_uid;
         $uid = (int)$x_uid;
-        if ($x_uid !== (string)$uid) throw new userexception("用户ID \"$x_uid\" 无效。用户ID必须是一个正整数。", 14);
-        if ($uid < 1) throw new userexception("用户ID \"$x_uid\" 错误。用户ID不能小于1。", 15);
+        if ($x_uid !== (string)$uid) throw new userexception("用户ID \"$x_uid\" 无效，用户ID必须为整数。", 14);
         return TRUE;
     }
 
