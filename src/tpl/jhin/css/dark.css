@@ -148,4 +148,7 @@
     .topic-form-label {
         background-color: var(--title-bg-color);
     }
+    img {
+        filter: brightness(0.85);
+    }
 }
