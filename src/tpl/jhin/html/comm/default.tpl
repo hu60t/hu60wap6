@@ -8,6 +8,7 @@
     {if $css === null}{$css=$PAGE->getTplUrl("css/default.css", true)}{/if}
     <link rel="stylesheet" type="text/css" href="{$css|code}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css', true)}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/dark.css', true)}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css")|code}"/>
