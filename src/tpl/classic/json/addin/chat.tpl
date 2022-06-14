@@ -8,10 +8,10 @@
 {/if}
 
 {foreach $list as $k=>$v}
-    {$list.$k.uinfo = ['name'=>$v.uname]}
-    {JsonPage::_unset($list.$k, 'uname')}
     {$tmp = $uinfo->uid($v.uid)}
     {$tmp = $uinfo->setUbbOpt($ubbs)}
+    {$list.$k.uinfo = ['name'=>$uinfo.name]}
+    {JsonPage::_unset($list.$k, 'uname')}
     {$list.$k.content = $ubbs->display($v.content,true)}
     {$list.$k.canDel = !$v.hidden && $chat->canDel($v.uid,true)}
 {/foreach}

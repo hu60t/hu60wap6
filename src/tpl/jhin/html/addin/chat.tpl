@@ -60,10 +60,10 @@
             <img src="{$uinfo->avatar()}" class="avatar">
         </div>
         <div class="chat-meta-name">
-            <a href="user.info.{$k.uid}.{$BID}">{$k.uname|code}</a>
+            <a href="user.info.{$k.uid}.{$BID}">{$uinfo.name|code}</a>
         </div>
         <div class="chat-actions">
-            <a href="#" onclick="atAdd('{$k.uname|code}',this);return false">@Ta</a>
+            <a href="#" onclick="atAdd('{$uinfo.name|code}',this);return false">@Ta</a>
             {str::ago({$k.time})}
             <div style="display: inline-block">
               {if $chat->canDel($k.uid,true)}
