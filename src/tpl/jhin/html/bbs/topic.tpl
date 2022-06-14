@@ -61,21 +61,6 @@
 		</div>
 		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
 		{include file="tpl:bbs.topic_manager"}
-		<hr/>
-		<div style="background-color: #EEE;">
-			{if $bbs->canFavorite($v.uinfo.uid, true)}
-				&nbsp;&nbsp;<a href="#" class="favoriteTopic" style="color: #2e4e7e;">
-					{if $bbs->isFavoriteTopic($v.topic_id)}
-						<i class="material-icons">star</i>取消收藏
-					{else}
-						<i class="material-icons">star_border</i>加入收藏
-					{/if}
-				</a>
-				<span id="favoriteTopicError" style="color: red;display: none;"></span>
-			{/if}
-			&nbsp;&nbsp;<a style="color: #2e4e7e;" href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_0'))">隐藏样式</a>
-	  		&nbsp;&nbsp;<a style="color: #2e4e7e;" href="javascript:hu60_content_display_ubb('bbs.topic', {$v.id}, 'floor_content_0')">查看源码</a>
-		</div>
 	{else}
 		<p class="user-title">{$tMeta.title|code}</p>
 	{/if}

@@ -96,25 +96,17 @@
 		<div class="floor_fold_bar" id="floor_fold_bar_0"></div>
 		<script>foldFloorInit(0)</script>
 		<hr>
-{if $bbs->canEdit($v.uinfo.uid, true) || $bbs->canDel($v.uinfo.uid, true)}
 <p>
-[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>{else}改{/if}
-{if ($tMeta.essence==0) && $bbs->canSetEssence(true)}|<a href="{$CID}.setessencetopic.{$v.topic_id}.{$BID}">加精</a>{/if}
-{if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}|<a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$BID}">取消精华</a>{/if}|{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>{else}删{/if}
-|{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>{else}沉{/if}
-|{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>{else}移{/if}
-|{if $tMeta.locked == 2}<a href="{$CID}.lockreply.{$v.topic_id}.{$BID}?lock=0">开放评论</a>{else}<a href="{$CID}.lockreply.{$v.topic_id}.{$BID}?lock=1">关闭评论</a>{/if}]
+[{if $bbs->canEdit($v.uinfo.uid, true)}<a href="{$CID}.edittopic.{$v.topic_id}.{$v.id}.{$p}.{$BID}">改</a>|{/if}
+{if ($tMeta.essence==0) && $bbs->canSetEssence(true)}<a href="{$CID}.setessencetopic.{$v.topic_id}.{$BID}">加精</a>|{/if}
+{if ($tMeta.essence==1) && $bbs->canUnsetEssence(true)}|<a href="{$CID}.unsetessencetopic.{$v.topic_id}.{$BID}">取消精华</a>|{/if}
+{if $bbs->canDel($v.uinfo.uid, true)}<a href="{$CID}.deltopic.{$v.topic_id}.{$v.id}.{$BID}">删</a>|{/if}
+{if $bbs->canSink($v.uinfo.uid,true)}<a href="{$CID}.sinktopic.{$v.topic_id}.{$BID}">沉</a>|{/if}
+{if $bbs->canMove($v.uinfo.uid,true)}<a href="{$CID}.movetopic.{$v.topic_id}.{$BID}">移</a>|{/if}
+{if $bbs->canEdit($v.uinfo.uid, true)}{if $tMeta.locked == 2}<a href="{$CID}.lockreply.{$v.topic_id}.{$BID}?lock=0">开放评论</a>|{else}<a href="{$CID}.lockreply.{$v.topic_id}.{$BID}?lock=1">关闭评论</a>|{/if}{/if}
+{if $bbs->canFavorite($v.uinfo.uid, true)}<a href="#" class="favoriteTopic">{if $bbs->isFavoriteTopic($v.topic_id)}取消收藏{else}加入收藏{/if}</a>|{/if}
+<a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_0'))">隐藏样式</a>|<a href="javascript:hu60_content_display_ubb('bbs.topic', {$v.id}, 'floor_content_0')">查看源码</a>]
 </p>
-<hr>
-{/if}
-    <div>
-    {if $bbs->canFavorite($v.uinfo.uid, true)}
-		<a href="#" class="favoriteTopic">{if $bbs->isFavoriteTopic($v.topic_id)}取消收藏{else}加入收藏{/if}</a>&nbsp;&nbsp;
-		<span id="favoriteTopicError" style="color: red;display: none;"></span>
-	{/if}
-	  	<a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_0'))">隐藏样式</a>&nbsp;&nbsp;
-	  	<a href="javascript:hu60_content_display_ubb('bbs.topic', {$v.id}, 'floor_content_0')">查看源码</a>
-    </div>
 	{else}
 		<p class="user-title">{$tMeta.title|code}</p>
 	{/if}
