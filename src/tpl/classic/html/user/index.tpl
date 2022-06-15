@@ -46,13 +46,35 @@
 	 <a href="{$CID}.wechat.{$BID}">微信推送</a>: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
 </p>
 <p class="txt">
-界面：<a href="link.css.default.{$BID}?url64={code::b64e($page->geturl())}">白天模式</a> /
-	 <a href="link.css.night.{$BID}?url64={code::b64e($page->geturl())}">夜间模式</a><br/>
-</p>
-<p class="txt">
 主题：经典主题 /
 	 <a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a><br/>
 </p>
+<p class="txt" id="dark_mode_bar">夜间模式：</p>
+<script>
+window.addEventListener('load', function () {
+    var scheme = hu60_read_color_scheme_option();
+    var options = {
+        auto: '跟随系统', 'dark': '开', 'light': '关'
+    };
+    var select = document.createElement("select");
+    select.id = "hu60-color-scheme";
+    for (var key in options) {
+        var option = document.createElement("option");
+        option.value = key;
+        option.text = options[key];
+        if (key == scheme) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    }
+    var box = document.querySelector('#dark_mode_bar');
+    if (!box) return;
+    box.appendChild(select);
+    document.getElementById('hu60-color-scheme').addEventListener('change', function (ev) {
+        hu60_set_color_scheme(this.value);
+    });
+});
+</script>
 <p class="txt">
 论坛楼层排序：
 {if $floorReverse}

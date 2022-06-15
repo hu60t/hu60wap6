@@ -126,12 +126,18 @@ class page implements ArrayAccess
     }
 
     /*取得文件或目录的访问路径（目录的总是包含结尾的/）*/
-    public static function getFileUrl($path, $noCache = false)
+    public static function getFileUrl($path, $noCache = false, $keepSymlink = false)
     {
-        $realPath = realpath($path);
-
-        if (false === $realPath) {
-            throw new PageException("文件 '$path' 不存在！");
+        if ($keepSymlink) {
+            $realPath = realpath(dirname($path)).'/'.basename($path);
+            if (!file_exists($realPath)) {
+                throw new PageException("文件 '$path' 不存在！");
+            }
+        } else {
+            $realPath = realpath($path);
+            if (false === $realPath) {
+                throw new PageException("文件 '$path' 不存在！");
+            }
         }
 
         $webRoot = realpath($_SERVER['DOCUMENT_ROOT']);

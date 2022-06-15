@@ -25,7 +25,8 @@ class CloudStorage {
     }
 
     public static function getUploadPageUrl() {
-        $file = TPL_DIR . '/classic/html/bbs/';
+        global $PAGE;
+        $file = TPL_DIR . '/' . $PAGE->tpl . '/html/bbs/';
         switch (CLOUD_STORAGE_SERVICE) {
             case self::SERVICE_BAIDU:
                 $file .= 'upload_baidu.html';
@@ -39,7 +40,7 @@ class CloudStorage {
             default:
                 throw new Exception("未知的云存储类型: ".CLOUD_STORAGE_SERVICE, 500);
         }
-        return page::getFileUrl($file, true);
+        return page::getFileUrl($file, true, true);
     }
 
     public static function getUrl($key, $noCache = false) {

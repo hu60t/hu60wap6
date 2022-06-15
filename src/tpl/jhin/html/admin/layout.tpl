@@ -4,8 +4,8 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
-    {if isset($css)}<link rel="stylesheet" type="text/css" href="{$css|code}?r=4"/>{/if}
-    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/bulma.css')}?r=4"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/default.css', true)}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/bulma.css', true)}"/>
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")}"></script>
     <title>{block name='title'}后台管理{/block}</title>
 </head>

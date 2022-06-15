@@ -87,6 +87,35 @@
     </td>
   </tr>
   <tr>
+    <td>夜间模式：</td>
+    <td id="dark_mode_bar"></td>
+    <script>
+    window.addEventListener('load', function () {
+        var scheme = hu60_read_color_scheme_option();
+        var options = {
+            auto: '跟随系统', 'dark': '开', 'light': '关'
+        };
+        var select = document.createElement("select");
+        select.id = "hu60-color-scheme";
+        for (var key in options) {
+            var option = document.createElement("option");
+            option.value = key;
+            option.text = options[key];
+            if (key == scheme) {
+                option.selected = true;
+            }
+            select.appendChild(option);
+        }
+        var box = document.querySelector('#dark_mode_bar');
+        if (!box) return;
+        box.appendChild(select);
+        document.getElementById('hu60-color-scheme').addEventListener('change', function (ev) {
+            hu60_set_color_scheme(this.value);
+        });
+    });
+    </script>
+  </tr>
+  <tr>
     <td>楼层排序：</td>
     <td>
 		{if $floorReverse}

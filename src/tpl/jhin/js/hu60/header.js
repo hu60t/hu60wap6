@@ -1,5 +1,5 @@
 // 代码高亮
-hljs.initHighlightingOnLoad();
+if (typeof hljs !== 'undefined') hljs.initHighlightingOnLoad();
 
 // 显示插件加载太慢的提示
 (() => {
@@ -187,7 +187,8 @@ window.addEventListener('load', function () {
         }
         select.appendChild(option);
     }
-    var box = document.querySelector('.layout-footer .case div');
+    var box = document.querySelector('#hu60_footer_action');
+    if (!box) return;
     box.insertAdjacentText('beforeEnd', ' . 夜间模式：');
     box.appendChild(select);
     document.getElementById('hu60-color-scheme').addEventListener('change', function (ev) {

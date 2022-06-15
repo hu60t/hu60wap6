@@ -1,3 +1,49 @@
+:root {
+  --classic-body-bg: #FFF;
+  --classic-body-color: #000;
+  --classic-tp-bg: #E6F3FF;
+  --classic-a-color: #08C;
+  --classic-hr-color: #BED8EA;
+  --classic-notice-color: red;
+  --classic-list-border: #EEE;
+  --classic-page-jumper-border: #DDD;
+  --classic-page-jumper-bg: #FFF;
+  --classic-code-bg: #F7F7F7;
+  --classic-floor-color: #000;
+  --classic-topic-status-border: #BED8EA;
+  --classic-topic-status-color: #7CB1DB;
+
+  --color-1: #333;
+  --background-color-1: #FFF;
+  --border-color-2: #EEE;
+  --border-color-5: #CCC;
+  --btn-bg: #F5F5F5;
+  --btn-bg-image: linear-gradient(to bottom, #FFFFFF 50%, #E6E6E6 100%);
+}
+
+[data-hu60-color-scheme='dark'] {
+  --classic-body-bg: #111312;
+  --classic-body-color: #717372;
+  --classic-tp-bg: #303030;
+  --classic-a-color: #567756;
+  --classic-hr-color: #995555;
+  --classic-notice-color: #CC66CC;
+  --classic-list-border: #995555;
+  --classic-page-jumper-border: #717372;
+  --classic-page-jumper-bg: #CCC;
+  --classic-code-bg: #002b36;
+  --classic-floor-color: #717372;
+  --classic-topic-status-border: #995555;
+  --classic-topic-status-color: #995555;
+
+  --color-1: #C9D1D9;
+  --background-color-1: #0D1117;
+  --border-color-2: #30363D;
+  --border-color-5: #30363D;
+  --btn-bg: #21262D;
+  --btn-bg-image: none;
+}
+
 /*规定rem单位字体大小*/
 html {
   font-size: 16px !important;
@@ -7,8 +53,8 @@ body {
     word-wrap: break-word;
     word-break: break-all;
     padding: 2px 5px;
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: var(--classic-body-bg);
+    color: var(--classic-body-color);
     max-width: 1024px;
     margin: 0px auto;
     box-shadow: 0 0 15px #ccc;
@@ -26,12 +72,12 @@ p {
 
 .tp {
     margin: 0px;
-    background-color: #E6F3FF;
+    background-color: var(--classic-tp-bg);
 }
 
 a {
     text-decoration: none;
-    color: #08C;
+    color: var(--classic-a-color);
 }
 
 form {
@@ -46,7 +92,7 @@ img, input, textarea {
 
 hr {
     height: 1px;
-    border: 1px solid #BED8EA;
+    border: 1px solid var(--classic-hr-color);
     border-left: none;
     border-right: none;
 }
@@ -92,11 +138,11 @@ ol, ul {
 }
 
 .failure {
-    color: red;
+    color: var(--classic-notice-color);
 }
 
 .notice {
-    color: red;
+  color: var(--classic-notice-color);
 }
 
 img {
@@ -105,7 +151,7 @@ img {
 
 .info-box {
     text-align: center;
-    border: solid red 1px;
+    border: solid var(--classic-notice-color) 1px;
 }
 
 .video {
@@ -144,7 +190,7 @@ img {
   }
   .topic-ul > li {
     padding: 5px 10px 2px 10px;
-    border-bottom: 1px solid #EEE;
+    border-bottom: 1px solid var(--classic-list-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -206,9 +252,10 @@ img {
     margin-left: -1px;
     margin-bottom: 3.5px;
     padding: 5px 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--classic-page-jumper-border);
     border-radius: 5px;
     color: #337ab7;
+    background-color: var(--classic-page-jumper-bg);
   }
   .pagination {
     overflow: hidden;
@@ -232,38 +279,38 @@ img {
     margin-left: -1px;
     display: block;
     padding: 5px 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--classic-page-jumper-border);
     color: #337ab7;
   }
   .pagination > .disabled > a {
     color: #777;
     cursor: not-allowed;
-    background-color: #fff;
+    background-color: var(--classic-page-jumper-bg);
   }
   .pagination > .disabled > a:focus {
     color: #777;
     cursor: not-allowed;
-    background-color: #fff;
+    background-color: var(--classic-page-jumper-bg);
   }
   .pagination > .disabled > a:hover {
     color: #777;
     cursor: not-allowed;
-    background-color: #fff;
+    background-color: var(--classic-page-jumper-bg);
   }
   .pagination > .active > a {
-    color: #fff;
+    color: var(--classic-page-jumper-bg);
     cursor: default;
     background-color: #337ab7;
     border-color: #337ab7;
   }
   .pagination > .active > a:focus {
-    color: #fff;
+    color: var(--classic-page-jumper-bg);
     cursor: default;
     background-color: #337ab7;
     border-color: #337ab7;
   }
   .pagination > .active > a:hover {
-    color: #fff;
+    color: var(--classic-page-jumper-bg);
     cursor: default;
     background-color: #337ab7;
     border-color: #337ab7;
@@ -386,11 +433,29 @@ img {
   word-break: break-all !important;
 }
 .hu60_code code {
-  background-color: #f7f7f7;
+  background-color: var(--classic-code-bg);
 }
 
+
+input,
+select,
+textarea {
+  background-color: var(--background-color-1);
+  border: 1px solid var(--border-color-5);
+  color: var(--white);
+}
+button,
+input[type=submit],
+input[type=button] {
+  background-color: var(--btn-bg);
+  background-image: var(--btn-bg-image);
+  border: 1px solid var(--border-color-2);
+  color: var(--color-1);
+}
+
+
 .floor-link {
-  color: #000000;
+  color: var(--classic-floor-color);
 }
 
 latex-js {
@@ -412,10 +477,10 @@ latex-js {
 
 .topic-status {
   display:inline-block;
-  border: 1px solid #BED8EA;
+  border: 1px solid var(--classic-topic-status-border);
   font-size: 12px;
   line-height: 12px;
-  color: #7cb1db;
+  color: var(--classic-topic-status-color);
   padding: 2px;
   border-radius: 3px;
   position: relative;

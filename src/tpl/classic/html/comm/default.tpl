@@ -6,11 +6,10 @@
 	<meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}
-	{if $css === null}{$css=$PAGE->getTplUrl("css/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css", true)}{/if}
-	<link rel="stylesheet" type="text/css" href="{$css|code}?r=6"/>
-	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css')|code}"/>
-	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
-    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/{$PAGE->getCookie("css_{$PAGE->tpl}", "default")}.css")|code}"/>
+	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/default.css', true)}"/>
+	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css', true)}"/>
+	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css", true)}"/>
     {block name='style'}{/block}
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
@@ -74,7 +73,7 @@
 		<p>
 			效率: {round(microtime(true)-$smarty.server.REQUEST_TIME_FLOAT,3)}秒<!--(压缩:{if $page.gzip}开{else}关{/if})-->
 		</p>
-		<p>
+		<p id="hu60_footer_action">
 			[<a href="index.index.{$BID}">首页</a>]
 			[<a href="#top">回顶</a>]
 			[<a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a>]

@@ -7,7 +7,7 @@
 		<p>
 			效率: {round(microtime(true)-$smarty.server.REQUEST_TIME_FLOAT,3)}秒<!--(压缩:{if $page.gzip}开{else}关{/if})-->
 		</p>
-		<p>
+		<p id="hu60_footer_action">
 			[<a href="index.index.{$BID}">首页</a>]
 			[<a href="#top">回顶</a>]
 			[<a href="link.tpl.jhin.{$BID}?url64={code::b64e($page->geturl())}">Jhin主题</a>]

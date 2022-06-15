@@ -5,12 +5,11 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="{$page.mime};charset=utf-8"/>
-    {if $css === null}{$css=$PAGE->getTplUrl("css/default.css", true)}{/if}
-    <link rel="stylesheet" type="text/css" href="{$css|code}"/>
+	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/default.css', true)}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/new.css', true)}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css', true)}"/>
-    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")|code}"/>
-    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css")|code}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")}"/>
+    <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css", true)}"/>
     {block name='style'}{/block}
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
@@ -108,7 +107,7 @@
 </div>
 <footer class="layout-footer">
     <div class="case">
-        <div>
+        <div id="hu60_footer_action">
 			{if strpos($smarty.server.REMOTE_ADDR, ':') !== FALSE}<a href="tools.ua.{$BID}">[IPv6]</a>{/if}
             {#SITE_BOTTOM_NOTE#} . 
             <a href="link.tpl.classic.{$BID}?url64={code::b64e($page->geturl())}">经典主题</a> .
