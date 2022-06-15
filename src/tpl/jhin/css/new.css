@@ -265,9 +265,9 @@ h1 {
   margin: 3px;
 }
 .layout-footer {
-  height: 50px;
   background: var(--background-color-1);
   margin-top: 15px;
+  padding-bottom: 15px;
 }
 .layout-footer .case {
   display: flex;
