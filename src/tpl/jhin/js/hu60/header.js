@@ -148,3 +148,53 @@ function hu60_decode_url64(url) {
         loadImageExtension(image);
     };
 })();
+
+// 切换主题
+function hu60_read_color_scheme_option() {
+    var scheme = localStorage.getItem('hu60ColorScheme');
+    if (!scheme) scheme = 'auto';
+    return scheme;
+}
+function hu60_get_color_scheme() {
+    var scheme = hu60_read_color_scheme_option();
+    if (scheme != 'dark' && scheme != 'light') {
+        scheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return scheme;
+}
+function hu60_update_color_scheme() {
+    var scheme = hu60_get_color_scheme();
+    document.documentElement.setAttribute('data-hu60-color-scheme', scheme);
+}
+function hu60_set_color_scheme(scheme) {
+    localStorage.setItem('hu60ColorScheme', scheme);
+    hu60_update_color_scheme();
+}
+// 立即执行而非在load事件后执行，这样才能避免用户看到主题切换过程（闪烁）
+hu60_update_color_scheme();
+// 主题切换控件
+window.addEventListener('load', function () {
+    var scheme = hu60_read_color_scheme_option();
+    var options = {auto: '跟随系统', 'dark': '开', 'light': '关'};
+    var select = document.createElement("select");
+    select.id = "hu60-color-scheme";
+    for (var key in options) {
+        var option = document.createElement("option");
+        option.value = key;
+        option.text = options[key];
+        if (key == scheme) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    }
+    var box = document.querySelector('.layout-footer .case div');
+    box.insertAdjacentText('beforeEnd', ' . 夜间模式：');
+    box.appendChild(select);
+    document.getElementById('hu60-color-scheme').addEventListener('change', function (ev) {
+        hu60_set_color_scheme(this.value);
+    });
+});
+// 监测主题变化
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+    hu60_update_color_scheme();
+});
