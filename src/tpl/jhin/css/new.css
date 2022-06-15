@@ -133,7 +133,9 @@ input[type=button] {
   color: var(--color-1);
 }
 img,
-iframe.video {
+iframe,
+video,
+audio {
   filter: var(--img-filter);
 }
 /*表情包*/

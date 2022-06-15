@@ -13,6 +13,7 @@
   --classic-topic-status-border: #BED8EA;
   --classic-topic-status-color: #7CB1DB;
 
+  --img-filter: none;
   --color-1: #333;
   --background-color-1: #FFF;
   --border-color-2: #EEE;
@@ -36,6 +37,7 @@
   --classic-topic-status-border: #995555;
   --classic-topic-status-color: #995555;
 
+  --img-filter: brightness(0.85);
   --color-1: #C9D1D9;
   --background-color-1: #0D1117;
   --border-color-2: #30363D;
@@ -147,6 +149,10 @@ ol, ul {
 
 img {
     max-width: 100%;
+}
+
+img, iframe, video, audio {
+  filter: var(--img-filter);
 }
 
 .info-box {
