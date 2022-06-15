@@ -31,7 +31,7 @@
   --classic-list-border: #995555;
   --classic-page-jumper-border: #717372;
   --classic-page-jumper-bg: #CCC;
-  --classic-code-bg: #002b36;
+  --classic-code-bg: #161b22;
   --classic-floor-color: #717372;
   --classic-topic-status-border: #995555;
   --classic-topic-status-color: #995555;
@@ -434,6 +434,10 @@ img {
 }
 .hu60_code code {
   background-color: var(--classic-code-bg);
+  font-size: 13.6px;
+}
+.hu60_code {
+  padding: 0px !important;
 }
 
 

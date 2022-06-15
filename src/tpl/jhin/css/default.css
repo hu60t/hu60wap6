@@ -1,185 +1,197 @@
+:root {
+  --classic-code-bg: #F7F7F7;
+}
+  
+[data-hu60-color-scheme='dark'] {
+  --classic-code-bg: #161b22;
+}
+
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *, *:before, *:after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 html, body, div {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .chat-content, .topic-content, .floor-content {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 /*加载谷歌字体*/
 @font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: url(MaterialIcons-Regular.eot); /* For IE6-8 */
-    src: local('Material Icons'),
-    local('MaterialIcons-Regular'),
-    url(MaterialIcons-Regular.woff2) format('woff2'),
-    url(MaterialIcons-Regular.woff) format('woff'),
-    url(MaterialIcons-Regular.ttf) format('truetype');
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(MaterialIcons-Regular.woff2) format('woff2'),
+  url(MaterialIcons-Regular.woff) format('woff'),
+  url(MaterialIcons-Regular.ttf) format('truetype');
 }
 
 .material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px; /* Preferred icon size */
-    display: inline-block;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-    vertical-align: middle;
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
 
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
 
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
 
-    /* Support for IE. */
-    font-feature-settings: 'liga';
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }
 
 body {
-    background-color: #EEE;
+  background-color: #EEE;
 }
 
 p {
-    margin: 0px;
-    padding: 2px 1px 2px 1px;
+  margin: 0px;
+  padding: 2px 1px 2px 1px;
 }
 
 .tp {
-    margin: 0px;
-    background-color: #E6F3FF;
+  margin: 0px;
+  background-color: #E6F3FF;
 }
 
 hr {
-    height: 1px;
-    border: 1px solid #BED8EA;
-    border-left: none;
-    border-right: none;
+  height: 1px;
+  border: 1px solid #BED8EA;
+  border-left: none;
+  border-right: none;
 }
 
 a {
-    text-decoration: none;
-    color: #08C;
+  text-decoration: none;
+  color: #08C;
 }
 
 img, input, textarea {
-    max-width: 100%;
-    vertical-align: middle;
+  max-width: 100%;
+  vertical-align: middle;
 }
 
 textarea {
-    width: calc(100% - 10px);
-    height: 100px;
-    font-size: 16px;
-    margin: 8px 5px;
-    box-sizing: border-box;
+  width: calc(100% - 10px);
+  height: 100px;
+  font-size: 16px;
+  margin: 8px 5px;
+  box-sizing: border-box;
 }
 
 input {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 input[name="editReason"] {
-    border: 1px solid #ccc;
-    width: calc(100% - 95px);
+  border: 1px solid #ccc;
+  width: calc(100% - 95px);
 }
 
 #ubbHelp {
-    display: inline-block;
+  display: inline-block;
 }  
 
 pre, textarea {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    word-break: break-all;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 ol, ul {
-    margin: 0px;
+  margin: 0px;
 }
 
 .text-success {
-    color: green;
+  color: green;
 }
 
 .text-failure {
-    color: red;
+  color: red;
 }
 
 .text-notice {
-    color: #177cb0;
+  color: #177cb0;
 }
 
 .text-worning {
-    color: yellow;
+  color: yellow;
 }
 
 .info-box {
-    text-align: center;
-    border: solid red 1px;
+  text-align: center;
+  border: solid red 1px;
 }
 
 button, input[type=submit], input[type=button] {
-    background-color: rgb(245, 245, 245);
-    background-image: linear-gradient(to bottom, rgb(255, 255, 255) 50%, rgb(230, 230, 230) 100%);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-    color: rgb(51, 51, 51);
-    display: inline-block;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 400;
-    line-height: 14px;
-    padding: 5px 8px;
-    text-align: center;
-    text-shadow: rgba(255, 255, 255, 0.75) 0px 1px 1px;
-    vertical-align: middle;
-    cursor: pointer;
+  background-color: rgb(245, 245, 245);
+  background-image: linear-gradient(to bottom, rgb(255, 255, 255) 50%, rgb(230, 230, 230) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  color: rgb(51, 51, 51);
+  display: inline-block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 14px;
+  padding: 5px 8px;
+  text-align: center;
+  text-shadow: rgba(255, 255, 255, 0.75) 0px 1px 1px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .video {
-    width: 600px;
-    height: 400px;
-    border: none;
-    max-width: 100%;
+  width: 600px;
+  height: 400px;
+  border: none;
+  max-width: 100%;
 }
 
 .audio {
-    width: 600px;
-    border: none;
-    max-width: 100%;
+  width: 600px;
+  border: none;
+  max-width: 100%;
 }
 
 .hu60_code code, .markdown-body pre code {
-    white-space: pre-wrap !important;
-    word-wrap: break-word !important;
-    word-break: break-all !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
 }
 .hu60_code code {
-    background-color: #f7f7f7;
+  background-color: var(--classic-code-bg);
+  font-size: 13.6px;
+}
+.hu60_code {
+  padding: 0px !important;
 }
 
 latex-js {
-    display: inline-block;
+  display: inline-block;
 }
 
 .topic-content, .chat-content, .floor-content, .floor_content {
@@ -192,7 +204,7 @@ latex-js {
 }
 
 .hu60_face {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .topic-status {
