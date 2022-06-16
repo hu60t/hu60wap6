@@ -30,7 +30,7 @@
 		<h1>{if $tMeta.essence}<i class="material-icons" style="color:red;">whatshot</i>{/if}<span class="user-title" id="topic_title">{$tMeta.title|code}</span></h1>
 		<div class="topic-meta">
             <div class="topic-avator">
-                <img src="{$v.uinfo->avatar()}" class="avatar">
+                <a class="floor-link" href="?floor=0#0"><img src="{$v.uinfo->avatar()}" class="avatar"></a>
             </div>
             <div class="topic-meta-name">
 			    <a class="topic-author" href="user.info.{$v.uinfo.uid}.{$BID}">{$v.uinfo.name|code}</a>
@@ -75,9 +75,9 @@
 			<li>
 				<div class="floor-content-box" data-floorID="{$v.floor}">
 					<div class="comments-meta">
-					    <div class="comments-number"><a class="floor-link" name="{$v.floor}" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a><a name="/{$v.floor}"></a></div>
+					    <div class="comments-number"><a class="floor-link" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a><a name="/{$v.floor}"></a></div>
 						<div class="comments-avatar">
-                            <img src="{$v.uinfo->avatar()}" class="avatar">
+                            <a class="floor-link" href="?floor={$v.floor}#{$v.floor}" name="{$v.floor}"><img src="{$v.uinfo->avatar()}" class="avatar"></a>
                         </div>
                         <div class="comments-meta-name">
     						<a href="user.info.{$v.uinfo.uid}.{$BID}" class="comments-author">{$v.uinfo.name|code}</a>

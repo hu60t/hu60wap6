@@ -55,9 +55,9 @@
   {$tmp = $uinfo->setUbbOpt($ubbs)}
   <li>
     <div class="chat-meta">
-        <div class="chat-number">{if $onlyReview}<a class="floor-link" name="{$k.lid}" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}">{$k.room} {$k.lid}楼</a>{else}<a class="floor-link" name="{$k.lid}" href="?floor={$k.lid}#{$k.lid}">{$k.lid}</a>{/if}<a name="/{$k.lid}"></a></div>
+        <div class="chat-number">{if $onlyReview}<a class="floor-link" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}">{$k.room} {$k.lid}楼</a>{else}<a class="floor-link" href="?floor={$k.lid}#{$k.lid}">{$k.lid}</a>{/if}<a name="/{$k.lid}"></a></div>
 		<div class="chat-avatar">
-            <img src="{$uinfo->avatar()}" class="avatar">
+            <a class="floor-link" name="{$k.lid}" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}"><img src="{$uinfo->avatar()}" class="avatar"></a>
         </div>
         <div class="chat-meta-name">
             <a href="user.info.{$k.uid}.{$BID}">{$uinfo.name|code}</a>
