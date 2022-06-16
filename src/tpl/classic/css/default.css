@@ -13,6 +13,14 @@
   --classic-topic-status-border: #BED8EA;
   --classic-topic-status-color: #7CB1DB;
 
+  --classic-border-shadow: #CCC;
+  --classic-input-border: #CCC;
+  --classic-success-color: green;
+  --classic-topic-count-color: gray;
+  --classic-page-jumper-color: #337ab7;
+  --classic-disabled-link-color: #777;
+  --classic-info-box-border: red;
+
   --img-filter: none;
   --color-1: #333;
   --background-color-1: #FFF;
@@ -20,6 +28,15 @@
   --border-color-5: #CCC;
   --btn-bg: #F5F5F5;
   --btn-bg-image: linear-gradient(to bottom, #FFFFFF 50%, #E6E6E6 100%);
+
+  --relationship-empty-color: #999fa5;
+  --relationship-item-color: #333333;
+  --border-color-8: #f5f5f5;
+  --color-15: #f00;
+  --color-10: #999fa5;
+  --background-color-10: #f9f9f9;
+  --background-color-5: #eee;
+  --color-14: #ccc;
 }
 
 [data-hu60-color-scheme='dark'] {
@@ -37,6 +54,15 @@
   --classic-topic-status-border: #995555;
   --classic-topic-status-color: #995555;
 
+  --classic-border-shadow: #CCC;
+  --classic-input-border: #CCC;
+  --classic-success-color: green;
+  --classic-topic-count-color: gray;
+  --classic-page-jumper-color: #337ab7;
+  --classic-disabled-link-color: #777;
+  --classic-info-box-border: #CC66CC;
+
+  --userimg-shadow-color: #ccc;
   --img-filter: brightness(0.85);
   --color-1: #C9D1D9;
   --background-color-1: #0D1117;
@@ -44,6 +70,15 @@
   --border-color-5: #30363D;
   --btn-bg: #21262D;
   --btn-bg-image: none;
+
+  --relationship-empty-color: #999fa5;
+  --relationship-item-color: #333333;
+  --border-color-8: #30363d;
+  --color-15: #f00;
+  --color-10: #c9d1d9;
+  --background-color-10: #f9f9f9;
+  --background-color-5: #eee;
+  --color-14: #ccc;
 }
 
 /*规定rem单位字体大小*/
@@ -59,7 +94,7 @@ body {
     color: var(--classic-body-color);
     max-width: 1024px;
     margin: 0px auto;
-    box-shadow: 0 0 15px #ccc;
+    box-shadow: 0 0 15px var(--classic-border-shadow);
     tab-size: 4; -moz-tab-size: 4; -o-tab-size: 4; -webkit-tab-size: 4;
 }
 
@@ -105,7 +140,7 @@ textarea {
     font-size: 16px;
     margin: 8px 5px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: 1px solid var(--classic-input-border);
 }
 
 input {
@@ -113,7 +148,7 @@ input {
 }
 
 input[name="editReason"] {
-    border: 1px solid #ccc;
+    border: 1px solid var(--classic-input-border);
     width: calc(100% - 95px);
 }
 
@@ -136,7 +171,7 @@ ol, ul {
 }
 
 .success {
-    color: green;
+    color: var(--classic-success-color);
 }
 
 .failure {
@@ -157,7 +192,7 @@ img, iframe, video, audio {
 
 .info-box {
     text-align: center;
-    border: solid var(--classic-notice-color) 1px;
+    border: solid var(--classic-info-box-border) 1px;
 }
 
 .video {
@@ -178,7 +213,7 @@ img, iframe, video, audio {
   margin: 8px 5px 0px 5px;
 	width: calc(100% - 10px);
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  border: 1px solid var(--classic-input-border);
 }
 
 /* 针对电脑屏幕 */
@@ -209,17 +244,17 @@ img, iframe, video, audio {
     display: flex;
     font-weight: 300;
     font-size: 30px;
-    color: gray;
+    color: var(--classic-topic-count-color);
   }
   .topic-ul > li .topic-reply-count a {
-    color: gray;
+    color: var(--classic-topic-count-color);
   }
   .topic-ul > li .topic-forum-name {
     width: 15%;
     display: flex;
   }
   .topic-ul > li .topic-forum-name a {
-    color: gray;
+    color: var(--classic-topic-count-color);
   }
   .topic-ul > li .topic-anchor {
     width: 20%;
@@ -229,7 +264,7 @@ img, iframe, video, audio {
     word-break: break-all;
   }
   .topic-ul > li .topic-anchor > a {
-    color: gray;
+    color: var(--classic-topic-count-color);
   }
   .topic-ul > li .topic-title {
     width: 60%;
@@ -260,7 +295,7 @@ img, iframe, video, audio {
     padding: 5px 10px;
     border: 1px solid var(--classic-page-jumper-border);
     border-radius: 5px;
-    color: #337ab7;
+    color: var(--classic-page-jumper-color);
     background-color: var(--classic-page-jumper-bg);
   }
   .pagination {
@@ -286,40 +321,40 @@ img, iframe, video, audio {
     display: block;
     padding: 5px 10px;
     border: 1px solid var(--classic-page-jumper-border);
-    color: #337ab7;
+    color: var(--classic-page-jumper-color);
   }
   .pagination > .disabled > a {
-    color: #777;
+    color: var(--classic-disabled-link-color);
     cursor: not-allowed;
     background-color: var(--classic-page-jumper-bg);
   }
   .pagination > .disabled > a:focus {
-    color: #777;
+    color: var(--classic-disabled-link-color);
     cursor: not-allowed;
     background-color: var(--classic-page-jumper-bg);
   }
   .pagination > .disabled > a:hover {
-    color: #777;
+    color: var(--classic-disabled-link-color);
     cursor: not-allowed;
     background-color: var(--classic-page-jumper-bg);
   }
   .pagination > .active > a {
     color: var(--classic-page-jumper-bg);
     cursor: default;
-    background-color: #337ab7;
-    border-color: #337ab7;
+    background-color: var(--classic-page-jumper-color);
+    border-color: var(--classic-page-jumper-color);
   }
   .pagination > .active > a:focus {
     color: var(--classic-page-jumper-bg);
     cursor: default;
-    background-color: #337ab7;
-    border-color: #337ab7;
+    background-color: var(--classic-page-jumper-color);
+    border-color: var(--classic-page-jumper-color);
   }
   .pagination > .active > a:hover {
     color: var(--classic-page-jumper-bg);
     cursor: default;
-    background-color: #337ab7;
-    border-color: #337ab7;
+    background-color: var(--classic-page-jumper-color);
+    border-color: var(--classic-page-jumper-color);
   }
 
 @media screen and (max-width: 600px) {
@@ -358,16 +393,16 @@ img, iframe, video, audio {
 .relationship-wrapper .empty {
   width: 100%;
   text-align: center;
-  color: #999fa5;
+  color: var(--relationship-empty-color);
   font-size: 14px;
 }
 .relationship-wrapper .user-item {
   width: 100%;
   max-width: 100%;
   height: 60px;
-  color: #333333;
+  color: var(--relationship-item-color);
   display: flex;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid var(--border-color-8);
 }
 .relationship-wrapper .user-item .avatar {
   width: 80px;
@@ -397,10 +432,10 @@ img, iframe, video, audio {
 }
 .relationship-wrapper .user-item .info .name_action .action_bar .action {
   display: inline-block;
-  color: #ff0000;
+  color: var(--color-15);
 }
 .relationship-wrapper .user-item .info .signature {
-  color: #999fa5;
+  color: var(--color-10);
   font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -409,8 +444,8 @@ img, iframe, video, audio {
 
 /*回复列表中的区块引用*/
 .reply-box blockquote {
-  background: #f9f9f9;
-  border-left: 10px solid #ccc;
+  background: var(--background-color-10);
+  border-left: 10px solid var(--background-color-5);
   margin: 1.5em 10px;
   padding: 0.5em 10px;
   max-height: 500px;
@@ -418,7 +453,7 @@ img, iframe, video, audio {
   text-overflow: ellipsis;
 }
 .reply-box blockquote:before {
-  color: #ccc;
+  color: var(--color-14);
   font-size: 4em;
   line-height: 0.1em;
   margin-right: 0.25em;
@@ -461,6 +496,7 @@ input[type=button] {
   background-image: var(--btn-bg-image);
   border: 1px solid var(--border-color-2);
   color: var(--color-1);
+  font-size: 0.8rem;
 }
 
 
@@ -477,7 +513,7 @@ latex-js {
 }
 
 .userimg {
-  box-shadow: 0 0 5px #ccc;
+  box-shadow: 0 0 5px var(--userimg-shadow-color);
   margin-bottom: 15px;
 }
 
