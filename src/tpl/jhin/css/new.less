@@ -329,7 +329,6 @@ h1 {
 }
 
 .bar {
-    margin: 10px 0;
     color: var(--color-1);
     background-color: var(--background-color-2);
     font-size: 1.1rem;
@@ -562,7 +561,7 @@ h1 {
         blockquote {
             background: var(--background-color-10);
             border-left: 10px solid var(--border-color-5);
-            margin: 1.5em 10px;
+            margin: 10px;
             padding: 0.5em 10px;
             max-height: 500px;
             overflow: hidden;
@@ -588,12 +587,7 @@ h1 {
 
 .topic-content {
     border-top: 2px solid var(--border-color-4);
-    padding: 8px 8px 8px 10px;
     background-color: var(--background-color-1);
-    overflow: hidden;
-    img {
-        max-width: 100%;
-    }
 }
 
 .topic-meta {
@@ -617,7 +611,6 @@ h1 {
 
 .comments-meta {
     font-size: 0.8rem;
-    margin-bottom: 5px;
     color: var(--color-5);
     display: flex;
     align-items: center;
@@ -635,7 +628,6 @@ h1 {
 
 .topic-panel {
     background-color: var(--background-color-5);
-    margin-bottom: -10px;
     > a {
         display: inline-block;
         padding: 5px 8px;
@@ -753,19 +745,17 @@ h1 {
     padding: 0;
     > li {
         position: relative;
-        padding: 5px 8px 2px 0px;
+        padding-top: 5px;
         border-bottom: 2px solid var(--border-color-2);
     }
 }
 
-.topic-content, .floor-content, .chat-content {
+.topic-content, .chat-content, .floor-content, .floor_content {
     transition: height 0.5s;
     transition-timing-function: ease;
     overflow: hidden;
-}
-
-.comments-content {
-    margin-left: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .floor_fold_bar {
@@ -901,16 +891,10 @@ h1 {
     list-style-type: none;
     > li {
         margin: 0;
-        padding: 10px 15px 0px 0px;
+        padding-top: 5px;
         border-bottom: 1px solid var(--border-color-2);
         position: relative;
     }
-}
-
-.chat-content {
-    border-radius: 10px;
-    margin-left: 20px;
-    padding: 10px;
 }
 
 .chat-number {
@@ -1044,8 +1028,9 @@ h1 {
         margin-right: 10px;
     }
     /*回帖内容缩进*/
-    .comments-content {
-        margin-left: 15px;
+    .topic-content, .chat-content, .floor-content, .floor_content {
+        padding-left: 15px;
+        padding-right: 15px;
     }
     /*顶部头像*/
     .layout-header .header-inner .header-nav .userAvatar {
@@ -1114,10 +1099,6 @@ h1 {
     /*帖子标题*/
     .topic h1 {
         font-size: 18px;
-    }
-    /*聊天室发言*/
-    .chat-content {
-        margin-left: 15px;
     }
 }
 

@@ -49,10 +49,6 @@ html, body, div {
   padding: 0;
 }
 
-.chat-content, .topic-content, .floor-content {
-  overflow: hidden;
-}
-
 /*加载谷歌字体*/
 @font-face {
   font-family: 'Material Icons';
@@ -216,11 +212,14 @@ latex-js {
 
 .topic-content, .chat-content, .floor-content, .floor_content {
   position: relative;
+  overflow: hidden;
+  padding: 5px;
 }
 
 .userimg {
   box-shadow: 0 0 5px var(--userimg-shadow-color);
-  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-right: 5px;
 }
 
 .hu60_face {

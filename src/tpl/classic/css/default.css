@@ -99,10 +99,6 @@ body {
     tab-size: 4; -moz-tab-size: 4; -o-tab-size: 4; -webkit-tab-size: 4;
 }
 
-p, div {
-    overflow: hidden;
-}
-
 p {
     margin: 0px;
     padding: 2px 1px 2px 1px;
@@ -181,10 +177,6 @@ ol, ul {
 
 .notice {
   color: var(--classic-notice-color);
-}
-
-img {
-    max-width: 100%;
 }
 
 img, iframe, video, audio {
@@ -447,7 +439,7 @@ img, iframe, video, audio {
 .reply-box blockquote {
   background: var(--background-color-10);
   border-left: 10px solid var(--background-color-5);
-  margin: 1.5em 10px;
+  margin: 10px;
   padding: 0.5em 10px;
   max-height: 500px;
   overflow: hidden;
@@ -511,11 +503,14 @@ latex-js {
 
 .topic-content, .chat-content, .floor-content, .floor_content {
   position: relative;
+  overflow: hidden;
+  padding: 5px;
 }
 
 .userimg {
   box-shadow: 0 0 5px var(--userimg-shadow-color);
-  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-right: 5px;
 }
 
 .hu60_face {
