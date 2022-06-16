@@ -62,7 +62,7 @@ try {
         if ($floor === FALSE)
             throw new Exception('未知原因回复失败，请重试或联系管理员');
         
-        $url = "bbs.topic.$tid.$PAGE[bid]?floor=$floor";
+        $url = "bbs.topic.$tid.$PAGE[bid]?floor=$floor#$floor";
         header("Location: $url");
         
         $tpl->display('tpl:replysuccess');
