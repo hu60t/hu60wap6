@@ -1,9 +1,11 @@
 :root {
   --classic-code-bg: #F7F7F7;
+  --classic-tp-bg: #E6F3FF;
 }
   
 [data-hu60-color-scheme='dark'] {
   --classic-code-bg: #161b22;
+  --classic-tp-bg: #0d1117;
 }
 
 html {
@@ -73,7 +75,7 @@ p {
 
 .tp {
   margin: 0px;
-  background-color: #E6F3FF;
+  background-color: var(--classic-tp-bg);
 }
 
 hr {
