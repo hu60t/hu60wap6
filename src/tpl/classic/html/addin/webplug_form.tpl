@@ -329,6 +329,14 @@
 		importBtn.onclick = function() {
 			importWebPlug();
 		}
+
+		var back = document.createElement("button");
+		toolbar.appendChild(back);
+		back.classList.add('webplug-li-back');
+		back.innerText = '返回查看插件效果';
+		back.onclick = function() {
+			location.href = document.referrer ? document.referrer : '/';
+		}
 	}
 
 	async function refreshWebPlugList() {
