@@ -383,6 +383,11 @@
 			$('#webplug-content').val(value);
 		}
 	}
+	function hideEditForm() {
+		$('#editForm').css({
+			'display': 'none'
+		});
+	}
 
 	$(document).ready(function(){
 		var checkbox = document.querySelector('#enable_highlight');
@@ -428,6 +433,7 @@
 	<p style="color:green">保存前请先将本页存为书签，如果插件代码发生意外还能从书签进入本页删除。</p>
 	<p>
 		<input type="button" onclick="saveWebPlug()" value="保存" />
+		<input type="button" onclick="hideEditForm()" value="取消" />
 	</p>
 
 	<input type="hidden" name="id" id="webplug-id" value="" />

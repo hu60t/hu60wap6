@@ -456,6 +456,11 @@
 			$('#webplug-content').val(value);
 		}
 	}
+	function hideEditForm() {
+		$('#editForm').css({
+			'display': 'none'
+		});
+	}
 
 	$(document).ready(function(){
 		var checkbox = document.querySelector('#enable_highlight');
@@ -494,6 +499,7 @@
 	<p>
 	<p>
 		<input type="button" onclick="saveWebPlugData()" value="保存" />
+		<input type="button" onclick="hideEditForm()" value="取消" />
 	</p>
 
 	<input type="hidden" name="oldKey" id="webplug-old-name" value="" />
