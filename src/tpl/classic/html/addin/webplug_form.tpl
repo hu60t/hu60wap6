@@ -453,35 +453,36 @@
 	<script>
 		function deleteAllData() {
 			if (prompt("确定删除所有自定义数据？\n由插件存储的所有自定义数据都将永久丢失。\n强烈建议您先下载数据进行备份。\n\n输入yes确定删除。") == 'yes') {
+				var loading = layer.load();
 				$.post('api.webplug-data.json', {
 					key: '',
 					value: '',
 					prefix: 1
 				}, function(result) {
+					layer.close(loading);
 					if (result.success) {
-						alert('删除成功');
-						location.reload();
+						layer.msg('删除成功');
+						setTimeout(() => location.reload(), 500);
 					} else {
-						alert('删除失败' + (result.errmsg || result.notice || result.errInfo.message));
+						layer.alert('删除失败' + (result.errmsg || result.notice || result.errInfo.message));
 					}
-				})
+				});
 			} else {
 				layer.msg('操作已取消');
 			}
 		}
 
-		// 导入备份文件选择器
-		var fileSelector = document.createElement('input');
-		fileSelector.id = 'fileSelector';
-		fileSelector.style.display = 'none';
-		fileSelector.type = 'file';
-		fileSelector.onchange = function (e) {
-			if (e.target.files && e.target.files[0]) {
-				importFile(e.target.files[0]);
-			}
-		}
-
 		function importData() {
+			// 导入备份文件选择器
+			var fileSelector = document.createElement('input');
+			fileSelector.id = 'fileSelector';
+			fileSelector.style.display = 'none';
+			fileSelector.type = 'file';
+			fileSelector.onchange = function (e) {
+				if (e.target.files && e.target.files[0]) {
+					importFile(e.target.files[0]);
+				}
+			}
 			fileSelector.click();
 		}
 
@@ -490,6 +491,8 @@
 
 			var fd = new FormData();
             fd.append('file', file);
+			
+			var loading = layer.load();
             $.ajax({
                 type: 'POST',
                 url: '/q.php/api.webplug-data-import.json',
@@ -497,15 +500,17 @@
                 processData: false,
                 contentType: false
             }).done(function (ret) {
-                fileSelector.value = '';
+				layer.close(loading);
                 console.debug(ret);
                 if (ret.success) {
-                    alert('成功导入 ' + ret.count.success + ' 条数据');
+                    layer.msg('成功导入 ' + ret.count.success + ' 条数据');
+					setTimeout(() => location.reload(), 500);
                 } else {
-                    alert('导入失败：' + ret.errmsg);
+                    layer.alert('导入失败：' + ret.errmsg);
                 }
             }).fail(function (ret) {
-				alert('文件上传失败：' + JSON.stringify(ret));
+				layer.close(loading);
+				layer.alert('文件上传失败：' + JSON.stringify(ret));
 			});
 		}
 	</script>
