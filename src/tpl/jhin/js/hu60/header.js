@@ -202,7 +202,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
 
 // 导入网页插件
 function hu60_import_webplug(name, content) {
-    if (prompt("确定导入插件“" + name + "”吗？\n\n警告：从他人处导入的插件可能含有恶意程序，造成版面错乱、帐户被盗、数据损坏，甚至计算机感染病毒等严重后果！\n请仅从信任的人处复制代码，并且仔细检查，避免使用不知用途的代码。\n\n输入yes确定导入。") != 'yes') {
+    if (prompt("确定导入插件“" + name + "”吗？\n\n警告：从他人处导入的插件可能含有恶意程序，造成版面错乱、帐户被盗、数据损坏，甚至计算机感染病毒等严重后果！\n请仅从信任的人处导入插件，并且仔细检查，避免使用不知用途的代码。\n\n输入yes确定导入。") != 'yes') {
         layer.msg('操作已取消');
         return;
     }
