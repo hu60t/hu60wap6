@@ -18,8 +18,8 @@ class UbbParser extends XUBBP
         * 按照顺序解析，顺序非常重要，排在后面的匹配可能会被忽略。
         */
         /*code 代码高亮*/
-        '!^(^|.*?[\r\n]+)\[code(?:=(\w+))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
-        '!^(.*?)\[code(?:=(\w+))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
+        '!^(^|.*?[\r\n]+)\[code(?:=([^\]]+))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
+        '!^(.*?)\[code(?:=([^\]]+))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
         /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
         '!^(.*?)\[html(=.*?)?\](.*?)\[/html\](.*)$!is' => array(array(1, 4), 'html', array(2, 3)),
         /* textbox 文本框 */
