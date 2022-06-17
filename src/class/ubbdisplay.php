@@ -203,7 +203,7 @@ class UbbDisplay extends XUBBP
         $html = '';
 
         if (preg_match('/^(?:webplug|网页插件)(?:(?:[:：])(.*))?$/uis', $data['lang'], $info)) {
-            $html .= '<a class="webplug_import_link" href="#" onclick="hu60_webplug_import_link(this, '.$codeIndex.')">导入网页插件：<span class="webplug_import_name">'.code::html($info[1]).'</span></a><br>';
+            $html .= '<a class="webplug_import_link" href="#" onclick="hu60_webplug_import_link(this, '.$codeIndex.'); return false">导入网页插件：<span class="webplug_import_name">'.code::html($info[1]).'</span></a><br>';
             $data['lang'] = 'html';
         }
 
