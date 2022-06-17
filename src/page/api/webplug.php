@@ -24,10 +24,10 @@ try {
 
 			if (!$id) {
 				$data = ['data' => $webplug->getAll()];
-				$basename = '网页插件-全部导出-'.date('Y-m-d_H-i-s').'.json';
+				$basename = '网页插件-全部导出_'.date('Y-m-d_H-i-s').'.json';
 			} else {
 				$data = ['data' => $webplug->get((int)$id)];
-				$basename = '网页插件-'.$data['data']['name'].'-'.date('Y-m-d_H-i-s').'.json';
+				$basename = '网页插件-'.$data['data']['name'].'_'.date('Y-m-d_H-i-s').'.json';
 			}
 
 			header("Content-Disposition: attachment; filename=\"$basename\"; filename*=utf-8''$basename");

@@ -33,6 +33,10 @@ try {
 		header('Etag: '.md5("{$USER->uid}:$key:$prefixMatching:$onlyValueLength:$version"));
 		header('Cache-Control: max-age=300'); // 缓存5分钟
 
+		if (isset($_GET['array']) && $_GET['array'] && !is_array($data)) {
+			$data = [$key => $data];
+		}
+
 		if (is_array($data)) {
 			jsonpage::output($data);
 		} else {

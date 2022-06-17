@@ -438,82 +438,10 @@
 <hr>
 <div>
 	<p>插件存储的自定义数据：{$plugDataCount}条（{str::filesize($plugDataSize)}）</p>
-	<p>
-		<a href="api.webplug-data.json?onlylen=1">查看数据大小</a> |
-		<a href="api.webplug-data.json">查看完整数据</a> |
-		<a href="api.webplug-file.json?mime=application/octet-stream&filename={'网页插件自定义数据'|urlencode}_{date('Y-m-d_H-i-s')}.json">下载数据备份</a> |
-		<a href="bbs.topic.83603.html">数据存储API说明</a>
-	</p>
-	<p>
-		<input name="delete" value="删除所有自定义数据" type="button" onclick="deleteAllData()" />（强烈建议您在删除数据前先下载数据备份）
-	</p>
-	<p>
-		<input name="import" value="导入数据备份" type="button" onclick="importData()" />（可导入下载的数据备份）
-	</p>
-	<script>
-		function deleteAllData() {
-			if (prompt("确定删除所有自定义数据？\n由插件存储的所有自定义数据都将永久丢失。\n强烈建议您先下载数据进行备份。\n\n输入yes确定删除。") == 'yes') {
-				var loading = layer.load();
-				$.post('api.webplug-data.json', {
-					key: '',
-					value: '',
-					prefix: 1
-				}, function(result) {
-					layer.close(loading);
-					if (result.success) {
-						layer.msg('删除成功');
-						setTimeout(() => location.reload(), 500);
-					} else {
-						layer.alert('删除失败' + (result.errmsg || result.notice || result.errInfo.message));
-					}
-				});
-			} else {
-				layer.msg('操作已取消');
-			}
-		}
-
-		function importData() {
-			// 导入备份文件选择器
-			var fileSelector = document.createElement('input');
-			fileSelector.id = 'fileSelector';
-			fileSelector.style.display = 'none';
-			fileSelector.type = 'file';
-			fileSelector.onchange = function (e) {
-				if (e.target.files && e.target.files[0]) {
-					importFile(e.target.files[0]);
-				}
-			}
-			fileSelector.click();
-		}
-
-		function importFile(file) {
-			console.log('importFile:', file);
-
-			var fd = new FormData();
-            fd.append('file', file);
-			
-			var loading = layer.load();
-            $.ajax({
-                type: 'POST',
-                url: '/q.php/api.webplug-data-import.json',
-                data: fd,
-                processData: false,
-                contentType: false
-            }).done(function (ret) {
-				layer.close(loading);
-                console.debug(ret);
-                if (ret.success) {
-                    layer.msg('成功导入 ' + ret.count.success + ' 条数据');
-					setTimeout(() => location.reload(), 500);
-                } else {
-                    layer.alert('导入失败：' + ret.errmsg);
-                }
-            }).fail(function (ret) {
-				layer.close(loading);
-				layer.alert('文件上传失败：' + JSON.stringify(ret));
-			});
-		}
-	</script>
+	<p><a href="{$CID}.{$PID}.data.{$BID}">管理自定义数据</a></p>
+	<p>自定义数据可用于保存网页插件的个性化设置，还可用于存储网页插件的代码本身，比如JS、CSS等文件。</p>
+	<p>编写网页插件时，您可创建公开自定义数据，然后将其作为JS、CSS外链引用。这样不仅减小了网页插件代码，您还可随时对插件进行更新。</p>
+	<p>如您正在开发网页插件，想用自定义数据保存插件设置，可参考<a href="https://hu60.cn/q.php/bbs.topic.83603.html">数据存储API</a>。</p>
 </div>
 
 {include file="tpl:comm.foot"}
