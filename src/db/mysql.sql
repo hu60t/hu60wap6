@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2022-01-31 21:08:36
+-- 生成日期： 2022-06-17 12:55:58
 -- 服务器版本： 10.5.10-MariaDB-log
 -- PHP 版本： 8.0.14
 
@@ -282,6 +282,21 @@ CREATE TABLE `hu60_user_relationship` (
   `type` tinyint(4) NOT NULL COMMENT '关系类型'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `hu60_webplug`
+--
+
+CREATE TABLE `hu60_webplug` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `load_order` tinyint(11) NOT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `name` varchar(255) NOT NULL,
+  `content` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- 转储表的索引
 --
@@ -411,6 +426,14 @@ ALTER TABLE `hu60_user_relationship`
   ADD PRIMARY KEY (`relationship_id`);
 
 --
+-- 表的索引 `hu60_webplug`
+--
+ALTER TABLE `hu60_webplug`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `uid_enabled_loadorder` (`uid`,`enabled`,`load_order`) USING BTREE,
+  ADD KEY `uid_loadorder` (`uid`,`load_order`);
+
+--
 -- 在导出的表使用AUTO_INCREMENT
 --
 
@@ -497,4 +520,10 @@ ALTER TABLE `hu60_user`
 --
 ALTER TABLE `hu60_user_relationship`
   MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `hu60_webplug`
+--
+ALTER TABLE `hu60_webplug`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
