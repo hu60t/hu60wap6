@@ -199,3 +199,36 @@ window.addEventListener('load', function () {
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
     hu60_update_color_scheme();
 });
+
+// 导入网页插件
+function hu60_import_webplug(name, content) {
+    if (prompt("确定导入插件“" + name + "”吗？\n\n警告：从他人处导入的插件可能含有恶意程序，造成版面错乱、帐户被盗、数据损坏，甚至计算机感染病毒等严重后果！\n请仅从信任的人处复制代码，并且仔细检查，避免使用不知用途的代码。\n\n输入yes确定导入。") != 'yes') {
+        layer.msg('操作已取消');
+        return;
+    }
+
+    var loading = layer.load();
+    $.post('api.webplug.import.json', {
+        data: JSON.stringify({
+            name: name,
+            content: content,
+            enabled: true,
+        })
+    }, function(data) {
+        console.log(data);
+        layer.close(loading);
+        if (data.errmsg) {
+            layer.alert(data.errmsg);
+        } else {
+            layer.msg('成功导入 ' + data.updated + '个网页插件');
+            setTimeout(function() {
+                location.href = 'addin.webplug.html';
+            }, 500);
+        }
+    });
+}
+function hu60_webplug_import_link(link, codeIndex) {
+    var name = link.querySelector('.webplug_import_name').innerText;
+    var content = $('#wz_copy_code_' + codeIndex).text();
+    hu60_import_webplug(name, content);
+}

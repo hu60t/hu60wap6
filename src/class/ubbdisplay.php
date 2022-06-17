@@ -176,6 +176,8 @@ class UbbDisplay extends XUBBP
     public function code($data)
     {
         global $PAGE;
+        static $codeIndex = 0;
+        $codeIndex++;
         
         //不再把代码高亮交给markdown引擎处理，而是由PHP统一处理
 		/*if (empty($data['lang']) && $this->markdownEnable) {
@@ -198,18 +200,18 @@ class UbbDisplay extends XUBBP
             $code = substr($code, 1);
         }
 
-        if ($data['lang'] == 'latex') {
-            $html = '<latex-js class="userlatex">'.htmlspecialchars($code).'</latex-js>';
-        } else {
-            $html = '<pre class="hu60_code"><code class="'.code::html($data['lang']).'">'.code::html($code).'</code></pre>';
+        $html = '';
+
+        if (preg_match('/^(?:webplug|网页插件)(?:(?:[:：])(.*))?$/uis', $data['lang'], $info)) {
+            $html .= '<a class="webplug_import_link" href="#" onclick="hu60_webplug_import_link(this, '.$codeIndex.')">导入网页插件：<span class="webplug_import_name">'.code::html($info[1]).'</span></a><br>';
         }
 
-        /*if (isset($data['html'])) {
-			$html = $data['html'];
-		}
-		else {
-			$html = code::highlight($data['data'], $data['lang']);
-        }*/
+        if ($data['lang'] == 'latex') {
+            $html .= '<latex-js class="userlatex">'.htmlspecialchars($code).'</latex-js>';
+        } else {
+            // id用“wz_copy_code_1”，以便和代码复制插件兼容：https://dev.hu60.cn/q.php/bbs.topic.98510.html
+            $html .= '<pre class="hu60_code"><code class="'.code::html($data['lang']).'" id="wz_copy_code_'.$codeIndex.'">'.code::html($code).'</code></pre>';
+        }
 
         return $this->markdownProtect($html, $data);
     }
