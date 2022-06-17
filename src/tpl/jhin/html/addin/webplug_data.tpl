@@ -27,6 +27,8 @@
 		}
 		.webplug-li-name {
 			padding-right: 10px;
+			word-wrap: break-word;
+			word-break: break-all;
 		}
 		.webplug-li-size {
 			padding-right: 5px;
