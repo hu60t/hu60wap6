@@ -234,7 +234,10 @@ class UbbParser extends XUBBP
      */
     public function code($lang, $data)
     {
-        $lang = strtolower(trim($lang));
+        $lang = trim($lang);
+        if (!preg_match('/^(webplug|网页插件)/uis', $lang)) {
+            $lang = strtolower($lang);
+        }
         if ($lang == '') $lang = 'php';
 
         return array(array(
