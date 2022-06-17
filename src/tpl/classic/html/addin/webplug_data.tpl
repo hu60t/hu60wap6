@@ -477,7 +477,7 @@
 		</label>
 	</div>
 	<p>名称：<input type="text" name="key" id="webplug-name" value="" /></p>
-	<p>　　　名称只能包含英文小写字母(a-z)、数字(0-9)、下划线(_)和减号(-)。</p>
+	<p>　　　名称只能包含英文小写字母(a-z)、数字(0-9)、下划线(_)和减号(-)，以“public_”开头的是公开内容。</p>
 	<p>内容：</p>
 	<p>
 		<textarea name="value" id="webplug-content" style="height:300px;"></textarea>
