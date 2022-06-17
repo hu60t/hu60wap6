@@ -20,6 +20,7 @@
         customElements.define("latex-js", LaTeXJSComponent);
     </script>
     <script async src="{$PAGE->getTplUrl("js/mathjax/es5/tex-chtml.js")}"></script>
+	<script src="{$PAGE->getTplUrl("js/layer/layer.js")}"></script>
     <script src="{$PAGE->getTplUrl("js/hu60/header.js", true)|code}"></script>
     {if $onload !== null}<script>
         $(document).ready(function() {

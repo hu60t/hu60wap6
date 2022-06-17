@@ -36,7 +36,6 @@
 
 {block name='script'}
 <script src="{$PAGE->getTplUrl("js/humanize/humanize.js")}"></script>
-<script src="{$PAGE->getTplUrl("js/layer/layer.js")}"></script>
 <script src="{$PAGE->getTplUrl("js/codemirror/codemirror.min.js")}"></script>
 <script src="{$PAGE->getTplUrl("js/codemirror/mode/xml/xml.min.js")}"></script>
 <script src="{$PAGE->getTplUrl("js/codemirror/mode/javascript/javascript.min.js")}"></script>
@@ -94,7 +93,7 @@
 
 	function deleteWebPlug(id, name) {
 		if (prompt("确定删除插件“" + name + "”吗？\n删除前建议先导出备份，点击插件大小即可下载备份。\n\n输入yes确定删除。") != 'yes') {
-			alert('操作已取消。');
+			layer.msg('操作已取消');
 			return;
 		}
 
@@ -469,7 +468,7 @@
 					}
 				})
 			} else {
-				alert('操作已取消。');
+				layer.msg('操作已取消');
 			}
 		}
 
