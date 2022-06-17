@@ -19,7 +19,11 @@ try {
 
 		header('Content-Type: '.$mime);
 
-		$basename = trim(basename($_SERVER['PATH_INFO']));
+		if (isset($_GET['filename'])) {
+			$basename = $_GET['filename'];
+		} else {
+			$basename = trim(basename($_SERVER['PATH_INFO']));
+		}
 		if (empty($basename) || $basename[0] == '.') {
 			$basename = "all-data$basename";
 		}

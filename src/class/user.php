@@ -18,6 +18,8 @@ class user extends userinfo
     protected $at = NULL; //注册的at消息元信息数组
     protected $atUid = NULL; //at消息收件人uid数组
 
+    protected $webplugHTML = NULL; // 网页插件HTML缓存
+
     /*加密用户的密码*/
     protected static function mkpass($pass)
     {
@@ -820,6 +822,14 @@ class user extends userinfo
         $hashedPwd = $result['pass'];
 
         return self::mkpass($password) === $hashedPwd;
+    }
+
+    public function webplug() {
+        if ($this->webplugHTML === NULL) {
+            $webplug = new WebPlug($this);
+            $this->webplugHTML = $webplug->getHTML();
+        }
+        return $this->webplugHTML;
     }
 
     /*class end*/
