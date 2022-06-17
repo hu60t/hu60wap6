@@ -211,8 +211,8 @@ class UbbDisplay extends XUBBP
         if ($data['lang'] == 'latex') {
             $html .= '<latex-js class="userlatex">'.htmlspecialchars($code).'</latex-js>';
         } else {
-            // id用“wz_copy_code_1”，以便和代码复制插件兼容：https://dev.hu60.cn/q.php/bbs.topic.98510.html
-            $html .= '<pre class="hu60_code"><code class="'.code::html($data['lang']).'" id="wz_copy_code_'.$codeIndex.'">'.code::html($code).'</code></pre>';
+            // 别用id属性，因为网页插件可能会修改code标签的id
+            $html .= '<pre class="hu60_code"><code class="'.code::html($data['lang']).'" data-hu60-index="'.$codeIndex.'">'.code::html($code).'</code></pre>';
         }
 
         return $this->markdownProtect($html, $data);

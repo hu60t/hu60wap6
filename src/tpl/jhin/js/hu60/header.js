@@ -229,6 +229,6 @@ function hu60_import_webplug(name, content) {
 }
 function hu60_webplug_import_link(link, codeIndex) {
     var name = link.querySelector('.webplug_import_name').innerText;
-    var content = $('#wz_copy_code_' + codeIndex).text();
+    var content = $('code[data-hu60-index=' + codeIndex + ']').text();
     hu60_import_webplug(name, content);
 }
