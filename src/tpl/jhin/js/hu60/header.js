@@ -149,19 +149,25 @@ function hu60_decode_url64(url) {
     };
 })();
 
-// 切换主题
+
+// 夜间模式JS代码
+// 读取用户的夜间模式选择
 function hu60_read_color_scheme_option() {
     var scheme = localStorage.getItem('hu60ColorScheme');
     if (!scheme) scheme = 'auto';
     return scheme;
 }
+// 根据用户选择和系统状态决定夜间模式是否开启
 function hu60_get_color_scheme() {
     var scheme = hu60_read_color_scheme_option();
     if (scheme != 'dark' && scheme != 'light') {
+        // 这里就是跟随系统，检测系统是否开启了夜间模式
         scheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     return scheme;
 }
+// 通过设置data属性`data-hu60-color-scheme`切换夜间模式
+// 之所以可以这样切换，是因为CSS中的夜间模式配色使用了条件表达式`[data-hu60-color-scheme='dark']`
 function hu60_update_color_scheme() {
     var scheme = hu60_get_color_scheme();
     document.documentElement.setAttribute('data-hu60-color-scheme', scheme);
@@ -170,9 +176,9 @@ function hu60_set_color_scheme(scheme) {
     localStorage.setItem('hu60ColorScheme', scheme);
     hu60_update_color_scheme();
 }
-// 立即执行而非在load事件后执行，这样才能避免用户看到主题切换过程（闪烁）
+// 立即执行而非在onload事件后执行，这样才能避免用户看到主题切换过程（闪烁）
 hu60_update_color_scheme();
-// 主题切换控件
+// 主题切换下拉框
 window.addEventListener('load', function () {
     var scheme = hu60_read_color_scheme_option();
     var options = {auto: '跟随系统', 'dark': '开', 'light': '关'};
@@ -195,10 +201,11 @@ window.addEventListener('load', function () {
         hu60_set_color_scheme(this.value);
     });
 });
-// 监测主题变化
+// 监听系统是否开关了夜间模式，并实时做出反应
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
     hu60_update_color_scheme();
 });
+
 
 // 导入网页插件
 function hu60_import_webplug(name, content) {

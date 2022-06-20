@@ -1,3 +1,4 @@
+/* 白天模式配色 */
 :root {
   --classic-body-bg: #FFF;
   --classic-body-color: #000;
@@ -40,6 +41,7 @@
   --color-14: #ccc;
 }
 
+/* 夜间模式配色 */
 [data-hu60-color-scheme='dark'] {
   --classic-body-bg: #111312;
   --classic-body-color: #717372;
