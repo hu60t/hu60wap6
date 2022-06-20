@@ -414,7 +414,7 @@
 </div>
 
 <hr>
-<p>插件列表：</p>
+<p>插件列表（<a href="https://hu60.cn/q.php/bbs.topic.103325.1.html#yanshi">导入方法</a>）：</p>
 <table id="webplugList">
 </table>
 
