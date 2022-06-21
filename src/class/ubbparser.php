@@ -182,9 +182,9 @@ class UbbParser extends XUBBP
 		));
     }
 
-    static private function parseWebPlug($lang, &$data) {
+    static public function parseWebPlug($lang, &$data) {
         if (!preg_match('/^(?:webplug|网页插件)(?:（统计ID勿删#([a-z0-9]{16})）)?(?:[:：](.*))?$/uis', $lang, $info)) {
-            return;
+            return false;
         }
 
         // id
@@ -197,6 +197,7 @@ class UbbParser extends XUBBP
             'id' => $info[1],
             'name' => $info[2],
         ];
+        return true;
     }
 
     /**
