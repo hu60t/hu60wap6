@@ -3,6 +3,7 @@ if ('cli' != php_sapi_name()) {
     die('run in shell: php import_tz.php');
 }
 include '../config.inc.php';
+$ENABLE_CC_BLOCKING = false;
 
 ini_set('memory_limit', '512M');
 

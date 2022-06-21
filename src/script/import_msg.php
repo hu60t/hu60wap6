@@ -3,6 +3,8 @@ if ('cli' != php_sapi_name()) {
     die('run in shell: php import_msg.php');
 }
 include '../config.inc.php';
+$ENABLE_CC_BLOCKING = false;
+
 $db = new db();
 
 $size = 100;

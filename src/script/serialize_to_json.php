@@ -7,6 +7,7 @@ if ('cli' != php_sapi_name()) {
 ini_set('max_execution_time', 0);
 
 include '../config.inc.php';
+$ENABLE_CC_BLOCKING = false;
 
 convert_table(DB_A.'user', 'uid', 'info');
 convert_table(DB_A.'user', 'uid', 'safety');

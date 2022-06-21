@@ -4,6 +4,7 @@ if ('cli' != php_sapi_name()) {
 }
 
 include '../config.inc.php';
+$ENABLE_CC_BLOCKING = false;
 
 $db = (new db())->conn();
 $db->setAttribute(PDO::ERRMODE_EXCEPTION, true);
