@@ -29,7 +29,7 @@ class WebPlug {
 
     public function moveOldData() {
         $content = $this->user->getinfo('addin.webplug');
-        if (!empty($content)) {
+        if ($content !== null) {
             $loadOrder = 1;
             $enabled = true;
             $name = '未命名';
