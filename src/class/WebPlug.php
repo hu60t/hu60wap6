@@ -198,14 +198,15 @@ class WebPlug {
         static $db = null;
         if (!$db) $db = new db;
 
-        $rs = $db->select('install_count', 'webplug_count', 'WHERE `author_uid`=? AND `webplug_id`=?',
+        $rs1 = $db->select('install_count', 'webplug_count', 'WHERE `author_uid`=? AND `webplug_id`=?',
             $authorUid, $webplugId);
-        $data = $rs->fetch(db::ass);
 
-        $rs = $db->select('count(*)', 'webplug', 'WHERE `author_uid`=? AND `webplug_id`=?',
+        $rs2 = $db->select('count(*)', 'webplug', 'WHERE `author_uid`=? AND `webplug_id`=?',
             $authorUid, $webplugId);
-        $data['current_user'] = $rs->fetch(PDO::FETCH_COLUMN, 0);
 
-        return $data;
+        return [
+            'install_count' => (int)$rs1->fetch(PDO::FETCH_COLUMN, 0),
+            'current_user' => (int)$rs2->fetch(PDO::FETCH_COLUMN, 0),
+        ];
     }
 }
