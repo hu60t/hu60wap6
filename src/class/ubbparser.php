@@ -181,13 +181,33 @@ class UbbParser extends XUBBP
           'type' => 'markdown',
 		));
     }
-	
+
+    /**
+     * @brief 代码高亮
+     */
+    public function code($lang, $data)
+    {
+        $lang = trim($lang);
+        if (!preg_match('/^(webplug|网页插件)/uis', $lang)) {
+            $lang = strtolower($lang);
+        }
+
+        return array(array(
+            'type' => 'code',
+            'lang' => $lang,
+            'data' => $data,
+        ));
+    }
+
 	/**
      * @brief markdown代码高亮
      */
     public function mdcode($lang, $data, $quote, $indent)
     {
-		$lang = strtolower(trim($lang));
+		$lang = trim($lang);
+        if (!preg_match('/^(webplug|网页插件)/uis', $lang)) {
+            $lang = strtolower($lang);
+        }
 		
 		$result = [
             'type' => 'mdcode',
@@ -199,10 +219,6 @@ class UbbParser extends XUBBP
         if (!empty($indent)) {
             $result['indent'] = $indent;
         }
-
-		/*if ($lang != '') {
-			$result['html'] = code::highlight($data, $lang);
-		}*/
 
         return [ $result ];
     }
@@ -227,25 +243,6 @@ class UbbParser extends XUBBP
             'type' => 'mdpre',
             'data' => url::decodeUrl64InLink($data),
         ]];
-    }
-
-    /**
-     * @brief 代码高亮
-     */
-    public function code($lang, $data)
-    {
-        $lang = trim($lang);
-        if (!preg_match('/^(webplug|网页插件)/uis', $lang)) {
-            $lang = strtolower($lang);
-        }
-        if ($lang == '') $lang = 'php';
-
-        return array(array(
-            'type' => 'code',
-            'lang' => $lang,
-            'data' => $data,
-			//'html' => code::highlight($data, $lang),
-        ));
     }
 
     /**
