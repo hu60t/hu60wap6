@@ -68,7 +68,9 @@ try {
 			$data = ['updated' => $webplug->enable((int)$_POST['id'], (bool)$_POST['enabled'])];
 			break;
 		case 'add':
-			$data = ['newId' => $webplug->add((int)$_POST['load_order'], (bool)$_POST['enabled'], $_POST['name'], $_POST['content'])];
+			$data = ['newId' => $webplug->add((int)$_POST['load_order'],
+				(bool)$_POST['enabled'], $_POST['name'], $_POST['content'],
+				(int)$_POST['author_uid'], str::word($_POST['webplug_id']))];
 			break;
 		case 'import':
 			if (isset($_POST['data'])) {

@@ -50,7 +50,7 @@ class WebPlug {
     }
 
     public function getList() {
-        $rs = $this->db->select('`load_order`, `id`, `enabled`, `name`, LENGTH(`content`) AS `size`', 'webplug', 'WHERE `uid`=? ORDER BY `load_order`', $this->user->uid);
+        $rs = $this->db->select('`load_order`, `id`, `enabled`, `name`, LENGTH(`content`) AS `size`, `author_uid`, `webplug_id`', 'webplug', 'WHERE `uid`=? ORDER BY `load_order`', $this->user->uid);
         if (!$rs) {
             throw new Exception('数据库错误，查询失败', 500);
         }
@@ -67,7 +67,7 @@ class WebPlug {
     }
 
     public function get($id) {
-        $rs = $this->db->select('`load_order`, `id`, `enabled`, `name`, LENGTH(`content`) AS `size`, `content`', 'webplug', 'WHERE `id`=? AND `uid`=?', $id, $this->user->uid);
+        $rs = $this->db->select('`load_order`, `id`, `enabled`, `name`, LENGTH(`content`) AS `size`, `content`, `author_uid`, `webplug_id`', 'webplug', 'WHERE `id`=? AND `uid`=?', $id, $this->user->uid);
         if (!$rs) {
             throw new Exception('数据库错误，查询失败', 500);
         }
@@ -76,7 +76,7 @@ class WebPlug {
     }
 
     public function getAll() {
-        $rs = $this->db->select('`load_order`, `id`, `enabled`, `name`, LENGTH(`content`) AS `size`, `content`', 'webplug', 'WHERE `uid`=? ORDER BY `load_order`', $this->user->uid);
+        $rs = $this->db->select('`load_order`, `id`, `enabled`, `name`, LENGTH(`content`) AS `size`, `content`, `author_uid`, `webplug_id`', 'webplug', 'WHERE `uid`=? ORDER BY `load_order`', $this->user->uid);
         if (!$rs) {
             throw new Exception('数据库错误，查询失败', 500);
         }
@@ -143,7 +143,7 @@ class WebPlug {
         return $rs->rowCount();
     }
 
-    public function add($loadOrder, $enabled, $name, $content) {
+    public function add($loadOrder, $enabled, $name, $content, $authorUid = 0, $webplugId = '') {
         $content = self::filterContent($content);
         $loadOrder = (int)$loadOrder;
         if (!$loadOrder) {
@@ -155,11 +155,18 @@ class WebPlug {
                 $loadOrder = 1;
             }
         }
-        $ok = $this->db->insert('webplug', 'uid,load_order,enabled,name,content', $this->user->uid, $loadOrder, (int)$enabled, $name, $content);
+        $ok = $this->db->insert('webplug', 'uid,load_order,enabled,name,content,author_uid,webplug_id',
+            $this->user->uid, $loadOrder, (int)$enabled, $name, $content, $authorUid, $webplugId);
         if (!$ok) {
             throw new Exception('数据库错误，更新失败', 500);
         }
-        return $this->db->lastInsertId();
+        $id = $this->db->lastInsertId();
+
+        // 更新安装量统计
+        $this->db->query('INSERT INTO `'.DB_A.'webplug_count`(`author_uid`,`webplug_id`,`install_count`) VALUES(?,?,1) ON DUPLICATE KEY UPDATE `install_count`=`install_count`+1',
+            $authorUid, $webplugId);
+
+        return $id;
     }
 
     public function delete($id) {
@@ -175,7 +182,8 @@ class WebPlug {
             return 0;
         }
         if (isset($json['content']) && is_string($json['content'])) {
-            $this->add($json['load_order'], $json['enabled'], $json['name'], $json['content']);
+            $this->add($json['load_order'], $json['enabled'], $json['name'], $json['content'],
+                (int)$json['author_uid'], str::word($json['webplug_id']));
             return 1;
         }
         $count = 0;
@@ -184,5 +192,20 @@ class WebPlug {
             $count += $this->import($v);
         }
         return $count;
+    }
+
+    public static function count($authorUid, $webplugId) {
+        static $db = null;
+        if (!$db) $db = new db;
+
+        $rs = $db->select('install_count', 'webplug_count', 'WHERE `author_uid`=? AND `webplug_id`=?',
+            $authorUid, $webplugId);
+        $data = $rs->fetch(db::ass);
+
+        $rs = $db->select('count(*)', 'webplug', 'WHERE `author_uid`=? AND `webplug_id`=?',
+            $authorUid, $webplugId);
+        $data['current_user'] = $rs->fetch(PDO::FETCH_COLUMN, 0);
+
+        return $data;
     }
 }

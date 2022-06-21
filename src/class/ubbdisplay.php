@@ -202,10 +202,26 @@ class UbbDisplay extends XUBBP
 
         $html = '';
 
-        if (preg_match('/^(?:webplug|网页插件)(?:(?:[:：])(.*))?$/uis', $data['lang'], $info)) {
-            if (!$info[1]) $info[1] = '未命名';
-            $html .= '<a class="webplug_import_link" href="#" onclick="hu60_webplug_import_link(this, '.$codeIndex.'); return false">导入网页插件：<span class="webplug_import_name">'.code::html($info[1]).'</span></a><br>';
+        // 网页插件
+        if (preg_match('/^(?:webplug|网页插件)(?:[:：](.*))?$/uis', $data['lang'], $info)) {
             $data['lang'] = 'html';
+            $data['webplug'] = [
+                'id' => '',
+                'name' => $info[1],
+            ];
+        }
+        if (isset($data['webplug'])) {
+            $webplug = $data['webplug'];
+            if (empty($webplug['name'])) $webplug['name'] = '未命名';
+            $uid = (int)($this->getOpt('uid'));
+
+            $count = '';
+            if (!empty($webplug['id'])) {
+                $countInfo = WebPlug::count($uid, $webplug['id']);
+                $count = '（当前用户：'.(int)$countInfo['current_user'].'，总安装次数：'.(int)$countInfo['install_count'].'）';
+            }
+
+            $html .= '<a class="webplug_import_link" href="#" onclick="hu60_webplug_import_link(this, '.$codeIndex.', '.$uid.', \''.code::html($webplug['id']).'\'); return false">导入网页插件：<span class="webplug_import_name">'.code::html($webplug['name']).'</span></a>'.$count.'<br>';
         }
 
         if ($data['lang'] == 'latex') {

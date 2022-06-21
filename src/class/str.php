@@ -205,6 +205,10 @@ class str
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
+    public static function webPlugId() {
+        return strtr(base64_encode(str::random_bytes(12)), array('+'=>'t', '/'=>'j'));
+    }
+
     public static function bitset2str($bitset) {
         $bitset = (int)$bitset;
         if ($bitset == 0) {

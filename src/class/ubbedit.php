@@ -103,9 +103,11 @@ class ubbEdit extends XUBBP
     /*代码高亮*/
     public function code($data)
     {
-        $lang = '=' . $data['lang'];
-        if ($lang == '=php') {
-            $lang = '';
+        $lang = '';
+        if (isset($data['webplug'])) {
+            $lang = '=' . '网页插件（统计ID勿删#' . $data['webplug']['id'] . '）：' . $data['webplug']['name'];
+        } elseif (!empty($data['lang'])) {
+            $lang = '=' . $data['lang'];
         }
         return '[code' . $lang . ']' . $data['data'] . '[/code]';
     }
@@ -113,6 +115,9 @@ class ubbEdit extends XUBBP
 	/*markdown风格代码高亮*/
     public function mdcode($data)
     {
+        if (isset($data['webplug'])) {
+            $data['lang'] = '网页插件（统计ID勿删#' . $data['webplug']['id'] . '）：' . $data['webplug']['name'];
+        }
         $quote = isset($data['quote']) ? $data['quote'] : '```';
         return $data['indent'] . $quote . $data['lang'] . $data['data'] . $quote;
     }

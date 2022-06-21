@@ -208,7 +208,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
 
 
 // 导入网页插件
-function hu60_import_webplug(name, content) {
+function hu60_import_webplug(name, content, authorUid, webplugId) {
     if (prompt("确定导入插件“" + name + "”吗？\n\n警告：从他人处导入的插件可能含有恶意程序，造成版面错乱、帐户被盗、数据损坏，甚至计算机感染病毒等严重后果！\n请仅从信任的人处导入插件，并且仔细检查，避免使用不知用途的代码。\n\n输入yes确定导入。") != 'yes') {
         layer.msg('操作已取消');
         return;
@@ -220,6 +220,8 @@ function hu60_import_webplug(name, content) {
             name: name,
             content: content,
             enabled: true,
+            author_uid: authorUid,
+            webplug_id: webplugId,
         })
     }, function(data) {
         console.log(data);
@@ -234,8 +236,8 @@ function hu60_import_webplug(name, content) {
         }
     });
 }
-function hu60_webplug_import_link(link, codeIndex) {
+function hu60_webplug_import_link(link, codeIndex, authorUid, webplugId) {
     var name = link.querySelector('.webplug_import_name').innerText;
     var content = $('code[data-hu60-index=' + codeIndex + ']').text();
-    hu60_import_webplug(name, content);
+    hu60_import_webplug(name, content, authorUid, webplugId);
 }

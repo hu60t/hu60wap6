@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2022-06-17 12:55:58
+-- 生成日期： 2022-06-21 12:39:44
 -- 服务器版本： 10.5.10-MariaDB-log
 -- PHP 版本： 8.0.14
 
@@ -294,7 +294,21 @@ CREATE TABLE `hu60_webplug` (
   `load_order` tinyint(11) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT 1,
   `name` varchar(255) NOT NULL,
-  `content` text NOT NULL
+  `content` text NOT NULL,
+  `author_uid` int(11) NOT NULL DEFAULT 0,
+  `webplug_id` char(16) CHARACTER SET ascii NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `hu60_webplug_count`
+--
+
+CREATE TABLE `hu60_webplug_count` (
+  `author_uid` int(11) NOT NULL,
+  `webplug_id` char(16) CHARACTER SET ascii NOT NULL,
+  `install_count` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -431,7 +445,14 @@ ALTER TABLE `hu60_user_relationship`
 ALTER TABLE `hu60_webplug`
   ADD PRIMARY KEY (`id`),
   ADD KEY `uid_enabled_loadorder` (`uid`,`enabled`,`load_order`) USING BTREE,
-  ADD KEY `uid_loadorder` (`uid`,`load_order`);
+  ADD KEY `uid_loadorder` (`uid`,`load_order`),
+  ADD KEY `install_count` (`author_uid`,`webplug_id`) USING BTREE;
+
+--
+-- 表的索引 `hu60_webplug_count`
+--
+ALTER TABLE `hu60_webplug_count`
+  ADD PRIMARY KEY (`author_uid`,`webplug_id`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT

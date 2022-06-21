@@ -46,6 +46,8 @@
 			enabled: $('#webplug-enabled').val(),
 			name: $('#webplug-name').val(),
 			content: $('#webplug-content').val(),
+			author_uid: {$USER->uid},
+			webplug_id: '',
 		}
 
 		$.post($('#editForm').attr('action'), data, function(data) {

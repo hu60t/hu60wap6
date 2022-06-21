@@ -182,21 +182,38 @@ class UbbParser extends XUBBP
 		));
     }
 
+    static private function parseWebPlug($lang, &$data) {
+        if (!preg_match('/^(?:webplug|网页插件)(?:（统计ID勿删#([a-z0-9]{16})）)?(?:[:：](.*))?$/uis', $lang, $info)) {
+            return;
+        }
+
+        // id
+        if (empty($info[1])) {
+            $info[1] = str::webplugId();
+        }
+
+        $data['lang'] = 'html';
+        $data['webplug'] = [
+            'id' => $info[1],
+            'name' => $info[2],
+        ];
+    }
+
     /**
      * @brief 代码高亮
      */
     public function code($lang, $data)
     {
         $lang = trim($lang);
-        if (!preg_match('/^(webplug|网页插件)/uis', $lang)) {
-            $lang = strtolower($lang);
-        }
-
-        return array(array(
+        $result = [
             'type' => 'code',
-            'lang' => $lang,
+            'lang' => strtolower($lang),
             'data' => $data,
-        ));
+        ];
+
+        self::parseWebPlug($lang, $result);
+
+        return [ $result ];
     }
 
 	/**
@@ -204,14 +221,10 @@ class UbbParser extends XUBBP
      */
     public function mdcode($lang, $data, $quote, $indent)
     {
-		$lang = trim($lang);
-        if (!preg_match('/^(webplug|网页插件)/uis', $lang)) {
-            $lang = strtolower($lang);
-        }
-		
+        $lang = trim($lang);
 		$result = [
             'type' => 'mdcode',
-			'lang' => $lang,
+			'lang' => strtolower($lang),
             'data' => $data,
             'quote' => $quote,
         ];
@@ -220,9 +233,11 @@ class UbbParser extends XUBBP
             $result['indent'] = $indent;
         }
 
+        self::parseWebPlug($lang, $result);
+
         return [ $result ];
     }
-	
+
 	/**
      * @brief markdown受保护内容（不被XUBBP解析器干扰）
      */
