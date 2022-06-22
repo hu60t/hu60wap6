@@ -103,10 +103,10 @@ class UbbParser extends XUBBP
         /*mailtxt 文本电子邮件地址*/
         '!^(.*?)((?:mailto:)?[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4})(.*)$!is' => array(array(1, 3), 'mailtxt', array(2)),
         /*at @消息*/
-        '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9\x{4e00}-\x{9fa5}_-]+)(.*)$!uis' => array(array(1, 3), 'at', array(2)),
+        '!^(.*?)[@＠]([@＠#＃a-zA-Z0-9\p{Han}_-]+)(.*)$!uis' => array(array(1, 3), 'at', array(2)),
         /*face 表情*/
-        '!^(.*?)\{(ok|[\x{4e00}-\x{9fa5}]{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
-        '!^(.*?)《[：:∶](ok|[\x{4e00}-\x{9fa5}]{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
+        '!^(.*?)\{(ok|\p{Han}{1,3})\}(.*)$!uis' => array(array(1, 3), 'face', array(2)),
+        '!^(.*?)《[：:∶](ok|\p{Han}{1,3})》(.*)$!uis' => array(array(1, 3), 'face', array(2)),
     );
 
 	/**
@@ -292,9 +292,10 @@ class UbbParser extends XUBBP
             }
         }
 
-        if (preg_match('!\[(b|i|u|center|left|right|color|div|span|img)=?!is', $title) ||
+        if ($title != null &&
+            (preg_match('!\[(b|i|u|center|left|right|color|div|span|img)=?!is', $title) ||
             strpos($title, '《图片') !== false ||
-            strpos($title, '《缩略图') !== false) {
+            strpos($title, '《缩略图') !== false)) {
             $obj = new ubbParser;
             $obj->setParse(array(
                 /*layoutStart 布局开始*/

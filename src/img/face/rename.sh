@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for file in `ls | grep -iP '^(ok|[\x{4e00}-\x{9fa5}]{1,3})\.(png|gif|jpg|jpeg)$'`
+for file in `ls | grep -iP '^(ok|\p{Han}{1,3})\.(png|gif|jpg|jpeg)$'`
 do
 	baseName=${file%%.*}
 	hexName=`echo -n $baseName | xxd -ps`

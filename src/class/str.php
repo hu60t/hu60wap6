@@ -31,7 +31,7 @@ class str
 
     static function 匹配汉字($str, $extra = '')
     {
-        $preg = '/^[\x{4e00}-\x{9fa5}' . $extra . ']+$/u';
+        $preg = '/^[\p{Han}' . $extra . ']+$/u';
         return preg_match($preg, $str);
     }
 
