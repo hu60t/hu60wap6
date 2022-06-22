@@ -206,6 +206,7 @@ class user extends userinfo
             self::checkUid($name);
             $uid = $name;
         } else {
+            $name = str::normalize($name);
             self::checkName($name);
             $uid = self::$name[$name];
         }
@@ -404,6 +405,7 @@ class user extends userinfo
         $this->canchange();
         $this->uid = NULL;
 
+        $name = str::normalize($name);
         self::checkname($name);
         if ($this->name($name)) throw new userexception("用户名 \"$name\" 已存在，请更换一个。", 12);
         self::checkmail($mail);
@@ -741,6 +743,8 @@ class user extends userinfo
         if (!$this->islogin) {
             throw new userexception('用户未登录，不能改名。', 9403);
         }
+
+        $newName = str::normalize($newName);
 
         //检查用户名合法性，不合法则抛出异常
         $this->checkName($newName);

@@ -86,7 +86,7 @@ class userinfo implements ArrayAccess
     public static function checkName($name)
     {
         if ($name == '') throw new userexception('用户名不能为空。', 10);
-        if (strlen(mb_convert_encoding($name, 'gbk', 'utf-8')) > 16) throw new userexception("用户名 \"$name\" 过长。用户名最长只允许16个英文字母或8个汉字（16字节）。", 13);
+        if (strlen(mb_convert_encoding($name, 'gb18030', 'utf-8')) > 16) throw new userexception("用户名 \"$name\" 过长。用户名最长只允许16个英文字母或8个汉字（16字节）。", 13);
         if (!str::匹配汉字($name, 'A-Za-z0-9_\\-')) throw new userexception("用户名 \"$name\" 无效。只允许汉字、字母、数字、下划线(_)和减号(-)。", 11);
         return TRUE;
     }
@@ -163,6 +163,7 @@ class userinfo implements ArrayAccess
         $this->uid = NULL;
 
         try {
+            $name = str::normalize($name);
             self::checkname($name);
         } catch (userexception $ERR) {
             return FALSE;
