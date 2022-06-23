@@ -193,7 +193,10 @@ class db
      */
     const lazy = PDO::FETCH_LAZY;
     /**
-     * 只返回字段名
+     * 只返回指定字段
+     * 
+     * 例如获取 SELECT count(*) FROM xxx 的结果：
+     * $count = $rs->fetch(db::col, 0);
      */
     const col = PDO::FETCH_COLUMN;
 

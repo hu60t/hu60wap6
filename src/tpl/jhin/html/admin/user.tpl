@@ -9,6 +9,20 @@
                 <div class="columns">
                     <div class="column">
                         <div class="field">
+                            <label class="label">用户名过滤：</label>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <div class="control">
+                                <div class="input">
+                                    <input type="text" name="name" value="{$smarty.get.name|code}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
                             <label class="label">排序方式：</label>
                         </div>
                     </div>
