@@ -331,7 +331,8 @@
 		(isPublic ? '公开类型的外链可分享给其他用户，但他们需要登录虎绿林才能看到内容。' : '私有类型的外链仅限您本人使用，需要登录虎绿林才能看到内容。') +
 		'\n\n嵌入网页插件中的方法：\n\n' +
 		'<' + 'script src="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.js"></' + 'script>\n\n' +
-		'<link rel="stylesheet" href="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.css" />\n\n' ;
+		'<link rel="stylesheet" href="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.css" />\n\n' +
+		'注意，外链有5分钟缓存，修改后要等一段时间或者清除浏览器缓存才能生效。';
 
 		$('#editForm').css({
 			'display': 'block'
