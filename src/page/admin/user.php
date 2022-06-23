@@ -1,7 +1,7 @@
 <?php
 $tpl = $PAGE->start();
 $USER->start($tpl);
-if (!$USER->islogin || $USER->uid != 1)
+if (!$USER->isSiteAdmin())
     die('403 Forbidden');
 //TODO: 由于对于类不是很熟悉 先把SQL写在这里
 $db = new db;

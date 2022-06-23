@@ -836,5 +836,10 @@ class user extends userinfo
         return $this->webplugHTML;
     }
 
+    // 检测用户是否为网站管理员
+    public function isSiteAdmin() {
+        return $this->islogin && $this->uid == 1;
+    }
+
     /*class end*/
 }

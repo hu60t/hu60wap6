@@ -7,7 +7,7 @@ $t_topic_content = DB_A.'bbs_topic_content';
 $t_user = DB_A.'user';
 $t_24h = time()-24*3600;
 $USER->start($tpl);
-if (!$USER->islogin || $USER->uid != 1)
+if (!$USER->isSiteAdmin())
     die('403 Forbidden');
 $db = new db;
 

@@ -6,7 +6,7 @@ $db = new db;
 $uinfo = new UserInfo;
 $tpl->assign('uinfo', $uinfo);
 
-if (!$USER->islogin || $USER->uid != 1) {
+if (!$USER->isSiteAdmin()) {
     die('403 Forbidden');
 }
 

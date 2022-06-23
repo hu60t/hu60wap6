@@ -1,7 +1,7 @@
 <?php
 $tpl = $PAGE->start();
 $USER->start($tpl);
-if (!$USER->islogin || $USER->uid != 1)
+if (!$USER->isSiteAdmin())
     die('403 Forbidden');
 switch ($page->ext[0]) {
     case 'css':

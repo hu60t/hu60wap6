@@ -1,7 +1,7 @@
 <?php
 $tpl = $PAGE->start();
 $USER->start($tpl);
-if (!$USER->islogin || $USER->uid != 1)
+if (!$USER->isSiteAdmin())
     die('403 Forbidden');
 $sql = trim(str_replace(array(chr(12), "\xC2\xA0"), array("\n", ' '), (string)$_POST['sql']));
 if ($sql != '') {

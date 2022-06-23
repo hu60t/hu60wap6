@@ -7,7 +7,7 @@ $db = new db;
 $t_forum = DB_A . 'bbs_forum_meta';
 $t_topic = DB_A . 'bbs_topic_meta';
 
-if (!$USER->islogin || $USER->uid != 1) {
+if (!$USER->isSiteAdmin()) {
     die('403 Forbidden');
 }
 
