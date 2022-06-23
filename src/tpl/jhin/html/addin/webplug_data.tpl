@@ -425,7 +425,7 @@
 
 	function enableHighlight() {
 		editor = CodeMirror.fromTextArea($('#webplug-content')[0], {
-			mode: "text/html",
+			mode: "text/javascript",
 			lineNumbers: true,
 			matchBrackets: true,
 			extraKeys: {
