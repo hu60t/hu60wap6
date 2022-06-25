@@ -23,4 +23,11 @@
     {else}
       <p>你还没有收藏任何帖子！</p>
     {/if}
+    <script>
+        function unsetFavoriteTopic(tid) {
+            $.getJSON("{$CID}.unsetfavoritetopic."+tid+".json", function(r) {
+                location.href = "{$CID}.{$PID}.{$BID}?r={time()}";
+            });
+        }
+    </script>
 {/block}

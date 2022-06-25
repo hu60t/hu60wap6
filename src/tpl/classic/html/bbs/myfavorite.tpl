@@ -12,8 +12,11 @@
 <div class="fl cl indexthreadlist">
 	<ul>
         {foreach $topicList as $topic}
-			<li><a class="user-title" href="{$CID}.topic.{$topic.id}.{$BID}">{$topic.title|code}</a>
-			{$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.ctime)} 发布</li>
+			<li>
+				<a class="user-title" href="{$CID}.topic.{$topic.id}.{$BID}">{$topic.title|code}</a>
+				{$topic.uinfo.name|code} 于 {date('Y-m-d H:i:s',$topic.ctime)} 发布
+				<input type="button" onclick="unsetFavoriteTopic({$topic.id}); return false" value="取消收藏" />
+			</li>
         {/foreach}
     </ul>
 </div>
@@ -29,4 +32,12 @@
 {else}
 <p>你还没有收藏任何帖子！</p>
 {/if}
+
+<script>
+	function unsetFavoriteTopic(tid) {
+		$.getJSON("{$CID}.unsetfavoritetopic."+tid+".json", function(r) {
+			location.href = "{$CID}.{$PID}.{$BID}?r={time()}";
+		});
+	}
+</script>
 {include file="tpl:comm.foot"}
