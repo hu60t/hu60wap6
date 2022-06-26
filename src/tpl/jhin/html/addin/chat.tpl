@@ -54,10 +54,17 @@
   {$tmp = $uinfo->uid($k.uid)}
   {$tmp = $uinfo->setUbbOpt($ubbs)}
   <li>
+    <a name="{$k.lid}"></a><a name="/{$k.lid}"></a>
     <div class="chat-meta">
-        <div class="chat-number">{if $onlyReview}<a class="floor-link" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}">{$k.room} {$k.lid}楼</a>{else}<a class="floor-link" href="?floor={$k.lid}#{$k.lid}">{$k.lid}</a>{/if}<a name="/{$k.lid}"></a></div>
+        <div class="chat-number">
+          {if $onlyReview}
+            <a class="floor-link{if $smarty.get.floor == $k.lid} selected{/if}" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}">{$k.room} {$k.lid}楼</a>
+          {else}
+            <a class="floor-link{if $smarty.get.floor == $k.lid} selected{/if}" href="?floor={$k.lid}#{$k.lid}">{$k.lid}</a>
+          {/if}
+        </div>
 		<div class="chat-avatar">
-            <a class="floor-link" name="{$k.lid}" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}"><img src="{$uinfo->avatar()}" class="avatar"></a>
+            <a class="floor-link" href="addin.chat.{urlencode($k.room)}.{$bid}?floor={$k.lid}#{$k.lid}"><img src="{$uinfo->avatar()}" class="avatar"></a>
         </div>
         <div class="chat-meta-name">
             <a href="user.info.{$k.uid}.{$BID}">{$uinfo.name|code}</a>

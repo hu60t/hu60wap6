@@ -1,3 +1,4 @@
+/* 白天模式配色 */
 :root {
   --color-1: #333;
   --color-2: #666;
@@ -7,6 +8,7 @@
   --color-7: #337ab7;
   --color-8: #777;
   --color-10: #999;
+  --floor-link-selected: #ffa400;
   --color-11: #08c;
   --color-13: #eee;
   --color-14: #ccc;
@@ -48,6 +50,7 @@
   --relationship-empty-color: #999fa5;
   --relationship-item-color: #333333;
 }
+/* 夜间模式配色 */
 [data-hu60-color-scheme='dark'] {
   --color-1: #c9d1d9;
   --color-2: #58a6ff;
@@ -57,6 +60,7 @@
   --color-7: #337ab7;
   --color-8: #777;
   --color-10: #c9d1d9;
+  --floor-link-selected: #ffa400;
   --color-11: #08c;
   --color-13: #eee;
   --color-14: #ccc;
@@ -845,6 +849,9 @@ h1 {
 }
 .floor-link {
   color: var(--color-10);
+}
+.floor-link.selected {
+  color: var(--floor-link-selected);
 }
 .chat-meta-name {
   font-size: 1.1rem;

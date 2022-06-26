@@ -73,11 +73,12 @@
 			{foreach $tContents as $v}
 			{$tmp = $v.uinfo->setUbbOpt($ubb)}
 			<li>
+				<a name="{$v.floor}"></a><a name="/{$v.floor}"></a>
 				<div class="floor-content-box" data-floorID="{$v.floor}">
 					<div class="comments-meta">
-					    <div class="comments-number"><a class="floor-link" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a><a name="/{$v.floor}"></a></div>
+					    <div class="comments-number"><a class="floor-link{if $smarty.get.floor == $v.floor} selected{/if}" href="?floor={$v.floor}#{$v.floor}">{$v.floor}</a></div>
 						<div class="comments-avatar">
-                            <a class="floor-link" href="?floor={$v.floor}#{$v.floor}" name="{$v.floor}"><img src="{$v.uinfo->avatar()}" class="avatar"></a>
+                            <a class="floor-link" href="?floor={$v.floor}#{$v.floor}"><img src="{$v.uinfo->avatar()}" class="avatar"></a>
                         </div>
                         <div class="comments-meta-name">
     						<a href="user.info.{$v.uinfo.uid}.{$BID}" class="comments-author">{$v.uinfo.name|code}</a>
