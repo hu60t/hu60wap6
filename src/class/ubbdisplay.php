@@ -340,6 +340,24 @@ class UbbDisplay extends XUBBP
         return ' style="' . implode('; ', $css) . '"';
     }
 
+    /* 防止alt中的`[`和`]`导致markdown解析失败 */
+    public function markdownProtectAlt($html) {
+        if (empty($html)) return '';
+        if (strpos($html, '[') !== FALSE) {
+            $tag = "\2".count($this->mdProtectTexts)."\3";
+            $this->mdProtectTexts[] = '[';
+            $this->mdProtectTags[] = $tag;
+            $html = str_replace('[', $tag, $html);
+        }
+        if (strpos($html, ']') !== FALSE) {
+            $tag = "\2".count($this->mdProtectTexts)."\3";
+            $this->mdProtectTexts[] = ']';
+            $this->mdProtectTags[] = $tag;
+            $html = str_replace(']', $tag, $html);
+        }
+        return $html;
+    }
+
     /*img 图片*/
     public function img($data)
     {
@@ -347,6 +365,12 @@ class UbbDisplay extends XUBBP
 
         $url = $data['src'];
         $alt = $data['alt'];
+
+        // 如已开启markdown，则交给markdown渲染，以产生更好的段落排版
+        if ($this->markdownEnable) {
+            return '!['.$this->markdownProtectAlt($alt).']('.url::markdownEscape($url).')';
+        }
+
         $style = $this->parseImgStyleFromUrl($url, $alt);
 
         if (empty($alt)) {

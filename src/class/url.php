@@ -126,7 +126,12 @@ class url
 
 		return SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
 	}
-    
+
+    //Markdown安全URL编码
+    static function markdownEscape($url) {
+        return str_replace(['(', ')', '[', ']'], ['%28', '%29', '%5b', '%5d'], (string)$url);
+    }
+
     // 获得扩展名
     static function extName($url) {
         $name = basename(parse_url($url, PHP_URL_PATH));
