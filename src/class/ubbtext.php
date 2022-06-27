@@ -193,17 +193,7 @@ class UbbText extends XUBBP
     /*thumb 缩略图*/
     public function thumb($data)
     {
-        global $PAGE;
-        $src = $data['src'];
-
-        //百度输入法多媒体输入
-        if (preg_match('#^(https?://ci\.baidu\.com)/([a-zA-Z0-9]+)$#is', $src, $arr)) {
-            $prefix = $arr[1];
-            $imgId = $arr[2];
-            $src = $prefix . '/more?mm=' . $imgId;
-        }
-		
-        return $src;
+        return $data['src'];
     }
 
     /*video 视频*/

@@ -352,13 +352,6 @@ class UbbDisplay extends XUBBP
         if (empty($alt)) {
             $alt = basename((string)parse_url($url, PHP_URL_PATH));
         }
-
-        //百度输入法多媒体输入
-        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
-            $prefix = $arr[1];
-            $imgId = $arr[2];
-            $url = $prefix . '/more?mm=' . $imgId;
-        }
         
 		if (!JsonPage::isJsonPage() && !preg_match('#^data:image/#is', $url)) {
             $url = SITE_ROUTER_PATH . '/link.img.' . $PAGE->bid . '?url64=' . code::b64e($url);
@@ -372,13 +365,6 @@ class UbbDisplay extends XUBBP
     {
 		global $PAGE;
         $src = code::html($data['src']);
-
-        //百度输入法多媒体输入
-        if (preg_match('#^(https?://ci\.baidu\.com)/([a-zA-Z0-9]+)$#is', $src, $arr)) {
-            $prefix = $arr[1];
-            $imgId = $arr[2];
-            $src = $prefix . '/more?mm=' . $imgId;
-        }
         
         if (JsonPage::isJsonPage()) {
             $url = $src;
@@ -481,13 +467,6 @@ class UbbDisplay extends XUBBP
 		if (CLOUD_STORAGE_USE_HTTPS) {
 			$url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 		}
-
-        //百度输入法多媒体输入
-        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
-            $prefix = $arr[1];
-            $imgId = $arr[2];
-            $url = $prefix . '/more?mm=' . $imgId;
-        }
         
 		if (JsonPage::isJsonPage() || preg_match('#^data:(video|audio)/#is', $url)) {
             $link = $data['url'];
@@ -513,14 +492,6 @@ class UbbDisplay extends XUBBP
 		if (CLOUD_STORAGE_USE_HTTPS) {
 			$url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 		}
-
-
-        //百度输入法多媒体输入
-        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $url, $arr)) {
-            $prefix = $arr[1];
-            $imgId = $arr[2];
-            $url = $prefix . '/more?mm=' . $imgId;
-        }
 
 		if (JsonPage::isJsonPage() || preg_match('#^data:(video|audio)/#is', $url)) {
             $link = $data['url'];
@@ -718,33 +689,13 @@ class UbbDisplay extends XUBBP
     {
         global $PAGE;
 
-        //百度输入法多媒体输入
-        if (preg_match('#^(https?://ci.baidu.com)/([a-zA-Z0-9]+)$#is', $data['url'], $arr)) {
-            $prefix = $arr[1];
-            $imgId = $arr[2];
-            $url = code::html($data['url']);
-            $imgUrl = code::html($prefix . '/more?mm=' . $imgId);
-
-            static $id = 0;
-            $id ++;
-
-            return <<<HTML
-<div class="baidu_media_box">
-    <p>多媒体输入（<a id="baidu_media_link_{$id}" href="{$url}">{$url}</a>）</p>
-    <img id="baidu_media_img_{$id}" src="{$imgUrl}" al="图片加载中" onerror="baidu_media_change({$id}, 'img', 'audio')" />
-    <audio id="baidu_media_audio_{$id}" class="audio" style="display:none" controls="controls" onerror="baidu_media_change({$id}, 'audio', 'txt')"></audio>
-    <span id="baidu_media_txt_{$id}" style="display:none">内容无法解析，请点击上方链接查看↑</span>
-</div>
-HTML;
+        if (JsonPage::isJsonPage()) {
+            $url = $data['url'];
         } else {
-            if (JsonPage::isJsonPage()) {
-                $url = $data['url'];
-            } else {
-                $url = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
-            }
-
-            return '<a class="userlink" href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
+            $url = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
         }
+
+        return '<a class="userlink" href="' . code::html($url) . '">' . code::html($data['url']) . '</a>';
     }
 
     /*mailtxt 邮箱文本*/

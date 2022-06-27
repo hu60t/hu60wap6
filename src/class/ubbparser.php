@@ -95,8 +95,6 @@ class UbbParser extends XUBBP
         * 这里的标记最后匹配，为了防止误匹配。
         * 可能会影响其他标记正常匹配的标记放在这里。
         */
-		/*百度输入法多媒体输入*/
-		'#^(.*?)(https?://ci\.baidu\.com/[a-zA-Z0-9]+)(.*)$#is' => array(array(1, 3), 'urltxt', array(2)),
         /*urltxt 文本链接*/
         '!^(.*?)((?:https?|ftps?|rtsp)\://[a-zA-Z0-9\.\,\?\!\(\)\[\]\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)(.*)$!is' => array(array(1, 3), 'urltxt', array(2)),
         #'#^(.*?)((?<!@)[a-zA-Z0-9._-]{1,255}\.(?:asia|mobi|name|com|net|org|xxx|cc|cn|hk|me|tk|tv|uk)(?:/[a-zA-Z0-9\.\,\?\!\(\)\[\]\@\/\:\_\;\+\&\%\*\=\~\^\#\-]+)?)(.*)$#is' => array(array(1,3), 'urltxt', array(2)),
