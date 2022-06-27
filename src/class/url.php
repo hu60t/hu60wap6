@@ -120,7 +120,7 @@ class url
 	static function getJumpImg($url) {
         global $PAGE;
         
-        if (JsonPage::isJsonPage()) {
+        if (JsonPage::isJsonPage() || preg_match('#^data:image/#is', $url)) {
             return $url;
         }
 
