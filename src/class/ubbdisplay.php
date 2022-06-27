@@ -273,7 +273,7 @@ class UbbDisplay extends XUBBP
     }
 
     /*从url中解析出图片大小、旋转参数，将参数转换为CSS或者七牛云图像处理URL*/
-    protected function parseImgStyleFromUrl(&$url, &$alt) {
+    public static function parseImgStyleFromUrl(&$url, &$alt) {
         $url = (string)$url;
         $alt = (string)$alt;
 

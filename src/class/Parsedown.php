@@ -1706,23 +1706,27 @@ class Parsedown
 
             if (isset($Element['attributes']))
             {
-                foreach ($Element['attributes'] as $name => $value)
+                $attrs = &$Element['attributes'];
+
+                if (isset($attrs['href'])) {
+                    $attrs['class'] = 'userlink';
+                    $attrs['href'] = url::getJumpLink($attrs['href']);
+
+                } elseif (isset($attrs['src'])) {
+                    $markup .= ubbdisplay::parseImgStyleFromUrl($attrs['src'], $attrs['alt']);
+                    if (isset($attrs['title'])) $attrs['title'] = $attrs['alt'];
+
+                    $attrs['class'] = 'userimg';
+                    $attrs['src'] = url::getJumpImg($attrs['src']);
+                }
+
+                foreach ($attrs as $name => $value)
                 {
                     if ($value === null)
                     {
                         continue;
                     }
-
-                    $class = '';
-                    if ($name == 'href') {
-                        $value = url::getJumpLink($value);
-                        $class = ' class="userlink"';
-                    } elseif ($name == 'src') {
-                        $value = url::getJumpImg($value);
-                        $class = ' class="userimg"';
-                    }
-
-                    $markup .= " $name=\"".self::escape($value).'"'.$class;
+                    $markup .= " $name=\"".self::escape($value).'"';
                 }
             }
         }
