@@ -13,7 +13,7 @@ if (!$_POST['go']) {
     $tpl->assign('jhtml', $jhtml);
     $tpl->display('tpl:jhtml_form');
 } else {
-    $plug = str_replace(["\xc2\xa0","\xe2\x80\x82"], ' ', $_POST['jhtml']);
+    $plug = str::nbsp2space($_POST['jhtml']);
     $USER->setinfo('addin.jhtml', $plug);
     $tpl->display('tpl:jhtml_success');
 }

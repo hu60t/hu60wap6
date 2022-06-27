@@ -3,7 +3,7 @@ $tpl = $PAGE->start();
 $USER->start($tpl);
 if (!$USER->isSiteAdmin())
     die('403 Forbidden');
-$sql = trim(str_replace(array(chr(12), "\xC2\xA0"), array("\n", ' '), (string)$_POST['sql']));
+$sql = trim(str_replace(array("\x0C", "\xC2\xA0"), array("\n", ' '), (string)$_POST['sql']));
 if ($sql != '') {
     $db2 = $db = db::conn(false);
     $db = $db->query($sql);

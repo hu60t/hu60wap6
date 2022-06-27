@@ -140,9 +140,10 @@ class str
 
     }
 
-    //将UTF-8中的特殊空格字符转换为普通空格
+    // 将UTF-8中的特殊空格字符转换为普通空格
+    // \2 和 \3 是 UBBDisplay 中使用的 Markdown 内容转义标记，在此转为空格以防冲突
     public static function nbsp2space($str) {
-        return str_replace(["\xc2\xa0","\xe2\x80\x82"], ' ', (string)$str);
+        return str_replace(["\xc2\xa0","\xe2\x80\x82", "\2", "\3"], ' ', (string)$str);
     }
 
     // 取得自然语言描述的时间差
