@@ -201,7 +201,7 @@ class WebPlug {
         $rs1 = $db->select('install_count', 'webplug_count', 'WHERE `author_uid`=? AND `webplug_id`=?',
             $authorUid, $webplugId);
 
-        $rs2 = $db->select('count(*)', 'webplug', 'WHERE `author_uid`=? AND `webplug_id`=?',
+        $rs2 = $db->select('count(DISTINCT `uid`)', 'webplug', 'WHERE `author_uid`=? AND `webplug_id`=?',
             $authorUid, $webplugId);
 
         return [
