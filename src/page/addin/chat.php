@@ -118,6 +118,9 @@ if ($PAGE->ext[0]) {
         }
 	}
 
+    // 修复屏蔽用户导致的索引不连续
+    $list = array_values($list);
+
     $tpl->assign('list', $list);
     $tpl->assign('count', $chatCount);
     $tpl->assign('p', $p);

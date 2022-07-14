@@ -99,6 +99,10 @@ foreach ($tContents as $k=>&$v) {
 		$v['content'] = UbbParser::createPostNeedReviewNotice($USER, $uinfo, $v['id'], $v['content'], $vTid, $v['review'], $v['review_log'], true);
 	}
 }
+
+// 修复屏蔽用户导致的索引不连续
+$tContents = array_values($tContents);
+
 $tpl->assign('tMeta', $tMeta);
 $tpl->assign('tContents', $tContents);
 $tpl->assign('blockedReply', $blockedReply);
