@@ -60,7 +60,7 @@ class str
      * https://zhuanlan.zhihu.com/p/363841066
      */
     static function normalize($str) {
-        return Normalizer::normalize($str);
+        return Normalizer::normalize((string)$str);
     }
 
     static function cut($str, $off, $len, $add = '', $code = 'utf-8', $notEmpty = false)
