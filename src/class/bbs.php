@@ -565,7 +565,12 @@ class bbs
      */
     public function updateTopicContent($contentId, $newContent)
     {
-		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
+        // 空白内容无需审核
+        if (empty($newContent)) {
+            $review = self::REVIEW_PASS;
+        } else {
+            $review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
+        }
 
         $ubb = new ubbparser;
         $data = is_array($newContent) ? data::serialize($newContent) : $ubb->parse($newContent, true);
