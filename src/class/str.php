@@ -136,8 +136,11 @@ class str
         #通过css解决了版面长草的问题，不需要再过滤了。
         #$text = preg_replace('/[\x{0e00}-\x{0e7f}]{10,}/u', '(为防止版面长草，过长的泰文被过滤)', $text);
         #$text = preg_replace('/[\x{0600}-\x{06ff}]{10,}/u', '(为防止版面长草，过长的阿拉伯文被过滤)', $text);
-        return $text;
+        
+        // 删除零宽空格，阻止加密内容 <https://hu60.cn/q.php/bbs.topic.103403.html>
+        $text = preg_replace("/[\x{200B}-\x{200D}\x{FEFF}]/u", '', $text);
 
+        return $text;
     }
 
     // 将UTF-8中的特殊空格字符转换为普通空格
