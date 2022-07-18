@@ -56,11 +56,11 @@ class str
     }
 
     /**
-     * 对Unicode字符串进行正规化
+     * 对Unicode字符串进行规范化
      * https://zhuanlan.zhihu.com/p/363841066
      */
     static function normalize($str) {
-        return Normalizer::normalize((string)$str);
+        return Normalizer::normalize((string)$str, Normalizer::FORM_KC);
     }
 
     static function cut($str, $off, $len, $add = '', $code = 'utf-8', $notEmpty = false)
