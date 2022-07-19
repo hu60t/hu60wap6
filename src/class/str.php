@@ -137,8 +137,8 @@ class str
         #$text = preg_replace('/[\x{0e00}-\x{0e7f}]{10,}/u', '(为防止版面长草，过长的泰文被过滤)', $text);
         #$text = preg_replace('/[\x{0600}-\x{06ff}]{10,}/u', '(为防止版面长草，过长的阿拉伯文被过滤)', $text);
         
-        // 删除零宽空格，阻止加密内容 <https://hu60.cn/q.php/bbs.topic.103403.html>
-        $text = preg_replace("/[\x{200B}-\x{200D}\x{FEFF}]/u", '', $text);
+        // 删除连续的零宽空格、emoji等，阻止加密内容 <https://hu60.cn/q.php/bbs.topic.103403.html>
+        $text = preg_replace("/[\x{200B}-\x{200F}\x{FEFF}🐱❤️😊]{8,}/u", '(虎绿林不允许内容加密)', $text);
 
         return $text;
     }
