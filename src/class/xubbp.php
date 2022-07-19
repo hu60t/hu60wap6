@@ -307,6 +307,8 @@ class XUBBP
             $html .= $this->$func($v);
         }
         $this->rmEndTag(NULL, $html);
+
+        $html = str::过滤滥用($html);
         return $html;
     }
 

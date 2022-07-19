@@ -162,13 +162,11 @@ class UbbDisplay extends XUBBP
     /*text 纯文本*/
     public function text($data)
     {
-        $text = str::过滤滥用($data['value']);
-		
 		if ($this->markdownEnable) {
-			return str::htmlTagToEntity($text);
+			return str::htmlTagToEntity($data['value']);
 		}
 		else {
-			return code::html($text, '<br/>');
+			return code::html($data['value'], '<br/>');
 		}
     }
 
