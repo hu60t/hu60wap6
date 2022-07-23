@@ -104,6 +104,7 @@
 }
 @font-face {
   font-family: 'Unifont';
+  unicode-range: U+0000-FFFF, U+10000-1FFFF;
   font-display: swap;
   src: local('Unifont'), url('https://file.hu60.cn/fonts/unifont/unifont-14.0.04.woff2') format('woff2'), url('https://file.hu60.cn/fonts/unifont/unifont-14.0.04.otf') format('opentype'), url('https://file.hu60.cn/fonts/unifont/unifont-14.0.04.ttf') format('truetype');
 }
