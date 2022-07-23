@@ -98,6 +98,10 @@ html {
   font-family: sans-serif, 'Unifont';
 }
 
+input, textarea {
+    font-family: sans-serif, 'Unifont';
+}
+
 body {
     word-wrap: break-word;
     word-break: break-all;

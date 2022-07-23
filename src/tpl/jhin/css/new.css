@@ -112,6 +112,10 @@ html {
   font-size: 16px !important;
   font-family: sans-serif, 'Unifont';
 }
+input,
+textarea {
+  font-family: sans-serif, 'Unifont';
+}
 ::-webkit-scrollbar {
   width: 10px;
   height: 1px;
