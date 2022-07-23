@@ -84,23 +84,64 @@
   --color-14: #ccc;
 }
 
+
 @font-face {
   font-family: 'Unifont';
   font-display: swap;
   src: local('Unifont'),
-       url('https://file.hu60.cn/fonts/unifont-14.0.04.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/unifont-14.0.04.otf') format('opentype');
+       url('https://file.hu60.cn/fonts/unifont/unifont-14.0.04.woff2') format('woff2'),
+       url('https://file.hu60.cn/fonts/unifont/unifont-14.0.04.otf') format('opentype'),
+       url('https://file.hu60.cn/fonts/unifont/unifont-14.0.04.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'TH-Tshyn-P0';
+  unicode-range: U+0000-FFFF;
+  font-display: swap;
+  src: local('TH-Tshyn-P0'),
+       url('https://file.hu60.cn/fonts/TH-Tshyn/TH-Tshyn-P0.woff2') format('woff2'),
+       url('https://file.hu60.cn/fonts/TH-Tshyn/TH-Tshyn-P0.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'TH-Tshyn-P1';
+  unicode-range: U+10000-1FFFF, U+30000-3FFFF;
+  font-display: swap;
+  src: local('TH-Tshyn-P1'),
+       url('https://file.hu60.cn/fonts/TH-Tshyn/TH-Tshyn-P1.woff2') format('woff2'),
+       url('https://file.hu60.cn/fonts/TH-Tshyn/TH-Tshyn-P1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'TH-Tshyn-P2';
+  unicode-range: U+20000-2FFFF;
+  font-display: swap;
+  src: local('TH-Tshyn-P2'),
+       url('https://file.hu60.cn/fonts/TH-Tshyn/TH-Tshyn-P2.woff2') format('woff2'),
+       url('https://file.hu60.cn/fonts/TH-Tshyn/TH-Tshyn-P2.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'TH-Tshyn-P16';
+  unicode-range: U+100000-10FFFF;
+  font-display: swap;
+  src: local('TH-Tshyn-P16'),
+       url('https://file.hu60.cn/fonts/TH-Tshyn/TH-Tshyn-P16.woff2') format('woff2'),
+       url('https://file.hu60.cn/fonts/TH-Tshyn/TH-Tshyn-P16.ttf') format('truetype');
 }
 
 /*规定rem单位字体大小*/
 html {
   font-size: 16px !important;
-  font-family: sans-serif, 'Unifont';
+  /*用于显示生僻字*/
+  font-family: sans-serif, 'TH-Tshyn-P0', 'TH-Tshyn-P1', 'TH-Tshyn-P2', 'TH-Tshyn-P16';
 }
 
 input, textarea {
-    font-family: sans-serif, 'Unifont';
+  /*用于显示生僻字*/
+  font-family: sans-serif, 'TH-Tshyn-P0', 'TH-Tshyn-P1', 'TH-Tshyn-P2', 'TH-Tshyn-P16';
 }
+
 
 body {
     word-wrap: break-word;
