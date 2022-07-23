@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2022-06-21 12:39:44
+-- 生成日期： 2022-07-23 08:57:09
 -- 服务器版本： 10.5.10-MariaDB-log
 -- PHP 版本： 8.0.14
 
@@ -26,7 +26,7 @@ CREATE TABLE `hu60_addin_chat_data` (
   `room` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
   `lid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `uname` varchar(16) NOT NULL,
+  `uname` varchar(16) CHARACTER SET utf8mb4 NOT NULL,
   `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `time` bigint(20) NOT NULL,
   `hidden` int(11) NOT NULL DEFAULT 0,
@@ -241,7 +241,7 @@ CREATE TABLE `hu60_topic_favorites` (
 
 CREATE TABLE `hu60_user` (
   `uid` int(11) NOT NULL,
-  `name` varchar(16) NOT NULL,
+  `name` varchar(16) CHARACTER SET utf8mb4 NOT NULL,
   `pass` char(32) NOT NULL,
   `sid` varchar(64) NOT NULL,
   `safety` blob DEFAULT NULL,
