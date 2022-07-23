@@ -102,9 +102,15 @@
   --relationship-empty-color: #999fa5;
   --relationship-item-color: #333333;
 }
+@font-face {
+  font-family: 'Unifont';
+  font-display: swap;
+  src: local('Unifont'), url('https://file.hu60.cn/fonts/unifont-14.0.04.woff2') format('woff2'), url('https://file.hu60.cn/fonts/unifont-14.0.04.otf') format('opentype');
+}
 /*规定rem单位字体大小*/
 html {
   font-size: 16px !important;
+  font-family: sans-serif, 'Unifont';
 }
 ::-webkit-scrollbar {
   width: 10px;
