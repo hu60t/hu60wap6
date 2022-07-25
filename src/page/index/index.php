@@ -11,9 +11,9 @@ $offset = ($p - 1) * $size;
 //首页不显示一个月前的帖子和审核未通过的帖子
 $newTopicList = $bbs->newTopicList($size + 1, $offset);
 
-if (count($newTopicList) == 21) {
+if (count($newTopicList) == $size + 1) {
     $tpl->assign('hasNextPage', true);
-    unset($newTopicList[20]);
+    array_pop($newTopicList);
 } else {
     $tpl->assign('hasNextPage', false);
 }
