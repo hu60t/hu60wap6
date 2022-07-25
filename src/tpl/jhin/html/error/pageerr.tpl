@@ -1,5 +1,9 @@
 {extends file='tpl:comm.default'}
 
+{$base=true}
+{$no_webplug=true}
+{$no_chat=true}
+
 {block name='title'}
   出错啦！
 {/block}
