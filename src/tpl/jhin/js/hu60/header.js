@@ -99,15 +99,17 @@ MathJax = {
         loadVideoExtension(video);
     };
     window.userVideoLoaded = function(video) {
+        // 因为在UC浏览器上干扰m3u8播放，暂时停用HEVC播放器
+        /*
         // 不知道为什么，UC浏览器即使是在 onloadeddata 事件中
         // 也无法立即获得视频宽度信息，所以只好添加延时。
         setTimeout(() => {
             console.log('video loaded: ', video.videoWidth, video.videoHeight, video.src);
             if (video.videoWidth == 0) {
-                // 因为在UC浏览器上干扰m3u8播放，暂时停用HEVC播放器
-                //loadH265Extension(video);
+                loadH265Extension(video);
             }
         }, 1000);
+        */
     };
 })();
 

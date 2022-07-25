@@ -90,7 +90,7 @@
             if (reason.length > 0) msgs.push("失败原因：\n" + reason.join("\n"));
             document.querySelector('#review_result').innerText = msgs.join("\n");
         } catch (ex) {
-            document.querySelector('#review_result').innerText = JSON.stringify(ex);
+            document.querySelector('#review_result').innerText = ex.toString ? ex.toString() : JSON.stringify(ex);
         }
 	}
 	if (document.querySelectorAll('form.hu60_review').length > 0) {

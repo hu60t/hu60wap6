@@ -41,7 +41,7 @@ async function hu60_get_content_ubb(type, id) {
         return document._hu60_content_ubb[id];
     } catch (ex) {
         console.log(ex);
-        return '加载UBB源码失败：' + JSON.stringify(ex);
+        return '加载UBB源码失败：' + (ex.toString ? ex.toString() : JSON.stringify(ex));
     }
 }
 
