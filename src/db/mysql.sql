@@ -423,7 +423,6 @@ ALTER TABLE `hu60_user`
   ADD PRIMARY KEY (`uid`),
   ADD UNIQUE KEY `name` (`name`),
   ADD UNIQUE KEY `sid` (`sid`),
-  ADD UNIQUE KEY `main` (`mail`),
   ADD UNIQUE KEY `mail` (`mail`),
   ADD UNIQUE KEY `regphone` (`regphone`);
 
