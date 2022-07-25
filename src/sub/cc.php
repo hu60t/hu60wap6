@@ -127,7 +127,7 @@ function hu60_cc_log($file, $stat, $timeDiff, $accCount)
 	global $CC_REAL_IP;
 
 	$fp = fopen($file, 'a+');
-	fwrite($fp, "[" . date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']) . "] <$stat,{$timeDiff}秒{$accCount}次> $CC_REAL_IP\t[PATH] $_SERVER[REQUEST_URI]\t[REF] $_SERVER[HTTP_REFERER]\n");
+	fwrite($fp, "[" . date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']) . "] <$stat,{$timeDiff}秒{$accCount}次> $CC_REAL_IP\t[PATH] $_SERVER[REQUEST_URI]\t[REF] $_SERVER[HTTP_REFERER]\t[UA] $_SERVER[HTTP_USER_AGENT]\n");
 	fclose($fp);
 }
 
