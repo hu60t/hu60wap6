@@ -14,14 +14,30 @@ if (isset($_POST['unsubscribe']) && $_POST['unsubscribe']) {
 }
 
 $wechat = $USER->getinfo('wechat');
+$wxpusher = new Wxpusher(WXPUSHER_APP_TOKEN);
+
+if (!$wechat['uid'] && !empty($_GET['code'])) {
+    $uid = $wxpusher->getScanUid(trim($_GET['code']));
+    if (!empty($uid)) {
+        $wechat = [
+            'time' => time() * 1000,
+            'uid' => $uid,
+        ];
+    }
+    $USER->setinfo('wechat', $wechat);
+}
 
 if ($wechat['uid']) {
+    if (empty($wechat['userName'])) {
+        $wechat['userName'] = '匿名微信用户';
+    }
+    if (empty($wechat['userHeadImg'])) {
+        $wechat['userHeadImg'] = page::getFileUrl(AVATAR_DIR."/default.jpg");
+    }
     $tpl->assign('wechat', $wechat);
 } else {
     $token = new token();
     $seccode = $token->create(1800, $USER->uid);
-
-    $wxpusher = new Wxpusher(WXPUSHER_APP_TOKEN);
     $qrcode = $wxpusher->Qrcreate($USER->uid.':'.$seccode, 1800);
 
     if (!is_array($qrcode) || !isset($qrcode['url'])) {

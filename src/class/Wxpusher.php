@@ -29,6 +29,7 @@ class Wxpusher
         $this->appMsgCheckGate = 'http://wxpusher.zjiecode.com/api/send/query';
         $this->appUserFunGate = 'http://wxpusher.zjiecode.com/api/fun/wxuser';
         $this->appQrCreatGate = 'http://wxpusher.zjiecode.com/api/fun/create/qrcode';
+        $this->appScanUidGate = 'http://wxpusher.zjiecode.com/api/fun/scan-qrcode-uid';
     }
 
     /**
@@ -287,6 +288,29 @@ class Wxpusher
             return $result['data']['total'];
         }else{
             return $result['msg']; //反馈服务器给出的错误信息
+        }
+    }
+
+    /**
+     * @param string $code
+     * @return null|string
+     *
+     * 查询扫码用户的UID
+     *  $code      二维码的code字段
+     *
+     * 执行成功后返回用户的微信UID
+     * 执行失败返回NULL
+     */
+    public function getScanUid($code){
+        $data = http_build_query(
+            array(
+                'code' => $code,
+            ));
+        $result = json_decode($result = file_get_contents($this->appScanUidGate.'/?'.$data),true);
+        if ($result['code'] == 1000){ //判断服务器是否执行成功
+            return $result['data'];
+        }else{
+            return null;
         }
     }
 }

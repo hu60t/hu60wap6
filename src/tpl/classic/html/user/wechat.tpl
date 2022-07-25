@@ -16,9 +16,9 @@
 {if $qrcode}
   <h3>微信扫码绑定虎绿林推送服务</h3>
   <p class="txt">
-    <img src="{$qrcode.url|code}" width="240"/><br/>
+    <img src="{$qrcode.url|code}" width="240"/><br/><br/>
   </p>
-  <p>扫码并关注公众号，然后<a href="{$CID}.{$PID}.{$BID}?r={time()}">手动刷新</a>查看是否成功</p>
+  <p>扫码并关注公众号，然后<a href="{$CID}.{$PID}.{$BID}?code={$qrcode.code|urlencode}&amp;r={time()}"><b>点击此处</b></a>查看是否成功</p>
 {/if}
 {if $wechat}
   <h3>您已绑定虎绿林微信推送服务</h3>

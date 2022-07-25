@@ -3,7 +3,6 @@
 {if $wechat.uid}
     {$jsonData.wechat = [
         'time' => $wechat.time,
-        'source' => $wechat.source,
         'userName' => $wechat.userName,
         'userHeadImg' => $wechat.userHeadImg
     ]}
