@@ -1717,6 +1717,7 @@ class Parsedown
                     if (isset($attrs['title'])) $attrs['title'] = $attrs['alt'];
 
                     $attrs['class'] = 'userimg';
+                    $attrs['onerror'] = 'userImageError(this)';
                     $attrs['src'] = url::getJumpImg($attrs['src']);
                 }
 
