@@ -25,11 +25,11 @@ class Wxpusher
 
     function __construct($Token = 0){
         $this->appToken = $Token;
-        $this->appMsgGate = 'http://wxpusher.zjiecode.com/api/send/message';
-        $this->appMsgCheckGate = 'http://wxpusher.zjiecode.com/api/send/query';
-        $this->appUserFunGate = 'http://wxpusher.zjiecode.com/api/fun/wxuser';
-        $this->appQrCreatGate = 'http://wxpusher.zjiecode.com/api/fun/create/qrcode';
-        $this->appScanUidGate = 'http://wxpusher.zjiecode.com/api/fun/scan-qrcode-uid';
+        $this->appMsgGate = 'https://wxpusher.zjiecode.com/api/send/message';
+        $this->appMsgCheckGate = 'https://wxpusher.zjiecode.com/api/send/query';
+        $this->appUserFunGate = 'https://wxpusher.zjiecode.com/api/fun/wxuser';
+        $this->appQrCreatGate = 'https://wxpusher.zjiecode.com/api/fun/create/qrcode';
+        $this->appScanUidGate = 'https://wxpusher.zjiecode.com/api/fun/scan-qrcode-uid';
     }
 
     /**
