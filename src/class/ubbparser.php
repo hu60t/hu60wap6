@@ -405,11 +405,11 @@ class UbbParser extends XUBBP
      */
     public function videoStream($url)
     {
-        $title = $this->split('，', $url, 1);
+        $url = $this->split('，', $url);
         return array(array(
             'type' => 'videoStream',
-            'url' => trim($url),
-            'title' => $title,
+            'url' => trim($url[0]),
+            'title' => $url[1],
         ));
     }
 
@@ -418,11 +418,11 @@ class UbbParser extends XUBBP
      */
     public function audioStream($url)
     {
-        $title = $this->split('，', $url, 1);
+        $url = $this->split('，', $url);
         return array(array(
             'type' => 'audioStream',
-            'url' => trim($url),
-            'title' => $title,
+            'url' => trim($url[0]),
+            'title' => $url[1],
         ));
     }
 
@@ -842,7 +842,7 @@ class UbbParser extends XUBBP
 	}
 
     /*按指定分隔符将字符串分成两半*/
-    protected static function split($split, $str, $index = null)
+    protected static function split($split, $str)
     {
         $pos = strpos($str, $split);
         $data = [];
@@ -852,10 +852,6 @@ class UbbParser extends XUBBP
         } else {
             $data[] = substr($str, 0, $pos);
             $data[] = substr($str, $pos + strlen($split));
-        }
-
-        if (null !== $index) {
-            return $data[$index];
         }
 
         return $data;
