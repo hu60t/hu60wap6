@@ -1,5 +1,71 @@
-// 代码高亮
-if (typeof hljs !== 'undefined') hljs.initHighlightingOnLoad();
+//////////////// 全局函数 ////////////////
+
+// 转义 html 特殊字符
+function escapeHtml(text) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+// 解码参数中的 url64（适用于URL的base64）
+function hu60_decode_url64(url) {
+    try {
+        let parts = url.match(/\burl64=([^&#]+)(#.*)?\b/);
+        if (parts) {
+            parts = parts[1].replace(/-/g, '+').replace(/_/g, '/').replace(/\./g, '=');
+            url = atob(parts);
+        }
+    } catch (e) {
+        // ignore
+        console.log(e);
+    }
+    return url;
+}
+
+// 导入网页插件
+function hu60_import_webplug(name, content, authorUid, webplugId) {
+    if (prompt("确定导入插件“" + name + "”吗？\n\n警告：从他人处导入的插件可能含有恶意程序，造成版面错乱、帐户被盗、数据损坏，甚至计算机感染病毒等严重后果！\n请仅从信任的人处导入插件，并且仔细检查，避免使用不知用途的代码。\n\n输入yes确定导入。") != 'yes') {
+        layer.msg('操作已取消');
+        return;
+    }
+
+    var loading = layer.load();
+    $.post('api.webplug.import.json', {
+        data: JSON.stringify({
+            name: name,
+            content: content,
+            enabled: true,
+            author_uid: authorUid,
+            webplug_id: webplugId,
+        })
+    }, function(data) {
+        console.log(data);
+        layer.close(loading);
+        if (data.errmsg) {
+            layer.alert(data.errmsg);
+        } else {
+            layer.msg('成功导入 ' + data.updated + '个网页插件');
+            setTimeout(function() {
+                location.href = 'addin.webplug.html';
+            }, 500);
+        }
+    });
+}
+
+// 从帖子里的链接导入网页插件
+function hu60_webplug_import_link(link, codeIndex, authorUid, webplugId) {
+    var name = link.querySelector('.webplug_import_name').innerText;
+    var content = $('code[data-hu60-index=' + codeIndex + ']').text();
+    hu60_import_webplug(name, content, authorUid, webplugId);
+}
+
+
+//////////////// 加载JS组件 ////////////////
 
 // 显示插件加载太慢的提示
 (() => {
@@ -21,15 +87,8 @@ if (typeof hljs !== 'undefined') hljs.initHighlightingOnLoad();
     setTimeout(hu60_loading, 3000);
 })();
 
-// 处理百度输入法多媒体输入
-function baidu_media_change(id, hideTag, showTag) {
-    console.log(id,hideTag,showTag);
-    var hideDom = document.getElementById('baidu_media_' + hideTag + '_' + id);
-    var showDom = document.getElementById('baidu_media_' + showTag + '_' + id);
-    if ('audio' == showTag) { showDom.src = hideDom.src; }
-    hideDom.style.display = 'none';
-    showDom.style.display = 'inline';
-};
+// 代码高亮
+if (typeof hljs !== 'undefined') hljs.initHighlightingOnLoad();
 
 // 数学公式解析器
 MathJax = {
@@ -55,18 +114,6 @@ MathJax = {
 
 // 视频解码插件
 (() => {
-    // 转义 html 特殊字符
-    function escapeHtml(text) {
-        var map = {
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#039;'
-        };
-        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-    }
-
     // 添加 flv/m3u8 播放支持
     function loadVideoExtension(video) {
         video._tryExt = true;
@@ -113,21 +160,6 @@ MathJax = {
     };
 })();
 
-// 解码参数中的 url64（适用于URL的base64）
-function hu60_decode_url64(url) {
-    try {
-        let parts = url.match(/\burl64=([^&#]+)(#.*)?\b/);
-        if (parts) {
-            parts = parts[1].replace(/-/g, '+').replace(/_/g, '/').replace(/\./g, '=');
-            url = atob(parts);
-        }
-    } catch (e) {
-        // ignore
-        console.log(e);
-    }
-    return url;
-}
-
 // 图片解码插件
 (() => {
     // 实现解码显示 heic/heif 图片
@@ -152,7 +184,8 @@ function hu60_decode_url64(url) {
 })();
 
 
-// 夜间模式JS代码
+//////////////// 夜间模式JS代码 ////////////////
+
 // 读取用户的夜间模式选择
 function hu60_read_color_scheme_option() {
     var scheme = localStorage.getItem('hu60ColorScheme');
@@ -207,39 +240,3 @@ window.addEventListener('load', function () {
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
     hu60_update_color_scheme();
 });
-
-
-// 导入网页插件
-function hu60_import_webplug(name, content, authorUid, webplugId) {
-    if (prompt("确定导入插件“" + name + "”吗？\n\n警告：从他人处导入的插件可能含有恶意程序，造成版面错乱、帐户被盗、数据损坏，甚至计算机感染病毒等严重后果！\n请仅从信任的人处导入插件，并且仔细检查，避免使用不知用途的代码。\n\n输入yes确定导入。") != 'yes') {
-        layer.msg('操作已取消');
-        return;
-    }
-
-    var loading = layer.load();
-    $.post('api.webplug.import.json', {
-        data: JSON.stringify({
-            name: name,
-            content: content,
-            enabled: true,
-            author_uid: authorUid,
-            webplug_id: webplugId,
-        })
-    }, function(data) {
-        console.log(data);
-        layer.close(loading);
-        if (data.errmsg) {
-            layer.alert(data.errmsg);
-        } else {
-            layer.msg('成功导入 ' + data.updated + '个网页插件');
-            setTimeout(function() {
-                location.href = 'addin.webplug.html';
-            }, 500);
-        }
-    });
-}
-function hu60_webplug_import_link(link, codeIndex, authorUid, webplugId) {
-    var name = link.querySelector('.webplug_import_name').innerText;
-    var content = $('code[data-hu60-index=' + codeIndex + ']').text();
-    hu60_import_webplug(name, content, authorUid, webplugId);
-}
