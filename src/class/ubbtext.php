@@ -19,12 +19,12 @@ class UbbText extends XUBBP
         'empty' => 'emptyTag',
         /*link 链接*/
         'url' => 'url',
-        'urlzh' => 'urlzh',
+        'urlzh' => 'url',
         'urlout' => 'urlout',
         'urlname' => 'urlname',
         /*img 图片*/
         'img' => 'img',
-        'imgzh' => 'imgzh',
+        'imgzh' => 'img',
         'thumb' => 'thumb',
         /*code 代码高亮*/
         'code' => 'code',
@@ -124,20 +124,17 @@ class UbbText extends XUBBP
     /*link 链接*/
     public function url($data)
     {
-        if ($data['title'] == '') {
-            $html = $data['url'];
-        } else {
-            if (is_array($data['title'])) {
-                $data['title'] = $this->display($data['title']);
+        if ($this->getOpt('text.noUrl')) {
+            if (empty($data['title'])) {
+                return $data['url'];
+            } else {
+                if (is_array($data['title'])) {
+                    $data['title'] = $this->display($data['title']);
+                }
+                return $data['title'];
             }
-
-            $html = $data['title'].': '.$data['url'];
         }
-        return $html;
-    }
 
-    public function urlzh($data)
-    {
         if ($data['title'] == '') {
             $html = $data['url'];
         } else {
@@ -152,6 +149,14 @@ class UbbText extends XUBBP
 
     public function urlout($data)
     {
+        if ($this->getOpt('text.noUrl')) {
+            if (empty($data['title'])) {
+                return $data['url'];
+            } else {
+                return $data['title'];
+            }
+        }
+
         if ($data['title'] == '') {
             $html = 'http://'.$data['url'];
         } else {
@@ -172,16 +177,14 @@ class UbbText extends XUBBP
     /*img 图片*/
     public function img($data)
     {
-        if ($data['alt'] == '') {
-            $html = $data['src'];
-        } else {
-            $html = $data['alt'].': '.$data['src'];
+        if ($this->getOpt('text.noUrl')) {
+            if (empty($data['alt'])) {
+                return basename(parse_url($data['src'], PHP_URL_PATH));
+            } else {
+                return $data['alt'];
+            }
         }
-        return $html;
-    }
 
-    public function imgzh($data)
-    {
         if ($data['alt'] == '') {
             $html = $data['src'];
         } else {
@@ -193,12 +196,23 @@ class UbbText extends XUBBP
     /*thumb 缩略图*/
     public function thumb($data)
     {
+        if ($this->getOpt('text.noUrl')) {
+            return basename(parse_url($data['src'], PHP_URL_PATH));
+        }
         return $data['src'];
     }
 
     /*video 视频*/
     public function video($data)
     {
+        if ($this->getOpt('text.noUrl')) {
+            if (empty($data['title'])) {
+                return basename(parse_url('http://'.$data['url'], PHP_URL_PATH));
+            } else {
+                return $data['title'];
+            }
+        }
+
         if (empty($data['title'])) {
             return $data['url'];
         } else {
