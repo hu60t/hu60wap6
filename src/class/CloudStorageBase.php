@@ -124,11 +124,11 @@ abstract class CloudStorageBase {
 
         switch ($type) {
             case 'image':
-                return "《图片：" . $url . '，' . $fileName . '》';
+                return "《图片：" . $url . '，' . $fileName . '（' . $fileSize . '）》';
             case 'video':
-                return "《视频流：" . $url . '》';
+                return "《视频流：" . $url . '，' . $fileName . '（' . $fileSize . '）》';
             case 'audio':
-                return "《音频流：" . $url . '》';
+                return "《音频流：" . $url . '，' . $fileName . '（' . $fileSize . '）》';
             default:
                 return "《链接：" . $url . '，' . $fileName . '（' . $fileSize . '）》';
         }

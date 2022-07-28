@@ -199,7 +199,11 @@ class UbbText extends XUBBP
     /*video 视频*/
     public function video($data)
     {
-        return $data['url'];
+        if (empty($data['title'])) {
+            return $data['url'];
+        } else {
+            return $data['title'] . '：' . $data['url'];
+        }
     }
 
     /*copyright 版权声明*/

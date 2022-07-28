@@ -231,7 +231,9 @@ class ubbEdit extends XUBBP
                 break;
         }
 
-        return '《'.$tag.'：' . $data['url'] . '》';
+        $title = empty($data['title']) ? '' : '，'.$data['title'];
+
+        return '《'.$tag.'：' . $data['url'] . $title . '》';
     }
 
     /*copyright 版权声明*/

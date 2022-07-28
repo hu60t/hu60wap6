@@ -496,9 +496,11 @@ class UbbDisplay extends XUBBP
             $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
         }
 
+        $title = empty($data['title']) ? '' : '：'.code::html($data['title']);
+
         return '
 <p class="video_box">
-    <a class="uservideolink" target="_blank" href="'.code::html($link).'">视频链接</a><br/>
+    <a class="uservideolink" target="_blank" href="'.code::html($link).'">视频链接'.$title.'</a><br/>
     <video class="video" src="'.code::html($url).'" controls onerror="userVideoError(this)" onloadeddata="userVideoLoaded(this)"></video>
 </p>
 ';
@@ -521,9 +523,11 @@ class UbbDisplay extends XUBBP
             $link = SITE_ROUTER_PATH . '/link.url.' . $PAGE->bid . '?url64=' . code::b64e($data['url']);
         }
 
+        $title = empty($data['title']) ? '' : '：'.code::html($data['title']);
+
         return '
 <p class="audio_box">
-    <a class="useraudiolink" target="_blank" href="'.code::html($link).'">音频链接</a><br/>
+    <a class="useraudiolink" target="_blank" href="'.code::html($link).'">音频链接'.$title.'</a><br/>
     <audio class="audio" src="'.code::html($url).'" controls></audio>
 </p>
 ';
