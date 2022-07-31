@@ -25,4 +25,4 @@
 	</form>
 </div>
 
-{include file="tpl:comm.foot"}
+{include file="tpl:comm.foot" no_webplug=true}

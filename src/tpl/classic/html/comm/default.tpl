@@ -32,13 +32,6 @@
 	<title>{block name='title'}{/block}</title>
 </head>
 <body>
-{if !$no_webplug && $USER && $USER->islogin && !empty($USER->webplug())}
-<div id="hu60_load_notice" style="display: none; position:absolute">
-    <p>网页插件加载中。如果长时间无法加载，可以考虑<a href="addin.webplug.{$BID}">修改或删除网页插件代码</a>。</p>
-    <p>公告：<a href="https://hu60.cn/q.php/bbs.topic.92900.html?_origin=*">如果网站很卡，请修改网页插件内的外链js</a>（为保证能打开，此页未登录）。</p>
-</div>
-{$USER->webplug()}
-{/if}
 <a id="top" href="#bottom" accesskey="6"></a>
 {if !$base}
 	{if !$no_user && is_object($user)}
@@ -110,5 +103,12 @@
 <a id="bottom" href="#top" accesskey="3"></a>
 {block name='script'}{/block}
 <script src="{$PAGE->getTplUrl("js/hu60/footer.js", true)|code}"></script>
+{if !$no_webplug && $USER && $USER->islogin && !empty($USER->webplug())}
+<div id="hu60_load_notice" style="display: none; position:absolute">
+    <p>网页插件加载中。如果长时间无法加载，可以考虑<a href="addin.webplug.{$BID}">修改或删除网页插件代码</a>。</p>
+    <p>公告：<a href="https://hu60.cn/q.php/bbs.topic.92900.html?_origin=*">如果网站很卡，请修改网页插件内的外链js</a>（为保证能打开，此页未登录）。</p>
+</div>
+{$USER->webplug()}
+{/if}
 </body>
 </html>

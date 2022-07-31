@@ -503,4 +503,4 @@
 	<p>如您正在开发网页插件，想用自定义数据保存插件设置，可参考<a href="https://hu60.cn/q.php/bbs.topic.83603.html">数据存储API</a>。</p>
 </div>
 
-{include file="tpl:comm.foot"}
+{include file="tpl:comm.foot" no_webplug=true}

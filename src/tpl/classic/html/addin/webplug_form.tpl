@@ -409,7 +409,7 @@
 <hr>
 
 <div>
-	<p>网页插件是一段插入{#SITE_SIMPLE_NAME#}网页首部&lt;body&gt;标签内的代码，可以在其中添加&lt;script&gt;、&lt;style&gt;等任何html标签来扩展虎绿林网页的功能。</p>
+	<p>网页插件是一段插入{#SITE_SIMPLE_NAME#}网页底部&lt;/body&gt;标签前的代码，可以在其中添加&lt;script&gt;、&lt;style&gt;等任何html标签来扩展虎绿林网页的功能。</p>
 	<p style="color:red">警告：从他人处复制的代码可能含有恶意程序，造成版面错乱、帐户被盗、数据损坏，甚至计算机感染病毒等严重后果！</p>
 	<p style="color:green">请仅从信任的人处复制代码，并且仔细检查，避免使用不知用途的代码。</p>
 </div>
@@ -452,4 +452,4 @@
 	<p>如您正在开发网页插件，想用自定义数据保存插件设置，可参考<a href="https://hu60.cn/q.php/bbs.topic.83603.html">数据存储API</a>。</p>
 </div>
 
-{include file="tpl:comm.foot"}
+{include file="tpl:comm.foot" no_webplug=true}

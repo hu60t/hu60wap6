@@ -22,4 +22,4 @@
         <p>我知道了，<a href="{$url|code}">进入JHTML首页</a></p>
         <p>我放弃了，<a href="index.index.html">回到常规版本</a></p>
 </div>
-{include file="tpl:comm.foot"}
+{include file="tpl:comm.foot" no_webplug=true}

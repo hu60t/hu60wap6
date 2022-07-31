@@ -8,4 +8,4 @@
 <div class="content">
 <span class="notice">{$err->getTraceAsString()|code:'<br/>'}</span>
 </div>
-{include file="tpl:comm.foot" no_chat=true}
+{include file="tpl:comm.foot" no_chat=true no_webplug=true}
