@@ -5,7 +5,6 @@
 {/block}
 
 {block name='body'}
-<script src="/tpl/classic/js/humanize/humanize.js"></script>
 <style>
 	.test_item p {
 		display: inline-block;

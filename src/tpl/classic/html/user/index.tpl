@@ -105,7 +105,6 @@ window.addEventListener('load', function () {
   <input id="clean_cache" type="button" value="清除缓存" />
   <br/>
 </p>
-<script src="{$PAGE->getTplUrl('js/humanize/humanize.js')}"></script>
 <script src="{$PAGE->getTplUrl('js/heif-web-display/dist/utils.js')}"></script>
 <script>
 (function() {

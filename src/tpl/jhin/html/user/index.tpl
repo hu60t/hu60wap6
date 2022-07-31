@@ -157,7 +157,6 @@
     </td>
   </tr>
 </table>
-<script src="{$PAGE->getTplUrl('js/humanize/humanize.js')}"></script>
 <script src="{$PAGE->getTplUrl('js/heif-web-display/dist/utils.js')}"></script>
 <script>
 (function() {

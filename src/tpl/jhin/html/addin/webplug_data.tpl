@@ -37,7 +37,6 @@
 {/block}
 
 {block name='script'}
-<script src="{$PAGE->getTplUrl("js/humanize/humanize.js")}"></script>
 <script src="{$PAGE->getTplUrl("js/codemirror/codemirror.min.js")}"></script>
 <script src="{$PAGE->getTplUrl("js/codemirror/mode/xml/xml.min.js")}"></script>
 <script src="{$PAGE->getTplUrl("js/codemirror/mode/javascript/javascript.min.js")}"></script>

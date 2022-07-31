@@ -1,6 +1,4 @@
 {include file="tpl:comm.head" title="访问速度测试" no_webplug=true}
-<script src="/tpl/classic/js/jquery-3.1.1.min.js"></script>
-<script src="/tpl/classic/js/humanize/humanize.js"></script>
 <style>
 	.test_item p {
 		display: inline-block;

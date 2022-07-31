@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css", true)}"/>
     {block name='style'}{/block}
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
+	<script src="{$PAGE->getTplUrl("js/humanize/humanize.js")}"></script>
     <script src="{$PAGE->getTplUrl("js/highlightjs/highlight.pack.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/flv.js/flv.min.js")|code}"></script>
     <script src="{$PAGE->getTplUrl("js/hls.js/hls.min.js")|code}"></script>
