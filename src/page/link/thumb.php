@@ -8,7 +8,7 @@ header('Referrer-Policy: origin-when-cross-origin');
 
 $w = (int)$PAGE->ext[0];
 $h = (int)$PAGE->ext[1];
-$img = trim(hex2bin($PAGE->ext[2]));
+$img = replaceUrl(trim(hex2bin($PAGE->ext[2])));
 
 if (!preg_match('#^https?://#is', $img)) {
     header('HTTP/1.1 403 Forbidden');
@@ -58,3 +58,16 @@ else {
 imagedestroy($new_image);
 imagedestroy($src_image);
 
+function replaceUrl($url) {
+	global $URL_REPLACE_REGEXP;
+
+	foreach ($URL_REPLACE_REGEXP as $item) {
+		$url = preg_replace($item[0], $item[1], $url);
+	}
+
+    if (substr($url, 0, 1) == '/') {
+        $url = SITE_URL_PREFIX . $url;
+    }
+
+	return $url;
+}
