@@ -23,7 +23,7 @@ try {
     $all = 0;
     $success = 0;
     foreach ($json as $key => $value) {
-        $key = substr(str::word((string)$key), 0, 255);
+        $key = substr((string)$key, 0, 255);
         $value = substr((string)$value, 0, 16777216);
         $ok = $USER->setdata($key, $value);
         if ($ok) { $success++; }

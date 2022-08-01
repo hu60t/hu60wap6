@@ -10,7 +10,7 @@ try {
 		jsonpage::output(['success'=>false, 'islogin'=>false, 'errmsg'=>'请先登录']);
 	}
 	else {
-		$key = isset($PAGE['ext'][0]) ? $PAGE['ext'][0] : null;
+		$key = isset($PAGE['ext'][0]) ? $PAGE['ext'][0] : substr($PAGE['path_info'], 1);
 		$mime = str::getOrPost('mime', get_url_mime($_SERVER['REQUEST_URI']));
 		$prefixMatching = (bool)str::getOrPost('prefix', false);
 		$onlyValueLength = (bool)str::getOrPost('onlylen', false);
