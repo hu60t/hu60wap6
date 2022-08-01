@@ -1,0 +1,136 @@
+{
+  "_from": "native-file-system-adapter",
+  "_id": "native-file-system-adapter@2.0.4",
+  "_inBundle": false,
+  "_integrity": "sha512-i8quiR5KVpwyuKT7Z91+c/DgDjyrEOb+eMsS+aBWxpmUChAK1vs8751gOxO0cNg2p5JGrqOazCF/8RZBgsYLXw==",
+  "_location": "/native-file-system-adapter",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "native-file-system-adapter",
+    "name": "native-file-system-adapter",
+    "escapedName": "native-file-system-adapter",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/native-file-system-adapter/-/native-file-system-adapter-2.0.4.tgz",
+  "_shasum": "203ce556bcfa7593a4c407a25395e8717f784b28",
+  "_spec": "native-file-system-adapter",
+  "_where": "/www/wwwroot/dev.hu60.cn/src/js",
+  "author": {
+    "name": "Jimmy Wärting"
+  },
+  "bugs": {
+    "url": "https://github.com/jimmywarting/native-file-system-adapter/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Alexandru Ciuca"
+    }
+  ],
+  "dependencies": {
+    "fetch-blob": "^3.1.5",
+    "node-domexception": "^1.0.0",
+    "web-streams-polyfill": "^3.1.1"
+  },
+  "deprecated": false,
+  "description": "Native File System API",
+  "devDependencies": {
+    "@types/filesystem": "^0.0.32",
+    "rollup": "^2.67.3",
+    "rollup-plugin-multi-input": "^1.3.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "standard": "^16.0.4",
+    "tape": "^5.5.2",
+    "typescript": "^4.5.5"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "engines": {
+    "node": ">=14.8.0"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/jimmywarting"
+    },
+    {
+      "type": "paypal",
+      "url": "https://paypal.me/jimmywarting"
+    }
+  ],
+  "homepage": "https://github.com/jimmywarting/native-file-system-adapter#readme",
+  "keywords": [
+    "filesystem",
+    "file",
+    "blob",
+    "stream",
+    "fs",
+    "read",
+    "write",
+    "delete",
+    "file system access",
+    "spec"
+  ],
+  "license": "MIT",
+  "main": "src/es6.js",
+  "module": "./src/es6.js",
+  "name": "native-file-system-adapter",
+  "optionalDependencies": {
+    "web-streams-polyfill": "^3.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimmywarting/native-file-system-adapter.git"
+  },
+  "scripts": {
+    "_prepublishOnly": "rm -rf types && tsc -p jsconfig.json",
+    "build": "rm -rf dist && rollup -c rollup.config.js",
+    "test": "exit 0",
+    "test:browser": "php -S localhost:4444 & open http://localhost:4444/example/test.html",
+    "test:deno": "deno run --allow-read --allow-write --allow-net test/test-deno.js",
+    "test:node": "node test/test-node.js",
+    "test:wpt-in-deno": "deno run --allow-read --allow-write --allow-net test/test-wpt-in-deno.js"
+  },
+  "standard": {
+    "globals": [
+      "File",
+      "performance",
+      "Blob",
+      "Response",
+      "ClipboardEvent",
+      "DataTransferItem",
+      "FormData",
+      "alert",
+      "ReadableStream",
+      "DataTransfer"
+    ]
+  },
+  "type": "module",
+  "types": "types",
+  "version": "2.0.4",
+  "warnings": [
+    {
+      "code": "ENOTSUP",
+      "required": {
+        "node": ">=14.8.0"
+      },
+      "pkgid": "native-file-system-adapter@2.0.4"
+    },
+    {
+      "code": "ENOTSUP",
+      "required": {
+        "node": ">=14.8.0"
+      },
+      "pkgid": "native-file-system-adapter@2.0.4"
+    }
+  ]
+}
