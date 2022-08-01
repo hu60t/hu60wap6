@@ -319,19 +319,49 @@
 
 	function shareWebPlugData(key) {
 		var isPublic = /^public_/.test(key);
+		var nameIsPath = ! /^[a-z0-9_-]+$/.test(key);
 		var linkKey = isPublic ? '{$USER->uid}_' + key : key;
 
-		var text = (isPublic ? '公开' : '私有') + '数据“' + key + '”的外链：\n\n' +
-			location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.js\n' +
-			location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.css\n' +
-			location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.html\n' +
-			location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.txt\n' +
-		'\n请根据文件类型自行选择扩展名。\n' +
-		(isPublic ? '公开类型的外链可分享给其他用户，但他们需要登录虎绿林才能看到内容。' : '私有类型的外链仅限您本人使用，需要登录虎绿林才能看到内容。') +
-		'\n\n嵌入网页插件中的方法：\n\n' +
-		'<' + 'script src="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.js"></' + 'script>\n\n' +
-		'<link rel="stylesheet" href="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.css" />\n\n' +
-		'注意，外链有5分钟缓存，修改后要等一段时间或者清除浏览器缓存才能生效。';
+		var text = (isPublic ? '公开' : '私有') + '数据“' + key + '”的外链：\n\n';
+
+		if (nameIsPath) {
+			text += location.protocol + '//' + location.host + '/q.php/api.webplug-file/' + linkKey + '\n\n';
+		} else {
+			text += location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.js\n' +
+					location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.css\n' +
+					location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.html\n' +
+					location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.txt\n' +
+					'\n请根据文件类型自行选择扩展名。\n';
+		}
+
+		if (isPublic) {
+			text += '公开类型的外链可分享给其他用户，但他们需要登录虎绿林才能看到内容。';
+		} else {
+			text += '私有类型的外链仅限您本人使用，需要登录虎绿林才能看到内容。';
+		}
+
+		text += '\n\n嵌入网页插件中的方法：\n\n';
+
+		if (nameIsPath) {
+			var isJS = /\.js$/i.test(key);
+			var isCSS = /\.css$/i.test(key);
+			// 两种都不是，那两种都显示
+			if (!isJS && !isCSS) {
+				isJS = true;
+				isCSS = true;
+			}
+			if (isJS) {
+				text += '<' + 'script src="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file/' + linkKey + '"></' + 'script>\n\n';
+			}
+			if (isCSS) {
+				text += '<link rel="stylesheet" href="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file/' + linkKey + '" />\n\n';
+			}
+		} else {
+			text += '<' + 'script src="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.js"></' + 'script>\n\n' +
+					'<link rel="stylesheet" href="' + location.protocol + '//' + location.host + '/q.php/api.webplug-file.' + linkKey + '.css" />\n\n';
+		}
+
+		text += '注意，外链有5分钟缓存，修改后要等一段时间或者清除浏览器缓存才能生效。';
 
 		$('#editForm').css({
 			'display': 'block'
@@ -482,7 +512,7 @@
 		</label>
 	</div>
 	<p>名称：<input type="text" name="key" id="webplug-name" value="" /></p>
-	<p>　　　名称只能包含英文小写字母(a-z)、数字(0-9)、下划线(_)和减号(-)，以“public_”开头的是公开内容。</p>
+	<p>　　　名称可以是任意内容，以“/”分隔可以形成目录结构，以“public_”开头的是公开内容，如“public_tiger/viewerjs/dist.js”。</p>
 	<p>内容：</p>
 	<p>
 		<textarea name="value" id="webplug-content" style="height:300px;"></textarea>

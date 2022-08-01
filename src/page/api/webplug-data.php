@@ -22,8 +22,8 @@ try {
 		// 获取值
 		if (!str::getOrPostExists('value')) {
 			if (str::getOrPostExists('key')) {
-				$key = str::getOrPost('key');
-				$key = substr(str::word($key), 0, 100);
+				$key = str::getOrPost('key', '');
+				$key = substr($key, 0, 255);
 			}
 			else {
 				$key = null;
@@ -47,8 +47,8 @@ try {
 				]);
 			}
 			else {
-				$key = str::getOrPost('key');
-				$key = substr(str::word($key), 0, 255);
+				$key = str::getOrPost('key', '');
+				$key = substr($key, 0, 255);
 				
 				$value = substr($value, 0, 16777216);
 				if (strlen($value) == 0) {
