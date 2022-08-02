@@ -101,7 +101,7 @@
     /*优先系统字体*/
     system-ui,fangsong,serif,monospace,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'Unifont','TH-Tshyn-P0','TH-Tshyn-P1','TH-Tshyn-P2','TH-Tshyn-P16';
+    'GlyphWikiFont-000000','GlyphWikiFont-001000','GlyphWikiFont-002000','GlyphWikiFont-003000','GlyphWikiFont-004000','GlyphWikiFont-005000','GlyphWikiFont-006000','GlyphWikiFont-007000','GlyphWikiFont-008000','GlyphWikiFont-009000','GlyphWikiFont-00A000','GlyphWikiFont-00B000','GlyphWikiFont-00C000','GlyphWikiFont-00D000','GlyphWikiFont-00F000','GlyphWikiFont-010000','GlyphWikiFont-011000','GlyphWikiFont-012000','GlyphWikiFont-013000','GlyphWikiFont-016000','GlyphWikiFont-017000','GlyphWikiFont-018000','GlyphWikiFont-01A000','GlyphWikiFont-01B000','GlyphWikiFont-01D000','GlyphWikiFont-01E000','GlyphWikiFont-01F000','GlyphWikiFont-020000','GlyphWikiFont-021000','GlyphWikiFont-022000','GlyphWikiFont-023000','GlyphWikiFont-024000','GlyphWikiFont-025000','GlyphWikiFont-026000','GlyphWikiFont-027000','GlyphWikiFont-028000','GlyphWikiFont-029000','GlyphWikiFont-02A000','GlyphWikiFont-02B000','GlyphWikiFont-02C000','GlyphWikiFont-02D000','GlyphWikiFont-02E000','GlyphWikiFont-02F000','GlyphWikiFont-030000','GlyphWikiFont-031000';
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
