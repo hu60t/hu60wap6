@@ -223,23 +223,31 @@
 		}
 
 		var loading = layer.load();
+		var failed = 0;
 		for (var i=0; i<files.length; i++) {
-			var file = files[i];
-			layer.msg("正在上传 [" + (i+1) + "/" + files.length + "] " + file.relativePath);
-			var data = new FormData();
-			data.append('key', file.relativePath);
-			data.append('value', file);
-			var result = await $.ajax({
-				type: 'POST',
-				url: 'api.webplug-data.json',
-				data: data,
-				processData: false,
-				contentType: false,
-			});
-			console.log(result);
+			try {
+				var file = files[i];
+				layer.msg("正在上传 [" + (i+1) + "/" + files.length + "] " + file.relativePath);
+				var data = new FormData();
+				data.append('key', file.relativePath);
+				data.append('value', file);
+				var result = await $.ajax({
+					type: 'POST',
+					url: 'api.webplug-data.json',
+					data: data,
+					processData: false,
+					contentType: false,
+				});
+				console.log(result);
+			} catch (ex) {
+				layer.msg("上传失败 [" + (i+1) + "/" + files.length + "] " + file.relativePath);
+				console.log(ex, file);
+				failed++;
+			}
 		}
 		layer.close(loading);
-		layer.msg("上传完成 [" + i + "/" + files.length + "]");
+		layer.msg("上传完成 [" + i + "/" + files.length + "]" +
+			(failed > 0 ? '，' + failed + '个失败' : ''));
 		refreshWebPlugDataList();
 	}
 
@@ -587,6 +595,7 @@
 	<p>编写网页插件时，您可创建公开自定义数据，然后将其作为JS、CSS外链引用。这样不仅减小了网页插件代码，您还可随时对插件进行更新。</p>
 	<p>同样的，如您使用他人的网页插件，觉得对方提供的外链JS不安全、速度慢，或有失效风险，也可以把JS的内容复制到自定义数据里，然后用生成的JS外链进行替换。</p>
 	<p>如您正在开发网页插件，想用自定义数据保存插件设置，可参考<a href="https://hu60.cn/q.php/bbs.topic.83603.html">数据存储API</a>。</p>
+	<p>上传文件夹功能说明：每次上传文件不能超过50个，否则会失败。不建议上传非文本文件，一旦列表内存在任何非文本文件，导出备份功能就会失效，导出只能得到空白文件。删除非文本文件可以使导出功能恢复正常。</p>
 </div>
 
 {include file="tpl:comm.foot" no_webplug=true}
