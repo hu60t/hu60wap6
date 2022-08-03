@@ -6,6 +6,12 @@ try {
 	    throw new Exception('因为容易遭到CSRF攻击，不再允许通过GET请求新增/修改/删除键值。请改用POST方式提交。');
 	}
 
+	// 处理文件上传
+	// value可以是普通POST字段，也可以是上传的文件
+	if (!isset($_POST['value']) && isset($_FILES['value']) && is_file($_FILES['value']['tmp_name'])) {
+		$_POST['value'] = file_get_contents($_FILES['value']['tmp_name']);
+	}
+
 	$USER->start();
 	
 	if (!$USER->islogin) {
