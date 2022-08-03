@@ -35,6 +35,10 @@
 <script src="{$PAGE->getTplUrl("js/codemirror/mode/css/css.min.js")}"></script>
 <script src="{$PAGE->getTplUrl("js/codemirror/mode/htmlmixed/htmlmixed.min.js")}"></script>
 <script src="{$PAGE->getTplUrl("js/codemirror/addon/edit/matchbrackets.min.js")}"></script>
+<script type="module">
+  import { showDirectoryPicker } from '{$PAGE->getTplUrl("js/native-file-system-adapter/mod.js")}';
+  document.showDirectoryPicker = showDirectoryPicker;
+</script>
 <script>
 	var editor;
 	var webplugData = [];
@@ -195,6 +199,50 @@
 		setHighLightValue('');
 	}
 
+	async function* getFilesRecursively (entry) {
+		if (entry.kind === 'file') {
+			const file = await entry.getFile();
+			if (file !== null) {
+				if (file.relativePath == undefined && file.webkitRelativePath != undefined) {
+					file.relativePath = file.webkitRelativePath;
+				}
+				yield file;
+			}
+		} else if (entry.kind === 'directory') {
+			for await (const handle of entry.values()) {
+				yield* getFilesRecursively(handle);
+			}
+		}
+	}
+
+	async function uploadDirToWebPlugData() {
+		var dir = await document.showDirectoryPicker();
+		var files = [];
+		for await (const file of this.getFilesRecursively(dir)) {
+			files.push(file);
+		}
+
+		var loading = layer.load();
+		for (var i=0; i<files.length; i++) {
+			var file = files[i];
+			layer.msg("正在上传 [" + (i+1) + "/" + files.length + "] " + file.relativePath);
+			var data = new FormData();
+			data.append('key', file.relativePath);
+			data.append('value', file);
+			var result = await $.ajax({
+				type: 'POST',
+				url: 'api.webplug-data.json',
+				data: data,
+				processData: false,
+				contentType: false,
+			});
+			console.log(result);
+		}
+		layer.close(loading);
+		layer.msg("上传完成 [" + i + "/" + files.length + "]");
+		refreshWebPlugDataList();
+	}
+
 	function updateWebPlugDataList() {
 		var ul = document.getElementById('webplugData');
 		ul.innerHTML = '';
@@ -282,6 +330,14 @@
 		add.innerText = '新增数据';
 		add.onclick = function() {
 			addWebPlugData();
+		}
+
+		var uploadDir = document.createElement("button");
+		toolbar.appendChild(uploadDir);
+		uploadDir.classList.add('webplug-li-upload-dir');
+		uploadDir.innerText = '上传文件夹';
+		uploadDir.onclick = function() {
+			uploadDirToWebPlugData();
 		}
 
 		var exportBtn = document.createElement("button");
