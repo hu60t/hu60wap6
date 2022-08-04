@@ -15,9 +15,9 @@
     <p class="content">
 		您访问的链接是：<a href="{$url|code}">{$url|code}</a>
 		{if !strpos($url, '://') && !preg_match('#^/#', $url)}
-			<br>
-			<br>您访问的链接没有协议头，看起来不能正常打开，
-			<br>您是否要访问 <a href="http://{$url|code}">http://{$url|code}</a>
+			<br>也可能是：<a href="http://{$url|code}">http://{$url|code}</a>
+			<br>还可能是：<a href="https://{$url|code}">https://{$url|code}</a>
+			<br>请自行尝试哪个能打开。
 		{/if}
 	</p>
     <hr>
