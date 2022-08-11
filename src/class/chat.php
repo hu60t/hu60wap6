@@ -241,7 +241,7 @@ class chat
 		//发言是否需要审核
 		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
 
-        $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,uname,content,time,review', $room, $lid, $this->user->uid, $this->user->name, $contents, $time, $review);
+        $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,content,time,review', $room, $lid, $this->user->uid, $contents, $time, $review);
         if ($rs) {
             $this->db->update('addin_chat_list', 'ztime=? WHERE name=?', $time, $room);
             $this->user->regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.".urlencode($room).".{\$BID}?floor={$lid}#{$lid}", $content);

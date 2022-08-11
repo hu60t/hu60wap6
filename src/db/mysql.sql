@@ -26,7 +26,6 @@ CREATE TABLE `hu60_addin_chat_data` (
   `room` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
   `lid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `uname` varchar(16) CHARACTER SET utf8mb4 NOT NULL,
   `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `time` bigint(20) NOT NULL,
   `hidden` int(11) NOT NULL DEFAULT 0,

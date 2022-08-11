@@ -11,10 +11,12 @@
       {if !empty($newChats)}
 				{$ubb=ubbText::getInstance()}
 				{$tmp=$ubb->setOpt('text.noUrl', true)}
+		    {$uinfo=userinfo::getInstance()}
         <div class="chat-new content-box">
           {foreach $newChats as $newChat}
             {$content=strip_tags($ubb->display($newChat.content, true))}
-            <p class="user-content">[<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>] {$newChat.uname|code}：{str::cut($content,0,50,'…')|code}</p>
+			      {$tmp=$uinfo->uid($newChat.uid)}
+            <p class="user-content">[<a href="addin.chat.{$newChat.room|code}.{$BID}">聊天-{$newChat.room|code}</a>] {$uinfo.name|code}：{str::cut($content,0,50,'…')|code}</p>
           {/foreach}
         </div>
       {/if}
