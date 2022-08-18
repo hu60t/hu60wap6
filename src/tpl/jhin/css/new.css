@@ -1,5 +1,6 @@
-/* 白天模式配色 */
+/*导入字形维基字体*/
 @import url('GlyphWikiFont.css');
+/* 白天模式配色 */
 :root {
   --color-1: #333;
   --color-2: #666;
@@ -103,7 +104,6 @@
   --relationship-empty-color: #999fa5;
   --relationship-item-color: #333333;
 }
-/*导入字形维基字体*/
 /*想让本地emoji字体比网络字体优先，只能这样定义*/
 @font-face {
   font-family: "Apple Color Emoji";
