@@ -101,7 +101,7 @@
     /*优先系统字体*/
     system-ui,fangsong,serif,monospace,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'GlyphWikiFont-000000','GlyphWikiFont-001000','GlyphWikiFont-002000','GlyphWikiFont-003000','GlyphWikiFont-004000','GlyphWikiFont-005000','GlyphWikiFont-006000','GlyphWikiFont-007000','GlyphWikiFont-008000','GlyphWikiFont-009000','GlyphWikiFont-00A000','GlyphWikiFont-00B000','GlyphWikiFont-00C000','GlyphWikiFont-00D000','GlyphWikiFont-00F000','GlyphWikiFont-010000','GlyphWikiFont-011000','GlyphWikiFont-012000','GlyphWikiFont-013000','GlyphWikiFont-016000','GlyphWikiFont-017000','GlyphWikiFont-018000','GlyphWikiFont-01A000','GlyphWikiFont-01B000','GlyphWikiFont-01D000','GlyphWikiFont-01E000','GlyphWikiFont-01F000','GlyphWikiFont-020000','GlyphWikiFont-021000','GlyphWikiFont-022000','GlyphWikiFont-023000','GlyphWikiFont-024000','GlyphWikiFont-025000','GlyphWikiFont-026000','GlyphWikiFont-027000','GlyphWikiFont-028000','GlyphWikiFont-029000','GlyphWikiFont-02A000','GlyphWikiFont-02B000','GlyphWikiFont-02C000','GlyphWikiFont-02D000','GlyphWikiFont-02E000','GlyphWikiFont-02F000','GlyphWikiFont-030000','GlyphWikiFont-031000';
+    'GlyphWikiFont';
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
@@ -211,7 +211,12 @@
 .markdown-body kbd,
 .markdown-body pre,
 .markdown-body samp {
-  font-family: monospace,monospace;
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
+    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",
+    /*优先系统字体*/
+    sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
+    /*用于显示生僻字*/
+    'GlyphWikiFont';
   font-size: 1em;
 }
 
@@ -418,14 +423,24 @@
 
 .markdown-body tt,
 .markdown-body code {
-  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
+    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",
+    /*优先系统字体*/
+    sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
+    /*用于显示生僻字*/
+    'GlyphWikiFont';
   font-size: 12px;
 }
 
 .markdown-body pre {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
+    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",
+    /*优先系统字体*/
+    sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
+    /*用于显示生僻字*/
+    'GlyphWikiFont';
   font-size: 12px;
   word-wrap: normal;
 }
@@ -574,7 +589,11 @@
 }
 
 .markdown-body g-emoji {
-  font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",
+    /*优先系统字体*/
+    emoji,sans-serif,serif,system-ui,fangsong,monospace,math,cursive,fantasy,
+    /*用于显示生僻字*/
+    'GlyphWikiFont';
   font-size: 1em;
   font-style: normal !important;
   font-weight: 400;
@@ -1000,7 +1019,12 @@
 }
 
 .markdown-body .footnotes .data-footnote-backref g-emoji {
-  font-family: monospace;
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
+    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",
+    /*优先系统字体*/
+    sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
+    /*用于显示生僻字*/
+    'GlyphWikiFont';
 }
 
 .markdown-body .task-list-item {
