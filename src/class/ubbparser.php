@@ -17,13 +17,20 @@ class UbbParser extends XUBBP
         * 因为[code][/code]标记里的内容（代码块）不应该进行任何UBB解析。
         * 按照顺序解析，顺序非常重要，排在后面的匹配可能会被忽略。
         */
+
+        /*code 代码高亮（标记独占一行，高优先级）*/
+        '!^(^|.*?[\r\n]+)\[code(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
+        /* html 通过iframe的srcdoc属性实现的HTML内容嵌入（标记独占一行，高优先级）*/
+        '!^(^|.*?[\r\n]+)\[html(=[^\]]*)?\]([\r\n]+.*?[\r\n]+)\[/html\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'html', array(2, 3)),
+        /* textbox 文本框（标记独占一行，高优先级）*/
+        '!^(^|.*?[\r\n]+)\[text(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/text\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
+
         /*code 代码高亮*/
-        '!^(^|.*?[\r\n]+)\[code(?:=([^\]]+))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
-        '!^(.*?)\[code(?:=([^\]]+))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
+        '!^(.*?)\[code(?:=([^\]]*))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
         /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
-        '!^(.*?)\[html(=.*?)?\](.*?)\[/html\](.*)$!is' => array(array(1, 4), 'html', array(2, 3)),
+        '!^(.*?)\[html(=[^\]]*)?\](.*?)\[/html\](.*)$!is' => array(array(1, 4), 'html', array(2, 3)),
         /* textbox 文本框 */
-        '!^(.*?)\[text(?:=(.*?))?\](.*?)\[/text\](.*)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
+        '!^(.*?)\[text(?:=([^\]]*))?\](.*?)\[/text\](.*)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
 
         /* iframe 网页嵌入 */
         '!^(.*?)<iframe((?:\s+[a-zA-Z0-9_-]+(?:=(?:\'[^\']*\'|"[^"]*"|[^\s]*))?)*)>.*?</iframe>(.*)$!is' => array(array(1, 3), 'iframe', array(2)),
@@ -169,10 +176,18 @@ class UbbParser extends XUBBP
 		$parseHead = [
             /*mdcode markdown代码高亮*/
             '!^(^|.*?[\r\n])( *)(`{3,})( *[^`\r\n]+?)?( *[\r\n].*?[\r\n] *)\3( *[\r\n].*| *$)$!is' => array(array(1, 6), 'mdcode', array(4, 5, 3, 2)),
-            /*inline代码*/
+
+            /*code 代码高亮（标记独占一行，高优先级）*/
+            '!^(^|.*?[\r\n]+)\[code(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
+            /* html 通过iframe的srcdoc属性实现的HTML内容嵌入（标记独占一行，高优先级）*/
+            '!^(^|.*?[\r\n]+)\[html(=[^\]]*)?\]([\r\n]+.*?[\r\n]+)\[/html\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'html', array(2, 3)),
+            /* textbox 文本框（标记独占一行，高优先级）*/
+            '!^(^|.*?[\r\n]+)\[text(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/text\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
+
+            /*inline代码（优先级比上面的低）*/
             '!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
         ];
-		
+
 		$this->parse = $parseHead + $this->parse;
 		
 		return array(array(
