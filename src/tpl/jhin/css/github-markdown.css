@@ -97,7 +97,7 @@
   color: var(--color-fg-default);
   background-color: var(--color-canvas-default);
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,
-    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",
+    "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/
     system-ui,fangsong,serif,monospace,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
@@ -212,7 +212,7 @@
 .markdown-body pre,
 .markdown-body samp {
   font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
-    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",
+    "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
@@ -424,7 +424,7 @@
 .markdown-body tt,
 .markdown-body code {
   font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
-    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",
+    "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
@@ -436,7 +436,7 @@
   margin-top: 0;
   margin-bottom: 0;
   font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
-    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",
+    "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
@@ -589,7 +589,7 @@
 }
 
 .markdown-body g-emoji {
-  font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",
+  font-family: "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/
     emoji,sans-serif,serif,system-ui,fangsong,monospace,math,cursive,fantasy,
     /*用于显示生僻字*/
@@ -1020,7 +1020,7 @@
 
 .markdown-body .footnotes .data-footnote-backref g-emoji {
   font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
-    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",
+    "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/

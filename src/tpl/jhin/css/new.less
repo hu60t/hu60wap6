@@ -1,3 +1,5 @@
+/*导入emoji字体*/
+@import url('emoji.css');
 /*导入字形维基字体*/
 @import url('GlyphWikiFont.css');
 
@@ -118,24 +120,6 @@
 }
 
 
-/*想让本地emoji字体比网络字体优先，只能这样定义*/
-@font-face {
-  font-family: "Apple Color Emoji";
-  src: local('Apple Color Emoji');
-}
-@font-face {
-  font-family: "Segoe UI Emoji";
-  src: local('Segoe UI Emoji');
-}
-@font-face {
-  font-family: "Noto Color Emoji";
-  src: local('Noto Color Emoji');
-}
-@font-face {
-  font-family: "Twemoji Mozilla";
-  src: local('Twemoji Mozilla');
-}
-
 /*规定rem单位字体大小*/
 html {
   font-size: 16px !important;
@@ -143,7 +127,7 @@ html {
 
 html, input, textarea {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,
-    "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",
+    "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/
     system-ui,fangsong,serif,monospace,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
