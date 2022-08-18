@@ -102,9 +102,7 @@
 }
 @font-face {
   font-family: "Twemoji Mozilla";
-  src: local('Twemoji Mozilla'),
-  url('https://file.hu60.cn/fonts/twemoji/TwemojiMozilla.woff2') format('woff2'),
-  url('https://file.hu60.cn/fonts/twemoji/TwemojiMozilla.ttf') format('truetype');
+  src: local('Twemoji Mozilla');
 }
 
 /*规定rem单位字体大小*/
