@@ -10,6 +10,12 @@
 	<style>
 		.CodeMirror {
 			border: 1px solid #ddd;
+			font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace,
+				"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",
+				/*优先系统字体*/
+				sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
+				/*用于显示生僻字*/
+				'GlyphWikiFont';
 		}
 		#webplug-name {
 			width: 90%;
