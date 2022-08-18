@@ -61,34 +61,34 @@
 <a href="user.wechat.{$bid}">微信推送</a>: {$wechat = $USER->getinfo('wechat')}{if $wechat.uid}开{else}关{/if}
 
 <script>
-        $(document).ready(function(){
+$(function(){
     // 自动折叠过长内容
-                var maxHeight = 360;
-                $(".floor-content").each(function(){
-                        var that =$(this);
-                        var id=this.getAttribute("data-floorID");
-                        if(that.height() >  maxHeight){
-                                that.height(maxHeight);
-								var foldBar = document.querySelector('#floor_fold_bar_'+id);
-								foldBar.style.borderTop = '1px solid #BED8EA';
-								foldBar.style.borderBottom = '1px solid #BED8EA';
-								foldBar.style.height = '24px';
-								foldBar.style.textAlign = 'center';
-                                $('#floor_fold_bar_'+id).html("<a href='#' data-floorID='"+id+"'>查看全部</a>");
-                                $('#floor_fold_bar_'+id+">a").on('click',function(){
-                                        var id=this.getAttribute("data-floorID");
-                                        var that=$("#floor_content_"+id);
-                                        // 不要使用that.height()进行判断，返回值是浮点数，不一定精确相等
-                                        if(this.innerHTML == '折叠过长内容'){
-                                                that.height(maxHeight);
-                                                this.innerHTML='查看全部';
-                                        }else{
-                                                that.height(that[0].scrollHeight);
-                                                this.innerHTML='折叠过长内容';
-                                        }
-                                });
-                        }
-                });
-        });
+    var maxHeight = 360;
+    $(".floor-content").each(function(){
+        var that =$(this);
+        var id=this.getAttribute("data-floorID");
+        if(that.height() >  maxHeight){
+			this.style.maxHeight = maxHeight + 'px';
+            var foldBar = document.querySelector('#floor_fold_bar_'+id);
+            foldBar.style.borderTop = '1px solid #BED8EA';
+            foldBar.style.borderBottom = '1px solid #BED8EA';
+            foldBar.style.height = '24px';
+            foldBar.style.textAlign = 'center';
+            $('#floor_fold_bar_'+id).html("<a href='#' data-floorID='"+id+"'>查看全部</a>");
+            $('#floor_fold_bar_'+id+">a").on('click',function(){
+				var id=this.getAttribute("data-floorID");
+				var that=document.querySelector("#floor_content_"+id);
+				// 不要使用$(that).height()进行判断，返回值是浮点数，不一定精确相等
+				if(this.innerHTML == '折叠过长内容'){
+					that.style.maxHeight = maxHeight + 'px';
+					this.innerHTML='查看全部';
+				}else{
+					that.style.maxHeight = 'none';
+					this.innerHTML='折叠过长内容';
+				}
+            });
+        }
+    });
+});
 </script>
 {include file="tpl:comm.foot"}
