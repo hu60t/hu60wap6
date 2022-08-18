@@ -1072,7 +1072,7 @@ HTML;
     public function html($data) {
         $width = '100%';
         $height = '100%';
-        preg_match_all('/\d+/', $data['opt'], $arr);
+        preg_match_all('/[0-9.%]+/', $data['opt'], $arr);
         if (isset($arr[0])) {
             $arr = $arr[0];
             if (count($arr) >= 2) {
