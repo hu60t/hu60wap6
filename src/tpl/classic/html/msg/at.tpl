@@ -86,6 +86,7 @@ $(function(){
 					that.style.maxHeight = 'none';
 					this.innerHTML='折叠过长内容';
 				}
+                return false;
             });
         }
     });
