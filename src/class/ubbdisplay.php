@@ -766,6 +766,8 @@ class UbbDisplay extends XUBBP
 	        $msg = code::html($data['msg']);
 		}
 
+        $msg = $this->markdownProtectInline($msg);
+
         return <<<HTML
 <a class="userinfo" href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 在 <a class="hu60_pos" href="{$url}">{$pos}</a> at你：
 <blockquote>
@@ -784,7 +786,7 @@ HTML;
         $reason = code::html($data['reason']);
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
-        $oriData = $this->display($data['oriData']);
+        $oriData = $this->markdownProtectInline($this->display($data['oriData']));
 
         return <<<HTML
 管理员 <a class="userinfo" href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 编辑了您在 <a class="hu60_pos" href="{$url}">{$pos}</a> 的发言，编辑理由如下：
@@ -808,7 +810,7 @@ HTML;
         $reason = code::html($data['reason']);
         $uinfo = new UserInfo();
         $uinfo->uid($data['uid']);
-        $oriData = $this->display($data['oriData']);
+        $oriData = $this->markdownProtectInline($this->display($data['oriData']));
 
         if ($data['uid'] == $data['ownUid']) {
             $own = "您";
@@ -1103,7 +1105,7 @@ HTML;
             $opt = '';
         }
         if (empty($opt)) {
-            $opt = 'border: solid black 1px; height:150px; overflow: scroll; padding: 5px';
+            $opt = 'border: solid black 1px; height:150px; overflow: scroll; padding: 5px; white-space: pre';
         } else {
             $opt = preg_replace('#/\*.*\*/#sU', '', $opt);
             $opt = preg_replace('#position\s*:[^;]*;?#is', '', $opt);
@@ -1112,6 +1114,6 @@ HTML;
         // 去除行首和行尾的一个换行
         $data['data'] = preg_replace('/^\r?\n?|\r?\n?$/s', '', $data['data']);
 
-        return '<div><a class="usertextboxlink" href="#" onclick="user_textbox_toggle('.$id.'); return false">文本框</a></div><div class="usertextbox" id="user_textbox_'.$id.'" style="'.htmlspecialchars($opt).'">'.code::html($data['data'], 2).'</div>';
+        return '<div><a class="usertextboxlink" href="#" onclick="user_textbox_toggle('.$id.'); return false">文本框</a></div><div class="usertextbox" id="user_textbox_'.$id.'" style="'.$this->markdownProtectInline(htmlspecialchars($opt)).'">'.$this->markdownProtectInline(htmlspecialchars($data['data'], 2)).'</div>';
     }
 }
