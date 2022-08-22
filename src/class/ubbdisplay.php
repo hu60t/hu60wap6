@@ -1102,10 +1102,15 @@ HTML;
         if ($disable) {
             $opt = '';
         }
-        if (!empty($opt)) {
+        if (empty($opt)) {
+            $opt = 'border: solid black 1px; height:150px; overflow: scroll; padding: 5px';
+        } else {
             $opt = preg_replace('#/\*.*\*/#sU', '', $opt);
             $opt = preg_replace('#position\s*:[^;]*;?#is', '', $opt);
         }
+
+        // 去除行首和行尾的一个换行
+        $data['data'] = preg_replace('/^\r?\n?|\r?\n?$/s', '', $data['data']);
 
         return '<div><a class="usertextboxlink" href="#" onclick="user_textbox_toggle('.$id.'); return false">文本框</a></div><div class="usertextbox" id="user_textbox_'.$id.'" style="'.htmlspecialchars($opt).'">'.code::html($data['data'], 2).'</div>';
     }
