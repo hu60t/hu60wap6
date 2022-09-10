@@ -110,6 +110,7 @@
 html {
   font-size: 16px !important;
 }
+/*设置tab宽度为4个空格*/
 html,
 input,
 textarea,
@@ -120,7 +121,7 @@ code {
 html,
 input,
 textarea {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Twemoji Mozilla", "Noto Color Emoji", /*优先系统字体*/ system-ui, fangsong, serif, monospace, emoji, math, cursive, fantasy, /*用于显示生僻字*/ 'GlyphWikiFont';
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Twemoji Mozilla", "Noto Color Emoji", /*优先系统字体*/ system-ui, fangsong, serif, monospace, emoji, math, cursive, fantasy, /*用于显示生僻字*/ 'GlyphWikiFont';
 }
 code {
   font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace, "Apple Color Emoji", "Segoe UI Emoji", "Twemoji Mozilla", "Noto Color Emoji", /*优先系统字体*/ sans-serif, serif, system-ui, fangsong, emoji, math, cursive, fantasy, /*用于显示生僻字*/ 'GlyphWikiFont';
