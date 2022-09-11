@@ -38,7 +38,7 @@
     {if $p > 1}<a style="display:inline" href="{$url}{$p-1}">上一页</a>{/if}
   {if $maxP > 1}
     ({$p} / {$maxP}页)
-    <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='{$url}'+this.value; }">
+    <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='{$url}'+this.value; }"></form>
   {/if}
 </div>
 

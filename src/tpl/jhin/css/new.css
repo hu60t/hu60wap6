@@ -632,6 +632,9 @@ h1 {
 .topic-panel a > i {
   font-size: 1rem;
 }
+.pager-form {
+  display: inline;
+}
 .page-jumper {
   overflow: hidden;
   display: inline-flex;

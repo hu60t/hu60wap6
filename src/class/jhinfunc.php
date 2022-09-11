@@ -113,7 +113,7 @@ class jhinfunc{
             }
             $u = implode(' + this.value + ', $u);
             $js = "if (event.keyCode == 13){ location = {$u}; }";
-            $html .= '<ul class="page-jumper"><li><input placeholder="跳页" onkeypress=\''.$js.'\'></li></ul>';
+            $html .= '<form class="pager-form"><ul class="page-jumper"><li><input placeholder="跳页" onkeyup=\''.$js.'\'></li></ul></form>';
         }
 
         return $html;
@@ -201,7 +201,7 @@ class jhinfunc{
             }
             $u = implode(' + this.value + ', $u);
             $js = "if (event.keyCode == 13){ location = {$u}; }";
-            $html .= '<ul class="page-jumper"><li><input placeholder="跳页" onkeypress=\''.$js.'\'></li></ul>';
+            $html .= '<form class="pager-form"><ul class="page-jumper"><li><input placeholder="跳页" onkeyup=\''.$js.'\'></li></ul></form>';
         }
 
         return $html;

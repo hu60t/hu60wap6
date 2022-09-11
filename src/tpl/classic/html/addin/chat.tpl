@@ -88,7 +88,7 @@
     {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
     {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
     {$p}/{$maxP}页,共{$count}楼
-    <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
+    <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?p='+this.value; }"></form>
 </div>
 <hr>
 <div class="content">
@@ -117,6 +117,6 @@
     {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
     {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
     {$p}/{$maxP}页,共{$count}楼
-    <input placeholder="跳页" id="page" size="2" onkeypress="if(event.keyCode==13){ location='?p='+this.value; }">
+    <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?p='+this.value; }"></form>
 </div>
 {include file="tpl:comm.foot"}
