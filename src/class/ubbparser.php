@@ -389,7 +389,12 @@ class UbbParser extends XUBBP
         if (preg_match('#^https?://b23.tv/[a-zA-Z0-9]+#is', $url)) {
             $headers = get_headers($url, 1, stream_context_create(['http' => ['timeout' => 1]]));
             if (is_array($headers) && is_array($headers['Location'])) {
-                $newUrl = $headers['Location'][count($headers['Location'])-1];
+                foreach ($headers['Location'] as $url) {
+                    if (preg_match('#^https?://#i', $url)) {
+                        $newUrl = $url;
+                        break;
+                    }
+                }
             } else {
                 $newUrl = $headers['Location'];
             }
