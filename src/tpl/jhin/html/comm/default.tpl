@@ -36,7 +36,7 @@
     <div class="case">
         <div class="header-inner">
             <div class="header-logo">
-                <a href="index.index.html"><img src="{$PAGE->getTplUrl("img/logo_u16392_5.png")}"></a>
+                <a href="index.index.html"><img src="{$PAGE->getTplUrl("img/hulvlin3.png")}"></a>
             </div>
             <ul class="header-nav">
                 {if $user->uid && $user->islogin}
