@@ -23,7 +23,7 @@
 		</div>
 		<div class="input-group">
 			<label class="login-label" for="mail">邮箱</label>
-			<input type="text" id="mail" name="mail" autocomplete="off" size="25" value="{$smarty.post.name}" class="txt" placeholder="" />
+			<input type="text" id="mail" name="mail" autocomplete="off" size="25" value="{$smarty.post.mail}" class="txt" placeholder="" />
 		</div>
 		<div class="input-group">
 			<label><input name="pwdInputType" id="pwdInputType" type="checkbox" onclick="switchPasswordInput(this)" {if $smarty.post.pwdInputType}checked{/if} />显示密码/输入中文密码</label>
