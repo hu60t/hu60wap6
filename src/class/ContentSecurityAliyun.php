@@ -127,7 +127,7 @@ class ContentSecurityAliyun extends ContentSecurityBase {
             'tasks' => [$task],
             'scenes' => ['antispam'],
             'bizType' => $this->getBizType($type),
-        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))->request()->toArray();
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))->scheme('https')->request()->toArray();
 
         if ($raw['code'] != 200) {
             return [
