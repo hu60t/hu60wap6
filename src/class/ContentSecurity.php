@@ -84,7 +84,7 @@ class ContentSecurity {
     public static function getReviewComment($reviewResult) {
         $comment = $reviewResult['reason'];
         if ($reviewResult['success']) {
-            $comment .= "（$reviewResult[rate]）";
+            $comment .= "（置信度：$reviewResult[rate]%）";
         }
         return $comment;
     }
