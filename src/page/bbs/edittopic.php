@@ -27,7 +27,7 @@ try {
     $tpl->assign('contentId', $cid);
 
     //读取帖子元信息
-    $tMeta = $bbs->topicMeta($tid, 'title,uid,content_id,locked', 'WHERE id=?', $fid);
+    $tMeta = $bbs->topicMeta($tid, 'title,uid,content_id,locked,access', 'WHERE id=?', $fid);
 
     if (!$tMeta) {
         throw new bbsException('帖子 id=' . $tid . ' 不存在！', 2404);
@@ -104,7 +104,7 @@ try {
             $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
         }
 
-        $ok = $bbs->updateTopicContent($cid, $content, $tid, $title);
+        $ok = $bbs->updateTopicContent($cid, $content, $tid, $title, $tMeta['access']);
 
         if ($editTitle) {
             $ok = $bbs->updateTopicTitle($tid, $title);

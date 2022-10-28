@@ -318,7 +318,7 @@ class bbs
             
             //发言是否需要人工审核
             $review = 1;
-            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
+            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access > 0) {
                 $review = 0;
             }
 
@@ -407,7 +407,7 @@ class bbs
 
         //发言是否需要人工审核
         $review = 1;
-        if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
+        if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access > 0) {
             $review = 0;
         }
 
@@ -608,8 +608,9 @@ class bbs
      * @param $newContent 新内容
      * @param $topicId    主题id（仅为审核目的传入）
      * @param $newTitle   新标题（仅为审核目的传入）
+     * @param $access     访问权限（仅为审核目的传入）
      */
-    public function updateTopicContent($contentId, $newContent, $topicId = null, $newTitle = null)
+    public function updateTopicContent($contentId, $newContent, $topicId = null, $newTitle = null, $access = null)
     {
         $reviewLogAppend = ']';
         if (empty($newContent)) {
@@ -625,7 +626,7 @@ class bbs
 
             //发言是否需要人工审核
             $review = 1;
-            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
+            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access > 0) {
                 $review = 0;
             }
 
