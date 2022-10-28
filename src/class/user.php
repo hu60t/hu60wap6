@@ -402,6 +402,15 @@ class user extends userinfo
      */
     public function reg($name, $pass, $mail)
     {
+        // 机审
+        $csResult = ContentSecurity::auditText($this, ContentSecurity::TYPE_NAME, $name, "user/reg");
+
+        if ($csResult['stat'] != ContentSecurity::STAT_PASS) {
+            throw new UserException('昵称不和谐，站长两行泪。系统检测到昵称'.$csResult['reason'].'，无法在虎绿林使用。', 406);
+        }
+
+        var_dump($csResult);die;
+
         $this->canchange();
         $this->uid = NULL;
 
@@ -748,6 +757,13 @@ class user extends userinfo
 
         //检查用户名合法性，不合法则抛出异常
         $this->checkName($newName);
+
+        // 机审
+        $csResult = ContentSecurity::auditText($this, ContentSecurity::TYPE_NAME, $newName, "user/rename");
+
+        if ($csResult['stat'] != ContentSecurity::STAT_PASS) {
+            throw new UserException('昵称不和谐，站长两行泪。系统检测到昵称'.$csResult['reason'].'，无法在虎绿林使用。', 406);
+        }
 
         $uinfo = new UserInfo();
         $exists = $uinfo->name($newName);

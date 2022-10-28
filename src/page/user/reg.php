@@ -40,7 +40,7 @@ try {
             $tpl->display('tpl:reg_success');
         }
     }
-} catch (UserException$ERR) {
+} catch (UserException $ERR) {
     $tpl->assign('msg', $ERR->getmessage());
     $tpl->display('tpl:reg_step1');
 } catch (exception $ERR) {
