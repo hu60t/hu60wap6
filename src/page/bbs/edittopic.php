@@ -104,7 +104,7 @@ try {
             $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
         }
 
-        $ok = $bbs->updateTopicContent($cid, $content);
+        $ok = $bbs->updateTopicContent($cid, $content, $tid, $title);
 
         if ($editTitle) {
             $ok = $bbs->updateTopicTitle($tid, $title);

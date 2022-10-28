@@ -94,6 +94,49 @@ define('SECCODE_SMS_PROVIDER_INFO', '<p>短信验证码由虎绿林提供</p>');
 define('WXPUSHER_APP_TOKEN', 'AT_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
 
+///////////////////// 内容安全（机审）配置 /////////////////////
+
+/**
+ * 内容安全（机审）服务商
+ * 
+ * 可选值:
+ * ContentSecurity::SERVICE_NONE       关闭机审
+ * ContentSecurity::SERVICE_ALIYUN     阿里云内容安全
+ */
+define('CONTENT_SECURITY_SERVICE', ContentSecurity::SERVICE_NONE);
+
+/**
+ * 内容安全的 AK 和 SK
+ */
+define('CONTENT_SECURITY_AK', '');
+define('CONTENT_SECURITY_SK', '');
+
+/**
+ * 阿里云内容安全接入地区
+ * https://help.aliyun.com/document_detail/107743.htm
+ */
+define('ALIYUN_GREEN_REGION', 'cn-shenzhen');
+
+/**
+ * 阿里云内容安全业务场景
+ */
+// 用户名（昵称）
+define('ALIYUN_GREEN_BIZ_TYPE_NAME', 'name');
+// 个性签名
+define('ALIYUN_GREEN_BIZ_TYPE_SIGNATURE', 'signature');
+// 主题帖
+define('ALIYUN_GREEN_BIZ_TYPE_TOPIC', 'topic');
+// 回帖
+define('ALIYUN_GREEN_BIZ_TYPE_REPLY', 'reply');
+// 聊天室
+define('ALIYUN_GREEN_BIZ_TYPE_CHAT', 'chat');
+
+/**
+ * 机审超时时间
+ */
+define('CONTENT_SECURITY_TIMEOUT', 3);
+
+
 ///////////////////// 上传附件到云存储 /////////////////////
 
 /**

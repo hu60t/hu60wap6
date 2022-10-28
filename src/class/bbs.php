@@ -29,6 +29,12 @@ class bbs
     const REVIEW_ADMIN_BLOCK = 2;
     /** 审核未通过 */
     const REVIEW_REVIEWER_BLOCK = 3;
+    /** 需要人工复核 */
+    const REVIEW_NEED_MANUAL_REVIEW = 4;
+    /** 机审未通过 */
+    const REVIEW_MACHINE_BLOCK = 5;
+    /** 机审通过 */
+    const REVIEW_MACHINE_PASS = 6;
 
 
     /**
@@ -297,15 +303,32 @@ class bbs
                 throw new bbsException('版块 ' . $data['name'] . ' 禁止发帖，请重新选择。', 403);
             $access = $data['access'];
 
+            // 机审
+            $csResult = ContentSecurity::auditText($this->user, ContentSecurity::TYPE_TOPIC, "$title\n\n$content", "topic/$fid/new");
+            
+            if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
+                throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
+            }
+
             //标题处理
             $title = mb_substr(trim($title), 0, 100, 'utf-8');
             //内容处理
             $ubb = new ubbparser;
             $data = $ubb->parse($content, true);
-			//帖子内容是否需要审核
-			$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
+            
+            //发言是否需要人工审核
+            $review = 1;
+            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
+                $review = 0;
+            }
+
+            $reviewLog = ContentSecurity::getReviewLog($csResult);
+            if ($reviewLog !== null) {
+                $reviewLog = json_encode([$reviewLog], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            }
+
             //写主题数据
-            $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,review,access', $time, $time, $data, $this->user->uid, 0, 0, $review, $access);
+            $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,review,review_log,access', $time, $time, $data, $this->user->uid, 0, 0, $review, $reviewLog, $access);
             if (!$rs)
                 throw new bbsException('数据库错误，主题内容（' . DB_A . 'bbs_topic_content）写入失败！', 500);
             $content_id = $this->db->lastInsertId();
@@ -370,17 +393,35 @@ class bbs
             throw new bbsException('帖子内容 id=' . $reply_id . ' 不存在！', 404);
         $topic_id = $data['topic_id'];
         $access = $data['access'];
+
+        // 机审
+        $csResult = ContentSecurity::auditText($this->user, ContentSecurity::TYPE_REPLY, $content, "reply/$reply_id/new");
+
+        if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
+            throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
+        }
+
         //内容处理
         $ubb = new ubbparser;
         $data = $ubb->parse($content, true);
-		//帖子内容是否需要审核
-		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
+
+        //发言是否需要人工审核
+        $review = 1;
+        if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
+            $review = 0;
+        }
+
+        $reviewLog = ContentSecurity::getReviewLog($csResult);
+        if ($reviewLog !== null) {
+            $reviewLog = json_encode([$reviewLog], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
         //写回复数据
         $time = $_SERVER['REQUEST_TIME'];
         $floor = $this->db->query('SELECT max(floor) FROM ' . DB_A . 'bbs_topic_content WHERE topic_id=?', $topic_id);
         $floor = $floor->fetch(db::num);
 		$floor = $floor[0] + 1;
-        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor,review,access', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor, $review, $access);
+        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor,review,review_log,access', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor, $review, $reviewLog, $access);
 
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
@@ -562,20 +603,46 @@ class bbs
 
     /**
      * 更改帖子/回复内容
+     * 
+     * @param $contentId  内容id
+     * @param $newContent 新内容
+     * @param $topicId    主题id（仅为审核目的传入）
+     * @param $newTitle   新标题（仅为审核目的传入）
      */
-    public function updateTopicContent($contentId, $newContent)
+    public function updateTopicContent($contentId, $newContent, $topicId = null, $newTitle = null)
     {
-        // 空白内容无需审核
+        $reviewLogAppend = ']';
         if (empty($newContent)) {
+            // 空白内容无需审核
             $review = self::REVIEW_PASS;
         } else {
-            $review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
+            // 机审
+            $csResult = ContentSecurity::auditText($this->user, ContentSecurity::TYPE_REPLY, "$newTitle\n\n$newContent", "reply/$topicId/$contentId");
+
+            if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
+                throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
+            }
+
+            //发言是否需要人工审核
+            $review = 1;
+            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
+                $review = 0;
+            }
+
+            $reviewLog = ContentSecurity::getReviewLog($csResult);
+            if ($reviewLog !== null) {
+                $reviewLogAppend = ',' . json_encode($reviewLog, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ']';
+            }
         }
 
         $ubb = new ubbparser;
         $data = is_array($newContent) ? data::serialize($newContent) : $ubb->parse($newContent, true);
-        $sql = 'UPDATE ' . DB_A . 'bbs_topic_content SET content=?,mtime=?,review=? WHERE id=?';
-        $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $review, $contentId);
+        $sql = 'UPDATE ' . DB_A . "bbs_topic_content SET content=?,mtime=?,review=?, review_log=
+            CONCAT(
+                SUBSTR(IF(`review_log` IS NULL, '[]', `review_log`), 1, CHAR_LENGTH(IF(`review_log` IS NULL, '[]', `review_log`)) - 1),
+                ?
+            ) WHERE id=?";
+        $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $review, $reviewLogAppend, $contentId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
@@ -1047,6 +1114,12 @@ class bbs
                 return '被站长屏蔽';
             case bbs::REVIEW_REVIEWER_BLOCK:
                 return '未通过审核';
+            case bbs::REVIEW_NEED_MANUAL_REVIEW:
+                return '需要人工复核';
+            case bbs::REVIEW_MACHINE_BLOCK:
+                return '未通过机审';
+            case bbs::REVIEW_MACHINE_PASS:
+                return '已通过机审';
             default:
                 return '未知状态';
         }
@@ -1063,6 +1136,12 @@ class bbs
                 return '屏蔽该内容';
             case bbs::REVIEW_REVIEWER_BLOCK:
                 return '审核未通过';
+            case bbs::REVIEW_NEED_MANUAL_REVIEW:
+                return '需要人工复核';
+            case bbs::REVIEW_MACHINE_BLOCK:
+                return '机审未通过';
+            case bbs::REVIEW_MACHINE_PASS:
+                return '机审通过';
             default:
                 return '未知状态';
         }

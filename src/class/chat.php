@@ -232,16 +232,31 @@ class chat
 		if ($this->user->hasPermission(UserInfo::DEBUFF_BLOCK_POST)) {
 			throw new Exception('您已被禁言，不能发言。', 403);
 		}
-		
+
+        // 机审
+        $csResult = ContentSecurity::auditText($this->user, ContentSecurity::TYPE_CHAT, $content, "chat/$room/new");
+        
+        if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
+            throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
+        }
+
         $ubb = new ubbparser;
         $contents = $ubb->parse($content, true);
         $lid = $this->db->select('count(*)', 'addin_chat_data', 'WHERE room=?', $room)->fetch(db::num);
         $lid = $lid[0] + 1;
 		
-		//发言是否需要审核
-		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? 1 : 0;
+		//发言是否需要人工审核
+		$review = 1;
+        if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
+            $review = 0;
+        }
 
-        $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,content,time,review', $room, $lid, $this->user->uid, $contents, $time, $review);
+        $reviewLog = ContentSecurity::getReviewLog($csResult);
+        if ($reviewLog !== null) {
+            $reviewLog = json_encode($reviewLog, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
+        $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,content,time,review,review_log', $room, $lid, $this->user->uid, $contents, $time, $review, $reviewLog);
         if ($rs) {
             $this->db->update('addin_chat_list', 'ztime=? WHERE name=?', $time, $room);
             $this->user->regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.".urlencode($room).".{\$BID}?floor={$lid}#{$lid}", $content);
