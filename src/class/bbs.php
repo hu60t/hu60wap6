@@ -210,7 +210,7 @@ class bbs
         try {
             $this->checkLogin();
 
-            if ($this->user->uid == $ownUid || $this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
+            if (/*$this->user->uid == $ownUid ||*/ $this->user->hasPermission(User::PERMISSION_EDIT_TOPIC)) {
                 return true;
             } else {
                 throw new bbsException('您没有权限移动该帖。', 403);
