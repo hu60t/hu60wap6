@@ -318,7 +318,7 @@ class bbs
             
             //发言是否需要人工审核
             $review = 1;
-            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access > 0) {
+            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access != 0) {
                 $review = 0;
             }
 
@@ -407,7 +407,7 @@ class bbs
 
         //发言是否需要人工审核
         $review = 1;
-        if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access > 0) {
+        if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access != 0) {
             $review = 0;
         }
 
@@ -626,7 +626,7 @@ class bbs
 
             //发言是否需要人工审核
             $review = 1;
-            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access > 0) {
+            if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access != 0) {
                 $review = 0;
             }
 
