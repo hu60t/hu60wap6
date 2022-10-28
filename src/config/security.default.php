@@ -115,7 +115,7 @@ define('CONTENT_SECURITY_SK', '');
  * 阿里云内容安全接入地区
  * https://help.aliyun.com/document_detail/107743.htm
  */
-define('ALIYUN_GREEN_REGION', 'cn-shenzhen');
+define('ALIYUN_GREEN_REGION', 'cn-shanghai');
 
 /**
  * 阿里云内容安全业务场景
