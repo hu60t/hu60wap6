@@ -19,6 +19,13 @@ try {
             user::checkName($_POST['name']);
             user::checkMail($_POST['mail']);
             $step = 2;
+
+            // 机审
+            $csResult = ContentSecurity::auditText($USER, ContentSecurity::TYPE_NAME, $_POST['name'], "user/reg");
+
+            if ($csResult['stat'] != ContentSecurity::STAT_PASS) {
+                throw new UserException('昵称不和谐，站长两行泪。系统检测到昵称'.$csResult['reason'].'，无法在虎绿林使用。', 406);
+            }
         }
         $tpl->display('tpl:reg_step' . $step);
     } else {
