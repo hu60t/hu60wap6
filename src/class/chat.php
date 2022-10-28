@@ -349,7 +349,7 @@ class chat
             'stat' => $stat,
             'comment' => $comment
         ];
-        $comment = json_encode($comment, JSON_UNESCAPED_UNICODE);
+        $comment = json_encode($comment, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         return $this->db->update('addin_chat_data', "review=?, review_log=
             CONCAT(

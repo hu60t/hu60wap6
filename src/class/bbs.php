@@ -1069,7 +1069,7 @@ class bbs
             'stat' => $stat,
             'comment' => $comment
         ];
-        $comment = json_encode($comment, JSON_UNESCAPED_UNICODE);
+        $comment = json_encode($comment, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         return $this->db->update('bbs_topic_content', "review=?, review_log=
             CONCAT(
