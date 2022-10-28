@@ -244,7 +244,7 @@ class chat
         $contents = $ubb->parse($content, true);
         $lid = $this->db->select('count(*)', 'addin_chat_data', 'WHERE room=?', $room)->fetch(db::num);
         $lid = $lid[0] + 1;
-		
+
 		//发言是否需要人工审核
 		$review = 1;
         if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
@@ -253,7 +253,7 @@ class chat
 
         $reviewLog = ContentSecurity::getReviewLog($csResult);
         if ($reviewLog !== null) {
-            $reviewLog = json_encode($reviewLog, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $reviewLog = json_encode([$reviewLog], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
 
         $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,content,time,review,review_log', $room, $lid, $this->user->uid, $contents, $time, $review, $reviewLog);
