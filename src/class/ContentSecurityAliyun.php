@@ -174,6 +174,8 @@ class ContentSecurityAliyun extends ContentSecurityBase {
      *     'success' => true | false,
      *     'results' => [
      *          [
+     *              // 审核是否顺利完成
+     *              'success' => true | false,
      *              // 审核状态
      *              'stat' => ContentSecurity::STAT_PASS | ContentSecurity::STAT_REVIEW | ContentSecurity::STAT_BLOCK,
      *              // 状态得分
@@ -212,6 +214,7 @@ class ContentSecurityAliyun extends ContentSecurityBase {
             if ($raw['code'] != 200) {
                 $success = false;
                 $results[] = [
+                    'success' => false,
                     'stat' => ContentSecurity::STAT_REVIEW,
                     'rate' => 0,
                     'reason' => '机审接口报错',
@@ -219,6 +222,7 @@ class ContentSecurityAliyun extends ContentSecurityBase {
             } else {
                 $result = $raw['data'][$i]['results'][0];
                 $results[] = [
+                    'success' => true,
                     'stat' => $this->getReviewStat($result['suggestion'], $result['label']),
                     'rate' => $result['rate'],
                     'reason' => $this->getReasonName($result['label']),

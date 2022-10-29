@@ -55,6 +55,8 @@ abstract class ContentSecurityBase {
      *     'success' => true | false,
      *     'results' => [
      *          [
+     *              // 审核是否顺利完成
+     *              'success' => true | false,
      *              // 审核状态
      *              'stat' => ContentSecurity::STAT_PASS | ContentSecurity::STAT_REVIEW | ContentSecurity::STAT_BLOCK,
      *              // 状态得分
