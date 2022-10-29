@@ -70,7 +70,7 @@ function auditTopic($topic, $checkedReply, $content) {
     set_time_limit(0);
     ini_set('max_execution_time', 0);
 
-    echo "$result[reason]（$result[rate]%）\t";
+    echo "$result[reason]\t$result[rate]%\t";
 
     if ($result['stat'] === ContentSecurity::STAT_PASS) {
         $reviewLog = ContentSecurity::getReviewLog($result);
