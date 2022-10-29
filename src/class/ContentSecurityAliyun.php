@@ -119,7 +119,7 @@ class ContentSecurityAliyun extends ContentSecurityBase {
      */
     public function auditText($type, $text, $contentTag = null) {
         $task = [
-            'dataId' => $this->genContentId($type, $contentTag),
+            'dataId' => $this->genContentId($type, $contentTag, $this->user->uid),
             'content' => $text,
         ];
 
@@ -131,7 +131,7 @@ class ContentSecurityAliyun extends ContentSecurityBase {
         ->scheme('https')->request()->toArray();
 
         if (CONTENT_SECURITY_LOG) {
-            $this->log($task['dataId'], $raw);
+            ContentSecurity::log($task['dataId'], $raw);
         }
 
         if ($raw['code'] != 200) {
@@ -151,6 +151,84 @@ class ContentSecurityAliyun extends ContentSecurityBase {
             'stat' => $this->getReviewStat($result['suggestion'], $result['label']),
             'rate' => $result['rate'],
             'reason' => $this->getReasonName($result['label']),
+            'raw' => $raw,
+        ];
+    }
+
+    /**
+     * 批量审核文本
+     * 
+     * @param $type ContentSecurity::TYPE_*
+     * @param $tasks 待审核任务
+     *  [
+     *      [
+     *          'user' => object UserInfo, // 用户信息对象
+     *          'text' => string // 待审核文本（UBB原文）
+     *          'contentTag' => string // 用于区分内容来源的标识
+     *      ],
+     *      ...
+     *  ]
+     * 
+     * @return [
+     *     // 审核是否顺利完成
+     *     'success' => true | false,
+     *     'results' => [
+     *          [
+     *              // 审核状态
+     *              'stat' => ContentSecurity::STAT_PASS | ContentSecurity::STAT_REVIEW | ContentSecurity::STAT_BLOCK,
+     *              // 状态得分
+     *              'rate' => 0 - 100,
+     *              // 原因
+     *              'reason' => string,
+     *          ],
+     *          ...
+     *      ],
+     *     // 审核接口返回的原始结果
+     *     'raw' => mixed,
+     * ]
+     */
+    public function auditTextBatch($type, $tasks) {
+        foreach ($tasks as &$task) {
+            $task = [
+                'dataId' => $this->genContentId($type, $task['contentTag'], $task['user']->uid),
+                'content' => $task['text'],
+            ];
+        }
+
+        $raw = Green::v20180509()->textScan()->body(json_encode([
+            'tasks' => $tasks,
+            'scenes' => ['antispam'],
+            'bizType' => $this->getBizType($type),
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+        ->scheme('https')->request()->toArray();
+
+        if (CONTENT_SECURITY_LOG) {
+            ContentSecurity::log('batch/'.$this->getTypeName($type).'/'.time(), $raw);
+        }
+
+        $success = true;
+        $results = [];
+        for ($i=0; $i<count($tasks); $i++) {
+            if ($raw['code'] != 200) {
+                $success = false;
+                $results[] = [
+                    'stat' => ContentSecurity::STAT_REVIEW,
+                    'rate' => 0,
+                    'reason' => '机审接口报错',
+                ];
+            } else {
+                $result = $raw['data'][$i]['results'][0];
+                $results[] = [
+                    'stat' => $this->getReviewStat($result['suggestion'], $result['label']),
+                    'rate' => $result['rate'],
+                    'reason' => $this->getReasonName($result['label']),
+                ];
+            }
+        }
+
+        return [
+            'success' => $success,
+            'results' => $results,
             'raw' => $raw,
         ];
     }

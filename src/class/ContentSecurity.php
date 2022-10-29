@@ -71,12 +71,69 @@ class ContentSecurity {
         try {
             return self::getInstance($user)->auditText($type, $text, $contentTag);
         } catch (Throwable $ex) {
+            self::log('exception', $ex);
             return [
                 'success' => false,
                 'stat' => ContentSecurity::STAT_REVIEW,
                 'rate' => 0,
                 'reason' => '机审代码报错',
                 'raw' => $ex,
+            ];
+        }
+    }
+
+    /**
+     * 批量审核文本
+     * 
+     * @param $type ContentSecurity::TYPE_*
+     * @param $tasks 待审核任务
+     *  [
+     *      [
+     *          'user' => object UserInfo, // 用户信息对象
+     *          'text' => string // 待审核文本（UBB原文）
+     *          'contentTag' => string // 用于区分内容来源的标识
+     *      ],
+     *      ...
+     *  ]
+     * 
+     * @return [
+     *     // 审核是否顺利完成
+     *     'success' => true | false,
+     *     'results' => [
+     *          [
+     *              // 审核状态
+     *              'stat' => ContentSecurity::STAT_PASS | ContentSecurity::STAT_REVIEW | ContentSecurity::STAT_BLOCK,
+     *              // 状态得分
+     *              'rate' => 0 - 100,
+     *              // 原因
+     *              'reason' => string,
+     *          ],
+     *          ...
+     *      ],
+     *     // 审核接口返回的原始结果
+     *     'raw' => mixed,
+     * ]
+     */
+    public static function auditTextBatch($type, $tasks) {
+        try {
+            return self::getInstance()->auditTextBatch($type, $tasks);
+        } catch (Throwable $ex) {
+            self::log('exception', $ex);
+
+            $results = [];
+
+            for ($i=0; $i<count($tasks); $i++) {
+                $results[] = [
+                    'stat' => ContentSecurity::STAT_PASS,
+                    'rate' => 0,
+                    'reason' => '机审代码报错',
+                ];
+            }
+
+            return [
+                'success' => false,
+                'results' => $results,
+                'raw' => null,
             ];
         }
     }
@@ -101,5 +158,16 @@ class ContentSecurity {
             'stat' => self::getForumReviewStat($reviewResult['stat']),
             'comment' => self::getReviewComment($reviewResult),
         ];
+    }
+
+    public static function log($id, $object) {
+        file_put_contents(
+            CONTENT_SECURITY_LOG,
+            date('[Y-m-d H:i:s] ').$id.' '.json_encode(
+                $object,
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            )."\n",
+            FILE_APPEND
+        );
     }
 }

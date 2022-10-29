@@ -53,6 +53,17 @@ class userinfo implements ArrayAccess
     public static function getInstance() {
         return new userinfo();
     }
+    public static function getInstanceByName($name) {
+        $uinfo = new userinfo();
+        $uinfo->name($name);
+        return $uinfo;
+    }
+    public static function getInstanceByUid($uid) {
+        $uinfo = new userinfo();
+        $uinfo->uid($uid);
+        return $uinfo;
+    }
+
 
     /**
      * 连接数据库
