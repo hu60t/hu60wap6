@@ -612,7 +612,6 @@ class bbs
      */
     public function updateTopicContent($contentId, $newContent, $topicId = null, $newTitle = null, $access = null)
     {
-        $reviewLogAppend = ']';
         if (empty($newContent)) {
             // 空白内容无需审核
             $review = self::REVIEW_PASS;
@@ -632,7 +631,7 @@ class bbs
 
             $reviewLog = ContentSecurity::getReviewLog($csResult);
             if ($reviewLog !== null) {
-                $reviewLogAppend = ',' . json_encode($reviewLog, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ']';
+                $reviewLog = json_encode($reviewLog, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             }
         }
 
@@ -640,10 +639,15 @@ class bbs
         $data = is_array($newContent) ? data::serialize($newContent) : $ubb->parse($newContent, true);
         $sql = 'UPDATE ' . DB_A . "bbs_topic_content SET content=?,mtime=?,review=?, review_log=
             CONCAT(
-                SUBSTR(IF(`review_log` IS NULL, '[]', `review_log`), 1, CHAR_LENGTH(IF(`review_log` IS NULL, '[]', `review_log`)) - 1),
-                ?
+                IF(
+                    `review_log` IS NULL,
+                    '[',
+                    CONCAT(SUBSTR(`review_log`, 1, CHAR_LENGTH(`review_log`) - 1), ',')
+                ),
+                ?,
+                ']'
             ) WHERE id=?";
-        $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $review, $reviewLogAppend, $contentId);
+        $ok = $this->db->query($sql, $data, $_SERVER['REQUEST_TIME'], $review, (string)$reviewLog, $contentId);
 
         if (!$ok) {
             throw new bbsException('修改失败，数据库错误');
