@@ -77,21 +77,9 @@ class ContentSecurityAliyun extends ContentSecurityBase {
         switch ($label) {
             case 'normal':
                 return ContentSecurity::STAT_PASS;
-            // 类型不严重就人工复核
-            case 'spam':
-            case 'ad':
-            case 'abuse': // 阿里云很容易把包含大量代码的内容识别为辱骂
-            case 'flood':
-            case 'meaningless':
-            case 'harmful':
-            case 'customized':
-            case 'porn': // 阿里云很容易把包含大量代码的内容识别为色情
-            case 'contraband': // VPS居然是违禁词，所以只能人工审核
-                return ContentSecurity::STAT_REVIEW;
-            // 类型严重就直接屏蔽
-            case 'politics':
-            case 'terrorism':
-                return ContentSecurity::STAT_BLOCK;
+            // 很遗憾，机器不能代替人工，阿里云误报率非常高。
+            // 即使置信度达到 99.99%，内容也可能毫无问题，特别是技术内容最容易受到误报。
+            // 所以，无论结果看起来多严重，都采用人工复核。
             default:
                 return ContentSecurity::STAT_REVIEW;
         }
