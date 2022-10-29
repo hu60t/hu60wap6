@@ -617,7 +617,7 @@ class bbs
             $review = self::REVIEW_PASS;
         } else {
             // 机审
-            $csResult = ContentSecurity::auditText($this->user, ContentSecurity::TYPE_REPLY, "$newTitle\n\n$newContent", "reply/$topicId/$contentId");
+            $csResult = ContentSecurity::auditText($this->user, $newTitle ? ContentSecurity::TYPE_TOPIC : ContentSecurity::TYPE_REPLY, "$newTitle\n\n$newContent", "reply/$topicId/$contentId");
 
             if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
                 throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
