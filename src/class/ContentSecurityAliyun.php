@@ -42,21 +42,21 @@ class ContentSecurityAliyun extends ContentSecurityBase {
             case 'spam':
                 return '含垃圾信息';
             case 'ad':
-                return '属于广告';
+                return '含广告或外链';
             case 'politics':
                 return '涉政';
             case 'terrorism':
                 return '含暴恐信息';
             case 'abuse':
-                return '含辱骂信息';
+                return '含辱骂信息或包含大量代码';
             case 'porn':
-                return '含色情信息';
+                return '含色情信息或包含大量代码';
             case 'flood':
                 return '属于灌水';
             case 'contraband':
-                return '包含违禁内容';
+                return '包含违禁词';
             case 'meaningless':
-                return '无意义';
+                return '内容无意义';
             case 'harmful':
                 return '含不良场景';
             case 'customized':
@@ -80,17 +80,17 @@ class ContentSecurityAliyun extends ContentSecurityBase {
             // 类型不严重就人工复核
             case 'spam':
             case 'ad':
-            case 'abuse':
+            case 'abuse': // 阿里云很容易把包含大量代码的内容识别为辱骂
             case 'flood':
             case 'meaningless':
             case 'harmful':
             case 'customized':
+            case 'porn': // 阿里云很容易把包含大量代码的内容识别为色情
+            case 'contraband': // VPS居然是违禁词，所以只能人工审核
                 return ContentSecurity::STAT_REVIEW;
             // 类型严重就直接屏蔽
             case 'politics':
             case 'terrorism':
-            case 'porn':
-            case 'contraband':
                 return ContentSecurity::STAT_BLOCK;
             default:
                 return ContentSecurity::STAT_REVIEW;
