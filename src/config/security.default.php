@@ -136,6 +136,13 @@ define('ALIYUN_GREEN_BIZ_TYPE_CHAT', 'chat');
  */
 define('CONTENT_SECURITY_TIMEOUT', 3);
 
+/**
+ * 机审日志
+ * 
+ * 日志文件路径，需要有写入权限。设为 null 关闭日志。
+ */
+define('CONTENT_SECURITY_LOG', null);
+
 
 ///////////////////// 上传附件到云存储 /////////////////////
 

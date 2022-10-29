@@ -59,4 +59,15 @@ abstract class ContentSecurityBase {
         }
         return  $contentTag . '/' . (int)($this->user->uid) . '/' . time();
     }
+
+    protected function log($id, $object) {
+        file_put_contents(
+            CONTENT_SECURITY_LOG,
+            date('[Y-m-d H:i:s] ').$id.' '.json_encode(
+                $object,
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            )."\n",
+            FILE_APPEND
+        );
+    }
 }
