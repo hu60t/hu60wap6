@@ -64,6 +64,9 @@
                 {if $topic.level < 0}
                     <div class="topic-status">被下沉</div>
                 {/if}
+				{if $USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $topic.access == 0}
+					<div class="topic-status">公开</div>
+				{/if}
 			</li>
 		{/foreach}
 	</ol>

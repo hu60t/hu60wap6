@@ -54,6 +54,9 @@
 				{if $tMeta.locked == 2}
 				    <div class="topic-status">评论关闭</div>
 				{/if}
+                {if $USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $tMeta.access == 0}
+                    <div class="topic-status">公开</div>
+                {/if}
             </div>
 		</div>
 		<div class="topic-content user-content" data-floorID="0" id="floor_content_0">

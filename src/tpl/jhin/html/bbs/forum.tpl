@@ -63,6 +63,9 @@
                     {if $topic.level < 0}
                         &nbsp;<div class="topic-status">被下沉</div>
                     {/if}
+                    {if $USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $topic.access == 0}
+                        &nbsp;<div class="topic-status">公开</div>
+                    {/if}
                 </div>
             </div>
 			<div class="topic-forum-name">

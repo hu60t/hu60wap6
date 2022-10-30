@@ -65,6 +65,9 @@
                 {if $topic.level < 0}
                     <div class="topic-status">被下沉</div>
                 {/if}
+				{if $USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $topic.access == 0}
+					<div class="topic-status">公开</div>
+				{/if}
 				<br>
 				({$topic.uinfo.name|code} / {$topic.read_count}点击 / {$topic.reply_count}回复 / {str::ago($topic.ctime)}发布 / {str::ago($topic.mtime)}回复)
 			</li>

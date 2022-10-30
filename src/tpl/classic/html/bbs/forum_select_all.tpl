@@ -27,6 +27,9 @@
 						{$forum.name}
 					</a>
 				{/if}
+				{if $USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $forum.access == 0}
+                    <div class="topic-status">公开</div>
+                {/if}
 			</li>
 			
 			{if !empty($forum.child)}

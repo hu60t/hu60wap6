@@ -49,6 +49,9 @@
                                         {$topic.read_count}点击 / {str::ago($topic.ctime)}发布 / {str::ago($reply.mtime)}回复 /
                                         <a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_{$reply.floor}'))">样</a> /
                                         <a href="javascript:hu60_content_display_ubb('bbs.search', {$reply.id}, 'floor_content_{$reply.floor}')">源</a>
+                                                {if $USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $reply.access == 0}
+                                                    <div class="topic-status">公开</div>
+                                                {/if}
                                     </span>
                                 </div>
                             </div>
