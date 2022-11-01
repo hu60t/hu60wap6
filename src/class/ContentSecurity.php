@@ -127,7 +127,7 @@ class ContentSecurity {
             for ($i=0; $i<count($tasks); $i++) {
                 $results[] = [
                     'success' => false,
-                    'stat' => ContentSecurity::STAT_PASS,
+                    'stat' => ContentSecurity::STAT_REVIEW,
                     'rate' => 0,
                     'reason' => '机审代码报错',
                 ];
