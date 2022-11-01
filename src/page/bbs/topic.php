@@ -61,7 +61,7 @@ if ($tMeta['review'] == 2 && !$USER->hasPermission(User::PERMISSION_EDIT_TOPIC) 
 	throw new bbsException('帖子 id=' . $tid . ' 被站长屏蔽！', 3403);
 }
 
-if ($tMeta['access'] != 0 && ($tMeta['access'] & $USER->getAccess()) == 0) {
+if ($tMeta['uid'] != $USER->uid && $tMeta['access'] != 0 && ($tMeta['access'] & $USER->getAccess()) == 0) {
 	throw new bbsException('帖子 id=' . $tid . ' 没有访问权限！', 3403);
 }
 

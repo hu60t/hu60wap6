@@ -18,7 +18,7 @@ class search
 
         $access = (int)$USER->getAccess();
         $wordHash = md5("$table/$field/$word");
-        $key = "search/$wordHash/$access";
+        $key = "search/$wordHash/$access/$USER[uid]";
 
         $rs = cache::get($key);
 
@@ -35,11 +35,11 @@ class search
 		cache::set($limitKey, $limit, 60);
 
 
-        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ?  AND ((access = 0) OR (access & ?)) $order LIMIT $searchLimit";
+        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ?  AND ((uid = ?) OR (access = 0) OR (access & ?)) $order LIMIT $searchLimit";
         $db = db::conn();
         $rs = $db->prepare($sql);
 
-        if (!$rs || !$rs->execute(["%$word%", $access])) {
+        if (!$rs || !$rs->execute(["%$word%", $USER->uid, $access])) {
             throw new Exception("数据库错误");
         }
 
@@ -55,7 +55,7 @@ class search
 
         $access = (int)$USER->getAccess();
         $wordsHash = md5($words);
-        $key = "search/result/$wordsHash/$access";
+        $key = "search/result/$wordsHash/$access/$USER[uid]";
 
         $rs = cache::get($key);
 
@@ -168,10 +168,10 @@ class search
                     $where .= ' AND (locked = 0 OR locked = 2)';
                 }
             }
-            $sql = 'SELECT SQL_CALC_FOUND_ROWS id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? AND ((access = 0) OR (access & ?))'.$where.' ORDER BY level DESC, '.$order.' DESC LIMIT ?,?';
+            $sql = 'SELECT SQL_CALC_FOUND_ROWS id AS tid,uid FROM ' . DB_A . 'bbs_topic_meta WHERE uid=? AND ((uid = ?) OR (access = 0) OR (access & ?))'.$where.' ORDER BY level DESC, '.$order.' DESC LIMIT ?,?';
             $rs = db::conn()->prepare($sql);
 
-            if (!$rs || !$rs->execute([$uid, $USER->getAccess(), $offset, $limit])) {
+            if (!$rs || !$rs->execute([$uid, $USER->uid, $USER->getAccess(), $offset, $limit])) {
                 throw new Exception('数据库错误');
             }
 
@@ -240,8 +240,8 @@ class search
             }
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE ((access = 0) OR (access & ?)) AND ';
-        $args = [$USER->getAccess()];
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE ((uid = ?) OR (access = 0) OR (access & ?)) AND ';
+        $args = [$USER->uid, $USER->getAccess()];
         if ($onlyReview == -1) {
             $sql .= 'review_log LIKE ?';
             $args[] = "%\"uid\":{$USER->uid},%";

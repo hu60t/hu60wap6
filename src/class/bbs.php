@@ -794,12 +794,12 @@ class bbs
 
     public function newTopicList($size = 20, $offset = 0)
     {
-        $where = 'WHERE ctime > ' . ($_SERVER['REQUEST_TIME'] - 30 * 24 * 3600) . ' AND review < 2 AND ((access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
+        $where = 'WHERE ctime > ' . ($_SERVER['REQUEST_TIME'] - 30 * 24 * 3600) . ' AND review < 2 AND ((uid = ?) OR (access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
         }
-        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY level DESC, mtime DESC LIMIT ?,?', $this->user->getAccess(), $offset, $size);
+        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY level DESC, mtime DESC LIMIT ?,?', $this->user->uid, $this->user->getAccess(), $offset, $size);
         if (!$rs) throw new Exception('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $topic = $rs->fetchAll();
         foreach ($topic as &$v) {
@@ -834,7 +834,7 @@ class bbs
      */
     public function topicCount($forum_id, $onlyEssence = false)
     {
-        $where = 'WHERE review < 2 AND ((access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
+        $where = 'WHERE review < 2 AND ((uid = ?) OR (access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
@@ -846,7 +846,7 @@ class bbs
 			$where .= ' AND essence=1';
 		}
 
-        $rs = $this->db->select('count(*)', 'bbs_topic_meta', $where, $this->user->getAccess());
+        $rs = $this->db->select('count(*)', 'bbs_topic_meta', $where, $this->user->uid, $this->user->getAccess());
         if (!$rs)
             throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
         $rs = $rs->fetch(db::num);
@@ -858,7 +858,7 @@ class bbs
      */
     public function topicList($forum_id, $page, $size, $orderBy = 'mtime', $onlyEssence = false)
     {
-        $where = 'WHERE review < 2 AND ((access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
+        $where = 'WHERE review < 2 AND ((uid = ?) OR (access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
@@ -870,7 +870,7 @@ class bbs
 			$where .= ' AND essence=1';
 		}
 
-        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY `level` DESC, `' . $orderBy . '` DESC LIMIT ?,?', $this->user->getAccess(), $page, $size);
+        $rs = $this->db->select('id as topic_id', 'bbs_topic_meta', $where . ' ORDER BY `level` DESC, `' . $orderBy . '` DESC LIMIT ?,?', $this->user->uid, $this->user->getAccess(), $page, $size);
 
         if (!$rs)
             throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_meta不可读', 500);
