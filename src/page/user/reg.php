@@ -24,7 +24,7 @@ try {
             $csResult = ContentSecurity::auditText($USER, ContentSecurity::TYPE_NAME, $_POST['name'], "user/reg");
 
             if ($csResult['stat'] != ContentSecurity::STAT_PASS) {
-                throw new UserException('昵称不和谐，站长两行泪。系统检测到昵称'.$csResult['reason'].'，无法在虎绿林使用。', 406);
+                throw new UserException('昵称包含不良内容。', 406);
             }
         }
         $tpl->display('tpl:reg_step' . $step);

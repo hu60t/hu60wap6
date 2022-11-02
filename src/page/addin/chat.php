@@ -105,8 +105,13 @@ if ($PAGE->ext[0]) {
         // 审核日志
         if (isset($v['review_log'])) {
             $v['review_log'] = json_decode($v['review_log'], true);
+            if (!$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
+                foreach ($v['review_log'] as &$item) {
+                    unset($item['comment']);
+                }
+            }
         }
-        
+
         // 删除检查
         if ($v['hidden']) {
             $uinfo->uid($v['hidden']);

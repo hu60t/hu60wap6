@@ -237,7 +237,7 @@ class chat
         $csResult = ContentSecurity::auditText($this->user, ContentSecurity::TYPE_CHAT, $content, "chat/$room/new");
         
         if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
-            throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
+            throw new Exception('发言包含不良内容。', 406);
         }
 
         $ubb = new ubbparser;

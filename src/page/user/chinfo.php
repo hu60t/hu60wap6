@@ -14,7 +14,7 @@ try {
         $csResult = ContentSecurity::auditText($USER, ContentSecurity::TYPE_SIGNATURE, "$signature\n\n$contact", "user/signature");
 
         if ($csResult['stat'] != ContentSecurity::STAT_PASS) {
-            throw new Exception('内容不和谐，站长两行泪。系统检测到个性签名或联系方式'.$csResult['reason'].'，无法在虎绿林使用。', 406);
+            throw new Exception('个性签名或联系方式包含不良内容。', 406);
         }
 
         $USER->setinfo('signature', $signature);

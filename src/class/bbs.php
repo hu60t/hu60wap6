@@ -307,7 +307,7 @@ class bbs
             $csResult = ContentSecurity::auditText($this->user, ContentSecurity::TYPE_TOPIC, "$title\n\n$content", "topic/$fid/new");
             
             if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
-                throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
+                throw new Exception('发言包含不良内容。', 406);
             }
 
             //标题处理
@@ -398,7 +398,7 @@ class bbs
         $csResult = ContentSecurity::auditText($this->user, ContentSecurity::TYPE_REPLY, $content, "reply/$reply_id/new");
 
         if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
-            throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
+            throw new Exception('发言包含不良内容。', 406);
         }
 
         //内容处理
@@ -620,7 +620,7 @@ class bbs
             $csResult = ContentSecurity::auditText($this->user, $newTitle ? ContentSecurity::TYPE_TOPIC : ContentSecurity::TYPE_REPLY, "$newTitle\n\n$newContent", "reply/$topicId/$contentId");
 
             if ($csResult['stat'] == ContentSecurity::STAT_BLOCK) {
-                throw new Exception('内容不和谐，站长两行泪。系统检测到发言'.$csResult['reason'].'，无法在虎绿林发表。', 406);
+                throw new Exception('发言包含不良内容。', 406);
             }
 
             //发言是否需要人工审核
