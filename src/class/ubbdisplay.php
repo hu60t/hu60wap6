@@ -364,8 +364,8 @@ class UbbDisplay extends XUBBP
         $url = $data['src'];
         $alt = $data['alt'];
 
-        // 如已开启markdown，则交给markdown渲染，以产生更好的段落排版
-        if ($this->markdownEnable) {
+        // 如已开启markdown并且不在[div]中，则交给markdown渲染，以产生更好的段落排版
+        if ($this->markdownEnable && empty($this->endTags)) {
             return '!['.$this->markdownProtectAlt($alt).']('.url::markdownEscape($url).')';
         }
 
