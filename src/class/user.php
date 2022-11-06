@@ -409,8 +409,6 @@ class user extends userinfo
             throw new UserException('昵称包含不良内容。', 406);
         }
 
-        var_dump($csResult);die;
-
         $this->canchange();
         $this->uid = NULL;
 
