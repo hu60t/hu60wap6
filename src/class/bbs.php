@@ -436,10 +436,8 @@ class bbs
     /**
      * 更改帖子标题
      */
-    public function updateTopicTitle($topicId, $newTitle)
+    protected function updateTopicTitle($topicId, $newTitle, $review)
     {
-		$review = $this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) ? self::REVIEW_NEED_REVIEW : self::REVIEW_PASS;
-
         $title = mb_substr(trim($newTitle), 0, 100, 'utf-8');
 
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET title=?,mtime=?,review=? WHERE id=?';
@@ -604,13 +602,14 @@ class bbs
     /**
      * 更改帖子/回复内容
      * 
+     * @param $topicId    主题id
      * @param $contentId  内容id
+     * @param $access     访问权限
      * @param $newContent 新内容
-     * @param $topicId    主题id（仅为审核目的传入）
-     * @param $newTitle   新标题（仅为审核目的传入）
-     * @param $access     访问权限（仅为审核目的传入）
+     * @param $editTitle  是否修改标题（默认为false，要修改必须指定为true）
+     * @param $newTitle   新标题（如不修改标题则不必指定）
      */
-    public function updateTopicContent($contentId, $newContent, $topicId = null, $newTitle = null, $access = null)
+    public function updateTopicContent($topicId, $contentId, $access, $newContent, $editTitle = false, $newTitle = null)
     {
         if (empty($newContent)) {
             // 空白内容无需审核
@@ -657,6 +656,10 @@ class bbs
         /*if ($ok->rowCount() == 0) {
             throw new bbsException('修改失败，楼层不存在！');
         }*/
+
+        if ($editTitle) {
+            $this->updateTopicTitle($topicId, $newTitle, $review);
+        }
 
         $sql = 'UPDATE ' . DB_A . 'bbs_topic_meta SET mtime=? WHERE id = (SELECT topic_id FROM ' . DB_A . 'bbs_topic_content WHERE id=?)';
         $this->db->query($sql, $_SERVER['REQUEST_TIME'], $contentId);

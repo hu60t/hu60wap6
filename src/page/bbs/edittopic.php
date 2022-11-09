@@ -104,11 +104,7 @@ try {
             $msg->send_msg($USER->uid, Msg::TYPE_MSG, $tContent['uid'], $msgData);
         }
 
-        $ok = $bbs->updateTopicContent($cid, $content, $tid, $title, $tMeta['access']);
-
-        if ($editTitle) {
-            $ok = $bbs->updateTopicTitle($tid, $title);
-        }
+        $bbs->updateTopicContent($tid, $cid, $tMeta['access'], $content, $editTitle, $title);
 
         $url = "bbs.topic.$tid.$p.$PAGE[bid]?floor=$tContent[floor]#$tContent[floor]";
         header("Location: $url");
