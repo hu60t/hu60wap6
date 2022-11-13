@@ -57,7 +57,7 @@ if ($tMeta['locked'] && $tMeta['locked'] != 2 && !$USER->hasPermission(User::PER
 	throw new bbsException('帖子 id=' . $tid . ' 已删除！', 3404);
 }
 
-if ($tMeta['review'] == 2 && !$USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $bbs->countReplyInTopic($tMeta['id']) < 1) {
+if ($tMeta['review'] == 2 && $tMeta['uid'] != $USER->uid && !$USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $bbs->countReplyInTopic($tMeta['id']) < 1) {
 	throw new bbsException('帖子 id=' . $tid . ' 被站长屏蔽！', 3403);
 }
 
