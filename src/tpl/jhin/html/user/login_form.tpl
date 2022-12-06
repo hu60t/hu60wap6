@@ -1,3 +1,4 @@
+{$base=true}
 {extends file='tpl:comm.default'}
 
 {block name='title'}
