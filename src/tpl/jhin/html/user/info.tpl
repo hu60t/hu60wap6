@@ -24,7 +24,7 @@
       <td>用户名：</td>
       <td>{$uinfo->name|code}</td>
   </tr>
-{if $USER->unlimit() || $uinfo->hasPermission(UserInfo::PERMISSION_REVIEW_POST)}
+{if ($USER->unlimit() || $uinfo->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) && !$blockPostStat}
   <tr>
     <td>个性签名：</td>
     <td>{$uinfo->getinfo('signature')|code}</td>

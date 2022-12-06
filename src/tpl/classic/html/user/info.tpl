@@ -13,7 +13,7 @@
 <p class="txt">
  用户名：{$uinfo->name|code}<br/>
 </p>
-{if $USER->unlimit() || $uinfo->hasPermission(UserInfo::PERMISSION_REVIEW_POST)}
+{if ($USER->unlimit() || $uinfo->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) && !$blockPostStat}
 <p class="txt">
  个性签名：{$uinfo->getinfo('signature')|code}<br/>
 </p>
