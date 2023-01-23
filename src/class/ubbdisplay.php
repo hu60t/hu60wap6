@@ -226,7 +226,7 @@ class UbbDisplay extends XUBBP
             $html .= '<latex-js class="userlatex">'.htmlspecialchars($code).'</latex-js>';
         } else {
             // 别用id属性，因为网页插件可能会修改code标签的id
-            $html .= '<pre class="hu60_code"><code class="'.code::html($data['lang']).'" data-hu60-index="'.$codeIndex.'">'.code::html($code).'</code></pre>';
+            $html .= '<pre class="hu60_code"><code class="'.code::html($data['lang']).'" data-hu60-index="'.$codeIndex.'">'.code::html($code, false, true).'</code></pre>';
         }
 
         return $this->markdownProtect($html, $data);
