@@ -34,8 +34,12 @@ class search
 		}
 		cache::set($limitKey, $limit, 60);
 
+        $review = '';
+        if (!$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
+            $review = 'AND review = 0';
+        }
 
-        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ?  AND ((uid = ?) OR (access = 0) OR (access & ?)) $order LIMIT $searchLimit";
+        $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ?  AND ((uid = ?) OR (access = 0) OR (access & ?)) $review $order LIMIT $searchLimit";
         $db = db::conn();
         $rs = $db->prepare($sql);
 
@@ -162,7 +166,7 @@ class search
             $where = '';
             if ($uid != $USER->uid) {
                 if (!$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
-                    $where .= ' AND review < 2';
+                    $where .= ' AND review = 0';
                 }
                 if (!$USER->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)) {
                     $where .= ' AND (locked = 0 OR locked = 2)';
@@ -269,7 +273,7 @@ class search
             $args[] = $uid;
             if ($uid != $USER->uid) {
                 if (!$USER->hasPermission(UserInfo::PERMISSION_REVIEW_POST)) {
-                    $sql .= ' AND review < 2';
+                    $sql .= ' AND review = 0';
                 }
                 if (!$USER->hasPermission(UserInfo::PERMISSION_EDIT_TOPIC)) {
                     $sql .= ' AND locked = 0';
