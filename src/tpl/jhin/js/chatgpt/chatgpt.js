@@ -49,6 +49,15 @@ const currentSessionSelector = 'a.relative.rounded-md.bg-gray-800';
 // 新建会话按钮的CSS选择器
 const newChatButtonSelector = 'a.flex-shrink-0.border';
 
+// 模型下拉框的CSS选择器
+const modelListBoxSelector = 'button.w-full.cursor-default';
+
+// 模型列表项的CSS选择器
+const modelListItemSelector = 'li.select-none.items-center';
+
+// “Upgrade to Plus”按钮的CSS选择器
+const upgradeToPlusSelector = 'span.gold-new-button.flex';
+
 // 默认会话（从0开始计数）
 const defaultSession = 0;
 
@@ -80,7 +89,7 @@ async function sendText(text) {
 
     if (!chatBox || !sendButton) {
         // 找不到聊天框或发送按钮，可能之前发生了网络错误，尝试来回切换会话解决
-        let sessions = document.querySelectorAll(sessionListItemSelector);
+        let sessions = getSessions();
         let currentSession = document.querySelector(currentSessionSelector);
 
         // 寻找当前会话索引
@@ -95,9 +104,44 @@ async function sendText(text) {
     sendButton.click();
 }
 
+// 选择模型
+async function selectModel(modelIndex) {
+    if (!document.querySelector(modelListBoxSelector) && document.querySelector(upgradeToPlusSelector)) {
+        // 免费用户没有模型选择器
+    }
+
+    // 等待模型选择器出现
+    for (let i=0; i<10 && !document.querySelector(modelListBoxSelector); i++) {
+        await sleep(100);
+    }
+
+    let box = document.querySelector(modelListBoxSelector);
+    if (!box) {
+        // 找不到模型选择器
+        return;
+    }
+
+    let models = document.querySelectorAll(modelListItemSelector);
+    if (models.length < 2) {
+        // 弹出模型下拉框
+        box.click();
+        await sleep(100);
+        for (let i=0; i<10 && document.querySelectorAll(modelListItemSelector).length < 2; i++) {
+            await sleep(100);
+        }
+        models = document.querySelectorAll(modelListItemSelector);
+    }
+
+    if (modelIndex < models.length) {
+        console.log("selectModel", modelIndex, models[modelIndex].innerText);
+        models[modelIndex].click();
+        await sleep(100);
+    }
+}
+
 // 创建新会话
 async function newChatSession() {
-    let sessionIndex = document.querySelectorAll(sessionListItemSelector).length;
+    let sessionIndex = getSessions().length;
     console.log('newChatSession', sessionIndex, 'begin');
     document.querySelector(newChatButtonSelector).click();
     // 等待新建完成
@@ -107,15 +151,25 @@ async function newChatSession() {
         !document.querySelector(chatBoxSelector) ||
         !document.querySelector(sendButtonSelector)
     );
+    // 选择模型，第一个Legacy，第二个Default
+    await selectModel(sessionIndex == 0 ? 1 : 0);
     console.log('newChatSession', sessionIndex, 'end');
+}
+
+// 获取会话列表
+function getSessions() {
+    // 颠倒会话列表，因为创建顺序是反的
+    return Array.from(document.querySelectorAll(sessionListItemSelector)).reverse();
 }
 
 // 切换会话
 async function switchSession(sessionIndex) {
-    let sessions = document.querySelectorAll(sessionListItemSelector);
+    let sessions = getSessions();
+    // 会话数量不足，先创建
     if (sessions.length < 1 || (sessionIndex == 1 && sessions.length < 2)) {
         return await newChatSession();
     }
+
     if (sessions[sessionIndex]) {
         if (document.querySelector(currentSessionSelector) == sessions[sessionIndex]) {
             return;
@@ -127,7 +181,7 @@ async function switchSession(sessionIndex) {
         // 等待切换完成
         do {
             await sleep(100);
-            sessions = document.querySelectorAll(sessionListItemSelector);
+            sessions = getSessions();
         } while (
             document.querySelector(currentSessionSelector) != sessions[sessionIndex]
             || !document.querySelector(chatBoxSelector)
