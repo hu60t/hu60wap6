@@ -46,6 +46,9 @@ const sessionListItemSelector = 'a.relative.rounded-md';
 // 当前会话的CSS选择器
 const currentSessionSelector = 'a.relative.rounded-md.bg-gray-800';
 
+// 新建会话按钮的CSS选择器
+const newChatButtonSelector = 'a.flex-shrink-0.border';
+
 // 默认会话（从0开始计数）
 const defaultSession = 0;
 
@@ -92,9 +95,27 @@ async function sendText(text) {
     sendButton.click();
 }
 
+// 创建新会话
+async function newChatSession() {
+    let sessionIndex = document.querySelectorAll(sessionListItemSelector).length;
+    console.log('newChatSession', sessionIndex, 'begin');
+    document.querySelector(newChatButtonSelector).click();
+    // 等待新建完成
+    do {
+        await sleep(100);
+    } while (
+        !document.querySelector(chatBoxSelector) ||
+        !document.querySelector(sendButtonSelector)
+    );
+    console.log('newChatSession', sessionIndex, 'end');
+}
+
 // 切换会话
 async function switchSession(sessionIndex) {
     let sessions = document.querySelectorAll(sessionListItemSelector);
+    if (sessions.length < 1 || (sessionIndex == 1 && sessions.length < 2)) {
+        return await newChatSession();
+    }
     if (sessions[sessionIndex]) {
         if (document.querySelector(currentSessionSelector) == sessions[sessionIndex]) {
             return;
