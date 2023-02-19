@@ -38,7 +38,7 @@ const sendButtonSelector = 'button.absolute.p-1';
 const replyNotReadySelector = 'div.text-2xl';
 
 // 聊天回答的CSS选择器
-const chatReplySelector = 'div.markdown';
+const chatReplySelector = 'div.markdown, div.text-gray-600';
 
 // 左侧会话列表项的CSS选择器
 const sessionListItemSelector = 'a.relative.rounded-md';
