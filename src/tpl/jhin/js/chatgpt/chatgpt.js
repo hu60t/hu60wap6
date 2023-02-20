@@ -88,6 +88,10 @@ var hu60MyUid = null;
 // 带sid的虎绿林URL（自动获取）
 var hu60BaseUrl = null;
 
+// 在切换会话前重命名当前会话
+// 缓解重命名失败的方法
+var wantRename = null;
+
 /////////////////////////////////////////////////////////////
 
 // 休眠指定的毫秒数
@@ -193,7 +197,7 @@ async function renameSession(newName) {
     }
 
     // 重命名总是失败，多重试几次
-    for (let i=0; i<10; i++) {
+    for (let i=0; i<3; i++) {
         getCurrentSession().click();
         await sleep(100);
 
@@ -211,7 +215,8 @@ async function renameSession(newName) {
             return;
         }
 
-        nameInput.value = newName; // 输入新名称
+        // 交替改变新名称，以免毫无变化不尝试保存
+        nameInput.value = newName.replace('-', (i==1) ? '.' : '-');
         await sleep(100);
 
         actionButtons = document.querySelectorAll(actionButtonSelector);
@@ -233,7 +238,8 @@ function getSessions() {
 function findSession(name) {
     let sessions = getSessions();
     for (let i=0; i<sessions.length; i++) {
-        if (sessions[i].innerText == name) {
+        // 重命名时会交替使用.和-，有可能保存上的是.而非-
+        if (sessions[i].innerText.replace('.', '-') == name) {
             return sessions[i];
         }
     }
@@ -249,15 +255,26 @@ function getCurrentSession() {
 function getSessionName() {
     let session = getCurrentSession();
     if (session) {
-        return session.innerText;
+        // 重命名时会交替使用.和-，有可能保存上的是.而非-
+        return session.innerText.replace('.', '-');
     }
     return null;
+}
+
+// 切换会话前重命名当前会话
+// 缓解重命名失败的方法
+async function renameWant() {
+    if (wantRename !== null) {
+        await renameSession(wantRename);
+        wantRename = null;
+    }
 }
 
 // 切换会话
 async function switchSession(name, modelIndex) {
     let session = findSession(name);
     if (!session) {
+        await renameWant();
         return await newChatSession(modelIndex);
     }
 
@@ -265,6 +282,8 @@ async function switchSession(name, modelIndex) {
         // 无需切换
         return;
     }
+
+    await renameWant();
 
     console.log('switchSession', name, 'begin');
     session.click();
@@ -505,6 +524,7 @@ async function replyAtInfo(info) {
         let sessionName = makeSessionName(uid, modelIndex);
         if (getSessionName() != sessionName) {
             await renameSession(sessionName);
+            wantRename = sessionName;
         }
     } catch (ex) {
         console.error(ex);
