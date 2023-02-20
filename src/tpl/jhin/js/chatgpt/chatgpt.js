@@ -90,14 +90,24 @@ async function sendText(text) {
     if (!chatBox || !sendButton) {
         // 找不到聊天框或发送按钮，可能之前发生了网络错误，尝试来回切换会话解决
         let sessions = getSessions();
-        let currentSession = document.querySelector(currentSessionSelector);
 
-        // 寻找当前会话索引
-        let currentIndex = 0;
-        for (; currentIndex<sessions.length && sessions[currentIndex] != currentSession; currentIndex++);
+        if (sessions.length < 2) {
+            // 会话数量太少，新建会话
+            await newChatSession(session.length);
+        } else {
+            let currentSession = document.querySelector(currentSessionSelector);
 
-        await switchSession((currentIndex + 1) % sessions.length);
-        await switchSession(currentIndex);
+            // 寻找当前会话索引
+            let currentIndex = 0;
+            for (; currentIndex<sessions.length && sessions[currentIndex] != currentSession; currentIndex++);
+
+            // 来回切换会话
+            await switchSession((currentIndex + 1) % sessions.length);
+            await switchSession(currentIndex);
+        }
+
+        chatBox = document.querySelector(chatBoxSelector);
+        sendButton = document.querySelector(sendButtonSelector);
     }
 
     chatBox.value = text;
@@ -145,11 +155,14 @@ async function newChatSession() {
     console.log('newChatSession', sessionIndex, 'begin');
     document.querySelector(newChatButtonSelector).click();
     // 等待新建完成
+    let i = 0;
     do {
         await sleep(100);
+        i++;
     } while (
-        !document.querySelector(chatBoxSelector) ||
-        !document.querySelector(sendButtonSelector)
+        (  !document.querySelector(chatBoxSelector)
+        || !document.querySelector(sendButtonSelector))
+        && i < 100
     );
     // 选择模型，第一个Legacy，第二个Default
     await selectModel(sessionIndex == 0 ? 1 : 0);
@@ -179,13 +192,16 @@ async function switchSession(sessionIndex) {
         sessions[sessionIndex].click();
 
         // 等待切换完成
+        let i = 0;
         do {
             await sleep(100);
             sessions = getSessions();
+            i++;
         } while (
-            document.querySelector(currentSessionSelector) != sessions[sessionIndex]
+            (document.querySelector(currentSessionSelector) != sessions[sessionIndex]
             || !document.querySelector(chatBoxSelector)
-            || !document.querySelector(sendButtonSelector)
+            || !document.querySelector(sendButtonSelector))
+            && i < 100
         );
         console.log('switchSession', sessionIndex, 'end');
     }
@@ -309,7 +325,7 @@ async function readReply() {
 
 // 判断响应是否结束
 function isFinished() {
-    return document.querySelector(replyNotReadySelector) == null;
+    return !document.querySelector(replyNotReadySelector);
 }
 
 // 读取@消息
@@ -379,15 +395,15 @@ async function replyAtInfo(info) {
         }
 
         // 等待现有任务完成
-        do {
-            await sleep(500);
-        } while (!isFinished());
+        while (!isFinished()) {
+            await sleep(100);
+        }
 
         await sendRequest(text);
 
         // 等待回答完成
         do {
-            await sleep(500);
+            await sleep(100);
         } while (!isFinished());
 
         let replyText = await readReply();
@@ -448,10 +464,8 @@ async function run() {
     while (true) {
         try {
             // 浏览器用户可能直接输入了问题，等待回答完成
-            if (!isFinished()) {
-                do {
-                    await sleep(500);
-                } while (!isFinished());
+            while (!isFinished()) {
+                await sleep(100);
             }
 
             let atInfo = await readAtInfo();
