@@ -34,6 +34,14 @@ const errorMap = {
     'An error occurred. Either the engine you requested does not exist or there was another issue processing your request. If this issue persists please contact us through our help center at help.openai.com.' : 'ChatGPT接口报错，请重试。',
 };
 
+// 模型对应关系（仅限 ChatGPT Plus 付费用户）
+const modelMap = {
+    1 : 0, // @ChatGPT 1，对应第一个Default模型
+    2 : 1, // @ChatGPT 2，对应第二个Legacy模型
+};
+
+/////////////////////////////////////////////////////////////
+
 // 聊天框的CSS选择器
 const chatBoxSelector = 'textarea.w-full.p-0';
 
@@ -44,6 +52,8 @@ const sendButtonSelector = 'button.absolute.p-1';
 const replyNotReadySelector = 'div.text-2xl';
 
 // 聊天回答的CSS选择器
+// div.markdown 是正常回复
+// div.text-gray-600 是错误信息（比如网络错误）
 const chatReplySelector = 'div.markdown, div.text-gray-600';
 
 // 左侧会话列表项的CSS选择器
@@ -51,6 +61,12 @@ const sessionListItemSelector = 'a.relative.rounded-md';
 
 // 当前会话的CSS选择器
 const currentSessionSelector = 'a.relative.rounded-md.bg-gray-800';
+
+// 编辑、删除、确认、取消按钮的CSS选择器
+const actionButtonSelector = 'button.p-1.hover\\:text-white';
+
+// 会话名称编辑框的CSS选择器
+const sessionNameInputSelector = 'input.text-sm.w-full';
 
 // 新建会话按钮的CSS选择器
 const newChatButtonSelector = 'a.flex-shrink-0.border';
@@ -63,9 +79,6 @@ const modelListItemSelector = 'li.select-none.items-center';
 
 // “Upgrade to Plus”按钮的CSS选择器
 const upgradeToPlusSelector = 'span.gold-new-button.flex';
-
-// 默认会话（从0开始计数）
-const defaultSession = 0;
 
 /////////////////////////////////////////////////////////////
 
@@ -88,46 +101,15 @@ function loadScript(url) {
     document.head.appendChild(script);
 }
 
-// 发送聊天信息
-async function sendText(text) {
-    let chatBox = document.querySelector(chatBoxSelector);
-    let sendButton = document.querySelector(sendButtonSelector);
-
-    if (!chatBox || !sendButton) {
-        // 找不到聊天框或发送按钮，可能之前发生了网络错误，尝试来回切换会话解决
-        let sessions = getSessions();
-
-        if (sessions.length < 2) {
-            // 会话数量太少，新建会话
-            await newChatSession(session.length);
-        } else {
-            let currentSession = document.querySelector(currentSessionSelector);
-
-            // 寻找当前会话索引
-            let currentIndex = 0;
-            for (; currentIndex<sessions.length && sessions[currentIndex] != currentSession; currentIndex++);
-
-            // 来回切换会话
-            await switchSession((currentIndex + 1) % sessions.length);
-            await switchSession(currentIndex);
-        }
-
-        chatBox = document.querySelector(chatBoxSelector);
-        sendButton = document.querySelector(sendButtonSelector);
-    }
-
-    chatBox.value = text;
-    sendButton.click();
-}
-
 // 选择模型
 async function selectModel(modelIndex) {
     if (!document.querySelector(modelListBoxSelector) && document.querySelector(upgradeToPlusSelector)) {
         // 免费用户没有模型选择器
+        return;
     }
 
     // 等待模型选择器出现
-    for (let i=0; i<10 && !document.querySelector(modelListBoxSelector); i++) {
+    for (let i=0; i<50 && !document.querySelector(modelListBoxSelector); i++) {
         await sleep(100);
     }
 
@@ -148,6 +130,7 @@ async function selectModel(modelIndex) {
         models = document.querySelectorAll(modelListItemSelector);
     }
 
+    // 选择模型
     if (modelIndex < models.length) {
         console.log("selectModel", modelIndex, models[modelIndex].innerText);
         models[modelIndex].click();
@@ -156,9 +139,9 @@ async function selectModel(modelIndex) {
 }
 
 // 创建新会话
-async function newChatSession() {
-    let sessionIndex = getSessions().length;
-    console.log('newChatSession', sessionIndex, 'begin');
+async function newChatSession(modelIndex) {
+    let sessionIndex = getSessions().length + 1;
+    console.log('newChatSession', sessionIndex, modelIndex, 'begin');
     document.querySelector(newChatButtonSelector).click();
     // 等待新建完成
     let i = 0;
@@ -170,51 +153,162 @@ async function newChatSession() {
         || !document.querySelector(sendButtonSelector))
         && i < 100
     );
-    // 选择模型，第一个Legacy，第二个Default
-    await selectModel(sessionIndex == 0 ? 1 : 0);
-    console.log('newChatSession', sessionIndex, 'end');
+
+    // 选择模型
+    await selectModel(modelIndex);
+
+    console.log('newChatSession', sessionIndex, modelIndex, 'end');
+}
+
+// 删除当前会话
+async function deleteSession() {
+    let sessionNum = getSessions().length;
+
+    let actionButtons = document.querySelectorAll(actionButtonSelector);
+    if (!actionButtons[1]) {
+        console.error('deleteSession', '找不到删除按钮');
+        return;
+    }
+    actionButtons[1].click(); // 点击删除按钮
+    await sleep(100);
+
+    actionButtons = document.querySelectorAll(actionButtonSelector);
+    if (!actionButtons[0]) {
+        console.error('deleteSession', '找不到确认按钮');
+        return;
+    }
+    actionButtons[0].click(); // 点击确认按钮
+
+    // 等待删除完成
+    for (let i=0; i<100 && getSessions().length >= sessionNum; i++) {
+        await sleep(100);
+    }
+}
+
+// 重命名会话
+async function renameSession(newName) {
+    // 刚开始创建标题的时候，当前会话获取不到
+    for (let i=0; i<50 && !getCurrentSession(); i++) {
+        await sleep(100);
+    }
+
+    // 重命名总是失败，多重试几次
+    for (let i=0; i<10; i++) {
+        getCurrentSession().click();
+        await sleep(100);
+
+        let actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('renameSession', '找不到编辑按钮');
+            return;
+        }
+        actionButtons[0].click(); // 点击编辑按钮
+        await sleep(100);
+
+        let nameInput = document.querySelector(sessionNameInputSelector);
+        if (!nameInput) {
+            console.error('renameSession', '找不到输入框');
+            return;
+        }
+
+        nameInput.value = newName; // 输入新名称
+        await sleep(100);
+
+        actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('renameSession', '找不到确认按钮');
+            return;
+        }
+        actionButtons[0].click(); // 点击确认按钮
+        await sleep(100);
+    }
 }
 
 // 获取会话列表
 function getSessions() {
-    return Array.from(document.querySelectorAll(sessionListItemSelector)).reverse();
+    return document.querySelectorAll(sessionListItemSelector);
+}
+
+// 查找会话
+function findSession(name) {
+    let sessions = getSessions();
+    for (let i=0; i<sessions.length; i++) {
+        if (sessions[i].innerText == name) {
+            return sessions[i];
+        }
+    }
+    return null;
+}
+
+// 获取当前session
+function getCurrentSession() {
+    return document.querySelector(currentSessionSelector);
+}
+
+// 获取当前session的名称
+function getSessionName() {
+    let session = getCurrentSession();
+    if (session) {
+        return session.innerText;
+    }
+    return null;
 }
 
 // 切换会话
-async function switchSession(sessionIndex) {
-    let sessions = getSessions();
-    // 会话数量不足，先创建
-    if (sessions.length < 1 || (sessionIndex == 1 && sessions.length < 2)) {
-        return await newChatSession();
+async function switchSession(name, modelIndex) {
+    let session = findSession(name);
+    if (!session) {
+        return await newChatSession(modelIndex);
     }
 
-    if (sessions[sessionIndex]) {
-        if (document.querySelector(currentSessionSelector) == sessions[sessionIndex]) {
-            return;
-        }
-
-        console.log('switchSession', sessionIndex, 'begin');
-        sessions[sessionIndex].click();
-
-        // 等待切换完成
-        let i = 0;
-        do {
-            await sleep(100);
-            sessions = getSessions();
-            i++;
-        } while (
-            (document.querySelector(currentSessionSelector) != sessions[sessionIndex]
-            || !document.querySelector(chatBoxSelector)
-            || !document.querySelector(sendButtonSelector))
-            && i < 100
-        );
-        console.log('switchSession', sessionIndex, 'end');
+    if (getCurrentSession() == session) {
+        // 无需切换
+        return;
     }
+
+    console.log('switchSession', name, 'begin');
+    session.click();
+
+    // 等待切换完成
+    let i = 0;
+    do {
+        await sleep(100);
+        i++;
+    } while (
+        (getSessionName() != name
+        || !document.querySelector(chatBoxSelector)
+        || !document.querySelector(sendButtonSelector))
+        && i < 100
+    );
+
+    // 找不到发言框或发送按钮，当前会话可能出错
+    if (!document.querySelector(chatBoxSelector) || !document.querySelector(sendButtonSelector)) {
+        console.warn('找不到发言框或发送按钮，尝试删除会话', name);
+        await deleteSession();
+        return await newChatSession(modelIndex);
+    }
+
+    console.log('switchSession', name, 'end');
+}
+
+function makeSessionName(uid, modelIndex) {
+    return uid + '-' + modelIndex;
+}
+
+// 发送聊天信息
+async function sendText(text, uid, modelIndex) {
+    await switchSession(makeSessionName(uid, modelIndex), modelIndex);
+
+    let chatBox = document.querySelector(chatBoxSelector);
+    let sendButton = document.querySelector(sendButtonSelector);
+
+    chatBox.value = text;
+    sendButton.click();
 }
 
 // 执行聊天信息中的指令
-async function sendRequest(text) {
-    console.log('sendRequest', text);
+async function sendRequest(text, uid) {
+    console.log('sendRequest', '@#'+uid, text);
 
     // 去除待审核提示
     text = text.trim().replace(/^发言待审核，仅管理员和作者本人可见。/s, '').trim();
@@ -225,24 +319,19 @@ async function sendRequest(text) {
     //  @ChatGPT 2，你好
     let parts = text.match(/^\s*@[^，,：:\s]+(?:\s+(\d+))?[，,：:\s]+(.*)$/s);
 
-    if (!parts) {
-        return await sendText(text);
+    let modelIndex = modelMap[1];
+
+    if (parts) {
+        let cmd = parts[1];
+        text = parts[2];
+    
+        if (undefined !== cmd && undefined !== modelMap[Number(cmd)]) {
+            modelIndex = modelMap[Number(cmd)];
+        }
     }
 
-    let cmd = parts[1];
-    text = parts[2];
-
-    if (cmd == undefined) {
-        // 使用默认会话
-        await switchSession(defaultSession);
-    } else if (/^\d+$/.test(cmd)) {
-        // 切换会话
-        // 示例，切换到会话2：
-        //  @ChatGPT 2，你好
-        await switchSession(Number(cmd - 1));
-    }
-
-    return await sendText(text);
+    await sendText(text, uid, modelIndex);
+    return modelIndex;
 }
 
 // 读取响应
@@ -287,7 +376,7 @@ async function readReply() {
                     )
                 }
             });
-        } else {
+        } else if (turndownService) {
             console.error("找不到 turndownPluginGfm，无法处理复杂Markdown排版。\n请确认 " + turndownGfmJsUrl + " 是否正常加载。");
         }
     } catch (ex) {
@@ -401,7 +490,7 @@ async function replyAtInfo(info) {
             await sleep(100);
         }
 
-        await sendRequest(text);
+        let modelIndex = await sendRequest(text, uid);
 
         // 等待回答完成
         do {
@@ -411,6 +500,12 @@ async function replyAtInfo(info) {
         let replyText = await readReply();
         let response = await replyTopic(uid, replyText, topicObject);
         console.log('success:', response.type == 'opaqueredirect');
+
+        // 重命名会话
+        let sessionName = makeSessionName(uid, modelIndex);
+        if (getSessionName() != sessionName) {
+            await renameSession(sessionName);
+        }
     } catch (ex) {
         console.error(ex);
     }
