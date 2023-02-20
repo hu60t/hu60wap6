@@ -177,7 +177,6 @@ async function newChatSession() {
 
 // 获取会话列表
 function getSessions() {
-    // 颠倒会话列表，因为创建顺序是反的
     return Array.from(document.querySelectorAll(sessionListItemSelector)).reverse();
 }
 
@@ -224,7 +223,7 @@ async function sendRequest(text) {
     // 示例：
     //  @ChatGPT，你好
     //  @ChatGPT 2，你好
-    let parts = text.match(/^\s*@[^，,：:\s]+(?:\s+([^，,：;\s]+))?[，,：:\s]+(.*)$/s);
+    let parts = text.match(/^\s*@[^，,：:\s]+(?:\s+(\d+))?[，,：:\s]+(.*)$/s);
 
     if (!parts) {
         return await sendText(text);
