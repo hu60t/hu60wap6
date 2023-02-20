@@ -28,6 +28,12 @@ const turndownGfmJsUrl = hu60Domain + '/tpl/jhin/js/chatgpt/turndown-plugin-gfm.
 
 /////////////////////////////////////////////////////////////
 
+// 错误提示翻译
+const errorMap = {
+    'Too many requests in 1 hour. Try again later.' : "达到一小时对话次数上限，请过段时间再试，或尝试@[empty]其他机器人。\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]罐子2号",
+    'An error occurred. Either the engine you requested does not exist or there was another issue processing your request. If this issue persists please contact us through our help center at help.openai.com.' : 'ChatGPT接口报错，请重试。',
+};
+
 // 聊天框的CSS选择器
 const chatBoxSelector = 'textarea.w-full.p-0';
 
@@ -290,8 +296,9 @@ async function readReply() {
     }
 
     let reply = Array.from(document.querySelectorAll(chatReplySelector)).at(-1);
-    if (!reply) {
-        return '读取回复出错';
+    // 如果内容不为空，至少会有一个Text子节点
+    if (!reply || !reply.childNodes) {
+        return "读取回复出错，请重试。\n@老虎会游泳，可能需要检查机器人代码问题。";
     }
 
     // 用插件 html 转 markdown
@@ -303,13 +310,7 @@ async function readReply() {
         }
     }
 
-    ///////// 插件加载或转换失败，手动 html 转 markdown /////////
-
-    if (!reply.childNodes) {
-        // 内容为错误提示
-        return reply.innerText;
-    }
-
+    // 插件加载或转换失败，手动 html 转 markdown
     let lines = [];
     reply.childNodes.forEach(x => {
         if (x.tagName == 'PRE') { // 代码
@@ -350,6 +351,8 @@ async function readTopicContent(path) {
 
 // 回复帖子
 async function replyTopic(uid, replyText, topicObject) {
+    replyText = errorMap[replyText] || replyText; // 翻译错误提示
+
     let content = "<!md>\n@#" + uid + "，" + replyText;
     console.log('replyTopic', content);
 
