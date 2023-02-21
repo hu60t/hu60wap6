@@ -596,7 +596,8 @@ async function run() {
             }
 
             let atInfo = await readAtInfo();
-            for (let i = 0; i < atInfo.msgList.length; i++) {
+            // @消息是后收到的在前面，所以从后往前循环，先发的先处理
+            for (let i = atInfo.msgList.length - 1; i>=0; i--) {
                 await replyAtInfo(atInfo.msgList[i]);
             }
             await sleep(1000);
