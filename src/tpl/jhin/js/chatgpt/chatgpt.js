@@ -412,7 +412,14 @@ async function readReply() {
         console.error('turndown 加载失败', ex);
     }
 
-    let reply = Array.from(document.querySelectorAll(chatReplySelector)).at(-1);
+    // 获取内容DOM
+    let reply = null;
+    // 等待内容出现
+    let i = 0;
+    do {
+        reply = doArray.from(document.querySelectorAll(chatReplySelector)).at(-1);
+        i++;
+    } while (i<50 && !reply && !await sleep(100));
     // 如果内容不为空，至少会有一个Text子节点
     if (!reply || !reply.childNodes) {
         return "读取回复出错，请重试。\n@老虎会游泳，可能需要检查机器人代码问题。";
