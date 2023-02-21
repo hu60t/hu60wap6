@@ -279,11 +279,21 @@ async function switchSession(name, modelIndex) {
     }
 
     if (getCurrentSession() == session) {
-        // 无需切换
-        return;
+        if (document.querySelector(chatBoxSelector)
+         && document.querySelector(sendButtonSelector)) {
+            // 无需切换
+            return;
+        } else {
+            // 找不到发言框，可能出错了，尝试来回切换标签页
+            // 先重命名当前会话
+            await renameWant();
+            // 不发言不会保留新建的会话，后续代码会尝试切换回当前会话
+            await newChatSession(modelIndex);
+        }
+    } else {
+        // 切换前先重命名当前会话
+        await renameWant();
     }
-
-    await renameWant();
 
     console.log('switchSession', name, 'begin');
     session.click();
