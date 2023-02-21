@@ -63,6 +63,7 @@ const commandPhrases = {
     '结束会话' : async function() {
         if (isNewSession) {
             commandPhraseReply = '会话未开始';
+            isNewSession = false;
         } else {
             await deleteSession();
             commandPhraseReply = '会话已结束';
