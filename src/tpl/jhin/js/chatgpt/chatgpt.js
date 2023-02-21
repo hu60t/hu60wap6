@@ -396,7 +396,7 @@ async function readReply() {
                     return node.nodeName === 'PRE' && node.querySelector('code.hljs');
                 },
                 replacement: function (content, node, options) {
-                    var lang = node.querySelector('span').textContent;
+                    var lang = node.querySelector('span')?.textContent || ''; // lang span可能不存在
                     var code = node.querySelector('code.hljs').textContent;
                     return (
                         '\n\n' + options.fence + lang + '\n' +
@@ -417,7 +417,7 @@ async function readReply() {
     // 等待内容出现
     let i = 0;
     do {
-        reply = doArray.from(document.querySelectorAll(chatReplySelector)).at(-1);
+        reply = Array.from(document.querySelectorAll(chatReplySelector)).at(-1);
         i++;
     } while (i<50 && !reply && !await sleep(100));
     // 如果内容不为空，至少会有一个Text子节点
