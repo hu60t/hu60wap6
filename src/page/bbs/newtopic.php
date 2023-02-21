@@ -57,8 +57,11 @@ try {
                 throw new Exception('未知原因发帖失败，请重试或联系管理员');
             
             $url = "bbs.topic.$tid.$PAGE[bid]";
-            header("Location: $url");
-            
+            if ($PAGE->bid != 'json') {
+                header("Location: $url");
+            }
+    
+            $tpl->assign('url', $url);
             $tpl->assign('tid', $tid);
             $tpl->display('tpl:topicsuccess');
 

@@ -42,8 +42,16 @@ if ($PAGE->ext[0]) {
                         $chat->chatsay($roomname, $_POST['content'], time());
                         //清空发言框的内容
                         $_POST['content'] = '';
-                        // 发送一个302跳转以防浏览器重发POST
-                        header('Location: '.$PAGE->getUrl().'?rand='.time());
+
+                        $url = $PAGE->getUrl().'?rand='.time();
+                        if ($PAGE->bid != 'json') {
+                            // 发送一个302跳转以防浏览器重发POST
+                            header('Location: '.$url);
+                        } else {
+                            // 输出JSON结果
+                            $tpl->assign('url', $url);
+                            $tpl->display('tpl:chat_success');
+                        }
                         exit;
                     } catch (Exception $e) {
                         $err_msg = $e->getMessage();

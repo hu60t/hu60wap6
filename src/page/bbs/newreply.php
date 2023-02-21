@@ -63,8 +63,11 @@ try {
             throw new Exception('未知原因回复失败，请重试或联系管理员');
         
         $url = "bbs.topic.$tid.$PAGE[bid]?floor=$floor#$floor";
-        header("Location: $url");
-        
+        if ($PAGE->bid != 'json') {
+            header("Location: $url");
+        }
+
+        $tpl->assign('url', $url);
         $tpl->display('tpl:replysuccess');
     } else {
         throw new Exception('');

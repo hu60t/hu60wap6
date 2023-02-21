@@ -107,8 +107,11 @@ try {
         $bbs->updateTopicContent($tid, $cid, $tMeta['access'], $content, $editTitle, $title);
 
         $url = "bbs.topic.$tid.$p.$PAGE[bid]?floor=$tContent[floor]#$tContent[floor]";
-        header("Location: $url");
+        if ($PAGE->bid != 'json') {
+            header("Location: $url");
+        }
 
+        $tpl->assign('url', $url);
         $tpl->assign('tid', $tid);
         $tpl->display('tpl:editsuccess');
     } elseif (isset($_POST['preview'])) {
