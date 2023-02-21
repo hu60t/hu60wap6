@@ -35,12 +35,19 @@ const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]�
 const errorMap = {
     'Too many requests in 1 hour. Try again later.':
         "当前机器人达到OpenAI设置的一小时对话次数上限，请过段时间再试，或尝试@[empty]其他机器人。" + robotList,
+
     'An error occurred. Either the engine you requested does not exist or there was another issue processing your request. If this issue persists please contact us through our help center at help.openai.com.':
         "ChatGPT接口报错（会话丢失），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+
+    'The server had an error while processing your request. Sorry about that! You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID c0576db1191cbb1b23fea88ec6a0ee8c in your message.)':
+        "ChatGPT接口报错（服务器出错），请重试，或尝试@[empty]其他机器人。" + robotList,
+
     'An error occurred. If this issue persists please contact us through our help center at help.openai.com.':
         "ChatGPT接口报错（网络故障），请重试，或尝试@[empty]其他机器人。" + robotList,
+
     'Only one message at a time. Please allow any other responses to complete before sending another message, or wait one minute.':
         "ChatGPT接口报错（并发受限），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+
     'Something went wrong':
         "ChatGPT接口报错（抛出异常），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
 };
