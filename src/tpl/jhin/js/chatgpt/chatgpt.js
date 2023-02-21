@@ -33,10 +33,16 @@ const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]�
 
 // 错误提示翻译
 const errorMap = {
-    'Too many requests in 1 hour. Try again later.' : "当前机器人达到OpenAI设置的一小时对话次数上限，请过段时间再试，或尝试@[empty]其他机器人。" + robotList,
-    'An error occurred. Either the engine you requested does not exist or there was another issue processing your request. If this issue persists please contact us through our help center at help.openai.com.' : "ChatGPT接口报错（会话丢失），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
-    'An error occurred. If this issue persists please contact us through our help center at help.openai.com.' : "ChatGPT接口报错（网络故障），请重试，或尝试@[empty]其他机器人。" + robotList,
-    'Only one message at a time. Please allow any other responses to complete before sending another message, or wait one minute.' : "ChatGPT接口报错（并发受限），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+    'Too many requests in 1 hour. Try again later.':
+        "当前机器人达到OpenAI设置的一小时对话次数上限，请过段时间再试，或尝试@[empty]其他机器人。" + robotList,
+    'An error occurred. Either the engine you requested does not exist or there was another issue processing your request. If this issue persists please contact us through our help center at help.openai.com.':
+        "ChatGPT接口报错（会话丢失），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+    'An error occurred. If this issue persists please contact us through our help center at help.openai.com.':
+        "ChatGPT接口报错（网络故障），请重试，或尝试@[empty]其他机器人。" + robotList,
+    'Only one message at a time. Please allow any other responses to complete before sending another message, or wait one minute.':
+        "ChatGPT接口报错（并发受限），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+    'Something went wrong':
+        "ChatGPT接口报错（抛出异常），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
 };
 
 // 模型对应关系（仅限 ChatGPT Plus 付费用户）
@@ -466,7 +472,7 @@ async function readReply() {
     } while (i<50 && !reply && !await sleep(100));
     // 如果内容不为空，至少会有一个Text子节点
     if (!reply || !reply.childNodes) {
-        return "读取回复出错，请重试。\n@老虎会游泳，可能需要检查机器人代码问题。";
+        return "读取回复出错，请稍后重试，或尝试@[empty]其他机器人。" + robotList + "\n\n@老虎会游泳，可能需要检查机器人代码问题。";
     }
 
     // 用插件 html 转 markdown
