@@ -40,6 +40,18 @@ const modelMap = {
     2 : 1, // @ChatGPT 2，对应第二个Legacy模型
 };
 
+// 命令短语
+const commandPhrases = {
+    '结束会话' : async function() {
+        if (isNewSession) {
+            commandPhraseReply = '会话未开始';
+        } else {
+            await deleteSession();
+            commandPhraseReply = '会话已结束';
+        }
+    },
+};
+
 /////////////////////////////////////////////////////////////
 
 // 聊天框的CSS选择器
@@ -80,6 +92,9 @@ const modelListItemSelector = 'li.select-none.items-center';
 // “Upgrade to Plus”按钮的CSS选择器
 const upgradeToPlusSelector = 'span.gold-new-button.flex';
 
+// 会话列表“Show more”按钮的CSS选择器
+const showMoreButtonSelector = 'button.justify-center.m-auto';
+
 /////////////////////////////////////////////////////////////
 
 // 用户自身的虎绿林uid（自动获取）
@@ -91,6 +106,12 @@ var hu60BaseUrl = null;
 // 在切换会话前重命名当前会话
 // 缓解重命名失败的方法
 var wantRename = null;
+
+// 新会话标识
+var isNewSession = false;
+
+// 命令短语回复
+var commandPhraseReply = null;
 
 /////////////////////////////////////////////////////////////
 
@@ -161,6 +182,7 @@ async function newChatSession(modelIndex) {
     // 选择模型
     await selectModel(modelIndex);
 
+    isNewSession = true;
     console.log('newChatSession', sessionIndex, modelIndex, 'end');
 }
 
@@ -235,7 +257,13 @@ function getSessions() {
 }
 
 // 查找会话
-function findSession(name) {
+async function findSession(name) {
+    // 存在Show more按钮，点击它，展开完整列表
+    for (let i=0; i<5 && document.querySelector(showMoreButtonSelector); i++) {
+        document.querySelector(showMoreButtonSelector).click();
+        await sleep(1000);
+    }
+
     let sessions = getSessions();
     for (let i=0; i<sessions.length; i++) {
         // 重命名时会交替使用.和-，有可能保存上的是.而非-
@@ -272,7 +300,7 @@ async function renameWant() {
 
 // 切换会话
 async function switchSession(name, modelIndex) {
-    let session = findSession(name);
+    let session = await findSession(name);
     if (!session) {
         await renameWant();
         return await newChatSession(modelIndex);
@@ -317,7 +345,7 @@ async function switchSession(name, modelIndex) {
         return await newChatSession(modelIndex);
     }
 
-    console.log('switchSession', name, 'end');
+    console.log('switchSession', name, 'end', i, getSessionName());
 }
 
 function makeSessionName(uid, modelIndex) {
@@ -327,6 +355,11 @@ function makeSessionName(uid, modelIndex) {
 // 发送聊天信息
 async function sendText(text, uid, modelIndex) {
     await switchSession(makeSessionName(uid, modelIndex), modelIndex);
+
+    // 执行命令短语
+    if (commandPhrases[text]) {
+        return await commandPhrases[text]();
+    }
 
     let chatBox = document.querySelector(chatBoxSelector);
     let sendButton = document.querySelector(sendButtonSelector);
@@ -365,6 +398,12 @@ async function sendRequest(text, uid) {
 
 // 读取响应
 async function readReply() {
+    if (commandPhraseReply) {
+        let reply = commandPhraseReply;
+        commandPhraseReply = null;
+        return reply;
+    }
+
     // 加载 html 转 markdown 插件
     let turndownService = null;
     try {
@@ -438,7 +477,7 @@ async function readReply() {
     let lines = [];
     reply.childNodes.forEach(x => {
         if (x.tagName == 'PRE') { // 代码
-            let lang = x.querySelector('span').innerText;
+            let lang = x.querySelector('span')?.innerText || '';
             let code = x.querySelector('code').innerText.replace(/[\r\n]+$/s, '');
             lines.push("\n```" + lang + "\n" + code + "\n```\n");
         } else { // 正文
@@ -477,7 +516,11 @@ async function readTopicContent(path) {
 async function replyTopic(uid, replyText, topicObject) {
     replyText = errorMap[replyText] || replyText; // 翻译错误提示
 
-    let content = "<!md>\n@#" + uid + "，" + replyText;
+    let content = "<!md>\n";
+    if (isNewSession) {
+        content += '[新会话] ';
+    }
+    content += "@#" + uid + "，" + replyText;
     console.log('replyTopic', content);
 
     let url = null;
@@ -539,9 +582,11 @@ async function replyAtInfo(info) {
 
         // 重命名会话
         let sessionName = makeSessionName(uid, modelIndex);
-        if (getSessionName() != sessionName) {
+        // 得判断会话是否存在，因为会话可能会被“结束会话”删除
+        if (isNewSession) {
             await renameSession(sessionName);
             wantRename = sessionName;
+            isNewSession = false;
         }
     } catch (ex) {
         console.error(ex);
