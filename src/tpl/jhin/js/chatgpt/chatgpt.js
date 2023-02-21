@@ -494,7 +494,7 @@ function isFinished() {
 
 // 读取@消息
 async function readAtInfo() {
-    let response = await fetch(hu60BaseUrl + 'msg.index.@.no.json?_origin=*&_content=json', {
+    let response = await fetch(hu60BaseUrl + 'msg.index.@.no.json?_origin=*&_json=compact&_content=json', {
         redirect: "manual" // 不自动重定向
     });
     if (response.type == 'opaqueredirect') {
@@ -507,7 +507,7 @@ async function readAtInfo() {
 
 // 读取帖子内容
 async function readTopicContent(path) {
-    let url = hu60BaseUrl + path.replace('{$BID}', 'json').replace('?', '?_origin=*&_content=text&pageSize=1&');
+    let url = hu60BaseUrl + path.replace('{$BID}', 'json').replace('?', '?_origin=*&_json=compact&_content=text&pageSize=1&');
     let response = await fetch(url);
     return await response.json();
 }
@@ -535,7 +535,7 @@ async function replyTopic(uid, replyText, topicObject) {
     formData.append('token', topicObject.token);
     formData.append('go', '1');
 
-    let response = await fetch(hu60BaseUrl + url + '?_origin=*', {
+    let response = await fetch(hu60BaseUrl + url + '?_origin=*&_json=compact', {
         body: formData,
         method: "post",
         redirect: "manual" // 不自动重定向
@@ -617,7 +617,7 @@ async function login() {
         formData.append('pass', localStorage.hu60Pwd);
         formData.append('go', '1');
 
-        let response = await fetch(hu60Url + 'user.login.json?_origin=*', {
+        let response = await fetch(hu60Url + 'user.login.json?_origin=*&_json=compact', {
             body: formData,
             method: "post",
             redirect: "manual" // 不自动重定向
