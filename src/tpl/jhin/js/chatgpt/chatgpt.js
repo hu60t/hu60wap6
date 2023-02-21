@@ -577,8 +577,16 @@ async function replyAtInfo(info) {
         } while (!isFinished());
 
         let replyText = await readReply();
-        let response = await replyTopic(uid, replyText, topicObject);
-        console.log('success:', response.type == 'opaqueredirect');
+        try {
+            let response = await replyTopic(uid, replyText, topicObject);
+            if (response.type == 'opaqueredirect') {
+                console.log('success:', true);
+            } else {
+                console.log(await response.text());
+            }
+        } catch (ex) {
+            console.error(ex);
+        }
 
         // 重命名会话
         let sessionName = makeSessionName(uid, modelIndex);
