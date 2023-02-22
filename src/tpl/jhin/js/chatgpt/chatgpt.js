@@ -29,7 +29,7 @@ const turndownGfmJsUrl = hu60Domain + '/tpl/jhin/js/chatgpt/turndown-plugin-gfm.
 /////////////////////////////////////////////////////////////
 
 // 已知机器人列表
-const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]罐子2号';
+const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]罐子2号\n* @[empty]chat\n\n';
 
 // 错误提示翻译
 const errorMap = {
@@ -39,18 +39,25 @@ const errorMap = {
     'An error occurred. Either the engine you requested does not exist or there was another issue processing your request. If this issue persists please contact us through our help center at help.openai.com.':
         "ChatGPT接口报错（会话丢失），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
 
-    'The server had an error while processing your request. Sorry about that! You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID c0576db1191cbb1b23fea88ec6a0ee8c in your message.)':
+    // the request ID 后面是一串随机值，所以没有粘贴过来。匹配时回复将截短到错误提示的最大长度，只要保证该错误提示是最长的，就不需要处理随机ID问题。
+    'The server had an error while processing your request. Sorry about that! You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID':
         "ChatGPT接口报错（服务器出错），请重试，或尝试@[empty]其他机器人。" + robotList,
 
     'An error occurred. If this issue persists please contact us through our help center at help.openai.com.':
-        "ChatGPT接口报错（网络故障），请重试，或尝试@[empty]其他机器人。" + robotList,
+        "ChatGPT接口报错（客户端错误），请重试，或尝试@[empty]其他机器人。" + robotList,
 
     'Only one message at a time. Please allow any other responses to complete before sending another message, or wait one minute.':
         "ChatGPT接口报错（并发受限），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
 
     'Something went wrong':
         "ChatGPT接口报错（抛出异常），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+
+    'network error':
+        "ChatGPT接口报错（网络错误），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
 };
+
+// 错误提示文本的最大长度
+const errorMaxLen = Math.max(...Object.keys(errorMap).map(x => x.length));
 
 // 模型对应关系（仅限 ChatGPT Plus 付费用户）
 const modelMap = {
@@ -533,7 +540,7 @@ async function readTopicContent(path) {
 
 // 回复帖子
 async function replyTopic(uid, replyText, topicObject) {
-    replyText = errorMap[replyText] || replyText; // 翻译错误提示
+    replyText = errorMap[replyText.substr(0, errorMaxLen)] || replyText; // 翻译错误提示
 
     let content = "<!md>\n";
     if (isNewSession) {
