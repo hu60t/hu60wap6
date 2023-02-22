@@ -525,7 +525,7 @@ async function readAtInfo() {
     });
     if (response.type == 'opaqueredirect') {
         // 登录失效，要求重新登录
-        await login();
+        await login(true);
         return await readAtInfo();
     }
     return await response.json();
@@ -630,11 +630,11 @@ async function replyAtInfo(info) {
 }
 
 // 登录虎绿林
-async function login() {
+async function login(relogin) {
     try {
         console.log('登录虎绿林');
 
-        if (!localStorage.hu60User || !localStorage.hu60Pwd) {
+        if (relogin || !localStorage.hu60User || !localStorage.hu60Pwd) {
             localStorage.hu60User = prompt("虎绿林用户名：");
             localStorage.hu60Pwd = prompt("虎绿林密码：");
         }
@@ -660,11 +660,7 @@ async function login() {
     } catch (ex) {
         console.log(ex);
         alert('登录失败：' + ex);
-
-        localStorage.hu60User = null;
-        localStorage.hu60Pwd = null;
-
-        return await login();
+        return await login(true);
     }
 }
 
