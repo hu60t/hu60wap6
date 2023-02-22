@@ -584,16 +584,18 @@ async function replyAtInfo(info) {
         }
 
         // 等待现有任务完成
-        while (!isFinished()) {
+        for (let i=0; i<1200 && !isFinished(); i++) {
             await sleep(100);
         }
 
         let modelIndex = await sendRequest(text, uid);
 
         // 等待回答完成
+        let i = 0;
         do {
             await sleep(100);
-        } while (!isFinished());
+            i++;
+        } while (i<1200 && !isFinished());
 
         let replyText = await readReply();
         try {
@@ -670,7 +672,7 @@ async function run() {
     while (true) {
         try {
             // 浏览器用户可能直接输入了问题，等待回答完成
-            while (!isFinished()) {
+            for (let i=0; i<1200 && !isFinished(); i++) {
                 await sleep(100);
             }
 
