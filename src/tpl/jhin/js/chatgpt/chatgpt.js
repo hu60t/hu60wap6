@@ -397,20 +397,25 @@ async function sendText(text, uid, modelIndex) {
         return await commandPhrases[text]();
     }
 
-    let chatBox = document.querySelector(chatBoxSelector);
-    let sendButton = document.querySelector(sendButtonSelector);
+    // 多试几次防止意外
+    let i = 0;
+    do {
+        let chatBox = document.querySelector(chatBoxSelector);
+        let sendButton = document.querySelector(sendButtonSelector);
 
-    // 多试几次，防止失败
-    for (let i=0; i<3; i++) {
         chatBox.value = text;
-        await sleep(100);
-    }
-
-    // 多试几次，防止失败
-    for (let i=0; i<3; i++) {
         sendButton.click();
+
         await sleep(100);
-    }
+        i++;
+    } while (
+        // 发送按钮还在，加载按钮未出现，说明没有发言成功
+        document.querySelector(chatBoxSelector) &&
+        document.querySelector(sendButtonSelector) &&
+        !document.querySelector(replyNotReadySelector) &&
+        !await sleep(100) &&
+        i < 100
+    );
 }
 
 // 执行聊天信息中的指令
