@@ -2,29 +2,46 @@
 
 /**************************************************************
 使用方法：
-1. （可选）付费订阅 ChatGPT Plus，以便消除时不时弹出的浏览器安全检查。
-2. 打开 https://chat.openai.com/chat 并登录。
-3. 打开开发者控制台（F12）。
-4. 把以下代码粘贴到控制台，回车运行：
+1. 使用最新版的Chrome谷歌浏览器或Firefox火狐浏览器，不要使用QQ浏览器、360浏览器等，不保证兼容。
+2. 安装油猴插件：https://www.tampermonkey.net/
+3. 在油猴里添加新脚本，粘贴如下代码并保存：
 
-const hu60Domain = 'https://hu60.cn';
+// ==UserScript==
+// @name         虎绿林ChatGPT机器人
+// @namespace    https://hu60.cn/
+// @version      1.0
+// @description  把ChatGPT接入hu60wap6网站程序
+// @author       老虎会游泳
+// @match        https://chat.openai.com/chat*
+// @icon         https://hu60.cn/favicon.ico
+// @grant        none
+// ==/UserScript==
+
+document.hu60Domain = 'https://hu60.cn'; // 如果要对接其他网站，请修改此处的域名
 var script = document.createElement("script");
-script.src = hu60Domain + '/tpl/jhin/js/chatgpt/chatgpt.js';
+script.src = document.hu60Domain + '/tpl/jhin/js/chatgpt/chatgpt.js?r=' + (new Date().getTime());
 document.head.appendChild(script);
 
-5. 在弹出框里输入虎绿林用户名和密码。
-6. 控制台打印“虎绿林ChatGPT机器人已启动”即启动成功，保持页面打开即可。
+4. 打开 https://chat.openai.com/ 并登录。
+5. 在来到 https://chat.openai.com/chat 页面时，会弹出输入虎绿林用户名密码的提示框，输入完毕后机器人即启动，保持页面不要关闭。
+6. 建议按F12打开开发者控制台，可以看到机器人的运行情况，而且好像能提升机器人运行的稳定性。
+7. 注意，自己`@自己`是不会有反应的，必须用另一个账号来和机器人对话。
 **************************************************************/
 
+// 与之前的启动方式保持兼容
+if (typeof hu60Domain != 'undefined') {
+    document.hu60Domain = hu60Domain;
+}
+
 // 虎绿林URL
-const hu60Url = hu60Domain + '/q.php/';
+const hu60Url = document.hu60Domain + '/q.php/';
 
 // https://github.com/mixmark-io/turndown
 // 老虎会游泳修改了 collapseWhitespace 函数以保留所有空白和换行
-const turndownJsUrl = hu60Domain + '/tpl/jhin/js/chatgpt/turndown-tigermod.js';
+const turndownJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-tigermod.js';
 
 // https://github.com/mixmark-io/turndown-plugin-gfm
-const turndownGfmJsUrl = hu60Domain + '/tpl/jhin/js/chatgpt/turndown-plugin-gfm.js';
+const turndownGfmJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-plugin-gfm.js';
 
 /////////////////////////////////////////////////////////////
 
