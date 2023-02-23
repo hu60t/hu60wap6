@@ -54,6 +54,9 @@ const errorMap = {
 
     'network error':
         "ChatGPT接口报错（网络错误），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+
+    'The message you submitted was too long, please reload the conversation and submit something shorter.':
+        "内容超过ChatGPT长度限制，请缩短。当前会话已丢失。",
 };
 
 // 错误提示文本的最大长度
@@ -135,6 +138,9 @@ var wantRename = null;
 
 // 新会话标识
 var isNewSession = false;
+
+// 空白发言标识
+var isTextEmpty = false;
 
 // 命令短语回复
 var commandPhraseReply = null;
@@ -418,6 +424,8 @@ async function sendRequest(text, uid) {
         }
     }
 
+    isTextEmpty = (text.length == 0);
+
     await sendText(text, uid, modelIndex);
     return modelIndex;
 }
@@ -487,6 +495,9 @@ async function readReply() {
     } while (i<50 && !reply && !await sleep(100));
     // 如果内容不为空，至少会有一个Text子节点
     if (!reply || !reply.childNodes) {
+        if (isNewSession && isTextEmpty) {
+            return "会话不存在，无法读取上一条回复。请发送非空留言。";
+        }
         return "读取回复出错，请稍后重试，或尝试@[empty]其他机器人。" + robotList + "\n\n@老虎会游泳，可能需要检查机器人代码问题。";
     }
 
@@ -545,6 +556,8 @@ async function replyTopic(uid, replyText, topicObject) {
     let content = "<!md>\n";
     if (isNewSession) {
         content += '[新会话] ';
+    } else if (isTextEmpty) {
+        content += '[上一条回复] ';
     }
     content += "@#" + uid + "，" + replyText;
     console.log('replyTopic', content);
