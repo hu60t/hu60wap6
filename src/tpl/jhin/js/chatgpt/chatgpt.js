@@ -420,10 +420,15 @@ async function sendText(text, uid, modelIndex) {
         let chatBox = document.querySelector(chatBoxSelector);
         let sendButton = document.querySelector(sendButtonSelector);
 
-        chatBox.value = text;
-        sendButton.click();
-
+        chatBox.click();
         await sleep(100);
+
+        chatBox.value = text;
+        await sleep(100);
+
+        sendButton.click();
+        await sleep(100);
+
         i++;
     } while (
         // 发送按钮还在，加载按钮未出现，说明没有发言成功
