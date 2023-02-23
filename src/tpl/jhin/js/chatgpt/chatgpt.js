@@ -210,6 +210,8 @@ async function newChatSession(modelIndex) {
         || !document.querySelector(sendButtonSelector))
         && i < 100
     );
+    // 再多等一会儿，防止意外
+    await sleep(100);
 
     // 选择模型
     await selectModel(modelIndex);
@@ -369,6 +371,8 @@ async function switchSession(name, modelIndex) {
         || !document.querySelector(sendButtonSelector))
         && i < 100
     );
+    // 再多等一会儿，防止意外
+    await sleep(100);
 
     // 找不到发言框或发送按钮，当前会话可能出错
     if (!document.querySelector(chatBoxSelector) || !document.querySelector(sendButtonSelector)) {
@@ -396,8 +400,17 @@ async function sendText(text, uid, modelIndex) {
     let chatBox = document.querySelector(chatBoxSelector);
     let sendButton = document.querySelector(sendButtonSelector);
 
-    chatBox.value = text;
-    sendButton.click();
+    // 多试几次，防止失败
+    for (let i=0; i<3; i++) {
+        chatBox.value = text;
+        await sleep(100);
+    }
+
+    // 多试几次，防止失败
+    for (let i=0; i<3; i++) {
+        sendButton.click();
+        await sleep(100);
+    }
 }
 
 // 执行聊天信息中的指令
