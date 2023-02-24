@@ -104,6 +104,9 @@ document.run = async function() {
                     console.error(ex); // 打印异常到控制台
                     await sleep(1000); // 异常后等久一点
                 }
+
+                // 重命名会话
+                await renameWant();
             }
 
             // 执行管理员命令（比如“刷新页面”）
@@ -237,6 +240,11 @@ var hu60BaseUrl = null;
 // 缓解重命名失败的方法
 var wantRename = null;
 
+// 回复结束时间
+// 在回复结束10秒后重命名会话，
+// 以防ChatGPT自动重命名会话导致我们的名称保存失败。
+var replyFinishTime = 0;
+
 // 管理员想要刷新页面
 var wantRefresh = false;
 
@@ -257,6 +265,7 @@ const commandPhrases = {
         if (isNewSession) {
             commandPhraseReply = '会话未开始';
             isNewSession = false;
+            wantRename = null;
         } else {
             await deleteSession();
             commandPhraseReply = '会话已结束';
@@ -276,6 +285,9 @@ const commandPhrases = {
 // 为什么要定义成单独的函数？因为刷新操作需要在发送回复给管理员后再执行，
 // 否则页面刷新了就没办法发送回复了。
 async function runAdminCommand() {
+    // 重命名对话
+    await renameWant();
+
     // 刷新页面
     if (wantRefresh) {
         location.reload();
@@ -349,7 +361,7 @@ async function selectModel(modelIndex) {
 }
 
 // 创建新会话
-async function newChatSession(modelIndex) {
+async function newChatSession(name, modelIndex) {
     let sessionIndex = getSessions().length + 1;
     console.log('newChatSession', sessionIndex, modelIndex, 'begin');
     document.querySelector(newChatButtonSelector).click();
@@ -370,6 +382,7 @@ async function newChatSession(modelIndex) {
     await selectModel(modelIndex);
 
     isNewSession = true;
+    wantRename = name;
     console.log('newChatSession', sessionIndex, modelIndex, 'end');
 }
 
@@ -397,6 +410,9 @@ async function deleteSession() {
         for (let i=0; i<100 && getSessions().length >= sessionNum; i++) {
             await sleep(100);
         }
+
+        isNewSession = false;
+        wantRename = null;
     } catch (ex) {
         console.error('会话删除失败', ex);
     }
@@ -411,8 +427,8 @@ async function renameSession(newName) {
             await sleep(1000);
         }
 
-        // 刚开始创建标题的时候，当前会话获取不到
-        for (let i=0; i<50 && !getCurrentSession(); i++) {
+        // 等待加载完成
+        for (let i=0; i<100 && (!isFinished() || !getCurrentSession()); i++) {
             await sleep(100);
         }
 
@@ -465,6 +481,11 @@ async function findSession(name) {
         await sleep(1000);
     }
 
+    // 等待加载完成
+    for (let i=0; i<100 && !isFinished(); i++) {
+        await sleep(100);
+    }
+
     let sessions = getSessions();
     for (let i=0; i<sessions.length; i++) {
         // 重命名时会交替使用.和-，有可能保存上的是.而非-
@@ -494,6 +515,14 @@ function getSessionName() {
 // 缓解重命名失败的方法
 async function renameWant() {
     if (wantRename !== null) {
+        // 距离回复不到10秒，等够10秒
+        // 防止重命名过程中ChatGPT同时自动重命名，导致我们的名称保存失败
+        let timeDiff = 10000 - ((new Date().getTime()) - replyFinishTime);
+        if (timeDiff > 0) {
+            console.log(timeDiff + 'ms 后重命名会话');
+            await sleep(timeDiff);
+        }
+
         await renameSession(wantRename);
         wantRename = null;
     }
@@ -501,10 +530,12 @@ async function renameWant() {
 
 // 切换会话
 async function switchSession(name, modelIndex) {
+    isNewSession = false;
+
     let session = await findSession(name);
     if (!session) {
         await renameWant();
-        return await newChatSession(modelIndex);
+        return await newChatSession(name, modelIndex);
     }
 
     if (getCurrentSession() == session) {
@@ -513,11 +544,9 @@ async function switchSession(name, modelIndex) {
             // 无需切换
             return;
         } else {
-            // 找不到发言框，可能出错了，尝试来回切换标签页
-            // 先重命名当前会话
-            await renameWant();
-            // 不发言不会保留新建的会话，后续代码会尝试切换回当前会话
-            await newChatSession(modelIndex);
+            // 找不到发言框，可能出错了，尝试新建一个会话
+            await deleteSession();
+            await newChatSession(name, modelIndex);
         }
     } else {
         // 切换前先重命名当前会话
@@ -535,7 +564,8 @@ async function switchSession(name, modelIndex) {
     } while (
         (getSessionName() != name
         || !document.querySelector(chatBoxSelector)
-        || !document.querySelector(sendButtonSelector))
+        || !document.querySelector(sendButtonSelector)
+        || !isFinished())
         && i < 100
     );
     // 再多等一会儿，防止意外
@@ -545,7 +575,7 @@ async function switchSession(name, modelIndex) {
     if (!document.querySelector(chatBoxSelector) || !document.querySelector(sendButtonSelector)) {
         console.warn('找不到发言框或发送按钮，尝试删除会话', name);
         await deleteSession();
-        return await newChatSession(modelIndex);
+        return await newChatSession(name, modelIndex);
     }
 
     console.log('switchSession', name, 'end', i, getSessionName());
@@ -637,6 +667,8 @@ async function readReply() {
         await sleep(100);
         i++;
     } while (i<1200 && !isFinished());
+
+    replyFinishTime = new Date().getTime();
 
     // 加载 html 转 markdown 插件
     let turndownService = null;
@@ -821,18 +853,12 @@ async function replyAtInfo(info) {
         } catch (ex) {
             console.error(ex);
         }
-
-        // 重命名会话
-        let sessionName = makeSessionName(uid, modelIndex);
-        // 得判断会话是否存在，因为会话可能会被“结束会话”删除
-        if (isNewSession) {
-            await renameSession(sessionName);
-            wantRename = sessionName;
-            isNewSession = false;
-        }
     } catch (ex) {
         console.error(ex);
     }
+
+    // 重命名会话
+    await renameWant();
 }
 
 // 登录虎绿林
