@@ -190,8 +190,8 @@ const chatBoxSelector = 'textarea.w-full.p-0';
 // 发送按钮的CSS选择器
 const sendButtonSelector = 'button.absolute.p-1';
 
-// 正在输入动效（取代发送按钮）的CSS选择器
-const replyNotReadySelector = 'div.text-2xl';
+// 正在输入动效（三个点）和加载中动效（转圈）的CSS选择器
+const replyNotReadySelector = 'div.text-2xl, .animate-spin';
 
 // 聊天回答的CSS选择器
 // div.markdown 是正常回复
@@ -375,26 +375,30 @@ async function newChatSession(modelIndex) {
 
 // 删除当前会话
 async function deleteSession() {
-    let sessionNum = getSessions().length;
+    try {
+        let sessionNum = getSessions().length;
 
-    let actionButtons = document.querySelectorAll(actionButtonSelector);
-    if (!actionButtons[1]) {
-        console.error('deleteSession', '找不到删除按钮');
-        return;
-    }
-    actionButtons[1].click(); // 点击删除按钮
-    await sleep(100);
-
-    actionButtons = document.querySelectorAll(actionButtonSelector);
-    if (!actionButtons[0]) {
-        console.error('deleteSession', '找不到确认按钮');
-        return;
-    }
-    actionButtons[0].click(); // 点击确认按钮
-
-    // 等待删除完成
-    for (let i=0; i<100 && getSessions().length >= sessionNum; i++) {
+        let actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[1]) {
+            console.error('deleteSession', '找不到删除按钮');
+            return;
+        }
+        actionButtons[1].click(); // 点击删除按钮
         await sleep(100);
+
+        actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('deleteSession', '找不到确认按钮');
+            return;
+        }
+        actionButtons[0].click(); // 点击确认按钮
+
+        // 等待删除完成
+        for (let i=0; i<100 && getSessions().length >= sessionNum; i++) {
+            await sleep(100);
+        }
+    } catch (ex) {
+        console.error('会话删除失败', ex);
     }
 }
 
@@ -553,16 +557,19 @@ function makeSessionName(uid, modelIndex) {
 
 // 发送聊天信息
 async function sendText(text, uid, modelIndex) {
-    await switchSession(makeSessionName(uid, modelIndex), modelIndex);
+    try {
+        await switchSession(makeSessionName(uid, modelIndex), modelIndex);
 
-    // 执行命令短语
-    if (commandPhrases[text]) {
-        return await commandPhrases[text](text, uid, modelIndex);
-    }
+        // 等待加载完成
+        for (let i=0; i<100 && !isFinished(); i++) {
+            await sleep(100);
+        }
 
-    // 多试几次防止意外
-    let i = 0;
-    do {
+        // 执行命令短语
+        if (commandPhrases[text]) {
+            return await commandPhrases[text](text, uid, modelIndex);
+        }
+
         let chatBox = document.querySelector(chatBoxSelector);
         let sendButton = document.querySelector(sendButtonSelector);
 
@@ -574,16 +581,11 @@ async function sendText(text, uid, modelIndex) {
 
         sendButton.click();
         await sleep(100);
-
-        i++;
-    } while (
-        // 发送按钮还在，加载按钮未出现，说明没有发言成功
-        document.querySelector(chatBoxSelector) &&
-        document.querySelector(sendButtonSelector) &&
-        !document.querySelector(replyNotReadySelector) &&
-        !await sleep(100) &&
-        i < 100
-    );
+    } catch (ex) {
+        console.error('发言失败', ex);
+        commandPhraseReply = '发言失败，请重试。当前会话已丢失。';
+        await deleteSession();
+    }
 }
 
 // 执行聊天信息中的指令
