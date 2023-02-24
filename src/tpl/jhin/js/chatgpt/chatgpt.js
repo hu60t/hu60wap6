@@ -742,7 +742,12 @@ async function readAtInfo() {
 
 // 读取帖子内容
 async function readTopicContent(path) {
-    let url = hu60BaseUrl + path.replace('{$BID}', 'json').replace('?', '?_origin=*&_json=compact&_content=text&pageSize=1&');
+    let url = hu60BaseUrl + path.replace('{$BID}', 'json')
+        .replace(/#.*$/s, '') // 去掉锚链接
+        .replace(
+            /\?|$/s, // 注意主题帖的@链接不含问号
+            '?_origin=*&_json=compact&_content=text&pageSize=1&'
+        );
     let response = await fetch(url);
     return await response.json();
 }
