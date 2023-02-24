@@ -17,7 +17,8 @@
 // @grant        none
 // ==/UserScript==
 
-document.hu60Domain = 'https://hu60.cn'; // 如果要对接其他网站，请修改此处的域名
+document.hu60AdminUids = [1, 19346, 15953]; // 机器人管理员uid，管理员可以发“@ChatGPT，刷新页面”来重启机器人
+document.hu60Domain = 'https://hu60.cn';    // 如果要对接其他网站，请修改此处的域名
 var script = document.createElement("script");
 script.src = document.hu60Domain + '/tpl/jhin/js/chatgpt/chatgpt.js?r=' + (new Date().getTime());
 document.head.appendChild(script);
@@ -93,7 +94,7 @@ const modelMap = {
 
 // 命令短语
 const commandPhrases = {
-    '结束会话' : async function() {
+    '结束会话' : async function(text, uid, modelIndex) {
         if (isNewSession) {
             commandPhraseReply = '会话未开始';
             isNewSession = false;
@@ -101,6 +102,14 @@ const commandPhrases = {
             await deleteSession();
             commandPhraseReply = '会话已结束';
         }
+    },
+    '刷新页面' : async function(text, uid, modelIndex) {
+        if (!document.hu60AdminUids || !document.hu60AdminUids.includes(uid)) {
+            commandPhraseReply = '您不是管理员，无法进行该操作';
+            return;
+        }
+        commandPhraseReply = '即将刷新页面';
+        wantRefresh = true;
     },
 };
 
@@ -158,6 +167,9 @@ var hu60BaseUrl = null;
 // 在切换会话前重命名当前会话
 // 缓解重命名失败的方法
 var wantRename = null;
+
+// 管理员想要刷新页面
+var wantRefresh = false;
 
 // 新会话标识
 var isNewSession = false;
@@ -427,7 +439,7 @@ async function sendText(text, uid, modelIndex) {
 
     // 执行命令短语
     if (commandPhrases[text]) {
-        return await commandPhrases[text]();
+        return await commandPhrases[text](text, uid, modelIndex);
     }
 
     // 多试几次防止意外
@@ -762,7 +774,7 @@ async function run() {
                 }
             }
             // 异常太多，刷新页面
-            if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
+            if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length || wantRefresh) {
                 location.reload();
             }
             await sleep(1000);
