@@ -257,6 +257,9 @@ var isTextEmpty = false;
 // 命令短语回复
 var commandPhraseReply = null;
 
+// 重试对话内容缓存
+var retryChatTexts = {};
+
 /////////////////////////////////////////////////////////////
 
 // 命令短语
@@ -279,6 +282,14 @@ const commandPhrases = {
         commandPhraseReply = '即将刷新页面';
         wantRefresh = true;
     },
+    '重试' : async function(text, uid, modelIndex) {
+        text = retryChatTexts[uid];
+        if (text === undefined || text === '重试') {
+            commandPhraseReply = '找不到可重试的发言';
+            return;
+        }
+        await sendText(text, uid, modelIndex);
+    }
 };
 
 // 执行管理员命令
@@ -588,6 +599,14 @@ function makeSessionName(uid, modelIndex) {
 // 发送聊天信息
 async function sendText(text, uid, modelIndex) {
     try {
+        let commandFunc = commandPhrases[text];
+
+        // 保存重试内容
+        if (!commandFunc) {
+            retryChatTexts[uid] = text;
+        }
+
+        // 切换会话
         await switchSession(makeSessionName(uid, modelIndex), modelIndex);
 
         // 等待加载完成
@@ -596,8 +615,8 @@ async function sendText(text, uid, modelIndex) {
         }
 
         // 执行命令短语
-        if (commandPhrases[text]) {
-            return await commandPhrases[text](text, uid, modelIndex);
+        if (commandFunc) {
+            return await commandFunc(text, uid, modelIndex);
         }
 
         let chatBox = document.querySelector(chatBoxSelector);
