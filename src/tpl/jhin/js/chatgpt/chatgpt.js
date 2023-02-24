@@ -46,7 +46,7 @@ const turndownGfmJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-pl
 /////////////////////////////////////////////////////////////
 
 // 已知机器人列表
-const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]罐子2号\n* @[empty]chat\n\n';
+const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]罐子2号\n* @[empty]靓仔\n\n';
 
 // 错误提示翻译
 const errorMap = {
@@ -264,41 +264,51 @@ async function deleteSession() {
 
 // 重命名会话
 async function renameSession(newName) {
-    // 刚开始创建标题的时候，当前会话获取不到
-    for (let i=0; i<50 && !getCurrentSession(); i++) {
-        await sleep(100);
-    }
-
-    // 重命名总是失败，多重试几次
-    for (let i=0; i<3; i++) {
-        getCurrentSession().click();
-        await sleep(100);
-
-        let actionButtons = document.querySelectorAll(actionButtonSelector);
-        if (!actionButtons[0]) {
-            console.error('renameSession', '找不到编辑按钮');
-            return;
-        }
-        actionButtons[0].click(); // 点击编辑按钮
-        await sleep(100);
-
-        let nameInput = document.querySelector(sessionNameInputSelector);
-        if (!nameInput) {
-            console.error('renameSession', '找不到输入框');
-            return;
+    try {
+        // 存在Show more按钮，点击它，展开完整列表
+        for (let i=0; i<5 && document.querySelector(showMoreButtonSelector); i++) {
+            document.querySelector(showMoreButtonSelector).click();
+            await sleep(1000);
         }
 
-        // 交替改变新名称，以免毫无变化不尝试保存
-        nameInput.value = newName.replace('-', (i==1) ? '.' : '-');
-        await sleep(100);
-
-        actionButtons = document.querySelectorAll(actionButtonSelector);
-        if (!actionButtons[0]) {
-            console.error('renameSession', '找不到确认按钮');
-            return;
+        // 刚开始创建标题的时候，当前会话获取不到
+        for (let i=0; i<50 && !getCurrentSession(); i++) {
+            await sleep(100);
         }
-        actionButtons[0].click(); // 点击确认按钮
-        await sleep(100);
+
+        // 重命名总是失败，多重试几次
+        for (let i=0; i<3; i++) {
+            getCurrentSession().click();
+            await sleep(100);
+
+            let actionButtons = document.querySelectorAll(actionButtonSelector);
+            if (!actionButtons[0]) {
+                console.error('renameSession', '找不到编辑按钮');
+                return;
+            }
+            actionButtons[0].click(); // 点击编辑按钮
+            await sleep(100);
+
+            let nameInput = document.querySelector(sessionNameInputSelector);
+            if (!nameInput) {
+                console.error('renameSession', '找不到输入框');
+                return;
+            }
+
+            // 交替改变新名称，以免毫无变化不尝试保存
+            nameInput.value = newName.replace('-', (i==1) ? '.' : '-');
+            await sleep(100);
+
+            actionButtons = document.querySelectorAll(actionButtonSelector);
+            if (!actionButtons[0]) {
+                console.error('renameSession', '找不到确认按钮');
+                return;
+            }
+            actionButtons[0].click(); // 点击确认按钮
+            await sleep(100);
+        }
+    } catch (ex) {
+        console.error('会话重命名失败', ex);
     }
 }
 
@@ -733,9 +743,21 @@ async function run() {
             }
 
             let atInfo = await readAtInfo();
+            let exceptionCount = 0;
             // @消息是后收到的在前面，所以从后往前循环，先发的先处理
             for (let i = atInfo.msgList.length - 1; i>=0; i--) {
-                await replyAtInfo(atInfo.msgList[i]);
+                try {
+                    await replyAtInfo(atInfo.msgList[i]);
+                    await sleep(100);
+                } catch (ex) {
+                    exceptionCount++;
+                    console.error(ex);
+                    await sleep(1000);
+                }
+            }
+            // 异常太多，刷新页面
+            if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
+                location.reload();
             }
             await sleep(1000);
         } catch (ex) {
