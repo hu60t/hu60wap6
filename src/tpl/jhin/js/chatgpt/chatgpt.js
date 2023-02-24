@@ -18,7 +18,7 @@
 // ==/UserScript==
 
 document.hu60AdminUids = [1, 19346, 15953]; // 机器人管理员uid，管理员可以发“@ChatGPT，刷新页面”来重启机器人
-document.hu60Domain = 'https://hu60.cn';    // 如果要对接其他网站，请修改此处的域名
+document.hu60Domain = 'https://hu60.cn';    // 如果要对接其他网站，请修改此处的域名（必须是https的否则连不上）
 var script = document.createElement("script");
 script.src = document.hu60Domain + '/tpl/jhin/js/chatgpt/chatgpt.js?r=' + (new Date().getTime());
 document.head.appendChild(script);
@@ -33,6 +33,96 @@ document.head.appendChild(script);
 7. 如何切换登录的帐号？按F12打开开发者工具，点“控制台”或“Console”，然后输入以下代码并回车：
     login(true)
    将会重新弹出用户名密码输入框。
+
+### 如何把机器人接入其他类型的网站？
+
+你可以在油猴脚本的末尾添加一个自定义主循环，用于把机器人接入其他类型的网站。以下是一个例子：
+
+document.run = async function() {
+    while (true) {
+        try {
+            // 访问你的网站获取要发给ChatGPT的内容
+            // 网站必须是https的，否则连不上。
+            // 此外网站还必须设置 Access-Control-Allow-Origin: * 头信息，否则也连不上。
+            let response = await fetch('https://example.com/my-message.php');
+
+            // 假设获取到的信息是JSON，把它转换成JSON对象
+            // 网站必须设置 content-type: application/json 头信息，否则转换会失败。
+            let messages = response.json();
+
+            // 假设JSON结构是这样：
+            // {"data": [
+            //    {"uid":3, "text":"@ChatGPT，你好"},
+            //    {"uid":2, "text":"@ChatGPT，我有一个问题"},
+            //    {"uid":1, "text":"@ChatGPT，刷新页面"},
+            // ]}
+            let exceptionCount = 0;
+            for (let i=0; i<messages.data.length; i++) {
+                // 要发给ChatGPT的话，开头包含的“@机器人名称，”会被后续流程自动去除。
+                // 开头写“@机器人名称 2，”可以选择第二个ChatGPT模型（Legacy模型，仅限ChatGPT Plus用户）。
+                let text = messages.data.text;
+
+                // 用户id，可以是字符串，所以给出用户名也是可以的。
+                let uid = messages.data.uid;
+
+                try {
+                    // 把对话发给ChatGPT
+                    // 返回的 modelIndex 是为对话选择的模型id（从0开始编号）
+                    // 模型id和序号的对应关系见 chatgpt.js 里的 modelMap 变量
+                    let modelIndex = await sendRequest(text, uid);
+
+                    // 从ChatGPT读取回复
+                    let replyText = await readReply();
+
+                    // 发送回复到你的网站
+                    // 创建一个POST表单
+                    let formData = new FormData();
+                    formData.append('token', '用于用户身份验证的密钥');
+                    formData.append('reply', replyText); // 回复内容
+
+                    // 提交POST表单
+                    // 网站必须是https的，否则连不上。
+                    // 此外网站还必须设置 Access-Control-Allow-Origin: * 头信息，否则也连不上。
+                    let response = await fetch('https://example.com/my-reply.php', {
+                        body: formData,
+                        method: "post",
+                        redirect: "manual" // 不自动重定向
+                    });
+
+                    // 在控制台打印提交结果
+                    if (response.type == 'opaqueredirect') {
+                        console.log('提交后收到重定向（目标网址未知，根据标准，浏览器不告诉我们），不清楚提交是否成功');
+                    } else {
+                        let result = await response.text();
+                        console.log('提交结果', result);
+                    }
+
+                    // 避免操作太快
+                    await sleep(100);
+                } catch (ex) {
+                    exceptionCount++;  // 统计异常次数
+                    console.error(ex); // 打印异常到控制台
+                    await sleep(1000); // 异常后等久一点
+                }
+            }
+
+            // 执行管理员命令（比如“刷新页面”）
+            await runAdminCommand();
+
+            // 异常太多，自动刷新页面
+            if (exceptionCount > 0 && exceptionCount >= messages.data.length) {
+                location.reload();
+            }
+
+            // 限制拉取信息的速度，避免对自己的网站造成CC攻击
+            await sleep(1000);
+        } catch (ex) {
+            console.error(ex);
+            await sleep(1000);
+        }
+    }
+}
+
 **************************************************************/
 
 // 与之前的启动方式保持兼容
@@ -90,27 +180,6 @@ const errorMaxLen = Math.max(...Object.keys(errorMap).map(x => x.length));
 const modelMap = {
     1 : 0, // @ChatGPT 1，对应第一个Default模型
     2 : 1, // @ChatGPT 2，对应第二个Legacy模型
-};
-
-// 命令短语
-const commandPhrases = {
-    '结束会话' : async function(text, uid, modelIndex) {
-        if (isNewSession) {
-            commandPhraseReply = '会话未开始';
-            isNewSession = false;
-        } else {
-            await deleteSession();
-            commandPhraseReply = '会话已结束';
-        }
-    },
-    '刷新页面' : async function(text, uid, modelIndex) {
-        if (!document.hu60AdminUids || !document.hu60AdminUids.includes(uid)) {
-            commandPhraseReply = '您不是管理员，无法进行该操作';
-            return;
-        }
-        commandPhraseReply = '即将刷新页面';
-        wantRefresh = true;
-    },
 };
 
 /////////////////////////////////////////////////////////////
@@ -179,6 +248,40 @@ var isTextEmpty = false;
 
 // 命令短语回复
 var commandPhraseReply = null;
+
+/////////////////////////////////////////////////////////////
+
+// 命令短语
+const commandPhrases = {
+    '结束会话' : async function(text, uid, modelIndex) {
+        if (isNewSession) {
+            commandPhraseReply = '会话未开始';
+            isNewSession = false;
+        } else {
+            await deleteSession();
+            commandPhraseReply = '会话已结束';
+        }
+    },
+    '刷新页面' : async function(text, uid, modelIndex) {
+        if (!document.hu60AdminUids || !document.hu60AdminUids.includes(uid)) {
+            commandPhraseReply = '您不是管理员，无法进行该操作';
+            return;
+        }
+        commandPhraseReply = '即将刷新页面';
+        wantRefresh = true;
+    },
+};
+
+// 执行管理员命令
+// 为什么要定义成单独的函数？因为刷新操作需要在发送回复给管理员后再执行，
+// 否则页面刷新了就没办法发送回复了。
+async function runAdminCommand() {
+    // 刷新页面
+    if (wantRefresh) {
+        location.reload();
+        wantRefresh = false;
+    }
+}
 
 /////////////////////////////////////////////////////////////
 
@@ -485,6 +588,11 @@ async function sendText(text, uid, modelIndex) {
 
 // 执行聊天信息中的指令
 async function sendRequest(text, uid) {
+    // 等待现有任务完成
+    for (let i=0; i<1200 && !isFinished(); i++) {
+        await sleep(100);
+    }
+
     console.log('sendRequest', '@#'+uid, text);
 
     // 去除待审核提示
@@ -520,6 +628,13 @@ async function readReply() {
         commandPhraseReply = null;
         return reply;
     }
+
+    // 等待回答完成
+    let i = 0;
+    do {
+        await sleep(100);
+        i++;
+    } while (i<1200 && !isFinished());
 
     // 加载 html 转 markdown 插件
     let turndownService = null;
@@ -571,7 +686,7 @@ async function readReply() {
     // 获取内容DOM
     let reply = null;
     // 等待内容出现
-    let i = 0;
+    i = 0;
     do {
         reply = Array.from(document.querySelectorAll(chatReplySelector)).at(-1);
         i++;
@@ -686,21 +801,9 @@ async function replyAtInfo(info) {
             text = topicObject.chatList[0].content;
         }
 
-        // 等待现有任务完成
-        for (let i=0; i<1200 && !isFinished(); i++) {
-            await sleep(100);
-        }
-
         let modelIndex = await sendRequest(text, uid);
-
-        // 等待回答完成
-        let i = 0;
-        do {
-            await sleep(100);
-            i++;
-        } while (i<1200 && !isFinished());
-
         let replyText = await readReply();
+
         try {
             let response = await replyTopic(uid, replyText, topicObject);
             if (response.type == 'opaqueredirect') {
@@ -765,6 +868,12 @@ async function run() {
     loadScript(turndownJsUrl);
     loadScript(turndownGfmJsUrl);
 
+    // 如果油猴定义了自定义主循环，则使用该主循环
+    // 用于把机器人接入其他类型的网站
+    if (document.run) {
+        return await document.run();
+    }
+
     await login();
     console.log('虎绿林ChatGPT机器人已启动');
 
@@ -788,8 +897,10 @@ async function run() {
                     await sleep(1000);
                 }
             }
+            // 执行管理员命令
+            await runAdminCommand();
             // 异常太多，刷新页面
-            if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length || wantRefresh) {
+            if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
                 location.reload();
             }
             await sleep(1000);
