@@ -182,6 +182,21 @@ var commandPhraseReply = null;
 
 /////////////////////////////////////////////////////////////
 
+// Array.from() 的 polyfill
+if (!Array.from) {
+    Array.from = function (arrayLike, mapFn, thisArg) {
+        var array = [];
+        for (var i = 0; i < arrayLike.length; i++) {
+            if (mapFn) {
+                array.push(mapFn.call(thisArg, arrayLike[i], i, arrayLike));
+            } else {
+                array.push(arrayLike[i]);
+            }
+        }
+        return array;
+    };
+}
+
 // 休眠指定的毫秒数
 // 用法：await sleep(1000)
 const sleep = ms => new Promise(r => setTimeout(r, ms));
