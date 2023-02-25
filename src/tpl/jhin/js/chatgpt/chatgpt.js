@@ -629,7 +629,7 @@ async function sendText(text, uid, modelIndex) {
         await sleep(100);
 
         sendButton.click();
-        await sleep(100);
+        await sleep(1000);
     } catch (ex) {
         console.error('发言失败', ex);
         commandPhraseReply = '发言失败，请重试。当前会话已丢失。';
