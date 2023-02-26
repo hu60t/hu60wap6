@@ -815,7 +815,15 @@ async function replyTopic(uid, replyText, topicObject) {
     } else if (isTextEmpty) {
         content += '[上一条回复] ';
     }
-    content += "@#" + uid + "，" + replyText;
+    content += "@#" + uid + "，";
+
+    // 如果开头是ASCII中的非字母数字，则添加换行。
+    // 开头可能是markdown标记，比如“```”、“*”、“#”等。
+    if (/^[!"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]/.test(replyText)) {
+        content += "\n";
+    }
+
+    content += replyText;
     console.log('replyTopic', content);
 
     let url = null;
