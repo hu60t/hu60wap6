@@ -631,6 +631,7 @@ async function sendText(text, uid, modelIndex) {
         sendButton.click();
         await sleep(1000);
     } catch (ex) {
+        wantRefresh = true;
         console.error('发言失败', ex);
         commandPhraseReply = '发言失败，请重试。当前会话已丢失。';
         await deleteSession();
