@@ -323,6 +323,76 @@ if (!Array.from) {
     };
 }
 
+/////////////////////////////////////////////////////////////
+
+// 保留控制台日志以供分析
+var consoleMessages = [];
+console._log = console.log;
+console._warn = console.warn;
+console._error = console.error;
+console.log = function(...args) {
+    try {
+        consoleMessages.push(args.join(' '));
+    } catch (ex) {
+        console._error(ex);
+    }
+    return console._log(...args);
+};
+console.warn = function (...args) {
+    try {
+        consoleMessages.push(args.join(' '));
+    } catch (ex) {
+        console._error(ex);
+    }
+    return console._warn(...args);
+};
+console.error = function (...args) {
+    try {
+        consoleMessages.push(args.join(' '));
+    } catch (ex) {
+        console._error(ex);
+    }
+    return console._error(...args);
+};
+
+// 保存控制台日志
+function saveConsoleMessages() {
+    try {
+        let value = consoleMessages.join("\n");
+        let key = 'console:' + new Date().toISOString();
+        localStorage.setItem(key, value);
+    } catch (ex) {
+        console._error(ex);
+    }
+};
+// 刷新前自动保存控制台日志以供分析
+window.addEventListener("beforeunload", saveConsoleMessages);
+
+// 清理过多的日志
+// 最多保留5份
+function cleanConsoleStorage() {
+    try {
+        let count = 0;
+        let deleted = 0;
+        Object.keys(localStorage).sort().reverse().forEach(key => {
+            if (key.startsWith('console:')) {
+                count++;
+                if (count > 5) {
+                    deleted++;
+                    localStorage.removeItem(key);
+                }
+            }
+        });
+        if (deleted > 0) {
+            console.log('cleanConsoleStorage', deleted);
+        }
+    } catch (ex) {
+        console.error(ex);
+    }
+}
+
+/////////////////////////////////////////////////////////////
+
 // 休眠指定的毫秒数
 // 用法：await sleep(1000)
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -333,6 +403,8 @@ function loadScript(url) {
     script.src = url;
     document.head.appendChild(script);
 }
+
+/////////////////////////////////////////////////////////////
 
 // 选择模型
 async function selectModel(modelIndex) {
@@ -402,6 +474,7 @@ async function deleteSession() {
     try {
         let sessionNum = getSessions().length;
 
+        console.log('deleteSession', 'begin', sessionNum);
         let actionButtons = document.querySelectorAll(actionButtonSelector);
         if (!actionButtons[1]) {
             console.error('deleteSession', '找不到删除按钮');
@@ -424,6 +497,7 @@ async function deleteSession() {
 
         isNewSession = false;
         wantRename = null;
+        console.log('deleteSession', 'end', getSessions().length);
     } catch (ex) {
         console.error('会话删除失败', ex);
     }
@@ -928,6 +1002,9 @@ async function login(relogin) {
 async function run() {
     loadScript(turndownJsUrl);
     loadScript(turndownGfmJsUrl);
+
+    // 清理过多的日志
+    cleanConsoleStorage();
 
     // 如果油猴定义了自定义主循环，则使用该主循环
     // 用于把机器人接入其他类型的网站
