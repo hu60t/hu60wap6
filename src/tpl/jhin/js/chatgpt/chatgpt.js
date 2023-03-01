@@ -332,6 +332,7 @@ console._warn = console.warn;
 console._error = console.error;
 console.log = function(...args) {
     try {
+        args.unshift(new Date().toLocaleTimeString());
         consoleMessages.push(args.join(' '));
     } catch (ex) {
         console._error(ex);
@@ -340,6 +341,7 @@ console.log = function(...args) {
 };
 console.warn = function (...args) {
     try {
+        args.unshift(new Date().toLocaleTimeString());
         consoleMessages.push(args.join(' '));
     } catch (ex) {
         console._error(ex);
@@ -348,6 +350,7 @@ console.warn = function (...args) {
 };
 console.error = function (...args) {
     try {
+        args.unshift(new Date().toLocaleTimeString());
         consoleMessages.push(args.join(' '));
     } catch (ex) {
         console._error(ex);
