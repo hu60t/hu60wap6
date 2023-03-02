@@ -28,6 +28,7 @@
         {if $USER->islogin}
                 {input type="hidden" name="token" value=$token->token()}
 </p>
+    <p class="text-notice">确定删除帖子《<span class="user-title">{$tMeta.title|code}</span>》{if $tContent.floor>0}的{$tContent.floor}楼回复{/if}？</p>
     {if !$selfDel}
         <p>删除理由：<input name="delReason" value="{$smarty.post.editReason|code}" /></p>
     {/if}

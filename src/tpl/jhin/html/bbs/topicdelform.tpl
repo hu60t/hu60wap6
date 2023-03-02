@@ -30,7 +30,7 @@
     {/if}
   </div>
   <div class='cr180_form'>
-    <p class="text-notice">确定删除帖子:<span class="user-title">{$tMeta.title|code}</span>?</p>
+    <p class="text-notice">确定删除帖子《<span class="user-title">{$tMeta.title|code}</span>》{if $tContent.floor>0}的{$tContent.floor}楼回复{/if}？</p>
     <form method="post" action="{$CID}.deltopic.{$topicId}.{$contentId}.{$BID}">
       <div>
         <p>
