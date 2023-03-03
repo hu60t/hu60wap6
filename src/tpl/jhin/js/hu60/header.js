@@ -88,7 +88,7 @@ function hu60_webplug_import_link(link, codeIndex, authorUid, webplugId) {
 })();
 
 // 代码高亮
-if (typeof hljs !== 'undefined') hljs.initHighlightingOnLoad();
+if (typeof hljs !== 'undefined') hljs.highlightAll();
 
 // 数学公式解析器
 MathJax = {
