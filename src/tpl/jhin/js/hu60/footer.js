@@ -1,9 +1,3 @@
-// 处理视频播放窗口
-document.querySelectorAll('.video').forEach(box => {
-    // 调整播放窗口大小
-    box.style.height = (box.offsetWidth * 2 / 3) + "px";
-});
-
 // 获取内容UBB
 async function hu60_get_content_ubb(type, id) {
     try {
@@ -142,6 +136,12 @@ function user_textbox_toggle(id) {
     }
 }
 
+// 处理视频播放窗口
+document.querySelectorAll('.video').forEach(box => {
+    // 调整播放窗口大小
+    box.style.height = (box.offsetWidth * 2 / 3) + "px";
+});
+
 // 处理用户 iframe 窗口
 document.querySelectorAll('.useriframe').forEach(box => {
     // 调整窗口大小
@@ -164,5 +164,21 @@ document.querySelectorAll('.userimg, .userthumb').forEach(img => {
     }
     if (!img.title) {
         img.title = img.alt;
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 代码高亮
+    if (typeof hljs !== 'undefined') {
+        hljs.highlightAll();
+    }
+
+    // 渲染数学公式
+    if (typeof katex !== 'undefined') {
+        document.querySelectorAll('hu60-math').forEach(element => {
+            katex.render(element.textContent, element, {
+                throwOnError: false,
+            });
+        });
     }
 });

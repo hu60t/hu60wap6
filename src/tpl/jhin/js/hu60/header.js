@@ -87,31 +87,6 @@ function hu60_webplug_import_link(link, codeIndex, authorUid, webplugId) {
     setTimeout(hu60_loading, 3000);
 })();
 
-// 代码高亮
-if (typeof hljs !== 'undefined') hljs.highlightAll();
-
-// 数学公式解析器
-MathJax = {
-    options: {
-        renderActions: {
-            find: [10, function (doc) {
-                for (const node of document.querySelectorAll('hu60-math')) {
-                    const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], false);
-                    const text = document.createTextNode('');
-                    node.parentNode.replaceChild(text, node);
-                    math.start = {
-                        node: text, delim: '', n: 0
-                    };
-                    math.end = {
-                        node: text, delim: '', n: 0
-                    };
-                    doc.math.push(math);
-                }
-            }, '']
-        }
-    }
-};
-
 // 视频解码插件
 (() => {
     // 添加 flv/m3u8 播放支持

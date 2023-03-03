@@ -19,7 +19,11 @@
         import { LaTeXJSComponent } from "{$PAGE->getTplUrl("js/latex.js/dist/latex.m.js")}";
         customElements.define("latex-js", LaTeXJSComponent);
     </script>
-    <script async src="{$PAGE->getTplUrl("js/mathjax/es5/tex-chtml.js")}"></script>
+
+    <link rel="stylesheet" href="{$PAGE->getTplUrl("js/katex/dist/katex.min.css")}">
+    <script defer src="{$PAGE->getTplUrl("js/katex/dist/katex.min.js")}"></script>
+    <script defer src="{$PAGE->getTplUrl("js/katex/dist/contrib/auto-render.min.js")}"></script>
+
 	<script src="{$PAGE->getTplUrl("js/layer/layer.js")}"></script>
     <script src="{$PAGE->getTplUrl("js/hu60/header.js", true)|code}"></script>
     {if $onload !== null}<script>
