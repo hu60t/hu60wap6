@@ -196,6 +196,9 @@ const sendButtonSelector = 'button.absolute.p-1';
 // 正在输入动效（三个点）和加载中动效（转圈）的CSS选择器
 const replyNotReadySelector = 'div.text-2xl, .animate-spin';
 
+// 聊天内容（包括提问与回复）的CSS选择器
+const chatLineSelector = 'div.flex-col.items-start';
+
 // 聊天回答的CSS选择器
 // div.markdown 是正常回复
 // div.text-gray-600 是错误信息（比如网络错误）
@@ -304,23 +307,6 @@ async function runAdminCommand() {
         location.reload();
         wantRefresh = false;
     }
-}
-
-/////////////////////////////////////////////////////////////
-
-// Array.from() 的 polyfill
-if (!Array.from) {
-    Array.from = function (arrayLike, mapFn, thisArg) {
-        var array = [];
-        for (var i = 0; i < arrayLike.length; i++) {
-            if (mapFn) {
-                array.push(mapFn.call(thisArg, arrayLike[i], i, arrayLike));
-            } else {
-                array.push(arrayLike[i]);
-            }
-        }
-        return array;
-    };
 }
 
 /////////////////////////////////////////////////////////////
@@ -696,17 +682,31 @@ async function sendText(text, uid, modelIndex) {
             return await commandFunc(text, uid, modelIndex);
         }
 
-        let chatBox = document.querySelector(chatBoxSelector);
-        let sendButton = document.querySelector(sendButtonSelector);
+        let chatBox, sendButton, lastChatLine;
+        let lastReply = getLastReply();
+        let i = 0;
+        do {
+            chatBox = document.querySelector(chatBoxSelector);
+            sendButton = document.querySelector(sendButtonSelector);
 
-        chatBox.click();
-        await sleep(100);
+            chatBox.click();
+            await sleep(100);
 
-        chatBox.value = text;
-        await sleep(100);
+            chatBox.value = text;
+            await sleep(100);
 
-        sendButton.click();
-        await sleep(1000);
+            sendButton.click();
+            await sleep(1000);
+
+            i++;
+            lastChatLine = getLastChatLine();
+        } while (i < 10 && chatBox && sendButton && lastChatLine &&
+                // 防止读取到上一条回复
+                lastChatLine.querySelector(chatReplySelector) === lastReply);
+
+        if (lastChatLine && lastChatLine.querySelector(chatReplySelector) === lastReply) {
+            throw '发言未上屏';
+        }
     } catch (ex) {
         wantRefresh = true;
         console.error('发言失败', ex);
@@ -748,6 +748,14 @@ async function sendRequest(text, uid) {
 
     await sendText(text, uid, modelIndex);
     return modelIndex;
+}
+
+function getLastChatLine() {
+    return Array.from(document.querySelectorAll(chatLineSelector)).at(-1);
+}
+
+function getLastReply() {
+    return Array.from(document.querySelectorAll(chatReplySelector)).at(-1);
 }
 
 // 读取响应
@@ -819,7 +827,7 @@ async function readReply() {
     // 等待内容出现
     i = 0;
     do {
-        reply = Array.from(document.querySelectorAll(chatReplySelector)).at(-1);
+        reply = getLastReply();
         i++;
     } while (i<50 && !reply && !await sleep(100));
     // 如果内容不为空，至少会有一个Text子节点
