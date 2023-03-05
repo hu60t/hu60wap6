@@ -254,6 +254,9 @@ var wantRefresh = false;
 // 新会话标识
 var isNewSession = false;
 
+// 模型名称
+var modelName = null;
+
 // 空白发言标识
 var isTextEmpty = false;
 
@@ -733,6 +736,7 @@ async function sendRequest(text, uid) {
     //  @ChatGPT 2，你好
     let parts = text.match(/^\s*@[^，,：:\s]+(?:\s+(\d+))?[，,：:\s]+(.*)$/s);
 
+    modelName = null;
     let modelIndex = modelMap[1];
 
     if (parts) {
@@ -740,7 +744,8 @@ async function sendRequest(text, uid) {
         text = parts[2];
     
         if (undefined !== cmd && undefined !== modelMap[Number(cmd)]) {
-            modelIndex = modelMap[Number(cmd)];
+            modelName = Number(cmd);
+            modelIndex = modelMap[modelName];
         }
     }
 
@@ -896,6 +901,9 @@ async function replyTopic(uid, replyText, topicObject) {
     replyText = errorMap[replyText.substr(0, errorMaxLen)] || replyText; // 翻译错误提示
 
     let content = "<!md>\n";
+    if (modelName) {
+        content += '[' + modelName + '] ';
+    }
     if (isNewSession) {
         content += '[新会话] ';
     } else if (isTextEmpty) {
