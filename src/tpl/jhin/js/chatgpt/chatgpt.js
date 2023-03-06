@@ -263,6 +263,10 @@ var isTextEmpty = false;
 // 命令短语回复
 var commandPhraseReply = null;
 
+// 指定回复中的代码高亮UBB
+var replyCodeFormat = null;
+var replyCodeFormatOpts = null;
+
 // 重试对话内容缓存
 var retryChatTexts = {};
 
@@ -685,6 +689,11 @@ async function sendText(text, uid, modelIndex) {
             return await commandFunc(text, uid, modelIndex);
         }
 
+        if (text.length < 1) {
+            // 空白发言，用于取回上一条回复
+            return;
+        }
+
         let chatBox, sendButton, lastChatLine;
         let lastReply = getLastReply();
         let i = 0;
@@ -731,21 +740,37 @@ async function sendRequest(text, uid) {
     text = text.trim().replace(/^发言待审核，仅管理员和作者本人可见。/s, '').trim();
 
     // 分割指令
+    //  @ChatGPT[ 模型序号][ 代码格式[=参数]]，发言内容
     // 示例：
     //  @ChatGPT，你好
     //  @ChatGPT 2，你好
-    let parts = text.match(/^\s*@[^，,：:\s]+(?:\s+(\d+))?[，,：:\s]+(.*)$/s);
+    //  @ChatGPT html，输出一段html hello world
+    //  @ChatGPT 2 html，输出一段html hello world
+    //  @ChatGPT html=500，输出一段html hello world
+    //  @ChatGPT 2 html=300x500，输出一段html hello world
+    let parts = text.match(/^\s*@[^，,：:\s]+(?:\s+(\d+))?(?:\s+(html|text|latex|math)(=[0-9,x]+)?)?[，,：:\s]+(.*)$/si);
 
     modelName = null;
+    replyCodeFormat = null;
+    replyCodeFormatOpts = null;
     let modelIndex = modelMap[1];
 
     if (parts) {
-        let cmd = parts[1];
-        text = parts[2];
+        let model = parts[1];
+        let codeFormat = parts[2];
+        let codeFormatOpts = parts[3];
+        text = parts[4];
     
-        if (undefined !== cmd && undefined !== modelMap[Number(cmd)]) {
-            modelName = Number(cmd);
+        // 选择模型
+        if (undefined !== model && undefined !== modelMap[Number(model)]) {
+            modelName = Number(model);
             modelIndex = modelMap[modelName];
+        }
+        
+        // 指定代码格式
+        if (undefined !== codeFormat) {
+            replyCodeFormat = codeFormat.toLowerCase();
+            replyCodeFormatOpts = codeFormatOpts || '';
         }
     }
 
@@ -813,10 +838,24 @@ async function readReply() {
                 replacement: function (content, node, options) {
                     var lang = node.querySelector('span')?.textContent || ''; // lang span可能不存在
                     var code = node.querySelector('code.hljs').textContent;
+                    var fence = (() => {
+                        switch (replyCodeFormat) {
+                            case 'html':
+                                return ['[html' + replyCodeFormatOpts + ']', '[/html]'];
+                            case 'text':
+                                return ['[text]', '[/text]'];
+                            case 'math':
+                                return ['[math]', '[/math]'];
+                            case 'latex':
+                                return [options.fence + 'latex', options.fence];
+                            default:
+                                return [options.fence + lang, options.fence];
+                        }
+                    })();
                     return (
-                        '\n\n' + options.fence + lang + '\n' +
+                        '\n\n' + fence[0] + '\n' +
                             code.replace(/[\r\n]+$/s, '') +
-                        '\n' + options.fence + '\n\n'
+                        '\n' + fence[1] + '\n\n'
                     )
                 }
             });
