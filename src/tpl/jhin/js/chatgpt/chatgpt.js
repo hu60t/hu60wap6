@@ -1034,6 +1034,7 @@ async function run() {
     await login();
     console.log('虎绿林ChatGPT机器人已启动');
 
+    let globalExceptionCount = 0;
     while (true) {
         try {
             // 浏览器用户可能直接输入了问题，等待回答完成
@@ -1061,11 +1062,26 @@ async function run() {
                 location.reload();
             }
             await sleep(1000);
+            globalExceptionCount = 0;
         } catch (ex) {
             console.error(ex);
             await sleep(1000);
+
+            globalExceptionCount++;
+            if (globalExceptionCount >= 5) {
+                // 未捕捉异常太多，刷新页面
+                location.reload();
+            }
         }
     }
 }
 
-run();
+try {
+    run();
+} catch (ex) {
+    console.error(ex);
+    sleep(1000).then(() => {
+        // 存在未捕捉异常，刷新页面
+        location.reload();
+    });
+}
