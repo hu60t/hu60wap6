@@ -900,8 +900,13 @@ class bbs
     public function topicMeta($topic_id, $fetch = '*')
     {
 		$fetch = explode(',', $fetch);
-		if (in_array('title', $fetch) && !in_array('review', $fetch)) {
-			$fetch[] = 'review';
+		if (in_array('title', $fetch)) {
+            if (!in_array('review', $fetch)) {
+			    $fetch[] = 'review';
+            }
+            if (!in_array('uid', $fetch)) {
+			    $fetch[] = 'uid';
+            }
 		}
 		$fetch = implode(',', $fetch);
         $rs = $this->db->select($fetch, 'bbs_topic_meta', 'WHERE id=?', $topic_id);
@@ -910,7 +915,7 @@ class bbs
         $rs = $rs->fetch();
 		if (!$this->editTopic && isset($rs['review']) && isset($rs['title']) && $rs['review']) {
             $stat = bbs::getReviewStatName($rs['review']);
-			if ($this->user->islogin && $this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
+			if ($this->user->islogin && ($this->user->uid == $rs['uid'] || $this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
 				$rs['title'] = '【'.$stat.'】'.$rs['title'];
 			} else {
 				$rs['title'] = '【帖子'.$stat.'】';
