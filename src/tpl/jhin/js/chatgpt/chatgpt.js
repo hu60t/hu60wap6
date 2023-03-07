@@ -196,6 +196,9 @@ const sendButtonSelector = 'button.absolute.p-1';
 // 正在输入动效（三个点）和加载中动效（转圈）的CSS选择器
 const replyNotReadySelector = 'div.text-2xl, .animate-spin';
 
+// 停止生成/重新生成按钮
+const stopOrRegenButtonSelector = 'button.btn-neutral.border-0';
+
 // 聊天内容（包括提问与回复）的CSS选择器
 const chatLineSelector = 'div.flex-col.items-start';
 
@@ -613,6 +616,13 @@ async function renameWant() {
 async function switchSession(name, modelIndex) {
     isNewSession = false;
 
+    let stopOrRegenButton = document.querySelector(stopOrRegenButtonSelector);
+    if (stopOrRegenButton && stopOrRegenButton.textContent == 'Stop generating') {
+        // 会话生成卡住了，先点停止
+        stopOrRegenButton.click();
+        await sleep(500);
+    }
+
     let session = await findSession(name);
     if (!session) {
         await renameWant();
@@ -802,6 +812,11 @@ async function readReply() {
         await sleep(100);
         i++;
     } while (i<1200 && !isFinished());
+
+    if (!isFinished()) {
+        // 发言卡住了，回复完成后自动刷新
+        wantRefresh = true;
+    }
 
     replyFinishTime = new Date().getTime();
 
