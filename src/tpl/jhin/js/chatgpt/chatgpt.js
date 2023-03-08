@@ -598,6 +598,8 @@ function getSessionName() {
 // 切换会话前重命名当前会话
 // 缓解重命名失败的方法
 async function renameWant() {
+    // ChatGPT界面重大变更：不再具有切换会话功能
+    /*
     if (wantRename !== null) {
         // 距离回复不到10秒，等够10秒
         // 防止重命名过程中ChatGPT同时自动重命名，导致我们的名称保存失败
@@ -610,6 +612,7 @@ async function renameWant() {
         await renameSession(wantRename);
         wantRename = null;
     }
+    */
 }
 
 // 切换会话
@@ -687,7 +690,8 @@ async function sendText(text, uid, modelIndex) {
         }
 
         // 切换会话
-        await switchSession(makeSessionName(uid, modelIndex), modelIndex);
+        // ChatGPT界面重大变更：不再具有切换会话功能
+        //await switchSession(makeSessionName(uid, modelIndex), modelIndex);
 
         // 等待加载完成
         for (let i=0; i<100 && !isFinished(); i++) {
