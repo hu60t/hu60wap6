@@ -1115,11 +1115,11 @@ async function run() {
             if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
                 location.reload();
             }
-            await sleep(1000);
+            await sleep(5000);
             globalExceptionCount = 0;
         } catch (ex) {
             console.error(ex);
-            await sleep(1000);
+            await sleep(5000);
 
             globalExceptionCount++;
             if (globalExceptionCount >= 5) {
