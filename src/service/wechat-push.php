@@ -104,7 +104,7 @@ while (true) {
                         $arr[$column->getName()] = $column->getValue();
                     }
                     
-                    if (!isset($wechatBinds[$arr['touid']])) {
+                    if (!isset($wechatBinds[$arr['touid']]) || $arr['isread'] != 0) {
                         continue;
                     }
 
