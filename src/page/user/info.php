@@ -21,6 +21,7 @@ $tpl->assign('showBlockButton', $USER->hasPermission(UserInfo::PERMISSION_SET_BL
 $userRelationshipService = new UserRelationshipService($USER);
 $tpl->assign('isFollow', $userRelationshipService->isFollow($uinfo->uid));
 $tpl->assign('isBlock', $userRelationshipService->isBlock($uinfo->uid));
+$tpl->assign('isNoDisturb', $userRelationshipService->isNoDisturb($uinfo->uid));
 
 // 是否隐藏用户CSS（小尾巴）
 $hideUserCSS = (bool)$USER->getinfo("ubb.hide_user_css.$uid");

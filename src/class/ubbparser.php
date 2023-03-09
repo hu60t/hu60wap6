@@ -848,8 +848,24 @@ class UbbParser extends XUBBP
             'stat' => $stat,
             'reviewLog' => $reviewLog ? $reviewLog : [],
 		));
-		
-		if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin && ($accessUser->uid == $authorUinfo->uid || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
+
+        /**
+         * 此处获取当前的这条数据的艾特用户是否含有访问帖子的用户
+         */
+        $showContent = false;
+        $tmpContent = $serialize ? data::unserialize($content) : $content;
+        if (is_array($tmpContent) && $tmpContent) {
+            foreach ($tmpContent as $vv) {
+                //如果存在类型为艾特，且艾特的id为访问的用户 那么这个消息应该展示
+                if ($vv['type'] == 'at' && $vv['uid'] == $accessUser['uid']) {
+                    $showContent = true;
+                    break;
+                }
+            }
+        }
+
+
+		if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin && ($accessUser->uid == $authorUinfo->uid || $showContent || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
 			if ($serialize) {
 				$content = data::unserialize($content);
 			}

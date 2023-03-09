@@ -172,7 +172,9 @@ class msg
             $ubb = new ubbparser;
             $content = $ubb->parse($content, true);
         }
-        $rs = $this->db->insert('msg', 'touid,byuid,type,isread,content,ctime', $touid, $uid, $type, 0, $content, $ctime);
+        //如果是免打扰 设置为已读
+        $isread = (new UserRelationshipService($uinfo))->isNoDisturb($uid) ? 1 : 0;
+        $rs = $this->db->insert('msg', 'touid,byuid,type,isread,content,ctime', $touid, $uid, $type, $isread, $content, $ctime);
         if (!$rs) return false;
         return true;
     }

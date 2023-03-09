@@ -5,7 +5,8 @@
     {if $type == "follow"}我关注的{else}<a href="{$CID}.{$PID}.follow.{$BID}">我关注的</a>{/if} |
     {if $type == "block"}我屏蔽的{else}<a href="{$CID}.{$PID}.block.{$BID}">我屏蔽的</a>{/if} |
     {if $type == "follow_me"}关注我的{else}<a href="{$CID}.{$PID}.follow_me.{$BID}">关注我的</a>{/if} |
-    {if $type == "block_me"}屏蔽我的{else}<a href="{$CID}.{$PID}.block_me.{$BID}">屏蔽我的</a>{/if}
+    {if $type == "block_me"}屏蔽我的{else}<a href="{$CID}.{$PID}.block_me.{$BID}">屏蔽我的</a>{/if} |
+    {if $type == "no_disturb"}免打扰{else}<a href="{$CID}.{$PID}.no_disturb.{$BID}">免打扰</a>{/if}
 </div>
 <hr>
 <div class="relationship-wrapper">

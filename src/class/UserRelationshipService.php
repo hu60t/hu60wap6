@@ -13,6 +13,8 @@ class UserRelationshipService
     const RELATIONSHIP_TYPE_FOLLOW = 1;
     // 我屏蔽的
     const RELATIONSHIP_TYPE_BLOCK = 2;
+    //免打扰的
+    const RELATIONSHIP_TYPE_NO_DISTURB = 3;
     // 关注我的
     const RELATIONSHIP_TYPE_FOLLOW_ME = 11;
     // 屏蔽我的
@@ -55,6 +57,31 @@ class UserRelationshipService
      */
     public function unfollow($targetUid) {
         return $this->removeRelationship($targetUid, self::RELATIONSHIP_TYPE_FOLLOW);
+    }
+    /**
+     * 免打扰
+     * @param $targetUid
+     * @return bool
+     */
+    public function noDisturb($targetUid) {
+        return $this->addRelationship($targetUid, self::RELATIONSHIP_TYPE_NO_DISTURB);
+    }
+    /**
+     * 取消免打扰
+     * @param $targetUid
+     * @return bool
+     */
+    public function disturb($targetUid) {
+        return $this->removeRelationship($targetUid, self::RELATIONSHIP_TYPE_NO_DISTURB);
+    }
+
+    /**
+     * 是否免打扰此用户
+     * @param $targetUid
+     * @return bool
+     */
+    public function isNoDisturb($targetUid) {
+        return $this->checkRelationship($this->originUid, $targetUid, self::RELATIONSHIP_TYPE_NO_DISTURB);
     }
 
     /**

@@ -32,6 +32,11 @@
   {else}
     <a href="javascript:relationship({$uinfo->uid}, 'follow')">关注</a>
   {/if} /
+    {if $isNoDisturb}
+        <a href="javascript:relationship({$uinfo->uid}, 'disturb')">取消免打扰</a>
+    {else}
+        <a href="javascript:relationship({$uinfo->uid}, 'no_disturb')">免打扰</a>
+    {/if} /
   {if $isBlock}
     <a href="javascript:relationship({$uinfo->uid}, 'unblock')">取消屏蔽</a>
   {else}
