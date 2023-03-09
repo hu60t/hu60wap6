@@ -18,6 +18,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
         'block' => [UserRelationshipService::RELATIONSHIP_TYPE_BLOCK, '我屏蔽的', [
             'unblock' => '取消屏蔽',
         ]],
+        'no_disturb' => [
+            UserRelationshipService::RELATIONSHIP_TYPE_NO_DISTURB, '免打扰', [
+            'disturb' => '取消免打扰',
+        ]],
         'follow_me' => [UserRelationshipService::RELATIONSHIP_TYPE_FOLLOW_ME, '关注我的', [
             'follow' => '也关注Ta',
         ], [
@@ -114,6 +118,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         'unfollow' => [
             'targetMethod' => 'unfollow',
             'actionName' => '取消关注'
+        ],
+        'no_disturb' => [
+            'targetMethod' => 'noDisturb',
+            'actionName' => '免打扰'
+        ],
+        'disturb' => [
+            'targetMethod' => 'disturb',
+            'actionName' => '取消免打扰'
         ],
         'block' => [
             'targetMethod' => 'block',

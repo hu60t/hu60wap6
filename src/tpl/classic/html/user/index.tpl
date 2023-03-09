@@ -33,7 +33,8 @@
 	 <a href="bbs.search.{$bid}?username={$USER->name|urlenc}&searchType=reply">回复</a> /
 	 <a href="bbs.myfavorite.{$bid}">收藏</a> /
      <a href="user.relationship.follow.{$bid}">关注</a> /
-	 <a href="user.relationship.block.{$bid}">屏蔽</a><br/>
+	 <a href="user.relationship.block.{$bid}">屏蔽</a> /
+    <a href="user.relationship.no_disturb.{$bid}">免打扰</a> <br/>
 </p>
 <p class="txt">
 更改：<a href="{$cid}.avatar.{$bid}">头像</a> /
