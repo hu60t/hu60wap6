@@ -173,6 +173,13 @@ class UbbDisplay extends XUBBP
     /*代码高亮*/
     public function code($data)
     {
+        $code = $data['data'];
+
+        // 为了防止浏览器卡顿，超过64K的代码将使用文本框显示
+        if (strlen($code) > 65536) {
+            return $this->textbox($data);
+        }
+
         global $PAGE;
         static $codeIndex = 0;
         $codeIndex++;
@@ -182,8 +189,6 @@ class UbbDisplay extends XUBBP
             $quote = isset($data['quote']) ? $data['quote'] : '```';
 			return $quote . $data['data'] . $quote;
         }*/
-
-        $code = $data['data'];
 
         // 去除缩进
         if (isset($data['indent'])) {
