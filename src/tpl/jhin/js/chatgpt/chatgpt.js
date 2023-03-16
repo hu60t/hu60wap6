@@ -183,6 +183,8 @@ const errorMaxLen = Math.max(...Object.keys(errorMap).map(x => x.length));
 const modelMap = {
     1 : 0, // @ChatGPT 1，对应第一个Default模型
     2 : 1, // @ChatGPT 2，对应第二个Legacy模型
+    3 : 2, // @ChatGPT 3，对应第三个GPT-4模型
+    4 : 2, // @ChatGPT 4，对应第三个GPT-4模型
 };
 
 /////////////////////////////////////////////////////////////
