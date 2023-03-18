@@ -241,6 +241,9 @@ const showMoreButtonSelector = 'button.justify-center.m-auto';
 // 用户自身的虎绿林uid（自动获取）
 var hu60MyUid = null;
 
+// 虎绿林sid
+var hu60Sid = null;
+
 // 带sid的虎绿林URL（自动获取）
 var hu60BaseUrl = null;
 
@@ -1064,13 +1067,124 @@ async function login(relogin) {
             throw result.notice;
         }
 
-        hu60BaseUrl = hu60Url + result.sid + '/';
+        hu60Sid = result.sid;
+        hu60BaseUrl = hu60Url + hu60Sid + '/';
         hu60MyUid = result.uid;
     } catch (ex) {
         console.log(ex);
         alert('登录失败：' + ex);
         return await login(true);
     }
+}
+
+function connectToWebSocket() {
+    const socket = new WebSocket(document.hu60Domain.replace('http', 'ws') + "/ws/msg?_sid=" + hu60Sid);
+
+    // 开启 WebSocket 连接时触发
+    socket.onopen = (event) => {
+        console.log("WebSocket 连接已经建立");
+
+        // 连上推送服务器后还要再查询一次消息接口，防止错过还没连上的这段时间发来的消息
+        runOnce();
+
+        // 每隔一分钟发送一个 keep alive 消息，防止连接断开
+        setInterval(() => {
+            socket.send('{"action":"ping"}');
+        }, 60000);
+    }
+
+    // 接收到 WebSocket 消息时触发
+    socket.onmessage = (event) => {
+        console.log("收到 WebSocket 消息", event.data);
+        if (event.data != '{"event":"ping","data":"pong"}') {
+            runOnce();
+        }
+    };
+
+    // 当 WebSocket 连接出错时触发
+    socket.onerror = (event) => {
+        console.error("WebSocket 连接出错", event);
+        // 关闭当前 WebSocket 连接
+        socket.close();
+    };
+
+    // 当 WebSocket 连接关闭时触发
+    socket.onclose = (event) => {
+        console.log("WebSocket 连接已关闭", event);
+
+        // 重新连接 WebSocket
+        setTimeout(() => {
+            console.log("重新连接 WebSocket");
+            connectToWebSocket();
+        }, 5000); // 延迟 5 秒重新连接
+    };
+}
+
+// 定义一个锁对象
+const runOnceLock = {
+    isLocked: false,
+    queue: [],
+
+    // 加锁方法
+    lock: function () {
+        if (this.isLocked) {
+            // 如果锁已经被其他线程占用，则将当前线程加入队列等待
+            return new Promise(resolve => this.queue.push(resolve));
+        } else {
+            // 如果锁没有被占用，则直接占用锁
+            this.isLocked = true;
+            return Promise.resolve();
+        }
+    },
+
+    // 解锁方法
+    unlock: function () {
+        if (this.queue.length > 0) {
+            // 如果队列中有等待的线程，则唤醒队列中的第一个线程
+            const resolve = this.queue.shift();
+            resolve();
+        } else {
+            // 如果队列中没有等待的线程，则释放锁
+            this.isLocked = false;
+        }
+    }
+};
+
+async function runOnce() {
+    await runOnceLock.lock();
+    try {
+        // 浏览器用户可能直接输入了问题，等待回答完成
+        for (let i=0; i<1200 && !isFinished(); i++) {
+            await sleep(100);
+        }
+
+        let atInfo = await readAtInfo();
+        let exceptionCount = 0;
+        // @消息是后收到的在前面，所以从后往前循环，先发的先处理
+        for (let i = atInfo.msgList.length - 1; i>=0; i--) {
+            try {
+                await replyAtInfo(atInfo.msgList[i]);
+                await sleep(100);
+            } catch (ex) {
+                exceptionCount++;
+                console.error(ex);
+                await sleep(1000);
+            }
+        }
+        // 执行管理员命令
+        await runAdminCommand();
+        // 异常太多，刷新页面
+        if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
+            location.reload();
+        }
+        await sleep(5000);
+    } catch (ex) {
+        console.error(ex);
+        await sleep(5000);
+        // 存在未捕捉异常，刷新页面
+        location.reload();
+    }
+    runOnceLock.unlock();
 }
 
 // 运行机器人
@@ -1090,46 +1204,7 @@ async function run() {
     await login();
     console.log('虎绿林ChatGPT机器人已启动');
 
-    let globalExceptionCount = 0;
-    while (true) {
-        try {
-            // 浏览器用户可能直接输入了问题，等待回答完成
-            for (let i=0; i<1200 && !isFinished(); i++) {
-                await sleep(100);
-            }
-
-            let atInfo = await readAtInfo();
-            let exceptionCount = 0;
-            // @消息是后收到的在前面，所以从后往前循环，先发的先处理
-            for (let i = atInfo.msgList.length - 1; i>=0; i--) {
-                try {
-                    await replyAtInfo(atInfo.msgList[i]);
-                    await sleep(100);
-                } catch (ex) {
-                    exceptionCount++;
-                    console.error(ex);
-                    await sleep(1000);
-                }
-            }
-            // 执行管理员命令
-            await runAdminCommand();
-            // 异常太多，刷新页面
-            if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
-                location.reload();
-            }
-            await sleep(5000);
-            globalExceptionCount = 0;
-        } catch (ex) {
-            console.error(ex);
-            await sleep(5000);
-
-            globalExceptionCount++;
-            if (globalExceptionCount >= 5) {
-                // 未捕捉异常太多，刷新页面
-                location.reload();
-            }
-        }
-    }
+    connectToWebSocket();
 }
 
 try {
