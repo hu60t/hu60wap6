@@ -146,7 +146,7 @@ const turndownGfmJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-pl
 /////////////////////////////////////////////////////////////
 
 // 已知机器人列表
-const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]罐子2号\n* @[empty]靓仔\n\n';
+const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]hu60bot\n* @[empty]罐子2号\n* @[empty]靓仔\n* @[empty]QA\n\n';
 
 // 错误提示翻译
 const errorMap = {
@@ -174,6 +174,9 @@ const errorMap = {
 
     'The message you submitted was too long, please reload the conversation and submit something shorter.':
         "内容超过ChatGPT长度限制，请缩短。当前会话已丢失。",
+    
+    'Something went wrong. If this issue persists please contact us through our help center at help.openai.com.':
+        "ChatGPT接口报错（未知错误），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
 };
 
 // 错误提示文本的最大长度
