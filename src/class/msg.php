@@ -182,11 +182,20 @@ class msg
     /**
      * 读取信息
      */
-    public function read_msg($uid, $id)
+    public function get_msg($uid, $id)
     {
         $rs = $this->db->select('*', 'msg', 'WHERE (touid=? OR byuid=?) AND id=?', $uid, $uid, $id);
         if (!$rs) return false;
-        $rs = $rs->fetch();
+        return $rs->fetch();
+    }
+
+    /**
+     * 读取信息并设为已读
+     */
+    public function read_msg($uid, $id)
+    {
+        $rs = $this->get_msg($uid, $id);
+        if (!$rs) return false;
         if ($rs['touid'] == $uid) $this->update_msg($uid, $id);
         return $rs;
     }
