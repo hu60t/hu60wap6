@@ -254,6 +254,10 @@ var hu60BaseUrl = null;
 // 缓解重命名失败的方法
 var wantRename = null;
 
+// 上次会话的名称
+// 在会话历史记录功能不可用时减少不必要的新建会话
+var lastSessionName = null;
+
 // 回复结束时间
 // 在回复结束10秒后重命名会话，
 // 以防ChatGPT自动重命名会话导致我们的名称保存失败。
@@ -452,6 +456,8 @@ async function selectModel(modelIndex) {
 
 // 创建新会话
 async function newChatSession(name, modelIndex) {
+    lastSessionName = null;
+
     let sessionIndex = getSessions().length + 1;
     console.log('newChatSession', sessionIndex, modelIndex, 'begin');
     document.querySelector(newChatButtonSelector).click();
@@ -479,6 +485,8 @@ async function newChatSession(name, modelIndex) {
 // 删除当前会话
 async function deleteSession() {
     try {
+        lastSessionName = null;
+
         let sessionNum = getSessions().length;
 
         console.log('deleteSession', 'begin', sessionNum);
@@ -557,6 +565,7 @@ async function renameSession(newName) {
         }
     } catch (ex) {
         console.error('会话重命名失败', ex);
+        lastSessionName = newName;
     }
 }
 
@@ -623,6 +632,12 @@ async function renameWant() {
 // 切换会话
 async function switchSession(name, modelIndex) {
     isNewSession = false;
+
+    // 在会话历史记录功能不可用时减少不必要的新建会话
+    if (lastSessionName === name) {
+        // 会话相同，无需切换
+        return;
+    }
 
     let stopOrRegenButton = document.querySelector(stopOrRegenButtonSelector);
     if (stopOrRegenButton && stopOrRegenButton.textContent == 'Stop generating') {
