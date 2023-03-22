@@ -766,7 +766,7 @@ async function sendRequest(text, uid) {
     //  @ChatGPT 2 html，输出一段html hello world
     //  @ChatGPT html=500，输出一段html hello world
     //  @ChatGPT 2 html=300x500，输出一段html hello world
-    let parts = text.match(/^\s*@[^，,：:\s]+(?:\s+(\d+))?(?:\s+(html|text|latex|math)(=[0-9,x]+)?)?[，,：:\s]+(.*)$/si);
+    let parts = text.match(/^\s*@[^，,：:\s]+(?:[，,：:\s]+(\d+))?(?:\s+(html|text|latex|math)(=[0-9,x]+)?)?[，,：:\s]+(.*)$/si);
 
     modelName = null;
     replyCodeFormat = null;
