@@ -191,7 +191,12 @@ class user extends userinfo
         if ($checkLogin && $this->islogin) {
             return TRUE;
         }
-        header('Location: user.login.' . $PAGE->bid . '?u=' . urlencode($PAGE->geturl()));
+
+        $url = 'user.login.' . $PAGE->bid . '?u=' . urlencode($PAGE->geturl());
+        if (!empty($_GET['_origin'])) {
+            $url .= '&_origin=' . urlencode($_GET['_origin']);
+        }
+        header('Location: '.$url);
         exit;
     }
 

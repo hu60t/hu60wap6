@@ -1,5 +1,10 @@
 {JsonPage::start()}
-{$jsonData = ['page'=>'loginPage']}
+{$jsonData = [
+    'isLogin' => $USER.islogin,
+    'page' => 'exitPage',
+    'success' => false,
+    'notice' => 'POST表单的exit字段不能为空'
+]}
 
 {if $smarty.post.exit}
     {$jsonData.success = true}

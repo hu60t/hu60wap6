@@ -1,5 +1,10 @@
 {JsonPage::start()}
-{$jsonData = ['page'=>'loginPage']}
+{$jsonData = [
+    'isLogin' => false,
+    'page' => 'loginPage',
+    'success' => false,
+    'notice' => '需要登录'
+]}
 
 {if $msg}
     {$jsonData.success = false}
