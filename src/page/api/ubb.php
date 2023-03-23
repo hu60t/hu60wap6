@@ -7,12 +7,12 @@ $ubbDisplay->skipUnknown(TRUE);
 if (isset($_GET['data'])) {
     $data = $_GET['data'];
 } else {
-    $data = trim(file_get_contents('php://input'));
+    $data = file_get_contents('php://input');
 }
 
 $data = json_decode($data, true);
 if (!is_array($data)) {
-    throw new Exception('输入不是JSON');
+    throw new Exception('请求体应该是一个JSON对象');
 }
 if (!is_array($data['values'])) {
     throw new Exception('values字段必须是数组或对象');
