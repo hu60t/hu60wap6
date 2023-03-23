@@ -638,6 +638,8 @@ async function switchSession(name, modelIndex) {
         // 会话相同，无需切换
         return;
     }
+    // 需要切换会话，所以清理掉上次的会话名称
+    lastSessionName = null;
 
     let stopOrRegenButton = document.querySelector(stopOrRegenButtonSelector);
     if (stopOrRegenButton && stopOrRegenButton.textContent == 'Stop generating') {
