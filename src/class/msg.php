@@ -182,9 +182,9 @@ class msg
     /**
      * 读取信息
      */
-    public function get_msg($uid, $id)
+    public function get_msg($uid, $id, $fetch = '*')
     {
-        $rs = $this->db->select('*', 'msg', 'WHERE (touid=? OR byuid=?) AND id=?', $uid, $uid, $id);
+        $rs = $this->db->select($fetch, 'msg', 'WHERE (touid=? OR byuid=?) AND id=?', $uid, $uid, $id);
         if (!$rs) return false;
         return $rs->fetch();
     }
