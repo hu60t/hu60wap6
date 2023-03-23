@@ -1,5 +1,15 @@
 //////////////// 全局函数 ////////////////
 
+// string.replaceAll() 的 polyfill
+if (!String.prototype.replaceAll) {
+    String.prototype.replaceAll = function (searchValue, replaceValue) {
+        // 将搜索值转义为正则表达式
+        const regex = new RegExp(searchValue.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1"), "g");
+        // 用替换值替换所有匹配项
+        return this.replace(regex, replaceValue);
+    };
+}
+
 // 转义 html 特殊字符
 function escapeHtml(text) {
     var map = {
