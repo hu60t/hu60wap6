@@ -76,5 +76,5 @@ if (isset($data['type'])) {
 
 header('Content-Type: application/json');
 JsonPage::output([
-    'result' => $result
+    'result' => (object)$result
 ]);
