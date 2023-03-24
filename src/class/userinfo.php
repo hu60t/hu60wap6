@@ -36,6 +36,12 @@ class userinfo implements ArrayAccess
 	/*** 管理员权限: 审核用户发言的权限 */
 	const PERMISSION_REVIEW_POST = 128;
 
+    /*** 访问权限：未登录用户 */
+    const ACCESS_GUEST = -1;
+
+    /*** 访问权限：普通用户 */
+    const ACCESS_LOGIN_USER = 0;
+
     /*** 访问权限：受限资源 */
     const ACCESS_RESTRICTED = 1;
 

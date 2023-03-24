@@ -205,8 +205,26 @@ class chat
      */
     public function newChats($num)
     {
-        if (!$this->user->unlimit()) {
-            return null;
+        switch (SITE_SHOW_CHAT_ROOM) {
+            case UserInfo::ACCESS_GUEST:
+                // 总是允许显示
+                break;
+            case UserInfo::ACCESS_LOGIN_USER:
+                // 未登录不予显示
+                if (!$this->user->islogin) {
+                    return null;
+                }
+                break;
+            case UserInfo::ACCESS_RESTRICTED:
+                // 无权限不予显示
+                if (!$this->user->unlimit()) {
+                    return null;
+                }
+                break;
+            default:
+                // 未知选项
+                throw new Exception('config.php 中的 SITE_SHOW_CHAT_ROOM 配置错误，未知选项: '.SITE_SHOW_CHAT_ROOM);
+                break;
         }
 
         $blockUids = $this->getBlockUids();

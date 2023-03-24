@@ -11,6 +11,13 @@ define('SITE_URL_PREFIX', 'https://hu60.cn');
 define('SITE_ROUTER_PATH', '/q.php');
 define('SITE_URL_BASE', SITE_URL_PREFIX.SITE_ROUTER_PATH.'/');
 
+/**
+ * 控制底部聊天室的显示范围
+ *    UserInfo::ACCESS_GUEST         向未登录用户显示
+ *    UserInfo::ACCESS_LOGIN_USER    只向已登录用户显示
+ *    UserInfo::ACCESS_RESTRICTED    只向有权限的用户显示（权限最低位不为0，即hu60_user.access & 1 != 0）
+ */
+define('SITE_SHOW_CHAT_ROOM', UserInfo::ACCESS_LOGIN_USER);
 
 /**
  * 网站注册功能开关
