@@ -15,9 +15,9 @@
                 {if $chatCountReview}| <a href="addin.chat.@.{$BID}{if $smarty.get.showBot == 1}?showBot=1{/if}">{$chatCountReview}聊天待审核</a>{/if}
                 {if $USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
                     {if $smarty.get.showBot == 1}
-                        | <a href="?showBot=0">隐藏机器人聊天</a>
+                        | <a href="?showBot=0">隐藏机器人待审</a>
                     {else}
-                        | <a href="?showBot=1">显示机器人聊天</a>
+                        | <a href="?showBot=1">显示机器人待审</a>
                     {/if}
                 {/if}
             </div>
