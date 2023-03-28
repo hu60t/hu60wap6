@@ -59,7 +59,7 @@
     </ul>
 </div>
 
-{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&amp;username={$smarty.get.username|urlenc}&amp;onlyReview={$smarty.get.onlyReview|urlenc}&amp;order={$order}&amp;p="}
+{$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&amp;username={$smarty.get.username|urlenc}&amp;showBot={$smarty.get.showBot|urlenc}&amp;onlyReview={$smarty.get.onlyReview|urlenc}&amp;order={$order}&amp;p="}
 
 <div class="pager">
 	{if $p < $maxP}<a style="display:inline" href="{$url}{$p + 1}">下一页</a>{/if}

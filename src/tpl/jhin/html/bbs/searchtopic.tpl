@@ -37,7 +37,7 @@
         <div class="search-list">
             {include file='tpl:bbs.list'}
             <div class="widget-page">
-                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&username={$smarty.get.username|urlenc}&onlyReview={$smarty.get.onlyReview|urlenc}&order={$order}&p=##"}
+                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&username={$smarty.get.username|urlenc}&showBot={$smarty.get.showBot|urlenc}&onlyReview={$smarty.get.onlyReview|urlenc}&order={$order}&p=##"}
                 {jhinfunc::Pager($p,$maxP,$url)}
             </div>
         </div>

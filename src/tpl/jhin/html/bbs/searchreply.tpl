@@ -66,7 +66,7 @@
             {include file="tpl:bbs.review-all"}
 
             <div class="widget-page">
-                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&username={$smarty.get.username|urlenc}&searchType={$smarty.get.searchType}&onlyReview={$smarty.get.onlyReview|urlenc}&p=##"}
+                {$url="{$CID}.{$PID}.{$BID}?keywords={$smarty.get.keywords|urlenc}&username={$smarty.get.username|urlenc}&searchType={$smarty.get.searchType}&showBot={$smarty.get.showBot|urlenc}&onlyReview={$smarty.get.onlyReview|urlenc}&p=##"}
                 {jhinfunc::Pager($p,$maxP,$url)}
             </div>
         </div>
