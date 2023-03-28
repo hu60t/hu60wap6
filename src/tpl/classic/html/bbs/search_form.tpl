@@ -6,6 +6,9 @@
         <label>
             <input class="search_option" name="searchType" type="checkbox" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />搜索用户回复
         </label>
+        <label>
+            <input class="search_option" name="showBot" type="checkbox" value="1" {if $smarty.get.showBot == 1}checked{/if} />显示机器人聊天
+        </label>
         {if $USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
             <label>
                 <input class="search_option" name="onlyReview" type="checkbox" value="1" {if $smarty.get.onlyReview == 1}checked{/if} />仅看待审核

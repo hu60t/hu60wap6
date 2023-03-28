@@ -11,8 +11,15 @@
                 <a href="bbs.forum.0.1.1.{$BID}">精华</a> |
                 <a href="bbs.search.{$BID}">搜索</a> |
                 <a href="bbs.newtopic.0.{$BID}">发帖</a>
-                {if $countReview}| <a href="bbs.search.{$BID}?onlyReview=1">{$countReview}待审核</a>{/if}
-                {if $chatCountReview}| <a href="addin.chat.@.{$BID}">{$chatCountReview}聊天待审核</a>{/if}
+                {if $countReview}| <a href="bbs.search.{$BID}?{if $smarty.get.showBot == 1}showBot=1&amp;{/if}onlyReview=1">{$countReview}待审核</a>{/if}
+                {if $chatCountReview}| <a href="addin.chat.@.{$BID}{if $smarty.get.showBot == 1}?showBot=1{/if}">{$chatCountReview}聊天待审核</a>{/if}
+                {if $USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)}
+                    {if $smarty.get.showBot == 1}
+                        | <a href="?showBot=0">隐藏机器人聊天</a>
+                    {else}
+                        | <a href="?showBot=1">显示机器人聊天</a>
+                    {/if}
+                {/if}
             </div>
         </div>
         <ul class="topic-ul">

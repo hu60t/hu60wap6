@@ -17,6 +17,7 @@ $keywords = $_GET['keywords'];
 $username = $_GET['username'];
 $onlyReview = (int)$_GET['onlyReview'];
 $searchReply = ($_GET['searchType'] == 'reply') || $onlyReview;
+$showBot = (bool)$_GET['showBot'];
 
 if ($keywords == '' && $username == '' && !$onlyReview && !$searchReply) {
   $tpl->assign('count', 0);
@@ -77,7 +78,7 @@ try {
     $tpl->display('tpl:searchtopic');
   }
   else {
-    $result = $search->searchReply($keywords, $username, $offset, $size, $count, $onlyReview);
+    $result = $search->searchReply($keywords, $username, $offset, $size, $count, $onlyReview, $showBot);
 
     $maxP = ceil($count / $size);
     foreach ($result as &$v) {

@@ -605,6 +605,12 @@ class UbbParser extends XUBBP
             $user = $USER;
         }
         $uid = $user->at($tag);
+
+        // @机器人，机器人聊天请求
+        if (UserInfo::uidIsBot($uid)) {
+            $this->setOpt('flags.TYPE_BOT_REQUEST', true);
+        }
+
         return array(array(
             'type' => 'at',
             'tag' => trim($tag),

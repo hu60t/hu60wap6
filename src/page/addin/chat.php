@@ -6,9 +6,12 @@ $chat = new chat($USER);
 if ($PAGE->ext[0]) {
     $roomname = $PAGE->ext[0];
     $tpl->assign('roomname', $roomname);
+
     // @表示显示待审核内容
     if ($roomname == '@') {
         $onlyReview = true;
+        // 是否显示机器人内容
+        $showBot = (bool)$_GET['showBot'];
     } else {
         $chat->checkName($roomname);
     }
@@ -65,7 +68,7 @@ if ($PAGE->ext[0]) {
     $ubbs->setOpt('at.jsFunc', 'atAdd');
     $tpl->assign('err_msg', $err_msg);
     if ($onlyReview) {
-        $chatCount = $chat->chatReviewCount();
+        $chatCount = $chat->chatReviewCount($showBot);
     } else {
         $chatCount = $chat->chatCount($roomname);
     }
@@ -91,7 +94,7 @@ if ($PAGE->ext[0]) {
 	$endTime = isset($_GET['end_time']) ? (int)$_GET['end_time'] : null;
 
     if ($onlyReview) {
-        $list = $chat->chatReviewList($offset, $pageSize, $startTime, $endTime);
+        $list = $chat->chatReviewList($offset, $pageSize, $startTime, $endTime, $showBot);
     } else {
         $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime);
     }

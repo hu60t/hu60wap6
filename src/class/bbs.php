@@ -36,6 +36,12 @@ class bbs
     /** 机审通过 */
     const REVIEW_MACHINE_PASS = 6;
 
+    /** 正常贴子 */
+    const TYPE_NORMAL = 0;
+    /** 机器人聊天请求 */
+    const TYPE_BOT_REQUEST = 1;
+    /** 机器人聊天响应 */
+    const TYPE_BOT_RESPONSE = 2;
 
     /**
      * 用户对象
@@ -315,7 +321,15 @@ class bbs
             //内容处理
             $ubb = new ubbparser;
             $data = $ubb->parse($content, true);
-            
+
+            $flags = self::TYPE_NORMAL;
+            if ($this->user->isBot()) {
+                $flags |= self::TYPE_BOT_RESPONSE;
+            }
+            if ($ubb->getOpt('flags.TYPE_BOT_REQUEST')) {
+                $flags |= self::TYPE_BOT_REQUEST;
+            }
+
             //发言是否需要人工审核
             $review = 1;
             if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access != 0) {
@@ -328,7 +342,8 @@ class bbs
             }
 
             //写主题数据
-            $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,review,review_log,access', $time, $time, $data, $this->user->uid, 0, 0, $review, $reviewLog, $access);
+            $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,review,review_log,access,flags',
+                                    $time, $time, $data, $this->user->uid, 0, 0, $review, $reviewLog, $access, $flags);
             if (!$rs)
                 throw new bbsException('数据库错误，主题内容（' . DB_A . 'bbs_topic_content）写入失败！', 500);
             $content_id = $this->db->lastInsertId();
@@ -405,6 +420,14 @@ class bbs
         $ubb = new ubbparser;
         $data = $ubb->parse($content, true);
 
+        $flags = self::TYPE_NORMAL;
+        if ($this->user->isBot()) {
+            $flags |= self::TYPE_BOT_RESPONSE;
+        }
+        if ($ubb->getOpt('flags.TYPE_BOT_REQUEST')) {
+            $flags |= self::TYPE_BOT_REQUEST;
+        }
+
         //发言是否需要人工审核
         $review = 1;
         if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW) && $access != 0) {
@@ -421,7 +444,8 @@ class bbs
         $floor = $this->db->query('SELECT max(floor) FROM ' . DB_A . 'bbs_topic_content WHERE topic_id=?', $topic_id);
         $floor = $floor->fetch(db::num);
 		$floor = $floor[0] + 1;
-        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor,review,review_log,access', $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor, $review, $reviewLog, $access);
+        $rs = $this->db->insert('bbs_topic_content', 'ctime,mtime,content,uid,topic_id,reply_id,floor,review,review_log,access,flags',
+                                $time, $time, $data, $this->user->uid, $topic_id, $reply_id, $floor, $review, $reviewLog, $access, $flags);
 
         //注册at消息
         $topicTitle = $this->topicMeta($topic_id, 'title');
@@ -1100,7 +1124,7 @@ class bbs
     /*
     * 统计待审核内容数量
     */
-    public function countReview() {
+    public function countReview($showBot = false) {
 		if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
 			return null;
         }
@@ -1109,6 +1133,9 @@ class bbs
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
+        if (!$showBot) {
+            $where .= ' AND flags=0';
         }
 
         // 仅统计待审核的行

@@ -31,10 +31,12 @@ foreach ($newTopicList as &$v) {
 $tpl->assign('newTopicList', $newTopicList);
 $tpl->assign('topicPage', $p);
 
+// 是否显示机器人待审核
+$showBot = (bool)$_GET['showBot'];
 // 待审核帖子+回复数量
-$tpl->assign('countReview', $bbs->countReview());
+$tpl->assign('countReview', $bbs->countReview($showBot));
 // 待审核聊天室发言数量
-$tpl->assign('chatCountReview', $chat->chatReviewCount());
+$tpl->assign('chatCountReview', $chat->chatReviewCount($showBot));
 
 // 版块信息
 $forumList = $bbs->childForumMeta(0, '*', 2);

@@ -124,6 +124,22 @@ class userinfo implements ArrayAccess
         return TRUE;
     }
 
+
+    /**
+     * 判断uid是否为聊天机器人
+     */
+    public static function uidIsBot($uid) {
+        return $uid < 0;
+    }
+
+    /**
+     * 判断用户是否为聊天机器人
+     */
+    public function isBot() {
+        return self::uidIsBot($this->uid);
+    }
+
+
     /*取得用户的头像*/
     public function avatar() {
         $url = $this->getinfo('avatar.url');

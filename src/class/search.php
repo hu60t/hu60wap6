@@ -223,7 +223,7 @@ class search
     /*
      * 回复搜索
      */
-    public function searchReply($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, &$count = true, $onlyReview = false)
+    public function searchReply($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, &$count = true, $onlyReview = false, $showBot = false)
     {
         global $USER;
 
@@ -266,6 +266,10 @@ class search
             }
         } else {
             $sql .= 'reply_id!=0';
+        }
+
+        if (!$showBot) {
+            $sql .= ' AND flags=0';
         }
 
         if (isset($uid)) {

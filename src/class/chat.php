@@ -121,7 +121,7 @@ class chat
     /**
      * 聊天室待审核发言数量
      */
-    public function chatReviewCount() {
+    public function chatReviewCount($showBot = false) {
 		if (!$this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
 			return null;
         }
@@ -130,6 +130,9 @@ class chat
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
+        if (!$showBot) {
+            $where .= ' AND flags=0';
         }
 
         $rs = $this->db->select("count(*)", 'addin_chat_data', 'WHERE review=1'.$where);
@@ -140,12 +143,15 @@ class chat
     /**
      * 聊天室待审核发言列表
      */
-    public function chatReviewList($offset = 0, $size = 10, $startTime = null, $endTime = null)
+    public function chatReviewList($offset = 0, $size = 10, $startTime = null, $endTime = null, $showBot = false)
     {
         $where = '';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
+        }
+        if (!$showBot) {
+            $sql .= ' AND flags=0';
         }
 
 		if ($startTime === null) {
@@ -263,6 +269,14 @@ class chat
         $lid = $this->db->select('count(*)', 'addin_chat_data', 'WHERE room=?', $room)->fetch(db::num);
         $lid = $lid[0] + 1;
 
+        $flags = bbs::TYPE_NORMAL;
+        if ($this->user->isBot()) {
+            $flags |= bbs::TYPE_BOT_RESPONSE;
+        }
+        if ($ubb->getOpt('flags.TYPE_BOT_REQUEST')) {
+            $flags |= bbs::TYPE_BOT_REQUEST;
+        }
+
 		//发言是否需要人工审核
 		$review = 1;
         if ($csResult['stat'] == ContentSecurity::STAT_PASS && !$this->user->hasPermission(UserInfo::DEBUFF_POST_NEED_REVIEW)) {
@@ -274,7 +288,8 @@ class chat
             $reviewLog = json_encode([$reviewLog], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
 
-        $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,content,time,review,review_log', $room, $lid, $this->user->uid, $contents, $time, $review, $reviewLog);
+        $rs = $this->db->insert('addin_chat_data', 'room,lid,uid,content,time,review,review_log,flags',
+                                $room, $lid, $this->user->uid, $contents, $time, $review, $reviewLog, $flags);
         if ($rs) {
             $this->db->update('addin_chat_list', 'ztime=? WHERE name=?', $time, $room);
             $this->user->regAt("聊天室“{$room}”第{$lid}楼中", "addin.chat.".urlencode($room).".{\$BID}?floor={$lid}#{$lid}", $content);
