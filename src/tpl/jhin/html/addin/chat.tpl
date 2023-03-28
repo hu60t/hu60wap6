@@ -10,14 +10,12 @@
   <a href="index.index.{$bid}" title="回首页">回首页</a>
   {$roomname}
   <a href="addin.chat.{$bid}">切换聊天室</a>
-  <a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?rand={time()}">刷新</a>
-  {if $onlyReview}
-    {if $smarty.get.showBot == 1}
-        <a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?rand={time()}">隐藏机器人聊天</a>
-    {else}
-        <a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=1&amp;rand={time()}">显示机器人聊天</a>
-    {/if}
+  {if $showBot}
+      <a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=0&amp;rand={time()}">隐藏机器人聊天</a>
+  {else}
+      <a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=1&amp;rand={time()}">显示机器人聊天</a>
   {/if}
+  <a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot={(int)$showBot}&amp;rand={time()}">刷新</a>
 </div>
 <div class="text-failure">{$err_msg}</div>
 {if !$onlyReview}
@@ -52,7 +50,7 @@
   <hr>
 {/if}
 <div class="widget-page top-pager">
-  {jhinfunc::Pager($p,$maxP,"?{if $smarty.get.showBot == 1}showBot=1&{/if}p=##")}
+  {jhinfunc::Pager($p,$maxP,"?showBot={(int)$showBot}&p=##")}
 </div>
 
 {if count($list) > 0}
@@ -104,7 +102,7 @@
 {include file="tpl:bbs.review-all"}
 
 <div class="widget-page">
-  {jhinfunc::Pager($p,$maxP,"?{if $smarty.get.showBot == 1}showBot=1&{/if}p=##")}
+  {jhinfunc::Pager($p,$maxP,"?showBot={(int)$showBot}&p=##")}
 </div>
 <script>
 // 自动折叠过长内容

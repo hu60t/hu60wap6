@@ -11,10 +11,14 @@ if ($PAGE->ext[0]) {
     if ($roomname == '@') {
         $onlyReview = true;
         // 是否显示机器人内容
-        $showBot = (bool)$_GET['showBot'];
+        $showBot = isset($_GET['showBot']) ? (bool)$_GET['showBot'] : false;
     } else {
         $chat->checkName($roomname);
+        // 是否显示机器人内容
+        $showBot = isset($_GET['showBot']) ? (bool)$_GET['showBot'] : true;
     }
+
+    $tpl->assign('showBot', $showBot);
 
     if (isset($_GET['del'])) {
         try {
@@ -70,7 +74,7 @@ if ($PAGE->ext[0]) {
     if ($onlyReview) {
         $chatCount = $chat->chatReviewCount($showBot);
     } else {
-        $chatCount = $chat->chatCount($roomname);
+        $chatCount = $chat->chatCount($roomname, $showBot);
     }
     $pageSize = page::pageSize(1, 20, 1000);
     $maxP = ceil($chatCount / $pageSize);
@@ -96,7 +100,7 @@ if ($PAGE->ext[0]) {
     if ($onlyReview) {
         $list = $chat->chatReviewList($offset, $pageSize, $startTime, $endTime, $showBot);
     } else {
-        $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime);
+        $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime, $showBot);
     }
 
     // 获取屏蔽用户

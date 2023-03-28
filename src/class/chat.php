@@ -112,8 +112,9 @@ class chat
         return true;
     }
     
-    public function chatCount($name) {
-        $rs = $this->db->select("count(*)", 'addin_chat_data', 'WHERE room=?', $name);
+    public function chatCount($name, $showBot = true) {
+        $hideBotSql = $showBot ? '' : ' flags=0 AND';
+        $rs = $this->db->select("count(*)", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=?', $name);
         $n = $rs->fetch(db::num);
         return $n[0];
     }
@@ -177,28 +178,30 @@ class chat
     /**
      * 指定聊天室发言列表
      */
-    public function chatList($name, $offset = 0, $size = 10, $startTime = null, $endTime = null)
+    public function chatList($name, $offset = 0, $size = 10, $startTime = null, $endTime = null, $showBot = true)
     {
+        $hideBotSql = $showBot ? '' : ' flags=0 AND';
+
 		if ($startTime === null) {
 			if ($endTime === null) {
-        		$rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? ORDER BY `time` DESC LIMIT ?,?', $name, $offset, $size);
+        		$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? ORDER BY `time` DESC LIMIT ?,?', $name, $offset, $size);
 			}
 			else {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND `time`<? ORDER BY `time` DESC LIMIT ?,?', $name, $endTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`<? ORDER BY `time` DESC LIMIT ?,?', $name, $endTime, $offset, $size);
 			}
 		}
 		else {
 			if ($endTime === null) {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND `time`>=? ORDER BY `time` ASC LIMIT ?,?', $name, $startTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`>=? ORDER BY `time` ASC LIMIT ?,?', $name, $startTime, $offset, $size);
 			}
 			else {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND `time`>=? AND `time`<? ORDER BY `time` ASC LIMIT ?,?', $name, $startTime, $endTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`>=? AND `time`<? ORDER BY `time` ASC LIMIT ?,?', $name, $startTime, $endTime, $offset, $size);
 			}
 		}
         
         return $rs->fetchAll();
     }
-    
+
     public function chatListWithLevel($name, $level = 1, $size = 10)
     {
         $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND lid<=? ORDER BY `time` DESC LIMIT ?', $name, $level, $size);

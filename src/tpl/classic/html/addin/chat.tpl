@@ -48,14 +48,12 @@
     <a href="index.index.{$bid}" title="回首页" class="pt_z">回首页</a>
     {$roomname}
     <span class="pt_c"><a href="addin.chat.{$bid}">切换聊天室</a></span>
-    <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?{if $smarty.get.showBot == 1}showBot=1&amp;{/if}rand={time()}">刷新</a></span>
-    {if $onlyReview}
-        {if $smarty.get.showBot == 1}
-            <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?rand={time()}">隐藏机器人聊天</a></span>
-        {else}
-            <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=1&amp;rand={time()}">显示机器人聊天</a></span>
-        {/if}
+    {if $showBot}
+        <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=0&amp;rand={time()}">隐藏机器人聊天</a></span>
+    {else}
+        <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=1&amp;rand={time()}">显示机器人聊天</a></span>
     {/if}
+    <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot={(int)$showBot}&amp;rand={time()}">刷新</a></span>
 </div>
 <div class="failure">{$err_msg}</div>
 {if !$onlyReview}
@@ -92,10 +90,10 @@
     <hr>
 {/if}
 <div class="pager">
-    {if $p < $maxP}<a href="?{if $smarty.get.showBot == 1}showBot=1&amp;{/if}p={$p+1}">下一页</a>{/if}
-    {if $p > 1}<a href="?{if $smarty.get.showBot == 1}showBot=1&amp;{/if}p={$p-1}">上一页</a>{/if}
+    {if $p < $maxP}<a href="?showBot={(int)$showBot}&amp;p={$p+1}">下一页</a>{/if}
+    {if $p > 1}<a href="?showBot={(int)$showBot}&amp;p={$p-1}">上一页</a>{/if}
     {$p}/{$maxP}页,共{$count}楼
-    <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?{if $smarty.get.showBot == 1}showBot=1&{/if}p='+this.value; }"></form>
+    <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?showBot={(int)$showBot}&p='+this.value; }"></form>
 </div>
 <hr>
 <div class="content">
@@ -121,9 +119,9 @@
 {include file="tpl:bbs.review-all"}
 
 <div class="pager">
-    {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
-    {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
+    {if $p < $maxP}<a href="?showBot={(int)$showBot}&amp;p={$p+1}">下一页</a>{/if}
+    {if $p > 1}<a href="?showBot={(int)$showBot}&amp;p={$p-1}">上一页</a>{/if}
     {$p}/{$maxP}页,共{$count}楼
-    <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?p='+this.value; }"></form>
+    <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?showBot={(int)$showBot}&p='+this.value; }"></form>
 </div>
 {include file="tpl:comm.foot"}
