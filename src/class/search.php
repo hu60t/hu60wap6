@@ -12,13 +12,13 @@ class search
         $this->time = time();
     }
 
-    protected function searchWord($table, $field, $index, $word, $order = '', $searchLimit = self::SEARCH_LIMIT)
+    protected function searchWord($table, $field, $index, $word, $showBot, $order = '', $searchLimit = self::SEARCH_LIMIT)
     {
         global $USER;
 
         $access = (int)$USER->getAccess();
         $wordHash = md5("$table/$field/$word");
-        $key = "search/$wordHash/$access/$USER[uid]";
+        $key = "search/$wordHash/$access/$USER[uid]/$showBot";
 
         $rs = cache::get($key);
 
@@ -39,6 +39,11 @@ class search
             $review = 'AND review = 0';
         }
 
+        // 隐藏机器人聊天
+        if (!$showBot && $table == 'bbs_topic_content') {
+            $field = "flags=0 AND $field";
+        }
+
         $sql = "SELECT $index FROM " . DB_A . "$table WHERE $field LIKE ?  AND ((uid = ?) OR (access = 0) OR (access & ?)) $review $order LIMIT $searchLimit";
         $db = db::conn();
         $rs = $db->prepare($sql);
@@ -53,13 +58,13 @@ class search
         return $rs;
     }
 
-    protected function getAllResult($words)
+    protected function getAllResult($words, $showBot)
     {
         global $USER;
 
         $access = (int)$USER->getAccess();
         $wordsHash = md5($words);
-        $key = "search/result/$wordsHash/$access/$USER[uid]";
+        $key = "search/result/$wordsHash/$access/$USER[uid]/$showBot";
 
         $rs = cache::get($key);
 
@@ -83,9 +88,9 @@ class search
         foreach ($wordList as $word) {
             $wordWV--;
 
-            $data[intval(200 * $wordWV)][] = $this->searchWord('bbs_topic_meta', 'title', 'id', $word, 'ORDER BY mtime DESC');
-            $data[intval(100 * $wordWV)][] = $this->searchWord('bbs_topic_content', 'reply_id=0 AND content', 'topic_id', $word, 'ORDER BY mtime DESC');
-            $data[intval(0.01 * $wordWV)][] = $this->searchWord('bbs_topic_content', 'reply_id!=0 AND content', 'topic_id', $word, 'ORDER BY mtime DESC');
+            $data[intval(200 * $wordWV)][] = $this->searchWord('bbs_topic_meta', 'title', 'id', $word, $showBot, 'ORDER BY mtime DESC');
+            $data[intval(100 * $wordWV)][] = $this->searchWord('bbs_topic_content', 'reply_id=0 AND content', 'topic_id', $word, $showBot, 'ORDER BY mtime DESC');
+            $data[intval(0.01 * $wordWV)][] = $this->searchWord('bbs_topic_content', 'reply_id!=0 AND content', 'topic_id', $word, $showBot, 'ORDER BY mtime DESC');
 
         }
 
@@ -135,7 +140,7 @@ class search
         }
     }
 
-    public function searchTopic($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, & $count = true, &$order = 'ctime')
+    public function searchTopic($words, $userName = '', $offset = 0, $limit = self::SEARCH_LIMIT, & $count = true, &$order = 'ctime', $showBot = false)
     {
         global $USER;
 
@@ -197,7 +202,7 @@ class search
         }
 
         $order = null;
-        $result = $this->getAllResult($words);
+        $result = $this->getAllResult($words, $showBot);
 
         if ($userName != '') {
             $uinfo = new userinfo();

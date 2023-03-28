@@ -46,7 +46,7 @@ try {
     }
 
     //获取帖子列表
-    $result = $search->searchTopic($keywords, $username, $offset, $size, $count, $order);
+    $result = $search->searchTopic($keywords, $username, $offset, $size, $count, $order, $showBot);
     $maxP = ceil($count / $size);
     $topicList = [];
     foreach ($result as $v) {
