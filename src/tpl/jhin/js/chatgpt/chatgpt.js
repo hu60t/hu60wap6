@@ -1069,9 +1069,19 @@ async function login(relogin) {
     try {
         console.log('登录虎绿林');
 
-        if (relogin || !localStorage.hu60User || !localStorage.hu60Pwd) {
-            localStorage.hu60User = prompt("虎绿林用户名：");
-            localStorage.hu60Pwd = prompt("虎绿林密码：");
+        let isEmpty = (str) => {
+            return ((typeof str) != 'string') || (str.length == 0);
+        };
+
+        if (relogin || isEmpty(localStorage.hu60User) || isEmpty(localStorage.hu60Pwd)) {
+            localStorage.hu60User = prompt("虎绿林用户名：") || '';
+            localStorage.hu60Pwd = prompt("虎绿林密码：") || '';
+        }
+
+        if (isEmpty(localStorage.hu60User) || isEmpty(localStorage.hu60Pwd)) {
+            alert('登录失败：用户名或密码为空，5秒后重试');
+            await sleep(5000);
+            return await login(true);
         }
 
         let formData = new FormData();
@@ -1095,7 +1105,8 @@ async function login(relogin) {
         hu60MyUid = result.uid;
     } catch (ex) {
         console.log(ex);
-        alert('登录失败：' + ex);
+        alert('登录失败：' + ex + '，5秒后重试');
+        await sleep(5000);
         return await login(true);
     }
 }
