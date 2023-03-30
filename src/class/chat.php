@@ -152,7 +152,7 @@ class chat
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
         }
         if (!$showBot) {
-            $sql .= ' AND flags=0';
+            $where .= ' AND flags=0';
         }
 
 		if ($startTime === null) {
