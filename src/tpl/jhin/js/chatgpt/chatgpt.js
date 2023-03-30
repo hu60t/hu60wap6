@@ -742,6 +742,9 @@ async function sendText(text, uid, modelIndex) {
             chatBox.value = text;
             await sleep(100);
 
+            // chatBox.value 无法让发言按钮激活，所以需要手动激活
+            sendButton.disabled = false;
+
             sendButton.click();
             await sleep(1000);
 
