@@ -135,7 +135,7 @@ function hu60_cc_output($needWaitSeconds, $timeDiff, $accCount, $accRate, $allow
 {
 	global $CC_LIMIT, $CC_REAL_IP;
 
-	header('HTTP/1.1 503 Service Unavailable');
+	header('HTTP/1.1 429 Too Many Requests');
     header('Retry-After: '.$needWaitSeconds);
 	header('Content-Type: text/html; charset=UTF-8');
 ?>
