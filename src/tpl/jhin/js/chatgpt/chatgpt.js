@@ -616,9 +616,9 @@ function getSessionName() {
 // 缓解重命名失败的方法
 async function renameWant() {
     if (wantRename !== null) {
-        // 距离回复不到10秒，等够10秒
+        // 距离回复不到5秒，等够5秒
         // 防止重命名过程中ChatGPT同时自动重命名，导致我们的名称保存失败
-        let timeDiff = 10000 - ((new Date().getTime()) - replyFinishTime);
+        let timeDiff = 5000 - ((new Date().getTime()) - replyFinishTime);
         if (timeDiff > 0) {
             console.log(timeDiff + 'ms 后重命名会话');
             await sleep(timeDiff);
