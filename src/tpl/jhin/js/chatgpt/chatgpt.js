@@ -1149,9 +1149,7 @@ function connectToWebSocket() {
     // 接收到 WebSocket 消息时触发
     socket.onmessage = (event) => {
         console.log("收到 WebSocket 消息", event.data);
-        if (event.data != '{"event":"ping","data":"pong"}') {
-            runOnce();
-        }
+        runOnce();
     };
 
     // 当 WebSocket 连接出错时触发
