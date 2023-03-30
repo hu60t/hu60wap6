@@ -922,7 +922,7 @@ async function readReply() {
         if (isNewSession && isTextEmpty) {
             return "会话不存在，无法读取上一条回复。请发送非空留言。";
         }
-        return "读取回复出错，请稍后重试，或尝试@[empty]其他机器人。" + robotList + "\n\n@老虎会游泳，可能需要检查机器人代码问题。";
+        return "读取回复出错，请稍后重试。每天首次使用时出错的概率很高，通常重试就能好。你也可以尝试@[empty]其他机器人。" + robotList + "\n\n@老虎会游泳，可能需要检查机器人代码问题。";
     }
 
     // 用插件 html 转 markdown
