@@ -17,6 +17,8 @@
 // @grant        none
 // ==/UserScript==
 
+document.hu60User = ''; // 虎绿林用户名
+document.hu60Pwd = ''; // 虎绿林密码
 document.hu60AdminUids = [1, 19346, 15953]; // 机器人管理员uid，管理员可以发“@ChatGPT，刷新页面”来重启机器人
 document.hu60Domain = 'https://hu60.cn';    // 如果要对接其他网站，请修改此处的域名（必须是https的否则连不上）
 var script = document.createElement("script");
@@ -1066,28 +1068,45 @@ async function replyAtInfo(info) {
 
 // 登录虎绿林
 async function login(relogin) {
+    let isEmpty = (str) => {
+        return ((typeof str) != 'string') || (str.length == 0);
+    };
+    let loginAlert = (text) => {
+        console.error(text);
+    };
+
     try {
         console.log('登录虎绿林');
 
-        let isEmpty = (str) => {
-            return ((typeof str) != 'string') || (str.length == 0);
-        };
+        let hu60User = document.hu60User;
+        let hu60Pwd = document.hu60Pwd;
 
-        if (relogin || isEmpty(localStorage.hu60User) || isEmpty(localStorage.hu60Pwd)) {
-            localStorage.hu60User = prompt("虎绿林用户名：") || '';
-            localStorage.hu60Pwd = prompt("虎绿林密码：") || '';
+        if (isEmpty(hu60User) || isEmpty(hu60Pwd)) {
+            if (relogin || isEmpty(localStorage.hu60User) || isEmpty(localStorage.hu60Pwd)) {
+                localStorage.hu60User = prompt("虎绿林用户名：") || '';
+                localStorage.hu60Pwd = prompt("虎绿林密码：") || '';
+
+                // 只在要求用户输入密码时弹出错误对话框
+                loginAlert = (text) => {
+                    console.error(text);
+                    alert(text);
+                };
+            }
+
+            hu60User = localStorage.hu60User;
+            hu60Pwd = localStorage.hu60Pwd;
         }
 
-        if (isEmpty(localStorage.hu60User) || isEmpty(localStorage.hu60Pwd)) {
-            alert('登录失败：用户名或密码为空，5秒后重试');
+        if (isEmpty(hu60User) || isEmpty(hu60Pwd)) {
+            loginAlert('登录失败：用户名或密码为空。5秒后重试');
             await sleep(5000);
             return await login(true);
         }
 
         let formData = new FormData();
         formData.append('type', '1'); // 用户名登录
-        formData.append('name', localStorage.hu60User);
-        formData.append('pass', localStorage.hu60Pwd);
+        formData.append('name', hu60User);
+        formData.append('pass', hu60Pwd);
         formData.append('go', '1');
 
         let response = await fetch(hu60Url + 'user.login.json?_origin=*&_json=compact', {
@@ -1105,7 +1124,7 @@ async function login(relogin) {
         hu60MyUid = result.uid;
     } catch (ex) {
         console.log(ex);
-        alert('登录失败：' + ex + '，5秒后重试');
+        loginAlert('登录失败：' + ex + '5秒后重试');
         await sleep(5000);
         return await login(true);
     }
