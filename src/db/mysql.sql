@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2022-07-23 08:57:09
--- 服务器版本： 10.5.10-MariaDB-log
--- PHP 版本： 8.0.14
+-- 生成日期： 2023-03-31 10:40:00
+-- 服务器版本： 10.7.3-MariaDB-log
+-- PHP 版本： 8.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,9 +29,10 @@ CREATE TABLE `hu60_addin_chat_data` (
   `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `time` bigint(20) NOT NULL,
   `hidden` int(11) NOT NULL DEFAULT 0,
+  `flags` tinyint(4) NOT NULL DEFAULT 0,
   `review` tinyint(4) DEFAULT 0,
   `review_log` text CHARACTER SET utf8mb4 DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -44,7 +45,7 @@ CREATE TABLE `hu60_addin_chat_list` (
   `name` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
   `ztime` bigint(20) NOT NULL,
   `access` bit(32) NOT NULL DEFAULT b'1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -59,7 +60,7 @@ CREATE TABLE `hu60_bbs_forum_meta` (
   `mtime` bigint(20) NOT NULL DEFAULT 0,
   `notopic` tinyint(1) NOT NULL DEFAULT 0,
   `access` int(10) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -78,9 +79,10 @@ CREATE TABLE `hu60_bbs_topic_content` (
   `floor` int(11) NOT NULL DEFAULT 0,
   `locked` tinyint(1) NOT NULL DEFAULT 0,
   `access` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `flags` tinyint(4) NOT NULL DEFAULT 0,
   `review` tinyint(4) NOT NULL DEFAULT 0,
   `review_log` text CHARACTER SET utf8mb4 DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -102,7 +104,7 @@ CREATE TABLE `hu60_bbs_topic_meta` (
   `locked` tinyint(1) NOT NULL DEFAULT 0,
   `access` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `review` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -120,7 +122,7 @@ CREATE TABLE `hu60_book_chapter` (
   `uid` int(11) NOT NULL,
   `ctime` bigint(20) NOT NULL DEFAULT 0,
   `mtime` bigint(20) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -142,7 +144,7 @@ CREATE TABLE `hu60_book_meta` (
   `admin_uids` varchar(255) NOT NULL DEFAULT '',
   `ctime` bigint(20) NOT NULL DEFAULT 0,
   `mtime` bigint(20) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -187,7 +189,7 @@ CREATE TABLE `hu60_msg` (
   `content` mediumtext CHARACTER SET utf8mb4 NOT NULL,
   `ctime` bigint(20) NOT NULL,
   `rtime` bigint(20) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -204,7 +206,7 @@ CREATE TABLE `hu60_speedtest` (
   `speed` float DEFAULT NULL,
   `success` tinyint(1) DEFAULT NULL,
   `errCode` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -218,7 +220,7 @@ CREATE TABLE `hu60_token` (
   `token` char(32) NOT NULL,
   `uid` int(11) NOT NULL,
   `data` blob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -242,7 +244,7 @@ CREATE TABLE `hu60_user` (
   `uid` int(11) NOT NULL,
   `name` varchar(16) CHARACTER SET utf8mb4 NOT NULL,
   `pass` char(32) NOT NULL,
-  `sid` varchar(64) NOT NULL,
+  `sid` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `safety` blob DEFAULT NULL,
   `regtime` bigint(20) NOT NULL,
   `sidtime` bigint(20) NOT NULL,
@@ -250,10 +252,10 @@ CREATE TABLE `hu60_user` (
   `info` text CHARACTER SET utf8mb4 DEFAULT NULL,
   `mail` varchar(255) DEFAULT NULL,
   `regphone` varchar(20) CHARACTER SET ascii DEFAULT NULL,
-  `permission` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `access` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `permission` int(10) UNSIGNED NOT NULL DEFAULT 64,
+  `access` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `active` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -266,7 +268,7 @@ CREATE TABLE `hu60_userdata` (
   `key` varchar(255) NOT NULL,
   `value` mediumblob NOT NULL,
   `version` bigint(20) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -279,7 +281,7 @@ CREATE TABLE `hu60_user_relationship` (
   `origin_uid` int(11) NOT NULL,
   `target_uid` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL COMMENT '关系类型'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
