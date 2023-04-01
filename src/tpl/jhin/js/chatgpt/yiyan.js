@@ -960,11 +960,12 @@ async function readReply() {
             // 代码高亮
             turndownService.addRule('highlightedCodeBlock', {
                 filter: function (node) {
-                    return node.nodeName === 'PRE' && node.querySelector('code.hljs');
+                    return node.nodeName === 'PRE' && node.querySelector('div.code-wrapper');
                 },
                 replacement: function (content, node, options) {
-                    var lang = node.querySelector('span')?.textContent || ''; // lang span可能不存在
-                    var code = node.querySelector('code.hljs').textContent;
+                    var lang = node.querySelector('span.code-lang')?.textContent || ''; // lang span可能不存在
+                    var code = content.replace(/^\s*[^\n]*复制代码\n+/s, '')
+                                      .replace(/\n+<table class="hljs hljs-ln">[^\n]*<\/table>\s*$/s, '');
                     var fence = (() => {
                         switch (replyCodeFormat) {
                             case 'html':
@@ -981,7 +982,7 @@ async function readReply() {
                     })();
                     return (
                         '\n\n' + fence[0] + '\n' +
-                            code.replace(/[\r\n]+$/s, '') +
+                            code +
                         '\n' + fence[1] + '\n\n'
                     )
                 }
