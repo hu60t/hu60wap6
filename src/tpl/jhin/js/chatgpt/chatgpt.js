@@ -20,7 +20,7 @@
 document.hu60User = ''; // 虎绿林用户名
 document.hu60Pwd = ''; // 虎绿林密码
 document.hu60AdminUids = [1, 19346, 15953]; // 机器人管理员uid，管理员可以发“@ChatGPT，刷新页面”来重启机器人
-document.hu60Domain = 'https://hu60.cn';    // 如果要对接其他网站，请修改此处的域名（必须是https的否则连不上）
+document.hu60Domain = 'https://hu60.cn'; // 如果要对接其他网站，请修改此处的域名（必须是https的否则连不上）
 var script = document.createElement("script");
 script.src = document.hu60Domain + '/tpl/jhin/js/chatgpt/chatgpt.js?r=' + (new Date().getTime());
 document.head.appendChild(script);
@@ -35,6 +35,7 @@ document.head.appendChild(script);
 7. 如何切换登录的帐号？按F12打开开发者工具，点“控制台”或“Console”，然后输入以下代码并回车：
     login(true)
    将会重新弹出用户名密码输入框。
+8. 也可以把用户名密码填在油猴脚本里，这样就不用在对话框里输入了。
 
 ### 如何把机器人接入其他类型的网站？
 
