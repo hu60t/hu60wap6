@@ -1132,6 +1132,7 @@ async function login(relogin) {
 
 function connectToWebSocket() {
     const socket = new WebSocket(document.hu60Domain.replace('http', 'ws') + "/ws/msg?_sid=" + hu60Sid);
+    let keepAliveTimer = null;
 
     // 开启 WebSocket 连接时触发
     socket.onopen = (event) => {
@@ -1141,7 +1142,7 @@ function connectToWebSocket() {
         runOnce();
 
         // 每隔一分钟发送一个 keep alive 消息，防止连接断开
-        setInterval(() => {
+        keepAliveTimer = setInterval(() => {
             socket.send('{"action":"ping"}');
         }, 60000);
     }
@@ -1161,6 +1162,9 @@ function connectToWebSocket() {
 
     // 当 WebSocket 连接关闭时触发
     socket.onclose = (event) => {
+        // 取消 keep alive 定时器
+        clearInterval(keepAliveTimer);
+
         console.log("WebSocket 连接已关闭", event);
 
         // 重新连接 WebSocket
