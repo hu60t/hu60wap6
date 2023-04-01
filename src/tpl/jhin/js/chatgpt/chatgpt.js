@@ -179,6 +179,9 @@ const errorMap = {
     
     'Something went wrong. If this issue persists please contact us through our help center at help.openai.com.':
         "ChatGPT接口报错（未知错误），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+    
+    'GPT-4 currently has a cap of 25 messages every 3 hours. Expect significantly lower caps, as we adjust for demand.':
+        "读取回复出错，请重试。每天第一次`@ChatGPT 4`时经常发生这种错误，通常再试一次就会好。可以发送`@ChatGPT 4，重试`来快速重试。"
 };
 
 // 错误提示文本的最大长度
@@ -924,7 +927,7 @@ async function readReply() {
         if (isNewSession && isTextEmpty) {
             return "会话不存在，无法读取上一条回复。请发送非空留言。";
         }
-        return "读取回复出错，请稍后重试。每天首次使用时出错的概率很高，通常重试就能好。你也可以尝试@[empty]其他机器人。" + robotList + "\n\n@老虎会游泳，可能需要检查机器人代码问题。";
+        return "读取回复出错，请重试。每天第一次`@ChatGPT`时经常发生这种错误，通常再试一次就会好。可以发送`@ChatGPT，重试`来快速重试。";
     }
 
     // 用插件 html 转 markdown
