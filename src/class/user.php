@@ -601,6 +601,10 @@ class user extends userinfo
         if ($atUid[$uid] || !$this->islogin) {
             return $uid;
         }
+        // 禁止机器人@另一个机器人
+        if ($this->uid < 0 && $uid < 0) {
+            return $uid;
+        }
 
         $this->atUid[] = $uid;
         $atUid[$uid] = true;
