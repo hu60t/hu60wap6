@@ -147,41 +147,41 @@ const turndownGfmJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-pl
 
 /////////////////////////////////////////////////////////////
 
-// 已知机器人列表
-const robotList = '\n\n已知机器人列表：\n* @[empty]ChatGPT\n* @[empty]hu60bot\n* @[empty]罐子2号\n* @[empty]靓仔\n* @[empty]QA\n\n';
-
 // 错误提示翻译
 const errorMap = {
     'Too many requests in 1 hour. Try again later.':
-        "当前机器人达到OpenAI设置的一小时对话次数上限，请过段时间再试，或尝试@[empty]其他机器人。" + robotList,
+        "达到OpenAI设置的一小时对话次数上限，请过段时间再试。",
 
     'An error occurred. Either the engine you requested does not exist or there was another issue processing your request. If this issue persists please contact us through our help center at help.openai.com.':
-        "ChatGPT接口报错（会话丢失），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+        "ChatGPT接口报错（会话丢失），请重试。",
 
     // the request ID 后面是一串随机值，所以没有粘贴过来。匹配时回复将截短到错误提示的最大长度，只要保证该错误提示是最长的，就不需要处理随机ID问题。
     'The server had an error while processing your request. Sorry about that! You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID':
-        "ChatGPT接口报错（服务器出错），请重试，或尝试@[empty]其他机器人。" + robotList,
+        "ChatGPT接口报错（服务器出错），请重试。",
 
     'An error occurred. If this issue persists please contact us through our help center at help.openai.com.':
-        "ChatGPT接口报错（客户端错误），请重试，或尝试@[empty]其他机器人。" + robotList,
+        "ChatGPT接口报错（客户端错误），请重试。",
 
     'Only one message at a time. Please allow any other responses to complete before sending another message, or wait one minute.':
-        "ChatGPT接口报错（并发受限），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+        "ChatGPT接口报错（并发受限），请稍后重试。",
 
     'Something went wrong':
-        "ChatGPT接口报错（抛出异常），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+        "ChatGPT接口报错（抛出异常），请重试。",
 
     'network error':
-        "ChatGPT接口报错（网络错误），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+        "ChatGPT接口报错（网络错误），请重试。",
 
     'The message you submitted was too long, please reload the conversation and submit something shorter.':
         "内容超过ChatGPT长度限制，请缩短。当前会话已丢失。",
     
     'Something went wrong. If this issue persists please contact us through our help center at help.openai.com.':
-        "ChatGPT接口报错（未知错误），请稍后重试，或尝试@[empty]其他机器人。" + robotList,
+        "ChatGPT接口报错（未知错误），请重试。",
     
     'GPT-4 currently has a cap of 25 messages every 3 hours. Expect significantly lower caps, as we adjust for demand.':
-        "读取回复出错，请重试。每天第一次`@ChatGPT 4`时经常发生这种错误，通常再试一次就会好。可以发送`@ChatGPT 4，重试`来快速重试。"
+        "读取回复出错，请重试。每天第一次和机器人对话时经常发生这种错误，通常再试一次就会好。",
+    
+    'READ_REPLY_FAILED':
+        "读取回复出错，请重试。每天第一次和机器人对话时经常发生这种错误，通常再试一次就会好。",
 };
 
 // 错误提示文本的最大长度
@@ -245,6 +245,9 @@ const upgradeToPlusSelector = 'span.gold-new-button.flex';
 const showMoreButtonSelector = 'button.justify-center.m-auto';
 
 /////////////////////////////////////////////////////////////
+
+// 在线机器人列表（自动获取）
+var hu60OnlineBot = {};
 
 // 用户自身的虎绿林uid（自动获取）
 var hu60MyUid = null;
@@ -927,7 +930,7 @@ async function readReply() {
         if (isNewSession && isTextEmpty) {
             return "会话不存在，无法读取上一条回复。请发送非空留言。";
         }
-        return "读取回复出错，请重试。每天第一次`@ChatGPT`时经常发生这种错误，通常再试一次就会好。可以发送`@ChatGPT，重试`来快速重试。";
+        return "READ_REPLY_FAILED";
     }
 
     // 用插件 html 转 markdown
@@ -985,7 +988,16 @@ async function readTopicContent(path) {
 
 // 回复帖子
 async function replyTopic(uid, replyText, topicObject) {
-    replyText = errorMap[replyText.substr(0, errorMaxLen)] || replyText; // 翻译错误提示
+    // 翻译错误提示并追加在线机器人列表
+    if (errorMap[replyText.substr(0, errorMaxLen)]) {
+        replyText = errorMap[replyText.substr(0, errorMaxLen)];
+        replyText += `\n\n可发送“@#${hu60MyUid}，重试”来快速重试。\n\n您也可以尝试@[empty]其他机器人，当前在线的机器人有：\n`;
+        for (const botUid in hu60OnlineBot) {
+            if (hu60OnlineBot[botUid] > 0) {
+                replyText += `* @#${botUid}\n`;
+            }
+        }
+    }
 
     let content = "<!md>\n";
     if (modelName) {
@@ -1141,18 +1153,43 @@ function connectToWebSocket() {
     socket.onopen = (event) => {
         console.log("WebSocket 连接已经建立");
 
+        // 请求在线机器人列表
+        socket.send('{"action": "lsol"}');
+
         // 连上推送服务器后还要再查询一次消息接口，防止错过还没连上的这段时间发来的消息
         runOnce();
 
-        // 每隔一分钟发送一个 keep alive 消息，防止连接断开
+        // 每隔一分钟发送一个 keep alive 消息，防止连接断开，顺便更新在线机器人列表
         keepAliveTimer = setInterval(() => {
-            socket.send('{"action":"ping"}');
+            socket.send('{"action": "lsol"}');
         }, 60000);
     }
 
     // 接收到 WebSocket 消息时触发
     socket.onmessage = (event) => {
         console.log("收到 WebSocket 消息", event.data);
+
+        // 处理消息
+        try {
+            let msg = JSON.parse(event.data);
+            switch (msg.event) {
+                // 更新在线机器人列表
+                case 'lsol':
+                    hu60OnlineBot = msg.data;
+                    break;
+                case 'online':
+                    hu60OnlineBot[msg.data.uid] = msg.data.count;
+                case 'offline':
+                    delete hu60OnlineBot[msg.data.uid];
+                default:
+                    // ignore
+                    break;
+            }
+        } catch (ex) {
+            console.error(ex);
+        }
+
+        // 检查是否有新的@消息
         runOnce();
     };
 
