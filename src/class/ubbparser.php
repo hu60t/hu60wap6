@@ -184,6 +184,9 @@ class UbbParser extends XUBBP
             /* textbox 文本框（标记独占一行，高优先级）*/
             '!^(^|.*?[\r\n]+)\[text(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/text\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
 
+            /* 4个空格或一个tab开头的markdown代码块 */
+            '!^(^|.*?[\r\n]+)((?:\t|    )[^\r\n]*(?:[\r\n]+(?:\t|    )[^\r\n]*)*)([\r\n]+.*|$)$!is' => array(array(1, 3), 'mdpre', array(2)),
+
             /*inline代码（优先级比上面的低）*/
             '!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
         ];
