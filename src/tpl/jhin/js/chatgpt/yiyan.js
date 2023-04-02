@@ -919,11 +919,15 @@ async function readReply() {
     }
 
     // 等待回答完成
-    let i = 0;
-    do {
+    // 因为状态转换的瞬间存在错判，所以多等几轮，防止还没回复完就返回
+    for (let x=0; x<10; x++) {
+        let i = 0;
+        do {
+            await sleep(100);
+            i++;
+        } while (i<120 && !isFinished());
         await sleep(100);
-        i++;
-    } while (i<1200 && !isFinished());
+    }
 
     if (!isFinished()) {
         // 发言卡住了，回复完成后自动刷新
