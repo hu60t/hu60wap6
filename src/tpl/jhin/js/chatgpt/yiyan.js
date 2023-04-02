@@ -14,14 +14,13 @@
 // @author       老虎会游泳
 // @match        https://yiyan.baidu.com/
 // @icon         https://hu60.cn/favicon.ico
-// @grant GM_setClipboard
+// @grant        none
 // ==/UserScript==
 
 document.hu60User = ''; // 虎绿林用户名
 document.hu60Pwd = ''; // 虎绿林密码
 document.hu60AdminUids = [1, 19346, 15953]; // 机器人管理员uid，管理员可以发“@文心一言，刷新页面”来重启机器人
 document.hu60Domain = 'https://hu60.cn'; // 如果要对接其他网站，请修改此处的域名（必须是https的否则连不上）
-document.GM_setClipboard = GM_setClipboard; // 通过油猴特权API来设置剪切板内容
 var script = document.createElement("script");
 script.src = document.hu60Domain + '/tpl/jhin/js/chatgpt/yiyan.js?r=' + (new Date().getTime());
 document.head.appendChild(script);
@@ -37,42 +36,6 @@ document.head.appendChild(script);
     login(true)
    将会重新弹出用户名密码输入框。
 8. 也可以把用户名密码填在油猴脚本里，这样就不用在对话框里输入了。
-9. 因为文心一言的输入框很难通过js输入文字，所以需要用外部脚本进行复制粘贴。
-   安装依赖包：sudo apt install xsel xdotool
-   创建 ./paste.sh 内容如下：
-
-#!/bin/bash
-pastedData="$(xsel -o -b)"
-if [ "$pastedData" = "" ]; then
-        exit 0
-fi
-pos="${pastedData%%|@hu60PasteCmd@|*}"
-text="${pastedData#*|@hu60PasteCmd@|}"
-posX="${pos%% *}"
-posY="${pos#* }"
-if [ "$pos" = "$text" ] || [ "$posX" = "" ] || [ "$posY" = "" ]; then
-        exit 0
-fi
-# 如果鼠标点不到文本框，修改下面的坐标偏移量
-let posX=posX+15
-let posY=posY+85
-# 如果鼠标点不到文本框，修改上面的坐标偏移量
-echo "pos: $posX $posY, text: $text"
-echo -n "$text" | xsel -i -b
-sleep 0.1
-xdotool mousemove "$posX" "$posY" click 1
-if [ "$text" = "" ]; then
-        exit 0
-fi
-sleep 0.1
-xdotool key ctrl+a
-sleep 0.1
-xdotool key ctrl+v
-sleep 5
-xsel -c -b
-
-   给执行权限：chmod +x ./paste.sh
-   执行：while true; do ./paste.sh; sleep 0.1; done
 
 ### 如何把机器人接入其他类型的网站？
 
@@ -300,14 +263,6 @@ var replyCodeFormatOpts = null;
 // 重试对话内容缓存
 var retryChatTexts = {};
 
-// 获取到的对话列表是无序的，所以得自行维护顺序
-var orderedChatLineList = [];
-var orderedChatLineSet = new Set();
-
-// 获取到的回复列表是无序的，所以得自行维护顺序
-var orderedReplyList = [];
-var orderedReplySet = new Set();
-
 /////////////////////////////////////////////////////////////
 
 // 命令短语
@@ -438,6 +393,30 @@ function loadScript(url) {
     document.head.appendChild(script);
 }
 
+// Changing a React Input Value from Vanilla Javascript
+// 通过原生js修改React输入框的值
+// From: <https://chuckconway.com/changing-a-react-input-value-from-vanilla-javascript/>
+function setNativeValue(element, value) {
+    let lastValue = element.value;
+    element.value = value;
+    let event = new Event("input", { target: element, bubbles: true });
+    // React 15
+    event.simulated = true;
+    // React 16
+    let tracker = element._valueTracker;
+    if (tracker) {
+        tracker.setValue(lastValue);
+    }
+    element.dispatchEvent(event);
+}
+
+// 模拟点击
+function sendClickEvent(element) {
+    let event = new Event("click", { target: element, bubbles: true });
+    event.simulated = true;
+    element.dispatchEvent(event);
+}
+
 /////////////////////////////////////////////////////////////
 
 // 选择模型
@@ -518,11 +497,15 @@ async function deleteSession() {
             console.error('deleteSession', '找不到删除按钮');
             return;
         }
-        
-        //actionButtons[1].click(); // 点击删除按钮
-        let pos = getElementAbsolutePosition(actionButtons[1]);
-        document.GM_setClipboard(`${pos.x} ${pos.y}|@hu60PasteCmd@|`);
-        await sleep(1000);
+
+        // onclick事件绑定在svg上
+        let svg = actionButtons[1].querySelector('svg');
+        svg.focus();
+        await sleep(100);
+
+        // 点击删除按钮
+        sendClickEvent(svg);
+        await sleep(100);
 
         actionButtons = document.querySelectorAll(deleteConfirmSelector);
         if (!actionButtons[1]) {
@@ -542,21 +525,6 @@ async function deleteSession() {
     } catch (ex) {
         console.error('会话删除失败', ex);
     }
-}
-
-function getElementAbsolutePosition(element) {
-    const rect = element.getBoundingClientRect();
-
-    const screenLeft = window.screenLeft || window.screenX;
-    const screenTop = window.screenTop || window.screenY;
-
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    return {
-        x: rect.left + scrollLeft + screenLeft,
-        y: rect.top + scrollTop + screenTop
-    };
 }
 
 // 重命名会话
@@ -590,17 +558,12 @@ async function renameSession(newName) {
             return;
         }
 
-        // 文心一言的输入框没办法通过 input.value 输入，所以只能先把内容复制到剪切板上，然后用外部程序粘贴
+        // 输入框获取焦点
         nameInput.focus();
-        let pos = getElementAbsolutePosition(nameInput);
-        document.GM_setClipboard(`${pos.x} ${pos.y}|@hu60PasteCmd@|${newName}`);
-        for (i=0; i<100; i++) {
-            await sleep(100);
-            console.log(nameInput.value, nameInput.value == newName);
-            if (nameInput.value == newName) {
-                break;
-            }
-        }
+        await sleep(100);
+
+        // 设置输入框的值
+        setNativeValue(nameInput, newName);
         await sleep(100);
 
         actionButtons = document.querySelectorAll(actionButtonSelector);
@@ -783,17 +746,12 @@ async function sendText(text, uid, modelIndex) {
             chatBox = document.querySelector(chatBoxSelector);
             sendButton = document.querySelector(sendButtonSelector);
 
-            // 文心一言的输入框没办法通过 textarea.value 输入，所以只能先把内容复制到剪切板上，然后用外部程序粘贴
+            // 输入框获取焦点
             chatBox.focus();
-            let pos = getElementAbsolutePosition(chatBox);
-            document.GM_setClipboard(`${pos.x} ${pos.y}|@hu60PasteCmd@|${text}`);
-            for (i=0; i<100; i++) {
-                await sleep(100);
-                console.log(chatBox.value, chatBox.value == text);
-                if (chatBox.value == text) {
-                    break;
-                }
-            }
+            await sleep(100);
+
+            // 设置输入框的值
+            setNativeValue(chatBox, text);
             await sleep(100);
 
             // 点击发送按钮
@@ -870,44 +828,14 @@ async function sendRequest(text, uid) {
     return modelIndex;
 }
 
-// 获取到的对话列表是无序的，所以得自行维护顺序
+// 文心一言的DOM排序是倒序，最新的在最前面
 function getLastChatLine() {
-    let chatLineList = document.querySelectorAll(chatLineSelector);
-    if (chatLineList.length < 1) {
-        return null;
-    }
-    if (chatLineList.length == orderedChatLineList.length) {
-        return orderedChatLineList.at(-1);
-    }
-    for (const key in chatLineList) {
-        const chatLine = chatLineList[key];
-        if (!orderedChatLineSet.has(chatLine)) {
-            orderedChatLineList.push(chatLine);
-            orderedChatLineSet.add(chatLine);
-            break;
-        }
-    }
-    return orderedChatLineList.at(-1);
+    return Array.from(document.querySelectorAll(chatLineSelector)).at(0);
 }
 
-// 获取到的回复列表是无序的，所以得自行维护顺序
+// 文心一言的DOM排序是倒序，最新的在最前面
 function getLastReply() {
-    let replyList = document.querySelectorAll(chatReplySelector);
-    if (replyList.length < 1) {
-        return null;
-    }
-    if (replyList.length == orderedReplyList.length) {
-        return orderedReplyList.at(-1);
-    }
-    for (const key in replyList) {
-        const reply = replyList[key];
-        if (!orderedReplySet.has(reply)) {
-            orderedReplyList.push(reply);
-            orderedReplySet.add(reply);
-            break;
-        }
-    }
-    return orderedReplyList.at(-1);
+    return Array.from(document.querySelectorAll(chatReplySelector)).at(0);
 }
 
 // 读取响应
