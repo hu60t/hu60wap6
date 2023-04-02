@@ -78,7 +78,7 @@ function hu60_user_style_toggle(node, enabled) {
         } else {
             if ($(node).attr('style') != '') {
                 node._hu60_style = $(node).attr('style');
-                $(node).attr('style', 'height: 100%; min-height: 100%; max-height: 100%');
+                $(node).attr('style', 'max-height: 100%');
             }
         }
         if (node.childNodes) {
