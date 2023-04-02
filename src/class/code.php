@@ -22,10 +22,12 @@ class code
      *     $NOnbsp 是否不把空格转换成&nbsp;
      *         false 否，转换空格（默认）
      *         true 是，不转换空格
+     *     $escapeMarkdown 是否转义Markdown特殊字符，以免UBB中类似markdown链接的链接标题被解析
+     *                     例如：《链接：http://hu60.cn，[虎绿林](http链接)》
      *
      * 注：该函数可以自动根据$PAGE['bid']是否为'wml'来判断是否需要转码$为$$
      */
-    static function html($str, $br = false, $NOnbsp = false)
+    static function html($str, $br = false, $NOnbsp = false, $escapeMarkdown = true)
     {
         global $PAGE;
         $str = htmlspecialchars((string)$str, ENT_QUOTES, 'utf-8');
@@ -34,10 +36,15 @@ class code
             elseif ($br == 2) $br = '<br/>';
             $str = str_replace(array("\r\n", "\r", "\n"), $br, $str);
         }
-        if (!$NOnbsp)
+        if (!$NOnbsp) {
             $str = str_replace(' ', '&nbsp;', $str);
-        if ($PAGE['bid'] == 'wml')
+        }
+        if ($escapeMarkdown) {
+            $str = str_replace('[', '&#91;', $str);
+        }
+        if ($PAGE['bid'] == 'wml') {
             $str = str_replace('$', '$$', $str);
+        }
         return $str;
     }
 
