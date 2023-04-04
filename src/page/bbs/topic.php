@@ -4,13 +4,16 @@ $USER->start($tpl);
 $bbs = new bbs($USER);
 $tpl->assign('bbs', $bbs);
 
+// 是否显示机器人内容
+$showBot = isset($_GET['showBot']) ? (bool)$_GET['showBot'] : true;
+
 //获取帖子id
 $tid = (int)$PAGE->ext[0];
 $tpl->assign('tid', $tid);
 
 $pageSize = page::pageSize(1, 20, 1000);
 
-$contentCount = $bbs->topicContentCount($tid);
+$contentCount = $bbs->topicContentCount($tid, $showBot);
 $tpl->assign('contentCount', $contentCount);
 $maxPage = ceil($contentCount / $pageSize);
 $tpl->assign('maxPage', $maxPage);
@@ -80,7 +83,7 @@ $blockUids = $bbs->getBlockUids();
 $blockedReply = 0;
 
 //读取帖子内容
-$tContents = $bbs->topicContents($tid, $p, $pageSize, 'uid,ctime,mtime,content,floor,id,topic_id,review,review_log,locked,flags', $floorReverse);
+$tContents = $bbs->topicContents($tid, $p, $pageSize, 'uid,ctime,mtime,content,floor,id,topic_id,review,review_log,locked,flags', $floorReverse, $showBot);
 foreach ($tContents as $k=>&$v) {
 	// 如果屏蔽用户是帖子作者则不屏蔽
 	if (!$all && $v['uid'] != $tMeta['uid'] && in_array($v['uid'], $blockUids)) {

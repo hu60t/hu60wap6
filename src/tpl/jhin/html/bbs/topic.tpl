@@ -69,7 +69,7 @@
 	{/if}
 </div>
 <div class="comments">
-	<div class="bar">回复列表({$contentCount-1-$blockedReply})</div>
+	<div class="bar">回复列表({$contentCount-1-$blockedReply}|{if $smarty.get.showBot === '0'}<a href="?showBot=1">显示机器人聊天</a>{else}<a href="?showBot=0">隐藏机器人聊天</a>{/if})</div>
 	{if count($tContents) > 0}
 	<div class="comments-list">
 		<ul class="comments-ul">
@@ -127,7 +127,7 @@
 
 	<div class="widget-page">
 		{if $maxPage > 1}
-            {jhinfunc::Pager($p,$maxPage,"{$cid}.{$pid}.{$tid}.##.{$bid}")}
+            {jhinfunc::Pager($p,$maxPage,"{$cid}.{$pid}.{$tid}.##.{$bid}{if $smarty.get.showBot === '0'}?showBot=0{/if}")}
 		{/if}
 	</div>
 	<!--回复框-->

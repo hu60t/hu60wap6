@@ -115,7 +115,7 @@
 	{/if}
 </div>
 <hr>
-<p>『回复列表({$contentCount-1-$blockedReply})』</p>
+<p>『回复列表({$contentCount-1-$blockedReply}|{if $smarty.get.showBot === '0'}<a href="?showBot=1">显示机器人聊天</a>{else}<a href="?showBot=0">隐藏机器人聊天</a>{/if})』</p>
 <div>
 {if count($tContents) > 0}
     {foreach $tContents as $v}
@@ -145,10 +145,10 @@
 
 <div>
     {if $maxPage > 1}
-        {if $p < $maxPage}<a href="{$cid}.{$pid}.{$tid}.{$p+1}.{$bid}">下一页</a>{/if}
-		{if $p > 1}<a href="{$cid}.{$pid}.{$tid}.{$p-1}.{$bid}">上一页</a>{/if}
+        {if $p < $maxPage}<a href="{$cid}.{$pid}.{$tid}.{$p+1}.{$bid}{if $smarty.get.showBot === '0'}?showBot=0{/if}">下一页</a>{/if}
+		{if $p > 1}<a href="{$cid}.{$pid}.{$tid}.{$p-1}.{$bid}{if $smarty.get.showBot === '0'}?showBot=0{/if}">上一页</a>{/if}
 		{$p}/{$maxPage}页,共{$contentCount-1}楼
-		<form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='{$CID}.{$PID}.{$tid}.'+this.value+'.{$BID}'; }"></form>
+		<form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='{$CID}.{$PID}.{$tid}.'+this.value+'.{$BID}{if $smarty.get.showBot === '0'}?showBot=0{/if}'; }"></form>
 		<hr>
     {/if}
 </div>

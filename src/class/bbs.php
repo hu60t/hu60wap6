@@ -970,7 +970,7 @@ class bbs
     /**
      * 获取帖子楼层的内容
      */
-    public function topicContents($topic_id, $page, $size, $fetch = '*', $floorReverse = false)
+    public function topicContents($topic_id, $page, $size, $fetch = '*', $floorReverse = false, $showBot = true)
     {
         if ($size < 1)
             $size = 1;
@@ -981,7 +981,8 @@ class bbs
         // 默认正序排列楼层
         if (!$floorReverse) {
             //正序排列楼层
-            $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? ORDER BY floor ASC LIMIT ?,?', $topic_id, $offset, $size);
+            $hideBotSql = $showBot ? '' : ' AND (flags=0 OR floor=0)';
+            $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=?'.$hideBotSql.' ORDER BY floor ASC LIMIT ?,?', $topic_id, $offset, $size);
             if (!$rs)
                 throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_content不可读', 500);
 
@@ -995,7 +996,8 @@ class bbs
                 $offset--;
             }
 
-            $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? AND floor!=0 ORDER BY floor DESC LIMIT ?,?', $topic_id, $offset, $size);
+            $hideBotSql = $showBot ? '' : ' AND flags=0';
+            $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? AND floor!=0'.$hideBotSql.' ORDER BY floor DESC LIMIT ?,?', $topic_id, $offset, $size);
 
             if (!$rs)
                 throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_content不可读', 500);
@@ -1048,9 +1050,10 @@ class bbs
     /**
      * 获取帖子的总楼层数（包括楼主）
      */
-    public function topicContentCount($topic_id)
+    public function topicContentCount($topic_id, $showBot = true)
     {
-        $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE topic_id=?', $topic_id);
+        $hideBotSql = $showBot ? '' : ' AND (flags=0 OR floor=0)';
+        $rs = $this->db->select('count(*)', 'bbs_topic_content', 'WHERE topic_id=?'.$hideBotSql, $topic_id);
         if (!$rs)
             throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_content不可读', 500);
         $rs = $rs->fetch(db::num);
