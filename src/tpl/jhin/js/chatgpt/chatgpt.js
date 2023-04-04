@@ -992,7 +992,7 @@ async function replyTopic(uid, replyText, topicObject) {
     // 翻译错误提示并追加在线机器人列表
     if (errorMap[replyText.substr(0, errorMaxLen)]) {
         replyText = errorMap[replyText.substr(0, errorMaxLen)];
-        replyText += `\n\n可发送“@#${hu60MyUid}，重试”来快速重试。\n\n您也可以尝试@[empty]其他机器人，当前在线的机器人有：\n`;
+        replyText += `\n\n可发送“@#${hu60MyUid}${modelName ? ' '+modelName : ''}，重试”来快速重试。\n\n您也可以尝试@[empty]其他机器人，当前在线的机器人有：\n`;
         for (const botUid in hu60OnlineBot) {
             if (hu60OnlineBot[botUid] > 0) {
                 replyText += `* @#${botUid}\n`;
