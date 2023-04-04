@@ -1,3 +1,7 @@
 {JsonPage::start()}
-{$jsonData = ['success'=>true]}
+{$jsonData = [
+    'page' => 'activePage',
+	'step' => 3,
+    'success' => true
+]}
 {JsonPage::output($jsonData)}
