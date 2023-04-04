@@ -214,6 +214,10 @@ const upgradeToPlusSelector = 'hu60-none';
 // 会话列表“Show more”按钮的CSS选择器（尚未观察到该按钮）
 const showMoreButtonSelector = 'hu60-none';
 
+// 刷新按钮的CSS选择器
+// “当前在线等待用户过多，你已长时间没有提问，请刷新重试”
+const refreshButtonSelector = 'div.DsDCFSHH';
+
 /////////////////////////////////////////////////////////////
 
 // 在线机器人列表（自动获取）
@@ -1266,6 +1270,11 @@ const runOnceLock = {
 async function runOnce() {
     await runOnceLock.lock();
     try {
+        // “当前在线等待用户过多，你已长时间没有提问，请刷新重试”
+        if (document.querySelector(refreshButtonSelector)) {
+            location.reload();
+        }
+
         // 浏览器用户可能直接输入了问题，等待回答完成
         for (let i=0; i<1200 && !isFinished(); i++) {
             await sleep(100);
