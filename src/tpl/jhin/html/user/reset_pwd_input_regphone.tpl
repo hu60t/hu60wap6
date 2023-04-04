@@ -19,7 +19,7 @@
 					document.getElementById('captcha_img').src = '{$cid}.reset_pwd_captcha.php?r=' + (new Date().getTime());
 				}
 			</script>
-			<a href="#" onclick="refreshCaptchaImg()"><img id="captcha_img" src="{$cid}.reset_pwd_captcha.php?sid={$smarty.get.sid|code}&r={time()}" /></a>
+			<a href="#" onclick="refreshCaptchaImg()"><img id="captcha_img" src="{$cid}.reset_pwd_captcha.php?r={time()}" /></a>
 		</p>
 		<p><input type="submit" name="go" value="下一步" /></p>
         <input type="hidden" name="step" value="2" />

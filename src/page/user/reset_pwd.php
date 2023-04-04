@@ -2,7 +2,7 @@
 $tpl = $PAGE->start();
 $step = (int)$_POST['step'];
 
-if ($step == 1 || $step > 3) {
+if ($step <= 1 || $step > 3) {
     $tpl->display('tpl:reset_pwd_input_regphone');
     return;
 }
