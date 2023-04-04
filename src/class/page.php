@@ -393,6 +393,16 @@ class page implements ArrayAccess
     public static function getCookie($name, $default = null)
     {
 		if (self::$noCookie) {
+            $getName = 'x-'.str_replace('_', '-', $name);
+            if (isset($_GET[$getName])) {
+                return $_GET[$getName];
+            }
+
+            $headerName = 'HTTP_X_'.strtoupper(str_replace('-', '_', $name));
+            if (isset($_SERVER[$headerName])) {
+                return $_SERVER[$headerName];
+            }
+
 			return $default;
 		}
 		else {
@@ -404,6 +414,8 @@ class page implements ArrayAccess
     public static function setCookie($name, $value, $time = 0)
     {
 		if (self::$noCookie) {
+            $name = 'x-'.str_replace('_', '-', $name);
+            header("$name: $value");
 			return true;
 		}
 		else {
