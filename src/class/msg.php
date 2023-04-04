@@ -37,24 +37,27 @@ class msg
         return new msg($user);
     }
 
-    public function msgCount($type, $read = null, $fromSelf = false, $byUid = null)
+    public function msgCount($type, $read = null, $fromSelf = false, $byUid = null, $showBot = true)
     {
         $uid = $this->user->uid;
 
-        if ($read !== null) {
-            $isread = 'AND isread=' . (int)$read;
-        }
-
         $direction = $fromSelf ? 'byuid' : 'touid';
+        $reverseDirection = $fromSelf ? 'touid' : 'byuid';
         $data = [$uid, $type];
-        
+
         $where = '';
         if ($byUid !== null) {
-            $where = ' AND byuid=?';
+            $where = " AND $reverseDirection=?";
             $data[] = (int)$byUid;
+        } elseif (!$showBot) {
+            $where = " AND $reverseDirection>0";
+        }
+        if ($read !== null) {
+            $where .= ' AND isread=?';
+            $data[] = (int)$read;
         }
 
-        $rs = $this->db->select('count(*)', 'msg', 'WHERE ' . $direction . '=? ' . $isread . ' AND type=?'.$where, $data);
+        $rs = $this->db->select('count(*)', 'msg', 'WHERE ' . $direction . '=? AND type=?'.$where, $data);
 
         if (!$rs) return false;
         $n = $rs->fetch(db::num);
@@ -62,27 +65,30 @@ class msg
         return $n[0];
     }
 
-    public function msgList($type, $offset, $size, $read = null, $fetch = '*', $fromSelf = false, $byUid = null)
+    public function msgList($type, $offset, $size, $read = null, $fetch = '*', $fromSelf = false, $byUid = null, $showBot = true)
     {
         $uid = $this->user->uid;
 
-        if ($read !== null) {
-            $isread = 'AND isread=' . (int)$read;
-        }
-
         $direction = $fromSelf ? 'byuid' : 'touid';
+        $reverseDirection = $fromSelf ? 'touid' : 'byuid';
         $data = [$uid, $type];
-        
+
         $where = '';
         if ($byUid !== null) {
-            $where = ' AND byuid=?';
+            $where = " AND $reverseDirection=?";
             $data[] = (int)$byUid;
+        } elseif (!$showBot) {
+            $where = " AND $reverseDirection>0";
+        }
+        if ($read !== null) {
+            $where .= ' AND isread=?';
+            $data[] = (int)$read;
         }
 
         $data[] = $offset;
         $data[] = $size;
 
-        $rs = $this->db->select($fetch, 'msg', 'WHERE ' . $direction . '=? ' . $isread . ' AND type=?'.$where.' ORDER BY ctime DESC LIMIT ?,?', $data);
+        $rs = $this->db->select($fetch, 'msg', 'WHERE ' . $direction . '=? AND type=?'.$where.' ORDER BY ctime DESC LIMIT ?,?', $data);
 
         if (!$rs) return false;
 

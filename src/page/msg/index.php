@@ -67,6 +67,8 @@ if ($p < 1) {
     $p = 1;
 }
 
+$isread = null;
+$fromSelf = false;
 switch ($PAGE->ext[1]) {
     case 'yes':
         $isread = 1;
@@ -74,16 +76,18 @@ switch ($PAGE->ext[1]) {
     case 'no':
         $isread = 0;
         break;
-    case 'all':
-    default:
-        $isread = null;
+    case 'my':
+        $fromSelf = true;
         break;
 }
+
+// 是否显示机器人内容
+$showBot = isset($_GET['showBot']) ? (bool)$_GET['showBot'] : true;
 
 switch ($action) {
     case 'outbox':
         // 发件箱
-        $msgCount = $msg->msgCount(msg::TYPE_MSG, $isread, true);
+        $msgCount = $msg->msgCount(msg::TYPE_MSG, $isread, true, null, $showBot);
 
         $maxP = ceil($msgCount / $pageSize);
 
@@ -93,7 +97,7 @@ switch ($action) {
 
         $offset = ($p - 1) * $pageSize;
 
-        $list = $msg->msgList(msg::TYPE_MSG, $offset, $pageSize, $isread, '*', true);
+        $list = $msg->msgList(msg::TYPE_MSG, $offset, $pageSize, $isread, '*', true, null, $showBot);
 
         $tpl->assign('uinfo', $uinfo);
         $tpl->assign('ubbs', $ubbs);
@@ -173,7 +177,7 @@ switch ($action) {
         }
 
         //@消息查看
-        $msgCount = $msg->msgCount(msg::TYPE_AT_INFO, $isread, false, $uid);
+        $msgCount = $msg->msgCount(msg::TYPE_AT_INFO, $isread, $fromSelf, $uid, $showBot);
 
         $maxP = ceil($msgCount / $pageSize);
 
@@ -183,13 +187,15 @@ switch ($action) {
 
         $offset = ($p - 1) * $pageSize;
 
-        $list = $msg->msgList(msg::TYPE_AT_INFO, $offset, $pageSize, $isread, '*', false, $uid);
+        $list = $msg->msgList(msg::TYPE_AT_INFO, $offset, $pageSize, $isread, '*', $fromSelf, $uid, $showBot);
 
         foreach ($list as $v) {
             if (!$v['isread']) {
                 $msg->read_msg($USER->uid, $v['id']);
             }
         }
+
+        $ubbs->setOpt('atMsg.fromSelf', $fromSelf);
 
         $tpl->assign('uinfo', $uinfo);
         $tpl->assign('ubbs', $ubbs);
@@ -206,7 +212,7 @@ switch ($action) {
     case 'inbox':
     default:
         // 收件箱
-        $msgCount = $msg->msgCount(msg::TYPE_MSG, $isread, false);
+        $msgCount = $msg->msgCount(msg::TYPE_MSG, $isread, false, null, $showBot);
     
         $maxP = ceil($msgCount / $pageSize);
     
@@ -216,7 +222,7 @@ switch ($action) {
     
         $offset = ($p - 1) * $pageSize;
     
-        $list = $msg->msgList(msg::TYPE_MSG, $offset, $pageSize, $isread, '*', false);
+        $list = $msg->msgList(msg::TYPE_MSG, $offset, $pageSize, $isread, '*', false, null, $showBot);
     
         $tpl->assign('uinfo', $uinfo);
         $tpl->assign('ubbs', $ubbs);

@@ -758,8 +758,9 @@ class UbbDisplay extends XUBBP
     {
         global $PAGE;
 
+        $opt = $this->getOpt('atMsg');
         $uinfo = new UserInfo();
-        $uinfo->uid($data['uid']);
+        $uinfo->uid($opt['fromSelf'] ? $opt['touid'] : $data['uid']);
 
         $url = code::html(str_replace('{$BID}', $PAGE->bid, $data['url']));
         $pos = code::html($data['pos']);
@@ -773,12 +774,21 @@ class UbbDisplay extends XUBBP
 
         $msg = $this->markdownProtectInline($msg);
 
-        return <<<HTML
-<a class="userinfo" href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 在 <a class="hu60_pos" href="{$url}">{$pos}</a> at你：
+        if ($opt['fromSelf']) {
+            return <<<HTML
+我在 <a class="hu60_pos" href="{$url}">{$pos}</a> @<a class="userinfo" href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a>：
 <blockquote>
 {$msg}
 </blockquote>
 HTML;
+        } else {
+            return <<<HTML
+<a class="userinfo" href="user.info.{$uinfo->uid}.{$PAGE->bid}">{$uinfo->name}</a> 在 <a class="hu60_pos" href="{$url}">{$pos}</a> @你：
+<blockquote>
+{$msg}
+</blockquote>
+HTML;
+        }
     }
 
     /*管理员编辑通知信息*/

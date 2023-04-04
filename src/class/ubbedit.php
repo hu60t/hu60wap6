@@ -377,8 +377,9 @@ class ubbEdit extends XUBBP
     {
         global $PAGE;
 
+        $opt = $this->getOpt('atMsg');
         $uinfo = new UserInfo();
-        $uinfo->uid($data['uid']);
+        $uinfo->uid($opt['fromSelf'] ? $opt['touid'] : $data['uid']);
 
         $url = str_replace('{$BID}', $PAGE->bid, $data['url']);
         $this->setOpt('atMsg.Url', $url);
@@ -397,11 +398,19 @@ class ubbEdit extends XUBBP
 	        $msg = trim($data['msg']);
 		}
 
-        return <<<HTML
+        if ($opt['fromSelf']) {
+            return <<<HTML
+我在 $pos @{$uinfo->name}：
+
+{$msg}
+HTML;
+        } else {
+            return <<<HTML
 @{$uinfo->name} 在 $pos @你：
 
 {$msg}
 HTML;
+        }
     }
 
     /*管理员编辑通知信息*/

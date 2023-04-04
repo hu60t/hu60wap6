@@ -20,12 +20,9 @@
 </div>
 <hr />
 {/foreach}
-<div class="pager">
-  {if $p < $maxP}<a href="?p={$p+1}">下一页</a>{/if}
-  {if $p > 1}<a href="?p={$p-1}">上一页</a>{/if}
-  {$p}/{$maxP}页,共{$msgCount}楼
-  <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?p='+this.value; }"></form>
-</div>
+    <div class="widget-page">
+        {jhinfunc::Pager($p,$pMax,"?p=##")}
+    </div>
 {else}
 发件箱里空空的。
 {/if}

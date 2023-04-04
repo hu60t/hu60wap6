@@ -1,8 +1,10 @@
 {include file="tpl:comm.head" title="查看@消息"}
 @消息：
-{if !in_array($PAGE.ext[1],['yes','no'])}全部{else}<a href="msg.index.@.all.{$bid}">全部</a>{/if}&nbsp;
+{if !in_array($PAGE.ext[1],['yes','no', 'my'])}全部{else}<a href="msg.index.@.all.{$bid}">全部</a>{/if}&nbsp;
 {if $PAGE.ext[1] == 'no'}未读{else}<a href="msg.index.@.no.{$bid}">未读</a>{/if}&nbsp;
-{if $PAGE.ext[1] == 'yes'}已读{else}<a href="msg.index.@.yes.{$bid}">已读</a>{/if}
+{if $PAGE.ext[1] == 'yes'}已读{else}<a href="msg.index.@.yes.{$bid}">已读</a>{/if}&nbsp;
+{if $PAGE.ext[1] == 'my'}我发送的{else}<a href="msg.index.@.my.{$bid}">我发送的</a>{/if} |
+{if $smarty.get.showBot === '0'}<a href="?showBot=1">显示机器人聊天</a>{else}<a href="?showBot=0">隐藏机器人聊天</a>{/if}
 <hr />
 {if $actionNotice}
 <div class="action_notice">
@@ -38,6 +40,7 @@
 {foreach $list as $i=>$k}
     <div class="msg_box">
 	  <div class="floor-content user-content" data-floorID="{$i}" id="floor_content_{$i}">
+        {$tmp=$ubbs->setOpt('atMsg.touid', $k.touid)}
         {$ubbs->display($k.content,true)}
       </div>
       <div class="floor_fold_bar" id="floor_fold_bar_{$i}"></div>
@@ -46,10 +49,10 @@
     <hr />
 {/foreach}
 <div class="pager">
-  {if $p < $maxP}<a href="?p={$p+1}&amp;uid={$uinfo.uid}">下一页</a>{/if}
-  {if $p > 1}<a href="?p={$p-1}&amp;uid={$uinfo.uid}">上一页</a>{/if}
+  {if $p < $maxP}<a href="?p={$p+1}&amp;uid={$uinfo.uid}&amp;showBot={$smarty.get.showBot|urlenc}">下一页</a>{/if}
+  {if $p > 1}<a href="?p={$p-1}&amp;uid={$uinfo.uid}&amp;showBot={$smarty.get.showBot|urlenc}">上一页</a>{/if}
   {$p}/{$maxP}页,共{$msgCount}楼
-  <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?p='+this.value+'&uid={$uinfo.uid}'; }"></form>
+  <form class="pager-form"><input placeholder="跳页" id="page" size="2" onkeyup="if(event.keyCode==13){ location='?p='+this.value+'&uid={$uinfo.uid}&showBot={$smarty.get.showBot|urlenc}'; }"></form>
 </div>
 {else}
 暂无@消息。
