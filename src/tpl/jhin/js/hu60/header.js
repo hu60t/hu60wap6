@@ -94,7 +94,7 @@ function escapeHtml(text) {
 
 // 判断发言是否@了机器人
 function hu60_is_content_at_bot(content) {
-    return new RegExp('@(' + HU60_BOT_LIST.map(x => x.name).join('|') + ')\\b', 'i').test(content);
+    return new RegExp('@(' + HU60_BOT_LIST.map(x => x.name).join('|') + ')', 'i').test(content);
 }
 
 // 解码参数中的 url64（适用于URL的base64）
