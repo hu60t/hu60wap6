@@ -185,19 +185,19 @@ const chatLineSelector = 'div.B0XmwKds, div.custom-html';
 const chatReplySelector = 'div.custom-html';
 
 // 左侧会话列表项的CSS选择器
-const sessionListItemSelector = 'div.l53ezt57';
+const sessionListItemSelector = 'div.r1qZ7V8X';
 
 // 当前会话的CSS选择器
-const currentSessionSelector = 'div.l53ezt57.u0Do7bQH';
+const currentSessionSelector = 'div.r1qZ7V8X.SVPvtzwe';
 
 // 编辑、删除、确认、取消按钮的CSS选择器
-const actionButtonSelector = currentSessionSelector + ' span.ivn5hdAX, span.FXwEpZsK span.ivn5hdAX';
+const actionButtonSelector = 'div.r1qZ7V8X.SVPvtzwe span.V4Z0LJMp, div.H2sWbmDH span.V4Z0LJMp';
 
 // 删除确认按钮的CSS选择器
 const deleteConfirmSelector = 'button.ant-btn-sm';
 
 // 会话名称编辑框的CSS选择器
-const sessionNameInputSelector = 'div.pQcW2RN0 input.ant-input';
+const sessionNameInputSelector = 'div.H2sWbmDH input.ant-input';
 
 // 新建会话按钮的CSS选择器
 const newChatButtonSelector = 'span.MO979HM2';
@@ -277,8 +277,8 @@ const commandPhrases = {
             isNewSession = false;
             wantRename = null;
         } else {
-            await deleteSession();
             commandPhraseReply = '会话已结束';
+            await deleteSession();
         }
     },
     '刷新页面' : async function(text, uid, modelIndex) {
@@ -498,8 +498,7 @@ async function deleteSession() {
         console.log('deleteSession', 'begin', sessionNum);
         let actionButtons = document.querySelectorAll(actionButtonSelector);
         if (!actionButtons[1]) {
-            console.error('deleteSession', '找不到删除按钮');
-            return;
+            throw "找不到删除按钮";
         }
 
         // onclick事件绑定在svg上
@@ -513,8 +512,7 @@ async function deleteSession() {
 
         actionButtons = document.querySelectorAll(deleteConfirmSelector);
         if (!actionButtons[1]) {
-            console.error('deleteSession', '找不到确认按钮');
-            return;
+            throw "找不到确认按钮";
         }
         actionButtons[1].click(); // 点击确认按钮
 
@@ -528,6 +526,9 @@ async function deleteSession() {
         console.log('deleteSession', 'end', getSessions().length);
     } catch (ex) {
         console.error('会话删除失败', ex);
+        if (commandPhraseReply) {
+            commandPhraseReply = "会话删除失败：" + ex + "\n\n@老虎会游泳，机器人代码需要更新。";
+        }
     }
 }
 
@@ -630,9 +631,9 @@ function getSessionName() {
 // 缓解重命名失败的方法
 async function renameWant() {
     if (wantRename !== null) {
-        // 距离回复不到5秒，等够5秒
+        // 距离回复不到2秒，等够2秒
         // 防止重命名过程中文心一言同时自动重命名，导致我们的名称保存失败
-        let timeDiff = 5000 - ((new Date().getTime()) - replyFinishTime);
+        let timeDiff = 2000 - ((new Date().getTime()) - replyFinishTime);
         if (timeDiff > 0) {
             console.log(timeDiff + 'ms 后重命名会话');
             await sleep(timeDiff);
