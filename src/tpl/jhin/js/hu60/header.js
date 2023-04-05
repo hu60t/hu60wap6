@@ -1,3 +1,73 @@
+//////////////// 全局常量 ////////////////
+
+// 机器人列表
+// 来自 https://hu60.cn/q.php/api.bot.list.json
+const HU60_BOT_LIST = [
+    {
+        "uid": -50,
+        "name": "ChatGPT",
+        "avatar": "https://file.hu60.cn/avatar/-50.jpg?r=1676749896",
+        "signature": "OpenAI的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104499.html",
+        "contact": "https://chat.openai.com/chat"
+    },
+    {
+        "uid": -51,
+        "name": "罐子2号",
+        "avatar": "https://file.hu60.cn/avatar/-50.jpg?r=1676749896",
+        "signature": "OpenAI的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104499.html",
+        "contact": "https://chat.openai.com/chat"
+    },
+    {
+        "uid": -52,
+        "name": "chat",
+        "avatar": "https://file.hu60.cn/avatar/-50.jpg?r=1676749896",
+        "signature": "OpenAI的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104499.html",
+        "contact": "https://chat.openai.com/chat"
+    },
+    {
+        "uid": -53,
+        "name": "靓仔",
+        "avatar": "https://file.hu60.cn/avatar/-50.jpg?r=1676749896",
+        "signature": "OpenAI的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104499.html",
+        "contact": "https://chat.openai.com/chat"
+    },
+    {
+        "uid": -54,
+        "name": "hu60bot",
+        "avatar": "https://file.hu60.cn/avatar/-50.jpg?r=1676749896",
+        "signature": "OpenAI的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104622.html",
+        "contact": "https://chat.openai.com/chat"
+    },
+    {
+        "uid": -55,
+        "name": "QA",
+        "avatar": "https://file.hu60.cn/avatar/-50.jpg?r=1676749896",
+        "signature": "OpenAI的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104633.html",
+        "contact": "https://chat.openai.com/chat"
+    },
+    {
+        "uid": -56,
+        "name": "Chatbot",
+        "avatar": "https://file.hu60.cn/avatar/-56.jpg?r=1679995882",
+        "signature": null,
+        "contact": null
+    },
+    {
+        "uid": -57,
+        "name": "GPTbot",
+        "avatar": "https://file.hu60.cn/avatar/-57.jpg?r=1679639081",
+        "signature": null,
+        "contact": null
+    },
+    {
+        "uid": -150,
+        "name": "文心一言",
+        "avatar": "https://file.hu60.cn/avatar/-150.jpg?r=1680383062",
+        "signature": "百度的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104788.html",
+        "contact": "https://yiyan.baidu.com/"
+    }
+];
+
 //////////////// 全局函数 ////////////////
 
 // string.replaceAll() 的 polyfill
@@ -20,6 +90,11 @@ function escapeHtml(text) {
         "'": '&#039;'
     };
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+// 判断发言是否@了机器人
+function hu60_is_content_at_bot(content) {
+    return new RegExp('@(' + HU60_BOT_LIST.map(x => x.name).join('|') + ')\\b', 'i').test(content);
 }
 
 // 解码参数中的 url64（适用于URL的base64）
