@@ -207,6 +207,9 @@ const sendButtonSelector = 'button.absolute.p-1';
 // 正在输入动效（三个点）和加载中动效（转圈）的CSS选择器
 const replyNotReadySelector = 'div.text-2xl, .animate-spin';
 
+// 顶部模型名称的CSS选择器
+const modelNameSelector = 'div.justify-center.p-3';
+
 // 停止生成/重新生成按钮
 const stopOrRegenButtonSelector = 'button.btn-neutral.border-0';
 
@@ -625,9 +628,9 @@ function getSessionName() {
 // 缓解重命名失败的方法
 async function renameWant() {
     if (wantRename !== null) {
-        // 距离回复不到5秒，等够5秒
+        // 距离回复不到2秒，等够2秒
         // 防止重命名过程中ChatGPT同时自动重命名，导致我们的名称保存失败
-        let timeDiff = 5000 - ((new Date().getTime()) - replyFinishTime);
+        let timeDiff = 2000 - ((new Date().getTime()) - replyFinishTime);
         if (timeDiff > 0) {
             console.log(timeDiff + 'ms 后重命名会话');
             await sleep(timeDiff);
@@ -690,11 +693,10 @@ async function switchSession(name, modelIndex) {
         (getSessionName() != name
         || !document.querySelector(chatBoxSelector)
         || !document.querySelector(sendButtonSelector)
+        || !document.querySelector(modelNameSelector)
         || !isFinished())
         && i < 100
     );
-    // 再多等一会儿，防止意外
-    await sleep(100);
 
     // 找不到发言框或发送按钮，当前会话可能出错
     if (!document.querySelector(chatBoxSelector) || !document.querySelector(sendButtonSelector)) {
