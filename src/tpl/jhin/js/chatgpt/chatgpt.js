@@ -797,7 +797,7 @@ async function sendRequest(text, uid) {
     //  @ChatGPT 2 html，输出一段html hello world
     //  @ChatGPT html=500，输出一段html hello world
     //  @ChatGPT 2 html=300x500，输出一段html hello world
-    let parts = text.match(/^\s*@[^，,：:\s]+(?:[，,：:\s]+(\d+))?(?:\s+(html|text|latex|math)(=[0-9,x]+)?)?[，,：:\s]+(.*)$/si);
+    let parts = text.match(/^\s*@[^，,：:\s]+(?:[，,：:\s]+(\d+))?(?:[，,：:\s]+(html|text|latex|math|raw)(=[0-9,x]+)?)?[，,：:\s]+(.*)$/si);
 
     modelName = null;
     replyCodeFormat = null;
@@ -934,6 +934,24 @@ async function readReply() {
             return "会话不存在，无法读取上一条回复。请发送非空留言。";
         }
         return "READ_REPLY_FAILED";
+    }
+
+    // 用户要求原始回复，或内容包含数学公式，直接回复HTML代码
+    if (replyCodeFormat == 'raw' || reply.querySelector('math,mjx-container')) {
+        return `[html${replyCodeFormatOpts || ''}]
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="https://hu60.cn/tpl/jhin/css/default.css"/>
+    <link rel="stylesheet" href="https://hu60.cn/tpl/jhin/css/new.css"/>
+    <link rel="stylesheet" href="https://hu60.cn/tpl/jhin/css/github-markdown.css"/>
+    <link rel="stylesheet" href="https://hu60.cn/tpl/jhin/js/katex/dist/katex.min.css">
+</head>
+<body style="background-color: white">
+    <div class="markdown-body">
+        ${reply.innerHTML}
+    </div>
+</body>
+[/html]`;
     }
 
     // 用插件 html 转 markdown
