@@ -1088,7 +1088,7 @@ HTML;
     /* html 通过iframe的srcdoc属性实现的HTML内容嵌入 */
     public function html($data) {
         $width = '100%';
-        $height = '100%';
+        $height = '300';
         preg_match_all('/[0-9.%]+/', $data['opt'], $arr);
         if (isset($arr[0])) {
             $arr = $arr[0];
