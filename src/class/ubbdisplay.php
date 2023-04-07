@@ -1120,7 +1120,7 @@ HTML;
             $opt = '';
         }
         if (empty($opt)) {
-            $opt = 'border: solid black 1px; height:150px; overflow: scroll; padding: 5px; white-space: pre';
+            $opt = 'border: solid black 1px; height:300px; overflow: scroll; padding: 5px; white-space: pre';
         } else {
             $opt = preg_replace('#/\*.*\*/#sU', '', $opt);
             $opt = preg_replace('#position\s*:[^;]*;?#is', '', $opt);
