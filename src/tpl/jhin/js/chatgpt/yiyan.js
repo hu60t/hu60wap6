@@ -900,9 +900,9 @@ async function readReply() {
                     return node.nodeName === 'PRE' && node.querySelector('div.code-wrapper');
                 },
                 replacement: function (content, node, options) {
+                    console.log(content, node, options);
                     var lang = node.querySelector('span.code-lang')?.textContent || ''; // lang span可能不存在
-                    var code = content.replace(/^\s*[^\n]*复制代码\n+/s, '')
-                                      .replace(/\n+<table class="hljs hljs-ln">[^\n]*<\/table>\s*$/s, '');
+                    var code = Array.from(node.querySelectorAll('div.code-wrapper td.hljs-ln-code')).map(x => x.textContent).join("\n");
                     var fence = (() => {
                         switch (replyCodeFormat) {
                             case 'html':
