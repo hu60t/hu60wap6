@@ -57,6 +57,14 @@ class jhinfunc{
 
         $end = min($begin + $length - 1, $pMax);
 
+        // 防止产生不必要的省略号
+        if ($begin == 3) {
+            $begin = 2;
+        }
+        if ($end == $pMax - 2) {
+            $end = $pMax - 1;
+        }
+
         $html = '';
 
         for ($i=$begin; $i<=$end; $i++) {
