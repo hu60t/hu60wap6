@@ -4,26 +4,47 @@ $tpl = $PAGE->START();
 
 //生成地理位置信息
 
-$remote = $_SERVER['REMOTE_ADDR'] . '（' . quip($_SERVER['REMOTE_ADDR']) . '）';
+$myIp = $_SERVER['REMOTE_ADDR'];
+$myLocation = quip($_SERVER['REMOTE_ADDR']);
+$remote = $myIp . '（' . $myLocation . '）';
 
 $Xa = trim((string)$_SERVER['HTTP_CLIENT_IP']);
 $Xb = str_replace(' ', '', trim((string)$_SERVER['HTTP_X_FORWARDED_FOR']));
 $Xc = trim((string)$_SERVER['HTTP_VIA']);
 $proxy = NULL;
+$proxyArray = [];
 
 if (!empty($Xa)) {
-    $proxy .= '    Client-Ip: ' . $Xa . '（' . quip($Xa) . "）\n";
+    $location = quip($Xa);
+    $proxyArray[] = [
+        'header' => 'Client-Ip',
+        'ip' => $Xa,
+        'location' => $location,
+    ];
+    $proxy .= '    Client-Ip: ' . $Xa . '（' . $location . "）\n";
 }
 
 if (!empty($Xb)) {
     $proxy .= "    Forwarded-For: \n";
     foreach (explode(',', $Xb) as $ip) {
-        $proxy .= '        ' . $ip . '（' . quip($ip) . "）\n";
+        $location = quip($ip);
+        $proxyArray[] = [
+            'header' => 'Forwarded-For',
+            'ip' => $ip,
+            'location' => $location,
+        ];
+        $proxy .= '        ' . $ip . '（' . $location . "）\n";
     }
 }
 
 if (!empty($Xc)) {
-    echo '    Via(透明代理): ' . $Xc . '（' . quip($Xc) . "）\n";
+    $location = quip($Xc);
+    $proxyArray[] = [
+        'header' => 'Via',
+        'ip' => $Xc,
+        'location' => $location,
+    ];
+    echo '    Via(透明代理): ' . $Xc . '（' . $location . "）\n";
 }
 
 //生成HTTP请求行
@@ -75,8 +96,11 @@ foreach ($_SERVER as $x => $v) {
 
 $header .= "\r\n";
 
+$tpl->assign('ip', $myIp);
+$tpl->assign('location', $myLocation);
 $tpl->assign('remote', $remote);
 $tpl->assign('proxy', $proxy);
+$tpl->assign('proxyArray', $proxyArray);
 $tpl->assign('header', $header);
 
 $tpl->display('tpl:ua');
