@@ -190,10 +190,10 @@ const errorMaxLen = Math.max(...Object.keys(errorMap).map(x => x.length));
 
 // 模型对应关系（仅限 ChatGPT Plus 付费用户）
 const modelMap = {
-    1 : 0, // @ChatGPT 1，对应第一个Default模型
-    2 : 1, // @ChatGPT 2，对应第二个Legacy模型
-    3 : 2, // @ChatGPT 3，对应第三个GPT-4模型
-    4 : 2, // @ChatGPT 4，对应第三个GPT-4模型
+    1 : 1, // @ChatGPT 1，对应第2个Default模型
+    2 : 2, // @ChatGPT 2，对应第3个Legacy模型
+    3 : 0, // @ChatGPT 3，对应第1个GPT-4模型
+    4 : 0, // @ChatGPT 4，对应第1个GPT-4模型
 };
 
 /////////////////////////////////////////////////////////////
@@ -1025,6 +1025,10 @@ async function replyTopic(uid, replyText, topicObject) {
         content += '[' + modelName + '] ';
     }
     if (isNewSession) {
+        let modelTitle = document.querySelector(modelNameSelector)?.innerText.replace('Model: ', '') || '';
+        if (modelTitle != '') {
+            content += '[' + modelTitle + '] ';
+        }
         content += '[新会话] ';
     } else if (isTextEmpty) {
         content += '[上一条回复] ';
