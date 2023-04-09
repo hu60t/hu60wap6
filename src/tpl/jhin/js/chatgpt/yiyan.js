@@ -262,7 +262,7 @@ var commandPhraseReply = null;
 
 // 指定回复中的代码高亮UBB
 var replyCodeFormat = null;
-var replyCodeFormatOpts = null;
+var replyCodeFormatOpts = '';
 
 // 重试对话内容缓存
 var retryChatTexts = {};
@@ -801,25 +801,25 @@ async function sendRequest(text, uid) {
     //  @文心一言 2 html，输出一段html hello world
     //  @文心一言 html=500，输出一段html hello world
     //  @文心一言 2 html=300x500，输出一段html hello world
-    let parts = text.match(/^\s*@[^，,：:\s]+(?:[，,：:\s]+(\d+))?(?:[，,：:\s]+(html|text|latex|math|raw)(=[0-9,x]+)?)?[，,：:\s]+(.*)$/si);
+    let parts = text.match(/^(?:[\s,，:：]*[@＠][#＃a-zA-Z0-9_\-\p{Script=Han}]+)*(?:[\s,，:：]+(\d+))?(?:[\s,，:：]+(html|text|latex|math|raw)(=[0-9,x]+)?)?(?:[\s,，:：]+(.*))?$/isu);
 
     modelName = null;
     replyCodeFormat = null;
-    replyCodeFormatOpts = null;
+    replyCodeFormatOpts = '';
     let modelIndex = modelMap[1];
 
     if (parts) {
         let model = parts[1];
         let codeFormat = parts[2];
         let codeFormatOpts = parts[3];
-        text = parts[4];
-    
+        text = parts[4] || '';
+
         // 选择模型
         if (undefined !== model && undefined !== modelMap[Number(model)]) {
             modelName = Number(model);
             modelIndex = modelMap[modelName];
         }
-        
+
         // 指定代码格式
         if (undefined !== codeFormat) {
             replyCodeFormat = codeFormat.toLowerCase();
@@ -949,7 +949,7 @@ async function readReply() {
 
     // 用户要求原始回复，或内容包含数学公式，直接回复HTML代码
     if (replyCodeFormat == 'raw' || reply.querySelector('math,mjx-container')) {
-        return `[html${replyCodeFormatOpts || ''}]
+        return `[html${replyCodeFormatOpts}]
 <!doctype html>
 <head>
     <link rel="stylesheet" href="https://hu60.cn/tpl/jhin/css/default.css"/>
