@@ -62,7 +62,6 @@ document.run = async function() {
             let exceptionCount = 0;
             for (let i=0; i<messages.data.length; i++) {
                 // 要发给文心一言的话，开头包含的“@机器人名称，”会被后续流程自动去除。
-                // 开头写“@机器人名称 2，”可以选择第二个文心一言模型（Legacy模型，仅限文心一言 Plus用户）。
                 let text = messages.data.text;
 
                 // 用户id，可以是字符串，所以给出用户名也是可以的。
