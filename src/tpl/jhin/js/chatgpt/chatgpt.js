@@ -271,7 +271,7 @@ var wantRename = null;
 var lastSessionName = null;
 
 // 回复结束时间
-// 在回复结束10秒后重命名会话，
+// 在回复结束2秒后重命名会话，
 // 以防ChatGPT自动重命名会话导致我们的名称保存失败。
 var replyFinishTime = 0;
 
@@ -468,8 +468,6 @@ async function selectModel(modelIndex) {
 
 // 创建新会话
 async function newChatSession(name, modelIndex) {
-    lastSessionName = null;
-
     let sessionIndex = getSessions().length + 1;
     console.log('newChatSession', sessionIndex, modelIndex, 'begin');
     document.querySelector(newChatButtonSelector).click();
@@ -497,8 +495,6 @@ async function newChatSession(name, modelIndex) {
 // 删除当前会话
 async function deleteSession() {
     try {
-        lastSessionName = null;
-
         let sessionNum = getSessions().length;
 
         console.log('deleteSession', 'begin', sessionNum);
@@ -577,7 +573,6 @@ async function renameSession(newName) {
         }
     } catch (ex) {
         console.error('会话重命名失败', ex);
-        lastSessionName = newName;
     }
 }
 
@@ -646,7 +641,7 @@ async function switchSession(name, modelIndex) {
     isNewSession = false;
 
     // 在会话历史记录功能不可用时减少不必要的新建会话
-    if (lastSessionName === name) {
+    if (getSessions().length < 1 && lastSessionName === name) {
         // 会话相同，无需切换
         return;
     }
@@ -723,7 +718,9 @@ async function sendText(text, uid, modelIndex) {
         }
 
         // 切换会话
-        await switchSession(makeSessionName(uid, modelIndex), modelIndex);
+        let sessionName = makeSessionName(uid, modelIndex);
+        await switchSession(sessionName, modelIndex);
+        lastSessionName = sessionName;
 
         // 等待加载完成
         for (let i=0; i<100 && !isFinished(); i++) {
@@ -858,6 +855,13 @@ async function readReply() {
     }
 
     replyFinishTime = new Date().getTime();
+
+    // 检查会话是否需要重命名
+    let sessionName = getSessionName();
+    if (sessionName != lastSessionName) {
+        wantRename = lastSessionName;
+        isNewSession = true;
+    }
 
     // 加载 html 转 markdown 插件
     let turndownService = null;
