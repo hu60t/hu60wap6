@@ -1012,6 +1012,7 @@ async function readTopicContent(path) {
             await sleep(1000 * i); // 退避重试，第一次不等待，第二次等待1s，第三次等待2s
         }
     }
+    throw '读取楼层，已重试5次，放弃重试';
 }
 
 // 回复帖子
@@ -1063,12 +1064,20 @@ async function replyTopic(uid, replyText, topicObject) {
     formData.append('token', topicObject.token);
     formData.append('go', '1');
 
-    let response = await fetch(hu60BaseUrl + url + '?_origin=*&_json=compact', {
-        body: formData,
-        method: "post",
-        redirect: "manual" // 不自动重定向
-    });
-    return response;
+    for (let i=0; i<5; i++) {
+        try {
+            let response = await fetch(hu60BaseUrl + url + '?_origin=*&_json=compact', {
+                body: formData,
+                method: "post",
+                redirect: "manual" // 不自动重定向
+            });
+            return response;
+        } catch (ex) {
+            console.error('replyTopic failed:', i, url);
+            await sleep(1000 * i); // 退避重试，第一次不等待，第二次等待1s，第三次等待2s
+        }
+    }
+    throw '发言失败，已重试5次，放弃重试';
 }
 
 // 回复@信息
