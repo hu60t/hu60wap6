@@ -69,8 +69,7 @@ document.run = async function() {
 
                 try {
                     // 把对话发给文心一言
-                    // 返回的 modelIndex 是为对话选择的模型id（从0开始编号）
-                    // 模型id和序号的对应关系见 chatgpt.js 里的 modelMap 变量
+                    // 返回的 modelIndex 是为对话选择的模型id（从0开始编号），目前始终是0
                     let modelIndex = await sendRequest(text, uid);
 
                     // 从文心一言读取回复
