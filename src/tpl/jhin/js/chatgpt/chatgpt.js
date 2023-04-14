@@ -12,7 +12,7 @@
 // @version      1.0
 // @description  把ChatGPT接入hu60wap6网站程序
 // @author       老虎会游泳
-// @match        https://chat.openai.com/chat*
+// @match        https://chat.openai.com/*
 // @icon         https://hu60.cn/favicon.ico
 // @grant        none
 // ==/UserScript==
