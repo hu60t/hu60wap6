@@ -116,6 +116,7 @@ document.run = async function() {
             // 异常太多，自动刷新页面
             if (exceptionCount > 0 && exceptionCount >= messages.data.length) {
                 location.reload();
+                await sleep(5000); // 防止实际刷新前执行到后面的代码
             }
 
             // 限制拉取信息的速度，避免对自己的网站造成CC攻击
@@ -307,6 +308,7 @@ async function runAdminCommand() {
     // 刷新页面
     if (wantRefresh) {
         location.reload();
+        await sleep(5000); // 防止实际刷新前执行到后面的代码
         wantRefresh = false;
     }
 }
@@ -1310,6 +1312,7 @@ async function runOnce() {
         // “当前在线等待用户过多，你已长时间没有提问，请刷新重试”
         if (document.querySelector(refreshButtonSelector)) {
             location.reload();
+            await sleep(5000); // 防止实际刷新前执行到后面的代码
         }
 
         // 浏览器用户可能直接输入了问题，等待回答完成
@@ -1335,6 +1338,7 @@ async function runOnce() {
         // 异常太多，刷新页面
         if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
             location.reload();
+            await sleep(5000); // 防止实际刷新前执行到后面的代码
         }
         await sleep(5000);
     } catch (ex) {
@@ -1342,6 +1346,7 @@ async function runOnce() {
         await sleep(5000);
         // 存在未捕捉异常，刷新页面
         location.reload();
+        await sleep(5000); // 防止实际刷新前执行到后面的代码
     }
     runOnceLock.unlock();
 }
