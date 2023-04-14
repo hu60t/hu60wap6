@@ -65,6 +65,13 @@ const HU60_BOT_LIST = [
         "avatar": "https://file.hu60.cn/avatar/-150.jpg?r=1680383062",
         "signature": "百度的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104788.html",
         "contact": "https://yiyan.baidu.com/"
+    },
+    {
+        "uid": -151,
+        "name": "yiyan",
+        "avatar": "https://file.hu60.cn/avatar/-150.jpg?r=1680383062",
+        "signature": "百度的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104788.html",
+        "contact": "https://yiyan.baidu.com/"
     }
 ];
 
