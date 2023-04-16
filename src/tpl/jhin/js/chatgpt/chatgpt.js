@@ -690,7 +690,8 @@ async function switchSession(name, modelIndex) {
         (getSessionName() != name
         || !document.querySelector(chatBoxSelector)
         || !document.querySelector(sendButtonSelector)
-        || !document.querySelector(modelNameSelector)
+        || (!document.querySelector(modelNameSelector) &&
+            !document.querySelector(upgradeToPlusSelector)) // 免费用户没有模型名称
         || !isFinished())
         && i < 100
     );
