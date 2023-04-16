@@ -545,37 +545,34 @@ async function renameSession(newName) {
             await sleep(100);
         }
 
-        // 重命名总是失败，多重试几次
-        for (let i=0; i<3; i++) {
-            getCurrentSession().click();
-            await sleep(100);
+        getCurrentSession().click();
+        await sleep(100);
 
-            let actionButtons = document.querySelectorAll(actionButtonSelector);
-            if (!actionButtons[0]) {
-                console.error('renameSession', '找不到编辑按钮');
-                return;
-            }
-            actionButtons[0].click(); // 点击编辑按钮
-            await sleep(100);
-
-            let nameInput = document.querySelector(sessionNameInputSelector);
-            if (!nameInput) {
-                console.error('renameSession', '找不到输入框');
-                return;
-            }
-
-            // 交替改变新名称，以免毫无变化不尝试保存
-            nameInput.value = newName.replace('-', (i==1) ? '.' : '-');
-            await sleep(100);
-
-            actionButtons = document.querySelectorAll(actionButtonSelector);
-            if (!actionButtons[0]) {
-                console.error('renameSession', '找不到确认按钮');
-                return;
-            }
-            actionButtons[0].click(); // 点击确认按钮
-            await sleep(100);
+        let actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('renameSession', '找不到编辑按钮');
+            return;
         }
+        actionButtons[0].click(); // 点击编辑按钮
+        await sleep(100);
+
+        let nameInput = document.querySelector(sessionNameInputSelector);
+        if (!nameInput) {
+            console.error('renameSession', '找不到输入框');
+            return;
+        }
+
+        // 交替改变新名称，以免毫无变化不尝试保存
+        nameInput.value = newName;
+        await sleep(100);
+
+        actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('renameSession', '找不到确认按钮');
+            return;
+        }
+        actionButtons[0].click(); // 点击确认按钮
+        await sleep(100);
     } catch (ex) {
         console.error('会话重命名失败', ex);
     }
