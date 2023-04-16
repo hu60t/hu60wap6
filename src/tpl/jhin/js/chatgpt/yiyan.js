@@ -954,13 +954,14 @@ async function readReply() {
 
     let errorMessage = '';
     if (errorMap[reply.textContent.substr(0, errorMaxLen)]) {
-        errorMessage = "\n\n----------\n\n" + translateErrorMessage(reply.textContent);
+        errorMessage = translateErrorMessage(reply.textContent);
         // 获取部分回复
-        reply = getLastReply(1);
+        reply = getLastReply(-2);
         if (!reply || !reply.childNodes || reply === lastReply) {
             // 没有部分回复，直接返回错误信息
             return errorMessage;
         }
+        errorMessage = "\n\n----------\n\n" + errorMessage;
     }
 
     // 用户要求原始回复，或内容包含数学公式，直接回复HTML代码
