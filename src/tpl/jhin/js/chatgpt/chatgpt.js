@@ -311,8 +311,8 @@ const commandPhrases = {
             isNewSession = false;
             wantRename = null;
         } else {
-            await deleteSession();
             commandPhraseReply = '会话已结束';
+            await deleteSession();
         }
     },
     '刷新页面' : async function(text, uid, modelIndex) {
@@ -505,16 +505,14 @@ async function deleteSession() {
         console.log('deleteSession', 'begin', sessionNum);
         let actionButtons = document.querySelectorAll(actionButtonSelector);
         if (!actionButtons[1]) {
-            console.error('deleteSession', '找不到删除按钮');
-            return;
+            throw "找不到删除按钮";
         }
         actionButtons[1].click(); // 点击删除按钮
         await sleep(100);
 
         actionButtons = document.querySelectorAll(actionButtonSelector);
         if (!actionButtons[0]) {
-            console.error('deleteSession', '找不到确认按钮');
-            return;
+            throw "找不到确认按钮";
         }
         actionButtons[0].click(); // 点击确认按钮
 
@@ -528,6 +526,9 @@ async function deleteSession() {
         console.log('deleteSession', 'end', getSessions().length);
     } catch (ex) {
         console.error('会话删除失败', ex);
+        if (commandPhraseReply) {
+            commandPhraseReply = "会话删除失败：" + ex + "\n\n@老虎会游泳，机器人代码需要更新。";
+        }
     }
 }
 
@@ -700,6 +701,8 @@ async function switchSession(name, modelIndex) {
         || !isFinished())
         && i < 100
     );
+    // 再多等一会儿，防止意外
+    await sleep(100);
 
     // 找不到发言框或发送按钮，当前会话可能出错
     if (!document.querySelector(chatBoxSelector) || !document.querySelector(sendButtonSelector)) {
@@ -851,11 +854,15 @@ async function readReply() {
     }
 
     // 等待回答完成
-    let i = 0;
-    do {
+    // 因为状态转换的瞬间存在错判，所以多等几轮，防止还没回复完就返回
+    for (let x=0; x<10; x++) {
+        let i = 0;
+        do {
+            await sleep(100);
+            i++;
+        } while (i<120 && !isFinished());
         await sleep(100);
-        i++;
-    } while (i<1200 && !isFinished());
+    }
 
     if (!isFinished()) {
         // 发言卡住了，回复完成后自动刷新
@@ -1082,10 +1089,12 @@ async function replyTopic(uid, replyText, topicObject) {
         content += '[' + modelName + '] ';
     }
     if (isNewSession) {
+        // 添加模型名称标记
         let modelTitle = document.querySelector(modelNameSelector)?.innerText.replace('Model: ', '') || '';
         if (modelTitle != '') {
             content += '[' + modelTitle + '] ';
         }
+
         content += '[新会话] ';
     } else if (isTextEmpty) {
         content += '[上一条回复] ';
