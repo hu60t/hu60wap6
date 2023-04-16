@@ -179,8 +179,6 @@ const stopOrRegenButtonSelector = 'span.yyjIo3Fm, span.JjbYTyke';
 const chatLineSelector = 'div.B0XmwKds, div.custom-html';
 
 // 聊天回答的CSS选择器
-// div.markdown 是正常回复
-// div.text-gray-600 是错误信息（比如网络错误）
 const chatReplySelector = 'div.custom-html';
 
 // 左侧会话列表项的CSS选择器
@@ -265,6 +263,9 @@ var replyCodeFormatOpts = '';
 
 // 重试对话内容缓存
 var retryChatTexts = {};
+
+// 上一条回复，用于防止获取到重复回复
+var lastReply = null;
 
 /////////////////////////////////////////////////////////////
 
@@ -742,7 +743,7 @@ async function sendText(text, uid, modelIndex) {
         }
 
         let chatBox, sendButton, lastChatLine;
-        let lastReply = getLastReply();
+        lastReply = getLastReply();
         let i = 0;
         do {
             chatBox = document.querySelector(chatBoxSelector);
@@ -836,8 +837,8 @@ function getLastChatLine() {
 }
 
 // 文心一言的DOM排序是倒序，最新的在最前面
-function getLastReply() {
-    return Array.from(document.querySelectorAll(chatReplySelector)).at(0);
+function getLastReply(index = 0) {
+    return Array.from(document.querySelectorAll(chatReplySelector)).at(index);
 }
 
 // 读取响应
@@ -944,11 +945,22 @@ async function readReply() {
         i++;
     } while (i<50 && !reply && !await sleep(100));
     // 如果内容不为空，至少会有一个Text子节点
-    if (!reply || !reply.childNodes) {
+    if (!reply || !reply.childNodes || reply === lastReply) {
         if (isNewSession && isTextEmpty) {
             return "会话不存在，无法读取上一条回复。请发送非空留言。";
         }
-        return "READ_REPLY_FAILED";
+        return translateErrorMessage("READ_REPLY_FAILED");
+    }
+
+    let errorMessage = '';
+    if (errorMap[reply.textContent.substr(0, errorMaxLen)]) {
+        errorMessage = "\n\n----------\n\n" + translateErrorMessage(reply.textContent);
+        // 获取部分回复
+        reply = getLastReply(1);
+        if (!reply || !reply.childNodes || reply === lastReply) {
+            // 没有部分回复，直接返回错误信息
+            return errorMessage;
+        }
     }
 
     // 用户要求原始回复，或内容包含数学公式，直接回复HTML代码
@@ -965,6 +977,7 @@ async function readReply() {
     <div class="markdown-body">
         ${reply.innerHTML}
     </div>
+    <div class="error-message">${errorMessage}</div>
 </body>
 [/html]`;
     }
@@ -972,7 +985,7 @@ async function readReply() {
     // 用插件 html 转 markdown
     if (turndownService) {
         try {
-            return turndownService.turndown(reply);
+            return turndownService.turndown(reply) + errorMessage;
         } catch (ex) {
             console.error('turndown 转换失败', ex);
         }
@@ -989,7 +1002,7 @@ async function readReply() {
             lines.push(x.innerText);
         }
     });
-    return lines.join("\n\n");
+    return lines.join("\n\n") + errorMessage;
 }
 
 // 判断响应是否结束
@@ -1039,19 +1052,28 @@ async function readTopicContent(path) {
     throw '读取楼层，已重试5次，放弃重试';
 }
 
-// 回复帖子
-async function replyTopic(uid, replyText, topicObject) {
+// 翻译错误信息
+function translateErrorMessage(replyText) {
     // 翻译错误提示并追加在线机器人列表
     if (errorMap[replyText.substr(0, errorMaxLen)]) {
         replyText = errorMap[replyText.substr(0, errorMaxLen)];
-        replyText += `\n\n可发送“@#${hu60MyUid}${modelName ? ' '+modelName : ''}，重试”来快速重试。\n\n您也可以尝试@[empty]其他机器人，当前在线的机器人有：\n`;
-        for (const botUid in hu60OnlineBot) {
-            if (hu60OnlineBot[botUid] > 0) {
-                replyText += `* @#${botUid}\n`;
+        if (hu60MyUid) {
+            replyText += `\n\n可发送“@#${hu60MyUid}${modelName ? ' '+modelName : ''}，重试”来快速重试。`;
+        }
+        if (hu60OnlineBot.length > 0) {
+            replyText += `\n\n您也可以尝试@[empty]其他机器人，当前在线的机器人有：\n`;
+            for (const botUid in hu60OnlineBot) {
+                if (hu60OnlineBot[botUid] > 0) {
+                    replyText += `* @#${botUid}\n`;
+                }
             }
         }
     }
+    return replyText;
+}
 
+// 回复帖子
+async function replyTopic(uid, replyText, topicObject) {
     let content = "<!md>\n";
     if (modelName) {
         content += '[' + modelName + '] ';
