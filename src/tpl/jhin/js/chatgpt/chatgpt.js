@@ -171,7 +171,7 @@ const errorMap = {
         "ChatGPT接口报错（抛出异常），请重试。",
 
     'network error':
-        "ChatGPT接口报错（网络错误），请重试。",
+        "连接断开，回复不完整。",
 
     'The message you submitted was too long, please reload the conversation and submit something shorter.':
         "内容超过ChatGPT长度限制，请缩短。当前会话已丢失。",
@@ -952,12 +952,12 @@ async function readReply() {
         if (isNewSession && isTextEmpty) {
             return "会话不存在，无法读取上一条回复。请发送非空留言。";
         }
-        return translateErrorMessage("READ_REPLY_FAILED");
+        return translateErrorMessage(await autoRetry("READ_REPLY_FAILED"));
     }
 
     let errorMessage = '';
     if (errorMap[reply.textContent.substr(0, errorMaxLen)]) {
-        errorMessage = translateErrorMessage(reply.textContent);
+        errorMessage = translateErrorMessage(await autoRetry(reply.textContent));
         // 获取部分回复
         reply = getLastReply(-2);
         if (!reply || !reply.childNodes || reply === lastReply) {
@@ -1014,6 +1014,20 @@ function isFinished() {
     return !document.querySelector(replyNotReadySelector);
 }
 
+// 自动重试
+async function autoRetry(errorMessage) {
+    if (!localStorage.lastAtInfo) {
+        return errorMessage;
+    }
+    let atInfo = JSON.parse(localStorage.lastAtInfo);
+    atInfo.retryTimes = atInfo.retryTimes || 0;
+    if (errorMessage != 'network error' && atInfo.retryTimes < 5) {
+        location.reload();
+        await sleep(5000);
+    }
+    return errorMessage;
+}
+
 // 读取@消息
 async function readAtInfo() {
     // 读取保存的进度
@@ -1066,9 +1080,15 @@ async function readTopicContent(path) {
 function translateErrorMessage(replyText) {
     // 翻译错误提示并追加在线机器人列表
     if (errorMap[replyText.substr(0, errorMaxLen)]) {
+        console.error('translateErrorMessage', replyText);
         replyText = errorMap[replyText.substr(0, errorMaxLen)];
         if (hu60MyUid) {
-            replyText += `\n\n可发送“@#${hu60MyUid}${modelName ? ' '+modelName : ''}，重试”来快速重试。`;
+            if (replyText == '连接断开，回复不完整。') {
+                wantRefresh = true;
+                replyText += `\n\n可发送“@#${hu60MyUid}${modelName ? '，'+modelName : ''}，”来重新获取完整内容。`;
+            } else {
+                replyText += `\n\n可发送“@#${hu60MyUid}${modelName ? '，'+modelName : ''}，重试”来快速重试。`;
+            }
         }
         if (hu60OnlineBot.length > 0) {
             replyText += `\n\n您也可以尝试@[empty]其他机器人，当前在线的机器人有：\n`;
@@ -1422,6 +1442,8 @@ async function run() {
     }
 
     await login();
+    console.log('等待5秒...');
+    await sleep(5000); // 等待页面充分加载
     console.log('虎绿林ChatGPT机器人已启动');
 
     connectToWebSocket();
