@@ -1004,6 +1004,21 @@ function isFinished() {
 
 // 读取@消息
 async function readAtInfo() {
+    // 读取保存的进度
+    if (localStorage.lastAtInfo) {
+        try {
+            let atInfo = JSON.parse(localStorage.lastAtInfo);
+            atInfo.retryTimes = atInfo.retryTimes || 0;
+            if (atInfo.retryTimes < 5) {
+                atInfo.retryTimes++;
+                console.log('载入上次的@消息', atInfo);
+                return atInfo;
+            }
+        } catch (ex) {
+            console.log('读取保存的@消息出错', ex);
+        }
+    }
+
     let response = await fetch(hu60BaseUrl + 'msg.index.@.no.json?_origin=*&_json=compact&_content=json', {
         redirect: "manual" // 不自动重定向
     });
@@ -1333,10 +1348,18 @@ async function runOnce() {
             await sleep(100);
         }
 
-        let atInfo = await readAtInfo();
         let exceptionCount = 0;
+        let atInfo = await readAtInfo();
+
+        // 读取保存的进度
+        atInfo.lastPos = atInfo.lastPos || atInfo.msgList.length - 1;
+
         // @消息是后收到的在前面，所以从后往前循环，先发的先处理
-        for (let i = atInfo.msgList.length - 1; i>=0; i--) {
+        for (let i = atInfo.lastPos; i>=0; i--) {
+            // 保存进度以便自动刷新页面后重试
+            atInfo.lastPos = i;
+            localStorage.lastAtInfo = JSON.stringify(atInfo);
+
             try {
                 await replyAtInfo(atInfo.msgList[i]);
                 await sleep(100);
@@ -1346,8 +1369,13 @@ async function runOnce() {
                 await sleep(1000);
             }
         }
+
+        // 清空保存的进度
+        localStorage.lastAtInfo = '';
+
         // 执行管理员命令
         await runAdminCommand();
+
         // 异常太多，刷新页面
         if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
             location.reload();
