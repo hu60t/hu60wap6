@@ -1319,6 +1319,16 @@ const runOnceLock = {
 async function runOnce() {
     await runOnceLock.lock();
     try {
+        // 等待 New Chat 按钮出现，出现了说明已经通过浏览器验证
+        for (let i=0; i<30 && !document.querySelector(newChatButtonSelector); i++) {
+            await sleep(1000);
+        }
+        // New Chat 按钮还是没出现，刷新页面
+        if (!document.querySelector(newChatButtonSelector)) {
+            location.reload();
+            await sleep(5000);
+        }
+
         // 浏览器用户可能直接输入了问题，等待回答完成
         for (let i=0; i<1200 && !isFinished(); i++) {
             await sleep(100);
