@@ -219,8 +219,8 @@ const chatLineSelector = 'div.flex-col.items-start';
 
 // 聊天回答的CSS选择器
 // div.markdown 是正常回复
-// div.text-gray-600 是错误信息（比如网络错误）
-const chatReplySelector = 'div.markdown, div.text-gray-600';
+// div.text-gray-600.border-red-500 是错误信息（比如网络错误）
+const chatReplySelector = 'div.markdown, div.text-gray-600.border-red-500';
 
 // 左侧会话列表项的CSS选择器
 const sessionListItemSelector = 'a.relative.rounded-md';
