@@ -1424,7 +1424,7 @@ async function runOnce() {
             location.reload();
             await sleep(5000); // 防止实际刷新前执行到后面的代码
         }
-        await sleep(5000);
+        await sleep(1000);
     } catch (ex) {
         console.error(ex);
         await sleep(5000);
@@ -1450,8 +1450,8 @@ async function run() {
     }
 
     await login();
-    console.log('等待5秒...');
-    await sleep(5000); // 等待页面充分加载
+    console.log('等待1秒...');
+    await sleep(1000); // 等待页面充分加载
     console.log('虎绿林文心一言机器人已启动');
 
     connectToWebSocket();
