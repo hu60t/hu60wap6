@@ -288,6 +288,7 @@ const commandPhrases = {
         }
         commandPhraseReply = '即将刷新页面';
         wantRefresh = true;
+        wantRename = null;
     },
     '重试' : async function(text, uid, modelIndex) {
         text = retryChatTexts[uid];
@@ -532,13 +533,6 @@ async function deleteSession() {
 // 重命名会话
 async function renameSession(newName) {
     try {
-        // 存在Show more按钮，点击它，展开完整列表
-        for (let i=0; i<10 && document.querySelector(showMoreButtonSelector); i++) {
-            console.log('点击 Show More 按钮');
-            document.querySelector(showMoreButtonSelector).click();
-            await sleep(500);
-        }
-
         // 等待加载完成
         for (let i=0; i<100 && (!isFinished() || !getCurrentSession()); i++) {
             await sleep(100);
@@ -588,13 +582,6 @@ function getSessions() {
 
 // 查找会话
 async function findSession(name) {
-    // 存在Show more按钮，点击它，展开完整列表
-    for (let i=0; i<10 && document.querySelector(showMoreButtonSelector); i++) {
-        console.log('点击 Show More 按钮');
-        document.querySelector(showMoreButtonSelector).click();
-        await sleep(500);
-    }
-
     // 等待加载完成
     for (let i=0; i<100 && !isFinished(); i++) {
         await sleep(100);

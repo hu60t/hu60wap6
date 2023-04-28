@@ -322,6 +322,7 @@ const commandPhrases = {
         }
         commandPhraseReply = '即将刷新页面';
         wantRefresh = true;
+        wantRename = null;
     },
     '重试' : async function(text, uid, modelIndex) {
         text = retryChatTexts[uid];
