@@ -535,52 +535,85 @@ async function deleteSession() {
 // 重命名会话
 async function renameSession(newName) {
     try {
-        // 存在Show more按钮，点击它，展开完整列表
-        for (let i=0; i<10 && document.querySelector(showMoreButtonSelector); i++) {
-            console.log('点击 Show More 按钮');
-            document.querySelector(showMoreButtonSelector).click();
-            await sleep(500);
-        }
-
         // 等待加载完成
         for (let i=0; i<100 && (!isFinished() || !getCurrentSession()); i++) {
             await sleep(100);
         }
 
-        // 重命名总是失败，多重试几次
-        for (let i=0; i<3; i++) {
-            getCurrentSession().click();
-            await sleep(100);
+        getCurrentSession().click();
+        await sleep(100);
 
-            let actionButtons = document.querySelectorAll(actionButtonSelector);
-            if (!actionButtons[0]) {
-                console.error('renameSession', '找不到编辑按钮');
-                return;
-            }
-            actionButtons[0].click(); // 点击编辑按钮
-            await sleep(100);
+        let actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('renameSession', '找不到编辑按钮');
+            return;
+        }
+        actionButtons[0].click(); // 点击编辑按钮
+        await sleep(100);
 
-            let nameInput = document.querySelector(sessionNameInputSelector);
-            if (!nameInput) {
-                console.error('renameSession', '找不到输入框');
-                return;
-            }
+        let nameInput = document.querySelector(sessionNameInputSelector);
+        if (!nameInput) {
+            console.error('renameSession', '找不到输入框');
+            return;
+        }
 
-            // 交替改变新名称，以免毫无变化不尝试保存
-            nameInput.value = newName.replace('-', (i==1) ? '.' : '-');
-            await sleep(100);
+        nameInput.value = newName;
+        await sleep(100);
 
-            actionButtons = document.querySelectorAll(actionButtonSelector);
-            if (!actionButtons[0]) {
-                console.error('renameSession', '找不到确认按钮');
-                return;
-            }
-            actionButtons[0].click(); // 点击确认按钮
+        actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('renameSession', '找不到确认按钮');
+            return;
+        }
+        actionButtons[0].click(); // 点击确认按钮
+        await sleep(1000);
+
+        // 记录会话URL
+        let currentSession = getCurrentSession();
+        if (/\?/.test(location.href)) {
+            // 点新会话再点当前会话，URL才会出现
+            document.querySelector(newChatButtonSelector).click();
+            // 等待加载完成
             await sleep(1000);
+            let oldUrl = location.href;
+            // 回到当前会话
+            currentSession.click();
+            // 等待加载完成
+            for (let i=0; i<100 && location.href == oldUrl; i++) {
+                await sleep(100);
+            }
+        }
+        // 不含问号说明URL出现了
+        if (/\?/.test(location.href) == false) {
+            console.log('会话URL:', newName, location.href);
+            setChatUrl(newName, location.href);
+        } else {
+            console.log('会话URL获取失败:', newName, location.href);
         }
     } catch (ex) {
         console.error('会话重命名失败', ex);
     }
+}
+
+function getChatUrlList() {
+    return JSON.parse(localStorage.chatUrlList || '{}');
+}
+
+function getChatUrl(name) {
+    let chatUrlList = getChatUrlList();
+    return chatUrlList[name];
+}
+
+function setChatUrl(name, url) {
+    let chatUrlList = getChatUrlList();
+    chatUrlList[name] = url;
+    localStorage.chatUrlList = JSON.stringify(chatUrlList);
+}
+
+function deleteChatUrl(name) {
+    let chatUrlList = getChatUrlList();
+    delete chatUrlList[name];
+    localStorage.chatUrlList = JSON.stringify(chatUrlList);
 }
 
 // 获取会话列表
@@ -590,13 +623,6 @@ function getSessions() {
 
 // 查找会话
 async function findSession(name) {
-    // 存在Show more按钮，点击它，展开完整列表
-    for (let i=0; i<10 && document.querySelector(showMoreButtonSelector); i++) {
-        console.log('点击 Show More 按钮');
-        document.querySelector(showMoreButtonSelector).click();
-        await sleep(500);
-    }
-
     // 等待加载完成
     for (let i=0; i<100 && !isFinished(); i++) {
         await sleep(100);
@@ -609,6 +635,26 @@ async function findSession(name) {
             return sessions[i];
         }
     }
+
+    // 通过URL跳转加载的会话
+    if (location.href == localStorage.lastChatUrl && name == localStorage.lastChatName) {
+        return getCurrentSession();
+    }
+
+    // 名称匹配但URL不匹配（自动跳转到新会话），说明会话可能已不存在
+    if (name == localStorage.lastChatName) {
+        deleteChatUrl(localStorage.lastChatName);
+    } else {
+        let url = getChatUrl(name);
+        if (url) {
+            localStorage.lastChatUrl = url;
+            localStorage.lastChatName = name;
+            // 通过跳转到URL来直接加载会话
+            location.href = url;
+            await sleep(5000);
+        }
+    }
+
     return null;
 }
 
