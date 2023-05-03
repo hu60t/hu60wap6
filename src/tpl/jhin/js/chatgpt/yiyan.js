@@ -1306,6 +1306,9 @@ function connectToWebSocket() {
         console.error("WebSocket 连接出错", event);
         // 关闭当前 WebSocket 连接
         socket.close();
+
+        // ws服务不可用，改用轮询
+        runOnce();
     };
 
     // 当 WebSocket 连接关闭时触发
