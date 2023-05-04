@@ -664,7 +664,7 @@ async function switchSession(name, modelIndex) {
     }
 
     console.log('switchSession', name, 'begin');
-    session.querySelector('span').click();
+    session.click();
 
     // 等待切换完成
     let i = 0;
