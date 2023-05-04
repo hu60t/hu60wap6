@@ -215,9 +215,8 @@ const showMoreButtonSelector = 'hu60-none';
 // “您的账号已在其他站点登录并正在体验中，在本页面操作将会导致其他站点无法体验，是否继续？”
 const agreeButtonSelector = 'button.btn--GALkqyh3.primary--PfKRnzJe.default--A6VtuuPJ';
 
-// 刷新按钮的CSS选择器
-// “您太久没有操作，请刷新页面重新开始”
-const refreshButtonSelector = 'button.btn--GALkqyh3.primary--PfKRnzJe.default--A6VtuuPJ';
+// 登录/注册按钮
+const loginButtonSelector = 'div.content--i9W3Qmal button.btn--GALkqyh3';
 
 /////////////////////////////////////////////////////////////
 
@@ -1364,16 +1363,19 @@ const runOnceLock = {
 async function runOnce() {
     await runOnceLock.lock();
     try {
+        if (document.querySelector(loginButtonSelector)?.innerText == '登录/注册') {
+            console.log('请登录阿里云');
+            document.querySelector(loginButtonSelector).click();
+            // 等待登录
+            for (let i=0; i<240 && document.querySelector(loginButtonSelector)?.innerText == '登录/注册'; i++) {
+                await sleep(500);
+            }
+        }
+
         // “您的账号已在其他站点登录并正在体验中，在本页面操作将会导致其他站点无法体验，是否继续？”
         for (let i=0; i<5 && document.querySelector(agreeButtonSelector); i++) {
             document.querySelector(agreeButtonSelector).click();
             await sleep(1000);
-        }
-
-        // “您太久没有操作，请刷新页面重新开始”
-        if (document.querySelector(refreshButtonSelector)) {
-            refreshPage();
-            await sleep(5000); // 防止实际刷新前执行到后面的代码
         }
 
         // 跳转到聊天列表页
