@@ -115,7 +115,7 @@ document.run = async function() {
 
             // 异常太多，自动刷新页面
             if (exceptionCount > 0 && exceptionCount >= messages.data.length) {
-                location.reload();
+                refreshPage();
                 await sleep(5000); // 防止实际刷新前执行到后面的代码
             }
 
@@ -309,7 +309,7 @@ async function runAdminCommand() {
 
     // 刷新页面
     if (wantRefresh) {
-        location.reload();
+        refreshPage();
         await sleep(5000); // 防止实际刷新前执行到后面的代码
         wantRefresh = false;
     }
@@ -387,6 +387,12 @@ function cleanConsoleStorage() {
 }
 
 /////////////////////////////////////////////////////////////
+
+// 刷新页面
+function refreshPage() {
+    console.error('刷新页面', Error().stack);
+    location.reload();
+}
 
 // 休眠指定的毫秒数
 // 用法：await sleep(1000)
@@ -1017,7 +1023,7 @@ async function autoRetry(errorMessage) {
     let atInfo = JSON.parse(localStorage.lastAtInfo);
     atInfo.retryTimes = atInfo.retryTimes || 0;
     if (errorMessage != '网络错误' && atInfo.retryTimes < 5) {
-        location.reload();
+        refreshPage();
         await sleep(5000);
     }
     return errorMessage;
@@ -1361,7 +1367,7 @@ async function runOnce() {
     try {
         // “当前在线等待用户过多，你已长时间没有提问，请刷新重试”
         if (document.querySelector(refreshButtonSelector)) {
-            location.reload();
+            refreshPage();
             await sleep(5000); // 防止实际刷新前执行到后面的代码
         }
 
@@ -1372,7 +1378,7 @@ async function runOnce() {
         // 新建对话按钮还是没出现，刷新页面
         if (!document.querySelector(newChatButtonSelector)) {
             console.error('找不到新建对话按钮');
-            location.reload();
+            refreshPage();
             await sleep(5000);
         }
 
@@ -1411,7 +1417,7 @@ async function runOnce() {
 
         // 异常太多，刷新页面
         if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
-            location.reload();
+            refreshPage();
             await sleep(5000); // 防止实际刷新前执行到后面的代码
         }
         await sleep(1000);
@@ -1419,7 +1425,7 @@ async function runOnce() {
         console.error(ex);
         await sleep(5000);
         // 存在未捕捉异常，刷新页面
-        location.reload();
+        refreshPage();
         await sleep(5000); // 防止实际刷新前执行到后面的代码
     }
     runOnceLock.unlock();
@@ -1453,6 +1459,6 @@ try {
     console.error(ex);
     sleep(1000).then(() => {
         // 存在未捕捉异常，刷新页面
-        location.reload();
+        refreshPage();
     });
 }
