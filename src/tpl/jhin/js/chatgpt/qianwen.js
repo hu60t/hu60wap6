@@ -819,13 +819,11 @@ async function sendRequest(text, uid) {
     return modelIndex;
 }
 
-// 通义千问的DOM排序是倒序，最新的在最前面
 function getLastChatLine() {
-    return Array.from(document.querySelectorAll(chatLineSelector)).at(0);
+    return Array.from(document.querySelectorAll(chatLineSelector)).at(-1);
 }
 
-// 通义千问的DOM排序是倒序，最新的在最前面
-function getLastReply(index = 0) {
+function getLastReply(index = -1) {
     return Array.from(document.querySelectorAll(chatReplySelector)).at(index);
 }
 
