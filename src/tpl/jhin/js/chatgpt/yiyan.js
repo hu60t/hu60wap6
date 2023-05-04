@@ -945,7 +945,7 @@ async function readReply() {
     if (errorMap[reply.textContent.substr(0, errorMaxLen)]) {
         errorMessage = translateErrorMessage(await autoRetry(reply.textContent));
         // 获取部分回复
-        reply = getLastReply(-2);
+        reply = getLastReply(1);
         if (!reply || !reply.childNodes || reply === lastReply) {
             // 没有部分回复，直接返回错误信息
             return errorMessage;
