@@ -885,12 +885,12 @@ async function readReply() {
             // 代码高亮
             turndownService.addRule('highlightedCodeBlock', {
                 filter: function (node) {
-                    return node.nodeName === 'PRE' && node.querySelector('div.code-wrapper');
+                    return node.nodeName === 'PRE' && node.querySelector('div.codeContainer--P0gL5w0X');
                 },
                 replacement: function (content, node, options) {
                     console.log(content, node, options);
-                    var lang = node.querySelector('span.code-lang')?.textContent || ''; // lang span可能不存在
-                    var code = Array.from(node.querySelectorAll('div.code-wrapper td.hljs-ln-code')).map(x => x.textContent).join("\n");
+                    var lang = node.querySelector('span.codeLang--OLsD9lW6')?.textContent || ''; // lang span可能不存在
+                    var code = node.querySelector('code').textContent;
                     var fence = (() => {
                         switch (replyCodeFormat) {
                             case 'html':
