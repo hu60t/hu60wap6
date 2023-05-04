@@ -325,6 +325,7 @@ console.log = function(...args) {
     try {
         args.unshift(new Date().toLocaleTimeString());
         consoleMessages.push(args.join(' '));
+        saveConsoleMessages();
     } catch (ex) {
         console._error(ex);
     }
@@ -334,6 +335,7 @@ console.warn = function (...args) {
     try {
         args.unshift(new Date().toLocaleTimeString());
         consoleMessages.push(args.join(' '));
+        saveConsoleMessages();
     } catch (ex) {
         console._error(ex);
     }
@@ -343,6 +345,7 @@ console.error = function (...args) {
     try {
         args.unshift(new Date().toLocaleTimeString());
         consoleMessages.push(args.join(' '));
+        saveConsoleMessages();
     } catch (ex) {
         console._error(ex);
     }
@@ -350,17 +353,15 @@ console.error = function (...args) {
 };
 
 // 保存控制台日志
+var consoleMessagesKey = 'console:' + new Date().toISOString();
 function saveConsoleMessages() {
     try {
         let value = consoleMessages.join("\n");
-        let key = 'console:' + new Date().toISOString();
-        localStorage.setItem(key, value);
+        localStorage.setItem(consoleMessagesKey, value);
     } catch (ex) {
         console._error(ex);
     }
 };
-// 刷新前自动保存控制台日志以供分析
-window.addEventListener("beforeunload", saveConsoleMessages);
 
 // 清理过多的日志
 // 最多保留5份
