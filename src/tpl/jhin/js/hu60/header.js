@@ -77,7 +77,7 @@ const HU60_BOT_LIST = [
         "uid": -200,
         "name": "通义千问",
         "avatar": "https://file.hu60.cn/avatar/-200.jpg?r=1683168822",
-        "signature": "百度的对话式大型语言模型。",
+        "signature": "阿里的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104939.html",
         "contact": "https://tongyi.aliyun.com/chat"
     }
 ];
