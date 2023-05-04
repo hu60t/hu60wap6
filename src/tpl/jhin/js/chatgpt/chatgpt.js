@@ -235,7 +235,7 @@ const actionButtonSelector = 'button.p-1.hover\\:text-white';
 const sessionNameInputSelector = 'input.text-sm.w-full';
 
 // 新建会话按钮的CSS选择器
-const newChatButtonSelector = 'a.flex-shrink-0.border';
+const newChatButtonSelector = '.flex.py-3.px-3.border';
 
 // 模型下拉框的CSS选择器
 const modelListBoxSelector = 'button.w-full.cursor-default';
@@ -571,7 +571,7 @@ async function renameSession(newName) {
 
         // 记录会话URL
         let currentSession = getCurrentSession();
-        if (/\?/.test(location.href)) {
+        if (!/\/c\//.test(location.href)) {
             // 点新会话再点当前会话，URL才会出现
             document.querySelector(newChatButtonSelector).click();
             // 等待加载完成
@@ -584,8 +584,8 @@ async function renameSession(newName) {
                 await sleep(100);
             }
         }
-        // 不含问号说明URL出现了
-        if (/\?/.test(location.href) == false) {
+        // 包含"/c/"说明URL出现了
+        if (/\/c\//.test(location.href)) {
             console.log('会话URL:', newName, location.href);
             setChatUrl(newName, location.href);
         } else {
