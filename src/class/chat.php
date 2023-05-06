@@ -184,18 +184,18 @@ class chat
 
 		if ($startTime === null) {
 			if ($endTime === null) {
-        		$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? ORDER BY `time` DESC LIMIT ?,?', $name, $offset, $size);
+        		$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? ORDER BY `lid` DESC LIMIT ?,?', $name, $offset, $size);
 			}
 			else {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`<? ORDER BY `time` DESC LIMIT ?,?', $name, $endTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`<? ORDER BY `lid` DESC LIMIT ?,?', $name, $endTime, $offset, $size);
 			}
 		}
 		else {
 			if ($endTime === null) {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`>=? ORDER BY `time` ASC LIMIT ?,?', $name, $startTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`>=? ORDER BY `lid` ASC LIMIT ?,?', $name, $startTime, $offset, $size);
 			}
 			else {
-				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`>=? AND `time`<? ORDER BY `time` ASC LIMIT ?,?', $name, $startTime, $endTime, $offset, $size);
+				$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? AND `time`>=? AND `time`<? ORDER BY `lid` ASC LIMIT ?,?', $name, $startTime, $endTime, $offset, $size);
 			}
 		}
         
@@ -204,7 +204,7 @@ class chat
 
     public function chatListWithLevel($name, $level = 1, $size = 10)
     {
-        $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND lid<=? ORDER BY `time` DESC LIMIT ?', $name, $level, $size);
+        $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? AND lid<=? ORDER BY `lid` DESC LIMIT ?', $name, $level, $size);
 
         return $rs->fetchAll();
     }
