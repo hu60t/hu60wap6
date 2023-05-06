@@ -639,29 +639,40 @@ async function findSession(name) {
     for (let i=0; i<sessions.length; i++) {
         // 重命名时会交替使用.和-，有可能保存上的是.而非-
         if (sessions[i].innerText.replace('.', '-') == name) {
+            delete localStorage.lastChatUrl;
+            delete localStorage.lastChatName;
             return sessions[i];
         }
     }
 
     // 通过URL跳转加载的会话
-    if (location.href == localStorage.lastChatUrl && name == localStorage.lastChatName) {
-        return getCurrentSession();
-    }
-
-    // 名称匹配但URL不匹配（自动跳转到新会话），说明会话可能已不存在
     if (name == localStorage.lastChatName) {
-        deleteChatUrl(localStorage.lastChatName);
-    } else {
-        let url = getChatUrl(name);
-        if (url) {
-            localStorage.lastChatUrl = url;
-            localStorage.lastChatName = name;
-            // 通过跳转到URL来直接加载会话
-            location.href = url;
-            await sleep(5000);
+        if (location.href == localStorage.lastChatUrl) {
+            console.log('从URL加载会话成功', localStorage.lastChatName, localStorage.lastChatUrl, location.href);
+            delete localStorage.lastChatUrl;
+            delete localStorage.lastChatName;
+            return getCurrentSession();
+        } else {
+            console.error('从URL加载会话失败', localStorage.lastChatName, localStorage.lastChatUrl, location.href);
+            deleteChatUrl(localStorage.lastChatName);
+            delete localStorage.lastChatUrl;
+            delete localStorage.lastChatName;
+            return null;
         }
     }
 
+    let url = getChatUrl(name);
+    if (url) {
+        localStorage.lastChatUrl = url;
+        localStorage.lastChatName = name;
+        // 通过跳转到URL来直接加载会话
+        location.href = url;
+        await sleep(5000);
+        return null;
+    }
+
+    delete localStorage.lastChatUrl;
+    delete localStorage.lastChatName;
     return null;
 }
 
@@ -762,6 +773,12 @@ async function switchSession(name, modelIndex) {
         console.warn('找不到发言框或发送按钮，尝试删除会话', name);
         await deleteSession();
         return await newChatSession(name, modelIndex);
+    }
+
+    // 记录会话URL
+    if (/\/c\//.test(location.href)) {
+        console.log('会话URL:', name, location.href);
+        setChatUrl(name, location.href);
     }
 
     console.log('switchSession', name, 'end', i, getSessionName());
