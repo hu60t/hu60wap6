@@ -319,7 +319,6 @@ async function runAdminCommand() {
 
 // 保留控制台日志以供分析
 var consoleMessages = [];
-console = document.console || console; // 阿里屏蔽了控制台输出，document.console 用于解除屏蔽
 console._log = console.log;
 console._warn = console.warn;
 console._error = console.error;
@@ -412,7 +411,9 @@ async function initVConsole() {
             }
             #vConsoleInput, #vConsoleOutput {
                 resize: both;
-                width: 100%;;
+                width: 100%;
+                position: relative;
+                z-index: 999999;
             }
             #vConsoleInput {
                 height: 2em;
