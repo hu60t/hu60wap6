@@ -79,6 +79,13 @@ const HU60_BOT_LIST = [
         "avatar": "https://file.hu60.cn/avatar/-200.jpg?r=1683168822",
         "signature": "阿里的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104939.html",
         "contact": "https://tongyi.aliyun.com/chat"
+    },
+    {
+        "uid": -300,
+        "name": "讯飞星火",
+        "avatar": "https://file.hu60.cn/avatar/-300.jpg?r=1683452481",
+        "signature": "讯飞的对话式大型语言模型。机器人源代码：https://hu60.cn/q.php/bbs.topic.104949.html",
+        "contact": "https://xinghuo.xfyun.cn/"
     }
 ];
 
