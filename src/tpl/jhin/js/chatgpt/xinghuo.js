@@ -168,7 +168,7 @@ const chatBoxSelector = 'div[class^="ask-window_ask_window_wrapper__"] textarea'
 const sendButtonSelector = 'div[class^="ask-window_send__"]';
 
 // 正在输入动效（三个点）和加载中动效（转圈）的CSS选择器
-const replyNotReadySelector = 'div[class^="chat-window_stopBtn__"]';
+const replyNotReadySelector = 'div[class^="chat-window_loading__"]';
 
 // 停止生成/重新生成按钮
 const stopOrRegenButtonSelector = 'div[class^="chat-window_stopBtn__"]';
