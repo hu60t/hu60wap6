@@ -147,6 +147,9 @@ const turndownJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-tiger
 // https://github.com/mixmark-io/turndown-plugin-gfm
 const turndownGfmJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-plugin-gfm.js';
 
+// 虚拟控制台
+const vConsoleJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/vconsole.js?r=' + (new Date().getTime());
+
 /////////////////////////////////////////////////////////////
 
 // 错误提示翻译
@@ -346,77 +349,6 @@ async function runAdminCommand() {
         refreshPage();
         await sleep(5000); // 防止实际刷新前执行到后面的代码
         wantRefresh = false;
-    }
-}
-
-/////////////////////////////////////////////////////////////
-
-// 保留控制台日志以供分析
-var consoleMessages = [];
-console._log = console.log;
-console._warn = console.warn;
-console._error = console.error;
-console.log = function(...args) {
-    try {
-        args.unshift(new Date().toLocaleTimeString());
-        consoleMessages.push(args.join(' '));
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._log(...args);
-};
-console.warn = function (...args) {
-    try {
-        args.unshift(new Date().toLocaleTimeString());
-        consoleMessages.push(args.join(' '));
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._warn(...args);
-};
-console.error = function (...args) {
-    try {
-        args.unshift(new Date().toLocaleTimeString());
-        consoleMessages.push(args.join(' '));
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._error(...args);
-};
-
-// 保存控制台日志
-function saveConsoleMessages() {
-    try {
-        let value = consoleMessages.join("\n");
-        let key = 'console:' + new Date().toISOString();
-        localStorage.setItem(key, value);
-    } catch (ex) {
-        console._error(ex);
-    }
-};
-// 刷新前自动保存控制台日志以供分析
-window.addEventListener("beforeunload", saveConsoleMessages);
-
-// 清理过多的日志
-// 最多保留5份
-function cleanConsoleStorage() {
-    try {
-        let count = 0;
-        let deleted = 0;
-        Object.keys(localStorage).sort().reverse().forEach(key => {
-            if (key.startsWith('console:')) {
-                count++;
-                if (count > 5) {
-                    deleted++;
-                    localStorage.removeItem(key);
-                }
-            }
-        });
-        if (deleted > 0) {
-            console.log('cleanConsoleStorage', deleted);
-        }
-    } catch (ex) {
-        console.error(ex);
     }
 }
 
@@ -1504,9 +1436,7 @@ async function runOnce() {
 async function run() {
     loadScript(turndownJsUrl);
     loadScript(turndownGfmJsUrl);
-
-    // 清理过多的日志
-    cleanConsoleStorage();
+    loadScript(vConsoleJsUrl);
 
     // 如果油猴定义了自定义主循环，则使用该主循环
     // 用于把机器人接入其他类型的网站

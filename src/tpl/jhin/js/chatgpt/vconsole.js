@@ -129,6 +129,10 @@ function initVConsole() {
     cursor: pointer;
 }
 
+#vConsoleButton svg, #vConsoleButton span {
+    display: inline;
+}
+
 #vConsole {
     position: fixed;
     z-index: 9999;
