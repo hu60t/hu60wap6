@@ -97,7 +97,7 @@ function initVConsole() {
     <span> 打开控制台</span>
 </div>
 <div id="vConsole" class="vConsoleHidden">
-    <div class="vConsoleContainer">
+    <div id="vConsoleContainer">
         <div id="vConsoleBar">
             <label>调试控制台</label>
             <div class="vConsoleClean" onclick="clearVConsole()">
@@ -167,10 +167,16 @@ function initVConsole() {
     cursor: pointer;
 }
 
-.vConsoleContainer {
+#vConsoleBar:hover {
+    cursor: ns-resize;
+    user-select: none;
+}  
+
+#vConsoleContainer {
     display: flex;
     flex-direction: column;
-    min-height: 300px;
+    height: 300px;
+    min-height: 200px;
 }
 
 .vConsoleCommand {
@@ -181,7 +187,7 @@ function initVConsole() {
 
 #vConsoleOutput {
     flex: 1;
-    padding: 0 10px 20px 20px;
+    padding: 0 10px 0 20px;
     color: lime;
     background-color: transparent;
     border: 0;
@@ -312,6 +318,34 @@ function initVConsole() {
                 // 保存当前命令
                 currentCommand = this.value;
             }
+        }
+    });
+
+    /////////////////// 调整控制台窗口大小 ///////////////////
+    var vConsoleContainer = document.getElementById("vConsoleContainer");
+    var vConsoleBar = document.getElementById("vConsoleBar");
+    var isResizing = false;
+    var lastY;
+
+    vConsoleBar.addEventListener("mousedown", function(e) {
+        isResizing = true;
+        lastY = e.clientY;
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (isResizing) {
+            var deltaY = lastY - e.clientY;
+            var containerHeight = vConsoleContainer.offsetHeight;
+
+            vConsoleContainer.style.height = containerHeight + deltaY + "px";
+
+            lastY = e.clientY;
+        }
+    });
+
+    document.addEventListener("mouseup", function(e) {
+        if (isResizing) {
+            isResizing = false;
         }
     });
 }
