@@ -27,11 +27,19 @@ console.error = function (...args) {
 };
 
 // 添加控制台日志
+let isXunfeiXinghuo = (location.host == 'xinghuo.xfyun.cn');
 async function addConsoleMessages(tag, args) {
     try {
         // 忽略无意义日志
-        if ((args.length > 0 && ['PageURL', 'PagePath', 'ClickClass', 'ClickID', 'FormText'].indexOf(args[0]) != -1)) {
-            return;
+        if (isXunfeiXinghuo && tag == 'log') {
+            // 讯飞星火回答问题时控制台会输出很多意义不明的4字内容
+            if (args.length == 1 && args[0].length == 4) {
+                return;
+            }
+            // 讯飞星火鼠标点击界面会触发很多日志
+            if (args.length > 0 && ['PageURL', 'PagePath', 'ClickClass', 'ClickID', 'FormText'].indexOf(args[0]) != -1) {
+                return;
+            }
         }
 
         args.unshift('[' + tag + ']');
