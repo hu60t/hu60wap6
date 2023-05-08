@@ -143,6 +143,9 @@ const turndownJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-tiger
 // https://github.com/mixmark-io/turndown-plugin-gfm
 const turndownGfmJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/turndown-plugin-gfm.js';
 
+// 虚拟控制台
+const vConsoleJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/vconsole.js?r=' + (new Date().getTime());
+
 /////////////////////////////////////////////////////////////
 
 // 错误提示翻译
@@ -314,197 +317,6 @@ async function runAdminCommand() {
         await sleep(5000); // 防止实际刷新前执行到后面的代码
         wantRefresh = false;
     }
-}
-
-/////////////////////////////////////////////////////////////
-
-// 保留控制台日志以供分析
-var consoleMessages = [];
-console._log = console.log;
-console._warn = console.warn;
-console._error = console.error;
-console.log = function(...args) {
-    try {
-        saveConsoleMessages('log', args);
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._log(...args);
-};
-console.warn = function (...args) {
-    try {
-        saveConsoleMessages('warn', args);
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._warn(...args);
-};
-console.error = function (...args) {
-    try {
-        saveConsoleMessages('error', args);
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._error(...args);
-};
-
-// 保存控制台日志
-var consoleMessagesKey = 'console:' + new Date().toISOString();
-function saveConsoleMessages(tag, args) {
-    try {
-        if (args.length > 0) {
-            // 忽略无意义日志
-            if (['PageURL', 'PagePath', 'ClickClass', 'ClickID', 'FormText'].indexOf(args[0]) != -1) {
-                return;
-            }
-        }
-
-        args.unshift('[' + tag + ']');
-        args.unshift(new Date().toLocaleTimeString());
-
-        let line = args.join(' ');
-        appendVConsole(line);
-        consoleMessages.push(line);
-
-        let value = consoleMessages.join("\n");
-        localStorage.setItem(consoleMessagesKey, value);
-    } catch (ex) {
-        console._error(ex);
-    }
-};
-
-// 清理过多的日志
-// 最多保留5份
-function cleanConsoleStorage() {
-    try {
-        let count = 0;
-        let deleted = 0;
-        Object.keys(localStorage).sort().reverse().forEach(key => {
-            if (key.startsWith('console:')) {
-                count++;
-                if (count > 5) {
-                    deleted++;
-                    localStorage.removeItem(key);
-                }
-            }
-        });
-        if (deleted > 0) {
-            console.log('cleanConsoleStorage', deleted);
-        }
-    } catch (ex) {
-        console.error(ex);
-    }
-}
-
-// 初始化虚拟控制台
-async function initVConsole() {
-    await sleep(1000);
-
-    let html = `
-        <div class="vConsole">
-            <h3 class="vConsoleTitle">调试控制台</h3>
-            <div><textarea id="vConsoleOutput" readonly></textarea></div>
-            <div><textarea id="vConsoleInput" ></textarea></div>
-        </div>
-        <style>
-            .vConsole {
-                padding: 20px;
-            }
-            #vConsoleInput, #vConsoleOutput {
-                resize: both;
-                width: 100%;
-                position: relative;
-                z-index: 999999;
-            }
-            #vConsoleInput {
-                height: 2em;
-            }
-            #vConsoleOutput {
-                height: 20em;
-                border: none;
-            }
-        </style>
-    `;
-    document.body.insertAdjacentHTML('beforeend', html);
-
-    let commandHistory = [];
-    let commandHistoryPos = null;
-    let currentCommand = null;
-    document.querySelector('#vConsoleInput').addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (e.ctrlKey) { // Ctrl+回车键入换行
-                var start = this.selectionStart;
-                var end = this.selectionEnd;
-                var value = this.value;
-                this.value = value.substring(0, start) + '\n' + value.substring(end);
-                this.selectionStart = this.selectionEnd = start + 1;
-            } else { // 直接回车执行命令
-                let cmd = this.value;
-                try {
-                    // 保存命令历史记录
-                    if (commandHistory.at(-1) !== cmd) {
-                        commandHistory.push(cmd);
-                    }
-                    commandHistoryPos = null;
-                    currentCommand = null;
-                    // 提供 clear() 命令
-                    let clear = () => {
-                        document.querySelector('#vConsoleOutput').value = '';
-                    }
-                    // 执行用户命令
-                    let result = eval(cmd);
-                    // 如果不是直接操作控制台的命令，就打印返回值
-                    if (!/^(clear\(\)|console\.)/.test(cmd)) {
-                        appendVConsole(JSON.stringify(result));
-                    }
-                } catch (ex) {
-                    appendVConsole(JSON.stringify(ex));
-                }
-                this.value = '';
-            }
-        } else if (e.key === 'ArrowUp' && !e.ctrlKey) {
-            if (commandHistoryPos === null || commandHistoryPos < 0 || commandHistoryPos >= commandHistory.length) {
-                commandHistoryPos = commandHistory.length - 1;
-            } else if (commandHistoryPos > 0) {
-                commandHistoryPos--;
-            } else {
-                // 到头了
-                return;
-            }
-            if (commandHistoryPos >= 0 && commandHistoryPos < commandHistory.length) {
-                this.value = commandHistory[commandHistoryPos];
-            }
-        } else if (e.key === 'ArrowDown' && !e.ctrlKey) {
-            if (commandHistoryPos === null || commandHistoryPos < 0 || commandHistoryPos >= commandHistory.length) {
-                commandHistoryPos = 0;
-            } else if (commandHistoryPos < commandHistory.length - 1) {
-                commandHistoryPos++;
-            } else { // 到头了
-                if (currentCommand !== null) {
-                    // 还原当前命令
-                    this.value = currentCommand;
-                }
-                return;
-            }
-            if (commandHistoryPos >= 0 && commandHistoryPos < commandHistory.length) {
-                this.value = commandHistory[commandHistoryPos];
-            }
-        } else {
-            if (this.value.length > 0) {
-                // 保存当前命令
-                currentCommand = this.value;
-            }
-        }
-    });
-}
-
-// 写入虚拟控制台
-function appendVConsole(line) {
-    let vConsoleOutput = document.querySelector('#vConsoleOutput');
-    if (!vConsoleOutput) return;
-    vConsoleOutput.value += line;
-    vConsoleOutput.value += "\n";
 }
 
 /////////////////////////////////////////////////////////////
@@ -1564,12 +1376,7 @@ async function runOnce() {
 async function run() {
     loadScript(turndownJsUrl);
     loadScript(turndownGfmJsUrl);
-
-    // 清理过多的日志
-    cleanConsoleStorage();
-
-    // 创建虚拟控制台
-    initVConsole();
+    loadScript(vConsoleJsUrl);
 
     // 如果油猴定义了自定义主循环，则使用该主循环
     // 用于把机器人接入其他类型的网站
