@@ -932,7 +932,11 @@ async function readReply() {
 function isFinished() {
     let stopOrRegenButton = document.querySelector(stopOrRegenButtonSelector);
     let waitButton = document.querySelector(replyNotReadySelector);
+    let sendButton = document.querySelector(sendButtonSelector);
 
+    if (sendButton && sendButton.style.cursor == 'not-allowed') {
+        return false;
+    }
     if (stopOrRegenButton && stopOrRegenButton.textContent == '停止生成') {
         return false;
     }
