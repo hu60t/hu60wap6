@@ -1,37 +1,33 @@
 ///////////// 虚拟调试控制台 /////////////
 
 // 保留控制台日志以供分析
-var consoleMessages = [];
-console._log = console.log;
-console._warn = console.warn;
-console._error = console.error;
+let consoleMessages = [];
+
+let consoleLog = console.log;
+let consoleWarn = console.warn;
+let consoleError = console.error;
+
+// 把控制台调用变成非阻塞的，避免网页检测到性能下降，从而判定为开发者工具已打开。
+// 讯飞星火在判定为开发者工具打开时会跳转到空白页。
+console._log = async (...args) => consoleLog(...args);
+console._warn = async (...args) => consoleWarn(...args);
+console._error = async (...args) => consoleError(...args);
+
 console.log = function(...args) {
-    try {
-        addConsoleMessages('log', args);
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._log(...args);
+    console._log(...args);
+    addConsoleMessages('log', args);
 };
 console.warn = function (...args) {
-    try {
-        addConsoleMessages('warn', args);
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._warn(...args);
+    console._warn(...args);
+    addConsoleMessages('warn', args);
 };
 console.error = function (...args) {
-    try {
-        addConsoleMessages('error', args);
-    } catch (ex) {
-        console._error(ex);
-    }
-    return console._error(...args);
+    console._error(...args);
+    addConsoleMessages('error', args);
 };
 
 // 添加控制台日志
-function addConsoleMessages(tag, args) {
+async function addConsoleMessages(tag, args) {
     try {
         // 忽略无意义日志
         if ((args.length > 0 && ['PageURL', 'PagePath', 'ClickClass', 'ClickID', 'FormText'].indexOf(args[0]) != -1)) {
