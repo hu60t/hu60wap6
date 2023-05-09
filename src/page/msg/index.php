@@ -82,6 +82,9 @@ switch ($PAGE->ext[1]) {
 }
 
 // 是否显示机器人内容
+if (!isset($_GET['showBot'])) {
+    $_GET['showBot'] = '1';
+}
 $showBot = isset($_GET['showBot']) ? (bool)$_GET['showBot'] : true;
 
 switch ($action) {
