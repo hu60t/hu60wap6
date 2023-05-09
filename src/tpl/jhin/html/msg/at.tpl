@@ -25,12 +25,14 @@
     }
 </script>
 <div class="msg_action">
+{if $PAGE.ext[1] != 'my'}
 <form action="{$PAGE->getUrl()}" method="post" style="display: inline-block; margin-right: 10px">
     <input type="hidden" name="clean" value="at">
     <input type="hidden" name="actionToken" value="{$actionToken}">
     <input type="submit" name="action" value="全部设为已读">
     <input type="submit" name="action" value="清空@消息" onclick="return checkCleanAll()">
 </form>
+{/if}
 <form action="{$PAGE->getUrl()}" method="get" style="display: inline-block">
   <input type="text" name="name" value="{$smarty.get.name|code}" placeholder="用户名" size="10" />
   <input type="submit" value="只看该用户" />
