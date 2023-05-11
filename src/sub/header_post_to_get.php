@@ -9,6 +9,7 @@ header_to_get('HTTP_X_ORIGIN', '_origin');
 header_to_get('HTTP_X_UINFO', '_uinfo');
 header_to_get('HTTP_X_JSON', '_json');
 header_to_get('HTTP_X_CONTENT', '_content');
+header_to_get('HTTP_X_TIME', '_time');
 header_to_get('HTTP_X_MYSELF', '_myself');
 header_to_get('HTTP_X_SID', '_sid');
 header_to_get('HTTP_X_TOPIC_SUMMARY', '_topic_summary');

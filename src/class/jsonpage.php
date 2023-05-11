@@ -61,6 +61,10 @@ class JsonPage {
 			return;
 		}
 
+		if ($_GET['_time']) {
+			$data['_time'] = time();
+		}
+
 		if ($USER && $_GET['_myself']) {
 			$myself = (string)$_GET['_myself'];
 			$data['_myself'] = [
