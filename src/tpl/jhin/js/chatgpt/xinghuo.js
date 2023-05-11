@@ -977,7 +977,7 @@ async function readAtInfo() {
         }
     }
 
-    let response = await fetch(hu60BaseUrl + 'msg.index.@.no.json?_origin=*&_json=compact&_content=json', {
+    let response = await fetch(hu60BaseUrl + 'msg.index.@.no.json?_origin=*&_json=compact&_content=json&_time=1', {
         redirect: "manual" // 不自动重定向
     });
     if (response.type == 'opaqueredirect') {
@@ -1085,7 +1085,7 @@ async function replyTopic(uid, replyText, topicObject) {
 }
 
 // 回复@信息
-async function replyAtInfo(info) {
+async function replyAtInfo(info, currentTime) {
     try {
         let uid = info.byuid;
         let url = info.content[0].url;
@@ -1096,6 +1096,11 @@ async function replyAtInfo(info) {
         }
 
         console.log('replyAtInfo', hu60Url + url.replace('{$BID}', 'html'));
+
+        if (currentTime > 0 && currentTime - info.ctime > 600) {
+            console.warn('忽略', (currentTime - info.ctime) / 60, '分钟前的对话');
+            return;
+        }
 
         let topicObject = await readTopicContent(url);
         let text = null;
@@ -1335,7 +1340,8 @@ async function runOnce() {
             localStorage.lastAtInfo = JSON.stringify(atInfo);
 
             try {
-                await replyAtInfo(atInfo.msgList[i]);
+                await replyAtInfo(atInfo.msgList[i], atInfo._time);
+                atInfo.retryTimes = 0; // 读取回复成功了，重置重试计数器，避免多个会话的重试次数累积超过5
                 await sleep(100);
             } catch (ex) {
                 exceptionCount++;
