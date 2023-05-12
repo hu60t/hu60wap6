@@ -429,6 +429,11 @@ async function newChatSession(name, modelIndex) {
 // 删除当前会话
 async function deleteSession() {
     try {
+        // 会话不存在，无需删除
+        if (!getCurrentSession()) {
+            return;
+        }
+
         let sessionNum = getSessions().length;
 
         console.log('deleteSession', 'begin', sessionNum);
