@@ -1086,7 +1086,7 @@ async function replyTopic(uid, replyText, topicObject) {
 }
 
 // 回复@信息
-async function replyAtInfo(info) {
+async function replyAtInfo(info, currentTime) {
     try {
         let uid = info.byuid;
         let url = info.content[0].url;
