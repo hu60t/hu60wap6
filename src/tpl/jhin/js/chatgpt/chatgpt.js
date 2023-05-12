@@ -118,7 +118,7 @@ document.run = async function() {
             // 异常太多，自动刷新页面
             if (exceptionCount > 0 && exceptionCount >= messages.data.length) {
                 refreshPage();
-                await sleep(5000); // 防止实际刷新前执行到后面的代码
+                await sleep(30000); // 防止实际刷新前执行到后面的代码
             }
 
             // 限制拉取信息的速度，避免对自己的网站造成CC攻击
@@ -347,7 +347,7 @@ async function runAdminCommand() {
     // 刷新页面
     if (wantRefresh) {
         refreshPage();
-        await sleep(5000); // 防止实际刷新前执行到后面的代码
+        await sleep(30000); // 防止实际刷新前执行到后面的代码
         wantRefresh = false;
     }
 }
@@ -1032,7 +1032,7 @@ async function autoRetry(errorMessage) {
     atInfo.retryTimes = atInfo.retryTimes || 0;
     if (errorMessage != 'network error' && atInfo.retryTimes < 5) {
         refreshPage();
-        await sleep(5000);
+        await sleep(30000);
     }
     return errorMessage;
 }
@@ -1392,7 +1392,7 @@ async function runOnce() {
         if (!document.querySelector(newChatButtonSelector)) {
             console.error('找不到 New Chat 按钮');
             refreshPage();
-            await sleep(5000);
+            await sleep(30000);
         }
 
         // 浏览器用户可能直接输入了问题，等待回答完成
@@ -1432,7 +1432,7 @@ async function runOnce() {
         // 异常太多，刷新页面
         if (exceptionCount > 0 && exceptionCount >= atInfo.msgList.length) {
             refreshPage();
-            await sleep(5000); // 防止实际刷新前执行到后面的代码
+            await sleep(30000); // 防止实际刷新前执行到后面的代码
         }
         await sleep(1000);
     } catch (ex) {
@@ -1440,7 +1440,7 @@ async function runOnce() {
         await sleep(5000);
         // 存在未捕捉异常，刷新页面
         refreshPage();
-        await sleep(5000); // 防止实际刷新前执行到后面的代码
+        await sleep(30000); // 防止实际刷新前执行到后面的代码
     }
     runOnceLock.unlock();
 }
