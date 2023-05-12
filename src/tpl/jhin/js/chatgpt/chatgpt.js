@@ -175,6 +175,9 @@ const errorMap = {
 
     'network error':
         "连接断开，回复不完整。",
+    
+    'NetworkError when attempting to fetch resource.':
+        "网络错误，读取回复失败",
 
     'The message you submitted was too long, please reload the conversation and submit something shorter.':
         "内容超过ChatGPT长度限制，请缩短。当前会话已丢失。",
