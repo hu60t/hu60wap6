@@ -197,10 +197,10 @@ const errorMaxLen = Math.max(...Object.keys(errorMap).map(x => x.length));
 
 // 模型对应关系（仅限 ChatGPT Plus 付费用户）
 const modelMap = {
-    1 : 1, // @ChatGPT 1，对应第2个Default模型
-    2 : 2, // @ChatGPT 2，对应第3个Legacy模型
-    3 : 0, // @ChatGPT 3，对应第1个GPT-4模型
-    4 : 0, // @ChatGPT 4，对应第1个GPT-4模型
+    1 : 'text-davinci-002-render-sha', // @ChatGPT 1，对应GPT-3.5模型
+    2 : 'gpt-4-browsing',              // @ChatGPT 2，对应GPT-4网页浏览模型
+    3 : 'gpt-4-plugins',               // @ChatGPT 3，对应GPT-4插件模型
+    4 : 'gpt-4',                       // @ChatGPT 4，对应GPT-4模型
 };
 
 /////////////////////////////////////////////////////////////
@@ -244,10 +244,10 @@ const sessionNameInputSelector = 'input.text-sm.w-full';
 const newChatButtonSelector = '.flex.py-3.px-3.border';
 
 // 模型下拉框的CSS选择器
-const modelListBoxSelector = 'button.w-full.cursor-default';
+const modelListBoxSelector = 'ul.flex.w-full.list-none';
 
 // 模型列表项的CSS选择器
-const modelListItemSelector = 'li.select-none.items-center';
+const modelListItemSelector = 'div.items-center.rounded-lg';
 
 // “Upgrade to Plus”按钮的CSS选择器
 const upgradeToPlusSelector = 'span.gold-new-button.flex';
@@ -374,6 +374,30 @@ function loadScript(url) {
     document.head.appendChild(script);
 }
 
+// Changing a React Input Value from Vanilla Javascript
+// 通过原生js修改React输入框的值
+// From: <https://chuckconway.com/changing-a-react-input-value-from-vanilla-javascript/>
+function setNativeValue(element, value) {
+    let lastValue = element.value;
+    element.value = value;
+    let event = new Event("input", { target: element, bubbles: true });
+    // React 15
+    event.simulated = true;
+    // React 16
+    let tracker = element._valueTracker;
+    if (tracker) {
+        tracker.setValue(lastValue);
+    }
+    element.dispatchEvent(event);
+}
+
+// 模拟点击
+function sendClickEvent(element) {
+    let event = new Event("click", { target: element, bubbles: true });
+    event.simulated = true;
+    element.dispatchEvent(event);
+}
+
 /////////////////////////////////////////////////////////////
 
 // 选择模型
@@ -394,22 +418,35 @@ async function selectModel(modelIndex) {
         return;
     }
 
-    let models = document.querySelectorAll(modelListItemSelector);
-    if (models.length < 2) {
-        // 弹出模型下拉框
-        box.click();
-        await sleep(100);
-        for (let i=0; i<10 && document.querySelectorAll(modelListItemSelector).length < 2; i++) {
-            await sleep(100);
-        }
-        models = document.querySelectorAll(modelListItemSelector);
+    let models = Array.from(box.querySelectorAll(modelListItemSelector));
+
+    // 检查模型URL参数是否匹配
+    if (new URLSearchParams(location.search).get('model') === modelIndex) {
+        // 模型匹配，直接返回
+        console.log("selectModel", modelIndex, location.href);
+        return;
     }
 
     // 选择模型
-    if (modelIndex < models.length) {
-        console.log("selectModel", modelIndex, models[modelIndex].innerText);
-        models[modelIndex].click();
+    if (models.length >= 2) {
+        // 除了GPT-3.5应该选1，其他都应该选2
+        let model = (modelIndex == 'text-davinci-002-render-sha') ? models[0] : models[1];
+        model.click();
         await sleep(100);
+        console.log("selectModel", modelIndex, location.href, model.innerText);
+    }
+
+    // 检查模型URL参数是否匹配
+    let urlParams = new URLSearchParams(location.search);
+    let currentModel = urlParams.get('model');
+    if (currentModel !== modelIndex) {
+        // 不匹配，跳转到对应URL
+        // 因为展开GPT-4的模型下拉框很难，所以改用URL跳转选择模型
+        urlParams.set('model', modelIndex);
+        let modelUrl = '?' + urlParams;
+        console.log('跳转到模型URL', modelUrl, '当前模型', currentModel, location.href);
+        location.href = modelUrl;
+        await sleep(30000);
     }
 }
 
@@ -417,8 +454,13 @@ async function selectModel(modelIndex) {
 async function newChatSession(name, modelIndex) {
     let sessionIndex = getSessions().length + 1;
     console.log('newChatSession', sessionIndex, modelIndex, 'begin');
-    document.querySelector(newChatButtonSelector).click();
-    // 等待新建完成
+
+    // 只有模型不匹配时才有必要点击新会话按钮
+    if (new URLSearchParams(location.search).get('model') !== modelIndex) {
+        document.querySelector(newChatButtonSelector).click();
+    }
+
+    // 等待加载完成
     let i = 0;
     do {
         await sleep(100);
