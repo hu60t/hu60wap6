@@ -19,11 +19,11 @@ class UbbParser extends XUBBP
         */
 
         /*code 代码高亮（标记独占一行，高优先级）*/
-        '!^(^|.*?[\r\n]+)\[code(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
+        '!^(^|.*?\n+)\[code(?:=([^\]]*))?\](\n+.*?\n+)\[/code\](\n+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
         /* html 通过iframe的srcdoc属性实现的HTML内容嵌入（标记独占一行，高优先级）*/
-        '!^(^|.*?[\r\n]+)\[html(=[^\]]*)?\]([\r\n]+.*?[\r\n]+)\[/html\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'html', array(2, 3)),
+        '!^(^|.*?\n+)\[html(=[^\]]*)?\](\n+.*?\n+)\[/html\](\n+.*|$)$!is' => array(array(1, 4), 'html', array(2, 3)),
         /* textbox 文本框（标记独占一行，高优先级）*/
-        '!^(^|.*?[\r\n]+)\[text(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/text\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
+        '!^(^|.*?\n+)\[text(?:=([^\]]*))?\](\n+.*?\n+)\[/text\](\n+.*|$)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
 
         /*code 代码高亮*/
         '!^(.*?)\[code(?:=([^\]]*))?\](.*?)\[/code\](.*)$!is' => array(array(1, 4), 'code', array(2, 3)),
@@ -64,8 +64,7 @@ class UbbParser extends XUBBP
         /*empty UBB转义*/
         '!^(.*?)\[empty\](.*)$!is' => array(array(1, 2), 'emptyTag', array(2)),
         /*newline 换行*/
-#       '!^(.*?)(\r\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
-#       '!^(.*?)([\r\n])(.*)$!is' => array(array(1,3), 'newline', array(2)),
+        //'!^(.*?)(\n)(.*)$!is' => array(array(1,3), 'newline', array(2)),
         '!^(.*?)\[([bh]r)\](.*)$!is' => array(array(1, 3), 'newline', array(2)),
         //'!^(.*?)(///|＜＜＜|＞＞＞)(.*)$!is' => array(array(1, 3), 'newline', array(2)),
 
@@ -115,13 +114,18 @@ class UbbParser extends XUBBP
     );
 
 	/**
-	* 前置过滤器，删除sid等敏感内容
+	* 前置过滤器，替换换行符和特殊空格，删除sid等敏感内容
 	*/
 	public function filter($text) {
+        // \r\n 和 \r 替换为 \n
+        $text = str_replace(["\r\n", "\r"], "\n", $text);
+		//把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
+        $text = str::nbsp2space($text);
+        // 去除网址中的sid
 		$text = preg_replace('#/q.php/[a-zA-Z0-9_-]+/#', '/q.php/', $text);
 		return $text;
 	}
-	
+
 	public function parse($text, $serialize = false) {
         global $USER, $USER_WORD_BLOCKLIST;
         
@@ -136,8 +140,6 @@ class UbbParser extends XUBBP
             }
         }
 
-		//把utf-8中的特殊空格转换为普通空格，防止粘贴的代码发生莫名其妙的问题
-        $text = str::nbsp2space($text);
 		$text = $this->filter($text);
 
 		$markdownTag = NULL;
@@ -175,17 +177,17 @@ class UbbParser extends XUBBP
 		// 添加新的匹配规则
 		$parseHead = [
             /*mdcode markdown代码高亮*/
-            '!^(^|.*?[\r\n])( *)(`{3,})( *[^`\r\n]+?)?( *[\r\n].*?[\r\n] *)\3( *[\r\n].*| *$)$!is' => array(array(1, 6), 'mdcode', array(4, 5, 3, 2)),
+            '!^(^|.*?\n)( *)(`{3,})( *[^`\n]+?)?( *\n.*?\n *)\3( *\n.*| *$)$!is' => array(array(1, 6), 'mdcode', array(4, 5, 3, 2)),
 
             /*code 代码高亮（标记独占一行，高优先级）*/
-            '!^(^|.*?[\r\n]+)\[code(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/code\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
+            '!^(^|.*?\n+)\[code(?:=([^\]]*))?\](\n+.*?\n+)\[/code\](\n+.*|$)$!is' => array(array(1, 4), 'code', array(2, 3)),
             /* html 通过iframe的srcdoc属性实现的HTML内容嵌入（标记独占一行，高优先级）*/
-            '!^(^|.*?[\r\n]+)\[html(=[^\]]*)?\]([\r\n]+.*?[\r\n]+)\[/html\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'html', array(2, 3)),
+            '!^(^|.*?\n+)\[html(=[^\]]*)?\](\n+.*?\n+)\[/html\](\n+.*|$)$!is' => array(array(1, 4), 'html', array(2, 3)),
             /* textbox 文本框（标记独占一行，高优先级）*/
-            '!^(^|.*?[\r\n]+)\[text(?:=([^\]]*))?\]([\r\n]+.*?[\r\n]+)\[/text\]([\r\n]+.*|$)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
+            '!^(^|.*?\n+)\[text(?:=([^\]]*))?\](\n+.*?\n+)\[/text\](\n+.*|$)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
 
             /* 4个空格或一个tab开头的markdown代码块 */
-            '!^(^|.*?[\r\n]+)((?:\t|    )[^\r\n]*(?:[\r\n]+(?:\t|    )[^\r\n]*)*)([\r\n]+.*|$)$!is' => array(array(1, 3), 'mdpre', array(2)),
+            '!^(^|.*?\n+)((?:\t|    )[^\n]*(?:\n+(?:\t|    )[^\n]*)*)(\n+.*|$)$!is' => array(array(1, 3), 'mdpre', array(2)),
 
             /*inline代码（优先级比上面的低）*/
             '!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
