@@ -187,7 +187,8 @@ class UbbParser extends XUBBP
             '!^(^|.*?\n+)\[text(?:=([^\]]*))?\](\n+.*?\n+)\[/text\](\n+.*|$)$!is' => array(array(1, 4), 'textbox', array(2, 3)),
 
             /* 4个空格或一个tab开头的markdown代码块 */
-            '!^(^|.*?\n+)((?:\t|    )[^\n]*(?:\n+(?:\t|    )[^\n]*)*)(\n+.*|$)$!is' => array(array(1, 3), 'mdpre', array(2)),
+            // 注意如果代码块前面有任何内容，就必须至少有一个空行隔开，否则Parsedown不认为它是代码块
+            '!^(^(?:\s*\n)*|.*?(?:\s*\n){2,})((?:\t|    )[^\n]*(?:\n+(?:\t|    )[^\n]*)*)(\n+.*|$)$!is' => array(array(1, 3), 'mdpre', array(2)),
 
             /*inline代码（优先级比上面的低）*/
             '!^(.*?)((`+).+?\3)(.*)$!is' => array(array(1, 4), 'mdpre', array(2)),
