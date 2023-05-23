@@ -363,6 +363,12 @@ function refreshPage() {
     location.reload();
 }
 
+// 跳转页面
+function loadPage(url) {
+    console.error('跳转页面', url, Error().stack);
+    location.href = url;
+}
+
 // 休眠指定的毫秒数
 // 用法：await sleep(1000)
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -445,7 +451,7 @@ async function selectModel(modelIndex) {
         urlParams.set('model', modelIndex);
         let modelUrl = '?' + urlParams;
         console.log('跳转到模型URL', modelUrl, '当前模型', currentModel, location.href);
-        location.href = modelUrl;
+        loadPage(modelUrl);
         await sleep(30000);
     }
 }
@@ -619,16 +625,6 @@ async function findSession(name) {
         await sleep(100);
     }
 
-    let sessions = getSessions();
-    for (let i=0; i<sessions.length; i++) {
-        // 重命名时会交替使用.和-，有可能保存上的是.而非-
-        if (sessions[i].innerText.replace('.', '-') == name) {
-            delete localStorage.lastChatUrl;
-            delete localStorage.lastChatName;
-            return sessions[i];
-        }
-    }
-
     // 通过URL跳转加载的会话
     if (name == localStorage.lastChatName) {
         if (location.href == localStorage.lastChatUrl) {
@@ -645,16 +641,30 @@ async function findSession(name) {
         }
     }
 
+    // 优先通过URL跳转加载会话，以免出现网络问题
+    // 通过URL跳转具有重连效果
     let url = getChatUrl(name);
     if (url) {
         localStorage.lastChatUrl = url;
         localStorage.lastChatName = name;
         // 通过跳转到URL来直接加载会话
-        location.href = url;
+        loadPage(url);
         await sleep(5000);
         return null;
     }
 
+    // URL找不到，改用点击切换会话
+    let sessions = getSessions();
+    for (let i=0; i<sessions.length; i++) {
+        // 重命名时会交替使用.和-，有可能保存上的是.而非-
+        if (sessions[i].innerText.replace('.', '-') == name) {
+            delete localStorage.lastChatUrl;
+            delete localStorage.lastChatName;
+            return sessions[i];
+        }
+    }
+
+    // 找不到会话
     delete localStorage.lastChatUrl;
     delete localStorage.lastChatName;
     return null;
@@ -1091,7 +1101,7 @@ async function readAtInfo() {
             atInfo.retryTimes = atInfo.retryTimes || 0;
             if (atInfo.retryTimes < 5) {
                 atInfo.retryTimes++;
-                console.log('载入上次的@消息', atInfo);
+                console.log('载入上次的@消息', localStorage.lastAtInfo);
                 return atInfo;
             }
         } catch (ex) {
@@ -1449,7 +1459,10 @@ async function runOnce() {
         let atInfo = await readAtInfo();
 
         // 读取保存的进度
-        atInfo.lastPos = atInfo.lastPos || atInfo.msgList.length - 1;
+        if (atInfo.lastPos === undefined) {
+            // @消息是后收到的在前面，所以最后一个是第一个
+            atInfo.lastPos = atInfo.msgList.length - 1;
+        }
 
         // @消息是后收到的在前面，所以从后往前循环，先发的先处理
         for (let i = atInfo.lastPos; i>=0; i--) {
@@ -1469,7 +1482,7 @@ async function runOnce() {
         }
 
         // 清空保存的进度
-        localStorage.lastAtInfo = '';
+        delete localStorage.lastAtInfo;
 
         // 执行管理员命令
         await runAdminCommand();
