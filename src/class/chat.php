@@ -269,7 +269,7 @@ class chat
 
         $ubb = new ubbparser;
         $contents = $ubb->parse($content, true);
-        $lid = $this->db->select('count(*)', 'addin_chat_data', 'WHERE room=?', $room)->fetch(db::num);
+        $lid = $this->db->select('max(lid)', 'addin_chat_data', 'WHERE room=?', $room)->fetch(db::num);
         $lid = $lid[0] + 1;
 
         $flags = bbs::TYPE_NORMAL;
