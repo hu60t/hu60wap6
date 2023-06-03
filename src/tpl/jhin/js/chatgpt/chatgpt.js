@@ -198,7 +198,7 @@ const errorMaxLen = Math.max(...Object.keys(errorMap).map(x => x.length));
 // 模型对应关系（仅限 ChatGPT Plus 付费用户）
 const modelMap = {
     1 : 'text-davinci-002-render-sha', // @ChatGPT 1，对应GPT-3.5模型
-    2 : 'gpt-4-browsing',              // @ChatGPT 2，对应GPT-4网页浏览模型
+    2 : 'text-davinci-002-render-sha',              // @ChatGPT 2，对应GPT-4网页浏览模型
     3 : 'gpt-4-plugins',               // @ChatGPT 3，对应GPT-4插件模型
     4 : 'gpt-4',                       // @ChatGPT 4，对应GPT-4模型
 };
@@ -241,7 +241,7 @@ const actionButtonSelector = 'button.p-1.hover\\:text-white';
 const sessionNameInputSelector = 'input.text-sm.w-full';
 
 // 新建会话按钮的CSS选择器
-const newChatButtonSelector = '.flex.py-3.px-3.border';
+const newChatButtonSelector = 'a.flex.p-3.border.flex-grow';
 
 // 模型下拉框的CSS选择器
 const modelListBoxSelector = 'ul.flex.w-full.list-none';
@@ -819,17 +819,17 @@ async function sendText(text, uid, modelIndex) {
             chatBox = document.querySelector(chatBoxSelector);
             sendButton = document.querySelector(sendButtonSelector);
 
-            chatBox.click();
+            // 输入框获取焦点
+            chatBox.focus();
             await sleep(100);
 
-            chatBox.value = text;
+            // 设置输入框的值
+            setNativeValue(chatBox, text);
             await sleep(100);
 
-            // chatBox.value 无法让发言按钮激活，所以需要手动激活
-            sendButton.disabled = false;
-
+            // 点击发送按钮
             sendButton.click();
-            await sleep(1000);
+            await sleep(100);
 
             i++;
             lastChatLine = getLastChatLine();
