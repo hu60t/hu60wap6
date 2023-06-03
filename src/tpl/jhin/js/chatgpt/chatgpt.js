@@ -1177,6 +1177,8 @@ async function replyTopic(uid, replyText, topicObject) {
         let modelTitle = document.querySelector(modelNameSelector)?.innerText.replace('Model: ', '') || '';
         if (modelTitle != '') {
             content += '[' + modelTitle + '] ';
+        } else {
+            content += '[GPT-3.5] ';
         }
 
         content += '[新会话] ';
