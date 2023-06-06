@@ -535,34 +535,36 @@ async function renameSession(newName) {
             await sleep(100);
         }
 
-        for (let i=0; i<10 && getCurrentSession().innerText != newName; i++) {
-            getCurrentSession().click();
-            await sleep(100);
+        console.log(getCurrentSession().innerText, '->', newName, getCurrentSession().innerText == newName);
+        getCurrentSession().click();
+        await sleep(100);
 
-            let actionButtons = document.querySelectorAll(actionButtonSelector);
-            if (!actionButtons[0]) {
-                console.error('renameSession', '找不到编辑按钮');
-                return;
-            }
-            actionButtons[0].click(); // 点击编辑按钮
-            await sleep(100);
+        let actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('renameSession', '找不到编辑按钮');
+            return;
+        }
+        actionButtons[0].click(); // 点击编辑按钮
+        await sleep(100);
 
-            let nameInput = document.querySelector(sessionNameInputSelector);
-            if (!nameInput) {
-                console.error('renameSession', '找不到输入框');
-                return;
-            }
+        let nameInput = document.querySelector(sessionNameInputSelector);
+        if (!nameInput) {
+            console.error('renameSession', '找不到输入框');
+            return;
+        }
 
-            nameInput.value = newName;
-            await sleep(100);
+        nameInput.value = newName;
+        await sleep(100);
 
-            actionButtons = document.querySelectorAll(actionButtonSelector);
-            if (!actionButtons[0]) {
-                console.error('renameSession', '找不到确认按钮');
-                return;
-            }
-            actionButtons[0].click(); // 点击确认按钮
-            await sleep(1000);
+        actionButtons = document.querySelectorAll(actionButtonSelector);
+        if (!actionButtons[0]) {
+            console.error('renameSession', '找不到确认按钮');
+            return;
+        }
+        actionButtons[0].click(); // 点击确认按钮
+        // 等待重命名完成
+        for (let i=0; i<10 && getCurrentSession()?.innerText != newName; i++) {
+            await sleep(500);
         }
 
         // 记录会话URL
