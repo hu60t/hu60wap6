@@ -12,7 +12,7 @@
 // @version      1.0
 // @description  把通义千问接入hu60wap6网站程序
 // @author       老虎会游泳
-// @match        https://tongyi.aliyun.com/*
+// @match        https://qianwen.aliyun.com/*
 // @icon         https://hu60.cn/favicon.ico
 // @grant        none
 // ==/UserScript==
@@ -25,7 +25,7 @@ var script = document.createElement("script");
 script.src = document.hu60Domain + '/tpl/jhin/js/chatgpt/qianwen.js?r=' + (new Date().getTime());
 document.head.appendChild(script);
 
-4. 打开 https://tongyi.aliyun.com/ 并登录。
+4. 打开 https://qianwen.aliyun.com/ 并登录。
 5. 在来到聊天页面时，会弹出输入虎绿林用户名密码的提示框。
    如果你要把机器人接入虎绿林，请注册一个新帐号。**使用现有帐号运行机器人将被删帖或禁言**。
    输入新帐号用户名密码后，机器人即启动，保持页面不要关闭。
@@ -1318,8 +1318,8 @@ async function runOnce() {
         }
 
         // 跳转到聊天列表页
-        if (location.href == 'https://tongyi.aliyun.com/') {
-            location.href = 'https://tongyi.aliyun.com/chat';
+        if (location.href == 'https://qianwen.aliyun.com/') {
+            location.href = 'https://qianwen.aliyun.com/chat';
             await sleep(5000);
         }
 
