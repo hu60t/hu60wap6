@@ -1086,6 +1086,7 @@ async function autoRetry(errorMessage) {
     let atInfo = JSON.parse(localStorage.lastAtInfo);
     atInfo.retryTimes = atInfo.retryTimes || 0;
     if (errorMessage != 'network error' && atInfo.retryTimes < 5) {
+        console.warn('自动重试', errorMessage);
         refreshPage();
         await sleep(30000);
     }

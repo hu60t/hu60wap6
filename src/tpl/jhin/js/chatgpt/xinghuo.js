@@ -959,6 +959,7 @@ async function autoRetry(errorMessage) {
     let atInfo = JSON.parse(localStorage.lastAtInfo);
     atInfo.retryTimes = atInfo.retryTimes || 0;
     if (errorMessage != '网络错误' && atInfo.retryTimes < 5) {
+        console.warn('自动重试', errorMessage);
         refreshPage();
         await sleep(5000);
     }
