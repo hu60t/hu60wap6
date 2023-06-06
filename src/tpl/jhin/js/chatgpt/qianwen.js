@@ -217,7 +217,7 @@ const showMoreButtonSelector = 'hu60-none';
 const agreeButtonSelector = 'button.btn--GALkqyh3.primary--PfKRnzJe.default--A6VtuuPJ';
 
 // 登录/注册按钮
-const loginButtonSelector = 'div.content--i9W3Qmal button.btn--GALkqyh3';
+const loginButtonSelector = 'div.nav--FHyzFWJP button.btn--GALkqyh3';
 
 /////////////////////////////////////////////////////////////
 
