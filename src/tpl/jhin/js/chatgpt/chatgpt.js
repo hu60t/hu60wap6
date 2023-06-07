@@ -1135,6 +1135,7 @@ async function readTopicContent(path) {
                     /\?|$/s, // 注意主题帖的@链接不含问号
                     '?_origin=*&_json=compact&_content=text&pageSize=1&'
                 );
+            console.log('readTopicContent', url);
             let response = await fetch(url);
             return await response.json();
         } catch (ex) {
