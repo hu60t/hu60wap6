@@ -65,7 +65,7 @@ function saveConsoleMessages() {
 };
 
 // 清理过多的日志
-// 最多保留5份
+// 最多保留20份
 function cleanConsoleStorage() {
     try {
         let count = 0;
@@ -73,7 +73,7 @@ function cleanConsoleStorage() {
         Object.keys(localStorage).sort().reverse().forEach(key => {
             if (key.startsWith('console:')) {
                 count++;
-                if (count > 5) {
+                if (count > 20) {
                     deleted++;
                     localStorage.removeItem(key);
                 }
