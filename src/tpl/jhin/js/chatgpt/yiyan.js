@@ -170,16 +170,16 @@ const modelMap = {
 const chatBoxSelector = 'textarea.ant-input.wBs12eIN';
 
 // 发送按钮的CSS选择器
-const sendButtonSelector = 'span.pa6BxUpp';
+const sendButtonSelector = 'span.VAtmtpqL';
 
 // 正在输入动效（三个点）和加载中动效（转圈）的CSS选择器
-const replyNotReadySelector = 'span.Z5nsqJLD';
+const replyNotReadySelector = 'span.vIpm62hT';
 
 // 停止生成/重新生成按钮
-const stopOrRegenButtonSelector = 'span.yyjIo3Fm, span.JjbYTyke';
+const stopOrRegenButtonSelector = 'span.yyjIo3Fm, span.mEKFkIX7';
 
 // 聊天内容（包括提问与回复）的CSS选择器
-const chatLineSelector = 'div.B0XmwKds, div.custom-html';
+const chatLineSelector = 'div.H7oUCk_o, div.custom-html';
 
 // 聊天回答的CSS选择器
 const chatReplySelector = 'div.custom-html';
