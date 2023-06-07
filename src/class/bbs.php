@@ -970,7 +970,7 @@ class bbs
     /**
      * 获取帖子楼层的内容
      */
-    public function topicContents($topic_id, $page, $size, $fetch = '*', $floorReverse = false, $showBot = true)
+    public function topicContents($topic_id, $page, $size, $fetch = '*', $floorReverse = false, $showBot = true, $floor = null)
     {
         if ($size < 1)
             $size = 1;
@@ -978,8 +978,15 @@ class bbs
             $page = 1;
         $offset = ($page - 1) * $size;
 
-        // 默认正序排列楼层
-        if (!$floorReverse) {
+        if ($floor !== null && $size == 1) {
+            // 防止楼层不连续时出错
+            $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=? AND floor=?', $topic_id, $floor);
+            if (!$rs)
+                throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_content不可读', 500);
+
+            $data = $rs->fetchAll();
+        }
+        elseif (!$floorReverse) {
             //正序排列楼层
             $hideBotSql = $showBot ? '' : ' AND (flags=0 OR floor=0)';
             $rs = $this->db->select($fetch, 'bbs_topic_content', 'WHERE topic_id=?'.$hideBotSql.' ORDER BY floor ASC LIMIT ?,?', $topic_id, $offset, $size);

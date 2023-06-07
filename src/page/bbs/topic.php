@@ -26,6 +26,7 @@ if (isset($_GET['floorReverse'])) {
 	$floorReverse = $USER->getInfo('bbs.floorReverse');
 }
 
+$floor = null;
 if (isset($_GET['floor']) || isset($_GET['level'])) {
 	// 通过楼层计算帖子页码
 	$oriFloor = $floor = isset($_GET['floor']) ? (int)$_GET['floor'] : (int)$_GET['level'];
@@ -83,7 +84,7 @@ $blockUids = $bbs->getBlockUids();
 $blockedReply = 0;
 
 //读取帖子内容
-$tContents = $bbs->topicContents($tid, $p, $pageSize, 'uid,ctime,mtime,content,floor,id,topic_id,review,review_log,locked,flags', $floorReverse, $showBot);
+$tContents = $bbs->topicContents($tid, $p, $pageSize, 'uid,ctime,mtime,content,floor,id,topic_id,review,review_log,locked,flags', $floorReverse, $showBot, $floor);
 foreach ($tContents as $k=>&$v) {
 	// 如果屏蔽用户是帖子作者则不屏蔽
 	if (!$all && $v['uid'] != $tMeta['uid'] && in_array($v['uid'], $blockUids)) {

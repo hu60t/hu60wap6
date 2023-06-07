@@ -178,11 +178,15 @@ class chat
     /**
      * 指定聊天室发言列表
      */
-    public function chatList($name, $offset = 0, $size = 10, $startTime = null, $endTime = null, $showBot = true)
+    public function chatList($name, $offset = 0, $size = 10, $startTime = null, $endTime = null, $showBot = true, $floor = null)
     {
         $hideBotSql = $showBot ? '' : ' flags=0 AND';
 
-		if ($startTime === null) {
+		if ($floor !== null && $size == 1) {
+            // 防止楼层不连续时出错
+            $rs = $this->db->select("*", 'addin_chat_data', 'WHERE room=? and lid=?', $name, $floor);
+        }
+        elseif ($startTime === null) {
 			if ($endTime === null) {
         		$rs = $this->db->select("*", 'addin_chat_data', 'WHERE'.$hideBotSql.' room=? ORDER BY `lid` DESC LIMIT ?,?', $name, $offset, $size);
 			}

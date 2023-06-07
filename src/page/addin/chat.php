@@ -79,6 +79,7 @@ if ($PAGE->ext[0]) {
     $pageSize = page::pageSize(1, 20, 1000);
     $maxP = ceil($chatCount / $pageSize);
 
+    $floor = null;
     if (isset($_GET['floor']) || isset($_GET['level'])) {
         $floor = isset($_GET['floor']) ? (int)$_GET['floor'] : (int)$_GET['level'];
         $p = ceil(($chatCount - $floor + 1) / $pageSize);
@@ -98,9 +99,9 @@ if ($PAGE->ext[0]) {
 	$endTime = isset($_GET['end_time']) ? (int)$_GET['end_time'] : null;
 
     if ($onlyReview) {
-        $list = $chat->chatReviewList($offset, $pageSize, $startTime, $endTime, $showBot);
+        $list = $chat->chatReviewList($offset, $pageSize, $startTime, $endTime, $showBot, $floor);
     } else {
-        $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime, $showBot);
+        $list = $chat->chatList($roomname, $offset, $pageSize, $startTime, $endTime, $showBot, $floor);
     }
 
     // 获取屏蔽用户
