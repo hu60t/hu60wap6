@@ -499,10 +499,11 @@ async function deleteSession() {
 
         console.log('deleteSession', 'begin', sessionNum);
         let actionButtons = document.querySelectorAll(actionButtonSelector);
-        if (!actionButtons[1]) {
+        // 3个按钮：重命名、分享、删除
+        if (!actionButtons[2]) {
             throw "找不到删除按钮";
         }
-        actionButtons[1].click(); // 点击删除按钮
+        actionButtons[2].click(); // 点击删除按钮
         await sleep(100);
 
         actionButtons = document.querySelectorAll(actionButtonSelector);
