@@ -1514,6 +1514,12 @@ async function runOnce() {
 
 // 运行机器人
 async function run() {
+    // 把重试文本保存在localStorage，在刷新后自动载入
+    window.addEventListener("beforeunload", () => {
+        localStorage.retryChatTexts = JSON.stringify(retryChatTexts);
+    });
+    retryChatTexts = JSON.parse(localStorage.retryChatTexts || '{}') || {};
+
     loadScript(turndownJsUrl);
     loadScript(turndownGfmJsUrl);
     loadScript(vConsoleJsUrl);
