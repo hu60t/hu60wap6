@@ -198,7 +198,7 @@ const deleteConfirmSelector = 'div.ant-modal-confirm-btns button.ant-btn';
 const sessionNameInputSelector = 'div[class*=" pages_list_item_active__"] input';
 
 // 新建会话按钮的CSS选择器
-const newChatButtonSelector = 'div[class^="pages_new_chat__"]';
+const newChatButtonSelector = 'div[class^="pages_new_chat__"] span';
 
 // 模型下拉框的CSS选择器（讯飞星火没有模型选择功能，保留此接口备用）
 const modelListBoxSelector = 'hu60-none';
@@ -216,7 +216,7 @@ const showMoreButtonSelector = 'hu60-none';
 const agreeButtonSelector = 'div.hm-content__btn';
 
 // 历史对话选项卡的CSS选择器
-const chatHistorySelector = 'div.pages_window_switch__J40yj > div:nth-child(2)';
+const chatHistorySelector = 'div.pages_window_switch__J40yj > div:nth-child(1)';
 
 /////////////////////////////////////////////////////////////
 
