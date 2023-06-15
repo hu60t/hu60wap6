@@ -644,19 +644,7 @@ async function findSession(name) {
         }
     }
 
-    // 优先通过URL跳转加载会话，以免出现网络问题
-    // 通过URL跳转具有重连效果
-    let url = getChatUrl(name);
-    if (url) {
-        localStorage.lastChatUrl = url;
-        localStorage.lastChatName = name;
-        // 通过跳转到URL来直接加载会话
-        loadPage(url);
-        await sleep(5000);
-        return null;
-    }
-
-    // URL找不到，改用点击切换会话
+    // 点击切换会话
     let sessions = getSessions();
     for (let i=0; i<sessions.length; i++) {
         // 重命名时会交替使用.和-，有可能保存上的是.而非-
@@ -665,6 +653,16 @@ async function findSession(name) {
             delete localStorage.lastChatName;
             return sessions[i];
         }
+    }
+
+    // 通过URL跳转加载会话
+    let url = getChatUrl(name);
+    if (url) {
+        localStorage.lastChatUrl = url;
+        localStorage.lastChatName = name;
+        loadPage(url);
+        await sleep(5000);
+        return null;
     }
 
     // 找不到会话
@@ -755,6 +753,7 @@ async function switchSession(name, modelIndex) {
         i++;
     } while (
         (getSessionName() != name
+        || !getLastChatLine()
         || !document.querySelector(chatBoxSelector)
         || !document.querySelector(sendButtonSelector)
         || (!document.querySelector(modelNameSelector) &&
