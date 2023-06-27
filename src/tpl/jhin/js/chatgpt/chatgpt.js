@@ -154,6 +154,9 @@ const vConsoleJsUrl = document.hu60Domain + '/tpl/jhin/js/chatgpt/vconsole.js?r=
 
 // 错误提示翻译
 const errorMap = {
+    'Your authentication token has expired. Please try signing in again.':
+        "ChatGPT机器人已掉线，请等待 @#1 手动重新登录。",
+
     'Too many requests in 1 hour. Try again later.':
         "达到OpenAI设置的一小时对话次数上限，请过段时间再试。",
 
