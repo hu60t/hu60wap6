@@ -98,13 +98,7 @@
 	<p>-<a href="tools.ua.{$BID}">查看HTTP请求</a></p>
 	<p>-<a href="tools.coder.{$BID}">编码解码器</a></p>
 </div>
-<hr>
 {if $USER->unlimit()}
-<div class="books">
-    <p class="bar">『小说阅读』</p>
-	<p>-<a href="book.index.html">小说列表</a></p>
-	<p>-<a href="https://xrzww.com/?t={time()}">息壤中文网</a>：承诺不剥削作者，由网文作家月影梧桐创建</p>
-</div>
 <hr>
 <div id="friend_links">
 	<p id="friend_links_title">『虎友网站展示』</p>

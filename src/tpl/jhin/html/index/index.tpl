@@ -113,13 +113,6 @@
     </div>
     {if $USER->unlimit()}
     <div class="widget">
-        <div class="bar">小说阅读</div>
-        <div class="content-box">
-            <p><a href="book.index.html">小说列表</a></p>
-			<p><a href="https://xrzww.com/?t={time()}">息壤中文网</a>：承诺不剥削作者，由网文作家月影梧桐创建</p>
-        </div>
-    </div>
-    <div class="widget">
         <div class="bar" id="friend_links_title">虎友网站展示</div>
         <div class="content-box">
             {include file="tpl:comm.friend_links"}
