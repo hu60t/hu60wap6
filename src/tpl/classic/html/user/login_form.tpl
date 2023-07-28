@@ -8,7 +8,7 @@
 </div>
 </div>
 {div class="cr180_login"}
-{form action="user.login.{$bid}?u={urlencode($u)}" method="post"}
+{form action="{$smarty.server.PHP_SELF}/user.login.{$bid}?u={urlencode($u)}" method="post"}
 <div>
     <p>
         登录类型：<select name="type">

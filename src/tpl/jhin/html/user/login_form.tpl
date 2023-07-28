@@ -13,7 +13,7 @@
 </div>
 
 <div class='login-form'>
-	<form action="user.login.{$bid}?u={urlencode($u)}" method="post">
+	<form action="{$smarty.server.PHP_SELF}/user.login.{$bid}?u={urlencode($u)}" method="post">
 		<div class="input-group">
 			登录类型：<select name="type">
 				<option value="1">用户名</option>

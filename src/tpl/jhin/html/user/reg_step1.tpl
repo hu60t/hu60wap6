@@ -12,7 +12,7 @@
 </div>
 <div class='login-form'>
 	<p class="ft_pw"><strong>第一步：用户和密码</strong> -> 第二步：确认密码 -> 第三步：注册完成</p>
-	<form action="user.reg.{$bid}?u={urlencode($u)}" method="post">
+	<form action="{$smarty.server.PHP_SELF}/user.reg.{$bid}?u={urlencode($u)}" method="post">
 		<div class="input-group">
 			<label class="login-label" for="username">用户名</label>
 			<input type="text" id="username" name="name" autocomplete="off" size="25" maxlength="15" value="{$smarty.post.name}" class="txt" placeholder="" />

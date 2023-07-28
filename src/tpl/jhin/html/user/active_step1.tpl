@@ -10,7 +10,7 @@
 	<p class="failure">{$errMsg}</p>
 </div>
 <div id="active">
-	<form action="{$CID}.{$PID}.{$BID}?sid={$smarty.get.sid|code}" method="post">
+	<form action="{$smarty.server.PHP_SELF}/{$CID}.{$PID}.{$BID}?sid={$smarty.get.sid|code}" method="post">
 		<input type="hidden" name="step" value="1" />
 		<p>通过绑定手机号激活用户</p>
 		<p>请输入手机号码：</p>
