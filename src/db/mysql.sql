@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2023-03-31 10:40:00
+-- 生成日期： 2023-08-03 09:51:18
 -- 服务器版本： 10.7.3-MariaDB-log
 -- PHP 版本： 8.1.7
 
@@ -348,7 +348,8 @@ ALTER TABLE `hu60_bbs_forum_meta`
 ALTER TABLE `hu60_bbs_topic_content`
   ADD PRIMARY KEY (`id`),
   ADD KEY `topic_id` (`topic_id`),
-  ADD KEY `reply_id` (`reply_id`);
+  ADD KEY `reply_id` (`reply_id`),
+  ADD KEY `uid` (`uid`);
 
 --
 -- 表的索引 `hu60_bbs_topic_meta`
