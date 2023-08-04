@@ -61,3 +61,8 @@ $URL_REPLACE_REGEXP = [
 $USER_WORD_BLOCKLIST = [
     ['preg_match' => '/你\s*品/us', 'users' => [1, 17448, 23688]],
 ];
+
+/**
+ * 首页新帖的时间范围（默认30天）
+ */
+define('NEW_TOPIC_TIME_RANGE', 30 * 24 * 3600);

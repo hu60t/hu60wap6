@@ -821,7 +821,7 @@ class bbs
 
     public function newTopicList($size = 20, $offset = 0)
     {
-        $where = 'WHERE ctime > ' . ($_SERVER['REQUEST_TIME'] - 30 * 24 * 3600) . ' AND review < 2 AND ((uid = ?) OR (access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
+        $where = 'WHERE ctime > ' . ($_SERVER['REQUEST_TIME'] - NEW_TOPIC_TIME_RANGE) . ' AND review < 2 AND ((uid = ?) OR (access = 0) OR (access & ?)) AND (locked = 0 OR locked = 2)';
         $blockUids = $this->getBlockUids();
         if (!empty($blockUids)) {
             $where .= ' AND uid NOT IN (' . implode(',', $blockUids) . ')';
@@ -1172,6 +1172,24 @@ class bbs
                 return '已通过机审';
             default:
                 return '未知状态';
+        }
+    }
+
+    public static function getReviewStatMessage($stat) {
+        $name = self::getReviewStatName($stat);
+        switch ($stat) {
+            case bbs::REVIEW_PASS:
+                return "发言${name}。";
+                
+            case bbs::REVIEW_NEED_MANUAL_REVIEW:
+            case bbs::REVIEW_MACHINE_PASS:
+                return "发言${name}，仅登录用户可见。";
+
+            case bbs::REVIEW_NEED_REVIEW:
+                return "发言${name}，仅管理员、作者本人和被@的用户可见。";
+
+            default:
+                return "发言${name}，仅管理员和作者本人可见。";
         }
     }
 
