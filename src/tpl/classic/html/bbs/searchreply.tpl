@@ -22,7 +22,7 @@
   {foreach $replyList as $reply}
 	<div class="reply-box">
     <div><a href="user.info.{$reply.uinfo.uid}.{$BID}">{$reply.uinfo.name|code}</a> {$reply.floor}楼回复 <a href="user.info.{$reply.topicUinfo.uid}.{$BID}">{$reply.topicUinfo.name|code}</a> 的 <a class="user-title" href="bbs.topic.{$reply.topic_id}.{$BID}?floor={$reply.floor}#{$reply.floor}">{$reply.topic.title|code}</a> ({str::ago($reply.mtime)}/<a href="javascript:hu60_user_style_toggle(document.querySelector('#floor_content_{$reply.floor}'))">样</a>/<a href="javascript:hu60_content_display_ubb('bbs.search', {$reply.id}, 'floor_content_{$reply.floor}')">源</a>)
-      {if $USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $reply.access == 0}
+      {if $USER->canAccess(1) && $reply.access == 0}
         <div class="topic-status">公开</div>
       {/if}
     </div>

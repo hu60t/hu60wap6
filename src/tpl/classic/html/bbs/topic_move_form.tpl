@@ -40,7 +40,7 @@
 						{/if}
 					</a>
 				{/if}
-				{if $USER->hasPermission(User::PERMISSION_EDIT_TOPIC) && $forum.access == 0}
+				{if $USER->canAccess(1) && $forum.access == 0}
                     <div class="topic-status">公开</div>
                 {/if}
 			</li>
