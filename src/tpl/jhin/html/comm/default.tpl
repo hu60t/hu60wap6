@@ -122,5 +122,7 @@
 {$USER->webplug()}
 <!-- 用户自定义代码结束 -->
 {/if}
+
+<!--页面生成用时: {round(microtime(true)-$smarty.server.REQUEST_TIME_FLOAT,3)}秒 (压缩:{if $page.gzip}开{else}关{/if})-->
 </body>
 </html>

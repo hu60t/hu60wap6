@@ -69,9 +69,6 @@
 		<p>
 			{date("n月j日 H:i")} 星期{call_user_func_array("str::星期",array(date("w")))}
 		</p>
-		<p>
-			效率: {round(microtime(true)-$smarty.server.REQUEST_TIME_FLOAT,3)}秒<!--(压缩:{if $page.gzip}开{else}关{/if})-->
-		</p>
 		<p id="hu60_footer_action">
 			[<a href="index.index.{$BID}">首页</a>]
 			[<a href="#top">回顶</a>]
@@ -112,5 +109,7 @@
 {if !$no_webplug && $USER && $USER->islogin && !empty($USER->webplug())}
 {$USER->webplug()}
 {/if}
+
+<!--页面生成用时: {round(microtime(true)-$smarty.server.REQUEST_TIME_FLOAT,3)}秒 (压缩:{if $page.gzip}开{else}关{/if})-->
 </body>
 </html>
