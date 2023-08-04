@@ -989,12 +989,12 @@ HTML;
             $reviewLog = implode("\n", $reviewLog);
         }
 
-        $stat = bbs::getReviewStatName($data['stat']);
+        $stat = bbs::getReviewStatMessage($data['stat']);
 
         // 注意：不要产生连续8个空格，否则markdown解析器会把后续内容当作代码块显示！
         return <<<HTML
 <div class="tp info-box">
-	发言{$stat}，仅管理员和作者本人可见。
+    $stat
     <div class="review_log">$reviewLog</div>
 	$reviewForm
 </div>

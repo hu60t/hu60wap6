@@ -866,19 +866,39 @@ class UbbParser extends XUBBP
             $content = data::unserialize($content);
         }
 
-        /**
-         * 如果用户@了我，我就获得查看内容的权限
-         */
         $showContent = false;
-        foreach ($content as $vv) {
-            // 如果存在类型为at，且@的uid为我自己的记录，那么这个消息应该展示
-            if ($vv['type'] == 'at' && $vv['uid'] == $accessUser['uid']) {
-                $showContent = true;
-                break;
+
+        if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin) {
+
+            if (is_array($reviewLog) && !empty($reviewLog)) {
+                // 在用户已登录的情况下，如果机审通过，就获得查看权限。
+                // 注意我们仅查看最后一条记录，因为用户可能会不断修改帖子，管理员也可能进行了人工审核，所以历史记录不可信。
+                $log = $reviewLog[count($reviewLog) - 1];
+                if (isset($log['stat']) && in_array($log['stat'], [ bbs::REVIEW_MACHINE_PASS, bbs::REVIEW_NEED_MANUAL_REVIEW ])) {
+                    $showContent = true;
+                    // 更新帖子页面的审核状态提示
+                    $data[0]['stat'] = $log['stat'];
+                }
+            }
+
+            if (!$showContent) {
+                // 如果用户是作者本人或者管理员，则获得查看权限
+                $showContent = ($accessUser->uid == $authorUinfo->uid) || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST);
+            }
+
+            if (!$showContent) {
+                // 如果用户@了我，我就获得查看内容的权限
+                foreach ($content as $vv) {
+                    // 如果存在类型为at，且@的uid为我自己的记录，那么这个消息应该展示
+                    if ($vv['type'] == 'at' && $vv['uid'] == $accessUser['uid']) {
+                        $showContent = true;
+                        break;
+                    }
+                }
             }
         }
 
-		if (is_object($accessUser) && is_object($authorUinfo) && $accessUser->islogin && ($accessUser->uid == $authorUinfo->uid || $showContent || $accessUser->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
+		if ($showContent) {
 			$data = array_merge($data, $content);
 		}
 

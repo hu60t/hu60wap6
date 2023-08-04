@@ -556,9 +556,9 @@ HTML;
 
 	/*待审核的内容*/
 	public function postNeedReviewNotice($data) {
-        $stat = bbs::getReviewStatName($data['stat']);
+        $stat = bbs::getReviewStatMessage($data['stat']);
         return <<<HTML
-发言{$stat}，仅管理员和作者本人可见。
+{$stat}
 
 HTML;
 	}
