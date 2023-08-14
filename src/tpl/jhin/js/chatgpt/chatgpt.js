@@ -218,7 +218,7 @@ const sendButtonSelector = 'button.absolute.p-1';
 const replyNotReadySelector = 'div.text-2xl, .animate-spin';
 
 // 顶部模型名称的CSS选择器
-const modelNameSelector = 'div.justify-center.p-3';
+const modelNameSelector = 'div.items-center.sm\\:justify-center span';
 
 // 停止生成/重新生成按钮
 const stopOrRegenButtonSelector = 'button.btn-neutral.border-0';
@@ -1190,7 +1190,7 @@ async function replyTopic(uid, replyText, topicObject) {
         if (modelTitle != '') {
             content += '[' + modelTitle + '] ';
         } else {
-            content += '[GPT-3.5] ';
+            content += '[@老虎会游泳，模型名称选择器需要更新] ';
         }
 
         content += '[新会话] ';
