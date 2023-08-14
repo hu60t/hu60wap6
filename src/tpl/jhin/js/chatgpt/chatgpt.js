@@ -240,6 +240,9 @@ const currentSessionSelector = 'a.relative.rounded-md.bg-gray-800';
 // 编辑、删除、确认、取消按钮的CSS选择器
 const actionButtonSelector = 'button.p-1.hover\\:text-white';
 
+// 确认删除按钮的CSS选择器
+const deleteButtonSelector = 'button.relative.btn-danger';
+
 // 会话名称编辑框的CSS选择器
 const sessionNameInputSelector = 'input.text-sm.w-full';
 
@@ -503,13 +506,13 @@ async function deleteSession() {
         console.log('deleteSession', 'begin', sessionNum);
         let actionButtons = document.querySelectorAll(actionButtonSelector);
         // 3个按钮：重命名、分享、删除
-        if (!actionButtons[2]) {
+        if (!actionButtons[1]) {
             throw "找不到删除按钮";
         }
-        actionButtons[2].click(); // 点击删除按钮
+        actionButtons[1].click(); // 点击删除按钮
         await sleep(100);
 
-        actionButtons = document.querySelectorAll(actionButtonSelector);
+        actionButtons = document.querySelectorAll(deleteButtonSelector);
         if (!actionButtons[0]) {
             throw "找不到确认按钮";
         }
