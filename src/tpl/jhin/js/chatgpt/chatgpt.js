@@ -1190,7 +1190,7 @@ async function replyTopic(uid, replyText, topicObject) {
         if (modelTitle != '') {
             content += '[' + modelTitle + '] ';
         } else {
-            content += '[@老虎会游泳，模型名称选择器需要更新] ';
+            content += '[默认模型] ';
         }
 
         content += '[新会话] ';
