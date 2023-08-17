@@ -247,7 +247,7 @@ const deleteButtonSelector = 'button.relative.btn-danger';
 const sessionNameInputSelector = 'input.text-sm.w-full';
 
 // 新建会话按钮的CSS选择器
-const newChatButtonSelector = 'a.flex.p-3.border.flex-grow';
+const newChatButtonSelector = 'a.flex.px-3.border.flex-grow';
 
 // 模型下拉框的CSS选择器
 const modelListBoxSelector = 'ul.flex.w-full.list-none';
