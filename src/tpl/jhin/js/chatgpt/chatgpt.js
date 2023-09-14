@@ -236,7 +236,7 @@ const chatReplySelector = 'div.markdown, div.text-gray-600.border-red-500';
 const sessionListItemSelector = 'a.relative.rounded-md';
 
 // 当前会话的CSS选择器
-const currentSessionSelector = 'a.relative.rounded-md.bg-gray-800';
+const currentSessionSelector = 'a.relative.rounded-md.bg-gray-100';
 
 // 编辑、删除、确认、取消按钮的CSS选择器
 const actionButtonSelector = 'button.p-1.hover\\:text-white';
