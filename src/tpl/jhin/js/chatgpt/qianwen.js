@@ -716,7 +716,7 @@ async function sendRequest(text, uid) {
     console.log('sendRequest', '@#'+uid, text);
 
     // 去除待审核提示
-    text = text.trim().replace(/^发言待审核，仅管理员和作者本人可见。/s, '').trim();
+    text = text.trim().replace(/^发言[^\s]+可见。[\r\n]+/s, '').trim();
 
     // 分割指令
     //  @通义千问[ 模型序号][ 代码格式[=参数]]，发言内容
