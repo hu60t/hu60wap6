@@ -837,7 +837,7 @@ async function sendText(text, uid, modelIndex) {
 
             // 点击发送按钮
             sendButton.click();
-            await sleep(100);
+            await sleep(1000);
 
             i++;
             lastChatLine = getLastChatLine();
