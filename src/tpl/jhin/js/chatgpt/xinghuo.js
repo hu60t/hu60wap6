@@ -17,6 +17,7 @@
 // @grant        none
 // ==/UserScript==
 
+document.hu60VConsole = false; // 是否显示调试控制台，false：隐藏；true：显示。
 document.hu60User = ''; // 虎绿林用户名
 document.hu60Pwd = ''; // 虎绿林密码
 document.hu60AdminUids = [1, 19346, 15953]; // 机器人管理员uid，管理员可以发“@讯飞星火，刷新页面”来重启机器人
@@ -1391,7 +1392,9 @@ async function run() {
 
     loadScript(turndownJsUrl);
     loadScript(turndownGfmJsUrl);
-    loadScript(vConsoleJsUrl);
+    if (document.hu60VConsole) {
+        loadScript(vConsoleJsUrl);
+    }
 
     // 如果油猴定义了自定义主循环，则使用该主循环
     // 用于把机器人接入其他类型的网站
