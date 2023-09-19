@@ -210,7 +210,7 @@ const modelMap = {
 /////////////////////////////////////////////////////////////
 
 // 聊天框的CSS选择器
-const chatBoxSelector = 'textarea.w-full.p-0';
+const chatBoxSelector = 'textarea.w-full.m-0';
 
 // 发送按钮的CSS选择器
 const sendButtonSelector = 'button.absolute.p-1';
