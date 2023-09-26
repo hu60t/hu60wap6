@@ -818,6 +818,9 @@ async function sendText(text, uid, modelIndex) {
             await sleep(100);
         }
 
+        // 增加延时，减少重复发言或发言失败的可能性
+        await sleep(1000);
+
         // 执行命令短语
         if (commandFunc) {
             return await commandFunc(text, uid, modelIndex);
