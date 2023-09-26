@@ -437,6 +437,13 @@ async function selectModel(modelIndex) {
     if (new URLSearchParams(location.search).get('model') === modelIndex) {
         // 模型匹配，直接返回
         console.log("selectModel", modelIndex, location.href);
+
+        // 等待插件加载
+        if (modelIndex.indexOf('plugin') >= 0) {
+            console.log("等待插件加载……");
+            await sleep(3000);
+        }
+
         return;
     }
 
