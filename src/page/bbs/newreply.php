@@ -35,9 +35,9 @@ try {
     if ($tMeta['locked'] && $tMeta['locked'] != 2) {
         throw new bbsException('锁定的帖子不能回复！', 2403);
     }
-    if ($tMeta['review'] && $USER->uid != $tMeta['uid'] && !$USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
+    /*if ($tMeta['review'] && $USER->uid != $tMeta['uid'] && !$USER->hasPermission(userinfo::PERMISSION_REVIEW_POST)) {
         throw new bbsException('为了减少无关评论，未审核通过的帖子只有楼主和管理员可以回复。', 3403);
-    }
+    }*/
 
     $tpl->assign('tMeta', $tMeta);
 
