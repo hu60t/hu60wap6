@@ -939,7 +939,7 @@ class bbs
         $rs = $rs->fetch();
 		if (!$this->editTopic && isset($rs['review']) && isset($rs['title']) && $rs['review']) {
             $stat = bbs::getReviewStatName($rs['review']);
-			if ($this->user->islogin && ($this->user->uid == $rs['uid'] || $this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
+			if ($this->user->islogin && ($this->user->unlimit() || $this->user->uid == $rs['uid'] || $this->user->hasPermission(userinfo::PERMISSION_REVIEW_POST))) {
 				$rs['title'] = '【'.$stat.'】'.$rs['title'];
 			} else {
 				$rs['title'] = '【帖子'.$stat.'】';
