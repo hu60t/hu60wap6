@@ -239,7 +239,7 @@ const sessionListItemSelector = 'a.relative.rounded-md';
 const currentSessionSelector = 'a.relative.rounded-md.bg-gray-100';
 
 // 编辑、删除、确认、取消按钮的CSS选择器
-const actionButtonSelector = 'button.p-1.hover\\:text-white';
+const actionButtonSelector = 'button.p-1.hover\\:text-token-text-primary';
 
 // 确认删除按钮的CSS选择器
 const deleteButtonSelector = 'button.relative.btn-danger';
