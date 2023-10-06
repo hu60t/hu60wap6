@@ -76,6 +76,12 @@ class code
         return strtr(base64_encode($data), array('+' => '-', '/' => '_', '=' => '.'));
     }
 
+    //去除末尾的填充（Base64 Encode Clean）
+    static function b64ec($data)
+    {
+        return str_replace('.', '', self::b64e($data));
+    }
+
     /**
      * 适合url的base64解码
      */

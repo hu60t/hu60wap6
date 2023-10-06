@@ -421,7 +421,7 @@ class page implements ArrayAccess
 		else {
 			$name = COOKIE_A . $name;
 
-			if ($time > 0 && $time < $_SERVER['REQUEST_TIME']) {
+			if ($time > 0 && $time < $_SERVER['REQUEST_TIME'] || $time < 0) {
 				$time += $_SERVER['REQUEST_TIME'];
 			}
 

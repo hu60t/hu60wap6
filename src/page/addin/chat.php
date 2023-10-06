@@ -14,8 +14,22 @@ if ($PAGE->ext[0]) {
         $showBot = isset($_GET['showBot']) ? (bool)$_GET['showBot'] : false;
     } else {
         $chat->checkName($roomname);
+
         // 是否显示机器人内容
+
+        $cookieName = 'chat_showBot_'.code::b64ec($roomname);
+        if (!isset($_GET['showBot']) && isset($_COOKIE[COOKIE_A.$cookieName])) {
+            $_GET['showBot'] = $_COOKIE[COOKIE_A.$cookieName];
+        }
+
         $showBot = isset($_GET['showBot']) ? (bool)$_GET['showBot'] : true;
+
+        // 只在需要的时候设置cookie，如果不需要设置，就删除cookie
+        if (!$showBot) {
+            page::setCookie($cookieName, 0, 3600 * 24 * 3650);
+        } else {
+            page::setCookie($cookieName, 1, -3600 * 24 * 3650);
+        }
     }
 
     $tpl->assign('showBot', $showBot);
