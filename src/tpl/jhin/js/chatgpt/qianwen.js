@@ -189,6 +189,9 @@ const sessionListItemSelector = 'div.sessionItem--mW9BBf__';
 // 当前会话的CSS选择器
 const currentSessionSelector = 'div.sessionItem--mW9BBf__.activeItem--kvBaq8kL';
 
+// 会话名称选择器
+const sessionNameSelector = 'div.ellipsis-single';
+
 // 编辑、删除、确认、取消按钮的CSS选择器
 const actionButtonSelector = 'span.anticon.icon--VUkaCEcd';
 
@@ -504,11 +507,11 @@ async function renameSession(newName) {
         await sleep(100);
 
         actionButtons = document.querySelectorAll(actionButtonSelector);
-        if (!actionButtons[0]) {
+        if (!actionButtons[1]) {
             console.error('renameSession', '找不到确认按钮');
             return;
         }
-        actionButtons[0].click(); // 点击确认按钮
+        actionButtons[1].click(); // 点击确认按钮
         await sleep(100);
     } catch (ex) {
         console.error('会话重命名失败', ex);
@@ -530,7 +533,7 @@ async function findSession(name) {
     let sessions = getSessions();
     for (let i=0; i<sessions.length; i++) {
         // 重命名时会交替使用.和-，有可能保存上的是.而非-
-        if (sessions[i].innerText.replace('.', '-') == name) {
+        if (sessions[i].querySelector(sessionNameSelector).innerText.replace('.', '-') == name) {
             return sessions[i];
         }
     }
@@ -547,7 +550,7 @@ function getSessionName() {
     let session = getCurrentSession();
     if (session) {
         // 重命名时会交替使用.和-，有可能保存上的是.而非-
-        return session.innerText.replace('.', '-');
+        return session.querySelector(sessionNameSelector).innerText.replace('.', '-');
     }
     return null;
 }
@@ -1319,12 +1322,6 @@ async function runOnce() {
         for (let i=0; i<5 && document.querySelector(agreeButtonSelector); i++) {
             document.querySelector(agreeButtonSelector).click();
             await sleep(1000);
-        }
-
-        // 跳转到聊天列表页
-        if (location.href == 'https://qianwen.aliyun.com/') {
-            location.href = 'https://qianwen.aliyun.com/chat';
-            await sleep(5000);
         }
 
         // 等待新建对话按钮出现，出现了说明已经通过浏览器验证
