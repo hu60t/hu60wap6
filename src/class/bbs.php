@@ -1017,7 +1017,11 @@ class bbs
                 if (!$rs)
                     throw new bbsException('数据库错误，表' . DB_A . 'bbs_topic_content不可读', 500);
 
-                array_unshift($data, $rs->fetch());
+                $rs = $rs->fetch();
+                // 主楼层可能不存在
+                if ($rs) {
+                    array_unshift($data, $rs);
+                }
             }
 
         }
