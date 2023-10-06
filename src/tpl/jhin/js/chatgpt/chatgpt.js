@@ -202,9 +202,10 @@ const errorMaxLen = Math.max(...Object.keys(errorMap).map(x => x.length));
 // 模型对应关系（仅限 ChatGPT Plus 付费用户）
 const modelMap = {
     1 : 'text-davinci-002-render-sha', // @ChatGPT 1，对应GPT-3.5模型
-    2 : 'gpt-4-code-interpreter',      // @ChatGPT 2，对应GPT-4高级数据分析模型
+    2 : 'gpt-4-browsing',              // @ChatGPT 2，对应GPT-4网页浏览模型
     3 : 'gpt-4-plugins',               // @ChatGPT 3，对应GPT-4插件模型
-    4 : 'gpt-4',                       // @ChatGPT 4，对应GPT-4模型
+    4 : 'gpt-4',                       // @ChatGPT 4，对应GPT-4默认模型
+    5 : 'gpt-4-code-interpreter',      // @ChatGPT 5，对应GPT-4高级数据分析模型
 };
 
 /////////////////////////////////////////////////////////////
