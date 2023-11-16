@@ -217,10 +217,10 @@ const chatBoxSelector = 'textarea.w-full.m-0';
 const sendButtonSelector = 'button.absolute.p-1';
 
 // 正在输入动效（三个点）和加载中动效（转圈）的CSS选择器
-const replyNotReadySelector = 'div.text-2xl, .animate-spin';
+const replyNotReadySelector = 'button.border-gizmo-gray-950.p-1';
 
 // 顶部模型名称的CSS选择器
-const modelNameSelector = 'div.items-center.sm\\:justify-center span';
+const modelNameSelector = 'div.rounded-xl.text-lg.radix-state-open\\:bg-gray-50';
 
 // 停止生成/重新生成按钮
 const stopOrRegenButtonSelector = 'button.btn-neutral.border-0';
@@ -234,13 +234,16 @@ const chatLineSelector = 'div.flex-col.items-start';
 const chatReplySelector = 'div.markdown, div.text-gray-600.border-red-500';
 
 // 左侧会话列表项的CSS选择器
-const sessionListItemSelector = 'a.relative.rounded-md';
+const sessionListItemSelector = 'a.p-2.rounded-lg';
 
 // 当前会话的CSS选择器
-const currentSessionSelector = 'a.relative.rounded-md.bg-gray-100';
+const currentSessionSelector = 'a.p-2.rounded-lg.bg-token-surface-primary';
+
+// 菜单按钮
+const actionMenuSelector = 'button.right-0.hover\\:text-token-text-secondary';
 
 // 编辑、删除、确认、取消按钮的CSS选择器
-const actionButtonSelector = 'button.p-1.hover\\:text-token-text-primary';
+const actionButtonSelector = 'div.py-2\\.5.radix-disabled\\:opacity-50';
 
 // 确认删除按钮的CSS选择器
 const deleteButtonSelector = 'button.relative.btn-danger';
@@ -249,7 +252,7 @@ const deleteButtonSelector = 'button.relative.btn-danger';
 const sessionNameInputSelector = 'input.text-sm.w-full';
 
 // 新建会话按钮的CSS选择器
-const newChatButtonSelector = 'a.flex.px-3.border.flex-grow';
+const newChatButtonSelector = 'div.overflow-hidden.text-token-text-primary';
 
 // 模型下拉框的CSS选择器
 const modelListBoxSelector = 'ul.flex.w-full.list-none';
@@ -258,7 +261,7 @@ const modelListBoxSelector = 'ul.flex.w-full.list-none';
 const modelListItemSelector = 'div.items-center.rounded-lg';
 
 // “Upgrade to Plus”按钮的CSS选择器
-const upgradeToPlusSelector = 'span.gold-new-button.flex';
+const upgradeToPlusSelector = 'a.px-3.py-1.gizmo\\:px-1';
 
 // 会话列表“Show more”按钮的CSS选择器
 const showMoreButtonSelector = 'button.m-auto.mb-2';
@@ -502,6 +505,17 @@ async function newChatSession(name, modelIndex) {
     console.log('newChatSession', sessionIndex, modelIndex, 'end');
 }
 
+// 展开操作菜单
+// TODO: 操作无效，待修复
+async function popupActionMenu() {
+    getCurrentSession().click();
+    await sleep(100);
+    document.querySelector(actionMenuSelector).focus();
+    await sleep(100);
+    document.querySelector(actionMenuSelector).click();
+    await sleep(100);
+}
+
 // 删除当前会话
 async function deleteSession() {
     try {
@@ -513,12 +527,15 @@ async function deleteSession() {
         let sessionNum = getSessions().length;
 
         console.log('deleteSession', 'begin', sessionNum);
+
+        await popupActionMenu();
+
         let actionButtons = document.querySelectorAll(actionButtonSelector);
-        // 3个按钮：重命名、分享、删除
-        if (!actionButtons[1]) {
+        // 3个按钮：分享、重命名、删除
+        if (!actionButtons[2]) {
             throw "找不到删除按钮";
         }
-        actionButtons[1].click(); // 点击删除按钮
+        actionButtons[2].click(); // 点击删除按钮
         await sleep(100);
 
         actionButtons = document.querySelectorAll(deleteButtonSelector);
@@ -551,16 +568,19 @@ async function renameSession(newName) {
             await sleep(100);
         }
 
+        // 记录会话URL
+        setChatUrl(newName, getCurrentSession().href);
+
         console.log(getCurrentSession().innerText, '->', newName, getCurrentSession().innerText == newName);
-        getCurrentSession().click();
-        await sleep(100);
+
+        await popupActionMenu();
 
         let actionButtons = document.querySelectorAll(actionButtonSelector);
-        if (!actionButtons[0]) {
+        if (!actionButtons[1]) {
             console.error('renameSession', '找不到编辑按钮');
             return;
         }
-        actionButtons[0].click(); // 点击编辑按钮
+        actionButtons[1].click(); // 点击编辑按钮
         await sleep(100);
 
         let nameInput = document.querySelector(sessionNameInputSelector);
@@ -569,41 +589,19 @@ async function renameSession(newName) {
             return;
         }
 
+        // 输入内容
         nameInput.value = newName;
         await sleep(100);
 
-        actionButtons = document.querySelectorAll(actionButtonSelector);
-        if (!actionButtons[0]) {
-            console.error('renameSession', '找不到确认按钮');
-            return;
-        }
-        actionButtons[0].click(); // 点击确认按钮
+        // 把焦点转移到其他地方来保存输入内容
+        document.querySelector(chatBoxSelector).focus();
+
         // 等待重命名完成
         for (let i=0; i<10 && getCurrentSession()?.innerText != newName; i++) {
-            await sleep(500);
-        }
-
-        // 记录会话URL
-        let currentSession = getCurrentSession();
-        if (!/\/c\//.test(location.href)) {
-            // 点新会话再点当前会话，URL才会出现
-            document.querySelector(newChatButtonSelector).click();
-            // 等待加载完成
-            await sleep(1000);
-            let oldUrl = location.href;
-            // 回到当前会话
-            currentSession.click();
-            // 等待加载完成
-            for (let i=0; i<100 && location.href == oldUrl; i++) {
-                await sleep(100);
-            }
-        }
-        // 包含"/c/"说明URL出现了
-        if (/\/c\//.test(location.href)) {
-            console.log('会话URL:', newName, location.href);
-            setChatUrl(newName, location.href);
-        } else {
-            console.log('会话URL获取失败:', newName, location.href);
+            document.querySelector(chatBoxSelector).focus();
+            await sleep(100);
+            getCurrentSession().click();
+            await sleep(100);
         }
     } catch (ex) {
         console.error('会话重命名失败', ex);
@@ -849,7 +847,7 @@ async function sendText(text, uid, modelIndex) {
 
             // 点击发送按钮
             sendButton.click();
-            await sleep(1000);
+            await sleep(3000);
 
             i++;
             lastChatLine = getLastChatLine();
@@ -1097,7 +1095,9 @@ async function readReply() {
 
 // 判断响应是否结束
 function isFinished() {
-    return !document.querySelector(replyNotReadySelector);
+    return document.querySelector(chatBoxSelector)
+        && document.querySelector(sendButtonSelector)
+        && !document.querySelector(replyNotReadySelector);
 }
 
 // 自动重试
