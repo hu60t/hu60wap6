@@ -647,6 +647,12 @@ async function findSession(name) {
             console.log('从URL加载会话成功', localStorage.lastChatName, localStorage.lastChatUrl, location.href);
             delete localStorage.lastChatUrl;
             delete localStorage.lastChatName;
+
+            // 等待会话列表加载完成
+            for (let i=0; i<100 && !getCurrentSession(); i++) {
+                await sleep(100);
+            }
+
             return getCurrentSession();
         } else {
             console.error('从URL加载会话失败', localStorage.lastChatName, localStorage.lastChatUrl, location.href);
@@ -737,6 +743,7 @@ async function switchSession(name, modelIndex) {
 
     let session = await findSession(name);
     if (!session) {
+        console.error('未找到会话', name, session);
         await renameWant();
         return await newChatSession(name, modelIndex);
     }
@@ -959,7 +966,6 @@ async function readReply() {
     let sessionName = getSessionName();
     if (sessionName != lastSessionName) {
         wantRename = lastSessionName;
-        isNewSession = true;
     }
 
     // 加载 html 转 markdown 插件
