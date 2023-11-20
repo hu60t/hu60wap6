@@ -64,9 +64,8 @@ date_default_timezone_set('asia/shanghai');
  * 用户自动掉线时间
  *
  * 单位：秒
- * 2592000秒是30天
  */
-define('DEFAULT_LOGIN_TIMEOUT', 2592000);
+define('DEFAULT_LOGIN_TIMEOUT', 3600 * 24 * 365);
 
 
 /*页面默认设置*/
