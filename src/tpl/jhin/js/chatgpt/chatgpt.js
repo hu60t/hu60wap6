@@ -214,7 +214,7 @@ const modelMap = {
 const chatBoxSelector = 'textarea.w-full.m-0';
 
 // 发送按钮的CSS选择器
-const sendButtonSelector = 'button.absolute.p-1';
+const sendButtonSelector = 'button.absolute.p-0\\.5';
 
 // 正在输入动效（三个点）和加载中动效（转圈）的CSS选择器
 const replyNotReadySelector = 'button.border-gizmo-gray-950.p-1';
