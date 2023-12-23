@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2023-08-03 09:51:18
+-- 生成日期： 2023-12-23 22:56:38
 -- 服务器版本： 10.7.3-MariaDB-log
 -- PHP 版本： 8.1.7
 
@@ -324,7 +324,8 @@ ALTER TABLE `hu60_addin_chat_data`
   ADD KEY `room` (`room`),
   ADD KEY `time` (`time`),
   ADD KEY `room_time` (`room`,`time`) USING BTREE,
-  ADD KEY `room_lid` (`room`,`lid`) USING BTREE;
+  ADD KEY `room_lid` (`room`,`lid`) USING BTREE,
+  ADD KEY `flags_review` (`flags`,`review`);
 
 --
 -- 表的索引 `hu60_addin_chat_list`
@@ -349,7 +350,8 @@ ALTER TABLE `hu60_bbs_topic_content`
   ADD PRIMARY KEY (`id`),
   ADD KEY `topic_id` (`topic_id`),
   ADD KEY `reply_id` (`reply_id`),
-  ADD KEY `uid` (`uid`);
+  ADD KEY `uid` (`uid`),
+  ADD KEY `flags_review` (`flags`,`review`);
 
 --
 -- 表的索引 `hu60_bbs_topic_meta`
