@@ -1189,8 +1189,8 @@ class bbs
             case bbs::REVIEW_MACHINE_PASS:
                 return "发言${name}，仅登录用户可见。";
 
-            case bbs::REVIEW_NEED_REVIEW:
-                return "发言${name}，仅管理员、作者本人和被@的用户可见。";
+            /*case bbs::REVIEW_NEED_REVIEW:
+                return "发言${name}，仅管理员、作者本人和被@的用户可见。";*/
 
             default:
                 return "发言${name}，仅管理员和作者本人可见。";
