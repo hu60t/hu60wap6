@@ -969,9 +969,9 @@ HTML;
 		}
 
         $reviewLog = '';
-        if (!empty($data['reviewLog'])) {
+        if ($data['isAdmin'] && !empty($data['reviewLog'])) {
             $reviewLog = [];
-            for ($i = max(count($data['reviewLog'])-5, 0); $i < count($data['reviewLog']); $i++) {
+            for ($i = max(count($data['reviewLog'])-3, 0); $i < count($data['reviewLog']); $i++) {
                 $v = $data['reviewLog'][$i];
                 $user = $this->at([ 'uid' => $v['uid'] ]);
                 $action = bbs::getReviewActionName($v['stat']);
@@ -995,8 +995,8 @@ HTML;
         return <<<HTML
 <div class="tp info-box">
     $stat
-    <div class="review_log">$reviewLog</div>
 	$reviewForm
+    <div class="review_log">$reviewLog</div>
 </div>
 
 HTML;
