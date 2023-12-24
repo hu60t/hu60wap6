@@ -834,11 +834,11 @@ async function readReply() {
             // 代码高亮
             turndownService.addRule('highlightedCodeBlock', {
                 filter: function (node) {
-                    return node.nodeName === 'PRE' && node.querySelector('div.codeContainer--P0gL5w0X');
+                    return node.nodeName === 'PRE' && node.querySelector('div.sail-markdown-code-codeContainer');
                 },
                 replacement: function (content, node, options) {
                     console.log(content, node, options);
-                    var lang = node.querySelector('span.codeLang--OLsD9lW6')?.textContent || ''; // lang span可能不存在
+                    var lang = node.querySelector('span.sail-markdown-code-codeLang')?.textContent || ''; // lang span可能不存在
                     var code = node.querySelector('code').textContent;
                     var fence = (() => {
                         switch (replyCodeFormat) {
