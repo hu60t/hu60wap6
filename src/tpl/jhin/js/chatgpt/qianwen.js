@@ -12,7 +12,7 @@
 // @version      1.0
 // @description  把通义千问接入hu60wap6网站程序
 // @author       老虎会游泳
-// @match        https://qianwen.aliyun.com/*
+// @match        https://tongyi.aliyun.com/qianwen/*
 // @icon         https://hu60.cn/favicon.ico
 // @grant        none
 // ==/UserScript==
