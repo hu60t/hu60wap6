@@ -199,7 +199,7 @@ const deleteConfirmSelector = 'div.ant-modal-confirm-btns button.ant-btn';
 const sessionNameInputSelector = 'div[class*=" pages_list_item_active__"] input';
 
 // 新建会话按钮的CSS选择器
-const newChatButtonSelector = 'div[class^="pages_new_chat__"] span';
+const newChatButtonSelector = 'div[class^="pages_friend_btn__"]';
 
 // 模型下拉框的CSS选择器（讯飞星火没有模型选择功能，保留此接口备用）
 const modelListBoxSelector = 'hu60-none';
