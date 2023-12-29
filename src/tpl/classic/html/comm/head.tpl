@@ -7,7 +7,7 @@
 	{if $time !== null}<meta http-equiv="refresh" content="{$time};url={if $url === null}{page::geturl()|code}{else}{$url|code}{/if}"/>{/if}
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/default.css", true)}"/>
 	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl('css/github-markdown.css', true)}"/>
-	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css")}"/>
+	<link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("css/animate.css", true)}"/>
     <link rel="stylesheet" type="text/css" href="{$PAGE->getTplUrl("js/highlightjs/styles/default.css", true)}"/>
     <script src="{$PAGE->getTplUrl("js/jquery-3.1.1.min.js")|code}"></script>
 	<script src="{$PAGE->getTplUrl("js/humanize/humanize.js")}"></script>
