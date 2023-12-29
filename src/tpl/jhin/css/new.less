@@ -492,9 +492,6 @@ h1 {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        .topic-meta {
-            margin: 0px;
-        }
         .topic-reply-count{
             width: 5%;
             display: flex;
@@ -546,9 +543,6 @@ h1 {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            .topic-meta {
-                margin: 0px;
-            }
             .topic-reply-count{
                 width: 5%;
                 display: flex;
@@ -616,18 +610,20 @@ h1 {
         margin-left: 15px;
         margin-right: 15px;
     }
+    .topic-meta {
+        border-bottom: 2px solid var(--border-color-4);
+        padding-left: 10px;
+        padding-bottom: 5px;
+    }
 }
 
 
 .topic-content {
-    border-top: 2px solid var(--border-color-4);
     background-color: var(--background-color-1);
 }
 
 .topic-meta {
     font-size: 0.8rem;
-    margin-left: 10px;
-    margin-bottom: 5px;
     color: var(--color-5);
     display: flex;
     align-items: center;
@@ -792,8 +788,8 @@ h1 {
     transition: height 0.5s;
     transition-timing-function: ease;
     overflow: hidden;
-    padding-left: 20px;
-    padding-right: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .floor_fold_bar {
@@ -1062,8 +1058,8 @@ h1 {
     }
     /*回帖内容缩进*/
     .topic-content, .chat-content, .floor-content, .floor_content {
-        padding-left: 15px;
-        padding-right: 15px;
+        margin-left: 15px;
+        margin-right: 15px;
     }
     /*顶部头像*/
     .layout-header .header-inner .header-nav .userAvatar {

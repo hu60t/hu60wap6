@@ -539,7 +539,7 @@ latex-js {
 .topic-content, .chat-content, .floor-content, .floor_content {
   position: relative;
   overflow: hidden;
-  padding: 5px;
+  margin: 5px;
 }
 
 .userimg {
