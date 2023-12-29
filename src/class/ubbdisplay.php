@@ -987,6 +987,9 @@ HTML;
 HTML;
             }
             $reviewLog = implode("\n", $reviewLog);
+            $reviewLog = <<<HTML
+<div class="review_log">$reviewLog</div>
+HTML;
         }
 
         $stat = bbs::getReviewStatMessage($data['stat']);
@@ -996,7 +999,7 @@ HTML;
 <div class="tp info-box">
     $stat
 	$reviewForm
-    <div class="review_log">$reviewLog</div>
+    $reviewLog
 </div>
 
 HTML;
