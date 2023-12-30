@@ -598,7 +598,7 @@ class UbbDisplay extends XUBBP
     public function newline($data)
     {
         if (in_array($data['tag'], ['hr', '＜＜＜'])) {
-            return '<br/>--------<br/>';
+            return '<hr/>';
         } else {
             return '<br/>';
         }
