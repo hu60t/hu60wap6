@@ -1081,6 +1081,10 @@ HTML;
 
         $props = [];
         foreach ($data as $k=>$v) {
+            // 禁止宽度或高度大于8192
+            if (in_array($k, ['width', 'height']) && (int)$v > 8192) {
+                continue;
+            }
             $props[] = htmlspecialchars($k).'="'.htmlspecialchars($v).'"';
         }
 
