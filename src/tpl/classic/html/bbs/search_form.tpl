@@ -4,7 +4,7 @@
     <input type="submit" class="search-form-submit" value="搜索"/>
     <div>
         <label>
-            <input class="search_option" name="searchType" type="checkbox" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />搜索用户回复
+            <input class="search_option" name="searchType" type="checkbox" value="reply" {if $smarty.get.searchType=='reply'}checked{/if} />搜索回复
         </label>
         <label>
             <input class="search_option_multi" name="showBot" type="checkbox" value="1" {if $smarty.get.showBot == 1}checked{/if} />显示机器人聊天

@@ -235,9 +235,10 @@ class search
         $words = strtolower(trim(preg_replace("![ \r\n\t\x0c\xc2\xa0]+!us", ' ', (string)$words)));
         $userName = preg_replace('![^a-zA-Z0-9\p{Han}_-]!ius', '', (string)$userName);
 
-        if (!$onlyReview && $userName == '') {
+        // 允许搜索全部回复，因为搜索帖子时其实已经遍历了全部回复
+        /*if (!$onlyReview && $userName == '') {
             throw new Exception('勾选“搜索用户回复”时用户名不能为空');
-        }
+        }*/
 
         if ($userName != '') {
             $uinfo = new userinfo();
