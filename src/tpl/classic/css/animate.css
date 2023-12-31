@@ -1,15 +1,11 @@
 /* 跑马灯效果 */
 @keyframes marquee {
     from {
-        word-wrap: normal;
-        word-break: keep-all;
-        overflow: hidden;
-        text-indent: 100%;
+        position: relative;
+        left: 100%;
     }
     to   {
-        word-wrap: normal;
-        word-break: keep-all;
-        overflow: hidden;
-        text-indent: -10em;
+        position: relative;
+        left: -10em;
     }
 }
