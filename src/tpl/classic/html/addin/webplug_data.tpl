@@ -9,7 +9,7 @@
 			/*优先系统字体*/
 			sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
 			/*用于显示生僻字*/
-			'GlyphWikiFont';
+			'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
 	}
 	#webplug-name {
 		width: 90%;

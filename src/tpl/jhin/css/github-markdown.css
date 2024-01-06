@@ -101,7 +101,7 @@
     /*优先系统字体*/
     system-ui,fangsong,serif,monospace,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'GlyphWikiFont';
+    'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
@@ -217,7 +217,7 @@
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'GlyphWikiFont';
+    'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
   font-size: 1em;
 }
 
@@ -342,7 +342,7 @@
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'GlyphWikiFont';
+    'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
   line-height: 10px;
   color: var(--color-fg-default);
   vertical-align: middle;
@@ -436,7 +436,7 @@
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'GlyphWikiFont';
+    'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
   font-size: 12px;
 }
 
@@ -449,7 +449,7 @@
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'GlyphWikiFont';
+    'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
   font-size: 12px;
   word-wrap: normal;
 }
@@ -602,7 +602,7 @@
     /*优先系统字体*/
     emoji,sans-serif,serif,system-ui,fangsong,monospace,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'GlyphWikiFont';
+    'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
   font-size: 1em;
   font-style: normal !important;
   font-weight: 400;
@@ -1034,7 +1034,7 @@
     /*优先系统字体*/
     sans-serif,serif,system-ui,fangsong,emoji,math,cursive,fantasy,
     /*用于显示生僻字*/
-    'GlyphWikiFont';
+    'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
 }
 
 .markdown-body .task-list-item {
