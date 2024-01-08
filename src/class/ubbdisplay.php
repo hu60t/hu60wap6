@@ -995,14 +995,15 @@ HTML;
         $stat = bbs::getReviewStatMessage($data['stat']);
 
         // 注意：不要产生连续8个空格，否则markdown解析器会把后续内容当作代码块显示！
-        return <<<HTML
+        return $this->markdownProtect(<<<HTML
 <div class="tp info-box">
     $stat
 	$reviewForm
     $reviewLog
 </div>
 
-HTML;
+HTML
+);
 	}
 
     /*face 表情*/
