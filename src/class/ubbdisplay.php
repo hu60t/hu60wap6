@@ -997,9 +997,9 @@ HTML;
         // 注意：不要产生连续8个空格，否则markdown解析器会把后续内容当作代码块显示！
         return $this->markdownProtect(<<<HTML
 <div class="tp info-box">
-    $stat
-	$reviewForm
-    $reviewLog
+$stat
+$reviewForm
+$reviewLog
 </div>
 
 HTML
