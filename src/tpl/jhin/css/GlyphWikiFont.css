@@ -17,7 +17,7 @@
 }
 @font-face {
   font-family: 'GlyphWikiFont';
-  unicode-range: U+2000-2FFF;
+  unicode-range: U+2000-200C, U+200E-2FFF;
   font-display: swap;
   src: local('GlyphWikiFont-002000'),
        url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-002000.woff2') format('woff2'),
@@ -113,7 +113,7 @@
 }
 @font-face {
   font-family: 'GlyphWikiFont';
-  unicode-range: U+F000-FFFF;
+  unicode-range: U+F000-FDFF, U+FE10-FFFF;
   font-display: swap;
   src: local('GlyphWikiFont-00F000'),
        url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00F000.woff2') format('woff2'),
