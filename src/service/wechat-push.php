@@ -133,6 +133,12 @@ EOF;
                     @$uinfo->uid($arr['touid']);
                     printlog("{$uinfo->name} (uid: $arr[touid]) 收到$type");
 
+                    if (isset($arr['ctime']) && $arr['ctime'] + 3600 * 24 < time()) {
+                        $ctime = date('Y-m-d H:i:s', $arr['ctime']);
+                        printlog("发送时间 $ctime 超过24小时，不推送给用户");
+                        continue;
+                    }
+
                     $wxpusher->send($text, 1, true, $wechatBinds[$arr['touid']]['uid'], $url);
                 }
             }
