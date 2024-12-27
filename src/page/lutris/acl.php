@@ -28,9 +28,23 @@ $key = md5($data);
 $url .= (strpos($url, '?') === false) ? '?' : '&';
 $url .= 'k='.$key;
 $url = 'https://file.winegame.net'.$url;
-$url = json_encode($url);
+$jsUrl = json_encode($url);
+$htmlUrl = htmlentities($url);
 
-$script = "setTimeout(() => location.href = $url, 1000)";
+$script = <<<EOF
+let interval = setInterval(() => {
+    let time = document.querySelector('#time');
+    let t = time.innerText - 1;
+    if (t > 0) {
+        time.innerText = t;
+    } else {
+        clearInterval(interval);
+        document.querySelector('#link').innerHTML = '如果没有自动开始下载，<a href="$htmlUrl">点击此处开始下载</a>。';
+        location.href = $jsUrl;
+    }
+}, 1000);
+EOF;
+
 $jsPacker = new JavaScriptPacker($script);
 $script =$jsPacker->pack();
 
@@ -42,7 +56,7 @@ header('Content-Type: text/html; charset=UTF-8');
     <title>请稍候……</title>
 </head>
 <body>
-    正在跳转中……
+    <p id="link"><span id="time">3</span> 秒后自动开始下载……</p>
     <script>
         <?=$script?>
     </script>
