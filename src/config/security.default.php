@@ -278,7 +278,11 @@ $CC_REAL_IP = $_SERVER['REMOTE_ADDR'];
 /////////////////// Wine游戏助手的CDN反吸血模块 ///////////////////
 /////////////////// 防止PCDN运营者恶意刷流量 ///////////////////
 
+// 鉴权 key
 define('LUTRIS_ACL_KEY', '请用随机内容填充该key，但不要包含汉字以防乱码导致key不匹配');
+
+// 跳转的 URL 前缀
+define('LUTRIS_ACL_URL_PREFIX', 'https://file.winegame.net');
 
 /************************************
 

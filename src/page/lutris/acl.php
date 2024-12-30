@@ -27,7 +27,8 @@ $key = md5($data);
 
 $url .= (strpos($url, '?') === false) ? '?' : '&';
 $url .= 'k='.$key;
-$url = 'https://file.winegame.net'.$url;
+if ($url[0] != '/') $url = '/'.$url;
+$url = LUTRIS_ACL_URL_PREFIX.$url;
 $jsUrl = json_encode($url);
 $htmlUrl = htmlentities($url);
 
