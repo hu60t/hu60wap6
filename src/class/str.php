@@ -250,5 +250,15 @@ class str
         }
         return $bitset;
     }
+
+    // 把所有字符都转换为HTML实体(包括字母数字)
+    public static function htmlentities($str) {
+        $result = '';
+        $len = mb_strlen($str, 'utf-8');
+        for ($i=0; $i<$len; $i++) {
+            $result .= '&#x'.bin2hex(mb_substr($str, $i, 1, 'utf-8')).';';
+        }
+        return $result;
+    }
 //class str end
 }

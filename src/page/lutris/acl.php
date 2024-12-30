@@ -29,8 +29,7 @@ $url .= (strpos($url, '?') === false) ? '?' : '&';
 $url .= 'k='.$key;
 if ($url[0] != '/') $url = '/'.$url;
 $url = LUTRIS_ACL_URL_PREFIX.$url;
-$jsUrl = json_encode($url);
-$htmlUrl = htmlentities($url);
+$htmlUrl = str::htmlentities($url);
 
 $script = <<<EOF
 let interval = setInterval(() => {
@@ -40,8 +39,8 @@ let interval = setInterval(() => {
         time.innerText = t;
     } else {
         clearInterval(interval);
-        document.querySelector('#link').innerHTML = '如果没有自动开始下载，<a href="$htmlUrl">点击此处开始下载</a>。';
-        location.href = $jsUrl;
+        document.querySelector('#link').innerHTML = '如果没有自动开始下载，<a id="url" href="$htmlUrl">点击此处开始下载</a>。';
+        location.href = document.querySelector('#url').href;
     }
 }, 1000);
 EOF;
