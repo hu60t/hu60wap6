@@ -275,3 +275,8 @@ $CC_REAL_IP = $_SERVER['REMOTE_ADDR'];
 #$CC_REAL_IP = $_SERVER['HTTP_CF_CONNECTING_IP'];
 
 
+/////////////////// Wine游戏助手的CDN反吸血模块 ///////////////////
+/////////////////// 防止PCDN运营者恶意刷流量 ///////////////////
+
+define('LUTRIS_ACL_KEY', 'abcd1234请用随机内容填充abcd1234');
+
