@@ -278,5 +278,81 @@ $CC_REAL_IP = $_SERVER['REMOTE_ADDR'];
 /////////////////// Wine游戏助手的CDN反吸血模块 ///////////////////
 /////////////////// 防止PCDN运营者恶意刷流量 ///////////////////
 
-define('LUTRIS_ACL_KEY', 'abcd1234请用随机内容填充abcd1234');
+define('LUTRIS_ACL_KEY', '请用随机内容填充该key，但不要包含汉字以防乱码导致key不匹配');
+
+/************************************
+
+配套的 openresty / tengine 代码：
+
+    location / {
+      rewrite_by_lua_block {
+---------------------------------------------------------------------------------
+local LUTRIS_ACL_KEY = '与 LUTRIS_ACL_KEY 的值保持一致'
+local ALLOW_UA_LIST = {'User-Agent白名单，正则表达式数组，匹配的User-Agent可以直接下载，不跳转鉴权'}
+
+local function is_valid_key(key, url, ua)
+    local t = ngx.time()
+    local tMod = t - (t % 30)
+
+    local signData = url .. LUTRIS_ACL_KEY .. tostring(tMod) .. ua
+    local sign = ngx.md5(signData)
+
+    return key == sign
+end
+
+local function is_allow_ua(ua)
+    for _, allowUA in ipairs(ALLOW_UA_LIST) do
+        if ngx.re.match(ua, allowUA) then
+            return true
+        end
+    end
+    return false
+end
+
+local ua = ngx.var.http_user_agent
+local key = ngx.var.arg_k
+local uri = ngx.var.uri
+
+if not is_allow_ua(ua) then
+    if not is_valid_key(key, uri, ua) then
+        local newUrl = 'https://hu60.cn/q.php/lutris.acl.html?u=' .. ngx.escape_uri(uri)
+        return ngx.redirect(newUrl)
+    end
+end
+---------------------------------------------------------------------------------
+      }
+    }
+
+或者如果使用阿里云CDN，这是阿里云EdgeScript代码：
+
+LUTRIS_ACL_KEY = '与 LUTRIS_ACL_KEY 的值保持一致'
+ALLOW_UA_LIST = ['User-Agent白名单，正则表达式数组，匹配的User-Agent可以直接下载，不跳转鉴权']
+
+def is_valid_key(key, url, ua) {
+    t = now()
+    tMod = sub(t, mod(t, 30))
+
+    signData = concat(url, LUTRIS_ACL_KEY, tostring(tMod), ua)
+    sign = md5(signData)
+
+    return eq(key, sign)
+}
+
+def is_allow_ua(ua) {
+    for _, allowUA in ALLOW_UA_LIST {
+        if match_re(ua, allowUA) {
+            return true
+        }
+    }
+    return false
+}
+
+if not(is_allow_ua($http_user_agent)) {
+    if not(is_valid_key(req_uri_arg('k'), $uri, $http_user_agent)) {
+        newUrl = concat('https://hu60.cn/q.php/lutris.acl.html?u=', url_escape($uri))
+        rewrite(newUrl, 'enhance_redirect')
+    }
+}
+
+************************************/
 
