@@ -103,7 +103,7 @@ html, input, textarea, pre, code {
 }
 
 html, input, textarea {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans","Noto Sans CJK SC","WenQuanYi Micro Hei",Helvetica,Arial,sans-serif,
+  font-family: "HarmonyOS Sans",-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans","Noto Sans CJK SC","WenQuanYi Micro Hei",Helvetica,Arial,sans-serif,
     "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/
     system-ui,fangsong,serif,monospace,emoji,math,cursive,fantasy,
@@ -111,7 +111,7 @@ html, input, textarea {
     'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
 }
 code {
-  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,
+  font-family: "HarmonyOS Sans Mono",ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,
     "Noto Sans Mono","Noto Sans Mono CJK SC","WenQuanYi Micro Hei Mono",monospace,
     "Apple Color Emoji","Segoe UI Emoji","Twemoji Mozilla","Noto Color Emoji",
     /*优先系统字体*/

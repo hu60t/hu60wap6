@@ -123,10 +123,10 @@ code {
 html,
 input,
 textarea {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", "Noto Sans CJK SC", "WenQuanYi Micro Hei", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Twemoji Mozilla", "Noto Color Emoji", /*优先系统字体*/ system-ui, fangsong, serif, monospace, emoji, math, cursive, fantasy, /*用于显示生僻字*/ 'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
+  font-family: "HarmonyOS Sans",-apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", "Noto Sans CJK SC", "WenQuanYi Micro Hei", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Twemoji Mozilla", "Noto Color Emoji", /*优先系统字体*/ system-ui, fangsong, serif, monospace, emoji, math, cursive, fantasy, /*用于显示生僻字*/ 'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
 }
 code {
-  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, "Noto Sans Mono", "Noto Sans Mono CJK SC", "WenQuanYi Micro Hei Mono", monospace, "Apple Color Emoji", "Segoe UI Emoji", "Twemoji Mozilla", "Noto Color Emoji", /*优先系统字体*/ sans-serif, serif, system-ui, fangsong, emoji, math, cursive, fantasy, /*用于显示生僻字*/ 'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
+  font-family: "HarmonyOS Sans Mono",ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, "Noto Sans Mono", "Noto Sans Mono CJK SC", "WenQuanYi Micro Hei Mono", monospace, "Apple Color Emoji", "Segoe UI Emoji", "Twemoji Mozilla", "Noto Color Emoji", /*优先系统字体*/ sans-serif, serif, system-ui, fangsong, emoji, math, cursive, fantasy, /*用于显示生僻字*/ 'MiSans Normal', 'MiSans L3', 'GlyphWikiFont';
 }
 ::-webkit-scrollbar {
   width: 10px;
