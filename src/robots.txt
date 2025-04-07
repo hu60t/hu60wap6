@@ -1,2 +1,4 @@
 User-Agent: *
+Disallow: /q.php/user.login.html?u=*
+Disallow: /q.php/user.reg.html?u=*
 Allow: /
