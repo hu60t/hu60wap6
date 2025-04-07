@@ -7,3 +7,6 @@
 [submodule "src/tpl/jhin/js/heif-web-display"]
 	path = src/tpl/jhin/js/heif-web-display
 	url = https://gitee.com/hu60t/heif-web-display.git
+[submodule "src/fonts"]
+	path = src/fonts
+	url = https://gitee.com/hu60t/hu60fonts.git

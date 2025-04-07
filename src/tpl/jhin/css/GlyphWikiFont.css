@@ -4,358 +4,358 @@
   unicode-range: U+0000-0FFF;
   font-display: swap;
   src: local('GlyphWikiFont-000000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-000000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-000000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-000000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-000000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+1000-1FFF;
   font-display: swap;
   src: local('GlyphWikiFont-001000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-001000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-001000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-001000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-001000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+2000-200C, U+200E-2FFF;
   font-display: swap;
   src: local('GlyphWikiFont-002000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-002000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-002000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-002000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-002000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+3000-3FFF;
   font-display: swap;
   src: local('GlyphWikiFont-003000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-003000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-003000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-003000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-003000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+4000-4FFF;
   font-display: swap;
   src: local('GlyphWikiFont-004000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-004000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-004000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-004000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-004000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+5000-5FFF;
   font-display: swap;
   src: local('GlyphWikiFont-005000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-005000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-005000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-005000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-005000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+6000-6FFF;
   font-display: swap;
   src: local('GlyphWikiFont-006000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-006000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-006000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-006000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-006000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+7000-7FFF;
   font-display: swap;
   src: local('GlyphWikiFont-007000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-007000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-007000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-007000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-007000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+8000-8FFF;
   font-display: swap;
   src: local('GlyphWikiFont-008000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-008000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-008000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-008000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-008000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+9000-9FFF;
   font-display: swap;
   src: local('GlyphWikiFont-009000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-009000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-009000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-009000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-009000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+A000-AFFF;
   font-display: swap;
   src: local('GlyphWikiFont-00A000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00A000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00A000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00A000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00A000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+B000-BFFF;
   font-display: swap;
   src: local('GlyphWikiFont-00B000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00B000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00B000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00B000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00B000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+C000-CFFF;
   font-display: swap;
   src: local('GlyphWikiFont-00C000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00C000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00C000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00C000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00C000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+D000-DFFF;
   font-display: swap;
   src: local('GlyphWikiFont-00D000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00D000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00D000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00D000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00D000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+F000-FDFF, U+FE10-FFFF;
   font-display: swap;
   src: local('GlyphWikiFont-00F000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00F000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-00F000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00F000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-00F000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+10000-10FFF;
   font-display: swap;
   src: local('GlyphWikiFont-010000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-010000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-010000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-010000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-010000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+11000-11FFF;
   font-display: swap;
   src: local('GlyphWikiFont-011000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-011000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-011000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-011000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-011000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+12000-12FFF;
   font-display: swap;
   src: local('GlyphWikiFont-012000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-012000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-012000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-012000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-012000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+13000-13FFF;
   font-display: swap;
   src: local('GlyphWikiFont-013000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-013000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-013000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-013000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-013000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+16000-16FFF;
   font-display: swap;
   src: local('GlyphWikiFont-016000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-016000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-016000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-016000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-016000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+17000-17FFF;
   font-display: swap;
   src: local('GlyphWikiFont-017000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-017000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-017000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-017000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-017000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+18000-18FFF;
   font-display: swap;
   src: local('GlyphWikiFont-018000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-018000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-018000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-018000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-018000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+1A000-1AFFF;
   font-display: swap;
   src: local('GlyphWikiFont-01A000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01A000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01A000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01A000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01A000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+1B000-1BFFF;
   font-display: swap;
   src: local('GlyphWikiFont-01B000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01B000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01B000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01B000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01B000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+1D000-1DFFF;
   font-display: swap;
   src: local('GlyphWikiFont-01D000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01D000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01D000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01D000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01D000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+1E000-1EFFF;
   font-display: swap;
   src: local('GlyphWikiFont-01E000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01E000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01E000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01E000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01E000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+1F000-1F1E5, U+1F200-1FFFF;
   font-display: swap;
   src: local('GlyphWikiFont-01F000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01F000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-01F000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01F000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-01F000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+20000-20FFF;
   font-display: swap;
   src: local('GlyphWikiFont-020000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-020000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-020000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-020000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-020000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+21000-21FFF;
   font-display: swap;
   src: local('GlyphWikiFont-021000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-021000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-021000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-021000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-021000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+22000-22FFF;
   font-display: swap;
   src: local('GlyphWikiFont-022000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-022000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-022000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-022000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-022000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+23000-23FFF;
   font-display: swap;
   src: local('GlyphWikiFont-023000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-023000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-023000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-023000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-023000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+24000-24FFF;
   font-display: swap;
   src: local('GlyphWikiFont-024000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-024000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-024000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-024000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-024000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+25000-25FFF;
   font-display: swap;
   src: local('GlyphWikiFont-025000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-025000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-025000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-025000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-025000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+26000-26FFF;
   font-display: swap;
   src: local('GlyphWikiFont-026000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-026000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-026000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-026000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-026000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+27000-27FFF;
   font-display: swap;
   src: local('GlyphWikiFont-027000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-027000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-027000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-027000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-027000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+28000-28FFF;
   font-display: swap;
   src: local('GlyphWikiFont-028000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-028000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-028000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-028000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-028000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+29000-29FFF;
   font-display: swap;
   src: local('GlyphWikiFont-029000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-029000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-029000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-029000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-029000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+2A000-2AFFF;
   font-display: swap;
   src: local('GlyphWikiFont-02A000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02A000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02A000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02A000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02A000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+2B000-2BFFF;
   font-display: swap;
   src: local('GlyphWikiFont-02B000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02B000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02B000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02B000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02B000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+2C000-2CFFF;
   font-display: swap;
   src: local('GlyphWikiFont-02C000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02C000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02C000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02C000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02C000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+2D000-2DFFF;
   font-display: swap;
   src: local('GlyphWikiFont-02D000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02D000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02D000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02D000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02D000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+2E000-2EFFF;
   font-display: swap;
   src: local('GlyphWikiFont-02E000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02E000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02E000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02E000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02E000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+2F000-2FFFF;
   font-display: swap;
   src: local('GlyphWikiFont-02F000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02F000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-02F000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02F000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-02F000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+30000-30FFF;
   font-display: swap;
   src: local('GlyphWikiFont-030000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-030000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-030000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-030000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-030000.ttf') format('truetype');
 }
 @font-face {
   font-family: 'GlyphWikiFont';
   unicode-range: U+31000-31FFF;
   font-display: swap;
   src: local('GlyphWikiFont-031000'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-031000.woff2') format('woff2'),
-       url('https://file.hu60.cn/fonts/GlyphWikiFont/GlyphWikiFont-031000.ttf') format('truetype');
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-031000.woff2') format('woff2'),
+       url('/fonts/GlyphWikiFont/GlyphWikiFont-031000.ttf') format('truetype');
 }
