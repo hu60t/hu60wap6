@@ -34,9 +34,6 @@
 	<title>{$title|code}</title>
 </head>
 <body>
-<div style="text-align: left; width: 100%">
-	<img src="/img/ShenQieAiDao.png" style="width: auto; height: auto; max-width: 100%; max-height: 100%; opacity: {$grayRate}; display: {if $grayRate > 0}inline{else}none{/if}" />
-</div>
 <hr/>
 <a id="top" href="#bottom" accesskey="6"></a>
 {if !$base}

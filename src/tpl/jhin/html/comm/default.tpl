@@ -70,10 +70,6 @@
     </div>
 </header>
 <div class="container">
-	<div style="text-align: center; width: 100%">
-		<img src="/img/ShenQieAiDao.png" style="width: auto; height: auto; max-width: 100%; max-height: 100%; opacity: {$grayRate}; display: {if $grayRate > 0}inline{else}none{/if}" />
-	</div>
-
     <div class="layout-inner">
 
         <!-- 页眉开始 -->
