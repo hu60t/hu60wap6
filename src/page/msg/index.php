@@ -245,7 +245,10 @@ switch ($action) {
         $chatUser->uid($chatUid);
         $tpl->assign('chatUser', $chatUser);
 
-        $size = 5;
+        $order = (isset($_GET['order']) && $_GET['order'] == 'asc') ? 'ASC' : 'DESC';
+
+        $size = page::pageSize(1, 5, 1000);
+
         $count = $msg->chatCount($chatUid);
         $maxP = ceil($count / $size);
         $tpl->assign('chatCount', $count);
@@ -262,7 +265,7 @@ switch ($action) {
 
         $offset = ($p - 1) * $size;
 
-        $list = $msg->chatList($chatUid, $offset, $size);
+        $list = $msg->chatList($chatUid, $offset, $size, null, '*', $order);
         $tpl->assign('chatList', $list);
 
         $tpl->assign('uinfo', $uinfo);

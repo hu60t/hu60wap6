@@ -65,7 +65,7 @@ class msg
         return $n[0];
     }
 
-    public function msgList($type, $offset, $size, $read = null, $fetch = '*', $fromSelf = false, $byUid = null, $showBot = true)
+    public function msgList($type, $offset, $size, $read = null, $fetch = '*', $fromSelf = false, $byUid = null, $showBot = true, $order = 'DESC')
     {
         $uid = $this->user->uid;
 
@@ -88,7 +88,7 @@ class msg
         $data[] = $offset;
         $data[] = $size;
 
-        $rs = $this->db->select($fetch, 'msg', 'WHERE ' . $direction . '=? AND type=?'.$where.' ORDER BY ctime DESC LIMIT ?,?', $data);
+        $rs = $this->db->select($fetch, 'msg', 'WHERE ' . $direction . '=? AND type=?'.$where.' ORDER BY ctime '.$order.' LIMIT ?,?', $data);
 
         if (!$rs) return false;
 
@@ -123,7 +123,7 @@ class msg
         return $rs[0];
     }
 
-    public function chatList($chatUid, $offset, $size, $read = null, $fetch = '*')
+    public function chatList($chatUid, $offset, $size, $read = null, $fetch = '*', $order = 'DESC')
     {
         $uid = $this->user->uid;
 
@@ -131,7 +131,7 @@ class msg
             $isread = 'AND isread=' . (int)$read;
         }
 
-        $rs = $this->db->select($fetch, 'msg', 'WHERE ((touid=? AND byuid=?) OR (byuid=? AND touid=?)) ' . $isread . ' AND type=? ORDER BY ctime DESC LIMIT ?,?', $uid, $chatUid, $uid, $chatUid, self::TYPE_MSG, $offset, $size);
+        $rs = $this->db->select($fetch, 'msg', 'WHERE ((touid=? AND byuid=?) OR (byuid=? AND touid=?)) ' . $isread . ' AND type=? ORDER BY ctime '.$order.' LIMIT ?,?', $uid, $chatUid, $uid, $chatUid, self::TYPE_MSG, $offset, $size);
 
         if (!$rs) return false;
 
