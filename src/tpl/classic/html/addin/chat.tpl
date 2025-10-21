@@ -49,11 +49,11 @@
     {$roomname}
     <span class="pt_c"><a href="addin.chat.{$bid}">切换聊天室</a></span>
     {if $showBot}
-        <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=0&amp;rand={time()}">隐藏机器人聊天</a></span>
+        <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=0&amp;r={time()}">隐藏机器人聊天</a></span>
     {else}
-        <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=1&amp;rand={time()}">显示机器人聊天</a></span>
+        <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot=1&amp;r={time()}">显示机器人聊天</a></span>
     {/if}
-    <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot={(int)$showBot}&amp;rand={time()}">刷新</a></span>
+    <span class="pt_y"><a href="addin.chat.{$PAGE->ext[0]|code}.{$bid}?showBot={(int)$showBot}&amp;r={time()}">刷新</a></span>
 </div>
 <div class="failure">{$err_msg}</div>
 {if !$onlyReview}
