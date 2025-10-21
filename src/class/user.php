@@ -192,7 +192,7 @@ class user extends userinfo
             return TRUE;
         }
 
-        $url = 'user.login.' . $PAGE->bid . '?u=' . urlencode($PAGE->geturl());
+        $url = $_SERVER['SCRIPT_NAME'] . '/user.login.' . $PAGE->bid . '?u=' . urlencode($PAGE->geturl());
         if (!empty($_GET['_origin'])) {
             $url .= '&_origin=' . urlencode($_GET['_origin']);
         }
