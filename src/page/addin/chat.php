@@ -1,6 +1,10 @@
 <?php
 $tpl = $PAGE->start();
 $USER->start();
+
+// 改为登录可见，不断被爬虫爬导致网站太慢
+if (!$USER->islogin) $USER->gotoLogin();
+
 $user = $USER;
 $chat = new chat($USER);
 if ($PAGE->ext[0]) {
