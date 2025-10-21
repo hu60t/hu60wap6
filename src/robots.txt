@@ -1,4 +1,8 @@
 User-Agent: *
-Disallow: /q.php/user.login.html?u=*
-Disallow: /q.php/user.reg.html?u=*
+Disallow: /q.php/user.login.*
+Disallow: /q.php/user.reg.*
+Disallow: /q.php/addin.chat.*
+Disallow: /q.php/*/user.login.*
+Disallow: /q.php/*/user.reg.*
+Disallow: /q.php/*/addin.chat.*
 Allow: /
