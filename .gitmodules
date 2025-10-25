@@ -1,12 +1,12 @@
 [submodule "src/tpl/classic/js/bce-bos-uploader"]
 	path = src/tpl/classic/js/bce-bos-uploader
-	url = https://gitee.com/SwimmingTiger/bce-bos-uploader.git
+	url = https://github.com/SwimmingTiger/bce-bos-uploader.git
 [submodule "src/nonfree"]
 	path = src/nonfree
-	url = https://gitee.com/hu60t/hu60wap6-nonfree.git
+	url = https://github.com/hu60t/hu60wap6-nonfree.git
 [submodule "src/tpl/jhin/js/heif-web-display"]
 	path = src/tpl/jhin/js/heif-web-display
-	url = https://gitee.com/hu60t/heif-web-display.git
+	url = https://github.com/hu60t/heif-web-display.git
 [submodule "src/fonts"]
 	path = src/fonts
-	url = https://gitee.com/hu60t/hu60fonts.git
+	url = https://github.com/hu60t/hu60fonts.git
