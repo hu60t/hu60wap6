@@ -68,7 +68,7 @@ if ($PAGE->ext[0]) {
                         //清空发言框的内容
                         $_POST['content'] = '';
 
-                        $url = "$PAGE[cid].$PAGE[pid].$PAGE[extid]$PAGE[bid]?rand=".time();
+                        $url = "$PAGE[cid].$PAGE[pid].$PAGE[extid]$PAGE[bid]?r=".time();
                         if ($PAGE->bid != 'json') {
                             // 发送一个302跳转以防浏览器重发POST
                             header('Location: '.$url);
