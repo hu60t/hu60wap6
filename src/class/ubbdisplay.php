@@ -1049,7 +1049,7 @@ HTML
         $id ++;
 
         $data = $data['data'];
-        $data['allow'] = 'fullscreen';
+        $data['allow'] = 'fullscreen; local-fonts';
         $data['sandbox'] = 'allow-forms allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts';
 		if (!isset($data['srcdoc'])) {
 			$data['sandbox'] .= ' allow-same-origin';
