@@ -19,7 +19,7 @@ hu60wap6 的主要功能有：论坛、聊天室、内信、@Ta、文件图片�
 -----------------
 本项目包含两个子模块，所以建议采用git来克隆项目及其所有子模块，命令如下：
 ```
-git clone --recursive https://gitee.com/hu60t/hu60wap6.git
+git clone --recursive https://github.com/hu60t/hu60wap6.git
 ```
 
 如果你已经克隆了项目，但不包含子模块，可以通过以下命令获取：
