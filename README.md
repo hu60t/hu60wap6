@@ -22,6 +22,14 @@ hu60wap6 的主要功能有：论坛、聊天室、内信、@Ta、文件图片�
 git clone --recursive https://gitee.com/hu60t/hu60wap6.git
 ```
 
+或者如果你想从Github克隆：
+```
+git clone https://github.com/hu60t/hu60wap6.git
+cd hu60wap6
+sed -i s/gitee/github/g .gitmodules
+git submodule update --init --recursive
+```
+
 如果你已经克隆了项目，但不包含子模块，可以通过以下命令获取：
 ```
 git submodule init
