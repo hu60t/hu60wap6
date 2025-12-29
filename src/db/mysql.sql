@@ -253,7 +253,7 @@ CREATE TABLE `hu60_user` (
   `mail` varchar(255) DEFAULT NULL,
   `regphone` varchar(20) CHARACTER SET ascii DEFAULT NULL,
   `permission` int(10) UNSIGNED NOT NULL DEFAULT 64,
-  `access` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `access` int(10) UNSIGNED NOT NULL DEFAULT 1,
   `active` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 

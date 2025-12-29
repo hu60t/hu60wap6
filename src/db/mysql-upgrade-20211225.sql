@@ -3,7 +3,7 @@
 
 -- 2021-02-21
 -- 添加访问权限字段
-ALTER TABLE `hu60_user` ADD `access` INT UNSIGNED NOT NULL DEFAULT '0' AFTER `permission`;
+ALTER TABLE `hu60_user` ADD `access` INT UNSIGNED NOT NULL DEFAULT '1' AFTER `permission`;
 ALTER TABLE `hu60_addin_chat_list` ADD `access` INT UNSIGNED NOT NULL DEFAULT '0' AFTER `ztime`;
 ALTER TABLE `hu60_bbs_forum_meta` ADD `access` INT UNSIGNED NOT NULL DEFAULT '0' AFTER `notopic`;
 ALTER TABLE `hu60_bbs_topic_meta` ADD `access` INT UNSIGNED NOT NULL DEFAULT '0' AFTER `locked`;
