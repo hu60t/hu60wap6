@@ -2,6 +2,7 @@ User-Agent: *
 Disallow: /q.php/user.login*
 Disallow: /q.php/user.reg*
 Disallow: /q.php/addin.chat*
+Disallow: /q.php/addin.speedtest*
 Allow: /q.php/addin*
 Allow: /q.php/admin*
 Allow: /q.php/api*
