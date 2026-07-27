@@ -6,6 +6,13 @@ class JsonPage {
 	protected const USER_EXTDATA_AVATAR = 2;
 	protected const USER_EXTDATA_SIGNATURE = 4;
 	protected const USER_EXTDATA_CONTACT = 8;
+	protected const USER_EXTDATA_REGTIME = 16;
+	protected const USER_EXTDATA_BLOCK_POST_STAT = 32;
+	protected const USER_EXTDATA_IS_FOLLOW = 64;
+	protected const USER_EXTDATA_IS_BLOCK = 128;
+	protected const USER_EXTDATA_IS_NO_DISTURB = 256;
+	protected const USER_EXTDATA_HIDE_USER_CSS = 512;
+	protected const USER_EXTDATA_PERMISSIONS = 1024;
 
 	public static function isJsonPage() {
 		global $PAGE;
@@ -29,6 +36,11 @@ class JsonPage {
 	}
 
 	public static function readUserExtraData(&$data, $flag) {
+		global $USER;
+		$userRelationshipService = null;
+		if ($USER->islogin) {
+			$userRelationshipService = new UserRelationshipService($USER);
+		}
 		$uinfo = new UserInfo();
 		foreach ($data as $k => &$v) {
 			if (is_array($v)) {
@@ -49,6 +61,29 @@ class JsonPage {
 				}
 				if ($flag & self::USER_EXTDATA_CONTACT) {
 					$data[$prefix.'_u_contact'] = $uinfo->getinfo('contact');
+				}
+				if ($flag & self::USER_EXTDATA_REGTIME) {
+					$data[$prefix.'_u_regtime'] = $uinfo->regtime;
+				}
+				if ($flag & self::USER_EXTDATA_BLOCK_POST_STAT) {
+					$data[$prefix.'_u_blockPostStat'] = $uinfo->hasPermission(UserInfo::DEBUFF_BLOCK_POST);
+				}
+				if ($USER->islogin) {
+					if ($flag & self::USER_EXTDATA_IS_FOLLOW) {
+						$data[$prefix.'_u_isFollow'] = $userRelationshipService->isFollow($uinfo->uid);
+					}
+					if ($flag & self::USER_EXTDATA_IS_BLOCK) {
+						$data[$prefix.'_u_isBlock'] = $userRelationshipService->isBlock($uinfo->uid);
+					}
+					if ($flag & self::USER_EXTDATA_IS_NO_DISTURB) {
+						$data[$prefix.'_u_isNoDisturb'] = $userRelationshipService->isNoDisturb($uinfo->uid);
+					}
+					if ($flag & self::USER_EXTDATA_HIDE_USER_CSS) {
+						$data[$prefix.'_u_hideUserCSS'] = (bool)$USER->getinfo("ubb.hide_user_css.$uinfo[uid]");
+					}
+				}
+				if ($flag & self::USER_EXTDATA_PERMISSIONS) {
+					$data[$prefix.'_u_permission'] = $uinfo->getPermissionArray();
 				}
 			}
 		}
@@ -120,6 +155,13 @@ class JsonPage {
 		if (in_array('avatar', $sets)) $flag += self::USER_EXTDATA_AVATAR;
 		if (in_array('sign', $sets) || in_array('signature', $sets)) $flag += self::USER_EXTDATA_SIGNATURE;
 		if (in_array('contact', $sets)) $flag += self::USER_EXTDATA_CONTACT;
+		if (in_array('regtime', $sets)) $flag += self::USER_EXTDATA_REGTIME;
+		if (in_array('blockPostStat', $sets)) $flag += self::USER_EXTDATA_BLOCK_POST_STAT;
+		if (in_array('isFollow', $sets)) $flag += self::USER_EXTDATA_IS_FOLLOW;
+		if (in_array('isBlock', $sets)) $flag += self::USER_EXTDATA_IS_BLOCK;
+		if (in_array('isNoDisturb', $sets)) $flag += self::USER_EXTDATA_IS_NO_DISTURB;
+		if (in_array('hideUserCSS', $sets)) $flag += self::USER_EXTDATA_HIDE_USER_CSS;
+		if (in_array('permissions', $sets)) $flag += self::USER_EXTDATA_PERMISSIONS;
 
 		if ($flag == 0) {
 			return;
