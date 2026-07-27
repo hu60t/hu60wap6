@@ -8,6 +8,7 @@
     'blockPostStat' => $blockPostStat,
     'isFollow' => $isFollow,
     'isBlock' => $isBlock,
+    'isNoDisturb' => $isNoDisturb,
     'hideUserCSS' => $hideUserCSS,
     'permissions' => $uinfo->getPermissionArray()
     ]}
