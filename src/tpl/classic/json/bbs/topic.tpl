@@ -45,6 +45,7 @@
 	'canSink' => $bbs->canSink($tMeta.uid,true),
 	'canSetEssence' => $bbs->canSetEssence(true),
 	'canMove' => $bbs->canMove($tMeta.uid,true),
+        'isFavoriteTopic' => $bbs->isFavoriteTopic($tid),
 	'tContents'=>$tContents
 ]}
 
