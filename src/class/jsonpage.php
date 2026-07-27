@@ -80,6 +80,9 @@ class JsonPage {
 				if (strpos($myself, 'newAtInfo') !== FALSE) {
 					$data['_myself']['newAtInfo'] = msg::getInstance($USER)->newAtInfo();
 				}
+				if (strpos($myself, 'permissions') !== FALSE) {
+					$data['_myself']['permissions'] = $USER->getPermissionArray();
+				}
 			}
 			// 聊天室新消息
 			if (strpos($myself, 'newChats') !== FALSE) {
