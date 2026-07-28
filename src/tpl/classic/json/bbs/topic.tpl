@@ -45,12 +45,12 @@
 	'canSink' => $bbs->canSink($tMeta.uid,true),
 	'canSetEssence' => $bbs->canSetEssence(true),
 	'canMove' => $bbs->canMove($tMeta.uid,true),
-        'isFavoriteTopic' => $bbs->isFavoriteTopic($tid),
 	'tContents'=>$tContents
 ]}
 
 {if $USER->islogin}
 	{$jsonData['token'] = $token->token()}
+        {$jsonData['isFavoriteTopic'] = $bbs->isFavoriteTopic($tid)}
 {/if}
 
 {JsonPage::output($jsonData)}
