@@ -118,6 +118,18 @@ class JsonPage {
 				if (strpos($myself, 'permissions') !== FALSE) {
 					$data['_myself']['permissions'] = $USER->getPermissionArray();
 				}
+				if (strpos($myself, 'countReview') !== FALSE) {
+					$bbs = new bbs($USER);
+					$chat = new chat($USER);
+
+					// 是否显示机器人待审核
+					$showBot = (bool)$_GET['showBot'];
+					
+					// 待审核帖子+回复数量
+					$data['_myself']['countReview'] = $bbs->countReview($showBot);
+					// 待审核聊天室发言数量
+					$data['_myself']['chatCountReview'] = $chat->chatReviewCount($showBot);
+				}
 			}
 			// 聊天室新消息
 			if (strpos($myself, 'newChats') !== FALSE) {
