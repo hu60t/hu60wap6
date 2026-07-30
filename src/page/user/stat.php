@@ -41,4 +41,14 @@ foreach ($newChats as &$v) {
 
 $data['newChats'] = $newChats;
 
+$bbs = new bbs($USER);
+
+// 是否显示机器人待审核
+$showBot = (bool)$_GET['showBot'];
+
+// 待审核帖子+回复数量
+$data['countReview'] = $bbs->countReview($showBot);
+// 待审核聊天室发言数量
+$data['chatCountReview'] = $chat->chatReviewCount($showBot);
+
 JsonPage::output($data);
