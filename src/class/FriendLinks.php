@@ -1,10 +1,10 @@
 <?php
 // 友情链接
 class FriendLinks {
-    static function get() {
+    static function get($type = db::num) {
         $db = new db;
         $rs = $db->select('name, url, uid', 'friend_links', 'WHERE name != ? ORDER BY id ASC', $_SERVER['HTTP_HOST']);
         if (!$rs) return [];
-        return $rs->fetchAll(db::num);
+        return $rs->fetchAll($type);
     }
 }

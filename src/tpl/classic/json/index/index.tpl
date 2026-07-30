@@ -28,4 +28,7 @@
 	'countReview'=>$countReview,
 	'chatCountReview'=>$chatCountReview
 ]}
+{if $USER->unlimit()}
+{$jsonData['friendLinks'] = FriendLinks::get(db::ass)}
+{/if}
 {JsonPage::output($jsonData)}
