@@ -250,8 +250,8 @@ class search
             }
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE ((uid = ?) OR (access = 0) OR (access & ?)) AND ';
-        $args = [$USER->uid, $USER->getAccess()];
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . DB_A . 'bbs_topic_content WHERE ';
+        $args = [];
         if ($onlyReview == -1) {
             $sql .= 'review_log LIKE ?';
             $args[] = "%\"uid\":{$USER->uid},%";
@@ -298,6 +298,10 @@ class search
                 $args[] = '%'.$w.'%';
             }
         }
+	
+	$sql .= ' AND ((uid = ?) OR (access = 0) OR (access & ?))';
+	$args[] = $USER->uid;
+	$args[] = $USER->getAccess();
 
         $sql .= ' ORDER BY mtime DESC LIMIT ?,?';
         $args[] = $offset;
