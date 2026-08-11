@@ -1,6 +1,11 @@
 <?php
 $tpl = $PAGE->start();
 $USER->start($tpl);
+
+if (!$USER->islogin) {
+    $USER->gotoLogin(true);
+}
+
 $bbs = new bbs($USER);
 $search = new search();
 
