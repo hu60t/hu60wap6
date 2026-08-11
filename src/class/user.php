@@ -848,7 +848,8 @@ class user extends userinfo
 
         $hashedPwd = $result['pass'];
 
-        return self::mkpass($password) === $hashedPwd;
+        // 使用 hash_equals 进行时序安全比较，与 login() 保持一致
+        return hash_equals((string)$hashedPwd, self::mkpass($password));
     }
 
     public function webplug() {
