@@ -10,7 +10,8 @@ class data {
         if (in_array($str[0], ['{', '['])) {
             return json_decode($str, true);
         }
-        return unserialize($str);
+        // 禁止实例化类，防止 PHP 对象注入
+        return unserialize($str, ['allowed_classes' => false]);
     }
     static function isJSON($str) {
         if (empty($str)) {
