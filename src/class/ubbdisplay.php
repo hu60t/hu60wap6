@@ -392,7 +392,7 @@ class UbbDisplay extends XUBBP
     {
 		global $PAGE;
         $src = code::html($data['src']);
-        
+
         if (JsonPage::isJsonPage()) {
             $url = $src;
             $base = SITE_URL_BASE;
@@ -401,7 +401,15 @@ class UbbDisplay extends XUBBP
             $base = '';
         }
 
-        return '<img class="userthumb" src="' . $base . 'link.thumb.' . ((int)$data['w']) . '.' . ((int)$data['h']) . '.' . bin2hex($src) . '.png" />';
+        // 缩略图代理已放弃，link.thumb 直接跳转原图，尺寸控制改用 style 实现
+        $w = (int)$data['w'];
+        $h = (int)$data['h'];
+        $style = '';
+        if ($w > 0) $style .= 'width: ' . $w . 'px; ';
+        if ($h > 0) $style .= 'height: ' . $h . 'px; ';
+        if ($style !== '') $style = ' style="' . $style . '"';
+
+        return '<img class="userthumb" src="' . $base . 'link.thumb.' . $w . '.' . $h . '.' . bin2hex($src) . '.png"' . $style . ' />';
     }
 
     /*video 视频*/
