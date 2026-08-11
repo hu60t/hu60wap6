@@ -6,7 +6,7 @@
 
 {block name='body'}
 <div class="text-notice">
-	<p class="failure">{$errMsg}</p>
+	<p class="failure">{$errMsg|code}</p>
 </div>
 <div id="chname">
 	<form action="{$CID}.{$PID}.{$BID}" method="post">

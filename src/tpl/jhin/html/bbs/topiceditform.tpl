@@ -26,11 +26,11 @@
     <form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$p}.{$BID}" class="topic-form">
       {if $editTitle}
       <div class="topic-form-label">标题</div>
-      <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="" value="{code::html($title, false, true)}"/>
+      <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="" value="{$title|code:false:true}"/>
       {/if}
       {if $USER->islogin}
       <div class="topic-form-label">内容</div>
-      <textarea class="topic-form-content" name="content" id="content">{code::html($content, false, true)}</textarea>
+      <textarea class="topic-form-content" name="content" id="content">{$content|code:false:true}</textarea>
       <input type="hidden" name="token" value="{$token->token()}">
 
         {if $isAdminEdit}
@@ -45,7 +45,7 @@
       <p>
         修改楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
         请自行复制您的楼层内容以免数据丢失：<br/>
-        <textarea class="topic-form-content" name="content" id="content">{$content}</textarea>
+        <textarea class="topic-form-content" name="content" id="content">{$content|code:false:true}</textarea>
       </p>
       {/if}
     </form>

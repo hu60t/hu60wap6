@@ -27,11 +27,11 @@
 {div class="cr180_form"}
     {form method="post" action="{$CID}.newtopic.{$fid}.{$BID}"}
 <p>
-<input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{$title}"/>
+<input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{$title|code}"/>
 </p>
 <p>
         {if $USER->islogin}
-            <textarea class="topic-form-content" name="content" id="content">{$content}</textarea>
+            <textarea class="topic-form-content" name="content" id="content">{$content|code}</textarea>
             {input type="hidden" name="token" value=$token->token()}
 </p>
 <p>
@@ -47,7 +47,7 @@
 <p>
             发帖需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
             请自行复制您的回复内容以免数据丢失：<br/>
-            <textarea class="txt" name="content" id="content">{$content}</textarea>
+            <textarea class="txt" name="content" id="content">{$content|code}</textarea>
 </p>
         {/if}
     {/form}

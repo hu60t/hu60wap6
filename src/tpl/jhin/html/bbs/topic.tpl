@@ -144,7 +144,7 @@
 				<div class="notice">该帖子已关闭评论，仅楼主可回复。</div>
 			{/if}
 			<form method="post" action="{$CID}.newreply.{$tid}.{$p}.{$BID}" class="comments-form">
-				<textarea id="content" name="content" class="comments-form-content">{$smarty.post.content}</textarea>
+				<textarea id="content" name="content" class="comments-form-content">{$smarty.post.content|code}</textarea>
 				<input type="hidden" name="token" value="{$token->token()}">
 				<p>
 					<input type="submit" id="reply_topic_button" name="go" value="评论该帖子"/>

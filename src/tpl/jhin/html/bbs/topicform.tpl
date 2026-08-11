@@ -32,10 +32,10 @@
   <div class='cr180_form'>
     <form method="post" action="{$CID}.newtopic.{$fid}.{$BID}" class="topic-form">
       <div class="topic-form-label">标题</div>
-        <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="" value="{$title}"/>
+        <input type="text" name="title" id="content_title" class="topic-form-title" placeholder="" value="{$title|code}"/>
         {if $USER->islogin}
         <div class="topic-form-label">内容</div>
-        <textarea class="topic-form-content" name="content" id="content">{$content}</textarea>
+        <textarea class="topic-form-content" name="content" id="content">{$content|code}</textarea>
         <input type="hidden" name="token" value="{$token->token()}">
         <!-- <input type="checkbox" id="useMarkdown" name="useMarkdown" value="1" /> -->
         <!-- <label for="useMarkdown">使用Markdown语法</label> -->
@@ -49,7 +49,7 @@
       <p>
         发帖需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
         请自行复制您的回复内容以免数据丢失：<br/>
-        <textarea class="txt" name="content" id="content">{$content}</textarea>
+        <textarea class="txt" name="content" id="content">{$content|code}</textarea>
       </p>
       {/if}
     </form>

@@ -4,7 +4,7 @@
 {/if}
 <form action="admin.bbs.bk.{$bid}" method="post">
     <input type="hidden" name="xg" value="我要修改你">
-    <input type="hidden" name="parent_id" value="{$smarty.post.bbid}">
+    <input type="hidden" name="parent_id" value="{$smarty.post.bbid|code}">
     <div class="field">
         <label class="label">版块名称</label>
         <div class="control">

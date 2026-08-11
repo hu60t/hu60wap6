@@ -100,7 +100,7 @@
         </div>
         <div class="Cropper-avatar">
             <div class="text-notice">
-                <p class="failure">{$errMsg}</p>
+                <p class="failure">{$errMsg|code}</p>
                 <p></p>
             </div>
             <div><img id="avatar" src="{$USER->avatar()}"></div>

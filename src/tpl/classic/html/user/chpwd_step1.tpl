@@ -1,7 +1,7 @@
 {include file="tpl:comm.head" title="修改密码"}
 {config_load file="conf:site.info"}
 <div class="notice">
-	<p class="failure">{$errMsg}</p>
+	<p class="failure">{$errMsg|code}</p>
 </div>
 <div id="chpwd">
 	<form action="{$CID}.{$PID}.{$BID}" method="post">

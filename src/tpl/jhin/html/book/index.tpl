@@ -14,19 +14,19 @@
 		{foreach $bookList as $book}
 			<li>
 				<div class="topic-anchor">
-                    {$book.type}
+                    {$book.type|code}
                 </div>
                 <div class="topic-title">
                     <a href="{$CID}.list.{$book.id}.{$BID}">{$book.title|code}</a>
                     <div class="topic-meta">
-						作者: {$book.author} / 主要人物: {$book.characters|code}
+						作者: {$book.author|code} / 主要人物: {$book.characters|code}
                     </div>
                 </div>
                 <div class="topic-reply-count">
                     {$book.chapter_count}
                 </div>
                 <div class="topic-forum-name">
-                    {$book.status}
+                    {$book.status|code}
                 </div>
 			</li>
 		{/foreach}

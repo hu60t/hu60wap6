@@ -9,7 +9,7 @@
 {/if}
 
 {block name='title'}
-  {$title}
+  {$title|code}
 {/block}
 
 {block name='body'}

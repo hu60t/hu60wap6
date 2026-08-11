@@ -15,15 +15,15 @@
 	<form action="{$smarty.server.PHP_SELF}/user.reg.{$bid}?u={urlencode($u)}" method="post">
 		<div class="input-group">
 			<label class="login-label" for="username">用户名</label>
-			<input type="text" id="username" name="name" autocomplete="off" size="25" maxlength="15" value="{$smarty.post.name}" class="txt" placeholder="" />
+			<input type="text" id="username" name="name" autocomplete="off" size="25" maxlength="15" value="{$smarty.post.name|code}" class="txt" placeholder="" />
 		</div>
 		<div class="input-group">
 			<label class="login-label" for="password">密码</label>
-			<input type="password" name="pass" size="25" id="password" class="txt" value="{$smarty.post.pass}" placeholder="" />
+			<input type="password" name="pass" size="25" id="password" class="txt" value="{$smarty.post.pass|code}" placeholder="" />
 		</div>
 		<div class="input-group">
 			<label class="login-label" for="mail">邮箱</label>
-			<input type="text" id="mail" name="mail" autocomplete="off" size="25" value="{$smarty.post.mail}" class="txt" placeholder="" />
+			<input type="text" id="mail" name="mail" autocomplete="off" size="25" value="{$smarty.post.mail|code}" class="txt" placeholder="" />
 		</div>
 		<div class="input-group">
 			<label><input name="pwdInputType" id="pwdInputType" type="checkbox" onclick="switchPasswordInput(this)" {if $smarty.post.pwdInputType}checked{/if} />显示密码/输入中文密码</label>

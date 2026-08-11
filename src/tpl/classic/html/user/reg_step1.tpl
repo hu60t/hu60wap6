@@ -15,11 +15,11 @@
 <div class="bm cr180_login">
 <div>
 <p>
-    <input type="text" id="username" name="name" autocomplete="off" size="25" maxlength="15" value="{$smarty.post.name}" class="txt" placeholder="用户名*" />
+    <input type="text" id="username" name="name" autocomplete="off" size="25" maxlength="15" value="{$smarty.post.name|code}" class="txt" placeholder="用户名*" />
 </p>
-<p><input type="password" name="pass" size="25" id="password" class="txt" value="{$smarty.post.pass}" placeholder="密码*" /></p>
+<p><input type="password" name="pass" size="25" id="password" class="txt" value="{$smarty.post.pass|code}" placeholder="密码*" /></p>
 <p>
-    <input type="text" id="username" name="mail" autocomplete="off" size="25" value="{$smarty.post.mail}" class="txt" placeholder="邮箱*" />
+    <input type="text" id="username" name="mail" autocomplete="off" size="25" value="{$smarty.post.mail|code}" class="txt" placeholder="邮箱*" />
 </p>
 <p>
 	<label><input name="pwdInputType" id="pwdInputType" type="checkbox" onclick="switchPasswordInput(this)" {if $smarty.post.pwdInputType}checked{/if} />显示密码/输入中文密码</label>

@@ -6,13 +6,13 @@
 
 {block name='body'}
 <div class="text-notice">
-	<p class="failure">{$errMsg}</p>
+	<p class="failure">{$errMsg|code}</p>
 </div>
 <div id="chpwd">
 	<form action="{$CID}.{$PID}.{$BID}" method="post">
 		<input type="hidden" name="step" value="2" />
-		<input type="hidden" name="oldPassword" value="{$smarty.post.oldPassword}">
-		<input type="hidden" name="newPassword" value="{$smarty.post.newPassword}">
+		<input type="hidden" name="oldPassword" value="{$smarty.post.oldPassword|code}">
+		<input type="hidden" name="newPassword" value="{$smarty.post.newPassword|code}">
 		<p>确认新密码：</p>
 		<p><input name="newPasswordAgain" id="newPasswordAgain" value="" /></p>
 		<p>

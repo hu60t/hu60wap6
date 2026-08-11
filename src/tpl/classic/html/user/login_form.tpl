@@ -18,10 +18,10 @@
         </select>
     </p>
     <p>
-    <input type="text" name="name" id="login-name" class="txt" placeholder="用户名/邮箱/手机号" value="{$smarty.post.name}"/>
+    <input type="text" name="name" id="login-name" class="txt" placeholder="用户名/邮箱/手机号" value="{$smarty.post.name|code}"/>
     </p>
     <p>
-    <input type="password" name="pass" id="login-password" class="txt" value="{$smarty.post.pass}" placeholder="密码" />
+    <input type="password" name="pass" id="login-password" class="txt" value="{$smarty.post.pass|code}" placeholder="密码" />
     </p>
     <p>
     <label><input name="pwdInputType" id="pwdInputType" type="checkbox" onclick="switchPasswordInput(this)" {if $smarty.post.pwdInputType}checked{/if} />显示密码/输入中文密码</label>

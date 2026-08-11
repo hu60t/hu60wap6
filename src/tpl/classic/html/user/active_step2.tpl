@@ -2,7 +2,7 @@
 {config_load file="conf:site.info"}
 <div class="tp">{$user->name|code}，{if $actived}已{else}未{/if}激活。</div>
 <div class="notice">
-	<p class="failure">{$errMsg}</p>
+	<p class="failure">{$errMsg|code}</p>
 </div>
 <div id="active">
 	<form action="{$CID}.{$PID}.{$BID}?sid={$smarty.get.sid|code}" method="post">

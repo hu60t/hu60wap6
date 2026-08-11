@@ -13,9 +13,9 @@
 <div class='login-form'>
 	<p class="ft_pw">第一步：用户和密码 -> <strong>第二步：确认密码</strong> -> 第三步：注册完成</p>
 	<form action="user.reg.{$bid}?u={urlencode($u)}" method="post">
-		<input type="hidden" name="name" value="{$smarty.post.name}">
-		<input type="hidden" name="pass" value="{$smarty.post.pass}">
-		<input type="hidden" name="mail" value="{$smarty.post.mail}">
+		<input type="hidden" name="name" value="{$smarty.post.name|code}">
+		<input type="hidden" name="pass" value="{$smarty.post.pass|code}">
+		<input type="hidden" name="mail" value="{$smarty.post.mail|code}">
 		<span>还记得刚刚设置的密码吗？请再输入一遍：</span>
 		<div class="input-group">
 			<label class="login-label" for="login-name">密码</label>

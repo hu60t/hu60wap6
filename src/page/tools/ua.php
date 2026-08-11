@@ -44,7 +44,7 @@ if (!empty($Xc)) {
         'ip' => $Xc,
         'location' => $location,
     ];
-    echo '    Via(透明代理): ' . $Xc . '（' . $location . "）\n";
+    $proxy .= '    Via(透明代理): ' . $Xc . '（' . $location . "）\n";
 }
 
 //生成HTTP请求行

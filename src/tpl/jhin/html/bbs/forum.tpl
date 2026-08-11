@@ -8,7 +8,7 @@
 	{$fIndex.0.name=#BBS_INDEX_NAME#}
 	{$title="{$fName} - {#BBS_NAME#}"}
 {/if}
-{$title}
+{$title|code}
 {/block}
 
 {block name='body'}

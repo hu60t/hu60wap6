@@ -23,11 +23,11 @@
 		</div>
 		<div class="input-group">
 			<label class="login-label" for="login-name">账户</label>
-			<input type="text" name="name" id="login-name" class="login-form-name" placeholder="用户名/邮箱/手机号" value="{$smarty.post.name}"/>
+			<input type="text" name="name" id="login-name" class="login-form-name" placeholder="用户名/邮箱/手机号" value="{$smarty.post.name|code}"/>
 		</div>
 		<div class="input-group">
 			<label class="login-label" for="login-password">密码</label>
-			<input type="password" name="pass" id="login-password" class="login-form-password" value="{$smarty.post.pass}" placeholder="密码" />
+			<input type="password" name="pass" id="login-password" class="login-form-password" value="{$smarty.post.pass|code}" placeholder="密码" />
 		</div>
 		<div class="input-group">
 			<label><input name="pwdInputType" id="pwdInputType" type="checkbox" onclick="switchPasswordInput(this)" {if $smarty.post.pwdInputType}checked{/if} />显示密码/输入中文密码</label>

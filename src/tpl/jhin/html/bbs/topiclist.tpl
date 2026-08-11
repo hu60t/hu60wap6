@@ -9,7 +9,7 @@
 	{$title="{$fName} - {#BBS_NAME#}"}
 {/if}
 {block name='title'}
-{$title}
+{$title|code}
 {/block}
 {block name='body'}
 

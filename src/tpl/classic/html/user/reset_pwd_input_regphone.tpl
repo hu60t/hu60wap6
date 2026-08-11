@@ -10,7 +10,7 @@
 <div class='reset-pwd-form'>
 	<form action="user.reset_pwd.{$BID}" method="post">
 		<p>请输入手机号码：</p>
-		<p><input type="text" name="phone" value="{$smarty.post.phone}" /></p>
+		<p><input type="text" name="phone" value="{$smarty.post.phone|code}" /></p>
 		<p>请输入图形验证码（<a href="#" onclick="refreshCaptchaImg()">刷新</a>）：</p>
 		<p><input type="text" name="captcha" value="" /></p>
         <p>

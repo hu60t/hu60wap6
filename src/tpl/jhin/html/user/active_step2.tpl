@@ -7,7 +7,7 @@
 {block name='body'}
 <div class="breadcrumb">{$user->name|code}，{if $actived}已{else}未{/if}激活。</div>
 <div class="text-notice">
-	<p class="failure">{$errMsg}</p>
+	<p class="failure">{$errMsg|code}</p>
 </div>
 <div id="active">
 	<form action="{$CID}.{$PID}.{$BID}?sid={$smarty.get.sid|code}" method="post">

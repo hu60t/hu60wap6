@@ -79,8 +79,9 @@ try {
         $tpl->assign('token', $token);
     }
 
-    $tpl->assign('title', code::html($_POST['title']));
-    $tpl->assign('content', code::html($_POST['content']));
+    // 转义在模板中通过 |code 完成（tpl:topicform）
+    $tpl->assign('title', $_POST['title']);
+    $tpl->assign('content', $_POST['content']);
 
     // 预览内容
     if (isset($_POST['content']) && !empty($_POST['content'])) {

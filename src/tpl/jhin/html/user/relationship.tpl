@@ -1,6 +1,6 @@
 {extends file='tpl:comm.default'}
 {block name='title'}
-    {$title}
+    {$title|code}
 {/block}
 {block name='body'}
     <div class="pt breadcrumb">

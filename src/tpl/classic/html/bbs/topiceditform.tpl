@@ -25,12 +25,12 @@
     {form method="post" action="{$CID}.edittopic.{$topicId}.{$contentId}.{$p}.{$BID}"}
 {if $editTitle}
 <p>
-<input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{code::html($title, false, true)}"/>
+<input type="text" name="title" id="content_title" class="txt" placeholder="帖子标题" value="{$title|code:false:true}"/>
 </p>
 {/if}
 <p>
         {if $USER->islogin}
-            <textarea class="topic-form-content" name="content" id="content">{code::html($content, false, true)}</textarea>
+            <textarea class="topic-form-content" name="content" id="content">{$content|code:false:true}</textarea>
             {input type="hidden" name="token" value=$token->token()}
 </p>
     {if $isAdminEdit}
@@ -49,7 +49,7 @@
 <p>
             修改楼层需要<a href="user.login.{$BID}?u={$PAGE->geturl()|urlenc}">登录</a>。<br/>
             请自行复制您的楼层内容以免数据丢失：<br/>
-            <textarea class="txt" name="content" id="content">{$content}</textarea>
+            <textarea class="txt" name="content" id="content">{$content|code:false:true}</textarea>
 </p>
         {/if}
     {/form}
