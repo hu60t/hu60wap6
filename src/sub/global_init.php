@@ -24,3 +24,9 @@ if ($PAGE->bid === 'jhtml') {
     // 开启 jhtml
     JsonPage::jhtml(true);
 }
+
+// 仅允许 JSON Page 在 URL 中包含 sid
+if ($PAGE->sidInUrl && $PAGE->bid != 'json') {
+    $USER->gotoLogin(true);
+}
+
