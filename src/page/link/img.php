@@ -5,6 +5,12 @@ header('Referrer-Policy: origin-when-cross-origin');
 $url = trim(code::b64d($_GET['url64']));
 $url = preg_replace('/^(\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:)+/is', '', $url);
 
+// 与 link.thumb 一致，只支持 http/https 链接
+if (!preg_match('#^https?://#is', $url)) {
+    header('HTTP/1.1 403 Forbidden');
+    die('<h1>403 Forbidden</h1>');
+}
+
 if (CLOUD_STORAGE_USE_HTTPS) {
 	$url = preg_replace('#^http://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/#i', 'https://'.CLOUD_STORAGE_DOWNLOAD_HOST.'/', $url);
 }
