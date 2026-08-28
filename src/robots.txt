@@ -3,6 +3,7 @@ Disallow: /q.php/user.login*
 Disallow: /q.php/user.reg*
 Disallow: /q.php/addin.chat*
 Disallow: /q.php/addin.speedtest*
+Disallow: /q.php/link.tpl*
 Allow: /q.php/addin*
 Allow: /q.php/admin*
 Allow: /q.php/api*

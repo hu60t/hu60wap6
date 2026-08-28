@@ -1,8 +1,13 @@
 <?php
 try {
-    $tpl = $PAGE->start();
     $u = $_GET['u'];
     if ($u == '') $u = $_GET['url'];
+    if (preg_match('/^user\.(?:login|reg)\./', (string)$u)) {
+        header('HTTP/1.1 400 Bad Request');
+        die('循环重定向');
+    }
+
+    $tpl = $PAGE->start();
     if ($u == '') $u = 'index.index.' . $PAGE->bid;
     $tpl->assign('u', $u);
     if (!$_POST['go']) {
