@@ -249,7 +249,7 @@ function hu60_webplug_import_link(link, codeIndex, authorUid, webplugId) {
         if (/\.(hei[cf]|avif)\b/i.test(x.alt) || /\.(hei[cf]|avif)\b/i.test(hu60_decode_url64(x.src))) {
             if (!document.ConvertHeicToPng) {
                 if (!document.LoadConvertHeicToPng) {
-                    document.LoadConvertHeicToPng = import('/tpl/jhin/js/heif-web-display/dist/main.js?r=12');
+                    document.LoadConvertHeicToPng = import('/tpl/jhin/js/heif-web-display/dist/main.js?r=15');
                 }
                 await document.LoadConvertHeicToPng;
             }
